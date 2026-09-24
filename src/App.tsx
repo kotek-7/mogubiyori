@@ -430,6 +430,7 @@ function App() {
                       species={friend.id}
                       stage={stageOf(friend.xp)}
                       mood="happy"
+                      portrait
                     />
                   ))}
                 </span>

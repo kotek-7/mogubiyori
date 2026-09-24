@@ -1462,26 +1462,36 @@ export function CompanionArt({
   stage,
   mood,
   hat,
+  portrait = false,
   className = '',
 }: {
   species: SpeciesId
   stage: GrowthStage
   mood: CompanionMood
   hat?: ReactNode
+  portrait?: boolean
   className?: string
 }) {
   const pose = poses[species][stage]
   const Drawing = drawings[species]
   const [hatX, hatY, hatScale] = pose.hat
   const [faceX, faceY, faceScale] = pose.face
+  // Small badges frame the face, independent of the full-body growth silhouette.
+  const portraitSize = 200 * faceScale
   return (
     <svg
       className={`pet-art pet-${mood} pet-${species} pet-stage-${stage} ${className}`}
-      viewBox="0 0 300 300"
+      viewBox={
+        portrait
+          ? `${faceX - portraitSize / 2} ${faceY - portraitSize / 2} ${portraitSize} ${portraitSize}`
+          : '0 0 300 300'
+      }
       fill="none"
       aria-hidden="true"
     >
-      <ellipse cx="150" cy="272" rx={pose.shadow} ry="10" fill="#456c63" opacity=".13" />
+      {!portrait && (
+        <ellipse cx="150" cy="272" rx={pose.shadow} ry="10" fill="#456c63" opacity=".13" />
+      )}
       <g
         className="pet-body"
         stroke={ink}
@@ -1493,7 +1503,7 @@ export function CompanionArt({
         <Face species={species} stage={stage} mood={mood} />
         <g transform={`translate(${hatX} ${hatY}) scale(${hatScale}) translate(-150 -80)`}>{hat}</g>
       </g>
-      {(mood === 'happy' || mood === 'eating') && (
+      {!portrait && (mood === 'happy' || mood === 'eating') && (
         <g className="pet-sparkles" fill="#edbc48">
           <path d="m40 106 3 8 8 3-8 3-3 8-3-8-8-3 8-3Z" />
           <path d="m257 79 3 7 7 3-7 3-3 7-3-7-7-3 7-3Z" />
