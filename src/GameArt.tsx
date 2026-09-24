@@ -1,4 +1,5 @@
 import { useId } from 'react'
+import type { SpeciesId } from './game'
 
 type PetMood = 'hungry' | 'happy' | 'sleepy' | 'eating'
 type ArtProps = { className?: string }
@@ -78,7 +79,7 @@ function Hat({ kind = 'none' }: { kind?: string }) {
 }
 
 /** Original companion, Komugi. These drawings are decorative; UI owns the text. */
-export function Pet({
+function KomugiAdult({
   mood = 'hungry',
   hat = 'none',
   className = '',
@@ -272,6 +273,390 @@ export function Pet({
           <circle cx="132" cy="185" r="2" />
           <circle cx="165" cy="187" r="2.5" />
           <circle cx="129" cy="194" r="1.5" />
+        </g>
+      )}
+    </svg>
+  )
+}
+
+export function Pet({
+  species = 'komugi',
+  stage = 2,
+  mood = 'hungry',
+  hat = 'none',
+  className = '',
+}: ArtProps & { species?: SpeciesId; stage?: 0 | 1 | 2; mood?: PetMood; hat?: string }) {
+  if (species === 'komugi' && stage === 2)
+    return <KomugiAdult mood={mood} hat={hat} className={`pet-komugi pet-stage-2 ${className}`} />
+  return <GrowingPet species={species} stage={stage} mood={mood} hat={hat} className={className} />
+}
+
+function GrowingPet({
+  species,
+  stage,
+  mood,
+  hat,
+  className,
+}: {
+  species: SpeciesId
+  stage: 0 | 1 | 2
+  mood: PetMood
+  hat: string
+  className: string
+}) {
+  const colors: Record<SpeciesId, { fur: string; shade: string; light: string; cheek: string }> = {
+    komugi: { fur: '#f6d695', shade: '#b58b58', light: '#fff2cc', cheek: '#edb09a' },
+    mame: { fur: '#c9d4a1', shade: '#84946b', light: '#eff0d3', cheek: '#d9ad9e' },
+    shizuku: { fur: '#b7d6d7', shade: '#7498a0', light: '#edf3e4', cheek: '#e7b7ad' },
+    yuzu: { fur: '#ebbe85', shade: '#b88c61', light: '#fff1d2', cheek: '#e8ab8b' },
+    momo: { fur: '#ecc3c3', shade: '#b78d91', light: '#fff0e2', cheek: '#dc9d9d' },
+    goma: { fur: '#aebbbb', shade: '#77898f', light: '#f3f1dd', cheek: '#e3b6aa' },
+  }
+  const color = colors[species]
+  const happy = mood === 'happy' || mood === 'eating'
+  const bird = species === 'shizuku' || species === 'goma'
+  const scale = stage === 0 ? 0.75 : stage === 1 ? 0.89 : 1
+  const translate = 273 * (1 - scale)
+  const adult = stage === 2
+  const eyeY = stage === 0 ? 155 : 147
+  return (
+    <svg
+      className={`pet-art pet-${mood} pet-${species} pet-stage-${stage} ${className}`}
+      viewBox="0 0 300 300"
+      fill="none"
+      aria-hidden="true"
+    >
+      <ellipse cx="150" cy="274" rx={stage === 0 ? 59 : 78} ry="11" fill="#795941" opacity=".12" />
+      <g
+        className="pet-body"
+        transform={`translate(${150 * (1 - scale)} ${translate}) scale(${scale})`}
+      >
+        {(species === 'yuzu' || species === 'momo' || species === 'komugi') && stage > 0 && (
+          <g className="pet-tail">
+            {species === 'yuzu' ? (
+              <>
+                <path
+                  d={
+                    adult
+                      ? 'M204 225c45-3 65-43 63-72 27 46 3 99-51 89Z'
+                      : 'M208 231c29-1 45-21 46-37 15 30-5 52-41 49Z'
+                  }
+                  fill={color.fur}
+                  stroke={color.shade}
+                  strokeWidth="3.5"
+                />
+                <path
+                  d={
+                    adult
+                      ? 'M258 181q9-14 9-28c15 25 13 40 10 51l-11-3 1-10Z'
+                      : 'M244 213q9-9 10-19c7 15 7 24 3 31Z'
+                  }
+                  fill={color.light}
+                />
+              </>
+            ) : (
+              <path
+                d={
+                  species === 'momo'
+                    ? 'M209 239c39 21 61-6 47-22-10-11-27-1-18 10'
+                    : 'M209 231c35-13 56 10 39 23-10 7-21-2-12-10'
+                }
+                stroke={color.shade}
+                strokeWidth="17"
+                strokeLinecap="round"
+              />
+            )}
+            {(species === 'momo' || species === 'komugi') && (
+              <path
+                d={
+                  species === 'momo'
+                    ? 'M209 239c39 21 61-6 47-22-10-11-27-1-18 10'
+                    : 'M209 231c35-13 56 10 39 23-10 7-21-2-12-10'
+                }
+                stroke={color.fur}
+                strokeWidth="11"
+                strokeLinecap="round"
+              />
+            )}
+          </g>
+        )}
+        <ellipse
+          cx="113"
+          cy="257"
+          rx={bird ? 24 : 23}
+          ry="13"
+          fill={bird ? '#ddaf78' : color.fur}
+          stroke={bird ? '#b69369' : color.shade}
+          strokeWidth="3"
+        />
+        <ellipse
+          cx="187"
+          cy="257"
+          rx={bird ? 24 : 23}
+          ry="13"
+          fill={bird ? '#ddaf78' : color.fur}
+          stroke={bird ? '#b69369' : color.shade}
+          strokeWidth="3"
+        />
+        <ellipse
+          cx="150"
+          cy="206"
+          rx={species === 'goma' ? 70 : 72}
+          ry={stage === 0 ? 57 : 62}
+          fill={color.fur}
+          stroke={color.shade}
+          strokeWidth="3.5"
+        />
+        <ellipse cx="150" cy="218" rx={bird ? 50 : 43} ry="39" fill={color.light} />
+        {species === 'mame' && (
+          <g>
+            <path
+              d={
+                stage === 0
+                  ? 'M102 104C74 66 103 56 115 99m69 5c26-33 0-45-14-8'
+                  : adult
+                    ? 'M96 98C62 23 85-1 110 26c11 13 14 44 12 65m70 6c42-80 6-105-14-68-10 19-12 41-9 61'
+                    : 'M97 101C70 50 86 24 105 46c12 14 15 33 13 48m72 6c33-48 13-83-7-56-12 15-16 33-14 49'
+              }
+              fill={color.fur}
+              stroke={color.shade}
+              strokeWidth="3.5"
+              strokeLinecap="round"
+            />
+            {stage > 0 && (
+              <path
+                d={
+                  adult
+                    ? 'M104 80C99 53 89 26 92 24m91 53c1-22 15-50 17-52'
+                    : 'M105 88c-4-14-14-34-13-34m88 32c3-17 11-26 13-28'
+                }
+                stroke="#e5dbb4"
+                strokeWidth="9"
+                strokeLinecap="round"
+              />
+            )}
+          </g>
+        )}
+        {(species === 'yuzu' || species === 'momo') && (
+          <g>
+            <path
+              d={
+                stage === 0
+                  ? 'M83 114 86 68q25 4 40 34m51 0q13-29 36-34l4 46'
+                  : species === 'yuzu'
+                    ? 'M78 115 72 37q41 11 61 65m35 0q21-54 62-65l-9 81'
+                    : 'M76 117 84 49q30 7 44 49m45 0q22-44 44-49l8 68'
+              }
+              fill={color.fur}
+              stroke={color.shade}
+              strokeWidth="3.5"
+              strokeLinejoin="round"
+            />
+            <path
+              d={
+                stage === 0
+                  ? 'm91 100 1-19 14 17m87 0 14-17 2 20'
+                  : 'm88 91 3-25 19 25m80 0 17-25 5 25'
+              }
+              fill={species === 'momo' ? '#dca6ad' : '#d79575'}
+            />
+          </g>
+        )}
+        {species === 'komugi' && (
+          <g>
+            <circle
+              cx="82"
+              cy="96"
+              r={stage === 0 ? 18 : 23}
+              fill={color.fur}
+              stroke={color.shade}
+              strokeWidth="3.5"
+            />
+            <circle
+              cx="218"
+              cy="96"
+              r={stage === 0 ? 18 : 23}
+              fill={color.fur}
+              stroke={color.shade}
+              strokeWidth="3.5"
+            />
+            <circle cx="82" cy="96" r="10" fill="#e5b78c" />
+            <circle cx="218" cy="96" r="10" fill="#e5b78c" />
+          </g>
+        )}
+        {species === 'shizuku' && (
+          <path
+            d={
+              stage === 0
+                ? 'M141 89c-19-23-6-33 4-20 3-16 19-16 14 11'
+                : adult
+                  ? 'M127 91c-35-33-11-53 4-25-8-44 20-46 25-13 16-29 39-12 13 27'
+                  : 'M135 88c-23-32-4-43 9-17 3-33 26-29 18 2'
+            }
+            fill={color.fur}
+            stroke={color.shade}
+            strokeWidth="3.5"
+            strokeLinecap="round"
+          />
+        )}
+        <path
+          d={
+            species === 'goma'
+              ? 'M64 158c0-67 37-95 86-95s86 28 86 95c0 42-31 65-86 65s-86-23-86-65Z'
+              : 'M56 150c0-48 32-81 94-81s94 33 94 81c0 46-33 71-94 71s-94-25-94-71Z'
+          }
+          fill={color.fur}
+          stroke={color.shade}
+          strokeWidth="3.5"
+        />
+        {species === 'goma' ? (
+          <path
+            d="M78 155c0-29 17-47 36-44 14 2 20 20 36 21 16-1 22-19 36-21 19-3 36 15 36 44 0 34-23 54-72 54s-72-20-72-54Z"
+            fill={color.light}
+          />
+        ) : (
+          <path
+            d={
+              species === 'yuzu'
+                ? 'M72 145c21 4 29 30 78 27 45 1 55-25 79-29-6 44-35 64-79 64-48 0-69-23-78-62Z'
+                : 'M76 161c0-23 15-36 33-34 17 2 23 13 41 13s24-11 41-13c18-2 33 11 33 34 0 31-29 49-74 49s-74-18-74-49Z'
+            }
+            fill={color.light}
+          />
+        )}
+        {species === 'komugi' && (
+          <path
+            d="m130 98 5 11m15-15v13m20-9-5 11"
+            stroke="#d4ac70"
+            strokeWidth="5"
+            strokeLinecap="round"
+          />
+        )}
+        {species === 'mame' && adult && (
+          <path
+            d="M139 92q-5-14 10-13 14 0 12 13"
+            stroke="#a7b480"
+            strokeWidth="5"
+            strokeLinecap="round"
+          />
+        )}
+        {species === 'momo' && stage > 0 && (
+          <path
+            d="m133 92 5 11m12-12v11m16-10-5 11"
+            stroke="#c896a2"
+            strokeWidth="4"
+            strokeLinecap="round"
+          />
+        )}
+        {species === 'yuzu' && adult && (
+          <path d="m120 201 9 15 11-7 10 12 10-12 11 7 9-15" fill={color.light} />
+        )}
+        {species === 'goma' && adult && (
+          <path
+            d="M144 76c-12-19-1-24 6-12 8-12 16-2 6 9"
+            fill={color.fur}
+            stroke={color.shade}
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+        )}
+        <ellipse cx="88" cy="171" rx="15" ry="9" fill={color.cheek} opacity=".65" />
+        <ellipse cx="212" cy="171" rx="15" ry="9" fill={color.cheek} opacity=".65" />
+        {happy ? (
+          <g className="pet-eye" stroke="#655047" strokeWidth="5" strokeLinecap="round">
+            <path d={`M102 ${eyeY}q8-11 16 0m64 0q8-11 16 0`} />
+          </g>
+        ) : mood === 'sleepy' ? (
+          <g className="pet-eye" stroke="#655047" strokeWidth="4" strokeLinecap="round">
+            <path d={`M102 ${eyeY}q8 8 16 0m64 0q8 8 16 0`} />
+          </g>
+        ) : (
+          <g className="pet-eye">
+            <ellipse cx="111" cy={eyeY} rx={stage === 0 ? 7 : 6} ry="8" fill="#655047" />
+            <ellipse cx="189" cy={eyeY} rx={stage === 0 ? 7 : 6} ry="8" fill="#655047" />
+            <circle cx="109" cy={eyeY - 3} r="1.6" fill="#fff9e9" />
+            <circle cx="187" cy={eyeY - 3} r="1.6" fill="#fff9e9" />
+          </g>
+        )}
+        {bird ? (
+          <path
+            d="m138 167 12-7 12 7-12 10Z"
+            fill="#ddb36b"
+            stroke="#b68d55"
+            strokeWidth="2"
+            strokeLinejoin="round"
+          />
+        ) : (
+          <>
+            <path d="M145 161q5-4 10 0l-5 5Z" fill="#655047" />
+            {happy ? (
+              <path
+                d="M139 175q11 19 22 0Z"
+                fill="#a97260"
+                stroke="#655047"
+                strokeWidth="2"
+                strokeLinejoin="round"
+              />
+            ) : (
+              <path
+                d={mood === 'sleepy' ? 'M147 177h6' : 'M143 177q7-6 14 0'}
+                stroke="#655047"
+                strokeWidth="2.8"
+                strokeLinecap="round"
+              />
+            )}
+          </>
+        )}
+        <path
+          className="pet-arm pet-arm-left"
+          d={
+            bird && adult
+              ? 'M78 200c-30-2-32 36-12 42 8-8 17-18 19-30'
+              : happy
+                ? 'M81 210c-26-21-34-3-20 12 6 6 14 7 22 5'
+                : 'M82 213c-23-5-25 15-10 20l16-2'
+          }
+          fill={color.fur}
+          stroke={color.shade}
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
+        <path
+          className="pet-arm pet-arm-right"
+          d={
+            bird && adult
+              ? 'M222 200c30-2 32 36 12 42-8-8-17-18-19-30'
+              : happy
+                ? 'M219 210c26-21 34-3 20 12-6 6-14 7-22 5'
+                : 'M218 213c23-5 25 15 10 20l-16-2'
+          }
+          fill={color.fur}
+          stroke={color.shade}
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
+        {stage === 0 ? (
+          <path
+            d="M134 224q16 13 32 0"
+            stroke={color.shade}
+            strokeOpacity=".5"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+        ) : (
+          <path
+            d="m142 237 8 4 8-4"
+            stroke={color.shade}
+            strokeOpacity=".45"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+        )}
+        <Hat kind={hat} />
+      </g>
+      {happy && (
+        <g className="pet-sparkles" fill="#d9ad67">
+          <path d="m42 125 3-9 3 9 9 3-9 3-3 9-3-9-9-3Zm211 36 2-7 2 7 7 2-7 2-2 7-2-7-7-2Z" />
         </g>
       )}
     </svg>
@@ -570,7 +955,31 @@ export function DishArt({ kind = 'rice', className = '' }: ArtProps & { kind?: s
         opacity=".4"
       />
       <ellipse cx="121" cy="150" rx="87" ry="64" fill="#bda383" opacity=".17" />
-      {kind === 'soup' ? (
+      {kind === 'curry' ? (
+        <g>
+          <ellipse cx="120" cy="133" rx="91" ry="73" fill="#b49d7b" opacity=".15" />
+          <ellipse cx="120" cy="126" rx="91" ry="73" fill="#fff8e6" />
+          <ellipse cx="120" cy="126" rx="77" ry="60" stroke="#e5d4b5" strokeWidth="2" />
+          <path d="M66 118c-14-34 18-58 48-46 25 10 43 54 26 74-24 28-63 3-74-28Z" fill="#fffdf0" />
+          <path
+            d="M122 91c42-8 73 21 69 49-4 32-59 43-91 14-17-15 21-16 16-39-2-11-4-20 6-24Z"
+            fill="#a86b3b"
+          />
+          <path d="M132 97c31-2 52 18 50 41-3 23-40 34-68 13" fill="#b98042" />
+          <g fill="#d98c4f">
+            <path d="m144 108 15 3-4 16-16-3Zm-23 32 13-7 9 13-13 8Z" />
+          </g>
+          <g fill="#e4bd72">
+            <path d="m165 132 12 5-5 13-14-4Zm-35-27 6 9-10 7-8-11Z" />
+          </g>
+          <g stroke="#e4dbc8" strokeWidth="2.5" strokeLinecap="round">
+            <path d="m84 91 5 1m8 19 4-2m-23 12 4 2m25 10 4 1m-9-43 4 2" />
+          </g>
+          <g fill="#91a367">
+            <path d="m92 76 13 4-5 7-12-3Zm-5 10 7 2-2 6-8-1Z" />
+          </g>
+        </g>
+      ) : kind === 'soup' ? (
         <g>
           <ellipse cx="120" cy="157" rx="80" ry="35" fill="#f4eee0" />
           <path d="M48 113c3 60 29 80 72 80s68-20 72-80Z" fill="#b1c0aa" />
@@ -664,7 +1073,7 @@ export function DishArt({ kind = 'rice', className = '' }: ArtProps & { kind?: s
 export function ItemArt({ id, className = '' }: ArtProps & { id: string }) {
   if (id === 'none') return <Pet mood="happy" className={`item-illustration ${className}`} />
   if (id === 'plain' || id === 'garden' || id === 'night')
-    return <RoomScene variant={id} className={`item-illustration ${className}`} />
+    return <GatheringScene variant={id} className={`item-illustration ${className}`} />
   return (
     <svg
       className={`item-illustration ${className}`}
@@ -680,6 +1089,234 @@ export function ItemArt({ id, className = '' }: ArtProps & { id: string }) {
         d="m29 41 2-6 2 6 6 2-6 2-2 6-2-6-6-2Zm105 48 2-5 2 5 5 2-5 2-2 5-2-5-5-2Z"
         fill="#d9b57f"
       />
+    </svg>
+  )
+}
+
+export function GatheringScene({
+  className = '',
+  variant = 'plain',
+}: ArtProps & { variant?: string }) {
+  const id = useId()
+  const night = variant === 'night'
+  const garden = variant === 'garden'
+  return (
+    <svg
+      className={`gathering-scene gathering-${variant} ${className}`}
+      viewBox="0 0 800 580"
+      preserveAspectRatio="xMidYMid slice"
+      fill="none"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient
+          id={`${id}-gather-sky`}
+          x1="400"
+          y1="0"
+          x2="400"
+          y2="340"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor={night ? '#7c91a5' : garden ? '#d0e1c8' : '#d8e5d5'} />
+          <stop offset="1" stopColor={night ? '#b9c7bf' : '#f2eed9'} />
+        </linearGradient>
+        <linearGradient
+          id={`${id}-gather-ground`}
+          x1="400"
+          y1="300"
+          x2="400"
+          y2="580"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor={night ? '#a5b89d' : garden ? '#c5d5a6' : '#d3dcb4'} />
+          <stop offset="1" stopColor={night ? '#c1cbac' : '#e5e5bd'} />
+        </linearGradient>
+        <linearGradient
+          id={`${id}-gather-clearing`}
+          x1="400"
+          y1="340"
+          x2="400"
+          y2="560"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor={night ? '#d0ceae' : '#ede4bb'} />
+          <stop offset="1" stopColor={night ? '#dcd6b9' : '#f4e9c8'} />
+        </linearGradient>
+        <pattern id={`${id}-gather-cloth`} width="24" height="24" patternUnits="userSpaceOnUse">
+          <rect width="24" height="24" fill="#f1dcc0" />
+          <path d="M0 6h24M6 0v24" stroke="#ceaa85" strokeWidth="7" opacity=".2" />
+        </pattern>
+      </defs>
+      <path d="M0 0h800v580H0Z" fill={`url(#${id}-gather-sky)`} />
+      {night ? (
+        <g>
+          <path
+            d="M567 62c-22 24-17 52 11 64-39 17-73-21-52-51 10-14 26-18 41-13Z"
+            fill="#fff0bd"
+          />
+          <g fill="#fff4d3">
+            <circle cx="337" cy="72" r="2.5" />
+            <circle cx="491" cy="151" r="2" />
+            <circle cx="624" cy="105" r="2.5" />
+            <circle cx="434" cy="51" r="2" />
+            <path d="m361 158 2-6 2 6 6 2-6 2-2 6-2-6-6-2Z" />
+          </g>
+        </g>
+      ) : (
+        <circle cx="552" cy="97" r="39" fill="#faf2ca" opacity=".8" />
+      )}
+      <g fill="#fffbed" opacity=".85">
+        <path d="M251 111c-4-14 13-25 24-17 9-19 32-13 34 3 16-7 35 4 30 17h-88Z" />
+        <path d="M390 172c-2-10 9-17 17-12 4-16 26-17 32-2 19-6 31 6 27 16h-76Z" />
+        <path d="M583 171c-2-11 10-20 20-13 10-20 29-10 29 2 15-5 23 7 20 14h-69Z" />
+      </g>
+      <path
+        d="M-20 320C67 218 113 276 177 251c96-51 133 23 222 5 78-20 120-81 207-30 72 43 126 7 214 65v80H-20Z"
+        fill={night ? '#a3b8a0' : '#c4d3a7'}
+      />
+      <path
+        d="M-20 328c78-43 171-19 240-12 93 10 141-29 229-7 92 23 157-36 217-22 64 15 103 16 153 44v95H-20Z"
+        fill={night ? '#96ad95' : '#b7c89b'}
+      />
+      <path d="M0 327q163 28 352 0 256-33 448 17v236H0Z" fill={`url(#${id}-gather-ground)`} />
+      <path d="M390 309c-38 15-48 38-34 64l57 11c-30-43 2-59 26-75Z" fill="#e9e0b6" />
+      <ellipse cx="409" cy="452" rx="306" ry="114" fill={`url(#${id}-gather-clearing)`} />
+      <ellipse cx="409" cy="452" rx="293" ry="103" stroke="#e2d8aa" strokeWidth="2" opacity=".5" />
+      <g className="gathering-tree">
+        <path d="M43 0c6 105 15 194-2 330l29 24 35-9C87 207 107 106 115 0Z" fill="#b69670" />
+        <path
+          d="M70 94c-5 82 7 162-1 231m14-173 45-44m-61-6-27-35"
+          stroke="#9e7e58"
+          strokeWidth="6"
+          strokeLinecap="round"
+          opacity=".45"
+        />
+        <path
+          d="M-35-20h249c4 44-12 59-46 68 5 38-37 70-70 52-13 50-84 43-95 11-46 25-74-8-64-35Z"
+          fill={night ? '#7b937c' : garden ? '#8fa574' : '#9cad7d'}
+        />
+        <path
+          d="M-15-20h198c12 27 0 52-28 54-12 26-49 33-71 14-34 34-66 13-65-1-34 10-54-25-34-67Z"
+          fill={night ? '#94a990' : '#afbd8d'}
+        />
+        <g fill="#cad1a0">
+          <ellipse cx="127" cy="61" rx="11" ry="5" transform="rotate(-28 127 61)" />
+          <ellipse cx="30" cy="90" rx="11" ry="5" transform="rotate(31 30 90)" />
+          <ellipse cx="84" cy="19" rx="12" ry="5" transform="rotate(-16 84 19)" />
+        </g>
+      </g>
+      <g className="gathering-tree">
+        <path d="M726-5c-4 131 10 225-9 345l42 13 27-17c-8-125 10-205 8-341Z" fill="#b49a77" />
+        <path
+          d="M752 85c-4 78 10 164-6 244m10-177-39-52"
+          stroke="#977c5b"
+          strokeWidth="6"
+          strokeLinecap="round"
+          opacity=".4"
+        />
+        <path
+          d="M647-17h192v145c-11 42-63 38-78 7-32 24-62 8-66-20-37 10-60-15-49-43-36-13-25-70 1-89Z"
+          fill={night ? '#91a588' : '#adbd89'}
+        />
+        <path
+          d="M662-10h157v94c-18 32-43 25-53 10-31 16-58 2-55-23-34 8-53-16-41-38-24-10-23-25-8-43Z"
+          fill={night ? '#a7b697' : '#bfca9a'}
+        />
+        <g fill="#d4d9af">
+          <ellipse cx="706" cy="82" rx="13" ry="5" transform="rotate(24 706 82)" />
+          <ellipse cx="784" cy="118" rx="11" ry="5" transform="rotate(-30 784 118)" />
+        </g>
+      </g>
+      <path
+        d="M-10 376q38-42 70-1 24-39 59-11 22-38 57-5-28 21-65 29-78 17-121-12Z"
+        fill="#bdcc98"
+      />
+      <path d="M706 375q20-37 49-13 23-30 59-4v55l-100-7Z" fill="#b2c68f" />
+      <g stroke="#8fa372" strokeWidth="2.3" strokeLinecap="round">
+        <path d="m25 441 2-9 6 5m64 64 4-8 6 6m616 42 3-9 6 5M748 467l3-8 5 4M657 316l3-7 5 4M170 352l3-8 5 5M63 562l4-9 6 5" />
+      </g>
+      <g fill="#f8edc4">
+        <circle cx="114" cy="393" r="4" />
+        <circle cx="155" cy="531" r="4" />
+        <circle cx="732" cy="426" r="4" />
+        <circle cx="673" cy="557" r="4" />
+      </g>
+      <g fill="#d3a18a">
+        <circle cx="114" cy="393" r="1.5" />
+        <circle cx="155" cy="531" r="1.5" />
+        <circle cx="732" cy="426" r="1.5" />
+        <circle cx="673" cy="557" r="1.5" />
+      </g>
+      <path d="m209 407 181-12 82 103-220 18Z" fill={`url(#${id}-gather-cloth)`} opacity=".72" />
+      <path d="m219 414 163-11 72 87-195 17Z" stroke="#fff4dc" strokeWidth="2" opacity=".75" />
+      {garden && (
+        <g className="gathering-extra-garden">
+          <path d="M119 0c22 55 46 38 41 83 1 24 24 24 23 57" stroke="#91a274" strokeWidth="4" />
+          <g fill="#99ae78">
+            <ellipse cx="141" cy="44" rx="15" ry="7" transform="rotate(38 141 44)" />
+            <ellipse cx="159" cy="75" rx="15" ry="7" transform="rotate(-36 159 75)" />
+            <ellipse cx="172" cy="111" rx="14" ry="7" transform="rotate(25 172 111)" />
+          </g>
+          <g fill="#ddc09f">
+            <circle cx="91" cy="399" r="7" />
+            <circle cx="75" cy="412" r="6" />
+            <circle cx="725" cy="387" r="7" />
+            <circle cx="744" cy="399" r="6" />
+          </g>
+          <g fill="#eddfad">
+            <circle cx="91" cy="399" r="2" />
+            <circle cx="75" cy="412" r="2" />
+            <circle cx="725" cy="387" r="2" />
+            <circle cx="744" cy="399" r="2" />
+          </g>
+        </g>
+      )}
+      <g className="gathering-table">
+        <ellipse cx="618" cy="513" rx="89" ry="18" fill="#a58c60" opacity=".1" />
+        <path
+          d="m551 461-6 63m140-63 6 63"
+          stroke="#ad8b5f"
+          strokeWidth="13"
+          strokeLinecap="round"
+        />
+        <path d="M523 449q93-48 190 0v11q-93 45-190 0Z" fill="#b9996d" />
+        <ellipse cx="618" cy="448" rx="95" ry="30" fill="#d6ba8b" />
+        <path
+          d="M540 446q80-24 152 0m-151 6q80 20 151 0"
+          stroke="#c5a678"
+          strokeWidth="1.5"
+          opacity=".65"
+        />
+        <ellipse cx="614" cy="445" rx="35" ry="13" fill="#a68862" opacity=".2" />
+        <ellipse cx="614" cy="441" rx="36" ry="13" fill="#fff5d9" />
+        <ellipse cx="614" cy="441" rx="25" ry="8" stroke="#e3d3af" strokeWidth="1.5" />
+        <path
+          d="m666 433 14 11m-10-14 15 12"
+          stroke="#9d7e59"
+          strokeWidth="2.8"
+          strokeLinecap="round"
+        />
+        <path d="M552 424h17v18h-17Z" fill="#b6c5a3" />
+        <path d="M569 428h4q6 5 0 10h-4" stroke="#9fac89" strokeWidth="3" />
+      </g>
+      <g transform="translate(458 504) rotate(-9)">
+        <path d="M0 0h38l-3 26H5Z" fill="#c8a979" />
+        <path d="M9 1v-7a10 10 0 0 1 20 0v7" stroke="#aa8a5e" strokeWidth="4" />
+        <path
+          d="M2 6h35M4 15h32m-24-14 1 23m9-23v23m9-23-1 23"
+          stroke="#af905f"
+          strokeWidth="1.5"
+          opacity=".6"
+        />
+        <path d="m-3 0 43-1-1 7H0Z" fill="#e8d5b0" />
+      </g>
+      <path d="m101 102 174 316-118 34L69 117Z" fill="#fff6d5" opacity=".09" />
+      <g fill="#f4edcf" opacity=".85">
+        <circle cx="355" cy="215" r="2.4" />
+        <circle cx="562" cy="306" r="2" />
+        <circle cx="215" cy="263" r="2" />
+        <circle cx="641" cy="213" r="2.2" />
+      </g>
     </svg>
   )
 }

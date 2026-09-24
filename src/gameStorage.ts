@@ -1,5 +1,5 @@
-import { initialGame, items, shiftDay, todayTokyo } from './game'
-import type { GameMeal, GameState } from './game'
+import { initialGame, items, recipeById, shiftDay, species, stageOf, todayTokyo } from './game'
+import type { Companion, GameMeal, GameState, SpeciesId } from './game'
 
 export const GAME_STORAGE_KEY = 'mogubiyori-v1'
 
@@ -21,6 +21,14 @@ function strings(value: unknown): value is string[] {
   return Array.isArray(value) && value.every((item) => typeof item === 'string')
 }
 
+function speciesId(value: unknown): value is SpeciesId {
+  return species.some((candidate) => candidate.id === value)
+}
+
+function isCompanion(value: unknown): value is Companion {
+  return object(value) && speciesId(value.id) && integer(value.xp) && day(value.joinedDay)
+}
+
 function isMeal(value: unknown): value is GameMeal {
   return (
     object(value) &&
@@ -33,6 +41,11 @@ function isMeal(value: unknown): value is GameMeal {
     value.sample.length > 0 &&
     integer(value.xp) &&
     integer(value.coins) &&
+    (value.recipeId === undefined ||
+      (typeof value.recipeId === 'string' && value.recipeId.length > 0)) &&
+    (value.targetId === undefined || speciesId(value.targetId)) &&
+    (value.cardBonus === undefined || integer(value.cardBonus)) &&
+    (value.streakBonus === undefined || integer(value.streakBonus)) &&
     (value.photo === undefined ||
       (typeof value.photo === 'string' &&
         /^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/.test(value.photo)))
@@ -79,7 +92,65 @@ export function parseGame(raw: string | null, realDay = todayTokyo()): GameState
 
     const today = shiftDay(realDay, state.dayOffset)
     if (!day(today)) return initialGame(realDay)
-    return { ...state, today } as GameState
+    const legacy =
+      state.companions === undefined &&
+      state.activeId === undefined &&
+      state.visitors === undefined &&
+      state.cards === undefined
+    if (legacy) {
+      const meals = state.meals.map((meal) => ({
+        ...meal,
+        targetId: meal.targetId ?? ('komugi' as const),
+      }))
+      const joinedDay = meals.reduce(
+        (earliest, meal) => (meal.day < earliest ? meal.day : earliest),
+        state.today,
+      )
+      const companions: Companion[] = [{ id: 'komugi', xp: state.xp, joinedDay }]
+      const visitors =
+        stageOf(state.xp) === 2
+          ? species
+              .filter((candidate) => candidate.id !== 'komugi')
+              .slice(0, 3)
+              .map((candidate) => candidate.id)
+          : []
+      const cards = [
+        ...new Set(meals.flatMap((meal) => (recipeById(meal.recipeId) ? [meal.recipeId!] : []))),
+      ]
+      return {
+        ...state,
+        today,
+        meals,
+        companions,
+        activeId: 'komugi',
+        visitors,
+        cards,
+        claimedLoginDays: [],
+      } as unknown as GameState
+    }
+    const companions = state.companions
+    if (
+      !Array.isArray(companions) ||
+      !companions.every(isCompanion) ||
+      new Set(companions.map((companion) => companion.id)).size !== companions.length ||
+      !(state.activeId === null
+        ? companions.length === 0
+        : companions.some((companion) => companion.id === state.activeId)) ||
+      !strings(state.visitors) ||
+      state.visitors.length > 3 ||
+      !state.visitors.every(speciesId) ||
+      new Set(state.visitors).size !== state.visitors.length ||
+      state.visitors.some((id) => companions.some((companion: Companion) => companion.id === id)) ||
+      !strings(state.cards) ||
+      !state.cards.every((id) => recipeById(id)) ||
+      new Set(state.cards).size !== state.cards.length ||
+      !strings(state.claimedLoginDays) ||
+      !state.claimedLoginDays.every(day) ||
+      new Set(state.claimedLoginDays).size !== state.claimedLoginDays.length
+    )
+      return initialGame(realDay)
+    const active = companions.find((companion) => companion.id === state.activeId)
+    return { ...state, today, xp: active?.xp ?? 0 } as GameState
   } catch {
     return initialGame(realDay)
   }

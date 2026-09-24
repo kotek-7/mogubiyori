@@ -14,27 +14,34 @@ import {
   Sparkles,
   X,
 } from 'lucide-react'
-import { DishArt, ItemArt, Pet, RoomScene } from './GameArt'
+import { DishArt, GatheringScene, ItemArt, Pet } from './GameArt'
 import {
   addDemoGems,
   advanceGame,
+  demoGame,
   equipItem,
   fedToday,
   hungerOf,
   initialGame,
   items,
   levelOf,
+  mealXp,
+  recipes,
+  species,
+  stageOf,
   purchaseItem,
   restGame,
   shiftDay,
   streakOf,
   todayTokyo,
 } from './game'
-import type { GameMeal, GameState, Item } from './game'
+import type { FeedInput, GameMeal, GameState, Item, SpeciesId } from './game'
 import { resizePhoto } from './photo'
+import { RecipeDetail } from './CollectionScreens'
 
 export type Dialog =
-  | { type: 'record' }
+  | { type: 'record'; recipeId?: string; targetId?: SpeciesId }
+  | { type: 'recipe'; recipeId: string }
   | { type: 'feast'; before: GameState; after: GameState }
   | { type: 'meal'; meal: GameMeal }
   | { type: 'item'; item: Item }
@@ -47,7 +54,7 @@ type Props = {
   onClose: () => void
   onNavigate: (page: 'room' | 'album' | 'shop') => void
   onToast: (text: string) => void
-  onFeed: (input: { title: string; photo?: string; sample: string }) => void
+  onFeed: (input: FeedInput) => void
 }
 
 function Sheet({
@@ -114,15 +121,25 @@ function Currency({ kind, amount }: { kind: 'coins' | 'gems'; amount: number }) 
   )
 }
 
-function Record({ state, onFeed }: Pick<Props, 'state' | 'onFeed'>) {
+function Record({
+  state,
+  onFeed,
+  recipeId: initialRecipeId,
+  targetId,
+}: Pick<Props, 'state' | 'onFeed'> & { recipeId?: string; targetId?: SpeciesId }) {
   const input = useRef<HTMLInputElement>(null)
   const [photo, setPhoto] = useState<string>()
-  const [sample, setSample] = useState('rice')
+  const [recipeId, setRecipeId] = useState(initialRecipeId ?? '')
+  const recipe = recipes.find((entry) => entry.id === recipeId)
   const [sampleMode, setSampleMode] = useState(false)
   const [title, setTitle] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const target = targetId ?? state.activeId
+  const buddy = state.companions.find((entry) => entry.id === target)
+  const targetName = species.find((entry) => entry.id === target)?.name ?? 'ともだち'
   const ready = !!photo || sampleMode
+  const xp = mealXp(state, recipeId || undefined, target ?? undefined)
   async function select(file?: File) {
     if (!file) return
     setLoading(true)
@@ -140,11 +157,21 @@ function Record({ state, onFeed }: Pick<Props, 'state' | 'onFeed'>) {
     <form
       onSubmit={(event) => {
         event.preventDefault()
-        if (ready && !loading) onFeed({ title: title.trim() || '今日のごはん', photo, sample })
+        if (ready && !loading && target)
+          onFeed({
+            title: title.trim() || recipe?.name || '今日のごはん',
+            photo,
+            sample: recipe?.sample ?? 'rice',
+            recipeId: recipeId || undefined,
+            targetId: target,
+          })
         else input.current?.click()
       }}
     >
-      <p className="sheet-lead">今日の一皿を、{state.name}にも。</p>
+      <div className="record-buddy">
+        <Pet species={target ?? 'komugi'} stage={stageOf(buddy?.xp ?? 0)} mood="hungry" />
+        <p>{targetName}にも、ひとくち。</p>
+      </div>
       <label className={`photo-picker ${ready ? 'has-photo' : ''}`}>
         <input
           ref={input}
@@ -161,7 +188,7 @@ function Record({ state, onFeed }: Pick<Props, 'state' | 'onFeed'>) {
         {photo ? (
           <img src={photo} alt="今日の料理" />
         ) : sampleMode ? (
-          <DishArt kind={sample} />
+          <DishArt kind={recipe?.sample ?? 'rice'} />
         ) : (
           <>
             <span className="camera-circle">
@@ -190,25 +217,18 @@ function Record({ state, onFeed }: Pick<Props, 'state' | 'onFeed'>) {
           写真なしで体験する
         </button>
       )}
-      {sampleMode && (
-        <div className="sample-options" role="group" aria-label="体験する料理">
-          {[
-            { id: 'rice', name: 'たまごごはん' },
-            { id: 'soup', name: 'ほっとスープ' },
-            { id: 'pasta', name: 'トマトパスタ' },
-          ].map((dish) => (
-            <button
-              type="button"
-              key={dish.id}
-              aria-pressed={sample === dish.id}
-              onClick={() => setSample(dish.id)}
-            >
-              <DishArt kind={dish.id} />
-              <span>{dish.name}</span>
-            </button>
+      <label className="field recipe-choice">
+        つくった料理
+        <select value={recipeId} onChange={(event) => setRecipeId(event.target.value)}>
+          <option value="">いつものごはん</option>
+          {recipes.map((entry) => (
+            <option key={entry.id} value={entry.id}>
+              {entry.name}
+            </option>
           ))}
-        </div>
-      )}
+        </select>
+      </label>
+      {xp < 45 && <p className="repeat-hint">同じごはんが続いているので、今回は +{xp} XP。</p>}
       {ready && (
         <details className="record-details">
           <summary>料理名をつける</summary>
@@ -217,7 +237,7 @@ function Record({ state, onFeed }: Pick<Props, 'state' | 'onFeed'>) {
             <input
               value={title}
               maxLength={40}
-              placeholder="今日のごはん"
+              placeholder={recipe?.name ?? '今日のごはん'}
               onChange={(event) => setTitle(event.target.value)}
             />
           </label>
@@ -228,8 +248,8 @@ function Record({ state, onFeed }: Pick<Props, 'state' | 'onFeed'>) {
           {error}
         </p>
       )}
-      <button type="submit" className="primary-button full" disabled={loading}>
-        {loading ? '写真を準備しています…' : ready ? `${state.name}にごはんをあげる` : '写真を選ぶ'}
+      <button type="submit" className="primary-button full" disabled={loading || !target}>
+        {loading ? '写真を準備しています…' : ready ? `${targetName}にごはんをあげる` : '写真を選ぶ'}
       </button>
       <small className="privacy-note">写真はこの端末に保存されます。</small>
     </form>
@@ -250,13 +270,32 @@ function Feast({
     const timer = window.setTimeout(() => setEating(false), 1800)
     return () => window.clearTimeout(timer)
   }, [])
-  const level = levelOf(after)
-  const gift = !before.owned.includes('sprout') && after.owned.includes('sprout')
   const meal = after.meals[0]
+  const targetId = meal.targetId ?? after.activeId ?? 'komugi'
+  const target = after.companions.find((entry) => entry.id === targetId)
+  const previous = before.companions.find((entry) => entry.id === targetId)
+  const stage = stageOf(target?.xp ?? 0)
+  const previousStage = stageOf(previous?.xp ?? 0)
+  const grew = !!previous && stage > previousStage
+  const recruited = !!target && !previous
+  const buddyName = species.find((entry) => entry.id === targetId)?.name ?? after.name
+  const gift = !before.owned.includes('sprout') && after.owned.includes('sprout')
+  const cards = recipes.filter(
+    (recipe) => after.cards.includes(recipe.id) && !before.cards.includes(recipe.id),
+  )
+  const arrivals = after.visitors.filter((id) => !before.visitors.includes(id))
   return (
-    <div className={`feast ${eating ? 'is-eating' : ''}`} aria-live="polite">
+    <div
+      className={`feast ${eating ? 'is-eating' : ''} ${grew && !eating ? 'has-evolved' : ''}`}
+      aria-live="polite"
+    >
       <div className="feast-art">
-        <Pet mood={eating ? 'eating' : 'happy'} hat={after.equipped.hat} />
+        <Pet
+          species={targetId}
+          stage={eating ? previousStage : stage}
+          mood={eating ? 'eating' : 'happy'}
+          hat={after.equipped.hat}
+        />
         <div className="feast-dish">
           {meal.photo ? <img src={meal.photo} alt="" /> : <DishArt kind={meal.sample} />}
         </div>
@@ -271,42 +310,86 @@ function Feast({
         <h3>もぐもぐ…</h3>
       ) : (
         <>
-          <span className="level-tag">
-            {level.level > levelOf(before).level ? 'LEVEL UP! ' : ''}Lv.{level.level}
-          </span>
+          {grew && (
+            <span className="level-tag evolution-tag">
+              {stage === 2 ? 'おとなに成長！' : 'すくすく成長！'}
+            </span>
+          )}
           <h3>
-            おいしかったぁ。
-            <br />
-            ごちそうさま！
+            {recruited ? (
+              <>
+                {buddyName}が<br />
+                なかまになった！
+              </>
+            ) : grew ? (
+              <>
+                {buddyName}が<br />
+                大きくなった！
+              </>
+            ) : (
+              <>
+                おいしかったぁ。
+                <br />
+                ごちそうさま！
+              </>
+            )}
           </h3>
           <div className="feast-rewards">
             <span>
-              <Sparkles size={15} />+{after.xp - before.xp} XP
+              <Sparkles size={15} />+{meal.xp} XP
             </span>
             <span>
-              <Coins size={15} />+{after.coins - before.coins} コイン
+              <Coins size={15} />
+              合計 +{meal.coins} コイン
             </span>
             <span>
               <Heart size={15} />
               おなかいっぱい
             </span>
           </div>
+          {!!meal.streakBonus && (
+            <p className="bonus-note">
+              {streakOf(after)}日継続のお祝い +{meal.streakBonus} コイン
+            </p>
+          )}
           <div className="streak-result">
             <Flame size={24} />
             <strong>{streakOf(after)}日つづいた！</strong>
           </div>
+          {cards.map((card) => (
+            <div className={`new-recipe-card rarity-${card.rarity}`} key={card.id}>
+              <DishArt kind={card.sample} />
+              <div>
+                <small>はじめてつくった！</small>
+                <strong>{card.name}</strong>
+                <span>レシピカード +{card.reward} コイン</span>
+              </div>
+              <Sparkles size={20} />
+            </div>
+          ))}
+          {arrivals.length > 0 && (
+            <div className="visitor-arrival">
+              <div className="arrival-pets">
+                {arrivals.map((id) => (
+                  <Pet key={id} species={id} stage={0} mood="hungry" />
+                ))}
+              </div>
+              <strong>おいしそうなにおいに、お客さんが！</strong>
+              <small>ごはんを分けると、なかまになるかも。</small>
+            </div>
+          )}
           {gift && (
             <div className="new-gift">
               <ItemArt id="sprout" />
               <div>
                 <small>7日のおくりもの</small>
-                <strong>{items.find((item) => item.id === 'sprout')?.name}</strong>
+                <strong>ふたばのかんむり</strong>
               </div>
               <Gift size={18} />
             </div>
           )}
           <button className="primary-button full" onClick={onClose}>
-            {gift ? 'かぶって、おへやへ' : 'おへやに戻る'}
+            {gift ? 'かぶって、ひろばへ' : arrivals.length ? 'お客さんに会いにいく' : 'ひろばへ'}
           </button>
         </>
       )}
@@ -324,18 +407,23 @@ export function GameDialogs({
   onFeed,
 }: Props) {
   const [local, setLocal] = useState<Dialog>(dialog)
-  const [name, setName] = useState(state.name)
   const [reset, setReset] = useState<'seed' | 'fresh' | null>(null)
   const [returnItem, setReturnItem] = useState<Item | null>(null)
   const level = levelOf(state)
+  const active = state.companions.find((entry) => entry.id === state.activeId)
+  const activeStage = stageOf(active?.xp ?? 0)
+  const activeSpecies = state.activeId ?? 'komugi'
+  const activeFed = state.meals.some(
+    (meal) => meal.day === state.today && meal.targetId === state.activeId,
+  )
+  const growthProgress =
+    activeStage === 2
+      ? 100
+      : (((active?.xp ?? 0) - (activeStage === 0 ? 0 : 45)) / (activeStage === 0 ? 45 : 75)) * 100
   function close() {
-    if (local.type === 'settings') {
-      const nextName = name.trim()
-      if (nextName && nextName !== state.name)
-        setState((current) => ({ ...current, name: nextName }))
-    }
     onClose()
   }
+
   function leave(page: 'room' | 'album' | 'shop') {
     onNavigate(page)
     close()
@@ -371,7 +459,19 @@ export function GameDialogs({
   switch (local.type) {
     case 'record':
       title = '今日のごはん'
-      content = <Record state={state} onFeed={onFeed} />
+      content = (
+        <Record state={state} onFeed={onFeed} recipeId={local.recipeId} targetId={local.targetId} />
+      )
+      break
+    case 'recipe':
+      title = recipes.find((recipe) => recipe.id === local.recipeId)?.name ?? 'レシピ'
+      content = (
+        <RecipeDetail
+          recipeId={local.recipeId}
+          state={state}
+          onCook={() => setLocal({ type: 'record', recipeId: local.recipeId })}
+        />
+      )
       break
     case 'feast':
       title = `${state.name}のごはん時間`
@@ -427,8 +527,13 @@ export function GameDialogs({
       content = (
         <div className="item-detail">
           <div className="item-preview">
-            {item.kind === 'room' && <RoomScene variant={item.id} />}
-            <Pet mood="happy" hat={item.kind === 'hat' ? item.id : state.equipped.hat} />
+            {item.kind === 'room' && <GatheringScene variant={item.id} />}
+            <Pet
+              species={activeSpecies}
+              stage={activeStage}
+              mood="happy"
+              hat={item.kind === 'hat' ? item.id : state.equipped.hat}
+            />
           </div>
           <p>{item.description}</p>
           {!owned && (
@@ -510,9 +615,17 @@ export function GameDialogs({
       title = `${state.name}のこと`
       content = (
         <div className="profile-sheet">
-          <Pet mood={fedToday(state) ? 'happy' : 'hungry'} hat={state.equipped.hat} />
+          <Pet
+            species={activeSpecies}
+            stage={activeStage}
+            mood={activeFed ? 'happy' : 'hungry'}
+            hat={state.equipped.hat}
+          />
           <h3>{state.name}</h3>
-          <span className="level-tag">Lv.{level.level}</span>
+          <span className="level-tag">
+            {activeStage === 2 ? 'おとな' : activeStage === 1 ? 'すくすく' : 'ちびっこ'} · Lv.
+            {level.level}
+          </span>
           <p>
             あなたのごはんが大好き。
             <br />
@@ -521,14 +634,18 @@ export function GameDialogs({
           <div
             className="meter"
             role="progressbar"
-            aria-label="次のレベルまで"
+            aria-label="次の成長まで"
             aria-valuemin={0}
-            aria-valuemax={level.needed}
-            aria-valuenow={level.progress}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(growthProgress)}
           >
-            <span style={{ width: `${level.progress}%` }} />
+            <span style={{ width: `${growthProgress}%` }} />
           </div>
-          <small>次のレベルまで {level.needed - level.progress} XP</small>
+          <small>
+            {activeStage < 2
+              ? `次の成長まで ${(activeStage === 0 ? 45 : 120) - (active?.xp ?? 0)} XP`
+              : 'すっかり大きくなったね。新しいなかまにも、ごはんを。'}
+          </small>
           <button className="secondary-button full" onClick={() => leave('shop')}>
             おめかしを選ぶ
           </button>
@@ -585,6 +702,13 @@ export function GameDialogs({
               </span>
             </div>
           </div>
+          {!fedToday(state) && !state.rests.includes(state.today) && (
+            <button className="quiet-button rest-link" onClick={() => setLocal({ type: 'rest' })}>
+              <Moon size={15} />
+              今日はおやすみ
+              <span>チケット {state.tickets} 枚</span>
+            </button>
+          )}
           <button className="secondary-button full" onClick={close}>
             また一皿、つづけよう
           </button>
@@ -596,7 +720,7 @@ export function GameDialogs({
       title = '今日はひとやすみ'
       content = (
         <div className="rest-sheet">
-          <Pet mood="sleepy" hat={state.equipped.hat} />
+          <Pet species={activeSpecies} stage={activeStage} mood="sleepy" hat={state.equipped.hat} />
           <p>
             つくれない日は、休んでもいい。
             <br />
@@ -631,18 +755,23 @@ export function GameDialogs({
       title = `${state.name}からのおたより`
       content = (
         <div className="letter-sheet">
-          <Pet mood={hungerOf(state) > 50 ? 'happy' : 'hungry'} hat={state.equipped.hat} />
+          <Pet
+            species={activeSpecies}
+            stage={activeStage}
+            mood={hungerOf(state) > 50 ? 'happy' : 'hungry'}
+            hat={state.equipped.hat}
+          />
           <span className="letter-date">今日</span>
           <h3>
-            {fedToday(state)
+            {activeFed
               ? 'おいしかったぁ！'
               : state.reminder === 'eager'
                 ? 'ねえねえ、ごはんまだ〜？'
                 : 'きょうのごはん、なにかなぁ。'}
           </h3>
-          <p>{fedToday(state) ? '明日もいっしょに、たべようね。' : 'いつもの一皿、まってるよ。'}</p>
+          <p>{activeFed ? '明日もいっしょに、たべようね。' : 'いつもの一皿、まってるよ。'}</p>
           <div style={{ marginTop: 24 }}>{reminderControl()}</div>
-          {!fedToday(state) && (
+          {!activeFed && (
             <button className="primary-button full" onClick={() => setLocal({ type: 'record' })}>
               ごはんをあげる
             </button>
@@ -655,20 +784,6 @@ export function GameDialogs({
       title = '設定'
       content = (
         <div className="settings-sheet">
-          <label className="field">
-            なまえ
-            <input
-              aria-label="なまえ"
-              maxLength={12}
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              onBlur={() => {
-                const nextName = name.trim()
-                if (nextName) setState((current) => ({ ...current, name: nextName }))
-                else setName(state.name)
-              }}
-            />
-          </label>
           {reminderControl()}
           <button className="settings-row" onClick={() => setLocal({ type: 'help' })}>
             <HelpCircle size={17} />
@@ -689,20 +804,24 @@ export function GameDialogs({
               翌日に進む
             </button>
             <div className="reset-buttons">
-              <button onClick={() => setReset('seed')}>6日目から体験</button>
+              <button onClick={() => setReset('seed')}>成長・出会いを体験</button>
               <button onClick={() => setReset('fresh')}>最初から育てる</button>
             </div>
             {reset && (
               <div className="reset-confirm">
                 <p>
-                  この端末の写真・育成記録を消して、{reset === 'fresh' ? '最初' : '6日目'}
-                  から始めます。
+                  この端末の写真・育成記録を消して、
+                  {reset === 'fresh' ? '最初から育てます。' : '成長・出会いを体験します。'}
                 </p>
                 <div className="reset-buttons">
                   <button onClick={() => setReset(null)}>やめる</button>
                   <button
                     onClick={() => {
-                      setState(initialGame(todayTokyo(), reset === 'fresh'))
+                      setState(
+                        reset === 'fresh'
+                          ? initialGame(todayTokyo(), true)
+                          : demoGame(todayTokyo()),
+                      )
                       onToast('新しい毎日がはじまります')
                       onNavigate('room')
                       onClose()
@@ -726,23 +845,26 @@ export function GameDialogs({
       title = 'あそびかた'
       content = (
         <div className="help-sheet">
-          <Pet mood="happy" />
+          <Pet species={activeSpecies} stage={activeStage} mood="happy" />
           <h3>あなたのごはんで、育っていく。</h3>
           <ol>
             <li>
-              自分のために、一皿つくる。<span>いつもの簡単なごはんでOK。</span>
+              最初のなかまを選ぶ。<span>気になる子と、暮らしをはじめよう。</span>
             </li>
             <li>
-              写真を撮って、ごはんをあげる。<span>{state.name}がお腹いっぱいに。</span>
+              つくったごはんを分ける。<span>写真を届けると、すくすく成長。</span>
             </li>
             <li>
-              また明日、いっしょに食べる。<span>毎日のごはんで育ち、コインも集まります。</span>
+              お客さんとなかまになる。<span>大きく育つと、新しい子が遊びにくるよ。</span>
+            </li>
+            <li>
+              料理のずかんを集める。<span>初めての料理は、カードとコインに。</span>
             </li>
           </ol>
           <p>
-            成長とコインのごほうびは、1日1回。
+            同じ料理が続くと、成長はゆっくり。
             <br />
-            アイテムでおめかししても、お腹は満たされません。
+            ときどき、新しい一皿もつくってみよう。
           </p>
         </div>
       )

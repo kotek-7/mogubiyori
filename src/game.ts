@@ -1,3 +1,201 @@
+export type SpeciesId = 'komugi' | 'mame' | 'shizuku' | 'yuzu' | 'momo' | 'goma'
+export const species: { id: SpeciesId; name: string; description: string }[] = [
+  { id: 'komugi', name: 'こむぎ', description: 'ごはんの香りに、まっさきに気づく。' },
+  { id: 'mame', name: 'まめ', description: 'ちょっぴり照れ屋。おかわりは忘れない。' },
+  { id: 'shizuku', name: 'しずく', description: 'あったかいスープが大好き。' },
+  { id: 'yuzu', name: 'ゆず', description: '新しい味に、目をきらきら。' },
+  { id: 'momo', name: 'もも', description: 'のんびり屋さんの食いしんぼう。' },
+  { id: 'goma', name: 'ごま', description: '夜ごはんの時間が待ちきれない。' },
+]
+export type Companion = { id: SpeciesId; xp: number; joinedDay: string }
+export type Recipe = {
+  id: string
+  name: string
+  sample: string
+  difficulty: 1 | 2 | 3
+  rarity: 'common' | 'rare' | 'special'
+  minutes: number
+  ingredients: string[]
+  steps: string[]
+  reward: number
+}
+export const recipes: Recipe[] = [
+  {
+    id: 'egg-rice',
+    name: 'ふわたまごはん',
+    sample: 'rice',
+    difficulty: 1,
+    rarity: 'common',
+    minutes: 5,
+    ingredients: ['ごはん 1膳', '卵 1個', '油・しょうゆ 少々'],
+    steps: [
+      '卵を溶き、油をひいたフライパンで全体が固まるまで炒める。',
+      '温かいごはんにのせ、しょうゆをかける。',
+    ],
+    reward: 20,
+  },
+  {
+    id: 'onigiri',
+    name: 'おかかのおにぎり',
+    sample: 'rice',
+    difficulty: 1,
+    rarity: 'common',
+    minutes: 5,
+    ingredients: ['ごはん 1膳', 'かつおぶし ひとつかみ', 'しょうゆ 少々', 'のり 1枚'],
+    steps: ['ごはんにかつおぶしとしょうゆを混ぜる。', 'ラップで包んで握り、のりを巻く。'],
+    reward: 20,
+  },
+  {
+    id: 'tofu-soup',
+    name: '豆腐のほっとスープ',
+    sample: 'soup',
+    difficulty: 1,
+    rarity: 'common',
+    minutes: 10,
+    ingredients: ['豆腐 150g', '水 250ml', '鶏がらスープの素 小さじ1', '乾燥わかめ 少々'],
+    steps: [
+      '鍋に水とスープの素を入れて沸かす。',
+      '豆腐をスプーンですくい入れ、わかめを加えて温める。',
+    ],
+    reward: 20,
+  },
+  {
+    id: 'miso-soup',
+    name: '野菜のおみそ汁',
+    sample: 'soup',
+    difficulty: 1,
+    rarity: 'common',
+    minutes: 10,
+    ingredients: ['キャベツ 1枚', 'きのこ ひとつかみ', 'だし 250ml', 'みそ 小さじ2'],
+    steps: [
+      'キャベツときのこを食べやすくし、だしで柔らかくなるまで煮る。',
+      '火を止めてみそを溶く。',
+    ],
+    reward: 20,
+  },
+  {
+    id: 'fried-rice',
+    name: '彩りチャーハン',
+    sample: 'rice',
+    difficulty: 2,
+    rarity: 'rare',
+    minutes: 15,
+    ingredients: ['ごはん 1膳', '卵 1個', 'ねぎ・にんじん 各少々', '油・しょうゆ 少々'],
+    steps: [
+      '野菜を細かく切り、油をひいたフライパンで炒める。',
+      '溶き卵、ごはんの順に加え、卵に火が通るまで炒める。',
+      'しょうゆで味を調える。',
+    ],
+    reward: 40,
+  },
+  {
+    id: 'tomato-pasta',
+    name: 'トマトパスタ',
+    sample: 'pasta',
+    difficulty: 2,
+    rarity: 'rare',
+    minutes: 20,
+    ingredients: ['パスタ 100g', 'カットトマト 150g', 'ツナ 1/2缶', '塩・オリーブ油 少々'],
+    steps: [
+      'パスタを袋の表示どおりにゆでる。',
+      'フライパンでトマトとツナを温め、塩で味を調える。',
+      'パスタを加え、オリーブ油を絡める。',
+    ],
+    reward: 40,
+  },
+  {
+    id: 'cream-soup',
+    name: 'きのこのクリームスープ',
+    sample: 'soup',
+    difficulty: 2,
+    rarity: 'rare',
+    minutes: 20,
+    ingredients: [
+      'きのこ 1/2袋',
+      '玉ねぎ 1/4個',
+      '牛乳 150ml',
+      '水 100ml',
+      'コンソメ 小さじ1',
+      'バター 5g',
+    ],
+    steps: [
+      '薄切りの玉ねぎときのこをバターで炒める。',
+      '水とコンソメを加え、野菜が柔らかくなるまで煮る。',
+      '牛乳を加えて沸騰させずに温める。',
+    ],
+    reward: 40,
+  },
+  {
+    id: 'curry',
+    name: 'カレー',
+    sample: 'curry',
+    difficulty: 3,
+    rarity: 'special',
+    minutes: 30,
+    ingredients: [
+      'ごはん 1膳',
+      '玉ねぎ 1/4個',
+      'じゃがいも 1個',
+      'にんじん 1/4本',
+      'カレールウ 1皿分',
+      '水 ルウの表示量',
+    ],
+    steps: [
+      '野菜を小さめに切り、鍋で軽く炒める。',
+      '水を加え、野菜が柔らかくなるまで煮る。',
+      '火を止めてルウを溶かし、弱火でとろみをつけてごはんに添える。',
+    ],
+    reward: 70,
+  },
+  {
+    id: 'omurice',
+    name: 'ふんわりオムライス',
+    sample: 'rice',
+    difficulty: 3,
+    rarity: 'special',
+    minutes: 25,
+    ingredients: ['ごはん 1膳', '卵 2個', '玉ねぎ 1/4個', 'ケチャップ 大さじ2', '油 少々'],
+    steps: [
+      'みじん切りの玉ねぎを炒め、ごはんとケチャップを混ぜて皿に盛る。',
+      '油をひいたフライパンに溶き卵を広げ、全体に火を通す。',
+      '卵をごはんにかぶせ、ケチャップを添える。',
+    ],
+    reward: 70,
+  },
+  {
+    id: 'gratin',
+    name: 'とろりマカロニグラタン',
+    sample: 'pasta',
+    difficulty: 3,
+    rarity: 'special',
+    minutes: 35,
+    ingredients: [
+      'マカロニ 50g',
+      '玉ねぎ 1/4個',
+      '牛乳 150ml',
+      '薄力粉 大さじ1',
+      'バター 10g',
+      'チーズ 20g',
+    ],
+    steps: [
+      'マカロニを袋の表示どおりにゆでる。',
+      '薄切りの玉ねぎをバターで炒め、薄力粉を加えて混ぜる。',
+      '牛乳を少しずつ加え、混ぜながらとろみをつける。',
+      '耐熱皿にマカロニとソースを入れ、チーズをのせてトースターで焼き色をつける。',
+    ],
+    reward: 70,
+  },
+]
+export function recipeById(id?: string): Recipe | undefined {
+  return recipes.find((recipe) => recipe.id === id)
+}
+export type FeedInput = {
+  title: string
+  photo?: string
+  sample: string
+  recipeId?: string
+  targetId?: SpeciesId
+}
 export type GameMeal = {
   id: string
   day: string
@@ -6,6 +204,10 @@ export type GameMeal = {
   sample: string
   xp: number
   coins: number
+  recipeId?: string
+  targetId?: SpeciesId
+  cardBonus?: number
+  streakBonus?: number
 }
 
 export type GameState = {
@@ -22,6 +224,11 @@ export type GameState = {
   owned: string[]
   equipped: { hat: string; room: string }
   reminder: 'gentle' | 'eager'
+  companions: Companion[]
+  activeId: SpeciesId | null
+  visitors: SpeciesId[]
+  cards: string[]
+  claimedLoginDays: string[]
 }
 
 export type Item = {
@@ -36,7 +243,7 @@ export type Item = {
 export const items: Item[] = [
   {
     id: 'none',
-    name: 'いつものこむぎ',
+    name: 'いつものすがた',
     description: 'ふわふわ、そのまま。',
     kind: 'hat',
     currency: 'coins',
@@ -68,23 +275,23 @@ export const items: Item[] = [
   },
   {
     id: 'plain',
-    name: 'いつものおへや',
-    description: 'ただいまが似合う、あたたかな部屋。',
+    name: 'いつものひろば',
+    description: 'ごはんのにおいが広がる、みんなの広場。',
     kind: 'room',
     currency: 'coins',
     price: 0,
   },
   {
     id: 'garden',
-    name: '木もれびのおへや',
-    description: '窓いっぱいの緑と、ゆったりごはん。',
+    name: '木もれびのひろば',
+    description: '木かげで、ゆったりピクニック。',
     kind: 'room',
     currency: 'gems',
     price: 100,
   },
   {
     id: 'night',
-    name: '星あかりのおへや',
+    name: '星あかりのひろば',
     description: '一日の終わりに、ほっとひと息。',
     kind: 'room',
     currency: 'gems',
@@ -102,7 +309,30 @@ export function shiftDay(day: string, days: number): string {
   return date.toISOString().slice(0, 10)
 }
 
-export function initialGame(day = todayTokyo(), fresh = false): GameState {
+export function initialGame(day = todayTokyo(), _fresh = true): GameState {
+  return {
+    version: 1,
+    today: day,
+    dayOffset: 0,
+    name: 'こむぎ',
+    xp: 0,
+    coins: 120,
+    gems: 60,
+    meals: [],
+    rests: [],
+    tickets: 2,
+    owned: ['none', 'plain'],
+    equipped: { hat: 'none', room: 'plain' },
+    reminder: 'eager',
+    companions: [],
+    activeId: null,
+    visitors: [],
+    cards: [],
+    claimedLoginDays: [],
+  }
+}
+
+export function demoGame(day = todayTokyo()): GameState {
   const dishes = [
     { title: 'ふわたま炒飯', sample: 'rice' },
     { title: 'きのこのスープ', sample: 'soup' },
@@ -112,27 +342,67 @@ export function initialGame(day = todayTokyo(), fresh = false): GameState {
     { title: 'ツナたまごはん', sample: 'rice' },
   ]
   return {
-    version: 1,
-    today: day,
-    dayOffset: 0,
-    name: 'こむぎ',
-    xp: fresh ? 0 : 260,
-    coins: fresh ? 0 : 120,
-    gems: 60,
-    meals: fresh
-      ? []
-      : dishes.map((dish, i) => ({
-          id: `seed-${i}`,
-          day: shiftDay(day, -i - 1),
-          ...dish,
-          xp: i === 0 || i === 5 ? 40 : 45,
-          coins: 30,
-        })),
-    rests: [],
-    tickets: 2,
-    owned: ['none', 'plain'],
-    equipped: { hat: 'none', room: 'plain' },
-    reminder: 'eager',
+    ...chooseStarter(initialGame(day), 'komugi'),
+    xp: 90,
+    companions: [{ id: 'komugi', xp: 90, joinedDay: shiftDay(day, -6) }],
+    meals: dishes.map((dish, i) => ({
+      id: `seed-${i}`,
+      day: shiftDay(day, -i - 1),
+      ...dish,
+      targetId: 'komugi',
+      xp: 15,
+      coins: 30,
+    })),
+  }
+}
+
+export function activeCompanion(state: GameState): Companion | undefined {
+  return state.companions.find((companion) => companion.id === state.activeId)
+}
+export function stageOf(xp: number): 0 | 1 | 2 {
+  return xp >= 120 ? 2 : xp >= 45 ? 1 : 0
+}
+export function stageName(stage: 0 | 1 | 2): string {
+  return ['ちびっこ', 'すくすく', 'おとな'][stage]
+}
+export function chooseStarter(state: GameState, id: SpeciesId): GameState {
+  if (state.companions.length || !species.slice(0, 3).some((candidate) => candidate.id === id))
+    return state
+  return {
+    ...state,
+    companions: [{ id, xp: 0, joinedDay: state.today }],
+    activeId: id,
+    name: species.find((candidate) => candidate.id === id)!.name,
+    xp: 0,
+  }
+}
+export function selectCompanion(state: GameState, id: SpeciesId): GameState {
+  const companion = state.companions.find((candidate) => candidate.id === id)
+  if (!companion || state.activeId === id) return state
+  return {
+    ...state,
+    activeId: id,
+    xp: companion.xp,
+    name: species.find((candidate) => candidate.id === id)!.name,
+  }
+}
+export function mealXp(state: GameState, recipeId?: string, targetId = state.activeId): number {
+  if (!recipeById(recipeId) || !targetId) return 45
+  let repeats = 0
+  for (const meal of state.meals) {
+    if ((meal.targetId ?? 'komugi') !== targetId) continue
+    if (meal.recipeId !== recipeId) break
+    repeats += 1
+  }
+  return Math.max(15, 45 - 15 * repeats)
+}
+export const LOGIN_BONUS = 20
+export function claimLogin(state: GameState): GameState {
+  if (!state.activeId || state.claimedLoginDays.includes(state.today)) return state
+  return {
+    ...state,
+    coins: state.coins + LOGIN_BONUS,
+    claimedLoginDays: [...state.claimedLoginDays, state.today],
   }
 }
 
@@ -156,7 +426,11 @@ export function streakOf(state: GameState): number {
 export function hungerOf(state: GameState): number {
   const lastMeal = state.meals.reduce<string | undefined>(
     (latest, meal) =>
-      meal.day <= state.today && (!latest || meal.day > latest) ? meal.day : latest,
+      (meal.targetId ?? 'komugi') === state.activeId &&
+      meal.day <= state.today &&
+      (!latest || meal.day > latest)
+        ? meal.day
+        : latest,
     undefined,
   )
   if (!lastMeal) return 8
@@ -181,17 +455,49 @@ function mealId(state: GameState): string {
   return id
 }
 
-export function feed(
-  state: GameState,
-  input: { title: string; photo?: string; sample: string },
-): GameState {
+export function feed(state: GameState, input: FeedInput): GameState {
+  const targetId = input.targetId ?? state.activeId
+  if (
+    !targetId ||
+    (!state.companions.some((companion) => companion.id === targetId) &&
+      !state.visitors.includes(targetId))
+  )
+    return state
   const first = !fedToday(state)
-  const xp = first ? 45 : 0
-  const coins = first ? 30 : 0
+  const recipe = recipeById(input.recipeId)
+  const xp = mealXp(state, recipe?.id, targetId)
+  const cardBonus = recipe && !state.cards.includes(recipe.id) ? recipe.reward : 0
+  const coins = (first ? 30 : 0) + cardBonus
   const hadRest = state.rests.includes(state.today)
+  const existing = state.companions.find((companion) => companion.id === targetId)
+  const companion: Companion = {
+    id: targetId,
+    xp: (existing?.xp ?? 0) + xp,
+    joinedDay: existing?.joinedDay ?? state.today,
+  }
+  const companions = existing
+    ? state.companions.map((current) => (current.id === targetId ? companion : current))
+    : [...state.companions, companion]
+  const ownedIds = companions.map((current) => current.id)
+  const visitors = state.visitors.filter((id) => !ownedIds.includes(id))
+  if (companions.some((current) => stageOf(current.xp) === 2)) {
+    for (const candidate of species) {
+      if (visitors.length >= 3) break
+      if (!ownedIds.includes(candidate.id) && !visitors.includes(candidate.id))
+        visitors.push(candidate.id)
+    }
+  }
   const next: GameState = {
     ...state,
-    xp: state.xp + xp,
+    activeId: targetId,
+    name:
+      targetId === state.activeId
+        ? state.name
+        : species.find((candidate) => candidate.id === targetId)!.name,
+    xp: companion.xp,
+    companions,
+    visitors,
+    cards: cardBonus && recipe ? [...state.cards, recipe.id] : state.cards,
     coins: state.coins + coins,
     meals: [
       {
@@ -200,6 +506,10 @@ export function feed(
         title: input.title.trim() || '今日のごはん',
         ...(input.photo ? { photo: input.photo } : {}),
         sample: input.sample,
+        targetId,
+        ...(recipe ? { recipeId: recipe.id } : {}),
+        cardBonus,
+        streakBonus: 0,
         xp,
         coins,
       },
@@ -208,6 +518,11 @@ export function feed(
     rests: hadRest ? state.rests.filter((day) => day !== state.today) : state.rests,
     tickets: state.tickets + (hadRest ? 1 : 0),
   }
+  const streak = streakOf(next)
+  const streakBonus = first ? (streak > 0 && streak % 7 === 0 ? 100 : streak === 3 ? 30 : 0) : 0
+  next.coins += streakBonus
+  next.meals[0].streakBonus = streakBonus
+  next.meals[0].coins += streakBonus
   if (first && streakOf(next) >= 7 && !state.owned.includes('sprout')) {
     next.owned = [...state.owned, 'sprout']
   }
