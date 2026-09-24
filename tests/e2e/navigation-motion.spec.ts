@@ -36,6 +36,73 @@ async function expectRoute(
   )
 }
 
+for (const viewport of [
+  { width: 1440, height: 1000 },
+  { width: 390, height: 844 },
+]) {
+  test(`page transitions capture the outgoing layout before changing the active tab (${viewport.width}px)`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport)
+    await page.goto('/')
+    await expectRoute(page, '/', 'ひろば', 'ひろば')
+    await waitForSceneMotion(page)
+
+    type RouteSnapshot = {
+      page: string | undefined
+      mainClass: string
+      heading: string | null
+      navigation: string | null
+      bounds: { x: number; y: number; width: number; height: number }
+    }
+    type TransitionProbe = {
+      routeSnapshots: RouteSnapshot[]
+      readRouteSnapshot: () => RouteSnapshot
+    }
+
+    const room = await page.evaluate(() => {
+      const probe = Object.assign(window, {
+        routeSnapshots: [] as RouteSnapshot[],
+        readRouteSnapshot: () => {
+          const main = document.querySelector('main')!
+          const { x, y, width, height } = main.getBoundingClientRect()
+          return {
+            page: document.querySelector<HTMLElement>('.play-app')!.dataset.page,
+            mainClass: main.className,
+            heading: main.querySelector('h1')!.textContent,
+            navigation: document.querySelector('.play-nav [aria-current="page"]')!.textContent,
+            bounds: { x, y, width, height },
+          }
+        },
+      })
+      const startViewTransition = document.startViewTransition.bind(document)
+      document.startViewTransition = (options) => {
+        const update = typeof options === 'function' ? options : options?.update
+        const recordAndUpdate = () => {
+          // The browser has taken its old snapshot, but the route has not committed yet.
+          probe.routeSnapshots.push(probe.readRouteSnapshot())
+          return update?.()
+        }
+        return startViewTransition(
+          typeof options === 'function' ? recordAndUpdate : { ...options, update: recordAndUpdate },
+        )
+      }
+      return probe.readRouteSnapshot()
+    })
+
+    await navigate(page, 'ずかん')
+    await expectRoute(page, '/book', 'ずかん', 'ずかん')
+    await waitForSceneMotion(page)
+    const book = await page.evaluate(() => (window as Window & TransitionProbe).readRouteSnapshot())
+    await navigate(page, 'ひろば')
+    await expectRoute(page, '/', 'ひろば', 'ひろば')
+    await waitForSceneMotion(page)
+
+    const snapshots = await page.evaluate(() => (window as Window & TransitionProbe).routeSnapshots)
+    expect(snapshots).toEqual([room, book])
+  })
+}
+
 test('browser back and forward keep the page and active navigation consistent', async ({
   page,
 }) => {

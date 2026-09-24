@@ -29,7 +29,11 @@ function App() {
   const { state, execute, error, busy, retry, dismissError } = useGameSession()
   const router = useRouter()
   const routerNavigate = useNavigate()
-  const pathname = useRouterState({ select: (router) => router.location.pathname })
+  // The requested location changes before the outlet commits. Follow the
+  // committed matches so the outgoing view keeps its layout until its snapshot.
+  const pathname = useRouterState({
+    select: (router) => router.matches.at(-1)?.pathname ?? '/',
+  })
   const page: Page =
     pathname === '/book'
       ? 'book'
