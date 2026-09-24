@@ -1,6 +1,6 @@
-import { recipes } from '../../app/game/browserGame'
+import { mealChoices } from '../../../shared/content/mealChoices'
 
-const recipeIds = new Set(recipes.map((recipe) => recipe.id))
+const choiceIds = new Set(mealChoices.map((choice) => choice.id))
 
 export async function recognizeFood(photo: string, signal?: AbortSignal): Promise<string[]> {
   signal?.throwIfAborted()
@@ -31,7 +31,7 @@ export async function recognizeFood(photo: string, signal?: AbortSignal): Promis
 
     return [
       ...new Set(
-        result.candidates.filter((id): id is string => typeof id === 'string' && recipeIds.has(id)),
+        result.candidates.filter((id): id is string => typeof id === 'string' && choiceIds.has(id)),
       ),
     ].slice(0, 3)
   } finally {

@@ -6,6 +6,7 @@ import { JourneyFrame } from '../../ui/journey/JourneyFrame'
 import { FeastXpReward } from './FeastXpReward'
 import { StreakCelebration } from '../streak/StreakCelebration'
 import { items, recipeById, species, stageName, stageOf } from '../../app/game/browserGame'
+import { mealChoiceById } from '../../../shared/content/mealChoices'
 import type { FeedReceipt } from '../../../shared/game/receipt'
 import { feastStepsFromReceipt } from './feastSteps'
 import { transitionScene } from '../../ui/journey/journeyTransition'
@@ -142,7 +143,10 @@ export function FeastJourney({
               {photo ? (
                 <img src={photo} alt={meal.title} />
               ) : (
-                <RecipeArt recipe={recipeById(meal.recipeId)} sample={meal.sample} />
+                <RecipeArt
+                  recipe={mealChoiceById(meal.recipeId ?? meal.dishId)}
+                  sample={meal.sample}
+                />
               )}
             </div>
             <span className="feast-heart feast-heart-left" aria-hidden="true">

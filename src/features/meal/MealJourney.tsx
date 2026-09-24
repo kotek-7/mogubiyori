@@ -8,13 +8,16 @@ import { RecipeBrowser } from '../collection/RecipeBrowser'
 import { JourneyFrame } from '../../ui/journey/JourneyFrame'
 import { PlayGuide } from '../tutorial/PlayGuide'
 import { mealXp, stageOf } from '../../../shared/game/game'
-import { recipes, species } from '../../../shared/content/catalog'
+import { species } from '../../../shared/content/catalog'
+import { mealChoiceById } from '../../../shared/content/mealChoices'
 import type { FeedInput, GameState, SpeciesId } from '../../../shared/game/types'
 import type { FeedReceipt } from '../../../shared/game/receipt'
 import { resizePhoto } from './photo'
 import { recognizeFood } from './foodRecognition'
 import { transitionScene } from '../../ui/journey/journeyTransition'
 import { createMealMachine } from './mealMachine'
+import { GenericDishPicker } from './GenericDishPicker'
+import { RecognitionStatus } from './RecognitionStatus'
 
 export type MealJourneyProps = {
   state: GameState
@@ -52,7 +55,16 @@ export function MealJourney({
     }),
     { input: { targetId: targetId ?? state.activeId ?? 'komugi', recipeId: initialRecipeId } },
   )
-  const { photo, sample, recipeId, title, candidates, error, targetId: target } = snapshot.context
+  const {
+    photo,
+    sample,
+    recipeId,
+    dishId,
+    title,
+    candidates,
+    error,
+    targetId: target,
+  } = snapshot.context
   const step = snapshot.matches({ editing: { navigation: 'photo' } })
     ? 'photo'
     : snapshot.matches({ editing: { navigation: 'recipes' } })
@@ -81,14 +93,15 @@ export function MealJourney({
   const buddy = state.companions.find((entry) => entry.id === target)
   const name =
     target === state.activeId ? state.name : species.find((entry) => entry.id === target)!.name
-  const recipe = recipes.find((entry) => entry.id === recipeId)
+  const selectedId = dishId ?? recipeId
+  const recipe = mealChoiceById(selectedId)
   const ready = Boolean(photo || sample)
   const xp = mealXp(state, recipeId || undefined, target)
   const recognitionMessage =
     recognition === 'recognizing'
       ? step === 'photo'
-        ? '料理を見ています。先に食卓へ進めます。'
-        : '料理を見ています。このままごはんをあげられます。'
+        ? '先に食卓へ進めます。'
+        : 'このままごはんをあげられます。'
       : recognition === 'matched'
         ? '料理の候補が見つかりました。'
         : recognition === 'unknown'
@@ -136,6 +149,8 @@ export function MealJourney({
         }
       >
         <div className="meal-recipe-browser">
+          <GenericDishPicker selectedId={dishId} onSelect={chooseRecipe} />
+          <h2 className="meal-specific-recipes-heading">レシピから選ぶ</h2>
           <RecipeBrowser state={state} onRecipe={chooseRecipe} mode="select" />
         </div>
       </JourneyFrame>
@@ -236,11 +251,7 @@ export function MealJourney({
             写真からAIが料理の候補を見つけます。違うときは食卓で選び直せます。
           </p>
         )}
-        {recognitionMessage && (
-          <p className="meal-recognition-status" role="status">
-            {recognitionMessage}
-          </p>
-        )}
+        <RecognitionStatus pending={recognition === 'recognizing'} message={recognitionMessage} />
         {error && (
           <p className="error-message meal-photo-error" role="alert">
             {error}
@@ -303,11 +314,7 @@ export function MealJourney({
           send({ type: 'SUBMIT' })
         }}
       >
-        {recognitionMessage && (
-          <p className="meal-recognition-status" role="status">
-            {recognitionMessage}
-          </p>
-        )}
+        <RecognitionStatus pending={recognition === 'recognizing'} message={recognitionMessage} />
         {error && (
           <p className="error-message meal-photo-error" role="alert">
             {error}
@@ -320,11 +327,11 @@ export function MealJourney({
               <button
                 key={id}
                 type="button"
-                aria-pressed={recipeId === id}
+                aria-pressed={selectedId === id}
                 disabled={submitting}
                 onClick={() => send({ type: 'RECIPE_CHANGED', recipeId: id })}
               >
-                {recipes.find((entry) => entry.id === id)?.name}
+                {mealChoiceById(id)?.name}
               </button>
             ))}
           </div>

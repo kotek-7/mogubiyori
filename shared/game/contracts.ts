@@ -18,6 +18,7 @@ const feedInputSchema = z.strictObject({
   title: z.string().max(200),
   sample: z.string().min(1).max(80),
   recipeId: z.string().min(1).max(100).optional(),
+  dishId: z.string().min(1).max(100).optional(),
   targetId: speciesIdSchema.optional(),
   photoId: z.uuid().optional(),
 })

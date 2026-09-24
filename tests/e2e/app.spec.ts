@@ -109,7 +109,7 @@ test('varied meals grow the companion and visitors join only after being fed', a
     )
   }
   expect((await storedGame(page)).companions).toHaveLength(1)
-  await expect(page.locator('.play-guests button')).toHaveCount(3)
+  await expect(page.locator('.field-visitor')).toHaveCount(3)
   await page.getByRole('button', { name: 'お客さんのまめにごはんをあげる' }).click()
   expect((await storedGame(page)).companions).toHaveLength(1)
   await submitSample(page, 'fried-rice', 'まめ')

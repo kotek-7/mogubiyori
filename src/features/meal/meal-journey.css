@@ -100,6 +100,42 @@
   line-height: 1.7;
   text-align: center;
 }
+.meal-recognition-status.is-pending {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-control);
+  background: var(--game-surface);
+  color: var(--game-ink);
+  text-align: left;
+}
+.meal-recognition-status.is-pending > span:last-child {
+  display: grid;
+  gap: 2px;
+}
+.meal-recognition-status strong {
+  font-size: 14px;
+}
+.meal-recognition-spinner {
+  flex: 0 0 auto;
+  display: flex;
+  color: var(--game-action-dark);
+}
+.meal-recognition-spinner svg {
+  animation: meal-recognition-spin 1s linear infinite;
+}
+@keyframes meal-recognition-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .meal-recognition-spinner svg {
+    animation: none;
+  }
+}
 .meal-recipe-candidates {
   display: flex;
   flex-wrap: wrap;
@@ -259,6 +295,53 @@
 }
 .meal-recipe-browser {
   width: 100%;
+}
+.meal-generic-dishes {
+  min-width: 0;
+  margin: 0 0 28px;
+  padding: 0;
+  border: 0;
+  color: var(--game-ink);
+}
+.meal-generic-dishes legend,
+.meal-specific-recipes-heading {
+  padding: 0;
+  font-size: 17px;
+  font-weight: 800;
+}
+.meal-specific-recipes-heading {
+  margin: 0 0 12px;
+}
+.meal-generic-dishes p {
+  margin: 6px 0 12px;
+  color: var(--game-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+.meal-generic-dishes > div {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+  gap: 8px;
+}
+.meal-generic-dishes button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 6px 10px;
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-control);
+  background: var(--game-surface);
+  color: var(--game-ink);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: left;
+}
+.meal-generic-dishes button:hover,
+.meal-generic-dishes button[aria-pressed='true'] {
+  border-color: var(--game-action);
+  background: var(--game-action-soft);
+  color: var(--game-action-dark);
 }
 .journey-screen[data-scene='recipe-pick'] .journey-content {
   justify-content: flex-start;

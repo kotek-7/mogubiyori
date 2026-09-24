@@ -1,5 +1,6 @@
 import { and, assign, fromPromise, not, setup, stateIn } from 'xstate'
-import { recipes } from '../../../shared/content/catalog'
+import { recipeById } from '../../../shared/content/catalog'
+import { genericDishById } from '../../../shared/content/dishes'
 import type { FeedInput, SpeciesId } from '../../../shared/game/types'
 import type { FeedReceipt } from '../../../shared/game/receipt'
 import { createOperationId } from '../../lib/operationId'
@@ -9,6 +10,7 @@ export type MealMachineInput = { targetId: SpeciesId; recipeId?: string }
 type MealContext = {
   targetId: SpeciesId
   recipeId: string
+  dishId?: string
   title: string
   photo?: string
   sample: boolean
@@ -37,13 +39,16 @@ export type MealServices = {
 }
 
 function feedInput(context: MealContext): FeedInput {
-  const recipe = recipes.find((entry) => entry.id === context.recipeId)
+  const recipe = recipeById(context.recipeId)
+  const dish = genericDishById(context.dishId)
+  const choice = recipe ?? dish
   return {
     targetId: context.targetId,
-    title: context.title.trim() || recipe?.name || '今日のごはん',
+    title: context.title.trim() || choice?.name || '今日のごはん',
     photo: context.photo,
-    sample: recipe?.sample ?? 'rice',
+    sample: choice?.sample ?? 'rice',
     recipeId: context.recipeId || undefined,
+    ...(dish ? { dishId: dish.id } : {}),
   }
 }
 
@@ -54,8 +59,14 @@ function sameMeal(previous: FeedInput | undefined, next: FeedInput) {
     previous.title === next.title &&
     previous.photo === next.photo &&
     previous.sample === next.sample &&
-    previous.recipeId === next.recipeId
+    previous.recipeId === next.recipeId &&
+    previous.dishId === next.dishId
   )
+}
+
+function selection(id: string) {
+  const dish = genericDishById(id)
+  return { recipeId: dish ? '' : id, dishId: dish?.id }
 }
 
 /** Owns the draft and its work, never the saved game or its query cache. */
@@ -109,10 +120,10 @@ export function createMealMachine(services: MealServices) {
         type: 'parallel',
         on: {
           RECIPE_CHANGED: {
-            actions: assign({
-              recipeId: ({ event }) => event.recipeId,
+            actions: assign(({ event }) => ({
+              ...selection(event.recipeId),
               recipeChosen: true,
-            }),
+            })),
           },
           TITLE_CHANGED: {
             actions: assign({ title: ({ event }) => event.title, titleEdited: true }),
@@ -147,10 +158,10 @@ export function createMealMachine(services: MealServices) {
                   BACK: 'serve',
                   RECIPE_SELECTED: {
                     target: 'serve',
-                    actions: assign({
-                      recipeId: ({ event }) => event.recipeId,
+                    actions: assign(({ event }) => ({
+                      ...selection(event.recipeId),
                       recipeChosen: true,
-                    }),
+                    })),
                   },
                 },
               },
@@ -168,6 +179,7 @@ export function createMealMachine(services: MealServices) {
                   candidates: [],
                   error: '',
                   recipeId: context.recipeChosen ? context.recipeId : '',
+                  dishId: context.recipeChosen ? context.dishId : undefined,
                 })),
               },
               USE_SAMPLE: {
@@ -179,6 +191,7 @@ export function createMealMachine(services: MealServices) {
                   candidates: [],
                   error: '',
                   recipeId: context.recipeChosen ? context.recipeId : '',
+                  dishId: context.recipeChosen ? context.dishId : undefined,
                 })),
               },
             },
@@ -216,10 +229,9 @@ export function createMealMachine(services: MealServices) {
                     target: 'recognized',
                     actions: assign(({ context, event }) => ({
                       candidates: event.output,
-                      recipeId:
-                        event.output[0] && !context.recipeChosen && !context.titleEdited
-                          ? event.output[0]
-                          : context.recipeId,
+                      ...(event.output[0] && !context.recipeChosen && !context.titleEdited
+                        ? selection(event.output[0])
+                        : {}),
                     })),
                   },
                   onError: 'failed',

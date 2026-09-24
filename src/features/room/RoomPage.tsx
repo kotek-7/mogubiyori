@@ -85,20 +85,26 @@ export function RoomPage() {
           bag={state.equipped.bag}
         />
         {state.visitors.length > 0 && (
-          <div className="play-guests">
-            <span>お客さん {state.visitors.length}</span>
-            <div>
-              {state.visitors.map((id) => (
+          <div className="field-visitors" role="group" aria-label="ひろばのお客さん">
+            {state.visitors.map((id) => {
+              const visitor = species.find((s) => s.id === id)!
+              return (
                 <button
                   key={id}
+                  className="field-visitor"
                   onClick={() => openMeal({ targetId: id })}
-                  aria-label={`お客さんの${species.find((s) => s.id === id)!.name}にごはんをあげる`}
+                  aria-label={`お客さんの${visitor.name}にごはんをあげる`}
                 >
-                  <Pet species={id} stage={0} mood="hungry" />
-                  <span>{species.find((s) => s.id === id)!.name}</span>
+                  <span className="field-visitor-body" aria-hidden="true">
+                    <Pet species={id} stage={0} mood="hungry" />
+                  </span>
+                  <span className="field-visitor-name" aria-hidden="true">
+                    <Utensils size={12} />
+                    {visitor.name}
+                  </span>
                 </button>
-              ))}
-            </div>
+              )
+            })}
           </div>
         )}
         <button className="play-friend-count" onClick={showFriends}>

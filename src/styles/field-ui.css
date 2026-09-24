@@ -8,7 +8,7 @@
 }
 .play-wallet,
 .play-nav,
-.play-page-room :is(.play-growth, .play-friend-count, .companion-actions, .play-guests),
+.play-page-room :is(.play-growth, .play-friend-count, .companion-actions),
 .play-page-room .play-world-top > :is(span, button) {
   background: var(--game-surface);
   border: 1px solid var(--hud-highlight);
@@ -18,7 +18,7 @@
 @supports (backdrop-filter: blur(1px)) {
   .play-wallet,
   .play-nav,
-  .play-page-room :is(.play-growth, .play-friend-count, .companion-actions, .play-guests),
+  .play-page-room :is(.play-growth, .play-friend-count, .companion-actions),
   .play-page-room .play-world-top > :is(span, button) {
     background: var(--hud-glass);
     backdrop-filter: var(--hud-blur);
@@ -214,11 +214,6 @@
   background: transparent;
   color: var(--game-ink);
   box-shadow: none;
-  border-radius: 22px;
-}
-.play-page-room .play-guests {
-  right: var(--field-edge);
-  bottom: 43%;
   border-radius: 22px;
 }
 .play-page-room .play-care {
@@ -455,12 +450,12 @@
   .play-page-room
     .play-world[class]:is([data-growth-stage='2'], [data-growth-stage='3'], [data-growth-stage='4'])
     .play-pet {
-    width: 260px;
-    height: 260px;
+    width: min(260px, 70vw);
+    height: min(260px, 70vw);
   }
   .play-page-room .play-world.with-visitors .play-pet {
-    width: 245px;
-    height: 245px;
+    width: min(245px, 70vw);
+    height: min(245px, 70vw);
     left: 35%;
   }
   .play-page-room .play-care {
@@ -587,9 +582,6 @@
   .play-page-room .companion-actions {
     bottom: calc(var(--field-bottom) + 198px);
   }
-  .play-page-room .play-guests {
-    bottom: calc(var(--field-bottom) + 260px);
-  }
   .play-page-room .play-rewards {
     bottom: calc(var(--field-bottom) + 67px);
     padding-block: 0;
@@ -615,7 +607,7 @@
 @media (prefers-reduced-transparency: reduce), (forced-colors: active) {
   .play-wallet,
   .play-nav,
-  .play-page-room :is(.play-growth, .play-friend-count, .companion-actions, .play-guests),
+  .play-page-room :is(.play-growth, .play-friend-count, .companion-actions),
   .play-page-room .play-world-top > :is(span, button) {
     background: var(--game-surface);
     backdrop-filter: none;

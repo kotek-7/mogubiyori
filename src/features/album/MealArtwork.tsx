@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import type { GameMeal } from '../../../shared/game/types'
 import { useGameSession } from '../../app/game/useGameSession'
 import { RecipeArt } from '../../ui/art/RecipeArt'
-import { recipeById } from '../../../shared/content/catalog'
+import { mealChoiceById } from '../../../shared/content/mealChoices'
 
 export function MealArtwork({ meal }: { meal: GameMeal }) {
   const { gateway } = useGameSession()
@@ -18,6 +18,6 @@ export function MealArtwork({ meal }: { meal: GameMeal }) {
   return source ? (
     <img src={source} alt={meal.title} />
   ) : (
-    <RecipeArt recipe={recipeById(meal.recipeId)} sample={meal.sample} />
+    <RecipeArt recipe={mealChoiceById(meal.recipeId ?? meal.dishId)} sample={meal.sample} />
   )
 }

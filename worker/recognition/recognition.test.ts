@@ -8,6 +8,8 @@ import {
   RECOGNITION_TIMEOUT_MS,
 } from './recognition'
 import { recipes } from '../../shared/content/recipes'
+import { genericDishes } from '../../shared/content/dishes'
+import { mealChoices } from '../../shared/content/mealChoices'
 
 const endpoint = 'https://mogubiyori.example/api/recognize-food'
 const png =
@@ -63,7 +65,7 @@ describe('food recognition API', () => {
             required: ['candidates'],
             additionalProperties: false,
             properties: {
-              candidates: { maxItems: 3, items: { enum: recipes.map((recipe) => recipe.id) } },
+              candidates: { maxItems: 3, items: { enum: mealChoices.map((choice) => choice.id) } },
             },
           },
         },
@@ -78,12 +80,28 @@ describe('food recognition API', () => {
     expect(content[1]).toEqual({ type: 'image_url', image_url: { url: png } })
     const catalog = JSON.parse(content[0].text!.slice('登録料理カタログ: '.length))
     expect(catalog.map((entry: { id: string }) => entry.id)).toEqual(
-      recipes.map((recipe) => recipe.id),
+      mealChoices.map((choice) => choice.id),
     )
     expect(catalog[0]).toMatchObject({ id: recipes[0].id, name: recipes[0].name })
     expect(catalog[0].ingredients).toContain(recipes[0].ingredients[0])
+    expect(catalog.find((entry: { id: string }) => entry.id === 'generic-pasta')).toMatchObject({
+      kind: 'dish',
+      name: 'パスタ',
+    })
     expect(env.ASSETS.fetch).not.toHaveBeenCalled()
   })
+
+  it.each(genericDishes)(
+    'accepts the broad $name classification without inventing a recipe',
+    async (dish) => {
+      const response = await worker.fetch(
+        request(),
+        environment(completion({ candidates: [dish.id, 'not-a-dish'] })),
+      )
+      expect(response.status).toBe(200)
+      expect(await response.json()).toEqual({ candidates: [dish.id] })
+    },
+  )
 
   it('accepts adopted recipes, filters invented IDs, deduplicates, and caps candidates at three', async () => {
     const env = environment(
