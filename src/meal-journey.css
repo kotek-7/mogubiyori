@@ -10,7 +10,7 @@
   background: #fffcf4;
   border: 2px solid var(--ink);
   border-radius: 5px;
-  box-shadow: 7px 8px 0 #e4ba64;
+  box-shadow: none;
   transform: rotate(-3deg);
   animation: meal-photo-enter 450ms ease-out both;
 }
@@ -255,7 +255,7 @@
   color: var(--game-ink);
   font-size: 11px;
   cursor: pointer;
-  box-shadow: var(--game-shadow-control);
+  box-shadow: none;
 }
 .meal-recipe-browser {
   width: 100%;

@@ -149,7 +149,7 @@
   background: var(--green);
   color: var(--paper);
   border: 2px solid var(--ink);
-  box-shadow: 3px 3px 0 var(--ink);
+  box-shadow: none;
   padding: 8px 19px;
   display: inline-flex;
   align-items: center;
@@ -196,7 +196,7 @@
   border: 3px solid var(--ink);
   border-radius: 12px;
   backface-visibility: hidden;
-  box-shadow: 6px 7px 0 var(--ink);
+  box-shadow: none;
   overflow: hidden;
 }
 .feast-recipe-back {
@@ -275,7 +275,7 @@
   border-radius: 12px;
   overflow: hidden;
   background: #b9d5a6;
-  box-shadow: 5px 6px 0 var(--ink);
+  box-shadow: none;
 }
 .feast-arrivals-art > .gathering-scene {
   position: absolute;

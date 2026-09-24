@@ -35,12 +35,10 @@ summary:focus-visible {
   background-clip: content-box;
   color: var(--game-surface);
   box-shadow: none;
-  filter: drop-shadow(0 2px 0 var(--game-action-dark));
+  filter: none;
   font-weight: 800;
   letter-spacing: 0;
-  transition:
-    transform 150ms,
-    filter 150ms;
+  transition: filter 150ms;
 }
 .primary-button {
   min-height: 50px;
@@ -51,8 +49,8 @@ summary:focus-visible {
 .journey-screen .tutorial-chapter-next:hover:not(:disabled) {
   background: var(--game-action);
   background-clip: content-box;
-  filter: brightness(0.94) drop-shadow(0 2px 0 var(--game-action-dark));
-  transform: translateY(-1px);
+  filter: brightness(0.94);
+  transform: none;
 }
 .primary-button:active:not(:disabled),
 .journey-screen .journey-primary:active:not(:disabled),
@@ -60,8 +58,8 @@ summary:focus-visible {
 .journey-screen .tutorial-chapter-next:active:not(:disabled) {
   background: var(--game-action);
   background-clip: content-box;
-  transform: translateY(2px);
-  filter: none;
+  transform: none;
+  filter: brightness(0.88);
   box-shadow: none;
 }
 .primary-button:disabled,
@@ -85,13 +83,14 @@ summary:focus-visible {
   color: var(--game-ink);
   background: var(--game-surface);
   border: 1px solid var(--game-line-strong);
-  box-shadow: var(--game-shadow-control);
+  box-shadow: none;
 }
 .secondary-button:hover {
   background: var(--game-action-soft);
 }
 .secondary-button:active {
-  transform: translateY(2px);
+  transform: none;
+  background: var(--game-action-soft);
   box-shadow: none;
 }
 
@@ -278,7 +277,7 @@ summary:focus-visible {
   padding: 8px 12px;
   font-size: 11px;
   font-weight: 750;
-  box-shadow: 0 2px 0 #37282220;
+  box-shadow: none;
 }
 .play-world-top > button {
   display: grid;
@@ -289,12 +288,10 @@ summary:focus-visible {
   border: 0;
   border-radius: 50%;
   color: var(--game-teal-dark);
-  box-shadow: var(--game-shadow-control);
+  box-shadow: none;
 }
 .play-world-top > button.has-reminder {
-  box-shadow:
-    0 0 0 2px var(--game-coral),
-    var(--game-shadow-control);
+  box-shadow: 0 0 0 2px var(--game-coral);
 }
 .play-world-top i {
   width: 9px;
@@ -328,7 +325,7 @@ summary:focus-visible {
   color: var(--game-teal-dark);
   font-size: 11px;
   font-weight: 800;
-  box-shadow: var(--game-shadow-control);
+  box-shadow: none;
 }
 .play-friend-count > span {
   gap: 2px;
@@ -347,7 +344,7 @@ summary:focus-visible {
   border-radius: var(--game-radius-card);
   padding: 10px 8px;
   bottom: 15%;
-  box-shadow: 0 3px 0 #37282218;
+  box-shadow: none;
 }
 .play-guests > span,
 .play-guests button span {
@@ -359,9 +356,8 @@ summary:focus-visible {
   color: var(--game-ink);
   background: var(--game-surface);
   border: 1px solid var(--game-line-strong);
-  border-top: 4px double var(--game-line-strong);
   border-radius: 0 0 var(--game-radius-scene) var(--game-radius-scene);
-  box-shadow: var(--game-shadow-panel);
+  box-shadow: none;
   padding: 23px 28px 20px;
   margin: 0;
   grid-template-columns: 1fr 1.1fr;
@@ -428,7 +424,8 @@ summary:focus-visible {
   color: var(--game-gold-dark);
 }
 
-/* Persistent navigation uses colour only for the current destination. */
+/* A single paper surface: the current destination is marked beside its name.
+   A soft cast shadow separates this fixed overlay from the scrolling page. */
 .play-nav {
   width: 360px;
   max-width: calc(100% - 28px);
@@ -441,7 +438,7 @@ summary:focus-visible {
   background: var(--game-surface);
   background-clip: content-box;
   box-shadow: none;
-  filter: drop-shadow(0 3px 0 #37282218);
+  filter: drop-shadow(0 6px 12px #37282220);
   backdrop-filter: none;
 }
 .play-nav > button {
@@ -449,8 +446,10 @@ summary:focus-visible {
   min-height: 61px;
   padding: 0 6px 4px;
   justify-content: center;
-  border-radius: var(--game-radius-control);
-  color: var(--game-ink);
+  border-radius: 0;
+  background: transparent;
+  color: var(--game-muted);
+  box-shadow: none;
   gap: 1px;
   font-size: 11px;
   font-weight: 800;
@@ -459,13 +458,35 @@ summary:focus-visible {
   width: 38px;
   height: 38px;
 }
+.play-nav > button > span {
+  position: relative;
+}
+.play-nav > button > span::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 5px);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  transform: translateY(-50%);
+  opacity: 0;
+}
 .play-nav > button[aria-current='page'] {
-  background: var(--game-action-soft);
-  color: var(--game-teal-dark);
-  box-shadow: inset 0 -3px 0 var(--game-action);
+  color: var(--game-action-dark);
+  background: transparent;
+  box-shadow: none;
+}
+.play-nav > button[aria-current='page'] > span::before {
+  opacity: 1;
 }
 .play-nav > button:hover {
-  background: var(--game-action-soft);
+  color: var(--game-action-dark);
+  background: transparent;
+}
+.play-nav > button:focus-visible {
+  outline-offset: 0;
 }
 
 /* Collection menus: pictures first, labels second, details on demand. */
@@ -563,16 +584,17 @@ summary:focus-visible {
   background: var(--game-surface);
   border: 1px solid var(--game-line);
   border-radius: var(--game-radius-card);
-  box-shadow: var(--game-paper-rim), var(--game-shadow-panel);
+  box-shadow: none;
 }
 .recipe-collection-card {
   padding: 7px;
   border-radius: var(--game-radius-card);
-  border-bottom: 1px solid var(--game-line);
 }
 .recipe-collection-card:not(:disabled):hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 0 var(--game-line);
+  transform: none;
+  border-color: var(--game-line-strong);
+  background: var(--game-canvas);
+  box-shadow: none;
 }
 .recipe-collection-card.recipe-rarity-rare {
   border-color: var(--game-success);
@@ -635,14 +657,12 @@ summary:focus-visible {
 }
 .friend-card {
   padding: 18px 16px 15px;
-  border: 0;
   border: 1px solid var(--game-line);
   border-radius: var(--game-radius-card);
   box-shadow: none;
 }
 .friend-card.is-active {
-  border: 2px solid var(--game-teal);
-  padding: 17px 15px 14px;
+  border-color: var(--game-action);
 }
 .friend-card-top > strong {
   color: var(--game-ink);
@@ -714,7 +734,7 @@ summary:focus-visible {
   border-color: var(--game-teal);
 }
 .shop-card.is-equipped {
-  border: 2px solid var(--game-teal);
+  border-color: var(--game-action);
 }
 .item-art {
   background: var(--game-canvas);
@@ -738,12 +758,9 @@ summary:focus-visible {
 }
 .sheet {
   background: var(--game-surface);
-  border: 0;
   border: 1px solid var(--game-line-strong);
   border-radius: var(--game-radius-card);
-  box-shadow:
-    var(--game-paper-rim),
-    0 18px 64px #37282238;
+  box-shadow: 0 18px 64px #37282238;
 }
 .sheet::backdrop {
   background: #37282273;
@@ -884,12 +901,9 @@ summary:focus-visible {
 .play-page-album {
   background: var(--game-surface);
   margin-top: 14px;
-  border: 1px solid var(--game-line);
-  border-radius: var(--game-radius-card);
-  box-shadow:
-    -5px 0 0 var(--game-clay),
-    var(--game-paper-rim),
-    var(--game-shadow-panel);
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
 }
 .play-app .tutorial-resume {
   min-height: 44px;

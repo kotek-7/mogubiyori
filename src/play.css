@@ -88,7 +88,7 @@
   border-radius: 30px;
   border: 3px solid #dbdfc5;
   background: #e3edcc;
-  box-shadow: 0 6px 0 #d8d9bc80;
+  box-shadow: none;
   isolation: isolate;
 }
 .play-scenery {
@@ -228,7 +228,7 @@
   border-radius: 23px;
   padding: 20px 26px 14px;
   margin-top: 21px;
-  box-shadow: 0 4px 0 #eae3d4;
+  box-shadow: none;
   display: grid;
   grid-template-columns: 1fr 1.1fr;
   gap: 9px 24px;
@@ -283,7 +283,7 @@
   min-height: 59px;
   border-radius: 17px;
   background: #ad512c;
-  box-shadow: 0 5px 0 #783d22;
+  box-shadow: none;
 }
 .play-today {
   grid-column: 2;
@@ -333,7 +333,7 @@
   background: #fffdf5f5;
   border: 1.5px solid #ded4c0;
   border-radius: 25px;
-  box-shadow: 0 6px 24px #5c4b2720;
+  box-shadow: none;
   backdrop-filter: blur(14px);
 }
 .play-nav > button {
@@ -350,9 +350,9 @@
   font-weight: 700;
 }
 .play-nav > button[aria-current='page'] {
-  background: #e9edd8;
-  color: #50653b;
-  box-shadow: inset 0 -3px 0 #d4dcb8;
+  background: transparent;
+  color: var(--game-action-dark);
+  box-shadow: none;
 }
 .play-page-heading {
   margin: 17px 0 24px;
@@ -384,7 +384,7 @@
 }
 .play-book-tabs > button[aria-pressed='true'] {
   background: #fffdf7;
-  box-shadow: 0 2px 4px #4c482415;
+  box-shadow: none;
   color: #506340;
 }
 .play-memories {

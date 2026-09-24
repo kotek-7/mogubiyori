@@ -185,23 +185,17 @@
   padding: 15px 21px;
   border: 2px solid var(--ink, #202820);
   border-radius: 7px;
-  box-shadow: 3px 4px 0 var(--ink, #202820);
+  box-shadow: none;
   background: var(--green, #24624b);
   color: var(--paper, #fff5de);
   font-size: 15px;
   font-weight: 850;
   line-height: 1.7;
-  transition:
-    transform 0.15s,
-    box-shadow 0.15s,
-    background 0.15s;
+  transition: background 0.15s;
 }
-.journey-primary:hover {
-  background: #194b39;
-}
+.journey-primary:hover,
 .journey-primary:active {
-  transform: translate(2px, 3px);
-  box-shadow: 1px 1px 0 var(--ink, #202820);
+  background: #194b39;
 }
 .journey-primary:disabled {
   cursor: not-allowed;
@@ -233,7 +227,7 @@
   padding: 14px 22px;
   background: #fffaf0;
   border: 2px solid var(--ink, #202820);
-  box-shadow: 3px 3px 0 var(--ink, #202820);
+  box-shadow: none;
   border-radius: 8px;
   color: var(--ink, #202820);
   font-size: 14px;
@@ -253,7 +247,7 @@
   overflow: hidden;
   border: 2px solid var(--ink, #202820);
   border-radius: 190px 190px 12px 12px;
-  box-shadow: 5px 6px 0 var(--ink, #202820);
+  box-shadow: none;
   background: #d1deb5;
 }
 .journey-welcome-world > .gathering-scene {
@@ -405,7 +399,6 @@
   }
   .journey-welcome-world {
     border-radius: 155px 155px 9px 9px;
-    box-shadow: 4px 5px 0 var(--ink);
   }
   .journey-welcome-companion {
     width: 105%;
