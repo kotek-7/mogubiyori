@@ -30,7 +30,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/')
 })
 
-test('each starter has a personal welcome and its choice survives reload', async ({ page }) => {
+test('each starter appears in meal practice and its choice survives reload', async ({ page }) => {
   for (const [id, name] of [
     ['komugi', 'こむぎ'],
     ['mame', 'まめ'],
@@ -41,7 +41,11 @@ test('each starter has a personal welcome and its choice survives reload', async
     )
     await chooseStarter(page, name)
     await expectFocusedScene(page, 'welcome')
-    await expect(journey(page)).toContainText(name)
+    const welcome = journey(page, 'welcome')
+    await welcome.getByRole('button', { name: 'この例で撮影を試す', exact: true }).click()
+    await welcome.getByRole('button', { name: 'この写真を記録する', exact: true }).click()
+    await expect(welcome.locator('.tutorial-meal-world')).toHaveClass(/is-hungry/)
+    await expect(welcome.locator('.tutorial-pet-name')).toHaveText(name)
     await page.getByRole('button', { name: 'ひろばを見てみる' }).click()
     await waitForSceneMotion(page)
     await page.reload()
@@ -49,6 +53,7 @@ test('each starter has a personal welcome and its choice survives reload', async
     const state = await storedGame(page)
     expect(state.activeId).toBe(id)
     expect(state.companions).toHaveLength(1)
+    expect(state.companions[0].id).toBe(id)
     expect(state.xp).toBe(0)
     expect(state.coins).toBe(140)
     expect(state.meals).toEqual([])
