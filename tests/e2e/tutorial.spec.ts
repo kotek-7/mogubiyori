@@ -131,7 +131,7 @@ async function action(page: Page, name: string, checkLayout = false) {
       `${name}: no horizontal overflow`,
     ).toBe(true)
     if (
-      ['tutorial-friends', 'tutorial-cards'].includes(
+      ['welcome', 'tutorial-friends', 'tutorial-cards'].includes(
         (await journey(page).getAttribute('data-scene'))!,
       )
     ) {
@@ -153,8 +153,29 @@ async function practice(
   const screen = journey(page, scenes[step])
   await expect(screen).toBeVisible()
   if (step === 0) {
-    await action(page, 'ごはんをあげてみる', checkLayout)
-    await expect(internalActions(page)).toBeDisabled()
+    const lesson = screen.locator('.tutorial-recipe-lab')
+    await expect(lesson).toHaveAttribute('data-phase', 'cooking')
+    await expect(screen.getByRole('region', { name: 'あそびかたガイド' })).toContainText(
+      'カレーのイラスト',
+    )
+    await expect(screen.locator('.tutorial-xp-panel')).toHaveCount(0)
+    await onCheckpoint?.('tutorial-meal-cooking')
+    await action(page, 'この例で撮影を試す', checkLayout)
+    const reducedMotion = await page.evaluate(
+      () => matchMedia('(prefers-reduced-motion: reduce)').matches,
+    )
+    if (!reducedMotion) {
+      await expect(lesson).toHaveAttribute('data-phase', 'capturing')
+      await expect(screen.getByRole('button', { name: '撮影中', exact: true })).toBeDisabled()
+      await expect(screen.locator('.tutorial-recipe-camera-cut')).toBeVisible()
+      await expect(screen.locator('.tutorial-recipe-camera-device')).toBeVisible()
+    }
+    await expect(lesson).toHaveAttribute('data-phase', 'photo')
+    await expectChapterLocked(page)
+    await expect(screen.locator('.tutorial-xp-panel')).toHaveCount(0)
+    await onCheckpoint?.('tutorial-meal-photo')
+    await action(page, 'この写真でごはんをあげる', checkLayout)
+    await expect(screen.getByRole('button', { name: '食事中', exact: true })).toBeDisabled()
     await expect(journey(page).locator('button.tutorial-chapter-next')).toHaveCount(0)
     await expect(screen.locator('.tutorial-xp-panel')).toContainText('+45 XP')
     await expect(screen.getByRole('progressbar', { name: '最初の成長まで' })).toHaveAttribute(
@@ -162,6 +183,7 @@ async function practice(
       '45',
     )
     await expectChapterReady(page)
+    await onCheckpoint?.('tutorial-meal-full')
   } else if (step === 1) {
     await action(page, '育った姿を見る', checkLayout)
     await expect(screen.locator('.tutorial-evolution .pet-art')).toHaveClass(/pet-stage-1/)
@@ -442,6 +464,34 @@ test('a paused lesson can resume and completed guidance can replay without chang
   expect(await storedGame(page)).toEqual(completed)
 })
 
+test('the first lesson resets interrupted capture and unsubmitted photos without feeding', async ({
+  page,
+}) => {
+  await chooseStarter(page)
+  const before = await storedGame(page)
+  const screen = journey(page, 'welcome')
+  const lesson = screen.locator('.tutorial-recipe-lab')
+  await action(page, 'この例で撮影を試す')
+  await expect(lesson).toHaveAttribute('data-phase', 'capturing')
+  await page.keyboard.press('Escape')
+  await expect(journey(page)).toHaveCount(0)
+  await expectPracticeOnly(page, before)
+  await page.reload()
+  await page.getByRole('button', { name: 'チュートリアルを続ける', exact: true }).click()
+  await expect(lesson).toHaveAttribute('data-phase', 'cooking')
+  await action(page, 'この例で撮影を試す')
+  await expect(lesson).toHaveAttribute('data-phase', 'photo')
+  await expectChapterLocked(page)
+  await expect(screen.locator('.tutorial-xp-panel')).toHaveCount(0)
+  await expectPracticeOnly(page, before)
+  await page.reload()
+  await expect(lesson).toHaveAttribute('data-phase', 'cooking')
+  await expectChapterLocked(page)
+  await expect(screen.locator('.tutorial-xp-panel')).toHaveCount(0)
+  await practice(page, 0)
+  await expectPracticeOnly(page, before)
+})
+
 for (const viewport of [
   { width: 320, height: 568 },
   { width: 390, height: 844 },
@@ -471,7 +521,7 @@ for (const viewport of [
   })
 }
 
-test('visitor recruitment, the recipe lesson and the streak reward are accessible', async ({
+test('photo submission, visitor recruitment, recipes and the streak reward are accessible', async ({
   page,
 }) => {
   test.setTimeout(90000)
@@ -485,7 +535,7 @@ test('visitor recruitment, the recipe lesson and the streak reward are accessibl
     expect(result.violations, label).toEqual([])
   }
   for (let step = 0; step < 2; step += 1) {
-    await practice(page, step)
+    await practice(page, step, false, step === 0 ? check : undefined)
     await nextLesson(page, step)
   }
   await practice(page, 2, false, check)

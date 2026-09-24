@@ -1,19 +1,16 @@
-import { useEffect, useRef, useState } from 'react'
-import { BookOpen, Camera, Check, Clock3, Coins, Hand, Sparkles, Utensils } from 'lucide-react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { BookOpen, Check, Clock3, Coins, Hand, Sparkles } from 'lucide-react'
 import { DishArt } from '../../ui/art/GameArt'
 import { RecipeArt } from '../../ui/art/RecipeArt'
 import { TutorialGuide } from './TutorialGuide'
+import { TutorialPhotoExample, type TutorialPhotoPhase } from './TutorialPhotoExample'
 import { recipes } from '../../app/game/browserGame'
 
-export type TutorialCardPhase =
-  'cooking' | 'capturing' | 'photo' | 'earned' | 'board' | 'browse' | 'recipe'
+export type TutorialCardPhase = TutorialPhotoPhase | 'earned' | 'board' | 'browse' | 'recipe'
 type Phase = TutorialCardPhase
 type NextPhase = Exclude<Phase, 'cooking'>
 
-const sceneLabels: Record<Phase, string> = {
-  cooking: '撮影に使うカレーの例',
-  capturing: 'カレーの例を撮影中',
-  photo: '撮影した写真の例',
+const sceneLabels: Record<Exclude<Phase, TutorialPhotoPhase>, string> = {
   earned: 'カレーのカードを獲得',
   board: 'ずかんのレシピカード',
   browse: 'ずかんで次の料理を探す',
@@ -35,21 +32,18 @@ export function TutorialCards({
   const completed = useRef(false)
   const reducedMotion = useRef(false)
   const scene = useRef<HTMLDivElement>(null)
+  const changePhotoPhase = useCallback(
+    (next: TutorialPhotoPhase) => {
+      currentPhase.current = next
+      setPhase(next)
+      if (next !== 'cooking') onPhaseChange?.(next)
+    },
+    [onPhaseChange],
+  )
 
   useEffect(() => {
     if (phase !== 'cooking') scene.current?.focus({ preventScroll: true })
   }, [phase])
-
-  useEffect(() => {
-    if (phase !== 'capturing') return
-    const delay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1600
-    const timer = window.setTimeout(() => {
-      currentPhase.current = 'photo'
-      setPhase('photo')
-      onPhaseChange?.('photo')
-    }, delay)
-    return () => window.clearTimeout(timer)
-  }, [phase, onPhaseChange])
 
   useEffect(() => {
     if (phase !== 'earned' || reducedMotion.current) return
@@ -81,6 +75,15 @@ export function TutorialCards({
     }
   }
 
+  if (phase === 'cooking' || phase === 'capturing' || phase === 'photo') {
+    return (
+      <TutorialPhotoExample
+        onSubmit={() => advance('photo', 'earned')}
+        onPhaseChange={changePhotoPhase}
+      />
+    )
+  }
+
   return (
     <div className="tutorial-recipe-lab" data-phase={phase}>
       <div
@@ -90,58 +93,6 @@ export function TutorialCards({
         ref={scene}
         tabIndex={-1}
       >
-        {phase === 'cooking' && (
-          <div className="tutorial-recipe-table">
-            <span className="tutorial-recipe-place-label">
-              <Utensils size={13} aria-hidden="true" />
-              練習用のイラスト
-            </span>
-            <div className="tutorial-recipe-placemat" aria-hidden="true">
-              <DishArt kind={curry.sample} />
-            </div>
-            <strong className="tutorial-recipe-dish-name">{curry.name}</strong>
-          </div>
-        )}
-        {phase === 'capturing' && (
-          <div className="tutorial-recipe-camera-cut" aria-hidden="true">
-            <div className="tutorial-recipe-camera-device">
-              <div className="tutorial-recipe-camera-preview">
-                <DishArt kind={curry.sample} />
-                <div className="tutorial-recipe-viewfinder">
-                  <i className="tutorial-recipe-focus-corner is-top-left" />
-                  <i className="tutorial-recipe-focus-corner is-top-right" />
-                  <i className="tutorial-recipe-focus-corner is-bottom-left" />
-                  <i className="tutorial-recipe-focus-corner is-bottom-right" />
-                </div>
-              </div>
-              <span className="tutorial-recipe-shutter">
-                <Camera size={20} />
-              </span>
-            </div>
-          </div>
-        )}
-        {phase === 'photo' && (
-          <div className="tutorial-recipe-camera-view">
-            <div
-              className="tutorial-recipe-snapshot"
-              role="img"
-              aria-label="カレーのイラストを使った写真の例"
-            >
-              <DishArt kind={curry.sample} />
-              <i className="tutorial-recipe-focus-corner is-top-left" />
-              <i className="tutorial-recipe-focus-corner is-top-right" />
-              <i className="tutorial-recipe-focus-corner is-bottom-left" />
-              <i className="tutorial-recipe-focus-corner is-bottom-right" />
-              <span className="tutorial-recipe-photo-check">
-                <Check size={15} aria-hidden="true" />
-              </span>
-            </div>
-            <span className="tutorial-recipe-snapshot-label">
-              <Camera size={14} aria-hidden="true" />
-              撮影した写真の例
-            </span>
-          </div>
-        )}
         {phase === 'earned' && (
           <div className="tutorial-recipe-earned-stage">
             <div className="tutorial-recipe-new-card">
@@ -286,24 +237,6 @@ export function TutorialCards({
           </section>
         )}
       </div>
-      {(phase === 'cooking' || phase === 'capturing') && (
-        <TutorialGuide
-          action={{
-            label: phase === 'capturing' ? '撮影中' : 'この例で撮影を試す',
-            onClick: () => advance('cooking', 'capturing'),
-            disabled: phase === 'capturing',
-          }}
-        >
-          ここではカレーのイラストで撮影を練習します。本番では、自分で撮った料理の写真を使います。
-        </TutorialGuide>
-      )}
-      {phase === 'photo' && (
-        <TutorialGuide
-          action={{ label: 'この写真を記録する', onClick: () => advance('photo', 'earned') }}
-        >
-          カレーの写真の例ができました。本番ではAIが料理の候補を見つけ、自分でも選び直せます。
-        </TutorialGuide>
-      )}
       {phase === 'earned' && (
         <TutorialGuide
           action={{
