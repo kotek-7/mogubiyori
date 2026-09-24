@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { ArrowRight, Camera, Check, ImagePlus, Utensils } from 'lucide-react'
+import { ArrowRight, Camera, ImagePlus, Utensils } from 'lucide-react'
 import { DishArt, Pet } from './GameArt'
 import { JourneyFrame } from './JourneyFrame'
 import { mealXp, recipes, species, stageOf } from './game'
@@ -100,9 +100,7 @@ export function MealJourney({
     return (
       <JourneyFrame
         scene="photo"
-        eyebrow={`${name}と、ごはんのじかん`}
-        title="今日の一皿、見せて。"
-        subtitle="いつものごはんで、だいじょうぶ。"
+        title="料理の写真"
         onClose={onClose}
         closeLabel="ひろばへ"
         progress={{ current: 1, total: 2 }}
@@ -116,7 +114,7 @@ export function MealJourney({
               }
             >
               {ready ? <ArrowRight size={20} /> : <Camera size={20} />}
-              {loading ? '写真を準備しています…' : ready ? '食卓へ' : '料理の写真を選ぶ'}
+              {loading ? '読み込み中' : ready ? '食卓へ' : '料理の写真を選ぶ'}
             </button>
             <button
               className="journey-secondary"
@@ -165,7 +163,6 @@ export function MealJourney({
                   <span className="meal-camera">
                     <Camera size={42} strokeWidth={1.6} />
                   </span>
-                  <span>きみがつくった、ごはん。</span>
                   <span className="meal-photo-corners" aria-hidden="true" />
                 </span>
               )}
@@ -175,11 +172,6 @@ export function MealJourney({
                 </span>
               )}
             </button>
-            <div className="meal-photo-caption">
-              <Utensils size={16} />
-              <span>{ready ? 'おいしそう！食卓へどうぞ。' : 'TODAY’S HOMEMADE'} </span>
-              {ready && <Check size={17} />}
-            </div>
           </div>
           <div className="meal-photo-friend" aria-hidden="true">
             <Pet
@@ -188,7 +180,6 @@ export function MealJourney({
               mood="hungry"
               hat={state.equipped.hat}
             />
-            <span>まってるよ。</span>
           </div>
         </div>
         {error && (
@@ -202,9 +193,7 @@ export function MealJourney({
   return (
     <JourneyFrame
       scene="serve"
-      eyebrow={`${name}と、ごはんのじかん`}
-      title="ごはん、できたよ。"
-      subtitle={`${name}が、いいにおいに気づいた。`}
+      title="ごはんをあげる"
       onBack={() => transitionScene(() => setStep('photo'))}
       backLabel="写真にもどる"
       onClose={onClose}
@@ -222,8 +211,7 @@ export function MealJourney({
         </button>
       }
     >
-      <div className="meal-serving-art" aria-label={`${name}がごはんを待っています`}>
-        <span className="meal-serving-speech">いただきます、まであとすこし。</span>
+      <div className="meal-serving-art" role="img" aria-label={`${name}がごはんを待っています`}>
         <div className="meal-serving-pet">
           <Pet
             species={target}
@@ -257,7 +245,7 @@ export function MealJourney({
             ))}
           </select>
         </label>
-        {xp < 45 && <p className="repeat-hint">同じごはんが続いているので、今回は +{xp} XP。</p>}
+        {xp < 45 && <p className="repeat-hint">同じ料理が続いているため、今回は +{xp} XPです。</p>}
         <details className="meal-title-details">
           <summary>料理名をつける</summary>
           <label className="meal-recipe-field">

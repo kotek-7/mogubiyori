@@ -142,32 +142,6 @@
   background: #ae5230;
   border-radius: 50%;
 }
-.play-speech {
-  position: absolute;
-  top: 22%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 13px;
-  white-space: nowrap;
-  background: #fffdf4;
-  border: 1px solid #d8d0ae;
-  box-shadow: 0 3px 0 #afaa8b20;
-  border-radius: 22px;
-  padding: 13px 23px;
-  z-index: 2;
-}
-.play-speech:after {
-  content: '';
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  bottom: -7px;
-  left: 47%;
-  transform: rotate(45deg);
-  background: #fffdf4;
-  border-right: 1px solid #d8d0ae;
-  border-bottom: 1px solid #d8d0ae;
-}
 .play-pet {
   position: absolute;
   left: 50%;
@@ -247,9 +221,6 @@
 }
 .with-visitors .play-pet {
   left: 36%;
-}
-.with-visitors .play-speech {
-  left: 37%;
 }
 .play-care {
   background: #fffdf8;
@@ -420,30 +391,6 @@
   display: flex;
   margin: 26px auto 0;
 }
-.play-shop-banner {
-  display: flex;
-  align-items: center;
-  background: #e9eed8;
-  border: 1px solid #d5debc;
-  border-radius: 23px;
-  padding: 18px 30px;
-  gap: 25px;
-}
-.play-shop-banner > svg:first-child {
-  width: 108px;
-  height: 110px;
-}
-.play-shop-banner > span {
-  font-size: 13px;
-  line-height: 2;
-}
-.play-shop-banner > span strong {
-  font-size: 20px;
-}
-.play-shop-banner > svg:last-child {
-  margin-left: auto;
-  color: #9a7846;
-}
 @media (min-width: 1000px) {
   .play-app {
     padding-bottom: 110px;
@@ -537,11 +484,6 @@
     height: 29px;
     font-size: 19px;
   }
-  .play-speech {
-    font-size: 11px;
-    padding: 12px 16px;
-    top: 22%;
-  }
   .play-pet {
     width: 205px;
     height: 205px;
@@ -575,9 +517,6 @@
     width: 170px;
     height: 185px;
     bottom: 17%;
-  }
-  .with-visitors .play-speech {
-    left: 44%;
   }
   .play-care {
     display: flex;
@@ -654,23 +593,6 @@
     font-size: 11px;
     padding: 10px 21px;
   }
-  .play-shop-banner {
-    padding: 12px 16px;
-    gap: 18px;
-  }
-  .play-shop-banner > svg:first-child {
-    width: 88px;
-    height: 96px;
-  }
-  .play-shop-banner > span {
-    font-size: 11px;
-  }
-  .play-shop-banner > span strong {
-    font-size: 17px;
-  }
-  .play-shop-banner > svg:last-child {
-    display: none;
-  }
   .play-main .shop-grid {
     gap: 12px;
   }
@@ -688,10 +610,6 @@
     width: 155px;
     height: 160px;
     bottom: 17%;
-  }
-  .play-page-room .play-speech {
-    top: 23%;
-    font-size: 10px;
   }
   .play-header {
     height: 65px;

@@ -27,6 +27,8 @@ test('five forms unlock in order and collected forms can be revisited without ch
     await expect(dialog.locator('.growth-trail-step.is-unknown .pet-art')).toHaveCount(0)
     await dialog.getByRole('button', { name: 'うまれたての姿を見る' }).click()
     await expect(dialog.locator('.profile-sheet > .pet-art')).toHaveClass(/pet-stage-0/)
+    await dialog.getByText('姿の特徴', { exact: true }).click()
+    await expect(dialog.locator('.profile-form-description')).toBeVisible()
     await expect(dialog.locator('.profile-form-description')).not.toBeEmpty()
     await page.getByRole('button', { name: '閉じる', exact: true }).click()
     await expect(page.locator('.play-pet .pet-art')).toHaveClass(new RegExp(`pet-stage-${stage}`))

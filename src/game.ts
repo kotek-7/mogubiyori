@@ -1,11 +1,11 @@
 export type SpeciesId = 'komugi' | 'mame' | 'shizuku' | 'yuzu' | 'momo' | 'goma'
 export const species: { id: SpeciesId; name: string; description: string }[] = [
-  { id: 'komugi', name: 'こむぎ', description: 'ごはんの香りに、まっさきに気づく。' },
-  { id: 'mame', name: 'まめ', description: 'ちょっぴり照れ屋。おかわりは忘れない。' },
-  { id: 'shizuku', name: 'しずく', description: 'あったかいスープが大好き。' },
-  { id: 'yuzu', name: 'ゆず', description: '新しい味に、目をきらきら。' },
-  { id: 'momo', name: 'もも', description: 'のんびり屋さんの食いしんぼう。' },
-  { id: 'goma', name: 'ごま', description: '夜ごはんの時間が待ちきれない。' },
+  { id: 'komugi', name: 'こむぎ', description: '食いしんぼうで活発な性格。' },
+  { id: 'mame', name: 'まめ', description: '人見知りだが食欲は旺盛。' },
+  { id: 'shizuku', name: 'しずく', description: '温かいスープを好む。' },
+  { id: 'yuzu', name: 'ゆず', description: '好奇心が強く初めての料理にもよく近づく。' },
+  { id: 'momo', name: 'もも', description: 'のんびりした性格で食べるのが遅い。' },
+  { id: 'goma', name: 'ごま', description: '夕方になると活発になる。' },
 ]
 export type Companion = { id: SpeciesId; xp: number; joinedDay: string }
 export type GrowthStage = 0 | 1 | 2 | 3 | 4
@@ -257,7 +257,7 @@ export const items: Item[] = [
   {
     id: 'none',
     name: 'いつものすがた',
-    description: 'ふわふわ、そのまま。',
+    description: '帽子を外します。',
     kind: 'hat',
     currency: 'coins',
     price: 0,
@@ -265,7 +265,7 @@ export const items: Item[] = [
   {
     id: 'beret',
     name: 'どんぐりベレー',
-    description: 'ちょっとおしゃれな食いしんぼう。',
+    description: 'どんぐりをかたどったベレー帽。',
     kind: 'hat',
     currency: 'coins',
     price: 180,
@@ -273,7 +273,7 @@ export const items: Item[] = [
   {
     id: 'sprout',
     name: 'ふたばのかんむり',
-    description: 'いっしょに育った、ちいさな芽。',
+    description: '双葉をかたどったかんむり。',
     kind: 'hat',
     currency: 'coins',
     price: 120,
@@ -281,7 +281,7 @@ export const items: Item[] = [
   {
     id: 'chef',
     name: 'コックさんの帽子',
-    description: '今日のごはんも、楽しみに。',
+    description: '白いコック帽。',
     kind: 'hat',
     currency: 'gems',
     price: 80,
@@ -289,7 +289,7 @@ export const items: Item[] = [
   {
     id: 'plain',
     name: 'いつものひろば',
-    description: 'ごはんのにおいが広がる、みんなの広場。',
+    description: '最初のひろば。',
     kind: 'room',
     currency: 'coins',
     price: 0,
@@ -297,7 +297,7 @@ export const items: Item[] = [
   {
     id: 'garden',
     name: '木もれびのひろば',
-    description: '木かげで、ゆったりピクニック。',
+    description: '木々に囲まれたひろば。',
     kind: 'room',
     currency: 'gems',
     price: 100,
@@ -305,7 +305,7 @@ export const items: Item[] = [
   {
     id: 'night',
     name: '星あかりのひろば',
-    description: '一日の終わりに、ほっとひと息。',
+    description: '星空が見える夜のひろば。',
     kind: 'room',
     currency: 'gems',
     price: 120,

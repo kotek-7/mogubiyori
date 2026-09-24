@@ -141,7 +141,7 @@ export function GameDialogs({
   function reminderControl() {
     return (
       <fieldset className="reminder-setting">
-        <legend>ごはんのおねだり</legend>
+        <legend>ごはんのリマインダー</legend>
         <div className="segmented">
           <button
             type="button"
@@ -155,7 +155,7 @@ export function GameDialogs({
             aria-pressed={state.reminder === 'eager'}
             onClick={() => changeReminder('eager')}
           >
-            ぐいぐい
+            しっかり
           </button>
         </div>
       </fieldset>
@@ -199,9 +199,6 @@ export function GameDialogs({
               <Coins size={18} />+{local.meal.coins}
             </span>
           </div>
-          <button className="secondary-button full" onClick={close}>
-            おいしい思い出をしまう
-          </button>
         </div>
       )
       break
@@ -226,7 +223,7 @@ export function GameDialogs({
           {!owned && (
             <div className="purchase-price">
               <Currency kind={item.currency} amount={item.price} />
-              <small>持っている数 {state[item.currency]}</small>
+              <small>所持数 {state[item.currency]}</small>
             </div>
           )}
           <button
@@ -241,27 +238,26 @@ export function GameDialogs({
               setState((current) =>
                 owned ? equipItem(current, item.id) : purchaseItem(current, item.id),
               )
-              onToast(`${item.name}におきがえしたよ`)
+              onToast(`${item.name}を設定しました`)
               leave('room')
             }}
           >
             {equipped
-              ? 'いま使っています'
+              ? '使用中'
               : owned
-                ? 'これにおきがえ'
+                ? '使う'
                 : enough
-                  ? '手に入れて、おきがえ'
+                  ? '購入して使う'
                   : item.currency === 'gems'
                     ? 'ジェムを追加する'
                     : 'コインが足りません'}
           </button>
-          <small className="purchase-hint">
-            {!owned && !enough && item.currency === 'coins'
-              ? '今日のごはんで、コインを集めよう。'
-              : item.kind === 'hat'
-                ? `${state.name}に、ちいさなおめかし。`
-                : 'いつものごはんが、もっと楽しみに。'}
-          </small>
+          {!owned && !enough && (
+            <small className="purchase-hint">
+              あと {item.price - state[item.currency]}{' '}
+              {item.currency === 'coins' ? 'コイン' : 'ジェム'}
+            </small>
+          )}
         </div>
       )
       break
@@ -275,7 +271,6 @@ export function GameDialogs({
             <Sparkles size={23} />
           </div>
           <h3>150 ジェム</h3>
-          <p>お気に入りのおめかしを。</p>
           <div className="gem-price">
             ¥320<small>価格イメージ</small>
           </div>
@@ -299,7 +294,7 @@ export function GameDialogs({
       )
       break
     case 'profile':
-      title = `${state.name}のこと`
+      title = state.name
       content = (
         <div className="profile-sheet">
           <Pet
@@ -308,20 +303,21 @@ export function GameDialogs({
             mood={activeFed ? 'happy' : 'hungry'}
             hat={state.equipped.hat}
           />
-          <h3>{state.name}</h3>
           <span className="level-tag">
-            {stageName(shownStage)} · {shownStage + 1}/5 の姿
+            {stageName(shownStage)} · {shownStage + 1}/5
           </span>
-          <p className="profile-form-description" aria-live="polite">
-            {companionFormDescription(activeSpecies, shownStage)}
-          </p>
           <GrowthTrail
             species={activeSpecies}
             stage={activeStage}
             selected={shownStage}
             onSelect={setPreviewStage}
           />
-          <p className="growth-discovery-hint">出会った姿をタップして、成長をふりかえろう。</p>
+          <details className="profile-description">
+            <summary>姿の特徴</summary>
+            <p className="profile-form-description" aria-live="polite">
+              {companionFormDescription(activeSpecies, shownStage)}
+            </p>
+          </details>
           <div
             className="meter"
             role="progressbar"
@@ -333,18 +329,16 @@ export function GameDialogs({
             <span style={{ width: `${growth.progress}%` }} />
           </div>
           <small>
-            {activeStage < 4
-              ? `今の姿は${stageName(activeStage)}。次の成長まで ${growth.remaining} XP`
-              : '5つの姿に出会えたね。新しいなかまにも、ごはんを。'}
+            {activeStage < 4 ? `次の成長まで ${growth.remaining} XP` : 'すべての姿を発見'}
           </small>
           <button className="secondary-button full" onClick={() => leave('shop')}>
-            おめかしを選ぶ
+            きせかえ
           </button>
         </div>
       )
       break
     case 'streak':
-      title = 'いっしょにごはん'
+      title = '連続記録'
       content = (
         <div className="streak-sheet">
           <div className="big-streak">
@@ -352,7 +346,6 @@ export function GameDialogs({
             <strong>{streakOf(state)}</strong>
             <span>日連続</span>
           </div>
-          <p>一皿ずつ、ふたりの毎日になる。</p>
           <div className="streak-week">
             {Array.from({ length: 7 }, (_, index) => {
               const day = shiftDay(state.today, index - 6)
@@ -396,27 +389,20 @@ export function GameDialogs({
           {!fedToday(state) && !state.rests.includes(state.today) && (
             <button className="quiet-button rest-link" onClick={() => setLocal({ type: 'rest' })}>
               <Moon size={15} />
-              今日はおやすみ
+              おやすみチケット
               <span>チケット {state.tickets} 枚</span>
             </button>
           )}
-          <button className="secondary-button full" onClick={close}>
-            また一皿、つづけよう
-          </button>
         </div>
       )
       break
     case 'rest': {
       const already = state.rests.includes(state.today)
-      title = '今日はひとやすみ'
+      title = 'おやすみチケット'
       content = (
         <div className="rest-sheet">
           <Pet species={activeSpecies} stage={activeStage} mood="sleepy" hat={state.equipped.hat} />
-          <p>
-            つくれない日は、休んでもいい。
-            <br />
-            連続日数を守って、明日につなごう。
-          </p>
+          <p>1枚使うと今日の連続記録を維持できます。</p>
           <span className="rest-tickets">おやすみチケット　あと {state.tickets} 枚</span>
           <button
             className="primary-button full"
@@ -425,25 +411,25 @@ export function GameDialogs({
               setState((current) =>
                 restGame({ ...current, today: shiftDay(todayTokyo(), current.dayOffset) }),
               )
-              onToast('今日はのんびり。また明日。')
+              onToast('おやすみチケットを使いました')
               close()
             }}
           >
             {already
-              ? '今日はおやすみ中'
+              ? '使用済み'
               : fedToday(state)
-                ? '今日はごはんを食べました'
+                ? '今日のごはんは記録済みです'
                 : state.tickets === 0
                   ? 'チケットがありません'
-                  : 'チケットを使って休む'}
+                  : '1枚使う'}
           </button>
-          <small className="privacy-note">お腹は空いたまま。次のごはんを待っています。</small>
+          <small className="privacy-note">空腹は回復しません。</small>
         </div>
       )
       break
     }
     case 'letters':
-      title = `${state.name}からのおたより`
+      title = 'ごはんのお知らせ'
       content = (
         <div className="letter-sheet">
           <Pet
@@ -452,22 +438,13 @@ export function GameDialogs({
             mood={hungerOf(state) > 50 ? 'happy' : 'hungry'}
             hat={state.equipped.hat}
           />
-          <span className="letter-date">今日</span>
-          <h3>
-            {activeFed
-              ? 'おいしかったぁ！'
-              : state.reminder === 'eager'
-                ? 'ねえねえ、ごはんまだ〜？'
-                : 'きょうのごはん、なにかなぁ。'}
-          </h3>
-          <p>{activeFed ? '明日もいっしょに、たべようね。' : 'いつもの一皿、まってるよ。'}</p>
-          <div style={{ marginTop: 24 }}>{reminderControl()}</div>
+          <h3>{activeFed ? '今日のごはんは記録済みです' : '今日のごはんが未記録です'}</h3>
+          <p>{state.name}</p>
           {!activeFed && (
             <button className="primary-button full" onClick={() => onRecord()}>
               ごはんをあげる
             </button>
           )}
-          <small>おねだりはアプリを開いている間に届きます。</small>
         </div>
       )
       break
@@ -483,7 +460,7 @@ export function GameDialogs({
           </button>
           <details className="playground">
             <summary>おためし設定</summary>
-            <p>時間を進めて、お腹や連続日数の変化を体験。</p>
+            <p>日付や育成状況を変更できます。</p>
             <button
               className="secondary-button full"
               onClick={() => {
@@ -513,7 +490,7 @@ export function GameDialogs({
                           ? initialGame(todayTokyo(), true)
                           : demoGame(todayTokyo()),
                       )
-                      onToast('新しい毎日がはじまります')
+                      onToast('育成記録を初期化しました')
                       onNavigate('room')
                       onClose()
                     }}
@@ -537,26 +514,29 @@ export function GameDialogs({
       content = (
         <div className="help-sheet">
           <Pet species={activeSpecies} stage={activeStage} mood="happy" />
-          <h3>あなたのごはんで、育っていく。</h3>
+          <h3>なかまのお世話</h3>
+          <p>
+            このひろばには食べることが好きな生き物が集まります。自分で作った料理を分けて育てましょう。
+          </p>
           <ol>
             <li>
-              最初のなかまを選ぶ。<span>気になる子と、暮らしをはじめよう。</span>
+              ごはんをあげる<span>料理の写真を記録すると経験値が増えます。</span>
             </li>
             <li>
-              つくったごはんを分ける。<span>写真を届けると、すくすく成長。</span>
+              成長させる<span>経験値がたまると姿が変わります。成長は全部で5段階です。</span>
             </li>
             <li>
-              お客さんとなかまになる。<span>大きく育つと、新しい子が遊びにくるよ。</span>
+              なかまを増やす
+              <span>わんぱくに育つとお客さんが来ます。ごはんをあげると仲間になります。</span>
             </li>
             <li>
-              料理のずかんを集める。<span>初めての料理は、カードとコインに。</span>
+              レシピカードを集める
+              <span>
+                初めて記録した料理のカードとコインを獲得できます。未獲得のカードでもレシピを確認できます。
+              </span>
             </li>
           </ol>
-          <p>
-            同じ料理が続くと、成長はゆっくり。
-            <br />
-            ときどき、新しい一皿もつくってみよう。
-          </p>
+          <p>同じ料理を続けてあげると獲得経験値が減ります。</p>
         </div>
       )
       break

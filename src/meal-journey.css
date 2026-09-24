@@ -2,11 +2,11 @@
   position: relative;
   width: min(100%, 390px);
   margin: auto;
-  padding: 12px 18px 58px;
+  padding: 12px 18px 36px;
 }
 .meal-photo-card {
   position: relative;
-  padding: 12px 12px 0;
+  padding: 12px;
   background: #fffcf4;
   border: 2px solid var(--ink);
   border-radius: 5px;
@@ -19,7 +19,7 @@
   position: relative;
   width: 100%;
   height: auto;
-  aspect-ratio: 1.13;
+  aspect-ratio: 1;
   margin: 0;
   padding: 0;
   border: 1px dashed #967452;
@@ -47,7 +47,7 @@
   gap: 24px;
   color: var(--muted);
   font-size: 12px;
-  letter-spacing: 1px;
+  letter-spacing: normal;
 }
 .meal-camera {
   width: 89px;
@@ -64,17 +64,6 @@
   inset: 20px;
   border: 1px solid #ae9471;
   border-radius: 16px;
-}
-.meal-photo-caption {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  min-height: 51px;
-  font-size: 10px;
-  font-weight: 850;
-  letter-spacing: 1px;
-  color: var(--green);
 }
 .meal-photo-change {
   position: absolute;
@@ -96,17 +85,8 @@
   align-items: flex-end;
 }
 .meal-photo-friend > svg {
-  width: 111px;
-  height: 111px;
-}
-.meal-photo-friend > span {
-  position: absolute;
-  bottom: 12px;
-  right: 112px;
-  white-space: nowrap;
-  font-size: 12px;
-  font-weight: 750;
-  transform: rotate(4deg);
+  width: 126px;
+  height: 126px;
 }
 .meal-photo-error {
   max-width: 360px;
@@ -119,27 +99,14 @@
   margin: 0 auto;
   overflow: hidden;
 }
-.meal-serving-speech {
-  position: absolute;
-  z-index: 2;
-  left: 50%;
-  top: 4px;
-  transform: translateX(-50%) rotate(-3deg);
-  padding: 7px 13px;
-  border: 1.5px solid var(--ink);
-  border-radius: 6px;
-  background: #fffaf0;
-  white-space: nowrap;
-  font-size: 11px;
-}
 .meal-serving-pet {
   position: absolute;
   z-index: 1;
   left: 50%;
   transform: translateX(-50%);
-  width: 228px;
-  height: 228px;
-  top: 22px;
+  width: 248px;
+  height: 248px;
+  top: 2px;
 }
 .meal-serving-pet > svg {
   width: 100%;
@@ -273,9 +240,9 @@
     max-width: 360px;
   }
   .meal-serving-pet {
-    width: 190px;
-    height: 190px;
-    top: 20px;
+    width: 210px;
+    height: 210px;
+    top: 0;
   }
   .meal-tablecloth {
     height: 107px;
@@ -298,22 +265,19 @@
 @media (max-height: 760px) {
   .meal-photo-scene {
     width: min(100%, 285px);
-    padding-bottom: 46px;
+    padding-bottom: 30px;
   }
   .meal-photo-friend > svg {
     width: 85px;
     height: 85px;
   }
-  .meal-photo-friend > span {
-    right: 90px;
-  }
   .meal-serving-art {
     height: 200px;
   }
   .meal-serving-pet {
-    width: 156px;
-    height: 156px;
-    top: 12px;
+    width: 168px;
+    height: 168px;
+    top: 0;
   }
   .meal-tablecloth {
     height: 76px;
@@ -328,11 +292,6 @@
   .meal-serving-cutlery {
     bottom: 30px;
     left: 18%;
-  }
-  .meal-serving-speech {
-    top: 0;
-    padding: 5px 10px;
-    font-size: 10px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

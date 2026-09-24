@@ -138,7 +138,6 @@
   color: var(--ink);
 }
 .feast-stage-label,
-.feast-nameplate,
 .feast-gift-ribbon {
   position: absolute;
   bottom: 0;
@@ -163,36 +162,12 @@
   border-radius: 50% 50% 12px 12px;
   width: 290px;
   height: 300px;
-  margin-top: 17px;
+  margin-top: 0;
 }
 .feast-joined-art > .pet-art {
   width: 270px;
   height: 270px;
   animation: feast-friend-in 0.7s ease-out both;
-}
-.feast-nameplate {
-  bottom: -10px;
-}
-.feast-friend-stamp {
-  position: absolute;
-  right: -28px;
-  top: -25px;
-  width: 82px;
-  height: 82px;
-  border: 2px solid var(--ink);
-  border-radius: 50%;
-  background: #f7c544;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transform: rotate(12deg);
-  z-index: 3;
-}
-.feast-friend-stamp span {
-  font-size: 9px;
-  font-weight: 950;
-  margin-top: 5px;
 }
 .feast-card-art {
   width: min(286px, 100%);
@@ -239,7 +214,7 @@
 }
 .feast-recipe-back span {
   font-size: 24px;
-  letter-spacing: 4px;
+  letter-spacing: normal;
   font-weight: 950;
 }
 .feast-recipe-front {
@@ -305,7 +280,7 @@
 }
 .feast-arrival-friends {
   position: absolute;
-  inset: 48px 8px 16px;
+  inset: 24px 8px 16px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -323,16 +298,6 @@
 .feast-arrival-friends .pet-art {
   width: 100%;
   height: auto;
-}
-.feast-visitor-bubble {
-  background: var(--paper);
-  color: var(--ink);
-  font-size: 10px;
-  padding: 7px 8px;
-  border: 1.5px solid var(--ink);
-  border-radius: 6px;
-  white-space: nowrap;
-  transform: rotate(-4deg);
 }
 .feast-arrival-friends strong {
   background: var(--paper);
@@ -518,24 +483,11 @@
     width: 240px;
     height: 240px;
   }
-  .feast-friend-stamp {
-    width: 68px;
-    height: 68px;
-    right: -18px;
-    top: -16px;
-  }
-  .feast-friend-stamp span {
-    font-size: 8px;
-  }
   .feast-arrivals-art {
     height: 260px;
   }
-  .feast-visitor-bubble {
-    padding: 6px;
-    font-size: 9px;
-  }
   .feast-arrival-friends {
-    inset: 40px 4px 13px;
+    inset: 20px 4px 13px;
   }
   .feast-scene-rewards {
     gap: 10px;

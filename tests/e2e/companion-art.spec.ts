@@ -47,9 +47,11 @@ test('all thirty companion forms have distinct geometry and support every hat', 
         await expect(page.locator('.play-name')).toContainText(`${name} · ${stage + 1}/5`)
         const portrait = page.locator('.play-pet .pet-art')
         await expect(portrait).toBeVisible()
-        const speech = page.locator('.play-speech')
+        const condition = page.locator('.play-condition')
+        await expect(condition).toBeVisible()
+        await expect(condition).toHaveText('空腹')
         expect(
-          await speech.evaluate((element) => {
+          await condition.evaluate((element) => {
             const box = element.getBoundingClientRect()
             const foreground = document.elementFromPoint(
               box.x + box.width / 2,
@@ -57,7 +59,7 @@ test('all thirty companion forms have distinct geometry and support every hat', 
             )
             return foreground === element || element.contains(foreground)
           }),
-          `${friend.id}/${stage}: speech must stay readable above ears and crowns`,
+          `${friend.id}/${stage}: condition must stay readable above companion artwork`,
         ).toBe(true)
         const geometry = await portrait.evaluate((svg) => {
           const body = svg.querySelector('.pet-body')!

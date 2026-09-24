@@ -83,7 +83,7 @@
   color: var(--green, #24624b);
   font-size: 17px;
   font-weight: 850;
-  letter-spacing: 2px;
+  letter-spacing: normal;
 }
 .journey-progress {
   display: flex;
@@ -116,7 +116,7 @@
   display: block;
   font-size: 11px;
   color: var(--muted, #4b584b);
-  letter-spacing: 1.5px;
+  letter-spacing: normal;
   margin-bottom: 12px;
   line-height: 1.7;
 }
@@ -124,8 +124,9 @@
   font-size: clamp(28px, 3.5vw, 38px);
   font-weight: 950;
   line-height: 1.5;
-  letter-spacing: -0.7px;
-  text-wrap: balance;
+  letter-spacing: normal;
+  text-wrap: wrap;
+  overflow-wrap: break-word;
 }
 .journey-title:focus {
   outline: none;
@@ -135,6 +136,9 @@
   margin-top: 11px;
   line-height: 1.9;
   color: var(--muted, #4b584b);
+  max-width: 36em;
+  margin-inline: auto;
+  text-wrap: wrap;
 }
 .journey-content {
   position: relative;
@@ -240,7 +244,7 @@
 .journey-welcome {
   position: relative;
   width: min(450px, 100%);
-  padding: 0 11px 35px;
+  padding: 0 11px;
 }
 .journey-welcome-world {
   position: relative;
@@ -284,11 +288,6 @@
   transform: rotate(17deg);
   fill: var(--orange, #b73520);
   animation: journey-welcome-float 3s ease-in-out infinite;
-}
-.journey-welcome-speech {
-  position: relative;
-  margin: -15px auto 0;
-  max-width: 95%;
 }
 @keyframes journey-reveal {
   from {
@@ -362,13 +361,13 @@
   }
   .journey-eyebrow {
     font-size: 10px;
-    letter-spacing: 1px;
+    letter-spacing: normal;
     margin-bottom: 12px;
   }
   .journey-title {
     font-size: 27px;
     line-height: 1.55;
-    letter-spacing: -0.6px;
+    letter-spacing: normal;
   }
   .journey-subtitle {
     font-size: 12px;
@@ -402,7 +401,7 @@
   .journey-welcome {
     width: 100%;
     max-width: 355px;
-    padding: 0 9px 26px;
+    padding: 0 9px;
   }
   .journey-welcome-world {
     border-radius: 155px 155px 9px 9px;
@@ -434,7 +433,6 @@
   }
   .journey-welcome {
     max-width: 285px;
-    padding-bottom: 18px;
   }
   .journey-eyebrow {
     margin-bottom: 8px;
@@ -498,14 +496,9 @@
     min-height: 40px;
   }
   .journey-welcome {
-    width: min(390px, calc((100svh - 420px) * 1.16));
+    width: min(440px, calc((100svh - 340px) * 1.16));
     min-width: 235px;
     max-width: 100%;
-    padding-bottom: 18px;
-  }
-  .journey-welcome-speech {
-    padding-block: 10px;
-    font-size: 12px;
   }
 }
 @media (max-width: 600px) and (max-height: 820px) {
@@ -513,6 +506,6 @@
     font-size: 25px;
   }
   .journey-welcome {
-    width: min(330px, calc((100svh - 380px) * 1.16));
+    width: min(355px, calc((100svh - 340px) * 1.16));
   }
 }

@@ -59,7 +59,7 @@ export function JourneyFrame({
           <div
             className="journey-progress"
             role="progressbar"
-            aria-label="ごはんまでのステップ"
+            aria-label="ごはんの記録"
             aria-valuemin={0}
             aria-valuemax={total}
             aria-valuenow={current}

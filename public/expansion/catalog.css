@@ -265,10 +265,6 @@ svg {
   white-space: nowrap;
 }
 .results-line {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
   color: var(--game-muted);
   font-size: 11px;
   padding: 17px 2px 12px;
@@ -276,9 +272,6 @@ svg {
 .results-line p {
   margin: 0;
   font-weight: 650;
-}
-.results-line > span {
-  font-size: 10px;
 }
 .cards {
   display: grid;
@@ -563,6 +556,25 @@ dialog::backdrop {
 .detail-info p {
   margin: 10px 0;
 }
+.detail-facts {
+  margin: 20px 0 0;
+}
+.detail-facts > div {
+  display: grid;
+  grid-template-columns: 5em minmax(0, 1fr);
+  gap: 12px;
+  padding: 14px 0;
+  border-top: 1px solid var(--game-line);
+  font-size: 12px;
+  line-height: 1.8;
+}
+.detail-facts dt {
+  color: var(--game-muted);
+  font-weight: 700;
+}
+.detail-facts dd {
+  margin: 0;
+}
 .detail-info ol {
   padding: 0;
   list-style: none;
@@ -669,13 +681,6 @@ dialog::backdrop {
   border-color: var(--game-teal);
   background: var(--game-teal-soft);
   color: var(--game-teal-dark);
-}
-.quote {
-  padding: 16px;
-  border-radius: 18px 18px 18px 4px;
-  background: var(--game-teal-soft);
-  font-size: 15px !important;
-  font-weight: 750;
 }
 .tryon {
   width: 100%;
@@ -875,9 +880,6 @@ dialog::backdrop {
   .results-line {
     padding: 14px 1px 10px;
     font-size: 10px;
-  }
-  .results-line > span {
-    display: none;
   }
   .cards {
     grid-template-columns: repeat(2, minmax(0, 1fr));

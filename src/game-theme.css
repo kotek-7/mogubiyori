@@ -179,11 +179,15 @@ summary:focus-visible {
   filter: none;
 }
 .play-world-top {
+  z-index: 3;
   top: 14px;
   left: 15px;
   right: 14px;
 }
 .play-world-top > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   color: var(--game-teal-dark);
   background: var(--game-surface);
   border: 0;
@@ -194,6 +198,8 @@ summary:focus-visible {
   box-shadow: 0 2px 0 #243b5314;
 }
 .play-world-top > button {
+  display: grid;
+  place-items: center;
   width: 44px;
   height: 44px;
   background: var(--game-surface);
@@ -202,6 +208,11 @@ summary:focus-visible {
   color: var(--game-teal-dark);
   box-shadow: var(--game-shadow-control);
 }
+.play-world-top > button.has-reminder {
+  box-shadow:
+    0 0 0 2px var(--game-coral),
+    var(--game-shadow-control);
+}
 .play-world-top i {
   width: 9px;
   height: 9px;
@@ -209,26 +220,6 @@ summary:focus-visible {
   top: 1px;
   background: var(--game-coral);
   box-shadow: 0 0 0 2px var(--game-surface);
-}
-.play-speech {
-  z-index: 3;
-  top: 17%;
-  max-width: calc(100% - 48px);
-  padding: 12px 20px;
-  border-radius: 22px;
-  border: 0;
-  background: var(--game-surface);
-  color: var(--game-ink);
-  box-shadow: 0 3px 0 #243b5320;
-  font-weight: 700;
-  font-size: 13px;
-  text-align: center;
-  white-space: normal;
-  width: max-content;
-}
-.play-speech:after {
-  background: var(--game-surface);
-  border: 0;
 }
 .play-pet {
   width: 310px;
@@ -389,12 +380,16 @@ summary:focus-visible {
 /* Collection menus: pictures first, labels second, details on demand. */
 .play-page-heading {
   margin: 8px 0 20px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
 }
 .play-page-heading h1 {
   font-size: 29px;
   font-weight: 850;
   letter-spacing: 0;
-  margin-top: 4px;
+  margin-top: 0;
 }
 .play-page-heading > span {
   color: var(--game-muted);
@@ -422,33 +417,20 @@ summary:focus-visible {
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  padding: 15px 18px;
-  border-radius: 18px;
+  min-height: 48px;
+  padding: 12px 0;
+  border-radius: 0;
   color: var(--game-teal-dark);
-  background: var(--game-surface);
-  border: 1px solid var(--game-line);
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--game-line);
   font-size: 14px;
-  font-weight: 850;
+  font-weight: 650;
   text-decoration: none;
-  box-shadow: 0 3px 0 #c8dad566;
+  box-shadow: none;
 }
 .expansion-link:hover {
   background: var(--game-teal-soft);
-}
-.expansion-link > span:last-child {
-  width: 32px;
-  height: 32px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--game-teal-soft);
-}
-.expansion-link small {
-  display: block;
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--game-muted);
-  margin-top: 4px;
 }
 .collection-heading h2 {
   font-size: 24px;
@@ -610,20 +592,6 @@ summary:focus-visible {
 }
 
 /* Shop, records and native dialogs share the same surfaces and state colours. */
-.play-shop-banner {
-  background: var(--game-teal-soft);
-  border: 1px solid var(--game-line);
-  border-radius: 24px;
-}
-.play-shop-banner > span {
-  color: var(--game-muted);
-}
-.play-shop-banner > span strong {
-  color: var(--game-teal-dark);
-}
-.play-shop-banner > svg:last-child {
-  color: var(--game-gold-dark);
-}
 .category-tabs > button {
   min-height: 44px;
   color: var(--game-muted);
@@ -735,6 +703,38 @@ summary:focus-visible {
 .playground > p {
   color: var(--game-muted);
 }
+.profile-description {
+  margin: 18px 0;
+  padding: 12px 0;
+  border-block: 1px solid var(--game-line);
+  text-align: left;
+}
+.profile-description summary {
+  min-height: 24px;
+  color: var(--game-teal-dark);
+  font-size: 13px;
+  cursor: pointer;
+}
+.profile-description .profile-form-description {
+  margin: 12px 0 0;
+  text-align: left;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.help-sheet > p,
+.help-sheet li > span {
+  color: var(--game-muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+.help-sheet h3 {
+  margin-bottom: 12px;
+}
+.help-sheet > p:first-of-type {
+  border: 0;
+  padding: 0;
+  margin-bottom: 24px;
+}
 .streak-week .cooked {
   color: var(--game-teal-dark);
   background: var(--game-teal-soft);
@@ -829,11 +829,6 @@ summary:focus-visible {
     font-size: 10px;
     padding: 7px 10px;
   }
-  .play-speech {
-    top: 17%;
-    font-size: 12px;
-    padding: 11px 16px;
-  }
   .play-page-room .play-pet {
     width: 250px;
     height: 250px;
@@ -852,10 +847,6 @@ summary:focus-visible {
     height: 195px;
     left: 32%;
     bottom: 10%;
-  }
-  .with-visitors .play-speech {
-    left: 40%;
-    max-width: 70%;
   }
   .play-friend-count {
     font-size: 10px;
@@ -927,11 +918,8 @@ summary:focus-visible {
     font-size: 25px;
   }
   .expansion-link {
-    padding: 13px 14px;
+    padding: 12px 0;
     font-size: 13px;
-  }
-  .expansion-link small {
-    font-size: 10px;
   }
   .collection-heading h2 {
     font-size: 21px;
@@ -983,9 +971,6 @@ summary:focus-visible {
     width: 157px;
     height: 169px;
     bottom: 12%;
-  }
-  .play-page-room .play-speech {
-    top: 19%;
   }
   .play-care {
     gap: 9px;

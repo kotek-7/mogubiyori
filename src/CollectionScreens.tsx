@@ -19,27 +19,20 @@ import { GrowthTrail } from './GrowthTrail'
 import './collection.css'
 
 const difficultyNames = ['かんたん', 'ひと工夫', 'じっくり']
-const rarityNames = { common: 'ふつう', rare: 'レア', special: 'スペシャル' }
+const rarityNames = { common: 'ノーマル', rare: 'レア', special: 'スペシャル' }
 
 export function StarterSelection({ onChoose }: { onChoose: (id: SpeciesId) => void }) {
   const [selected, setSelected] = useState<SpeciesId>('komugi')
-  const friend = species.find((entry) => entry.id === selected)!
   return (
     <JourneyFrame
       scene="choose"
-      eyebrow="きみのごはんを、まっている。"
-      title="はじめまして、だれにする？"
-      subtitle="いっしょに暮らす子を、ひとり。"
+      title="最初のなかまを選ぶ"
       footer={
         <>
           <button className="journey-primary starter-start" onClick={() => onChoose(selected)}>
             この子とはじめる
             <ArrowRight size={18} />
           </button>
-          <p className="starter-footnote">つくって、たべて。ふたりで育っていこう。</p>
-          <a className="starter-expansion" href="/expansion/index.html">
-            料理となかまの新しい図鑑を見る ↗
-          </a>
         </>
       }
     >
@@ -67,13 +60,6 @@ export function StarterSelection({ onChoose }: { onChoose: (id: SpeciesId) => vo
             </button>
           ))}
         </div>
-        <div className="starter-introduction" aria-live="polite">
-          <Heart size={15} />
-          <p>
-            {friend.description}
-            <small className="starter-stage-note">うまれたての姿から、5つの姿へ。</small>
-          </p>
-        </div>
       </div>
     </JourneyFrame>
   )
@@ -99,7 +85,6 @@ export function RecipeBoard({
           <span>/ {recipes.length}</span>
         </span>
       </div>
-      <p className="collection-intro">ごはんをあげると、カードがふえていく。</p>
       <div className="recipe-board">
         {recipes.map((recipe) => {
           const open = state.cards.includes(recipe.id)
@@ -186,7 +171,7 @@ export function FriendsBoard({
           <div className="friend-section-heading">
             <span>
               <Sparkles size={17} />
-              おいしいにおいに、さそわれて。
+              お客さん
             </span>
           </div>
           <div className="friend-visitor-grid">
@@ -196,18 +181,17 @@ export function FriendsBoard({
                 <article key={id} className={`friend-visitor friend-${id}`}>
                   <div className="friend-visitor-portrait">
                     <Pet species={id} stage={0} mood="hungry" />
-                    <span>おなか、すいたなぁ。</span>
                   </div>
-                  <h2>{visitor.name}が遊びにきた！</h2>
+                  <h2>{visitor.name}</h2>
                   <button className="primary-button" onClick={() => onFeedVisitor(id)}>
                     <Utensils size={17} />
                     ごはんをあげる<span className="sr-only">：{visitor.name}</span>
                   </button>
-                  <small>ごはんをあげると、なかまに。</small>
                 </article>
               )
             })}
           </div>
+          <p className="friend-discovery-note">ごはんをあげると仲間になります。</p>
         </section>
       )}
       <div className="friend-board">
@@ -229,7 +213,7 @@ export function FriendsBoard({
                   {active ? (
                     <>
                       <Check size={12} />
-                      いっしょに暮らし中
+                      ひろばにいる
                     </>
                   ) : (
                     'ひろばに呼ぶ'
@@ -250,7 +234,7 @@ export function FriendsBoard({
       {!visitors.length && state.companions.length < species.length && (
         <p className="friend-discovery-note">
           <Leaf size={16} />
-          わんぱくまで育つと、だれかが遊びにくるかも。
+          わんぱくに育つとお客さんが来ます。
         </p>
       )}
     </div>
@@ -316,7 +300,7 @@ export function RecipeDetail({
       </section>
       <button className="primary-button full recipe-cook" onClick={() => onCook(recipe.id)}>
         <Utensils size={18} />
-        これをつくってあげる
+        この料理を記録する
       </button>
     </div>
   )

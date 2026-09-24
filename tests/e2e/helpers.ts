@@ -118,11 +118,14 @@ export async function uploadPhoto(page: Page) {
     context.fillRect(0, 0, 100, 60)
     return canvas.toDataURL('image/png').split(',')[1]
   })
-  await page.getByLabel('料理の写真', { exact: true }).setInputFiles({
-    name: 'meal.png',
-    mimeType: 'image/png',
-    buffer: Buffer.from(fixture, 'base64'),
-  })
+  await page
+    .getByLabel('料理の写真', { exact: true })
+    .and(page.locator('input[type="file"]'))
+    .setInputFiles({
+      name: 'meal.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from(fixture, 'base64'),
+    })
   await expect(journey(page, 'photo').locator('img[src^="data:image/"]')).toBeVisible()
 }
 

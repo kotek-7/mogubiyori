@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowRight, Check, Coins, Flame, Heart, Sparkles, Utensils } from 'lucide-react'
+import { ArrowRight, Coins, Flame, Heart, Sparkles, Utensils } from 'lucide-react'
 import { DishArt, GatheringScene, ItemArt, Pet } from './GameArt'
 import { JourneyFrame } from './JourneyFrame'
 import { items, recipeById, species, stageName, stageOf, streakOf } from './game'
@@ -65,25 +65,16 @@ export function FeastJourney({
   const recipe = step.type === 'card' ? recipeById(step.recipeId) : undefined
   const giftName = items.find((item) => item.id === 'sprout')?.name ?? 'ふたばのかんむり'
   const titles = {
-    eating: 'もぐもぐ…',
-    growth: `${name}が新しいすがたに！`,
-    joined: `${name}がなかまになった！`,
-    card: 'はじめての一皿！',
-    arrivals: 'お客さんがやってきた！',
-    gift: '7日のおくりもの',
-    satisfied: 'ごちそうさま！',
-  }
-  const subtitles = {
-    eating: `${name}に、あなたのごはん。`,
-    growth: '毎日のひとくちが、新しいすがたに。',
-    joined: 'これから、いっしょに食べようね。',
-    card: '今日つくった料理が、カードになった。',
-    arrivals: 'おいしいにおいに、さそわれて。',
-    gift: '一皿ずつ、いっしょにつづけたね。',
-    satisfied: 'おなかも、きもちも、いっぱい。',
+    eating: '食事中',
+    growth: '新しい姿になりました',
+    joined: `${name}が仲間になりました`,
+    card: 'レシピカード獲得',
+    arrivals: '新しいお客さん',
+    gift: '7日連続達成',
+    satisfied: 'ごはんを記録しました',
   }
   const rewardSummary = (
-    <div className="feast-scene-rewards" role="group" aria-label="今回のごほうび">
+    <div className="feast-scene-rewards" role="group" aria-label="獲得した報酬">
       <span>
         <Sparkles size={15} />
         <strong>+{meal.xp}</strong> XP
@@ -94,13 +85,9 @@ export function FeastJourney({
       </span>
       <span>
         <Flame size={15} />
-        <strong>{streakOf(after)}日</strong>つづいた
+        <strong>{streakOf(after)}日連続</strong>
       </span>
-      {!!meal.streakBonus && (
-        <small>
-          {streakOf(after)}日継続のお祝い +{meal.streakBonus} コインを含みます
-        </small>
-      )}
+      {!!meal.streakBonus && <small>継続ボーナス +{meal.streakBonus} コインを含む</small>}
     </div>
   )
 
@@ -108,9 +95,7 @@ export function FeastJourney({
     <JourneyFrame
       key={`${index}-${step.type}`}
       scene={step.type}
-      eyebrow={step.type === 'eating' ? 'いただきます' : undefined}
       title={titles[step.type]}
-      subtitle={subtitles[step.type]}
       footer={
         <button
           type="button"
@@ -171,12 +156,7 @@ export function FeastJourney({
         )}
         {step.type === 'joined' && (
           <div className="journey-art feast-scene-art feast-joined-art">
-            <div className="feast-friend-stamp">
-              <Check size={25} />
-              <span>NEW FRIEND</span>
-            </div>
             <Pet species={targetId} stage={afterStage} mood="happy" hat="none" />
-            <span className="feast-nameplate">{name}</span>
           </div>
         )}
         {step.type === 'card' && recipe && (
@@ -198,13 +178,13 @@ export function FeastJourney({
                       ? 'スペシャル'
                       : recipe.rarity === 'rare'
                         ? 'レア'
-                        : 'はじめての味'}
+                        : 'ノーマル'}
                   </span>
                   <DishArt kind={recipe.sample} />
                   <strong>{recipe.name}</strong>
                   <span className="feast-card-bonus">
                     <Coins size={16} />
-                    カード獲得 +{recipe.reward} コイン
+                    カードボーナス +{recipe.reward} コイン
                   </span>
                 </div>
               </div>
@@ -217,7 +197,6 @@ export function FeastJourney({
             <div className="feast-arrival-friends">
               {step.visitors.map((id, position) => (
                 <div key={id} style={{ animationDelay: `${position * 170}ms` }}>
-                  <span className="feast-visitor-bubble">いいにおい…</span>
                   <Pet species={id} stage={0} mood="hungry" />
                   <strong>{species.find((candidate) => candidate.id === id)?.name}</strong>
                 </div>
@@ -234,14 +213,9 @@ export function FeastJourney({
             <span className="feast-gift-ribbon">{giftName}</span>
           </div>
         )}
-        {step.type === 'growth' && (
-          <p className="journey-note">
-            {stageName(beforeStage)} <ArrowRight size={13} aria-label="から" />{' '}
-            {stageName(afterStage)}
-          </p>
+        {step.type === 'arrivals' && (
+          <p className="journey-note">ごはんをあげると仲間になります。</p>
         )}
-        {step.type === 'arrivals' && <p className="journey-note">ごはんを分けると、なかまに。</p>}
-        {step.type === 'gift' && <p className="journey-note">さっそく、かぶって帰ろう。</p>}
         {last && rewardSummary}
       </div>
     </JourneyFrame>

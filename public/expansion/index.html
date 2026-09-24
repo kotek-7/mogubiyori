@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#E8F2EE" />
-    <title>料理図鑑 | もぐ日和</title>
+    <title>図鑑 | もぐ日和</title>
     <link rel="stylesheet" href="/game-tokens.css" />
     <link rel="stylesheet" href="./catalog.css" />
     <script type="module" src="./catalog.js"></script>
@@ -29,7 +29,7 @@
     </header>
     <main>
       <section class="library" id="catalog" aria-labelledby="catalog-heading">
-        <h2 class="sr-only" id="catalog-heading">食卓の図鑑</h2>
+        <h2 class="sr-only" id="catalog-heading">図鑑一覧</h2>
         <nav class="tabs" aria-label="図鑑の種類">
           <button type="button" data-tab="recipes" aria-pressed="true">
             <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -59,12 +59,12 @@
         </nav>
         <form class="filters" id="filters" role="search">
           <label class="search">
-            <span class="sr-only">名前・材料・ことば</span>
+            <span class="sr-only" id="query-label">名前・材料で検索</span>
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="10" cy="10" r="6.5" />
               <path d="m15 15 5 5" />
             </svg>
-            <input id="query" type="search" placeholder="名前や材料でさがす" autocomplete="off" />
+            <input id="query" type="search" placeholder="名前・材料で検索" autocomplete="off" />
           </label>
           <label class="filter-control"
             >分類<select id="category">
@@ -97,8 +97,7 @@
           <button type="reset" class="reset">条件を戻す</button>
         </form>
         <div class="results-line">
-          <p id="result-count" role="status">図鑑を読み込んでいます…</p>
-          <span>タップしてくわしく</span>
+          <p id="result-count" role="status">読み込み中</p>
         </div>
         <div id="cards" class="cards"></div>
         <div id="empty" class="empty" hidden>
@@ -106,8 +105,8 @@
             <circle cx="27" cy="27" r="19" />
             <path d="m41 41 14 14M20 25h1m13 0h1m-13 10q5-4 10 0" />
           </svg>
-          <strong>まだ見つからないみたい</strong>
-          <p>ことばや条件を少し変えてみてください。</p>
+          <strong>見つかりませんでした</strong>
+          <p>検索語や条件を変更してください。</p>
         </div>
         <nav class="pagination" aria-label="ページ送り">
           <button type="button" id="prev">← 前へ</button><span id="page-number"></span

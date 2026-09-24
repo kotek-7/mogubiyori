@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import {
   BookOpen,
-  Camera,
+  Bell,
   Check,
   ChevronRight,
   Coins,
@@ -10,7 +10,6 @@ import {
   Leaf,
   Settings2,
   ShoppingBag,
-  Sparkles,
   Utensils,
 } from 'lucide-react'
 import { Pet, GatheringScene, DishArt, ItemArt } from './GameArt'
@@ -90,7 +89,7 @@ function App() {
     // oxlint-disable-next-line react/set-state-in-effect
     setState(claimLogin)
     // oxlint-disable-next-line react/set-state-in-effect
-    setToast(`おかえり！ログインボーナス +${LOGIN_BONUS}コイン`)
+    setToast(`ログインボーナス +${LOGIN_BONUS}コイン`)
   }, [state.activeId, state.today, state.claimedLoginDays])
   useEffect(() => {
     const sync = () =>
@@ -204,13 +203,6 @@ function App() {
         )}
       </>
     )
-  const speech = petting
-    ? 'えへへ。いっしょがいいね。'
-    : fed
-      ? 'おいしかった！次は、なにかな？'
-      : state.reminder === 'eager'
-        ? 'ねえ、ごはんまだ〜？'
-        : 'きょうのごはん、楽しみだな。'
   return (
     <div className="play-app">
       <a className="skip-link" href="#main">
@@ -265,16 +257,19 @@ function App() {
             >
               <GatheringScene className="play-scenery" variant={state.equipped.room} />
               <div className="play-world-top">
-                <span>{state.dayOffset > 0 ? 'おためしのひろば' : 'きょうも、いっしょに。'}</span>
+                <span className="play-condition">
+                  <Utensils size={13} />
+                  {fed ? '満腹' : hunger <= 8 ? '空腹' : 'ごはん待ち'}
+                </span>
                 <button
-                  aria-label={`${state.name}からのおたより`}
+                  aria-label="ごはんのお知らせ"
                   onClick={() => setDialog({ type: 'letters' })}
+                  className={!dailyFed && state.reminder === 'eager' ? 'has-reminder' : undefined}
                 >
-                  <span aria-hidden="true">✉</span>
+                  <Bell size={19} />
                   {!dailyFed && <i />}
                 </button>
               </div>
-              <div className="play-speech">{speech}</div>
               <button
                 className={`play-pet ${petting ? 'is-petted' : ''}`}
                 aria-label={`${state.name}をなでる`}
@@ -290,7 +285,7 @@ function App() {
               </button>
               {state.visitors.length > 0 && (
                 <div className="play-guests">
-                  <span>いいにおいにつられて…</span>
+                  <span>お客さん {state.visitors.length}</span>
                   <div>
                     {state.visitors.map((id) => (
                       <button
@@ -299,7 +294,7 @@ function App() {
                         aria-label={`お客さんの${species.find((s) => s.id === id)!.name}にごはんをあげる`}
                       >
                         <Pet species={id} stage={0} mood="hungry" />
-                        <span>ごはん？</span>
+                        <span>{species.find((s) => s.id === id)!.name}</span>
                       </button>
                     ))}
                   </div>
@@ -340,9 +335,7 @@ function App() {
                   <i style={{ width: `${growth}%` }} />
                 </span>
                 <span className="play-next">
-                  {stage === 4
-                    ? 'とっておきの姿に育ったね。'
-                    : `あと ${nextGrowth} XPで、新しいすがた。`}
+                  {stage === 4 ? 'すべての姿を発見' : `次の成長まで ${nextGrowth} XP`}
                 </span>
               </button>
               <button
@@ -351,24 +344,18 @@ function App() {
                 onClick={() => openMeal()}
               >
                 <Utensils size={21} />
-                {fed ? 'もうひと皿、あげる' : 'つくったごはんをあげる'}
+                {fed ? 'もう一度あげる' : 'ごはんをあげる'}
               </button>
               <div className="play-today">
                 <span>
                   {dailyFed ? (
                     <>
                       <Check size={13} />
-                      今日も自炊できた！
+                      今日のごはん 記録済み
                     </>
                   ) : (
-                    <>
-                      <Camera size={13} />
-                      今日の一皿を待ってるよ
-                    </>
+                    <>今日のごはん 未記録</>
                   )}
-                </span>
-                <span className="play-hunger">
-                  {fed ? 'おなかいっぱい' : hunger <= 8 ? 'おなかぺこぺこ' : 'おなかすいた'}
                 </span>
               </div>
             </section>
@@ -389,15 +376,8 @@ function App() {
         {page === 'book' && (
           <>
             <div className="play-page-heading">
-              <span>ひと皿ごとに、発見。</span>
-              <h1>おいしいずかん</h1>
+              <h1>図鑑</h1>
             </div>
-            <a className="expansion-link" href="/expansion/index.html">
-              <span>
-                新しい料理図鑑へ<small>300の料理、新しいなかま、きせかえを見つけよう。</small>
-              </span>
-              <span aria-hidden="true">↗</span>
-            </a>
             <div className="play-book-tabs" role="group" aria-label="ずかんのカテゴリ">
               <button aria-pressed={bookKind === 'recipes'} onClick={() => setBookKind('recipes')}>
                 レシピカード
@@ -422,16 +402,20 @@ function App() {
               />
             )}
             <button className="quiet-button play-memories" onClick={() => navigate('album')}>
-              ごはんの思い出
+              ごはんの記録
               <ChevronRight size={14} />
             </button>
+            <a className="expansion-link" href="/expansion/index.html">
+              <span>料理を探す</span>
+              <ChevronRight size={14} />
+            </a>
           </>
         )}
         {page === 'album' && (
           <>
             <div className="play-page-heading">
-              <span>いっしょに食べた、{state.meals.length}皿。</span>
-              <h1>ごはんの思い出</h1>
+              <h1>ごはんの記録</h1>
+              <span>{state.meals.length}件</span>
             </div>
             <div className="album-grid">
               {state.meals.map((meal) => (
@@ -450,7 +434,7 @@ function App() {
                   </div>
                   <strong>{meal.title}</strong>
                   <small>
-                    {species.find((s) => s.id === meal.targetId)?.name ?? 'こむぎ'}と、+{meal.xp} XP
+                    {species.find((s) => s.id === meal.targetId)?.name ?? 'こむぎ'} · +{meal.xp} XP
                   </small>
                 </button>
               ))}
@@ -458,7 +442,7 @@ function App() {
             {!state.meals.length && (
               <div className="empty-state">
                 <DishArt kind="rice" />
-                <h2>はじめてのごはん、まってるよ。</h2>
+                <h2>まだ記録がありません</h2>
                 <button className="primary-button" onClick={() => openMeal()}>
                   ごはんをあげる
                 </button>
@@ -469,29 +453,14 @@ function App() {
         {page === 'shop' && (
           <>
             <div className="play-page-heading">
-              <span>見つけたごほうびで、おめかし。</span>
-              <h1>よりみち商店</h1>
-            </div>
-            <div className="play-shop-banner">
-              <Pet
-                species={state.activeId}
-                stage={stage}
-                mood="happy"
-                hat={shopKind === 'hat' ? 'beret' : state.equipped.hat}
-              />
-              <span>
-                明日のきみに、
-                <br />
-                <strong>ちいさな楽しみ。</strong>
-              </span>
-              <Sparkles size={22} />
+              <h1>おみせ</h1>
             </div>
             <div className="play-book-tabs" role="group" aria-label="おみせのカテゴリ">
               <button aria-pressed={shopKind === 'hat'} onClick={() => setShopKind('hat')}>
-                おきがえ
+                ぼうし
               </button>
               <button aria-pressed={shopKind === 'room'} onClick={() => setShopKind('room')}>
-                もようがえ
+                ひろば
               </button>
             </div>
             <div className="shop-grid">
@@ -522,7 +491,7 @@ function App() {
                       <strong>{item.name}</strong>
                       <span className="item-price">
                         {owned ? (
-                          <span className="owned-label">持っている</span>
+                          <span className="owned-label">所持済み</span>
                         ) : (
                           <Currency kind={item.currency} amount={item.price} />
                         )}
