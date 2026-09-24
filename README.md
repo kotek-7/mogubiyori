@@ -8,46 +8,48 @@
 
 ## 起動
 
-Node.js 22.12以降を用意します。
+Node.js 22.12以降とpnpm 12.5.1を使います。依存の正本は`pnpm-lock.yaml`です。
 
 ```sh
-npm ci
-npm run dev
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
-pnpmなら `pnpm install`、`pnpm run dev` で起動できます。
+Reactの画面とCloudflare Workerを、Vite pluginで同じサーバーから動かします。別のAPIサーバーやプロキシ設定は不要です。既定の`local`モードは、これまでのブラウザ内の記録を引き継ぎます。
 
-スマートフォンでは、PCと同じネットワークに接続して `npm run dev -- --host 0.0.0.0`（pnpmの場合は `pnpm run dev --host 0.0.0.0`）を実行し、表示された **Network URL** を開きます。端末間通信が制限されたゲストWi-Fiでは接続できません。
+スマートフォンではPCと同じネットワークに接続し、`pnpm dev --host 0.0.0.0`で表示されるNetwork URLを開きます。端末間通信が制限されたゲストWi-Fiでは接続できません。
+
+写真の自動判定にはCloudflareログインが必要です。Workers AIは開発中もアカウントの利用枠を使います。
 
 ```sh
-npm run build
-npm run preview
+pnpm exec wrangler login
+pnpm dev:cloudflare
 ```
 
-`dist/` を静的配信できます。料理の自動判定を使う場合は、次のCloudflare Workerも起動します。PCとスマートフォンに対応し、イラストとフォントは同梱しています。
+8787番で画面・APIを起動します。クラウドへ接続せずにUIを作業する場合は、`CLOUDFLARE_REMOTE_BINDINGS=false pnpm dev`でリモートbindingを無効にできます。判定できないときも料理の手動選択と写真なしの体験は使えます。
+
+## 認証・クラウド保存
+
+`.env.example`を参考にブラウザ向け環境変数を設定します。`VITE_GAME_MODE=cloud`ではSupabaseの匿名ログインまたはGoogleログインを使い、記録をサーバーで確定します。匿名で始めた記録は設定画面からGoogleへ連携できます。写真はprivate Storageへ保存します。
+
+Worker用のローカル設定は`.dev.vars.example`を参照してください。DB migration、Authの設定、公開時のSecretは[実行環境と接続手順](docs/infrastructure.md)に記載しています。クラウド接続に失敗した場合はエラーを表示し、端末内の別ゲームへ自動で切り替えません。
+
+## ビルド・公開
+
+```sh
+pnpm build
+pnpm preview
+# 公開先・DB・認証・Secretの準備後に実行
+pnpm deploy
+```
+
+ビルドは画面を`dist/client/`、Workerと生成設定を`dist/mogubiyori/`へ出力します。`wrangler deploy`はCloudflare Vite pluginの生成設定を使い、Workerと静的ファイルをまとめて配信します。ブラウザ用の`VITE_*`設定はビルド時に確定します。通常のNode.jsサーバーは本番で起動しません。[Cloudflare Vite pluginの構成](https://developers.cloudflare.com/workers/vite-plugin/tutorial/)
 
 ## 写真から料理を選ぶ（Gemma 4）
 
-Cloudflare Workers AIの学習済み `@cf/google/gemma-4-26b-a4b-it` を使います。追加学習は不要です。写真を選ぶと料理候補を最大3件取得し、食卓の「つくった料理」に最初の候補を選択します。違う場合は候補や「料理を選ぶ」の検索一覧から変更できます。カードは「ごはんをあげる」で確定し、写真を判定しただけでは増えません。
+Cloudflare Workers AIの`@cf/google/gemma-4-26b-a4b-it`で料理候補を最大3件取得します。違う場合は候補や「料理を選ぶ」の検索一覧から変更できます。カードは「ごはんをあげる」の保存成功時に確定します。
 
-Cloudflareへログインしてから、Workerと画面を起動します。
-
-```sh
-npx wrangler login
-npm run dev:cloudflare
-```
-
-`http://127.0.0.1:8787` を開きます。スマートフォンへ公開する場合は、`npm run build` 後に `npx wrangler dev --ip 0.0.0.0 --port 8787` で起動します。写真は端末で縮小してからWorker経由でCloudflareのモデルへ送られます。Workers AIは開発中もCloudflareアカウントの利用枠を使います。
-
-画面をホットリロードしながら作業するときは、初回に `npm run build` を行い、別々のターミナルで `npm run dev:api` と `npm run dev` を実行します。Viteは `/api` をローカルの8787へ転送します。APIが起動していない場合も、手動選択と写真なしの体験は使えます。
-
-```sh
-npm run deploy
-```
-
-公開時はWorker・静的ファイル・AI bindingをまとめて配信します。ブラウザへAPIトークンを渡す設定は不要です。CIから公開する場合はCloudflareのアカウントID・APIトークンをCIのSecretsで管理します。
-
-認識対象は `src/recipes.ts` に登録された全310種です。既存10種と追加300種を、本体の料理選択・カード獲得・写真判定で共通に使います。写真から分からない料理、通信失敗、判定待ちでも手動で進められます。すでに手動で選んだ料理・入力した名前は、後から届いた判定で上書きしません。
+認識対象は`shared/recipes.ts`に登録した310種です。料理選択・カード獲得・写真判定で共通に使います。通信失敗や判定待ちでも手動で進められ、手動で選んだ料理・入力した名前を遅い判定で上書きしません。写真は端末で縮小してからWorkerへ送信します。
 
 [Gemma 4のモデル仕様](https://developers.cloudflare.com/workers-ai/models/gemma-4-26b-a4b-it/)、[Workers AIの料金](https://developers.cloudflare.com/workers-ai/platform/pricing/)
 
@@ -60,32 +62,40 @@ npm run deploy
 
 最初の成長は早くても3食目。初めての食事の後も「うまれたて」の姿を保ち、出会った姿はプロフィールで見返せます。
 
-最初のなかまを迎えたら、そのまま初めてのごはんへ進めます。写真選択・食卓・食事は、それぞれ独立した画面です。成長や新しいカードは一つずつお祝いし、いつもの食事は食後に自動でひろばへ戻ります。
+最初のなかまを迎えたら、チュートリアルで操作を練習できます。練習は本編の報酬や記録を変更せず、途中で休んで後から再開できます。写真選択・食卓・食事は、それぞれ独立した画面です。成長や新しいカードは一つずつお祝いし、いつもの食事は食後に自動でひろばへ戻ります。
 
-写真がないときはサンプルでも体験できます。料理の選択と名前は任意です。写真選択へ戻っても入力は保たれ、ごはんをあげる前なら中止できます。ジェム購入は試用操作であり、実際の請求はありません。
+写真がないときはサンプルでも体験できます。料理の選択と名前は任意です。写真選択へ戻っても入力は保たれ、ごはんをあげる前なら中止できます。ローカルモードのジェム追加は試用操作であり、実際の請求はありません。
 
-設定の「成長・出会いを体験」では、次のごはんで成長と来客を試せます。「最初から育てる」は記録を初期化し、なかま選びから始めます。日付を進めると翌日の空腹やストリークの変化を確認できます。
+ローカルモードの設定の「成長・出会いを体験」では、次のごはんで成長と来客を試せます。「最初から育てる」は記録を初期化し、なかま選びから始めます。日付を進めると翌日の空腹やストリークの変化を確認できます。
 
 ## 保存と実装範囲
 
-記録・写真・育成・購入状態は、このブラウザの `localStorage`（`mogubiyori-v1`）に保存します。再読み込み後も残りますが、端末間では共有されません。サイトデータを消すと記録も消えます。
+`local`では記録・縮小写真・育成・購入状態を、このブラウザの`localStorage`（`mogubiyori-v1`）に保存します。再読み込み後も残りますが、端末間では共有されません。既存セーブは移行処理を通して読み込みます。
 
-日付は日本時間に追従し、設定で進めた日数を加算します。写真は端末内で縮小します。Cloudflare接続時は料理候補を自動判定しますが、実際に自炊したかどうかは自己申告です。認証、クラウド保存、プッシュ通知、実決済は未実装です。料理カードは給餌時に選択されている料理に基づいて獲得します。
+`cloud`では認証したユーザーごとにSupabaseへ保存し、操作IDによる再送処理とrevisionによる同時更新の検査を行います。XP・コイン・カードはWorkerが計算し、保存が確定した結果から演出します。Google連携後は別端末から同じアカウントで続けられる構成です。実際のGoogle認証と端末間の確認には接続先の準備が必要です。
+
+日付は日本時間を使い、ローカルの試用操作だけ日付を進められます。自炊したかどうかは自己申告です。既存ローカルセーブのクラウド取込、下書きの再読み込み後の復元、プッシュ通知、実決済は未実装です。
 
 ## 検証
 
 ```sh
-npm test
-npm run lint
-npm run build
-npm run format:check
-
-npx playwright install chromium
-npm run test:e2e
+pnpm test
+pnpm lint
+pnpm build
+pnpm format:check
+pnpm exec playwright install chromium
+pnpm test:e2e
+pnpm test:cloud
+# PostgreSQLの実行ファイルがある環境
+pnpm test:db
 ```
 
-E2Eは専用ポート4173でテスト用サーバーを起動します。料理認識APIはモックで検証し、テストから実モデルを呼び出しません。実際の判定はCloudflareへ接続した8787で確認します。React・TypeScript・Viteで構成し、育成・報酬・購入のルールは `src/game.ts` にまとめています。
+通常のE2Eは4173番（`E2E_PORT`で変更可能）、cloud用E2Eは4190番で専用サーバーを起動します。Auth・ゲームAPI・認識はmockを使い、実クラウドへアクセスしません。DBテストは隔離した一時PostgreSQLへmigrationを適用し、権限と同時更新を確認します。
 
+GitHub Actionsにも型検査・lint・unit・build・E2E・DB検証を設定しています。自動デプロイは行いません。
+
+- [アーキテクチャと開発境界](docs/architecture.md)
+- [実行環境とクラウド接続](docs/infrastructure.md)
 - [プロダクト仕様](docs/product.md)
 - [世界設定](docs/world.md)
 - [体験検証](docs/experiments.md)

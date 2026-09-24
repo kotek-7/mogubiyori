@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      CI: true
+      CLOUDFLARE_REMOTE_BINDINGS: 'false'
+      VITE_GAME_MODE: local
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - uses: pnpm/action-setup@v6
+        with:
+          cache: true
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm lint
+      - name: Check formatting
+        run: |
+          pnpm format:check
+          pnpm exec prettier --check .github/workflows/ci.yml pnpm-workspace.yaml
+      - name: Test rules and adapters
+        run: pnpm test
+      - name: Build browser and Worker bundles
+        run: pnpm build
+      - name: Install PostgreSQL
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes postgresql-16
+      - name: Test isolated database
+        env:
+          POSTGRES_BIN: /usr/lib/postgresql/16/bin
+        run: pnpm test:db
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Test local browser flows
+        run: pnpm test:e2e --workers=2
+      - name: Test cloud browser flows with mocked services
+        run: pnpm test:cloud
