@@ -4,6 +4,7 @@ import { RecipeBoard } from './RecipeBoard'
 import { FriendsBoard } from '../companions/FriendsBoard'
 import { useGameSession } from '../../app/game/useGameSession'
 import { useGameUi } from '../../app/gameUi'
+import { CategoryPanel, CategoryTabs } from '../../ui/motion/CategoryTabs'
 
 export function BookPage() {
   const { state } = useGameSession()
@@ -15,28 +16,31 @@ export function BookPage() {
         <h1>図鑑</h1>
         <VillageSign kind="book" />
       </div>
-      <div className="play-book-tabs" role="group" aria-label="ずかんのカテゴリ">
-        <button aria-pressed={bookKind === 'recipes'} onClick={() => setBookKind('recipes')}>
-          レシピカード
-        </button>
-        <button aria-pressed={bookKind === 'friends'} onClick={() => setBookKind('friends')}>
-          なかま
-        </button>
-      </div>
-      {bookKind === 'recipes' ? (
-        <RecipeBoard
-          state={state}
-          onRecipe={(recipeId) => setDialog({ type: 'recipe', recipeId })}
-        />
-      ) : (
-        <FriendsBoard
-          state={state}
-          onSelect={(id) => {
-            run({ type: 'selectCompanion', id }, () => navigate('room'))
-          }}
-          onFeedVisitor={(targetId) => openMeal({ targetId })}
-        />
-      )}
+      <CategoryTabs
+        label="ずかんのカテゴリ"
+        value={bookKind}
+        onChange={setBookKind}
+        options={[
+          { value: 'recipes', label: 'レシピカード' },
+          { value: 'friends', label: 'なかま' },
+        ]}
+      />
+      <CategoryPanel category={bookKind}>
+        {bookKind === 'recipes' ? (
+          <RecipeBoard
+            state={state}
+            onRecipe={(recipeId) => setDialog({ type: 'recipe', recipeId })}
+          />
+        ) : (
+          <FriendsBoard
+            state={state}
+            onSelect={(id) => {
+              run({ type: 'selectCompanion', id }, () => navigate('room'))
+            }}
+            onFeedVisitor={(targetId) => openMeal({ targetId })}
+          />
+        )}
+      </CategoryPanel>
       <button className="quiet-button play-memories" onClick={() => navigate('album')}>
         ごはんの記録
         <ChevronRight size={14} />

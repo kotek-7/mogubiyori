@@ -5,10 +5,13 @@ import { Currency } from '../../ui/Currency'
 import { items, stageOf } from '../../app/game/browserGame'
 import { useGameSession } from '../../app/game/useGameSession'
 import { useGameUi } from '../../app/gameUi'
+import { motion, useReducedMotion } from 'motion/react'
+import { CategoryPanel, CategoryTabs } from '../../ui/motion/CategoryTabs'
 
 export function ShopPage() {
   const { state } = useGameSession()
   const { shopKind, setShopKind, setDialog } = useGameUi()
+  const reducedMotion = useReducedMotion()
   const stage = stageOf(state.xp)
   return (
     <>
@@ -16,25 +19,33 @@ export function ShopPage() {
         <h1>おみせ</h1>
         <VillageSign kind="shop" />
       </div>
-      <div className="play-book-tabs" role="group" aria-label="おみせのカテゴリ">
-        <button aria-pressed={shopKind === 'hat'} onClick={() => setShopKind('hat')}>
-          ぼうし
-        </button>
-        <button aria-pressed={shopKind === 'room'} onClick={() => setShopKind('room')}>
-          ひろば
-        </button>
-      </div>
-      <div className="shop-grid">
+      <CategoryTabs
+        label="おみせのカテゴリ"
+        value={shopKind}
+        onChange={setShopKind}
+        options={[
+          { value: 'hat', label: 'ぼうし' },
+          { value: 'room', label: 'ひろば' },
+        ]}
+      />
+      <CategoryPanel category={shopKind} className="shop-grid">
         {items
           .filter((item) => item.kind === shopKind)
-          .map((item) => {
+          .map((item, index) => {
             const owned = state.owned.includes(item.id),
               equipped = state.equipped[item.kind] === item.id
             return (
-              <button
+              <motion.button
                 className={`shop-card ${equipped ? 'is-equipped' : ''}`}
                 key={item.id}
                 onClick={() => setDialog({ type: 'item', item })}
+                initial={reducedMotion ? false : { opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: reducedMotion ? 0 : 0.2,
+                  delay: reducedMotion ? 0 : Math.min(index, 5) * 0.025,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
               >
                 <div className="item-art">
                   {item.id === 'none' ? (
@@ -57,10 +68,10 @@ export function ShopPage() {
                     <Currency kind={item.currency} amount={item.price} />
                   )}
                 </span>
-              </button>
+              </motion.button>
             )
           })}
-      </div>
+      </CategoryPanel>
     </>
   )
 }

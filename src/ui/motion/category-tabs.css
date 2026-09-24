@@ -1,0 +1,24 @@
+.play-book-tabs.motion-category-tabs > button {
+  position: relative;
+  transition: color 160ms ease;
+}
+
+.play-book-tabs.motion-category-tabs > button[aria-pressed='true'] {
+  border-bottom-color: transparent;
+}
+
+.motion-category-indicator {
+  position: absolute;
+  inset: auto 0 -4px;
+  height: 4px;
+  background: var(--game-teal-dark);
+  border-radius: 3px 3px 0 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .play-book-tabs.motion-category-tabs > button,
+  .motion-category-panel .shop-card {
+    transition: none;
+  }
+}

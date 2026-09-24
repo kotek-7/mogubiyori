@@ -217,8 +217,14 @@ export function GameDialogs({
       content = <HelpPanel state={state} />
       break
   }
+  const contentKey =
+    local.type === 'recipe'
+      ? `recipe:${local.recipeId}`
+      : local.type === 'item'
+        ? `item:${local.item.id}`
+        : local.type
   return (
-    <Sheet title={title} onClose={close}>
+    <Sheet title={title} contentKey={contentKey} onClose={close}>
       <div aria-busy={busy}>{content}</div>
     </Sheet>
   )

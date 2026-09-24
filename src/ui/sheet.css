@@ -1,0 +1,43 @@
+.sheet[data-motion-sheet] {
+  transform-origin: center 60%;
+}
+
+.sheet[data-motion-sheet]::backdrop {
+  animation: sheet-backdrop-enter 260ms ease-out both;
+}
+
+.sheet[data-motion-sheet][data-closing]::backdrop {
+  animation: sheet-backdrop-exit 180ms ease-in both;
+}
+
+.sheet[data-motion-sheet][data-closing] {
+  pointer-events: none;
+}
+
+.sheet[data-motion-sheet] .sheet-header h2:focus {
+  outline: none;
+}
+
+@keyframes sheet-backdrop-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sheet-backdrop-exit {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet[data-motion-sheet]::backdrop {
+    animation: none;
+  }
+}

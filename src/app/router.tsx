@@ -7,6 +7,7 @@ import {
 } from '@tanstack/react-router'
 import App from './App'
 import { RoomPage } from '../features/room/RoomPage'
+import { transitionView } from '../ui/journey/journeyTransition'
 
 const rootRoute = createRootRoute({
   component: App,
@@ -59,6 +60,28 @@ export const router = createRouter({
   routeTree: rootRoute.addChildren([room, book, album, shop, callback]),
   defaultPreload: 'intent',
 })
+
+// Use the router's commit hook so lazy routes are ready before taking snapshots.
+// Its default implementation only observes updateCallbackDone; a superseded
+// transition's ready promise must also be handled during rapid/history navigation.
+router.startViewTransition = (update) => {
+  const enabled = router.shouldViewTransition !== false
+  router.shouldViewTransition = undefined
+  const from = router.state.resolvedLocation
+  const to = router.latestLocation
+  if (
+    !enabled ||
+    !from ||
+    from.pathname === to.pathname ||
+    document.querySelector('.journey-screen, dialog[open]')
+  )
+    return update()
+  const pages = ['/', '/book', '/album', '/shop']
+  const direction =
+    pages.indexOf(to.pathname) > pages.indexOf(from.pathname) ? 'forward' : 'backward'
+  return transitionView(update, ['page', direction])
+}
+
 declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router

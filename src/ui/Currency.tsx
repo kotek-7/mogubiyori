@@ -4,7 +4,7 @@ export function Currency({ kind, amount }: { kind: 'coins' | 'gems'; amount: num
   return (
     <span className={`currency ${kind}`}>
       {kind === 'coins' ? <Coins size={17} /> : <Gem size={17} />}
-      <strong>{amount.toLocaleString()}</strong>
+      <strong key={amount}>{amount.toLocaleString()}</strong>
     </span>
   )
 }

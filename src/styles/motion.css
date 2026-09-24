@@ -1,0 +1,168 @@
+:root {
+  --motion-fast: 150ms;
+  --motion-enter: 320ms;
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Keep the navigation and wallet anchored while the page changes beneath them. */
+.play-main {
+  view-transition-name: page-content;
+}
+.play-header {
+  view-transition-name: app-header;
+}
+.play-nav {
+  view-transition-name: app-navigation;
+}
+::view-transition {
+  pointer-events: none;
+}
+::view-transition-group(page-content),
+::view-transition-group(app-header),
+::view-transition-group(app-navigation),
+::view-transition-group(navigation-indicator) {
+  animation-duration: var(--motion-enter);
+  animation-timing-function: var(--motion-ease);
+}
+::view-transition-old(page-content) {
+  animation: page-leave 180ms ease-out both;
+}
+::view-transition-new(page-content) {
+  animation: page-enter var(--motion-enter) var(--motion-ease) both;
+}
+:root:active-view-transition-type(page) {
+  --page-enter-x: 28px;
+  --page-leave-x: -16px;
+}
+:root:active-view-transition-type(backward) {
+  --page-enter-x: -28px;
+  --page-leave-x: 16px;
+}
+:root:active-view-transition-type(page)::view-transition-old(root),
+:root:active-view-transition-type(page)::view-transition-new(root) {
+  animation: none;
+}
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translate(var(--page-enter-x, 0), 10px) scale(0.992);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes page-leave {
+  to {
+    opacity: 0;
+    transform: translate(var(--page-leave-x, 0), -5px);
+  }
+}
+
+.play-nav > button > .play-nav-indicator {
+  view-transition-name: navigation-indicator;
+  position: absolute;
+  bottom: -3px;
+  left: calc(50% - 9px);
+  width: 18px;
+  height: 3px;
+  border-radius: 3px;
+  background: currentColor;
+  pointer-events: none;
+}
+.play-nav > button > span::before {
+  content: none;
+}
+
+/* The transform used by Motion must not replace the toast's centering. */
+.toast {
+  translate: -50% 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :is(
+    .primary-button,
+    .secondary-button,
+    .journey-primary,
+    .journey-secondary,
+    .journey-icon-button,
+    .icon-button,
+    .quiet-button,
+    .play-wallet > button,
+    .play-nav > button,
+    .recipe-collection-card,
+    .shop-card,
+    .memory-card
+  ) {
+    transition:
+      translate var(--motion-fast) var(--motion-ease),
+      scale var(--motion-fast) var(--motion-ease),
+      background-color var(--motion-fast),
+      border-color var(--motion-fast),
+      color var(--motion-fast),
+      box-shadow var(--motion-fast);
+  }
+  :is(
+      .primary-button,
+      .secondary-button,
+      .journey-primary,
+      .journey-secondary,
+      .journey-icon-button,
+      .icon-button,
+      .quiet-button,
+      .play-wallet > button,
+      .play-nav > button,
+      .recipe-collection-card,
+      .shop-card,
+      .memory-card
+    ):not(:disabled):active {
+    scale: 0.97;
+    translate: 0 1px;
+  }
+  .journey-heading {
+    animation: journey-reveal 300ms var(--motion-ease) both;
+  }
+  .journey-content {
+    animation: journey-reveal 360ms 40ms var(--motion-ease) both;
+  }
+  .journey-footer {
+    animation: journey-reveal 320ms 90ms var(--motion-ease) both;
+  }
+  .journey-progress > span {
+    transition:
+      background-color 220ms ease-out,
+      border-color 220ms ease-out;
+  }
+  .error-message {
+    animation: journey-reveal 220ms var(--motion-ease) both;
+  }
+  .play-wallet .currency strong {
+    animation: balance-update 340ms var(--motion-ease) both;
+  }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  :is(.primary-button, .secondary-button, .journey-primary):not(:disabled):hover {
+    translate: 0 -2px;
+  }
+  :is(.recipe-collection-card, .shop-card, .memory-card):not(:disabled):hover {
+    translate: 0 -3px;
+  }
+}
+@keyframes balance-update {
+  from {
+    opacity: 0.5;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

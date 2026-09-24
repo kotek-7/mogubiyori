@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { Check, Settings2 } from 'lucide-react'
+import { AnimatePresence } from 'motion/react'
+import { Settings2 } from 'lucide-react'
 import { MoguMark, VillageBackdrop, VillageSign } from '../ui/art/GameMotifs'
 import { GameDialogs } from './dialogs/GameDialogs'
 import type { Dialog } from './dialogs/GameDialogs'
@@ -17,6 +18,7 @@ import { useGameSession } from './game/useGameSession'
 import { GameUiProvider } from './gameUi'
 import type { Page } from './gameUi'
 import { Currency } from '../ui/Currency'
+import { Toast } from '../ui/Toast'
 
 type MealOptions = { recipeId?: string; targetId?: SpeciesId }
 type Journey =
@@ -67,12 +69,23 @@ function App() {
     return () => clearTimeout(timer)
   }, [petting])
   useEffect(() => {
-    if (!journey && restoreFeedFocus.current) {
-      restoreFeedFocus.current = false
+    if (journey || !restoreFeedFocus.current) return
+    let active = true
+    const restoreFocus = () => {
+      if (!active || !restoreFeedFocus.current || router.state.location.pathname !== '/') return
       const target = homeGuide === 'growth' ? growthButton.current : feedButton.current
-      target?.focus({ preventScroll: true })
+      // A journey can return from the book; wait for the room route to mount.
+      if (!target?.isConnected) return
+      target.focus({ preventScroll: true })
+      if (document.activeElement === target) restoreFeedFocus.current = false
     }
-  }, [journey, state.tutorial.status, homeGuide])
+    restoreFocus()
+    const unsubscribe = router.subscribe('onRendered', () => queueMicrotask(restoreFocus))
+    return () => {
+      active = false
+      unsubscribe()
+    }
+  }, [journey, state.tutorial.status, homeGuide, page, router])
   useEffect(() => {
     if (journey || dialog || page !== 'room') return
     let active = true
@@ -99,7 +112,17 @@ function App() {
     }
   }, [homeGuide, journey, dialog, page, router])
   function navigate(next: Page) {
-    void routerNavigate({ to: next === 'room' ? '/' : `/${next}` })
+    void routerNavigate({
+      to: next === 'room' ? '/' : `/${next}`,
+      // Scene returns already have a transition; the router may commit after
+      // that scene has unmounted, so decide here rather than from its later DOM.
+      viewTransition:
+        journey ||
+        state.tutorial.status === 'active' ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          ? false
+          : undefined,
+    })
   }
   async function submit(input: FeedInput, operationId: string) {
     const result = await execute({ type: 'feed', input }, operationId)
@@ -347,28 +370,28 @@ function App() {
               >
                 <VillageSign kind={id} />
                 <span>{name}</span>
+                {(page === id || (id === 'book' && page === 'album')) && (
+                  <i className="play-nav-indicator" aria-hidden="true" />
+                )}
               </button>
             ))}
           </nav>
         </div>
-        {dialog && (
-          <GameDialogs
-            key={dialog.type}
-            dialog={dialog}
-            state={state}
-            onClose={() => setDialog(null)}
-            onNavigate={navigate}
-            onToast={setToast}
-            onRecord={openMeal}
-            onTutorial={startTutorial}
-          />
-        )}
-        {toast && (
-          <div className="toast" role="status">
-            <Check size={17} />
-            {toast}
-          </div>
-        )}
+        <AnimatePresence>
+          {dialog && (
+            <GameDialogs
+              key={dialog.type}
+              dialog={dialog}
+              state={state}
+              onClose={() => setDialog(null)}
+              onNavigate={navigate}
+              onToast={setToast}
+              onRecord={openMeal}
+              onTutorial={startTutorial}
+            />
+          )}
+        </AnimatePresence>
+        <AnimatePresence>{toast && <Toast key={toast}>{toast}</Toast>}</AnimatePresence>
       </div>
     </GameUiProvider>
   )
