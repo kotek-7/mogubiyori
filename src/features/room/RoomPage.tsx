@@ -13,13 +13,12 @@ import {
 } from '../../app/game/browserGame'
 import { useGameSession } from '../../app/game/useGameSession'
 import { useGameUi } from '../../app/gameUi'
+import { CompanionInteraction } from './CompanionInteraction'
 
 export function RoomPage() {
   const { state } = useGameSession()
   const {
     setDialog,
-    petting,
-    setPetting,
     openMeal,
     showFriends,
     showGrowthGuide,
@@ -35,6 +34,7 @@ export function RoomPage() {
     streak = streakOf(state),
     dailyFed = fedToday(state)
   const fed = hunger === 96
+  const resting = state.rests.includes(state.today)
   const { progress: growth, remaining: nextGrowth } = growthProgress(state.xp)
   return (
     <>
@@ -69,19 +69,15 @@ export function RoomPage() {
             {!dailyFed && <i />}
           </button>
         </div>
-        <button
-          className={`play-pet ${petting ? 'is-petted' : ''}`}
-          aria-label={`${state.name}をなでる`}
-          onClick={() => setPetting(true)}
-        >
-          <Pet
-            species={state.activeId!}
-            stage={stage}
-            mood={petting || fed ? 'happy' : 'hungry'}
-            hat={state.equipped.hat}
-          />
-          {petting && <span className="pet-heart">♥</span>}
-        </button>
+        <CompanionInteraction
+          key={`${state.activeId}-${stage}-${fed}-${resting}`}
+          species={state.activeId!}
+          name={state.name}
+          stage={stage}
+          fed={fed}
+          resting={resting}
+          hat={state.equipped.hat}
+        />
         {state.visitors.length > 0 && (
           <div className="play-guests">
             <span>お客さん {state.visitors.length}</span>

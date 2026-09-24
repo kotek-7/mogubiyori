@@ -1,0 +1,356 @@
+.play-pet.companion-interaction.is-reacting > .pet-art {
+  animation: none;
+}
+
+.companion-interaction {
+  touch-action: pan-y pinch-zoom;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.companion-gesture-surface {
+  position: absolute;
+  z-index: 1;
+  border-radius: 42%;
+  touch-action: pinch-zoom;
+  -webkit-touch-callout: none;
+  cursor: grab;
+}
+.companion-interaction.is-touching .companion-gesture-surface {
+  cursor: grabbing;
+}
+.play-pet.companion-interaction.is-touching > .pet-art {
+  animation: none;
+}
+.companion-interaction.is-touching:not([data-gesture='hold']) .pet-body {
+  animation: none;
+  transform-box: view-box;
+  transform-origin: 150px 262px;
+  transform: translate(var(--gesture-x), var(--gesture-y)) rotate(var(--gesture-tilt));
+}
+.companion-touch-ring {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  translate: -50% -50%;
+  border: 2px solid #fffdf4;
+  border-radius: 50%;
+  background: #fffdf438;
+  box-shadow: 0 0 0 1px #80515766;
+  color: #a8495b;
+  pointer-events: none;
+}
+.companion-touch-ring > svg {
+  opacity: 0;
+}
+.companion-touch-ring[data-hold-eligible]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid #a8495b;
+  border-radius: inherit;
+  animation: companion-hold 600ms linear both;
+}
+.companion-touch-ring[data-held] {
+  background: #fffdf4;
+  border-color: #e9a1ad;
+}
+.companion-touch-ring[data-held] > svg {
+  opacity: 1;
+  fill: #e9a1ad;
+}
+@keyframes companion-hold {
+  from {
+    scale: 1;
+    opacity: 0.3;
+  }
+  to {
+    scale: 0.5;
+    opacity: 1;
+  }
+}
+
+.companion-interaction.is-reacting .pet-body {
+  transform-box: view-box;
+  transform-origin: 150px 262px;
+  animation-duration: var(--reaction-duration);
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
+}
+
+.companion-interaction[data-motion='bounce'] .pet-body {
+  animation-name: companion-bounce;
+}
+.companion-interaction[data-motion='sway'] .pet-body {
+  animation-name: companion-sway;
+}
+.companion-interaction[data-motion='nuzzle'] .pet-body {
+  animation-name: companion-nuzzle;
+}
+.companion-interaction[data-motion='wiggle'] .pet-body {
+  animation-name: companion-wiggle;
+}
+.companion-interaction[data-motion='hop'] .pet-body {
+  animation-name: companion-hop;
+}
+.companion-interaction[data-motion='peek'] .pet-body {
+  animation-name: companion-peek;
+}
+.companion-interaction[data-motion='stretch'] .pet-body {
+  animation-name: companion-stretch;
+}
+.companion-interaction[data-motion='tippy'] .pet-body {
+  animation-name: companion-tippy;
+}
+
+.companion-reaction-effects {
+  position: absolute;
+  inset: 8% 12% 23%;
+  pointer-events: none;
+  color: #a8495b;
+}
+.companion-reaction-effects > svg {
+  position: absolute;
+  left: calc(12% + var(--particle) * 33%);
+  bottom: calc(28% + var(--particle) * 12%);
+  width: 23px;
+  height: 23px;
+  animation: companion-particle var(--reaction-duration) ease-out both;
+  animation-delay: calc(var(--particle) * 90ms);
+}
+.companion-reaction-effects.effect-hearts > svg {
+  fill: #e9a1ad;
+}
+.companion-reaction-effects.effect-sparkles,
+.companion-reaction-effects.effect-surprise {
+  color: #a76c1d;
+}
+.companion-reaction-effects.effect-notes {
+  color: #32756c;
+}
+.companion-reaction-effects.effect-sleep {
+  color: #666a98;
+}
+
+.companion-reaction-status {
+  position: absolute;
+  top: 70px;
+  left: 12px;
+  right: 12px;
+  z-index: 4;
+  text-align: center;
+  pointer-events: none;
+}
+.companion-reaction-status > span {
+  display: inline-block;
+  max-width: 100%;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: var(--game-surface, #fffdf4);
+  color: var(--game-teal-dark, #354b4c);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+.companion-actions {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 3;
+  display: flex;
+  gap: 4px;
+}
+.companion-actions > button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-width: 54px;
+  min-height: 48px;
+  padding: 5px 7px;
+  border-radius: var(--game-radius-control, 12px);
+  color: var(--game-teal-dark, #354b4c);
+  background: var(--game-surface, #fffdf4);
+  font-size: 10px;
+  font-weight: 750;
+}
+.companion-actions > button:active {
+  background: var(--game-canvas, #f8f5ec);
+}
+
+@keyframes companion-bounce {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  12%,
+  49% {
+    transform: scale(1.07, 0.91);
+  }
+  26% {
+    transform: translateY(-23px) scale(0.97, 1.04);
+  }
+  63% {
+    transform: translateY(-13px) scale(0.98, 1.02);
+  }
+  78% {
+    transform: scale(1.03, 0.97);
+  }
+}
+@keyframes companion-sway {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  20%,
+  62% {
+    transform: rotate(-8deg);
+  }
+  42%,
+  82% {
+    transform: rotate(8deg);
+  }
+}
+@keyframes companion-nuzzle {
+  0%,
+  100% {
+    transform: translateX(0) rotate(0);
+  }
+  22%,
+  58% {
+    transform: translateX(-12px) rotate(-10deg) scale(1.02, 0.97);
+  }
+  40%,
+  75% {
+    transform: translateX(-6px) rotate(-5deg);
+  }
+}
+@keyframes companion-wiggle {
+  0%,
+  100% {
+    transform: rotate(0) scale(1);
+  }
+  14%,
+  38%,
+  62% {
+    transform: rotate(-7deg) scale(1.05, 0.94);
+  }
+  26%,
+  50%,
+  74% {
+    transform: rotate(7deg) scale(0.97, 1.03);
+  }
+  88% {
+    transform: rotate(-3deg);
+  }
+}
+@keyframes companion-hop {
+  0%,
+  100% {
+    transform: translate(0) rotate(0);
+  }
+  14% {
+    transform: scale(1.05, 0.91);
+  }
+  30% {
+    transform: translate(-14px, -24px) rotate(-8deg);
+  }
+  48% {
+    transform: translateX(-14px) scale(1.06, 0.93);
+  }
+  67% {
+    transform: translate(9px, -18px) rotate(8deg);
+  }
+  84% {
+    transform: translateX(9px) scale(1.03, 0.97);
+  }
+}
+@keyframes companion-peek {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  22%,
+  40% {
+    transform: rotate(-12deg) translateX(-5px);
+  }
+  62%,
+  80% {
+    transform: rotate(9deg) translateX(4px);
+  }
+}
+@keyframes companion-stretch {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  22% {
+    transform: scale(1.08, 0.92);
+  }
+  50%,
+  65% {
+    transform: scale(0.93, 1.1) rotate(-3deg);
+  }
+  84% {
+    transform: scale(1.02, 0.98);
+  }
+}
+@keyframes companion-tippy {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+  18%,
+  58% {
+    transform: translateY(-8px) rotate(-5deg);
+  }
+  38%,
+  78% {
+    transform: translateY(-8px) rotate(5deg);
+  }
+}
+@keyframes companion-particle {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.65);
+  }
+  18%,
+  65% {
+    opacity: 1;
+  }
+  42% {
+    transform: translateY(-14px) scale(1.08);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-37px) scale(0.85);
+  }
+}
+
+@media (max-width: 600px) {
+  .companion-actions {
+    right: 10px;
+    bottom: 11px;
+  }
+  .companion-reaction-status {
+    top: 65px;
+  }
+}
+@media (max-width: 380px) {
+  .play-world .play-friend-count > span > svg:not(:first-child) {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .play-pet.companion-interaction > .pet-art,
+  .companion-interaction.is-reacting .pet-body,
+  .companion-interaction.is-touching:not([data-gesture='hold']) .pet-body,
+  .companion-touch-ring::after,
+  .companion-reaction-effects > svg {
+    animation: none;
+    transform: none;
+  }
+}

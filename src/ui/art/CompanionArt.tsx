@@ -1,7 +1,16 @@
 import type { ReactNode } from 'react'
 import type { GrowthStage, SpeciesId } from '../../app/game/browserGame'
 
-export type CompanionMood = 'hungry' | 'happy' | 'sleepy' | 'eating'
+export type CompanionMood =
+  | 'hungry'
+  | 'happy'
+  | 'sleepy'
+  | 'eating'
+  | 'curious'
+  | 'delighted'
+  | 'relaxed'
+  | 'surprised'
+  | 'playful'
 
 const ink = '#354b4c'
 const cream = '#fff4d6'
@@ -1348,6 +1357,165 @@ function Goma({ stage }: { stage: GrowthStage }) {
   }
 }
 
+function Eyes({ stage, mood }: { stage: GrowthStage; mood: CompanionMood }) {
+  switch (mood) {
+    case 'sleepy':
+      return (
+        <g className="pet-eye" fill="none">
+          <path d="M-28 0q7 8 14 0m28 0q7 8 14 0" />
+          <path d="m-25 4-3 3m52-3 3 3" strokeWidth="2.5" />
+        </g>
+      )
+    case 'happy':
+    case 'eating':
+      return (
+        <g className="pet-eye" fill="none">
+          <path d="M-29 3q8-12 16 0m26 0q8-12 16 0" />
+        </g>
+      )
+    case 'curious':
+      return (
+        <g className="pet-eye">
+          <path d="M-29-15q7-5 14-2m29-2q7-3 14 2" fill="none" strokeWidth="2.5" />
+          <g fill={ink} stroke="none">
+            <ellipse cx="-18" cy="-2" rx="5" ry="7" />
+            <ellipse cx="24" cy="-4" rx="5.5" ry="8" />
+            <circle cx="-17" cy="-5" r="2" fill="white" />
+            <circle cx="25" cy="-7" r="2" fill="white" />
+          </g>
+        </g>
+      )
+    case 'delighted':
+      return (
+        <g className="pet-eye" fill="none" strokeWidth="4">
+          <path d="m-29-5 9 7-9 5m58-12-9 7 9 5" />
+        </g>
+      )
+    case 'relaxed':
+      return (
+        <g className="pet-eye" fill="none">
+          <path d="M-29 1q8 5 16 0m26 0q8 5 16 0" />
+        </g>
+      )
+    case 'surprised':
+      return (
+        <g className="pet-eye">
+          <path d="M-28-17q7-4 14-1m28 0q7-3 14 1" fill="none" strokeWidth="2.5" />
+          <ellipse cx="-21" cy="0" rx="8" ry="10" fill="#fffaf0" strokeWidth="2.5" />
+          <ellipse cx="21" cy="0" rx="8" ry="10" fill="#fffaf0" strokeWidth="2.5" />
+          <g fill={ink} stroke="none">
+            <ellipse cx="-21" cy="1" rx="3.5" ry="5" />
+            <ellipse cx="21" cy="1" rx="3.5" ry="5" />
+          </g>
+        </g>
+      )
+    case 'playful':
+      return (
+        <g className="pet-eye">
+          <path d="m-29-3 12 5-12 5" fill="none" />
+          <ellipse cx="21" cy="0" rx="5.1" ry="7" fill={ink} stroke="none" />
+          <circle cx="19.5" cy="-2.5" r="1.7" fill="white" stroke="none" />
+        </g>
+      )
+    default:
+      return (
+        <g className="pet-eye" fill={ink} stroke="none">
+          <ellipse cx="-21" cy="0" rx={stage === 0 ? 4.6 : 5.1} ry={stage === 0 ? 5.5 : 7} />
+          <ellipse cx="21" cy="0" rx={stage === 0 ? 4.6 : 5.1} ry={stage === 0 ? 5.5 : 7} />
+          <circle cx="-22.5" cy="-2.5" r="1.7" fill="white" />
+          <circle cx="19.5" cy="-2.5" r="1.7" fill="white" />
+        </g>
+      )
+  }
+}
+
+const cheeks: Record<CompanionMood, { width: number; height: number; opacity: number }> = {
+  hungry: { width: 10, height: 6, opacity: 0.8 },
+  happy: { width: 10, height: 6, opacity: 0.8 },
+  sleepy: { width: 10, height: 6, opacity: 0.8 },
+  eating: { width: 10, height: 6, opacity: 0.8 },
+  curious: { width: 9, height: 5, opacity: 0.5 },
+  delighted: { width: 12, height: 7, opacity: 0.95 },
+  relaxed: { width: 11, height: 5, opacity: 0.65 },
+  surprised: { width: 8, height: 4, opacity: 0.45 },
+  playful: { width: 11, height: 6, opacity: 0.9 },
+}
+
+function Beak({ mood }: { mood: CompanionMood }) {
+  if (mood === 'delighted' || mood === 'surprised') {
+    return (
+      <g strokeWidth="2.5">
+        <path d="M-12 14 0 7 12 14 0 33Z" fill="#edbd50" />
+        <path
+          d={mood === 'delighted' ? 'M-8 16q8 4 16 0l-8 12Z' : 'm-6 16 6-4 6 4-6 12Z'}
+          fill="#a35249"
+        />
+      </g>
+    )
+  }
+  if (mood === 'playful') {
+    return (
+      <g strokeWidth="2.5">
+        <path d="m-10 14 12-6 11 7-10 13Z" fill="#edbd50" />
+        <path d="M-7 15q10 8 18 0" fill="none" strokeWidth="2" />
+      </g>
+    )
+  }
+  if (mood === 'relaxed') {
+    return <path d="M-10 14 0 10 10 14Q0 30-10 14Z" fill="#edbd50" strokeWidth="2.5" />
+  }
+  if (mood === 'curious') {
+    return <path d="m-8 13 11-6 10 7-11 11Z" fill="#edbd50" strokeWidth="2.5" />
+  }
+  const happy = mood === 'happy' || mood === 'eating'
+  return (
+    <>
+      <path
+        d={happy ? 'M-11 14 0 8 11 14 0 29Z' : 'M-11 14 0 8 11 14 0 24Z'}
+        fill="#edbd50"
+        strokeWidth="2.5"
+      />
+      {happy && <path d="m-9 15 9 5 9-5" fill="none" strokeWidth="2" />}
+    </>
+  )
+}
+
+function Mouth({ mood }: { mood: CompanionMood }) {
+  switch (mood) {
+    case 'eating':
+      return (
+        <>
+          <path d="M-10 22q10 15 20 0" fill="#a35249" strokeWidth="2.5" />
+          <path d="M-29 21q-5 4-1 9m59-9q5 4 1 9" fill="none" strokeWidth="2.5" />
+        </>
+      )
+    case 'happy':
+      return <path d="M-10 21q10 15 20 0" fill="#c77568" strokeWidth="2.5" />
+    case 'curious':
+      return <ellipse cx="4" cy="24" rx="4" ry="4.5" fill="#a35249" strokeWidth="2.5" />
+    case 'delighted':
+      return (
+        <>
+          <path d="M-13 21q13 4 26 0c-1 22-25 22-26 0Z" fill="#a35249" strokeWidth="2.5" />
+          <path d="M-7 32q7-7 14 0-7 7-14 0Z" fill="#ec9a8c" stroke="none" />
+        </>
+      )
+    case 'relaxed':
+      return <path d="M-9 22q9 8 18 0" fill="none" strokeWidth="2.5" />
+    case 'surprised':
+      return <ellipse cx="0" cy="26" rx="6" ry="8" fill="#a35249" strokeWidth="2.5" />
+    case 'playful':
+      return (
+        <>
+          <path d="M0 16v3q-5 9-11 3m11-3q7 12 14 0" fill="none" strokeWidth="2.5" />
+          <path d="M3 25q5 2 9-1v5c-1 7-9 7-9 0Z" fill="#ec9a8c" strokeWidth="2" />
+        </>
+      )
+    default:
+      return <path d="M0 16v3q-5 9-11 3m11-3q5 9 11 3" fill="none" strokeWidth="2.5" />
+  }
+}
+
 function Face({
   species,
   stage,
@@ -1358,8 +1526,7 @@ function Face({
   mood: CompanionMood
 }) {
   const [x, y, scale] = poses[species][stage].face
-  const happy = mood === 'happy' || mood === 'eating'
-  const sleepy = mood === 'sleepy'
+  const blush = cheeks[mood]
   const bird = species === 'shizuku' || species === 'goma'
   return (
     <g
@@ -1372,47 +1539,24 @@ function Face({
       <ellipse
         cx="-35"
         cy="13"
-        rx="10"
-        ry="6"
+        rx={blush.width}
+        ry={blush.height}
         fill={colors[species].blush}
-        opacity=".8"
+        opacity={blush.opacity}
         stroke="none"
       />
       <ellipse
         cx="35"
         cy="13"
-        rx="10"
-        ry="6"
+        rx={blush.width}
+        ry={blush.height}
         fill={colors[species].blush}
-        opacity=".8"
+        opacity={blush.opacity}
         stroke="none"
       />
-      {sleepy ? (
-        <g className="pet-eye" fill="none">
-          <path d="M-28 0q7 8 14 0m28 0q7 8 14 0" />
-          <path d="m-25 4-3 3m52-3 3 3" strokeWidth="2.5" />
-        </g>
-      ) : happy ? (
-        <g className="pet-eye" fill="none">
-          <path d="M-29 3q8-12 16 0m26 0q8-12 16 0" />
-        </g>
-      ) : (
-        <g className="pet-eye" fill={ink} stroke="none">
-          <ellipse cx="-21" cy="0" rx={stage === 0 ? 4.6 : 5.1} ry={stage === 0 ? 5.5 : 7} />
-          <ellipse cx="21" cy="0" rx={stage === 0 ? 4.6 : 5.1} ry={stage === 0 ? 5.5 : 7} />
-          <circle cx="-22.5" cy="-2.5" r="1.7" fill="white" />
-          <circle cx="19.5" cy="-2.5" r="1.7" fill="white" />
-        </g>
-      )}
+      <Eyes stage={stage} mood={mood} />
       {bird ? (
-        <>
-          <path
-            d={happy ? 'M-11 14 0 8 11 14 0 29Z' : 'M-11 14 0 8 11 14 0 24Z'}
-            fill="#edbd50"
-            strokeWidth="2.5"
-          />
-          {happy && <path d="m-9 15 9 5 9-5" fill="none" strokeWidth="2" />}
-        </>
+        <Beak mood={mood} />
       ) : (
         <>
           <path
@@ -1420,16 +1564,7 @@ function Face({
             fill={species === 'momo' ? '#b95e70' : ink}
             stroke="none"
           />
-          {mood === 'eating' ? (
-            <>
-              <path d="M-10 22q10 15 20 0" fill="#a35249" strokeWidth="2.5" />
-              <path d="M-29 21q-5 4-1 9m59-9q5 4 1 9" fill="none" strokeWidth="2.5" />
-            </>
-          ) : happy ? (
-            <path d="M-10 21q10 15 20 0" fill="#c77568" strokeWidth="2.5" />
-          ) : (
-            <path d="M0 16v3q-5 9-11 3m11-3q5 9 11 3" fill="none" strokeWidth="2.5" />
-          )}
+          <Mouth mood={mood} />
         </>
       )}
       {(species === 'momo' || (species === 'yuzu' && stage > 1)) && stage > 0 && (
@@ -1503,7 +1638,7 @@ export function CompanionArt({
         <Face species={species} stage={stage} mood={mood} />
         <g transform={`translate(${hatX} ${hatY}) scale(${hatScale}) translate(-150 -80)`}>{hat}</g>
       </g>
-      {!portrait && (mood === 'happy' || mood === 'eating') && (
+      {!portrait && (mood === 'happy' || mood === 'eating' || mood === 'delighted') && (
         <g className="pet-sparkles" fill="#edbc48">
           <path d="m40 106 3 8 8 3-8 3-3 8-3-8-8-3 8-3Z" />
           <path d="m257 79 3 7 7 3-7 3-3 7-3-7-7-3 7-3Z" />

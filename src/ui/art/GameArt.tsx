@@ -1,11 +1,11 @@
 import { useId } from 'react'
 import type { GrowthStage, SpeciesId } from '../../app/game/browserGame'
-import { CompanionArt } from './CompanionArt'
+import { CompanionArt, type CompanionMood } from './CompanionArt'
 import { KayaScenery } from './KayaScenery'
 // oxlint-disable-next-line react/only-export-components -- Keep the companion art API in one place.
 export { companionFormDescription } from './CompanionArt'
+export type { CompanionMood } from './CompanionArt'
 
-type PetMood = 'hungry' | 'happy' | 'sleepy' | 'eating'
 type ArtProps = { className?: string }
 
 function Hat({ kind = 'none' }: { kind?: string }) {
@@ -86,7 +86,7 @@ export function Pet({
 }: ArtProps & {
   species?: SpeciesId
   stage?: GrowthStage
-  mood?: PetMood
+  mood?: CompanionMood
   hat?: string
   portrait?: boolean
 }) {

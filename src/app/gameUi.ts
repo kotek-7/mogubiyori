@@ -8,8 +8,6 @@ export type Page = 'room' | 'book' | 'album' | 'shop'
 type Setter<T> = Dispatch<SetStateAction<T>>
 type GameUi = {
   setDialog: Setter<Dialog | null>
-  petting: boolean
-  setPetting: Setter<boolean>
   openMeal: (options?: { recipeId?: string; targetId?: SpeciesId }) => void
   showFriends: () => void
   showGrowthGuide: boolean

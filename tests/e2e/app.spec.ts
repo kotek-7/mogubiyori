@@ -386,7 +386,7 @@ test('mobile scenes keep the main action in view and keyboard cancellation resto
   }
   await page.getByRole('button', { name: 'こむぎをなでる' }).click()
   await expect(page.locator('.play-pet')).toHaveClass(/is-petted/)
-  await expect(page.locator('.play-pet .pet-heart')).toBeVisible()
+  await expect(page.locator('.play-pet .companion-reaction-effects')).toBeVisible()
 })
 
 for (const viewport of [

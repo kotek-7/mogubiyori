@@ -51,7 +51,6 @@ function App() {
   const bookGuide = useRef<HTMLDivElement>(null)
   const restoreFeedFocus = useRef(false)
   const [toast, setToast] = useState('')
-  const [petting, setPetting] = useState(false)
   const [bookKind, setBookKind] = useState<'recipes' | 'friends'>('recipes')
   const [shopKind, setShopKind] = useState<'hat' | 'room'>('hat')
   const homeGuide = state.tutorial.status === 'completed' ? state.tutorial.homeGuide : undefined
@@ -63,11 +62,6 @@ function App() {
     const timer = setTimeout(() => setToast(''), 3500)
     return () => clearTimeout(timer)
   }, [toast])
-  useEffect(() => {
-    if (!petting) return
-    const timer = setTimeout(() => setPetting(false), 1700)
-    return () => clearTimeout(timer)
-  }, [petting])
   useEffect(() => {
     if (journey || !restoreFeedFocus.current) return
     let active = true
@@ -278,8 +272,6 @@ function App() {
     <GameUiProvider
       value={{
         setDialog,
-        petting,
-        setPetting,
         openMeal,
         showFriends,
         showGrowthGuide,
