@@ -1,0 +1,432 @@
+.tutorial-collection-lesson {
+  width: min(100%, 420px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--game-ink, #243b53);
+}
+
+.tutorial-collection-hint {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+  color: var(--game-muted, #526777);
+}
+
+.tutorial-collection-action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  width: min(100%, 340px);
+  min-height: 46px;
+  padding: 10px 14px;
+  border: 1px solid var(--game-gold-dark, #8a5710);
+  border-radius: 24px;
+  background: var(--game-gold, #f5b544);
+  color: var(--game-ink, #243b53);
+  box-shadow: 0 3px 0 #dca33e;
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.tutorial-collection-action:hover:not(:disabled) {
+  background: #fac668;
+}
+
+.tutorial-collection-action:disabled {
+  color: var(--game-muted, #526777);
+  background: var(--game-line, #c8dad5);
+  border-color: var(--game-line, #c8dad5);
+  box-shadow: none;
+  cursor: default;
+}
+
+.tutorial-collection-result {
+  margin: 0;
+  color: var(--game-teal-dark, #06665f);
+  font-size: 15px;
+  font-weight: 750;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.tutorial-collection-result:empty {
+  display: none;
+}
+
+.tutorial-collection-result:focus,
+.tutorial-recipe-header h2:focus {
+  outline: none;
+}
+
+.tutorial-friends-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 8px;
+  align-items: end;
+  width: 100%;
+  min-height: 178px;
+  padding: 9px 8px 14px;
+  border-radius: 30px;
+  background: linear-gradient(transparent 50%, var(--game-teal-soft, #d9efeb) 50%);
+}
+
+.tutorial-friends-host {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 8px;
+  color: var(--game-muted, #526777);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.tutorial-friend-portrait {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 112px;
+  overflow: hidden;
+}
+
+.tutorial-friend-portrait > .pet-art {
+  width: 166px;
+  height: 166px;
+  max-width: none;
+  position: absolute;
+  bottom: -5px;
+}
+
+.tutorial-friends-host .pet-art {
+  width: 135px;
+  height: 135px;
+}
+
+.tutorial-friends-guests {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.tutorial-guest {
+  position: relative;
+  min-width: 0;
+  padding: 0 4px 8px;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  background: var(--game-surface, #fffef8);
+  color: var(--game-ink, #243b53);
+  box-shadow: 0 3px 0 var(--game-line, #c8dad5);
+  cursor: pointer;
+}
+
+.tutorial-guest:hover:not(:disabled),
+.tutorial-guest.is-selected {
+  border-color: var(--game-teal, #087f79);
+  background: #f6fffa;
+}
+
+.tutorial-guest:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.tutorial-guest-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.5;
+}
+
+.tutorial-guest-name > svg {
+  color: var(--game-teal, #087f79);
+}
+
+.tutorial-friend-heart {
+  position: absolute;
+  z-index: 1;
+  left: calc(50% - 12px);
+  top: 10px;
+  color: var(--game-coral, #d5634d);
+  fill: currentColor;
+  animation: tutorial-friend-joined 550ms ease-out both;
+}
+
+.tutorial-card-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 10px 4px;
+}
+
+.tutorial-card-shadow,
+.tutorial-discovery-card {
+  min-width: 0;
+  border: 2px solid var(--game-line, #c8dad5);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.tutorial-card-shadow {
+  height: 135px;
+  background: var(--game-teal-soft, #d9efeb);
+  color: #a7c8bf;
+  border-style: dashed;
+  font-size: 32px;
+  font-weight: 800;
+  transform: rotate(-5deg);
+}
+
+.tutorial-card-shadow:last-child {
+  transform: rotate(5deg);
+}
+
+.tutorial-discovery-card {
+  min-height: 178px;
+  padding: 12px 8px;
+  gap: 12px;
+  background: var(--game-surface, #fffef8);
+  color: var(--game-teal-dark, #06665f);
+  border-color: var(--game-teal, #087f79);
+  box-shadow: 0 5px 0 #b8d5cb;
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.tutorial-discovery-card:hover {
+  background: #f6fffa;
+}
+
+.tutorial-card-question {
+  display: grid;
+  place-items: center;
+  width: 66px;
+  height: 82px;
+  border-radius: 40px;
+  background: var(--game-teal-soft, #d9efeb);
+  font-size: 44px;
+  line-height: 1;
+}
+
+.tutorial-collected-card {
+  border-color: var(--game-gold-dark, #8a5710);
+  box-shadow: 0 5px 0 var(--game-gold, #f5b544);
+  color: var(--game-ink, #243b53);
+  gap: 6px;
+  cursor: default;
+  animation: tutorial-card-reveal 550ms ease-out both;
+}
+
+.tutorial-collected-card > strong {
+  font-size: 16px;
+}
+
+.tutorial-card-dish {
+  width: 100%;
+  height: 110px;
+}
+
+.tutorial-card-dish > svg,
+.tutorial-recipe-picture > svg {
+  width: 100%;
+  height: 100%;
+}
+
+.tutorial-card-reward {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 17px;
+  border-radius: 20px;
+  background: #fff0c9;
+  color: var(--game-gold-dark, #8a5710);
+}
+
+.tutorial-card-recipe {
+  width: 100%;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--game-line, #c8dad5);
+  border-radius: 20px;
+  background: var(--game-surface, #fffef8);
+}
+
+.tutorial-recipe-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tutorial-recipe-picture {
+  width: 48px;
+  height: 36px;
+  flex: 0 0 auto;
+}
+
+.tutorial-recipe-header h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 750;
+}
+
+.tutorial-recipe-time {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--game-muted, #526777);
+}
+
+.tutorial-recipe-scroll {
+  width: 100%;
+  max-height: 138px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  padding: 1px 3px;
+  text-align: left;
+}
+
+.tutorial-recipe-scroll h3 {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.tutorial-recipe-ingredients {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.tutorial-recipe-steps {
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.tutorial-recipe-steps > summary {
+  width: fit-content;
+  padding: 5px 0;
+  color: var(--game-teal-dark, #06665f);
+  cursor: pointer;
+}
+
+.tutorial-recipe-steps ol {
+  margin: 4px 0 8px;
+  padding-left: 20px;
+}
+
+.tutorial-recipe-steps li + li {
+  margin-top: 5px;
+}
+
+.tutorial-collection-lesson button:focus-visible,
+.tutorial-collection-lesson summary:focus-visible,
+.tutorial-recipe-scroll:focus-visible {
+  outline: 3px solid var(--game-blue, #326ab0);
+  outline-offset: 3px;
+}
+
+@keyframes tutorial-friend-joined {
+  from {
+    opacity: 0;
+    transform: translateY(9px) scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes tutorial-card-reveal {
+  from {
+    opacity: 0;
+    transform: rotate(-4deg) scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
+@media (max-height: 680px), (max-width: 350px) {
+  .tutorial-collection-lesson {
+    gap: 8px;
+  }
+  .tutorial-collection-hint {
+    font-size: 12px;
+  }
+  .tutorial-friends-stage {
+    min-height: 154px;
+    padding: 4px 3px 10px;
+    gap: 5px;
+  }
+  .tutorial-friends-guests {
+    gap: 5px;
+  }
+  .tutorial-friend-portrait {
+    height: 100px;
+  }
+  .tutorial-guest-name {
+    font-size: 12px;
+    gap: 2px;
+  }
+  .tutorial-card-row {
+    gap: 7px;
+    padding-block: 5px;
+  }
+  .tutorial-card-shadow {
+    height: 118px;
+  }
+  .tutorial-discovery-card {
+    min-height: 157px;
+    gap: 8px;
+  }
+  .tutorial-card-dish {
+    height: 95px;
+  }
+  .tutorial-card-recipe {
+    padding: 9px;
+    gap: 7px;
+  }
+  .tutorial-recipe-scroll {
+    max-height: 128px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tutorial-friend-heart,
+  .tutorial-collected-card,
+  .tutorial-collection-lesson .pet-art {
+    animation: none;
+  }
+}

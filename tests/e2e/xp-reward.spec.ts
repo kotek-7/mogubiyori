@@ -5,7 +5,10 @@ import type { GameState } from '../../src/game'
 
 const plainMeal = { title: '今日のごはん', sample: 'rice' }
 const scene = (page: Page, name: string) => page.locator(`main[data-scene="${name}"]`)
-const starter = () => claimLogin(chooseStarter(initialGame(todayTokyo()), 'komugi'))
+const starter = () => {
+  const state = claimLogin(chooseStarter(initialGame(todayTokyo()), 'komugi'))
+  return { ...state, tutorial: { version: 1, step: 4, status: 'completed' } } satisfies GameState
+}
 
 async function stored(page: Page): Promise<GameState> {
   return page.evaluate(() => JSON.parse(localStorage.getItem('mogubiyori-v1')!))

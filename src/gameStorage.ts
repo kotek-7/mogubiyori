@@ -1,5 +1,5 @@
 import { initialGame, items, recipeById, shiftDay, species, stageOf, todayTokyo } from './game'
-import type { Companion, GameMeal, GameState, SpeciesId } from './game'
+import type { Companion, GameMeal, GameState, SpeciesId, TutorialState } from './game'
 
 export const GAME_STORAGE_KEY = 'mogubiyori-v1'
 
@@ -27,6 +27,25 @@ function speciesId(value: unknown): value is SpeciesId {
 
 function isCompanion(value: unknown): value is Companion {
   return object(value) && speciesId(value.id) && integer(value.xp) && day(value.joinedDay)
+}
+
+function normalizeTutorial(value: unknown, hasCompanion: boolean): TutorialState {
+  if (
+    object(value) &&
+    value.version === 1 &&
+    (value.step === 0 ||
+      value.step === 1 ||
+      value.step === 2 ||
+      value.step === 3 ||
+      value.step === 4) &&
+    (value.status === 'active' || value.status === 'paused' || value.status === 'completed')
+  )
+    return { version: 1, step: value.step, status: value.status }
+
+  // Missing or invalid guidance must not discard an existing player's progress.
+  return hasCompanion
+    ? { version: 1, step: 4, status: 'completed' }
+    : { version: 1, step: 0, status: 'active' }
 }
 
 function isMeal(value: unknown): value is GameMeal {
@@ -132,6 +151,7 @@ export function parseGame(raw: string | null, realDay = todayTokyo()): GameState
       return {
         ...state,
         growthVersion: 2,
+        tutorial: normalizeTutorial(state.tutorial, true),
         today,
         xp,
         meals,
@@ -181,6 +201,7 @@ export function parseGame(raw: string | null, realDay = todayTokyo()): GameState
     return {
       ...state,
       growthVersion: 2,
+      tutorial: normalizeTutorial(state.tutorial, state.activeId !== null),
       today,
       companions: migratedCompanions,
       visitors,

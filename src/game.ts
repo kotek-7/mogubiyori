@@ -222,9 +222,17 @@ export type GameMeal = {
   streakBonus?: number
 }
 
+export type TutorialStep = 0 | 1 | 2 | 3 | 4
+export type TutorialState = {
+  version: 1
+  step: TutorialStep
+  status: 'active' | 'paused' | 'completed'
+}
+
 export type GameState = {
   version: 1
   growthVersion: 2
+  tutorial: TutorialState
   today: string
   dayOffset: number
   name: string
@@ -326,6 +334,7 @@ export function initialGame(day = todayTokyo(), _fresh = true): GameState {
   return {
     version: 1,
     growthVersion: 2,
+    tutorial: { version: 1, step: 0, status: 'active' },
     today: day,
     dayOffset: 0,
     name: 'こむぎ',
@@ -357,6 +366,7 @@ export function demoGame(day = todayTokyo()): GameState {
   ]
   return {
     ...chooseStarter(initialGame(day), 'komugi'),
+    tutorial: { version: 1, step: 4, status: 'completed' },
     xp: 270,
     companions: [{ id: 'komugi', xp: 270, joinedDay: shiftDay(day, -6) }],
     meals: dishes.map((dish, i) => ({

@@ -32,6 +32,7 @@ test('all thirty companion forms have distinct geometry and support every hat', 
       for (const { stage, name, threshold } of growthStages) {
         const state = {
           ...initialGame(day),
+          tutorial: { version: 1, step: 4, status: 'completed' },
           activeId: friend.id,
           name: friend.name,
           xp: threshold,

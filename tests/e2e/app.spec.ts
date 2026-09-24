@@ -57,8 +57,8 @@ test('each starter has a personal welcome and its choice survives reload', async
 test('the first meal rewards cooking while keeping the initial form recognizable', async ({
   page,
 }) => {
-  await chooseStarter(page)
-  await page.getByRole('button', { name: 'はじめてのごはんへ' }).click()
+  await start(page)
+  await page.getByRole('button', { name: 'ごはんをあげる', exact: true }).click()
   await expectFocusedScene(page, 'photo')
   await sampleToTable(page, 'curry')
   await expectFocusedScene(page, 'serve')

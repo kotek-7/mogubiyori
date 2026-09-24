@@ -16,7 +16,7 @@ import { Pet, GatheringScene, DishArt, ItemArt } from './GameArt'
 import { GameDialogs } from './GameDialogs'
 import type { Dialog } from './GameDialogs'
 import { StarterSelection, RecipeBoard, FriendsBoard } from './CollectionScreens'
-import { WelcomeScene } from './WelcomeScene'
+import { TutorialJourney } from './TutorialJourney'
 import { MealJourney } from './MealJourney'
 import { FeastJourney } from './FeastJourney'
 import { transitionScene } from './journeyTransition'
@@ -38,14 +38,14 @@ import {
   streakOf,
   todayTokyo,
 } from './game'
-import type { FeedInput, GameState, SpeciesId } from './game'
+import type { FeedInput, GameState, SpeciesId, TutorialStep } from './game'
 import { loadGame, saveGame } from './gameStorage'
 import './play.css'
 
 type Page = 'room' | 'book' | 'album' | 'shop'
 type MealOptions = { recipeId?: string; targetId?: SpeciesId }
 type Journey =
-  | { type: 'welcome'; speciesId: SpeciesId }
+  | { type: 'tutorial'; step: TutorialStep }
   | ({ type: 'meal' } & MealOptions)
   | { type: 'feast'; before: GameState; after: GameState }
 function route(): Page {
@@ -122,7 +122,7 @@ function App() {
       restoreFeedFocus.current = false
       feedButton.current?.focus({ preventScroll: true })
     }
-  }, [journey])
+  }, [journey, state.tutorial.status])
   function navigate(next: Page) {
     setPage(next)
     window.location.hash = next
@@ -164,28 +164,96 @@ function App() {
     setBookKind('friends')
     navigate('book')
   }
+  function startTutorial() {
+    transitionScene(() => {
+      setDialog(null)
+      setToast('')
+      if (state.tutorial.status === 'completed') {
+        setJourney({ type: 'tutorial', step: 0 })
+      } else {
+        setState((current) => ({
+          ...current,
+          tutorial: { ...current.tutorial, status: 'active' },
+        }))
+        setJourney(null)
+      }
+    })
+  }
+  function pauseTutorial() {
+    transitionScene(() => {
+      if (journey?.type !== 'tutorial') {
+        setState((current) => ({
+          ...current,
+          tutorial: { ...current.tutorial, status: 'paused' },
+        }))
+      }
+      setJourney(null)
+      navigate('room')
+      restoreFeedFocus.current = true
+    })
+  }
   if (!state.activeId)
     return (
       <StarterSelection
         onChoose={(id) => {
           transitionScene(() => {
             setState((s) => chooseStarter(s, id))
-            setJourney({ type: 'welcome', speciesId: id })
+            setJourney(null)
             navigate('room')
           })
         }}
       />
     )
+  const tutorialStep =
+    journey?.type === 'tutorial'
+      ? journey.step
+      : !journey && state.tutorial.status === 'active'
+        ? state.tutorial.step
+        : null
+  if (tutorialStep !== null)
+    return (
+      <>
+        <TutorialJourney
+          speciesId={state.activeId}
+          step={tutorialStep}
+          replay={journey?.type === 'tutorial'}
+          onStep={(step) =>
+            transitionScene(() => {
+              if (journey?.type === 'tutorial') setJourney({ type: 'tutorial', step })
+              else setState((current) => ({ ...current, tutorial: { ...current.tutorial, step } }))
+            })
+          }
+          onPause={pauseTutorial}
+          onComplete={(recordMeal) => {
+            transitionScene(() => {
+              if (journey?.type !== 'tutorial')
+                setState((current) => ({
+                  ...current,
+                  tutorial: { version: 1, step: 4, status: 'completed' },
+                }))
+              setToast('')
+              if (recordMeal) {
+                submitted.current = false
+                setJourney({ type: 'meal' })
+              } else {
+                setJourney(null)
+                navigate('room')
+                restoreFeedFocus.current = true
+              }
+            })
+          }}
+        />
+        {storageError && (
+          <p role="alert" className="journey-storage-error">
+            この端末に保存できませんでした。再読み込みせずに続けてください。
+          </p>
+        )}
+      </>
+    )
   if (journey)
     return (
       <>
-        {journey.type === 'welcome' ? (
-          <WelcomeScene
-            speciesId={journey.speciesId}
-            onContinue={() => openMeal()}
-            onLater={finishJourney}
-          />
-        ) : journey.type === 'meal' ? (
+        {journey.type === 'meal' ? (
           <MealJourney
             state={state}
             recipeId={journey.recipeId}
@@ -193,9 +261,9 @@ function App() {
             onFeed={submit}
             onClose={finishJourney}
           />
-        ) : (
+        ) : journey.type === 'feast' ? (
           <FeastJourney before={journey.before} after={journey.after} onDone={finishJourney} />
-        )}
+        ) : null}
         {storageError && (
           <p role="alert" className="journey-storage-error">
             この端末に保存できませんでした。再読み込みせずに続けてください。
@@ -371,6 +439,13 @@ function App() {
                 <ChevronRight size={12} />
               </button>
             </div>
+            {state.tutorial.status === 'paused' && (
+              <button className="tutorial-resume" onClick={startTutorial}>
+                <BookOpen size={16} />
+                チュートリアルを続ける
+                <ChevronRight size={14} />
+              </button>
+            )}
           </>
         )}
         {page === 'book' && (
@@ -529,6 +604,7 @@ function App() {
           onNavigate={navigate}
           onToast={setToast}
           onRecord={openMeal}
+          onTutorial={startTutorial}
         />
       )}
       {toast && (

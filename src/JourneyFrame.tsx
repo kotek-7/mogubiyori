@@ -14,7 +14,7 @@ export type JourneyFrameProps = {
   onClose?: () => void
   backLabel?: string
   closeLabel?: string
-  progress?: { current: number; total: number }
+  progress?: { current: number; total: number; label?: string }
 }
 
 export function JourneyFrame({
@@ -59,7 +59,7 @@ export function JourneyFrame({
           <div
             className="journey-progress"
             role="progressbar"
-            aria-label="ごはんの記録"
+            aria-label={progress.label ?? 'ごはんの記録'}
             aria-valuemin={0}
             aria-valuemax={total}
             aria-valuenow={current}

@@ -40,6 +40,7 @@ type Props = {
   onNavigate: (page: 'room' | 'album' | 'shop') => void
   onToast: (text: string) => void
   onRecord: (options?: { recipeId?: string; targetId?: SpeciesId }) => void
+  onTutorial: () => void
 }
 
 function Sheet({
@@ -114,6 +115,7 @@ export function GameDialogs({
   onNavigate,
   onToast,
   onRecord,
+  onTutorial,
 }: Props) {
   const [local, setLocal] = useState<Dialog>(dialog)
   const [reset, setReset] = useState<'seed' | 'fresh' | null>(null)
@@ -453,6 +455,12 @@ export function GameDialogs({
       content = (
         <div className="settings-sheet">
           {reminderControl()}
+          <button className="secondary-button full" onClick={onTutorial}>
+            <Sparkles size={18} />
+            {state.tutorial.status === 'completed'
+              ? 'チュートリアルをもう一度'
+              : 'チュートリアルを続ける'}
+          </button>
           <button className="settings-row" onClick={() => setLocal({ type: 'help' })}>
             <HelpCircle size={17} />
             あそびかた

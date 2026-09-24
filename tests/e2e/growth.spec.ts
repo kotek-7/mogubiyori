@@ -9,6 +9,7 @@ test('five forms unlock in order and collected forms can be revisited without ch
   await page.setViewportSize({ width: 390, height: 844 })
   for (const { stage, name, threshold } of growthStages) {
     const state = claimLogin(chooseStarter(initialGame(todayTokyo()), 'komugi'))
+    state.tutorial = { version: 1, step: 4, status: 'completed' }
     state.xp = threshold
     state.companions[0].xp = threshold
     await page.goto('/')
@@ -40,6 +41,7 @@ test('the five-form collection is readable with keyboard and assistive technolog
   page,
 }) => {
   const state = claimLogin(chooseStarter(initialGame(todayTokyo()), 'shizuku'))
+  state.tutorial = { version: 1, step: 4, status: 'completed' }
   state.xp = 300
   state.companions[0].xp = 300
   await page.addInitScript(
