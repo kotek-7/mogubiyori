@@ -325,6 +325,12 @@ function App() {
               <span>ひと皿ごとに、発見。</span>
               <h1>おいしいずかん</h1>
             </div>
+            <a className="expansion-link" href="/expansion/index.html">
+              <span>
+                新しい料理図鑑へ<small>300の料理、新しいなかま、きせかえを見つけよう。</small>
+              </span>
+              <span aria-hidden="true">↗</span>
+            </a>
             <div className="play-book-tabs" role="group" aria-label="ずかんのカテゴリ">
               <button aria-pressed={bookKind === 'recipes'} onClick={() => setBookKind('recipes')}>
                 レシピカード

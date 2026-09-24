@@ -64,6 +64,9 @@ export function StarterSelection({ onChoose }: { onChoose: (id: SpeciesId) => vo
         <ArrowRight size={18} />
       </button>
       <p className="starter-footnote">つくって、たべて。ふたりで育っていこう。</p>
+      <a className="starter-expansion" href="/expansion/index.html">
+        料理となかまの新しい図鑑を見る ↗
+      </a>
     </main>
   )
 }

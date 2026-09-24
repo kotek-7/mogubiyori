@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#24624b" />
+    <title>料理図鑑 | もぐ日和</title>
+    <link rel="stylesheet" href="./catalog.css" />
+    <script type="module" src="./catalog.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#catalog">図鑑へ進む</a>
+    <header>
+      <a class="brand" href="/">もぐ日和<span>きみのごはんで、なかまが育つ。</span></a
+      ><a class="back" href="/">ひろばへ ↗</a>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <span class="edition">もぐ日和の料理図鑑　第一集</span>
+          <h1>いただきますを、<br />集めよう。</h1>
+          <p>いつものごはんも、はじめての一皿も。<br />つくるたび、世界がひとつ広がる。</p>
+          <a class="cta" href="#catalog">次の一皿をさがす <span>↓</span></a>
+          <div class="hero-numbers" id="counts" aria-live="polite"></div>
+        </div>
+        <img
+          src="./assets/scenes/neighborhood-table.png"
+          alt="食堂でおにぎりやスープを分け合うこむぎたち"
+          width="1536"
+          height="1024"
+          fetchpriority="high"
+        />
+      </section>
+      <section class="library" id="catalog" aria-labelledby="catalog-heading">
+        <div class="section-head">
+          <div>
+            <span class="edition">きょうは、なににする？</span>
+            <h2 id="catalog-heading">食卓からひろがる図鑑</h2>
+          </div>
+          <p>気になるカードをひらいてみよう。</p>
+        </div>
+        <nav class="tabs" aria-label="図鑑の種類">
+          <button type="button" data-tab="recipes" aria-pressed="true">
+            料理カード <span id="recipe-count"></span></button
+          ><button type="button" data-tab="characters" aria-pressed="false">
+            なかまたち <span id="character-count"></span></button
+          ><button type="button" data-tab="items" aria-pressed="false">
+            きせかえとひろば <span id="item-count"></span>
+          </button>
+        </nav>
+        <form class="filters" id="filters" role="search">
+          <label class="search"
+            >名前・材料・ことば<input
+              id="query"
+              type="search"
+              placeholder="例：なす、フライパン、朝ごはん"
+              autocomplete="off" /></label
+          ><label
+            >分類<select id="category">
+              <option value="">すべて</option>
+            </select></label
+          ><label class="recipe-filter"
+            >時間<select id="time">
+              <option value="0">すべて</option>
+              <option value="10">10分以内</option>
+              <option value="20">20分以内</option>
+              <option value="30">30分以内</option>
+            </select></label
+          ><label class="recipe-filter"
+            >難易度<select id="difficulty">
+              <option value="">すべて</option>
+              <option value="1">かんたん</option>
+              <option value="2">ひと工夫</option>
+              <option value="3">じっくり</option>
+            </select></label
+          ><label
+            >並び順<select id="sort">
+              <option value="default">図鑑順</option>
+              <option value="name">名前順</option>
+              <option value="time">時間順</option>
+            </select></label
+          ><button type="reset" class="reset">条件を戻す</button>
+        </form>
+        <div class="results-line">
+          <p id="result-count" role="status">図鑑を読み込んでいます…</p>
+          <span>カードを押して詳しく</span>
+        </div>
+        <div id="cards" class="cards"></div>
+        <div id="empty" class="empty" hidden>
+          ぴったりのカードが見つかりませんでした。<br />ことばや条件を少し変えてみてください。
+        </div>
+        <nav class="pagination" aria-label="ページ送り">
+          <button type="button" id="prev">← 前へ</button><span id="page-number"></span
+          ><button type="button" id="next">次へ →</button>
+        </nav>
+      </section>
+      <section class="direction">
+        <strong>おいしい色。<br />たのしいかたち。</strong>
+        <p>朱色、深緑、青、山吹。<br />料理のかたちを眺めながら、<br />きょうのひと皿を選ぼう。</p>
+        <div class="swatches" role="img" aria-label="朱色、深緑、青、山吹、墨色の配色">
+          <i></i><i></i><i></i><i></i><i></i>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <span>もぐ日和　料理図鑑 第一集</span>
+      <p>
+        追加コンテンツのプレビューです。獲得・購入は本体への接続前です。<br />調理時間は目安です。レシピの実調理による確認は未実施です。
+      </p>
+      <a href="./manifest.json">コンテンツ情報</a>
+    </footer>
+    <dialog id="detail" aria-labelledby="detail-title">
+      <button type="button" class="close" aria-label="閉じる">×</button>
+      <div id="detail-body"></div>
+    </dialog>
+  </body>
+</html>

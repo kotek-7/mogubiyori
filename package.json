@@ -5,13 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "node scripts/content/validate-pack.mjs && tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
     "test": "vitest run tests/*.test.ts",
     "test:e2e": "playwright test",
     "format": "prettier --write src tests docs *.ts *.json *.html *.md",
-    "format:check": "prettier --check src tests docs *.ts *.json *.html *.md"
+    "format:check": "prettier --check src tests docs *.ts *.json *.html *.md",
+    "content:build": "node scripts/content/build-pack.mjs && node scripts/content/validate-pack.mjs",
+    "content:check": "node scripts/content/validate-pack.mjs"
   },
   "dependencies": {
     "@fontsource-variable/noto-sans-jp": "^5.3.0",

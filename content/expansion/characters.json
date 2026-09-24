@@ -1,0 +1,3350 @@
+[
+  {
+    "id": "c-komepi",
+    "name": "こめぴ",
+    "description": "米粒の羽とおにぎり形の胸を持つ、小さな文鳥。",
+    "personality": "一粒も残さない几帳面な収集家。",
+    "habitat": "meadow",
+    "favoriteCategories": [
+      "rice",
+      "breakfast"
+    ],
+    "favoriteTags": [
+      "お米",
+      "朝ごはん"
+    ],
+    "discovery": {
+      "adultCompanions": 1,
+      "uniqueRecipes": 3
+    },
+    "dialogue": {
+      "greeting": "今日の一粒、見つけにいこう。",
+      "fed": "ぴっ！ お皿、ぴかぴか。",
+      "newDish": "この香り、図鑑に一粒はさもう。",
+      "repeatDish": "知ってるごはんは、ほっとするね。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "米粒のような丸いひな。小さな海苔の前掛けが目印。",
+        "artPath": "/expansion/assets/characters/c-komepi-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 125.32
+          },
+          "hatTransform": {
+            "translateX": 47.4,
+            "translateY": 73.34,
+            "scaleX": 0.684,
+            "scaleY": 0.684
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "両翼が伸び、胸の海苔模様が三角に育つ。",
+        "artPath": "/expansion/assets/characters/c-komepi-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 99.62
+          },
+          "hatTransform": {
+            "translateX": 28.5,
+            "translateY": 37.38,
+            "scaleX": 0.81,
+            "scaleY": 0.819
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "稲穂の尾羽と三枚の風切羽を広げる。",
+        "artPath": "/expansion/assets/characters/c-komepi-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 82
+          },
+          "hatTransform": {
+            "translateX": 15.0,
+            "translateY": 13.6,
+            "scaleX": 0.9,
+            "scaleY": 0.9
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#fff5de",
+      "accent": "#df442d",
+      "outline": "#202820"
+    },
+    "silhouette": "rice-finch",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 82
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-kabun",
+    "name": "かぶん",
+    "description": "かぶの根っこがしっぽになった、土いじり好きのもぐら。",
+    "personality": "道具を磨いてから出かける慎重派。",
+    "habitat": "meadow",
+    "favoriteCategories": [
+      "soup",
+      "side"
+    ],
+    "favoriteTags": [
+      "野菜",
+      "煮物"
+    ],
+    "discovery": {
+      "adultCompanions": 1,
+      "uniqueRecipes": 5
+    },
+    "dialogue": {
+      "greeting": "土のにおい、今日はいい感じ。",
+      "fed": "ほくほく、足先まであたたかい。",
+      "newDish": "まだ知らない根っこの味だ！",
+      "repeatDish": "いつもの味を、今日も掘り当てた。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "双葉と短い根を持つ、手のひらサイズのかぶ。",
+        "artPath": "/expansion/assets/characters/c-kabun-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 137.48
+          },
+          "hatTransform": {
+            "translateX": 47.4,
+            "translateY": 85.5,
+            "scaleX": 0.684,
+            "scaleY": 0.684
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "掘るための前足と三枚の葉が育つ。",
+        "artPath": "/expansion/assets/characters/c-kabun-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 114.18
+          },
+          "hatTransform": {
+            "translateX": 28.5,
+            "translateY": 51.94,
+            "scaleX": 0.81,
+            "scaleY": 0.819
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "葉が扇形に開き、くるりと長い根が伸びる。",
+        "artPath": "/expansion/assets/characters/c-kabun-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 98
+          },
+          "hatTransform": {
+            "translateX": 15.0,
+            "translateY": 29.6,
+            "scaleX": 0.9,
+            "scaleY": 0.9
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#fff5de",
+      "accent": "#24624b",
+      "outline": "#202820"
+    },
+    "silhouette": "turnip-mole",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 98
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-nanari",
+    "name": "ななり",
+    "description": "菜の花の襟とふわりとした首を持つアルパカ。",
+    "personality": "周りの歩幅に合わせるおっとり屋。",
+    "habitat": "meadow",
+    "favoriteCategories": [
+      "side",
+      "breakfast"
+    ],
+    "favoriteTags": [
+      "野菜",
+      "春"
+    ],
+    "discovery": {
+      "adultCompanions": 1,
+      "uniqueRecipes": 7
+    },
+    "dialogue": {
+      "greeting": "ゆっくり、ひと口ずついこう。",
+      "fed": "おなかにも、花が咲いたみたい。",
+      "newDish": "初めての味、急がず覚えるね。",
+      "repeatDish": "うんうん、また会えた味だ。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "小さな花芽を耳につけた、短い首の子。",
+        "artPath": "/expansion/assets/characters/c-nanari-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.76,
+            "y": 126.08
+          },
+          "hatTransform": {
+            "translateX": 62.98,
+            "translateY": 81.6,
+            "scaleX": 0.5852,
+            "scaleY": 0.5852
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "首が伸び、二つの花が襟に咲く。",
+        "artPath": "/expansion/assets/characters/c-nanari-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.9,
+            "y": 100.53
+          },
+          "hatTransform": {
+            "translateX": 46.95,
+            "translateY": 47.28,
+            "scaleX": 0.693,
+            "scaleY": 0.7007
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "花の襟が一周つながり、長い前髪が波打つ。",
+        "artPath": "/expansion/assets/characters/c-nanari-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 151,
+            "y": 83
+          },
+          "hatTransform": {
+            "translateX": 35.5,
+            "translateY": 24.48,
+            "scaleX": 0.77,
+            "scaleY": 0.77
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#f7c544",
+      "accent": "#24624b",
+      "outline": "#202820"
+    },
+    "silhouette": "rapeseed-alpaca",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 151,
+        "y": 83
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-ichiri",
+    "name": "いちり",
+    "description": "いちごのしずく形の体に、葉っぱの長耳を持つ野うさぎ。",
+    "personality": "遠足のしおりを作るのが得意。",
+    "habitat": "meadow",
+    "favoriteCategories": [
+      "snack",
+      "breakfast"
+    ],
+    "favoriteTags": [
+      "果物",
+      "甘い"
+    ],
+    "discovery": {
+      "adultCompanions": 1,
+      "uniqueRecipes": 9
+    },
+    "dialogue": {
+      "greeting": "お弁当を持って、どこまで跳ぼう？",
+      "fed": "種の数だけ、うれしいな。",
+      "newDish": "しおりに新しい味を描いておくね。",
+      "repeatDish": "いつもの味は、遠足のお守り。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "丸いいちごと一枚の葉耳。種の点は三つだけ。",
+        "artPath": "/expansion/assets/characters/c-ichiri-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 142.8
+          },
+          "hatTransform": {
+            "translateX": 55.38,
+            "translateY": 94.86,
+            "scaleX": 0.6308,
+            "scaleY": 0.6308
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "二枚の葉耳が立ち、跳ねる後ろ足が伸びる。",
+        "artPath": "/expansion/assets/characters/c-ichiri-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 120.55
+          },
+          "hatTransform": {
+            "translateX": 37.95,
+            "translateY": 63.15,
+            "scaleX": 0.747,
+            "scaleY": 0.7553
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "大きな葉耳と花の尾を揺らして弾む。",
+        "artPath": "/expansion/assets/characters/c-ichiri-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 105
+          },
+          "hatTransform": {
+            "translateX": 25.5,
+            "translateY": 41.92,
+            "scaleX": 0.83,
+            "scaleY": 0.83
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#df442d",
+      "accent": "#24624b",
+      "outline": "#202820"
+    },
+    "silhouette": "strawberry-hare",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 105
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-soramame",
+    "name": "そらまる",
+    "description": "豆さやの貝殻を背負った、散歩好きのかたつむり。",
+    "personality": "遅くても寄り道は欠かさない。",
+    "habitat": "meadow",
+    "favoriteCategories": [
+      "side",
+      "soup"
+    ],
+    "favoriteTags": [
+      "豆",
+      "野菜"
+    ],
+    "discovery": {
+      "adultCompanions": 1,
+      "uniqueRecipes": 11
+    },
+    "dialogue": {
+      "greeting": "今日の寄り道、ごはんのにおい。",
+      "fed": "ゆっくり食べると、長くうれしい。",
+      "newDish": "知らない味まで、たどり着いたよ。",
+      "repeatDish": "この道、この味、覚えているよ。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "一粒だけの丸い殻と短い触角。",
+        "artPath": "/expansion/assets/characters/c-soramame-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 83.12,
+            "y": 199.8
+          },
+          "hatTransform": {
+            "translateX": 30.68,
+            "translateY": 173.23,
+            "scaleX": 0.3496,
+            "scaleY": 0.3496
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "殻が二粒のさやに伸び、触角がくるんと曲がる。",
+        "artPath": "/expansion/assets/characters/c-soramame-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 70.8,
+            "y": 188.8
+          },
+          "hatTransform": {
+            "translateX": 8.7,
+            "translateY": 156.99,
+            "scaleX": 0.414,
+            "scaleY": 0.4186
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "三粒の豆が並ぶ殻と、葉の旗を背負う。",
+        "artPath": "/expansion/assets/characters/c-soramame-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 62,
+            "y": 180
+          },
+          "hatTransform": {
+            "translateX": -7.0,
+            "translateY": 145.04,
+            "scaleX": 0.46,
+            "scaleY": 0.46
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#24624b",
+      "accent": "#f7c544",
+      "outline": "#202820"
+    },
+    "silhouette": "pea-snail",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 62,
+        "y": 180
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-himari",
+    "name": "ひまり",
+    "description": "ひまわりの花びらを針の代わりに広げるハリネズミ。",
+    "personality": "朝一番にカーテンを開ける元気者。",
+    "habitat": "meadow",
+    "favoriteCategories": [
+      "rice",
+      "main"
+    ],
+    "favoriteTags": [
+      "香ばしい",
+      "卵"
+    ],
+    "discovery": {
+      "adultCompanions": 2,
+      "uniqueRecipes": 14
+    },
+    "dialogue": {
+      "greeting": "おひさまより先に、おはよう！",
+      "fed": "背中いっぱい、元気が咲いた！",
+      "newDish": "新しい味で、花びらが一枚増えそう。",
+      "repeatDish": "この味で、今日もぱっと開こう。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "種の模様の背中に、花びらが三枚。",
+        "artPath": "/expansion/assets/characters/c-himari-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.76,
+            "y": 168.64
+          },
+          "hatTransform": {
+            "translateX": 67.54,
+            "translateY": 126.48,
+            "scaleX": 0.5548,
+            "scaleY": 0.5548
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "花びらが半円に開き、鼻先が少し伸びる。",
+        "artPath": "/expansion/assets/characters/c-himari-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.9,
+            "y": 151.49
+          },
+          "hatTransform": {
+            "translateX": 52.35,
+            "translateY": 101.0,
+            "scaleX": 0.657,
+            "scaleY": 0.6643
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "大輪の花を背負い、葉の足でどっしり立つ。",
+        "artPath": "/expansion/assets/characters/c-himari-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 151,
+            "y": 139
+          },
+          "hatTransform": {
+            "translateX": 41.5,
+            "translateY": 83.52,
+            "scaleX": 0.73,
+            "scaleY": 0.73
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#f7c544",
+      "accent": "#df442d",
+      "outline": "#202820"
+    },
+    "silhouette": "sunflower-hedgehog",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 151,
+        "y": 139
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-kurune",
+    "name": "くるね",
+    "description": "栗の実形の頭と、いがいがの大きな尾を持つリス。",
+    "personality": "拾ったものを小箱に整理する。",
+    "habitat": "forest",
+    "favoriteCategories": [
+      "rice",
+      "snack"
+    ],
+    "favoriteTags": [
+      "秋",
+      "香ばしい"
+    ],
+    "discovery": {
+      "adultCompanions": 2,
+      "uniqueRecipes": 16
+    },
+    "dialogue": {
+      "greeting": "おいしい発見、箱にしまっておこう。",
+      "fed": "ほっぺの宝箱がいっぱい。",
+      "newDish": "これは新しい引き出しが必要だね。",
+      "repeatDish": "お気に入りの棚に、またひとつ。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "栗の帽子に短い丸尾を持つ子。",
+        "artPath": "/expansion/assets/characters/c-kurune-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 132.16
+          },
+          "hatTransform": {
+            "translateX": 41.7,
+            "translateY": 77.29,
+            "scaleX": 0.722,
+            "scaleY": 0.722
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "耳が立ち、尾に栗のいが模様が現れる。",
+        "artPath": "/expansion/assets/characters/c-kurune-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 107.81
+          },
+          "hatTransform": {
+            "translateX": 21.75,
+            "translateY": 42.11,
+            "scaleX": 0.855,
+            "scaleY": 0.8645
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "扇のような大尾と白い栗座が育つ。",
+        "artPath": "/expansion/assets/characters/c-kurune-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 91
+          },
+          "hatTransform": {
+            "translateX": 7.5,
+            "translateY": 18.8,
+            "scaleX": 0.95,
+            "scaleY": 0.95
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#ed822f",
+      "accent": "#24624b",
+      "outline": "#202820"
+    },
+    "silhouette": "chestnut-squirrel",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 91
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-shiipo",
+    "name": "しいぽ",
+    "description": "きのこの傘を背負い、くるんと短い鼻を持つバク。",
+    "personality": "雨音を数える静かな聞き役。",
+    "habitat": "forest",
+    "favoriteCategories": [
+      "soup",
+      "main"
+    ],
+    "favoriteTags": [
+      "きのこ",
+      "煮込み"
+    ],
+    "discovery": {
+      "adultCompanions": 2,
+      "uniqueRecipes": 18
+    },
+    "dialogue": {
+      "greeting": "ぽつぽつ、鍋の音が聞こえるね。",
+      "fed": "湯気の向こうまで、おいしい。",
+      "newDish": "その味の話、もう少し聞かせて。",
+      "repeatDish": "雨の日にも、晴れの日にも、これ。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "丸い傘からちょこんと顔を出す。",
+        "artPath": "/expansion/assets/characters/c-shiipo-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 114.68
+          },
+          "hatTransform": {
+            "translateX": 55.38,
+            "translateY": 66.74,
+            "scaleX": 0.6308,
+            "scaleY": 0.6308
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "傘のつばが広がり、鼻が曲がる。",
+        "artPath": "/expansion/assets/characters/c-shiipo-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 86.88
+          },
+          "hatTransform": {
+            "translateX": 37.95,
+            "translateY": 29.48,
+            "scaleX": 0.747,
+            "scaleY": 0.7553
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "二段の傘と襞模様が育ち、足取りが頼もしくなる。",
+        "artPath": "/expansion/assets/characters/c-shiipo-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 68
+          },
+          "hatTransform": {
+            "translateX": 25.5,
+            "translateY": 4.92,
+            "scaleX": 0.83,
+            "scaleY": 0.83
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#df442d",
+      "accent": "#fff5de",
+      "outline": "#202820"
+    },
+    "silhouette": "mushroom-tapir",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 68
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-waramo",
+    "name": "わらも",
+    "description": "わらびの巻き尾と、シダの背びれを持つカメレオン。",
+    "personality": "小さな違いを見つける観察家。",
+    "habitat": "forest",
+    "favoriteCategories": [
+      "side",
+      "noodles"
+    ],
+    "favoriteTags": [
+      "緑",
+      "野菜"
+    ],
+    "discovery": {
+      "adultCompanions": 2,
+      "uniqueRecipes": 20
+    },
+    "dialogue": {
+      "greeting": "昨日と違う葉っぱ、見つけた？",
+      "fed": "ひと口ごとに、発見があるね。",
+      "newDish": "新しい味の形、よく観察しよう。",
+      "repeatDish": "同じ料理にも、今日だけのところ。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "ひと巻きの尾と、小さな丸い頭。",
+        "artPath": "/expansion/assets/characters/c-waramo-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 132.16
+          },
+          "hatTransform": {
+            "translateX": 58.8,
+            "translateY": 85.95,
+            "scaleX": 0.608,
+            "scaleY": 0.608
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "尾が二重に巻き、背びれが三枚になる。",
+        "artPath": "/expansion/assets/characters/c-waramo-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 107.81
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 52.48,
+            "scaleX": 0.72,
+            "scaleY": 0.728
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "シダの背びれを広げ、両目で遠くを見渡す。",
+        "artPath": "/expansion/assets/characters/c-waramo-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 91
+          },
+          "hatTransform": {
+            "translateX": 30.0,
+            "translateY": 30.2,
+            "scaleX": 0.8,
+            "scaleY": 0.8
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#24624b",
+      "accent": "#f7c544",
+      "outline": "#202820"
+    },
+    "silhouette": "fern-chameleon",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 91
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-donguri",
+    "name": "どんり",
+    "description": "どんぐりの兜をかぶった、前向きなうり坊。",
+    "personality": "失敗したらもう一度並べ直す。",
+    "habitat": "forest",
+    "favoriteCategories": [
+      "main",
+      "rice"
+    ],
+    "favoriteTags": [
+      "根菜",
+      "和食"
+    ],
+    "discovery": {
+      "adultCompanions": 2,
+      "uniqueRecipes": 22
+    },
+    "dialogue": {
+      "greeting": "まず一歩。においのするほうへ！",
+      "fed": "おなかが満ちたら、もう一歩！",
+      "newDish": "初めてでも、まずひと口だね。",
+      "repeatDish": "帰り道の味、ちゃんと覚えたよ。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "丸いどんぐり帽と短い鼻の子。",
+        "artPath": "/expansion/assets/characters/c-donguri-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 109.36
+          },
+          "hatTransform": {
+            "translateX": 67.92,
+            "translateY": 67.77,
+            "scaleX": 0.5472,
+            "scaleY": 0.5472
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "帽子の軸が伸び、背に縞が三本現れる。",
+        "artPath": "/expansion/assets/characters/c-donguri-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 80.51
+          },
+          "hatTransform": {
+            "translateX": 52.8,
+            "translateY": 30.71,
+            "scaleX": 0.648,
+            "scaleY": 0.6552
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "大きな襟と小さな牙を持つ森の案内役。",
+        "artPath": "/expansion/assets/characters/c-donguri-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 61
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 6.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#ed822f",
+      "accent": "#275bbb",
+      "outline": "#202820"
+    },
+    "silhouette": "acorn-boar",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 61
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-kuruwu",
+    "name": "くるう",
+    "description": "くるみの殻の眉と、左右で模様の違う翼を持つフクロウ。",
+    "personality": "考えごとをすると首をかしげる。",
+    "habitat": "forest",
+    "favoriteCategories": [
+      "snack",
+      "soup"
+    ],
+    "favoriteTags": [
+      "ナッツ",
+      "温かい"
+    ],
+    "discovery": {
+      "adultCompanions": 3,
+      "uniqueRecipes": 25
+    },
+    "dialogue": {
+      "greeting": "ふむ、今日の献立には何が隠れている？",
+      "fed": "なるほど、これはうれしい答え。",
+      "newDish": "問いがひとつ、味がひとつ増えた。",
+      "repeatDish": "何度考えても、好きな味だ。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "丸い殻の中に、二つの大きな目。",
+        "artPath": "/expansion/assets/characters/c-kuruwu-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 133.68
+          },
+          "hatTransform": {
+            "translateX": 47.4,
+            "translateY": 81.7,
+            "scaleX": 0.684,
+            "scaleY": 0.684
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "割れ目の眉と小さな翼が育つ。",
+        "artPath": "/expansion/assets/characters/c-kuruwu-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 109.63
+          },
+          "hatTransform": {
+            "translateX": 28.5,
+            "translateY": 47.39,
+            "scaleX": 0.81,
+            "scaleY": 0.819
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "殻模様の大翼と羽角を広げる。",
+        "artPath": "/expansion/assets/characters/c-kuruwu-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 93
+          },
+          "hatTransform": {
+            "translateX": 15.0,
+            "translateY": 24.6,
+            "scaleX": 0.9,
+            "scaleY": 0.9
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#ed822f",
+      "accent": "#fff5de",
+      "outline": "#202820"
+    },
+    "silhouette": "walnut-owl",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 93
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-takenon",
+    "name": "たけのん",
+    "description": "たけのこの段々帽と、笹の尾を持つ小さなパンダ。",
+    "personality": "片付けの順番を考えるのが好き。",
+    "habitat": "forest",
+    "favoriteCategories": [
+      "side",
+      "rice"
+    ],
+    "favoriteTags": [
+      "たけのこ",
+      "春"
+    ],
+    "discovery": {
+      "adultCompanions": 3,
+      "uniqueRecipes": 27
+    },
+    "dialogue": {
+      "greeting": "ごはんの前に、机をひと拭き。",
+      "fed": "よく噛むと、いい音がするね。",
+      "newDish": "新しい味、順番に覚えていこう。",
+      "repeatDish": "おなじみの味が、暮らしの節目。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "一段のたけのこ頭と、丸い耳。",
+        "artPath": "/expansion/assets/characters/c-takenon-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 94.92
+          },
+          "hatTransform": {
+            "translateX": 94.14,
+            "translateY": 66.62,
+            "scaleX": 0.3724,
+            "scaleY": 0.3724
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "帽子が二段になり、笹の尾が伸びる。",
+        "artPath": "/expansion/assets/characters/c-takenon-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 63.22
+          },
+          "hatTransform": {
+            "translateX": 83.85,
+            "translateY": 29.33,
+            "scaleX": 0.441,
+            "scaleY": 0.4459
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "三段の帽子と葉の肩掛けを持つ。",
+        "artPath": "/expansion/assets/characters/c-takenon-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 42
+          },
+          "hatTransform": {
+            "translateX": 76.5,
+            "translateY": 4.76,
+            "scaleX": 0.49,
+            "scaleY": 0.49
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#24624b",
+      "accent": "#fff5de",
+      "outline": "#202820"
+    },
+    "silhouette": "bamboo-panda",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 42
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-wakarun",
+    "name": "わかるん",
+    "description": "わかめのひらひら襟を持ち、貝を集めるラッコ。",
+    "personality": "気に入ったものを何度も磨く。",
+    "habitat": "seaside",
+    "favoriteCategories": [
+      "soup",
+      "noodles"
+    ],
+    "favoriteTags": [
+      "海藻",
+      "だし"
+    ],
+    "discovery": {
+      "adultCompanions": 3,
+      "uniqueRecipes": 29
+    },
+    "dialogue": {
+      "greeting": "きらっとする味、探してたんだ。",
+      "fed": "おなかの貝まで、つやつや気分。",
+      "newDish": "この味も、大切に磨いていこう。",
+      "repeatDish": "いつもの味は、手になじむ貝みたい。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "小さなひれ足と一枚のわかめ襟。",
+        "artPath": "/expansion/assets/characters/c-wakarun-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 133.68
+          },
+          "hatTransform": {
+            "translateX": 51.96,
+            "translateY": 84.01,
+            "scaleX": 0.6536,
+            "scaleY": 0.6536
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "長い尾と二枚の襟が育つ。",
+        "artPath": "/expansion/assets/characters/c-wakarun-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 109.63
+          },
+          "hatTransform": {
+            "translateX": 33.9,
+            "translateY": 50.15,
+            "scaleX": 0.774,
+            "scaleY": 0.7826
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "波打つ大きな襟と、磨いた貝の腹飾りを持つ。",
+        "artPath": "/expansion/assets/characters/c-wakarun-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 93
+          },
+          "hatTransform": {
+            "translateX": 21.0,
+            "translateY": 27.64,
+            "scaleX": 0.86,
+            "scaleY": 0.86
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#24624b",
+      "accent": "#15978d",
+      "outline": "#202820"
+    },
+    "silhouette": "wakame-otter",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 93
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-hotape",
+    "name": "ほたぺ",
+    "description": "ほたて貝の扇形の背中を持つ、拍手好きのアザラシ。",
+    "personality": "人の小さな成功にすぐ拍手する。",
+    "habitat": "seaside",
+    "favoriteCategories": [
+      "main",
+      "soup"
+    ],
+    "favoriteTags": [
+      "魚介",
+      "蒸し料理"
+    ],
+    "discovery": {
+      "adultCompanions": 3,
+      "uniqueRecipes": 31
+    },
+    "dialogue": {
+      "greeting": "今日も作れたね。ぱち、ぱち！",
+      "fed": "おいしい一皿に、ぱちぱちぱち！",
+      "newDish": "新しい挑戦にも、大きな拍手！",
+      "repeatDish": "いつもの一皿にも、ちゃんと拍手。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "丸い貝から顔と小さなひれが出る。",
+        "artPath": "/expansion/assets/characters/c-hotape-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 162.56
+          },
+          "hatTransform": {
+            "translateX": 61.08,
+            "translateY": 117.51,
+            "scaleX": 0.5928,
+            "scaleY": 0.5928
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "貝の筋が増え、左右のひれが伸びる。",
+        "artPath": "/expansion/assets/characters/c-hotape-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 144.21
+          },
+          "hatTransform": {
+            "translateX": 44.7,
+            "translateY": 90.27,
+            "scaleX": 0.702,
+            "scaleY": 0.7098
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "扇形の貝を大きく開き、尾びれが二つに分かれる。",
+        "artPath": "/expansion/assets/characters/c-hotape-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 131
+          },
+          "hatTransform": {
+            "translateX": 33.0,
+            "translateY": 71.72,
+            "scaleX": 0.78,
+            "scaleY": 0.78
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#fff5de",
+      "accent": "#df442d",
+      "outline": "#202820"
+    },
+    "silhouette": "scallop-seal",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 131
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-shiochi",
+    "name": "しおち",
+    "description": "塩の結晶の冠と、四角い翼を持つペンギン。",
+    "personality": "きっちり並んだ足跡を見るのが好き。",
+    "habitat": "seaside",
+    "favoriteCategories": [
+      "rice",
+      "main"
+    ],
+    "favoriteTags": [
+      "塩焼き",
+      "魚"
+    ],
+    "discovery": {
+      "adultCompanions": 3,
+      "uniqueRecipes": 33
+    },
+    "dialogue": {
+      "greeting": "ひとつまみの準備はできてるよ。",
+      "fed": "ちょうどいいって、いい言葉だね。",
+      "newDish": "知らない味にも、まっすぐ一歩。",
+      "repeatDish": "この味の足跡、またたどろう。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "一粒の結晶と短い羽のひな。",
+        "artPath": "/expansion/assets/characters/c-shiochi-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 129.88
+          },
+          "hatTransform": {
+            "translateX": 61.08,
+            "translateY": 84.83,
+            "scaleX": 0.5928,
+            "scaleY": 0.5928
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "羽が角ばり、結晶が三つになる。",
+        "artPath": "/expansion/assets/characters/c-shiochi-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 105.08
+          },
+          "hatTransform": {
+            "translateX": 44.7,
+            "translateY": 51.14,
+            "scaleX": 0.702,
+            "scaleY": 0.7098
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "大きな結晶冠と階段形の尾羽が育つ。",
+        "artPath": "/expansion/assets/characters/c-shiochi-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 33.0,
+            "translateY": 28.72,
+            "scaleX": 0.78,
+            "scaleY": 0.78
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#275bbb",
+      "accent": "#fff5de",
+      "outline": "#202820"
+    },
+    "silhouette": "salt-penguin",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 88
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-konburuu",
+    "name": "こんぶる",
+    "description": "昆布の長いひれと、渦巻く尾を持つ海竜。",
+    "personality": "話すより先に鼻歌が出る。",
+    "habitat": "seaside",
+    "favoriteCategories": [
+      "soup",
+      "main"
+    ],
+    "favoriteTags": [
+      "だし",
+      "煮込み"
+    ],
+    "discovery": {
+      "adultCompanions": 4,
+      "uniqueRecipes": 36
+    },
+    "dialogue": {
+      "greeting": "ふんふん、だしの歌が聞こえる。",
+      "fed": "おなかの中で、いい和音。",
+      "newDish": "新しい節を、ひとつ覚えたよ。",
+      "repeatDish": "この旋律は、何度でも好き。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "一枚のひれと短い渦巻き尾。",
+        "artPath": "/expansion/assets/characters/c-konburuu-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 148.48,
+            "y": 135.2
+          },
+          "hatTransform": {
+            "translateX": 62.98,
+            "translateY": 91.88,
+            "scaleX": 0.57,
+            "scaleY": 0.57
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "二枚のひれと小さな角が育つ。",
+        "artPath": "/expansion/assets/characters/c-konburuu-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 148.2,
+            "y": 111.45
+          },
+          "hatTransform": {
+            "translateX": 46.95,
+            "translateY": 59.58,
+            "scaleX": 0.675,
+            "scaleY": 0.6825
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "三枚の長い昆布ひれを波のように広げる。",
+        "artPath": "/expansion/assets/characters/c-konburuu-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 148,
+            "y": 95
+          },
+          "hatTransform": {
+            "translateX": 35.5,
+            "translateY": 38.0,
+            "scaleX": 0.75,
+            "scaleY": 0.75
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#24624b",
+      "accent": "#f7c544",
+      "outline": "#202820"
+    },
+    "silhouette": "kelp-seadragon",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 148,
+        "y": 95
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-aosaya",
+    "name": "あおさや",
+    "description": "あおさの縁取りを持つ、凧のようなエイ。",
+    "personality": "風や潮の流れを読むのが得意。",
+    "habitat": "seaside",
+    "favoriteCategories": [
+      "noodles",
+      "side"
+    ],
+    "favoriteTags": [
+      "海藻",
+      "麺"
+    ],
+    "discovery": {
+      "adultCompanions": 4,
+      "uniqueRecipes": 38
+    },
+    "dialogue": {
+      "greeting": "いいにおい、こっちの流れに乗ってる。",
+      "fed": "ふわっと、気持ちも浮かぶね。",
+      "newDish": "新しい潮に、乗ってみよう。",
+      "repeatDish": "戻ってこられる味があるっていいね。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "三角の小さな翼と、まっすぐな尾。",
+        "artPath": "/expansion/assets/characters/c-aosaya-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 132.16
+          },
+          "hatTransform": {
+            "translateX": 65.64,
+            "translateY": 89.42,
+            "scaleX": 0.5624,
+            "scaleY": 0.5624
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "ひらひらした翼端と長い尾が育つ。",
+        "artPath": "/expansion/assets/characters/c-aosaya-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 107.81
+          },
+          "hatTransform": {
+            "translateX": 50.1,
+            "translateY": 56.63,
+            "scaleX": 0.666,
+            "scaleY": 0.6734
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "菱形の大翼を広げ、尾に小さな葉がつく。",
+        "artPath": "/expansion/assets/characters/c-aosaya-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 91
+          },
+          "hatTransform": {
+            "translateX": 39.0,
+            "translateY": 34.76,
+            "scaleX": 0.74,
+            "scaleY": 0.74
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#15978d",
+      "accent": "#24624b",
+      "outline": "#202820"
+    },
+    "silhouette": "seaweed-ray",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 91
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-kohakani",
+    "name": "こはかに",
+    "description": "琥珀色の巻き貝と、左右で大きさの違うはさみを持つヤドカリ。",
+    "personality": "引っ越し先の間取りを描くのが趣味。",
+    "habitat": "seaside",
+    "favoriteCategories": [
+      "main",
+      "rice"
+    ],
+    "favoriteTags": [
+      "魚介",
+      "丼"
+    ],
+    "discovery": {
+      "adultCompanions": 4,
+      "uniqueRecipes": 40
+    },
+    "dialogue": {
+      "greeting": "今日の食卓、居心地よさそうだね。",
+      "fed": "ここを第二のおうちにしようかな。",
+      "newDish": "新しい味の部屋が、ひとつ増えた。",
+      "repeatDish": "やっぱりこの席、この味だね。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "一巻きの小さな殻から顔を出す。",
+        "artPath": "/expansion/assets/characters/c-kohakani-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 199.8
+          },
+          "hatTransform": {
+            "translateX": 56.52,
+            "translateY": 152.44,
+            "scaleX": 0.6232,
+            "scaleY": 0.6232
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "歩脚が増え、右のはさみが大きくなる。",
+        "artPath": "/expansion/assets/characters/c-kohakani-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 188.8
+          },
+          "hatTransform": {
+            "translateX": 39.3,
+            "translateY": 132.09,
+            "scaleX": 0.738,
+            "scaleY": 0.7462
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "二重巻きの殻と看板のような大ばさみを持つ。",
+        "artPath": "/expansion/assets/characters/c-kohakani-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 180
+          },
+          "hatTransform": {
+            "translateX": 27.0,
+            "translateY": 117.68,
+            "scaleX": 0.82,
+            "scaleY": 0.82
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#ed822f",
+      "accent": "#275bbb",
+      "outline": "#202820"
+    },
+    "silhouette": "amber-hermit",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 180
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-papriko",
+    "name": "ぱぷりこ",
+    "description": "パプリカの三つ山の体と、へたの耳を持つネコ。",
+    "personality": "拍子に合わせてしっぽを振る。",
+    "habitat": "market",
+    "favoriteCategories": [
+      "main",
+      "side"
+    ],
+    "favoriteTags": [
+      "彩り",
+      "炒め物"
+    ],
+    "discovery": {
+      "adultCompanions": 4,
+      "uniqueRecipes": 42
+    },
+    "dialogue": {
+      "greeting": "たん、たん。まな板のリズムだね。",
+      "fed": "おいしい拍子で、しっぽが止まらない。",
+      "newDish": "新しいリズムの料理だ！",
+      "repeatDish": "いつもの曲、いっしょに鳴らそう。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "丸い実と片方だけ立った葉耳。",
+        "artPath": "/expansion/assets/characters/c-papriko-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 134.44
+          },
+          "hatTransform": {
+            "translateX": 49.68,
+            "translateY": 83.61,
+            "scaleX": 0.6688,
+            "scaleY": 0.6688
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "体が三つ山になり、曲がったへた尾が伸びる。",
+        "artPath": "/expansion/assets/characters/c-papriko-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 110.54
+          },
+          "hatTransform": {
+            "translateX": 31.2,
+            "translateY": 49.68,
+            "scaleX": 0.792,
+            "scaleY": 0.8008
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "大きな葉耳と鮮やかな胸模様で踊る。",
+        "artPath": "/expansion/assets/characters/c-papriko-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 94
+          },
+          "hatTransform": {
+            "translateX": 18.0,
+            "translateY": 27.12,
+            "scaleX": 0.88,
+            "scaleY": 0.88
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#df442d",
+      "accent": "#24624b",
+      "outline": "#202820"
+    },
+    "silhouette": "pepper-cat",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 94
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-renpuku",
+    "name": "れんぷく",
+    "description": "れんこんの穴模様と、花びらのえらを持つウーパールーパー。",
+    "personality": "向こう側をのぞく好奇心旺盛な子。",
+    "habitat": "market",
+    "favoriteCategories": [
+      "side",
+      "soup"
+    ],
+    "favoriteTags": [
+      "根菜",
+      "シャキシャキ"
+    ],
+    "discovery": {
+      "adultCompanions": 4,
+      "uniqueRecipes": 44
+    },
+    "dialogue": {
+      "greeting": "そのお鍋の向こう、のぞいてもいい？",
+      "fed": "穴の向こうまで、おいしいね。",
+      "newDish": "新しい景色が見えた気がする！",
+      "repeatDish": "知ってる景色にも、発見があるね。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "小さな横長の顔と、二枚のえら。",
+        "artPath": "/expansion/assets/characters/c-renpuku-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 140.52
+          },
+          "hatTransform": {
+            "translateX": 47.4,
+            "translateY": 88.54,
+            "scaleX": 0.684,
+            "scaleY": 0.684
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "えらが四枚になり、腹の穴模様が増える。",
+        "artPath": "/expansion/assets/characters/c-renpuku-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 117.82
+          },
+          "hatTransform": {
+            "translateX": 28.5,
+            "translateY": 55.58,
+            "scaleX": 0.81,
+            "scaleY": 0.819
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "六枚の花えらと、薄い蓮の葉の尾が育つ。",
+        "artPath": "/expansion/assets/characters/c-renpuku-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 102
+          },
+          "hatTransform": {
+            "translateX": 15.0,
+            "translateY": 33.6,
+            "scaleX": 0.9,
+            "scaleY": 0.9
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#fff5de",
+      "accent": "#f28d95",
+      "outline": "#202820"
+    },
+    "silhouette": "lotus-axolotl",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 102
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-negin",
+    "name": "ねぎん",
+    "description": "長いねぎの葉の耳を持つ、すばしっこいフェレット。",
+    "personality": "困っている人の横にすっと現れる。",
+    "habitat": "market",
+    "favoriteCategories": [
+      "noodles",
+      "soup"
+    ],
+    "favoriteTags": [
+      "ねぎ",
+      "麺"
+    ],
+    "discovery": {
+      "adultCompanions": 5,
+      "uniqueRecipes": 47
+    },
+    "dialogue": {
+      "greeting": "手が足りないところ、ある？",
+      "fed": "ひと口いただいたら、またお手伝い。",
+      "newDish": "初めての仕事みたいで、わくわくする。",
+      "repeatDish": "おなじみの段取り、おなじみの味。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "白い丸顔に短い緑の耳が二つ。",
+        "artPath": "/expansion/assets/characters/c-negin-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 132.16
+          },
+          "hatTransform": {
+            "translateX": 58.8,
+            "translateY": 85.95,
+            "scaleX": 0.608,
+            "scaleY": 0.608
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "体と耳が伸び、しましまの尾が現れる。",
+        "artPath": "/expansion/assets/characters/c-negin-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 107.81
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 52.48,
+            "scaleX": 0.72,
+            "scaleY": 0.728
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "三枚の葉耳と長い尾をなびかせる。",
+        "artPath": "/expansion/assets/characters/c-negin-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 91
+          },
+          "hatTransform": {
+            "translateX": 30.0,
+            "translateY": 30.2,
+            "scaleX": 0.8,
+            "scaleY": 0.8
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#fff5de",
+      "accent": "#24624b",
+      "outline": "#202820"
+    },
+    "silhouette": "leek-ferret",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 91
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-caroron",
+    "name": "きゃろろん",
+    "description": "にんじんの細い鼻と、房葉の尾を持つキツネ。",
+    "personality": "目印を見つけるのが上手な探検家。",
+    "habitat": "market",
+    "favoriteCategories": [
+      "side",
+      "main"
+    ],
+    "favoriteTags": [
+      "にんじん",
+      "ロースト"
+    ],
+    "discovery": {
+      "adultCompanions": 5,
+      "uniqueRecipes": 49
+    },
+    "dialogue": {
+      "greeting": "いいにおいが、今日の道しるべ。",
+      "fed": "目的地は、ここだったみたい。",
+      "newDish": "新しい道をひとつ覚えたよ。",
+      "repeatDish": "この道なら、目をつぶっても来られる。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "三角の小さな顔と、短い葉尾。",
+        "artPath": "/expansion/assets/characters/c-caroron-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 142.8
+          },
+          "hatTransform": {
+            "translateX": 53.1,
+            "translateY": 93.7,
+            "scaleX": 0.646,
+            "scaleY": 0.646
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "耳が高く立ち、尾の葉が三枚になる。",
+        "artPath": "/expansion/assets/characters/c-caroron-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 120.55
+          },
+          "hatTransform": {
+            "translateX": 35.25,
+            "translateY": 61.76,
+            "scaleX": 0.765,
+            "scaleY": 0.7735
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "長い鼻先と房になった尾で道案内する。",
+        "artPath": "/expansion/assets/characters/c-caroron-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 105
+          },
+          "hatTransform": {
+            "translateX": 22.5,
+            "translateY": 40.4,
+            "scaleX": 0.85,
+            "scaleY": 0.85
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#ed822f",
+      "accent": "#24624b",
+      "outline": "#202820"
+    },
+    "silhouette": "carrot-fox",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 105
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-nasumii",
+    "name": "なすみー",
+    "description": "なすのしずく形の体と、へたの翼を持つコウモリ。",
+    "personality": "夕方の買い物が大好き。",
+    "habitat": "market",
+    "favoriteCategories": [
+      "main",
+      "side"
+    ],
+    "favoriteTags": [
+      "なす",
+      "焼き物"
+    ],
+    "discovery": {
+      "adultCompanions": 5,
+      "uniqueRecipes": 51
+    },
+    "dialogue": {
+      "greeting": "夕方の市場、いっしょにひと回り。",
+      "fed": "今日の買い物、大成功だね。",
+      "newDish": "知らないお店を見つけた気分。",
+      "repeatDish": "なじみのお店の味は、うれしいな。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "丸い紫の実と、短い三角耳。",
+        "artPath": "/expansion/assets/characters/c-nasumii-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 143.56
+          },
+          "hatTransform": {
+            "translateX": 66.78,
+            "translateY": 101.4,
+            "scaleX": 0.5548,
+            "scaleY": 0.5548
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "緑の翼が二つに開き、体が長くなる。",
+        "artPath": "/expansion/assets/characters/c-nasumii-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 121.46
+          },
+          "hatTransform": {
+            "translateX": 51.45,
+            "translateY": 70.97,
+            "scaleX": 0.657,
+            "scaleY": 0.6643
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "大きな葉の翼を広げ、へたの襟を揺らす。",
+        "artPath": "/expansion/assets/characters/c-nasumii-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 106
+          },
+          "hatTransform": {
+            "translateX": 40.5,
+            "translateY": 50.52,
+            "scaleX": 0.73,
+            "scaleY": 0.73
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#7751a8",
+      "accent": "#24624b",
+      "outline": "#202820"
+    },
+    "silhouette": "eggplant-bat",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 106
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-poncoro",
+    "name": "ぽんころ",
+    "description": "かぼちゃの縦筋と、まんまるな葉しっぽのタヌキ。",
+    "personality": "お店の呼び込みをすぐ覚える。",
+    "habitat": "market",
+    "favoriteCategories": [
+      "soup",
+      "snack"
+    ],
+    "favoriteTags": [
+      "かぼちゃ",
+      "ほくほく"
+    ],
+    "discovery": {
+      "adultCompanions": 5,
+      "uniqueRecipes": 53
+    },
+    "dialogue": {
+      "greeting": "寄ってらっしゃい、今日のごはん！",
+      "fed": "ぽん、とおなかをたたきたい気分。",
+      "newDish": "新メニュー、声に出して覚えよう。",
+      "repeatDish": "おなじみの味、本日もあります！"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "二本の筋と、小さな丸耳を持つ。",
+        "artPath": "/expansion/assets/characters/c-poncoro-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 139.0
+          },
+          "hatTransform": {
+            "translateX": 49.68,
+            "translateY": 88.17,
+            "scaleX": 0.6688,
+            "scaleY": 0.6688
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "体に筋が増え、目の周りの模様が広がる。",
+        "artPath": "/expansion/assets/characters/c-poncoro-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 116.0
+          },
+          "hatTransform": {
+            "translateX": 31.2,
+            "translateY": 55.14,
+            "scaleX": 0.792,
+            "scaleY": 0.8008
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "大きな丸い体と巻きつるの尾が育つ。",
+        "artPath": "/expansion/assets/characters/c-poncoro-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 100
+          },
+          "hatTransform": {
+            "translateX": 18.0,
+            "translateY": 33.12,
+            "scaleX": 0.88,
+            "scaleY": 0.88
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#ed822f",
+      "accent": "#24624b",
+      "outline": "#202820"
+    },
+    "silhouette": "pumpkin-raccoon",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 100
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-pururin",
+    "name": "ぷるりん",
+    "description": "プリンの斜面の体と、カラメルの小さな角を持つ子鹿。",
+    "personality": "揺れるものを見るとつい見入る。",
+    "habitat": "cafe",
+    "favoriteCategories": [
+      "snack",
+      "breakfast"
+    ],
+    "favoriteTags": [
+      "卵",
+      "甘い"
+    ],
+    "discovery": {
+      "adultCompanions": 5,
+      "uniqueRecipes": 55
+    },
+    "dialogue": {
+      "greeting": "お皿を置く音、やさしくて好き。",
+      "fed": "うれしくて、少しぷるっとしちゃう。",
+      "newDish": "初めての味に、胸がぷるぷる。",
+      "repeatDish": "この味なら、落ち着いて味わえる。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "一粒のカラメル飾りと、小さな耳。",
+        "artPath": "/expansion/assets/characters/c-pururin-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 142.04
+          },
+          "hatTransform": {
+            "translateX": 66.78,
+            "translateY": 99.88,
+            "scaleX": 0.5548,
+            "scaleY": 0.5548
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "二つの角と細い前足が育つ。",
+        "artPath": "/expansion/assets/characters/c-pururin-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 119.64
+          },
+          "hatTransform": {
+            "translateX": 51.45,
+            "translateY": 69.15,
+            "scaleX": 0.657,
+            "scaleY": 0.6643
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "枝分かれしたカラメル角と白い斑点を持つ。",
+        "artPath": "/expansion/assets/characters/c-pururin-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 104
+          },
+          "hatTransform": {
+            "translateX": 40.5,
+            "translateY": 48.52,
+            "scaleX": 0.73,
+            "scaleY": 0.73
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#f7c544",
+      "accent": "#ed822f",
+      "outline": "#202820"
+    },
+    "silhouette": "pudding-fawn",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 104
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-moffuru",
+    "name": "もっふる",
+    "description": "ワッフルの格子模様と、四角く巻いた尾を持つ柴犬。",
+    "personality": "約束の時間より少し早く待つ。",
+    "habitat": "cafe",
+    "favoriteCategories": [
+      "breakfast",
+      "snack"
+    ],
+    "favoriteTags": [
+      "パン",
+      "香ばしい"
+    ],
+    "discovery": {
+      "adultCompanions": 6,
+      "uniqueRecipes": 58
+    },
+    "dialogue": {
+      "greeting": "待ってたよ。席も温めておいた！",
+      "fed": "よく焼けたにおい、大好き。",
+      "newDish": "初めての味も、ちゃんと待ってた！",
+      "repeatDish": "おかえり、この味が待ってたよ。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "丸い格子の体と、小さな垂れ耳。",
+        "artPath": "/expansion/assets/characters/c-moffuru-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 136.72
+          },
+          "hatTransform": {
+            "translateX": 42.84,
+            "translateY": 82.43,
+            "scaleX": 0.7144,
+            "scaleY": 0.7144
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "耳が立ち、格子模様が四角くなる。",
+        "artPath": "/expansion/assets/characters/c-moffuru-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 113.27
+          },
+          "hatTransform": {
+            "translateX": 23.1,
+            "translateY": 48.26,
+            "scaleX": 0.846,
+            "scaleY": 0.8554
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "ふっくらした四角い体と、巻き尾が育つ。",
+        "artPath": "/expansion/assets/characters/c-moffuru-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 97
+          },
+          "hatTransform": {
+            "translateX": 9.0,
+            "translateY": 25.56,
+            "scaleX": 0.94,
+            "scaleY": 0.94
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#f7c544",
+      "accent": "#df442d",
+      "outline": "#202820"
+    },
+    "silhouette": "waffle-shiba",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 97
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-panri",
+    "name": "ぱんり",
+    "description": "クロワッサンの節を持つ、丸まるのが得意なアルマジロ。",
+    "personality": "旅先から絵はがきを送るのが好き。",
+    "habitat": "cafe",
+    "favoriteCategories": [
+      "breakfast",
+      "soup"
+    ],
+    "favoriteTags": [
+      "パン",
+      "洋食"
+    ],
+    "discovery": {
+      "adultCompanions": 6,
+      "uniqueRecipes": 60
+    },
+    "dialogue": {
+      "greeting": "今日の食卓から、絵はがきを一枚。",
+      "fed": "この香り、封筒に入れて送りたい。",
+      "newDish": "新しい町を訪ねた気分だよ。",
+      "repeatDish": "また来たくなる味って、あるよね。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "小さな半月の殻と丸い鼻。",
+        "artPath": "/expansion/assets/characters/c-panri-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 103.64,
+            "y": 170.92
+          },
+          "hatTransform": {
+            "translateX": 40.94,
+            "translateY": 139.15,
+            "scaleX": 0.418,
+            "scaleY": 0.418
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "殻が三層に重なり、尾が伸びる。",
+        "artPath": "/expansion/assets/characters/c-panri-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 95.1,
+            "y": 154.22
+          },
+          "hatTransform": {
+            "translateX": 20.85,
+            "translateY": 116.18,
+            "scaleX": 0.495,
+            "scaleY": 0.5005
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "大きな焼き色の殻と、五本の節が育つ。",
+        "artPath": "/expansion/assets/characters/c-panri-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 89,
+            "y": 142
+          },
+          "hatTransform": {
+            "translateX": 6.5,
+            "translateY": 100.2,
+            "scaleX": 0.55,
+            "scaleY": 0.55
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#ed822f",
+      "accent": "#fff5de",
+      "outline": "#202820"
+    },
+    "silhouette": "croissant-armadillo",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 89,
+        "y": 142
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-monaro",
+    "name": "もなろ",
+    "description": "もなかの花型の頬と、あんこの小さな足を持つハムスター。",
+    "personality": "集まりではお茶を配る係。",
+    "habitat": "cafe",
+    "favoriteCategories": [
+      "snack",
+      "breakfast"
+    ],
+    "favoriteTags": [
+      "和菓子",
+      "豆"
+    ],
+    "discovery": {
+      "adultCompanions": 6,
+      "uniqueRecipes": 62
+    },
+    "dialogue": {
+      "greeting": "お茶も一緒に、どうぞどうぞ。",
+      "fed": "ほっぺいっぱい、おもてなしの味。",
+      "newDish": "次のお茶会で、教えてあげよう。",
+      "repeatDish": "いつものお茶請け、落ち着くね。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "丸いもなかと、小さなあんこの耳。",
+        "artPath": "/expansion/assets/characters/c-monaro-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 139.0
+          },
+          "hatTransform": {
+            "translateX": 46.26,
+            "translateY": 86.44,
+            "scaleX": 0.6916,
+            "scaleY": 0.6916
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "頬が花型にふくらみ、前足が伸びる。",
+        "artPath": "/expansion/assets/characters/c-monaro-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 116.0
+          },
+          "hatTransform": {
+            "translateX": 27.15,
+            "translateY": 53.06,
+            "scaleX": 0.819,
+            "scaleY": 0.8281
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "六つの花びら型の体と、格子の縁取りが育つ。",
+        "artPath": "/expansion/assets/characters/c-monaro-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 100
+          },
+          "hatTransform": {
+            "translateX": 13.5,
+            "translateY": 30.84,
+            "scaleX": 0.91,
+            "scaleY": 0.91
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#fff5de",
+      "accent": "#df442d",
+      "outline": "#202820"
+    },
+    "silhouette": "wafer-hamster",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 100
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-mintotto",
+    "name": "みんとっと",
+    "description": "ミントの葉脈が入った翼を持つ、小さな蛾。",
+    "personality": "窓を開けて風向きを確かめる。",
+    "habitat": "cafe",
+    "favoriteCategories": [
+      "snack",
+      "side"
+    ],
+    "favoriteTags": [
+      "ハーブ",
+      "爽やか"
+    ],
+    "discovery": {
+      "adultCompanions": 6,
+      "uniqueRecipes": 64
+    },
+    "dialogue": {
+      "greeting": "窓を開けたら、いい風が来たよ。",
+      "fed": "おなかにも、すうっといい風。",
+      "newDish": "初めての香り、風に乗せて覚えよう。",
+      "repeatDish": "この香りがすると、帰ってきた気分。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "二枚の小さな葉を閉じた子。",
+        "artPath": "/expansion/assets/characters/c-mintotto-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 138.24
+          },
+          "hatTransform": {
+            "translateX": 85.02,
+            "translateY": 105.32,
+            "scaleX": 0.4332,
+            "scaleY": 0.4332
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "上の翼が開き、触角が曲がる。",
+        "artPath": "/expansion/assets/characters/c-mintotto-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 115.09
+          },
+          "hatTransform": {
+            "translateX": 73.05,
+            "translateY": 75.67,
+            "scaleX": 0.513,
+            "scaleY": 0.5187
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "四枚の葉翼と長い触角を広げる。",
+        "artPath": "/expansion/assets/characters/c-mintotto-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 99
+          },
+          "hatTransform": {
+            "translateX": 64.5,
+            "translateY": 55.68,
+            "scaleX": 0.57,
+            "scaleY": 0.57
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#24624b",
+      "accent": "#fff5de",
+      "outline": "#202820"
+    },
+    "silhouette": "mint-moth",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 99
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-cacaoro",
+    "name": "かかおろ",
+    "description": "カカオの実の縦筋と、長い鼻を持つアリクイ。",
+    "personality": "香りを言葉にするのが得意。",
+    "habitat": "cafe",
+    "favoriteCategories": [
+      "snack",
+      "main"
+    ],
+    "favoriteTags": [
+      "カカオ",
+      "香ばしい"
+    ],
+    "discovery": {
+      "adultCompanions": 6,
+      "uniqueRecipes": 66
+    },
+    "dialogue": {
+      "greeting": "香りの手紙、届いているよ。",
+      "fed": "香ばしい、やわらかい、うれしい！",
+      "newDish": "この香りには、どんな名前をつけよう。",
+      "repeatDish": "好きな香りは、何度でも読みたいね。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "丸い実と短い鼻先。",
+        "artPath": "/expansion/assets/characters/c-cacaoro-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 154.56,
+            "y": 145.08
+          },
+          "hatTransform": {
+            "translateX": 81.6,
+            "translateY": 108.11,
+            "scaleX": 0.4864,
+            "scaleY": 0.4864
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "鼻が長くなり、縦筋と太い尾が育つ。",
+        "artPath": "/expansion/assets/characters/c-cacaoro-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 155.4,
+            "y": 123.28
+          },
+          "hatTransform": {
+            "translateX": 69.0,
+            "translateY": 79.02,
+            "scaleX": 0.576,
+            "scaleY": 0.5824
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "大きなカカオ尾と長い前足を持つ。",
+        "artPath": "/expansion/assets/characters/c-cacaoro-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 156,
+            "y": 108
+          },
+          "hatTransform": {
+            "translateX": 60.0,
+            "translateY": 59.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#ed822f",
+      "accent": "#275bbb",
+      "outline": "#202820"
+    },
+    "silhouette": "cacao-anteater",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 156,
+        "y": 108
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-tsukimo",
+    "name": "つきも",
+    "description": "焼きいもの皮色の体と、黄色い月の腹を持つヤマネ。",
+    "personality": "夜の予定を小さな手帳に書く。",
+    "habitat": "night",
+    "favoriteCategories": [
+      "snack",
+      "soup"
+    ],
+    "favoriteTags": [
+      "さつまいも",
+      "温かい"
+    ],
+    "discovery": {
+      "adultCompanions": 7,
+      "uniqueRecipes": 69
+    },
+    "dialogue": {
+      "greeting": "今夜の予定に、ごはんを書き足そう。",
+      "fed": "ほくほくした時間、手帳に残すね。",
+      "newDish": "新しいページを、ひらく味だ。",
+      "repeatDish": "この予定は、何度入れてもうれしい。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "丸い皮の体に、小さな黄色い点。",
+        "artPath": "/expansion/assets/characters/c-tsukimo-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 139.0
+          },
+          "hatTransform": {
+            "translateX": 47.4,
+            "translateY": 87.02,
+            "scaleX": 0.684,
+            "scaleY": 0.684
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "耳が開き、月形のおなかと長い尾が育つ。",
+        "artPath": "/expansion/assets/characters/c-tsukimo-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 116.0
+          },
+          "hatTransform": {
+            "translateX": 28.5,
+            "translateY": 53.76,
+            "scaleX": 0.81,
+            "scaleY": 0.819
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "大きな月模様と、ふさふさの皮色の尾を持つ。",
+        "artPath": "/expansion/assets/characters/c-tsukimo-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 100
+          },
+          "hatTransform": {
+            "translateX": 15.0,
+            "translateY": 31.6,
+            "scaleX": 0.9,
+            "scaleY": 0.9
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#7751a8",
+      "accent": "#f7c544",
+      "outline": "#202820"
+    },
+    "silhouette": "sweet-potato-dormouse",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 100
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-mitsuru",
+    "name": "みつる",
+    "description": "黒みつの丸い体と、琥珀色の灯りを持つチョウチンアンコウ。",
+    "personality": "暗い道を一歩ずつ照らす。",
+    "habitat": "night",
+    "favoriteCategories": [
+      "snack",
+      "breakfast"
+    ],
+    "favoriteTags": [
+      "甘い",
+      "和菓子"
+    ],
+    "discovery": {
+      "adultCompanions": 7,
+      "uniqueRecipes": 71
+    },
+    "dialogue": {
+      "greeting": "このへん、少し明るくしておくね。",
+      "fed": "おなかの灯りまで、ぽっとした。",
+      "newDish": "知らない味にも、灯りを向けてみよう。",
+      "repeatDish": "いつもの明かり、いつもの味だ。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "短い灯りと、丸い小さなひれ。",
+        "artPath": "/expansion/assets/characters/c-mitsuru-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 146.2,
+            "y": 147.36
+          },
+          "hatTransform": {
+            "translateX": 41.32,
+            "translateY": 94.22,
+            "scaleX": 0.6992,
+            "scaleY": 0.6992
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "灯りの柄が曲がり、尾びれが育つ。",
+        "artPath": "/expansion/assets/characters/c-mitsuru-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 145.5,
+            "y": 126.01
+          },
+          "hatTransform": {
+            "translateX": 21.3,
+            "translateY": 62.38,
+            "scaleX": 0.828,
+            "scaleY": 0.8372
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "大きな琥珀の灯りと、透かし模様のひれを持つ。",
+        "artPath": "/expansion/assets/characters/c-mitsuru-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 145,
+            "y": 111
+          },
+          "hatTransform": {
+            "translateX": 7.0,
+            "translateY": 41.08,
+            "scaleX": 0.92,
+            "scaleY": 0.92
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#202820",
+      "accent": "#f7c544",
+      "outline": "#202820"
+    },
+    "silhouette": "syrup-lanternfish",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 145,
+        "y": 111
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-ankoro",
+    "name": "あんころ",
+    "description": "小豆の丸い頭と、もち色の飛膜を持つモモンガ。",
+    "personality": "届いた便りを声に出して読む。",
+    "habitat": "night",
+    "favoriteCategories": [
+      "snack",
+      "rice"
+    ],
+    "favoriteTags": [
+      "豆",
+      "もち"
+    ],
+    "discovery": {
+      "adultCompanions": 7,
+      "uniqueRecipes": 73
+    },
+    "dialogue": {
+      "greeting": "おいしい便り、受け取りに来たよ。",
+      "fed": "この気持ち、すぐ手紙にしたい。",
+      "newDish": "新しい味の便りが届いた！",
+      "repeatDish": "いつもの便りは、何度読んでもうれしい。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "小豆の頭と、たたんだ白い手。",
+        "artPath": "/expansion/assets/characters/c-ankoro-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 129.88
+          },
+          "hatTransform": {
+            "translateX": 49.68,
+            "translateY": 79.05,
+            "scaleX": 0.6688,
+            "scaleY": 0.6688
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "手と足の間に飛膜が広がる。",
+        "artPath": "/expansion/assets/characters/c-ankoro-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 105.08
+          },
+          "hatTransform": {
+            "translateX": 31.2,
+            "translateY": 44.22,
+            "scaleX": 0.792,
+            "scaleY": 0.8008
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "四角い大きな飛膜と、小豆模様の長い尾を持つ。",
+        "artPath": "/expansion/assets/characters/c-ankoro-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 18.0,
+            "translateY": 21.12,
+            "scaleX": 0.88,
+            "scaleY": 0.88
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#df442d",
+      "accent": "#fff5de",
+      "outline": "#202820"
+    },
+    "silhouette": "azuki-flying-squirrel",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 88
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-ramunon",
+    "name": "らむのん",
+    "description": "ラムネ瓶の泡模様と、リボンの触手を持つクラゲ。",
+    "personality": "夜空の形を勝手に名付ける。",
+    "habitat": "night",
+    "favoriteCategories": [
+      "snack",
+      "side"
+    ],
+    "favoriteTags": [
+      "冷たい",
+      "夏"
+    ],
+    "discovery": {
+      "adultCompanions": 7,
+      "uniqueRecipes": 75
+    },
+    "dialogue": {
+      "greeting": "あの星、冷やしトマトに見えない？",
+      "fed": "しゅわっと、気分が上がったよ。",
+      "newDish": "この味にも、星の名前をつけたいな。",
+      "repeatDish": "いつもの星座みたいに、見つけるとうれしい。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "一粒の泡と、二本の短いリボン。",
+        "artPath": "/expansion/assets/characters/c-ramunon-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 108.6
+          },
+          "hatTransform": {
+            "translateX": 81.6,
+            "translateY": 73.94,
+            "scaleX": 0.456,
+            "scaleY": 0.456
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "傘が広がり、リボンが四本になる。",
+        "artPath": "/expansion/assets/characters/c-ramunon-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 79.6
+          },
+          "hatTransform": {
+            "translateX": 69.0,
+            "translateY": 38.1,
+            "scaleX": 0.54,
+            "scaleY": 0.546
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "瓶の口のような冠と、六本の長いリボンを持つ。",
+        "artPath": "/expansion/assets/characters/c-ramunon-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 60
+          },
+          "hatTransform": {
+            "translateX": 60.0,
+            "translateY": 14.4,
+            "scaleX": 0.6,
+            "scaleY": 0.6
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#275bbb",
+      "accent": "#15978d",
+      "outline": "#202820"
+    },
+    "silhouette": "soda-jellyfish",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 60
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-yorucha",
+    "name": "よるちゃ",
+    "description": "茶葉の耳と、急須の注ぎ口のような巻き尾を持つキツネ。",
+    "personality": "話の続きをゆっくり待てる聞き手。",
+    "habitat": "night",
+    "favoriteCategories": [
+      "snack",
+      "soup"
+    ],
+    "favoriteTags": [
+      "お茶",
+      "温かい"
+    ],
+    "discovery": {
+      "adultCompanions": 7,
+      "uniqueRecipes": 77
+    },
+    "dialogue": {
+      "greeting": "お茶が冷めるまで、お話ししよう。",
+      "fed": "このひと口で、ひと息つけたね。",
+      "newDish": "知らない味の話、ゆっくり聞かせて。",
+      "repeatDish": "何度目でも、その話と味が好き。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "短い葉耳と、一巻きの細い尾。",
+        "artPath": "/expansion/assets/characters/c-yorucha-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 142.8
+          },
+          "hatTransform": {
+            "translateX": 55.38,
+            "translateY": 94.86,
+            "scaleX": 0.6308,
+            "scaleY": 0.6308
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "葉耳に葉脈が入り、尾が二股になる。",
+        "artPath": "/expansion/assets/characters/c-yorucha-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 120.55
+          },
+          "hatTransform": {
+            "translateX": 37.95,
+            "translateY": 63.15,
+            "scaleX": 0.747,
+            "scaleY": 0.7553
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "三つ又の茶葉尾と、大きな胸の葉飾りを持つ。",
+        "artPath": "/expansion/assets/characters/c-yorucha-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 105
+          },
+          "hatTransform": {
+            "translateX": 25.5,
+            "translateY": 41.92,
+            "scaleX": 0.83,
+            "scaleY": 0.83
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#24624b",
+      "accent": "#fff5de",
+      "outline": "#202820"
+    },
+    "silhouette": "tea-leaf-fox",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 105
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  },
+  {
+    "id": "c-suirenne",
+    "name": "すいれんね",
+    "description": "睡蓮の襟と、蓮の葉のひれを持つ水辺の小竜。",
+    "personality": "一日の最後に良かったことを数える。",
+    "habitat": "night",
+    "favoriteCategories": [
+      "soup",
+      "side"
+    ],
+    "favoriteTags": [
+      "野菜",
+      "だし"
+    ],
+    "discovery": {
+      "adultCompanions": 8,
+      "uniqueRecipes": 80
+    },
+    "dialogue": {
+      "greeting": "今日のよかったこと、一皿増えそう。",
+      "fed": "よかったこと、今のでひとつ。",
+      "newDish": "初めての味に出会えた日、覚えておこう。",
+      "repeatDish": "変わらず好きな味があるのも、いいこと。"
+    },
+    "stages": [
+      {
+        "name": "こども",
+        "description": "小さな花芽の襟と、短い丸尾。",
+        "artPath": "/expansion/assets/characters/c-suirenne-0.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 133.68
+          },
+          "hatTransform": {
+            "translateX": 70.2,
+            "translateY": 93.25,
+            "scaleX": 0.532,
+            "scaleY": 0.532
+          }
+        }
+      },
+      {
+        "name": "わかもの",
+        "description": "襟が三枚に開き、水かきの手が育つ。",
+        "artPath": "/expansion/assets/characters/c-suirenne-1.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150.0,
+            "y": 109.63
+          },
+          "hatTransform": {
+            "translateX": 55.5,
+            "translateY": 61.22,
+            "scaleX": 0.63,
+            "scaleY": 0.637
+          }
+        }
+      },
+      {
+        "name": "おとな",
+        "description": "大きな睡蓮の襟と、蓮の葉の尾びれを広げる。",
+        "artPath": "/expansion/assets/characters/c-suirenne-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 93
+          },
+          "hatTransform": {
+            "translateX": 45.0,
+            "translateY": 39.8,
+            "scaleX": 0.7,
+            "scaleY": 0.7
+          }
+        }
+      }
+    ],
+    "palette": {
+      "body": "#f28d95",
+      "accent": "#15978d",
+      "outline": "#202820"
+    },
+    "silhouette": "lotus-water-dragon",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "groundY": 276,
+      "adultHeadAnchor": {
+        "x": 150,
+        "y": 93
+      },
+      "style": "food-field-guide-ink-v1"
+    }
+  }
+]

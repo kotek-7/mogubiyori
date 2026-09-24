@@ -1,0 +1,2126 @@
+[
+  {
+    "id": "i-picnic-straw",
+    "name": "ピクニックの麦わら",
+    "description": "平たいつばに赤いリボン。遠足の集合写真によく映える。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 80,
+    "rarity": "common",
+    "collection": "meadow",
+    "unlock": {
+      "uniqueRecipes": 0
+    },
+    "artPath": "/expansion/assets/items/i-picnic-straw.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-wildflower-crown",
+    "name": "野の花のかんむり",
+    "description": "白い花と黄いろい花を交互に編んだ、小さな輪。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 135,
+    "rarity": "common",
+    "collection": "meadow",
+    "unlock": {
+      "uniqueRecipes": 3
+    },
+    "artPath": "/expansion/assets/items/i-wildflower-crown.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-ladybird-cap",
+    "name": "てんとう虫キャップ",
+    "description": "丸い羽の継ぎ目まで描いた、赤いてんとう虫の帽子。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 190,
+    "rarity": "rare",
+    "collection": "meadow",
+    "unlock": {
+      "uniqueRecipes": 6
+    },
+    "artPath": "/expansion/assets/items/i-ladybird-cap.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-butterfly-ribbon",
+    "name": "ちょうちょのリボン",
+    "description": "葉脈みたいな線が入った、左右に広がるちょうちょ結び。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 245,
+    "rarity": "rare",
+    "collection": "meadow",
+    "unlock": {
+      "uniqueRecipes": 9
+    },
+    "artPath": "/expansion/assets/items/i-butterfly-ribbon.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-watering-hat",
+    "name": "じょうろのぼうし",
+    "description": "長い注ぎ口と取っ手が楽しい、空っぽの小さなじょうろ。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 300,
+    "rarity": "special",
+    "collection": "meadow",
+    "unlock": {
+      "uniqueRecipes": 12
+    },
+    "artPath": "/expansion/assets/items/i-watering-hat.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-carrot-ribbon",
+    "name": "にんじんリボン",
+    "description": "葉付きにんじんを留め具にした、菜園のヘアバンド。",
+    "kind": "hat",
+    "currency": "gems",
+    "price": 12,
+    "rarity": "special",
+    "collection": "meadow",
+    "unlock": {
+      "uniqueRecipes": 15
+    },
+    "artPath": "/expansion/assets/items/i-carrot-ribbon.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-mushroom-cap",
+    "name": "きのこ帽",
+    "description": "赤い傘に白い斑点。つばの下にはきのこのひだ。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 115,
+    "rarity": "common",
+    "collection": "forest",
+    "unlock": {
+      "uniqueRecipes": 10
+    },
+    "artPath": "/expansion/assets/items/i-mushroom-cap.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-trail-ranger",
+    "name": "森の案内帽",
+    "description": "曲げたつばと山形の折り目がある、森の案内役の帽子。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 170,
+    "rarity": "common",
+    "collection": "forest",
+    "unlock": {
+      "uniqueRecipes": 13
+    },
+    "artPath": "/expansion/assets/items/i-trail-ranger.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-acorn-hood",
+    "name": "どんぐりフード",
+    "description": "網目の殻帽と短い軸をつけた、木の実の頭巾。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 225,
+    "rarity": "rare",
+    "collection": "forest",
+    "unlock": {
+      "uniqueRecipes": 16
+    },
+    "artPath": "/expansion/assets/items/i-acorn-hood.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-pinecone-crown",
+    "name": "まつぼっくり冠",
+    "description": "重なるうろこを立体的に並べた、木の実のかんむり。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 280,
+    "rarity": "rare",
+    "collection": "forest",
+    "unlock": {
+      "uniqueRecipes": 19
+    },
+    "artPath": "/expansion/assets/items/i-pinecone-crown.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-woodpecker-feather",
+    "name": "きつつきの羽根帽",
+    "description": "一枚の赤い羽根を差した、細いつばのフェルト帽。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 335,
+    "rarity": "special",
+    "collection": "forest",
+    "unlock": {
+      "uniqueRecipes": 22
+    },
+    "artPath": "/expansion/assets/items/i-woodpecker-feather.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-forest-lantern",
+    "name": "探検ランタン",
+    "description": "明かりの形をした飾りを正面につけた、探検用ヘアバンド。",
+    "kind": "hat",
+    "currency": "gems",
+    "price": 15,
+    "rarity": "special",
+    "collection": "forest",
+    "unlock": {
+      "uniqueRecipes": 25
+    },
+    "artPath": "/expansion/assets/items/i-forest-lantern.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-sailor-knot",
+    "name": "水兵さんの帽子",
+    "description": "青い帯と錨のワッペンがついた、折り返しのある水兵帽。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 150,
+    "rarity": "common",
+    "collection": "seaside",
+    "unlock": {
+      "uniqueRecipes": 20
+    },
+    "artPath": "/expansion/assets/items/i-sailor-knot.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-shell-tiara",
+    "name": "貝がらティアラ",
+    "description": "扇形の貝と小さな真珠を並べた、海辺の冠。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 205,
+    "rarity": "common",
+    "collection": "seaside",
+    "unlock": {
+      "uniqueRecipes": 23
+    },
+    "artPath": "/expansion/assets/items/i-shell-tiara.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-fish-vane",
+    "name": "おさかな風見帽",
+    "description": "横向きの魚がちょこんと乗る、港の風見帽子。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 260,
+    "rarity": "rare",
+    "collection": "seaside",
+    "unlock": {
+      "uniqueRecipes": 26
+    },
+    "artPath": "/expansion/assets/items/i-fish-vane.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-lifebuoy-halo",
+    "name": "うきわのヘアリング",
+    "description": "赤白の区切りがくっきりした、軽い飾りの浮き輪。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 315,
+    "rarity": "rare",
+    "collection": "seaside",
+    "unlock": {
+      "uniqueRecipes": 29
+    },
+    "artPath": "/expansion/assets/items/i-lifebuoy-halo.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-coral-branches",
+    "name": "さんごの枝飾り",
+    "description": "枝分かれしたさんごに、小さな青い貝を留めた。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 370,
+    "rarity": "special",
+    "collection": "seaside",
+    "unlock": {
+      "uniqueRecipes": 32
+    },
+    "artPath": "/expansion/assets/items/i-coral-branches.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-paper-sailboat",
+    "name": "折り紙ヨット",
+    "description": "山折りの線が見える、青い紙で作った小さな船。",
+    "kind": "hat",
+    "currency": "gems",
+    "price": 18,
+    "rarity": "special",
+    "collection": "seaside",
+    "unlock": {
+      "uniqueRecipes": 35
+    },
+    "artPath": "/expansion/assets/items/i-paper-sailboat.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-vendor-tenugui",
+    "name": "食堂のねじりはちまき",
+    "description": "白と紺の布をねじって結んだ、町の食堂のはちまき。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 185,
+    "rarity": "common",
+    "collection": "market",
+    "unlock": {
+      "uniqueRecipes": 30
+    },
+    "artPath": "/expansion/assets/items/i-vendor-tenugui.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-fishmonger-bandana",
+    "name": "魚屋の三角巾",
+    "description": "波の模様と大きな結び目がある、藍色の三角巾。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 240,
+    "rarity": "common",
+    "collection": "market",
+    "unlock": {
+      "uniqueRecipes": 33
+    },
+    "artPath": "/expansion/assets/items/i-fishmonger-bandana.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-produce-basket",
+    "name": "八百屋のかご帽",
+    "description": "トマトと葉野菜を描いた、小さな籐かごの帽子。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 295,
+    "rarity": "rare",
+    "collection": "market",
+    "unlock": {
+      "uniqueRecipes": 36
+    },
+    "artPath": "/expansion/assets/items/i-produce-basket.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-radish-earmuffs",
+    "name": "だいこん耳あて",
+    "description": "白い根っこと緑の葉で耳を包む、野菜の耳あて。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 350,
+    "rarity": "rare",
+    "collection": "market",
+    "unlock": {
+      "uniqueRecipes": 39
+    },
+    "artPath": "/expansion/assets/items/i-radish-earmuffs.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-rice-measure",
+    "name": "升のぼうし",
+    "description": "木組みの角と稲穂の紋を入れた、空っぽの一合升。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 405,
+    "rarity": "special",
+    "collection": "market",
+    "unlock": {
+      "uniqueRecipes": 42
+    },
+    "artPath": "/expansion/assets/items/i-rice-measure.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-paper-bag-hat",
+    "name": "買いもの紙袋帽",
+    "description": "折った口と持ち手が目印。買いもの帰りの遊び心。",
+    "kind": "hat",
+    "currency": "gems",
+    "price": 21,
+    "rarity": "special",
+    "collection": "market",
+    "unlock": {
+      "uniqueRecipes": 45
+    },
+    "artPath": "/expansion/assets/items/i-paper-bag-hat.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-baker-kerchief",
+    "name": "パン職人のスカーフ",
+    "description": "小麦の印をつけた、きゅっと結んだ赤いスカーフ。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 220,
+    "rarity": "common",
+    "collection": "cafe",
+    "unlock": {
+      "uniqueRecipes": 40
+    },
+    "artPath": "/expansion/assets/items/i-baker-kerchief.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-pancake-stack",
+    "name": "パンケーキ帽",
+    "description": "三段のパンケーキと四角いバターを模した帽子。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 275,
+    "rarity": "common",
+    "collection": "cafe",
+    "unlock": {
+      "uniqueRecipes": 43
+    },
+    "artPath": "/expansion/assets/items/i-pancake-stack.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-coffee-cup",
+    "name": "コーヒーカップ帽",
+    "description": "大きな取っ手と湯気の飾りをつけた、陶器風の帽子。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 330,
+    "rarity": "rare",
+    "collection": "cafe",
+    "unlock": {
+      "uniqueRecipes": 46
+    },
+    "artPath": "/expansion/assets/items/i-coffee-cup.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-toast-crown",
+    "name": "トースト王冠",
+    "description": "こんがりした食パンの山が三つ並ぶ、朝ごはんの冠。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 385,
+    "rarity": "rare",
+    "collection": "cafe",
+    "unlock": {
+      "uniqueRecipes": 49
+    },
+    "artPath": "/expansion/assets/items/i-toast-crown.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-parfait-ribbon",
+    "name": "パフェのリボン",
+    "description": "アイスといちごを小さく飾った、喫茶店のリボン。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 440,
+    "rarity": "special",
+    "collection": "cafe",
+    "unlock": {
+      "uniqueRecipes": 52
+    },
+    "artPath": "/expansion/assets/items/i-parfait-ribbon.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-teapot-bonnet",
+    "name": "ティーポットのボンネット",
+    "description": "注ぎ口と丸いふたが左右に飛び出す、お茶会の帽子。",
+    "kind": "hat",
+    "currency": "gems",
+    "price": 24,
+    "rarity": "special",
+    "collection": "cafe",
+    "unlock": {
+      "uniqueRecipes": 55
+    },
+    "artPath": "/expansion/assets/items/i-teapot-bonnet.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-moon-wizard",
+    "name": "三日月のとんがり帽",
+    "description": "折れた先に三日月がぶら下がる、夜空色の帽子。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 255,
+    "rarity": "common",
+    "collection": "night",
+    "unlock": {
+      "uniqueRecipes": 50
+    },
+    "artPath": "/expansion/assets/items/i-moon-wizard.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-constellation-cap",
+    "name": "星図キャップ",
+    "description": "三つの星を線で結んだ、天体観測のキャップ。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 310,
+    "rarity": "common",
+    "collection": "night",
+    "unlock": {
+      "uniqueRecipes": 53
+    },
+    "artPath": "/expansion/assets/items/i-constellation-cap.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-cloud-nightcap",
+    "name": "雲のナイトキャップ",
+    "description": "長いしっぽの先に雲をつけた、しま模様の寝帽子。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 365,
+    "rarity": "rare",
+    "collection": "night",
+    "unlock": {
+      "uniqueRecipes": 56
+    },
+    "artPath": "/expansion/assets/items/i-cloud-nightcap.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-paper-lantern",
+    "name": "提灯のかぶりもの",
+    "description": "骨組みの線と赤い房をつけた、小さな提灯の帽子。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 420,
+    "rarity": "rare",
+    "collection": "night",
+    "unlock": {
+      "uniqueRecipes": 59
+    },
+    "artPath": "/expansion/assets/items/i-paper-lantern.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-comet-bow",
+    "name": "流れ星の髪飾り",
+    "description": "二本の長い尾と一つの星でできた、流れ星の髪飾り。",
+    "kind": "hat",
+    "currency": "coins",
+    "price": 475,
+    "rarity": "special",
+    "collection": "night",
+    "unlock": {
+      "uniqueRecipes": 62
+    },
+    "artPath": "/expansion/assets/items/i-comet-bow.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-clockwork-visor",
+    "name": "時計台のサンバイザー",
+    "description": "小さな文字盤と歯車を並べた、時計台の見張り帽。",
+    "kind": "hat",
+    "currency": "gems",
+    "price": 27,
+    "rarity": "special",
+    "collection": "night",
+    "unlock": {
+      "uniqueRecipes": 65
+    },
+    "artPath": "/expansion/assets/items/i-clockwork-visor.svg",
+    "renderSpec": {
+      "viewBox": "0 0 300 300",
+      "anchor": "head",
+      "style": "food-field-guide-ink-v1",
+      "headAnchor": {
+        "x": 150,
+        "y": 76
+      },
+      "previewCrop": {
+        "x": 65,
+        "y": 0,
+        "width": 170,
+        "height": 100
+      },
+      "transparent": true,
+      "layer": "above-companion"
+    }
+  },
+  {
+    "id": "i-picnic-hill",
+    "name": "見晴らしのピクニック丘",
+    "description": "黄色い日よけと野花の道。丘の上に敷いた大きなクロス。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 160,
+    "rarity": "common",
+    "collection": "meadow",
+    "unlock": {
+      "uniqueRecipes": 0
+    },
+    "artPath": "/expansion/assets/items/i-picnic-hill.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-herb-greenhouse",
+    "name": "ハーブの温室",
+    "description": "青い骨組みのガラス屋根と、名前札の付いたハーブ棚。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 270,
+    "rarity": "common",
+    "collection": "meadow",
+    "unlock": {
+      "uniqueRecipes": 3
+    },
+    "artPath": "/expansion/assets/items/i-herb-greenhouse.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-rapeseed-terrace",
+    "name": "菜の花テラス",
+    "description": "花畑を見渡す木のデッキ。白い柵と赤いベンチが目印。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 380,
+    "rarity": "rare",
+    "collection": "meadow",
+    "unlock": {
+      "uniqueRecipes": 6
+    },
+    "artPath": "/expansion/assets/items/i-rapeseed-terrace.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-harvest-barn",
+    "name": "収穫の納屋",
+    "description": "むき出しの梁と、かぼちゃや麦をしまう収穫用の納屋。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 490,
+    "rarity": "rare",
+    "collection": "meadow",
+    "unlock": {
+      "uniqueRecipes": 9
+    },
+    "artPath": "/expansion/assets/items/i-harvest-barn.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-orchard-porch",
+    "name": "果樹園の軒先",
+    "description": "赤い実の枝が窓に届く、果実箱の並んだ軒先。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 600,
+    "rarity": "special",
+    "collection": "meadow",
+    "unlock": {
+      "uniqueRecipes": 12
+    },
+    "artPath": "/expansion/assets/items/i-orchard-porch.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-sunflower-house",
+    "name": "ひまわりの小屋",
+    "description": "大きなひまわりの窓と、黄いろい道具棚の小屋。",
+    "kind": "room",
+    "currency": "gems",
+    "price": 20,
+    "rarity": "special",
+    "collection": "meadow",
+    "unlock": {
+      "uniqueRecipes": 15
+    },
+    "artPath": "/expansion/assets/items/i-sunflower-house.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-mushroom-cabin",
+    "name": "きのこの丸い家",
+    "description": "丸窓、曲がった柱、赤いきのこ屋根の小さな家。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 230,
+    "rarity": "common",
+    "collection": "forest",
+    "unlock": {
+      "uniqueRecipes": 10
+    },
+    "artPath": "/expansion/assets/items/i-mushroom-cabin.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-fern-conservatory",
+    "name": "シダの観察室",
+    "description": "吊り鉢と葉のスケッチを並べた、森の観察室。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 340,
+    "rarity": "common",
+    "collection": "forest",
+    "unlock": {
+      "uniqueRecipes": 13
+    },
+    "artPath": "/expansion/assets/items/i-fern-conservatory.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-chestnut-reading",
+    "name": "栗の実の読書室",
+    "description": "格子の本棚と栗の形の座布団がある、静かな読書室。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 450,
+    "rarity": "rare",
+    "collection": "forest",
+    "unlock": {
+      "uniqueRecipes": 16
+    },
+    "artPath": "/expansion/assets/items/i-chestnut-reading.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-bamboo-pavilion",
+    "name": "竹林の茶屋",
+    "description": "竹の柱と低い茶箪笥を置いた、風の通る茶屋。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 560,
+    "rarity": "rare",
+    "collection": "forest",
+    "unlock": {
+      "uniqueRecipes": 19
+    },
+    "artPath": "/expansion/assets/items/i-bamboo-pavilion.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-log-kitchen",
+    "name": "丸太の台所",
+    "description": "積んだ丸太の壁と赤いかまど。薪のにおいが似合う台所。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 670,
+    "rarity": "special",
+    "collection": "forest",
+    "unlock": {
+      "uniqueRecipes": 22
+    },
+    "artPath": "/expansion/assets/items/i-log-kitchen.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-acorn-lookout",
+    "name": "どんぐり見晴らし台",
+    "description": "高いアーチ窓から木々を見渡す、小さな見晴らし台。",
+    "kind": "room",
+    "currency": "gems",
+    "price": 23,
+    "rarity": "special",
+    "collection": "forest",
+    "unlock": {
+      "uniqueRecipes": 25
+    },
+    "artPath": "/expansion/assets/items/i-acorn-lookout.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-tidepool-veranda",
+    "name": "潮だまりの縁側",
+    "description": "浅い潮だまりに面した縁側。貝の標本箱を端に置いた。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 300,
+    "rarity": "common",
+    "collection": "seaside",
+    "unlock": {
+      "uniqueRecipes": 20
+    },
+    "artPath": "/expansion/assets/items/i-tidepool-veranda.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-lighthouse-nook",
+    "name": "灯台守の休憩室",
+    "description": "厚い丸窓と赤白の壁。灯台の内側にある休憩室。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 410,
+    "rarity": "common",
+    "collection": "seaside",
+    "unlock": {
+      "uniqueRecipes": 23
+    },
+    "artPath": "/expansion/assets/items/i-lighthouse-nook.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-dock-galley",
+    "name": "波止場のまかない室",
+    "description": "船の丸窓、吊り鍋、ロープの結び目があるまかない室。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 520,
+    "rarity": "rare",
+    "collection": "seaside",
+    "unlock": {
+      "uniqueRecipes": 26
+    },
+    "artPath": "/expansion/assets/items/i-dock-galley.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-shell-atelier",
+    "name": "貝がらのアトリエ",
+    "description": "扇形の窓と、貝がらを仕分ける青い作業机。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 630,
+    "rarity": "rare",
+    "collection": "seaside",
+    "unlock": {
+      "uniqueRecipes": 29
+    },
+    "artPath": "/expansion/assets/items/i-shell-atelier.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-seaglass-window",
+    "name": "海ガラスの窓辺",
+    "description": "海の色のガラスをはめた窓と、瓶が並ぶ飾り棚。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 740,
+    "rarity": "special",
+    "collection": "seaside",
+    "unlock": {
+      "uniqueRecipes": 32
+    },
+    "artPath": "/expansion/assets/items/i-seaglass-window.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-sail-loft",
+    "name": "帆布の屋根裏",
+    "description": "三角の帆布を天井に張り、船旅の地図を飾った屋根裏。",
+    "kind": "room",
+    "currency": "gems",
+    "price": 26,
+    "rarity": "special",
+    "collection": "seaside",
+    "unlock": {
+      "uniqueRecipes": 35
+    },
+    "artPath": "/expansion/assets/items/i-sail-loft.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-morning-vegetables",
+    "name": "朝市の八百屋",
+    "description": "しま模様の日よけの下に、野菜かごと木箱を並べた店先。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 370,
+    "rarity": "common",
+    "collection": "market",
+    "unlock": {
+      "uniqueRecipes": 30
+    },
+    "artPath": "/expansion/assets/items/i-morning-vegetables.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-rice-store",
+    "name": "お米屋さんの奥座敷",
+    "description": "稲穂の暖簾と米袋のある、お米屋さんの小さな座敷。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 480,
+    "rarity": "common",
+    "collection": "market",
+    "unlock": {
+      "uniqueRecipes": 33
+    },
+    "artPath": "/expansion/assets/items/i-rice-store.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-spice-arcade",
+    "name": "スパイス通り",
+    "description": "連続するアーチと瓶棚。香辛料の色が楽しい通り。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 590,
+    "rarity": "rare",
+    "collection": "market",
+    "unlock": {
+      "uniqueRecipes": 36
+    },
+    "artPath": "/expansion/assets/items/i-spice-arcade.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-covered-alley",
+    "name": "商店街の休憩所",
+    "description": "高いアーケードとベンチ。買い物袋を置いてひと休み。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 700,
+    "rarity": "rare",
+    "collection": "market",
+    "unlock": {
+      "uniqueRecipes": 39
+    },
+    "artPath": "/expansion/assets/items/i-covered-alley.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-festival-stall",
+    "name": "縁日の屋台",
+    "description": "赤い提灯と青いのれん。祭りの準備が整った屋台。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 810,
+    "rarity": "special",
+    "collection": "market",
+    "unlock": {
+      "uniqueRecipes": 42
+    },
+    "artPath": "/expansion/assets/items/i-festival-stall.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-fishmonger-kitchen",
+    "name": "魚屋の台所",
+    "description": "波柄のタイルと魚の看板。青い流し台がある台所。",
+    "kind": "room",
+    "currency": "gems",
+    "price": 29,
+    "rarity": "special",
+    "collection": "market",
+    "unlock": {
+      "uniqueRecipes": 45
+    },
+    "artPath": "/expansion/assets/items/i-fishmonger-kitchen.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-town-kissaten",
+    "name": "町の喫茶店",
+    "description": "赤いベンチシートと丸い照明。いつもの席がある喫茶店。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 440,
+    "rarity": "common",
+    "collection": "cafe",
+    "unlock": {
+      "uniqueRecipes": 40
+    },
+    "artPath": "/expansion/assets/items/i-town-kissaten.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-corner-bakery",
+    "name": "街角のパン屋",
+    "description": "アーチ形のオーブンとパン棚。木の床の小さなパン屋。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 550,
+    "rarity": "common",
+    "collection": "cafe",
+    "unlock": {
+      "uniqueRecipes": 43
+    },
+    "artPath": "/expansion/assets/items/i-corner-bakery.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-waffle-workshop",
+    "name": "ワッフル工房",
+    "description": "格子の床と丸い鉄板。できあがりを待つための工房。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 660,
+    "rarity": "rare",
+    "collection": "cafe",
+    "unlock": {
+      "uniqueRecipes": 46
+    },
+    "artPath": "/expansion/assets/items/i-waffle-workshop.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-tea-salon",
+    "name": "葉っぱのティールーム",
+    "description": "大きな茶缶と急須の棚。深緑の壁のティールーム。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 770,
+    "rarity": "rare",
+    "collection": "cafe",
+    "unlock": {
+      "uniqueRecipes": 49
+    },
+    "artPath": "/expansion/assets/items/i-tea-salon.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-coffee-roastery",
+    "name": "コーヒー焙煎室",
+    "description": "大きな焙煎釜と豆袋、横長の窓がある焙煎室。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 880,
+    "rarity": "special",
+    "collection": "cafe",
+    "unlock": {
+      "uniqueRecipes": 52
+    },
+    "artPath": "/expansion/assets/items/i-coffee-roastery.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-dessert-kiosk",
+    "name": "おやつの売店",
+    "description": "パフェの看板とガラスケースがある、赤い屋根の売店。",
+    "kind": "room",
+    "currency": "gems",
+    "price": 32,
+    "rarity": "special",
+    "collection": "cafe",
+    "unlock": {
+      "uniqueRecipes": 55
+    },
+    "artPath": "/expansion/assets/items/i-dessert-kiosk.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-rooftop-supper",
+    "name": "屋上の晩ごはん",
+    "description": "街の明かりを見下ろす屋上。頭上に旗と電球を渡した。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 510,
+    "rarity": "common",
+    "collection": "night",
+    "unlock": {
+      "uniqueRecipes": 50
+    },
+    "artPath": "/expansion/assets/items/i-rooftop-supper.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-observatory-room",
+    "name": "星見の食堂",
+    "description": "丸い天井と望遠鏡。星を見ながら休める小さな食堂。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 620,
+    "rarity": "common",
+    "collection": "night",
+    "unlock": {
+      "uniqueRecipes": 53
+    },
+    "artPath": "/expansion/assets/items/i-observatory-room.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-rain-window",
+    "name": "雨音の窓辺",
+    "description": "大きな窓に雨筋が流れる、青い夜のくつろぎ部屋。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 730,
+    "rarity": "rare",
+    "collection": "night",
+    "unlock": {
+      "uniqueRecipes": 56
+    },
+    "artPath": "/expansion/assets/items/i-rain-window.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-lantern-court",
+    "name": "提灯の中庭",
+    "description": "赤い提灯と白い石畳。町の裏手の小さな中庭。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 840,
+    "rarity": "rare",
+    "collection": "night",
+    "unlock": {
+      "uniqueRecipes": 59
+    },
+    "artPath": "/expansion/assets/items/i-lantern-court.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-midnight-library",
+    "name": "深夜の図書室",
+    "description": "背の高い本棚と緑の卓上灯。夜更かしのための図書室。",
+    "kind": "room",
+    "currency": "coins",
+    "price": 950,
+    "rarity": "special",
+    "collection": "night",
+    "unlock": {
+      "uniqueRecipes": 62
+    },
+    "artPath": "/expansion/assets/items/i-midnight-library.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  },
+  {
+    "id": "i-moon-greenhouse",
+    "name": "月明かりの温室",
+    "description": "月を映すガラス屋根と、水辺の花を育てる温室。",
+    "kind": "room",
+    "currency": "gems",
+    "price": 35,
+    "rarity": "special",
+    "collection": "night",
+    "unlock": {
+      "uniqueRecipes": 65
+    },
+    "artPath": "/expansion/assets/items/i-moon-greenhouse.svg",
+    "renderSpec": {
+      "viewBox": "0 0 800 600",
+      "anchor": "background",
+      "style": "food-field-guide-ink-v1",
+      "petSafeArea": {
+        "x": 255,
+        "y": 215,
+        "width": 290,
+        "height": 345
+      },
+      "petGroundY": 515,
+      "objectFit": "cover",
+      "layer": "behind-companion"
+    }
+  }
+]
