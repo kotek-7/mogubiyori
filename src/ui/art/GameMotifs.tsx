@@ -37,35 +37,46 @@ export function VillageSign({ kind }: { kind: 'room' | 'book' | 'shop' }) {
         </>
       ) : kind === 'book' ? (
         <>
+          <path d="M12 33h27v8H12a4 4 0 0 1 0-8Z" fill="var(--game-surface)" />
           <path
-            d="M9 8h28v33H9c-4 0-4-6 0-6h28M10 8v27"
-            fill="var(--game-surface)"
+            d="M12 7h27v26H12a4 4 0 0 0-4 4V11a4 4 0 0 1 4-4Z"
+            fill="var(--game-neutral-soft)"
+          />
+          <path d="M29 7h6v9l-3-2-3 2Z" fill="var(--sign-accent, currentColor)" />
+          <path d="m26 30-6-6a3.5 3.5 0 0 1 5-5l1 1 1-1a3.5 3.5 0 0 1 5 5Z" fill="currentColor" />
+          <path
+            d="M39 33V7H12a4 4 0 0 0-4 4v26a4 4 0 0 0 4 4H39v-8H12a4 4 0 0 0-4 4M14 7v26"
             stroke="currentColor"
             strokeWidth="2.4"
+            strokeLinecap="round"
             strokeLinejoin="round"
           />
-          <path d="M14 8h23v26H14Z" fill="var(--game-neutral-soft)" />
-          <path d="M23 17c-3-3-7 1-5 4l6 6 6-6c2-3-2-7-5-4Z" fill="currentColor" />
-          <path d="M31 8v9l-3-2-3 2V8" fill="var(--sign-accent, currentColor)" />
         </>
       ) : (
         <>
           <path
-            d="M9 21h30v20H9Z"
+            d="M9 22h30v19H9Z"
             fill="var(--game-surface)"
-            stroke="currentColor"
-            strokeWidth="2.4"
-          />
-          <path
-            d="m9 7-4 15c3 4 7 4 10 0 3 4 7 4 10 0 3 4 7 4 10 0 3 4 6 4 8 0L39 7Z"
-            fill="var(--sign-accent, currentColor)"
             stroke="currentColor"
             strokeWidth="2.4"
             strokeLinejoin="round"
           />
-          <path d="m18 8-3 14m12-14-2 14M9 7h30" stroke="var(--game-surface)" strokeWidth="4" />
           <path
-            d="M16 31h16M5 42h38"
+            d="m9 7-4 15q3.8 6 7.6 0 3.8 6 7.6 0 3.8 6 7.6 0 3.8 6 7.6 0 3.8 6 7.6 0L39 7Z"
+            fill="var(--sign-accent, currentColor)"
+          />
+          <path
+            d="M15 7h6l-.8 15q-3.8 6-7.6 0ZM27 7h6l2.4 15q-3.8 6-7.6 0Z"
+            fill="var(--game-surface)"
+          />
+          <path
+            d="m9 7-4 15q3.8 6 7.6 0 3.8 6 7.6 0 3.8 6 7.6 0 3.8 6 7.6 0 3.8 6 7.6 0L39 7Z"
+            stroke="currentColor"
+            strokeWidth="2.4"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M16 32h16M5 41h38"
             stroke="currentColor"
             strokeWidth="2.4"
             strokeLinecap="round"
