@@ -229,6 +229,11 @@ export function MealJourney({
             />
           </div>
         </div>
+        {!ready && (
+          <p className="meal-recognition-status">
+            写真からAIが料理の候補を見つけます。違うときは食卓で選び直せます。
+          </p>
+        )}
         {recognitionMessage && (
           <p className="meal-recognition-status" role="status">
             {recognitionMessage}

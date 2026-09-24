@@ -242,7 +242,7 @@ export function TutorialCards({
         <TutorialGuide
           action={{ label: 'この写真を記録する', onClick: () => advance('photo', 'earned') }}
         >
-          今回はこの写真を使って試します。料理の写真を記録しましょう。
+          実際の写真ではAIが料理の候補を見つけます。候補は自分でも選び直せます。今回はカレーの例で試しましょう。
         </TutorialGuide>
       )}
       {phase === 'earned' && (
