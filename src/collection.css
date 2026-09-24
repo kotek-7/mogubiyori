@@ -42,150 +42,7 @@
   color: #786650;
   margin-bottom: 29px;
 }
-.starter-screen {
-  min-height: 100svh;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  text-align: center;
-  padding: 39px 24px 37px;
-  background: radial-gradient(ellipse at 50% 38%, #fffdf4 0, #f9f6ef 64%);
-}
-.starter-brand {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 19px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  color: #755737;
-}
-.starter-brand svg {
-  color: #6d8051;
-}
-.starter-heading {
-  margin-top: 49px;
-}
-.starter-heading h1 {
-  font-size: 31px;
-  line-height: 1.6;
-  font-weight: 800;
-  margin-top: 10px;
-  letter-spacing: 1px;
-}
-.starter-heading p {
-  font-size: 13px;
-  color: #786650;
-  margin-top: 10px;
-}
-.starter-mobile-break {
-  display: none;
-}
-.starter-choices {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  width: 100%;
-  max-width: 720px;
-  margin-top: 37px;
-}
-.starter-choice {
-  position: relative;
-  padding: 14px 12px 25px;
-  border: 2px solid #e7deca;
-  border-radius: 32px;
-  background: #fffdf6;
-  transition:
-    transform 0.2s,
-    border-color 0.2s,
-    box-shadow 0.2s;
-  box-shadow: 0 6px 0 #e9e0cd80;
-  min-width: 0;
-}
-.starter-choice.is-selected {
-  border-color: #839767;
-  transform: translateY(-7px);
-  box-shadow: 0 7px 0 #dbe2cb;
-}
-.starter-choice.starter-komugi.is-selected {
-  background: #fff4d8;
-}
-.starter-choice.starter-mame.is-selected {
-  background: #eff3dc;
-}
-.starter-choice.starter-shizuku.is-selected {
-  background: #eaf3ee;
-}
-.starter-choice > strong {
-  font-size: 18px;
-  letter-spacing: 2px;
-}
-.starter-check {
-  position: absolute;
-  right: 13px;
-  top: 13px;
-  width: 24px;
-  height: 24px;
-  border: 1px solid #dfd8c7;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: #fffbf1;
-  color: #fff;
-}
-.starter-choice.is-selected .starter-check {
-  background: #667c51;
-  border-color: #667c51;
-}
-.starter-portrait {
-  display: block;
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1;
-  margin-bottom: 8px;
-}
-.starter-portrait:before {
-  content: '';
-  position: absolute;
-  width: 80%;
-  height: 65%;
-  background: #f1eadb;
-  border-radius: 50%;
-  left: 10%;
-  top: 22%;
-  opacity: 0.55;
-}
-.starter-portrait > svg {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-.starter-introduction {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 70px;
-  padding: 15px 0 14px;
-  max-width: 600px;
-  color: #806249;
-}
-.starter-introduction > svg {
-  flex-shrink: 0;
-}
-.starter-introduction p {
-  font-size: 13px;
-  line-height: 1.8;
-}
-.starter-start {
-  min-width: 280px;
-  max-width: 100%;
-  gap: 36px;
-}
-.starter-footnote {
-  font-size: 11px;
-  color: #786650;
-  margin-top: 22px;
-}
+
 .recipe-board {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -664,15 +521,6 @@
   .friend-current {
     max-width: 210px;
   }
-  .starter-choices {
-    gap: 15px;
-  }
-  .starter-choice {
-    border-radius: 26px;
-  }
-  .starter-portrait {
-    margin-bottom: 2px;
-  }
 }
 @media (max-width: 600px) {
   .collection-screen {
@@ -707,74 +555,7 @@
     font-size: 10px;
     margin-bottom: 22px;
   }
-  .starter-screen {
-    padding: 27px 15px 28px;
-  }
-  .starter-brand {
-    font-size: 17px;
-  }
-  .starter-heading {
-    margin-top: 42px;
-  }
-  .starter-heading h1 {
-    font-size: 28px;
-    line-height: 1.65;
-  }
-  .starter-mobile-break {
-    display: block;
-  }
-  .starter-heading p {
-    font-size: 12px;
-    margin-top: 10px;
-  }
-  .starter-choices {
-    gap: 9px;
-    margin-top: 30px;
-  }
-  .starter-choice {
-    padding: 12px 3px 19px;
-    border-radius: 24px;
-  }
-  .starter-portrait {
-    margin: 7px 0 8px;
-  }
-  .starter-portrait:before {
-    width: 92%;
-    left: 4%;
-  }
-  .starter-choice > strong {
-    font-size: 14px;
-    letter-spacing: 1px;
-  }
-  .starter-check {
-    width: 20px;
-    height: 20px;
-    right: 8px;
-    top: 9px;
-  }
-  .starter-check > svg {
-    width: 12px;
-  }
-  .starter-introduction {
-    min-height: 77px;
-    max-width: 300px;
-    gap: 6px;
-  }
-  .starter-introduction p {
-    font-size: 11px;
-  }
-  .starter-introduction > svg {
-    width: 13px;
-  }
-  .starter-start {
-    width: calc(100% - 32px);
-    min-width: 0;
-    font-size: 14px;
-  }
-  .starter-footnote {
-    font-size: 10px;
-    margin-top: 20px;
-  }
+
   .recipe-board {
     gap: 19px 12px;
   }
@@ -924,21 +705,6 @@
   }
 }
 @media (max-width: 360px) {
-  .starter-choices {
-    gap: 6px;
-  }
-  .starter-screen {
-    padding-inline: 11px;
-  }
-  .starter-choice {
-    border-radius: 20px;
-  }
-  .starter-heading {
-    margin-top: 30px;
-  }
-  .starter-choice > strong {
-    font-size: 13px;
-  }
   .recipe-card-description > span {
     gap: 6px;
     font-size: 7px;
@@ -950,9 +716,354 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .starter-choice,
   .recipe-collection-card,
   .friend-card {
     transition: none;
+  }
+}
+
+/* The first choice is a full-screen scene; collection boards keep their own layout. */
+.journey-screen[data-scene='choose'] .journey-content {
+  padding-top: 33px;
+  padding-bottom: 14px;
+}
+.journey-screen[data-scene='choose'] .journey-footer {
+  max-width: 380px;
+  gap: 13px;
+}
+.journey-screen[data-scene='choose'] .starter-screen {
+  min-height: 0;
+  width: 100%;
+  padding: 0;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.starter-choices {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 25px;
+  width: min(770px, 100%);
+  padding: 8px 5px 6px;
+}
+.starter-choice {
+  position: relative;
+  min-width: 0;
+  padding: 23px 14px 25px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  box-shadow: 4px 4px 0 var(--ink);
+  background: #fffaf0;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    background 0.2s;
+}
+.starter-choice:hover {
+  transform: translateY(-4px);
+}
+.starter-choice.is-selected {
+  transform: translateY(-8px);
+  box-shadow: 6px 8px 0 var(--ink);
+}
+.starter-choice.starter-komugi.is-selected {
+  background: #f7c544;
+}
+.starter-choice.starter-mame.is-selected {
+  background: #acd49b;
+}
+.starter-choice.starter-shizuku.is-selected {
+  background: #7fbbe0;
+}
+.starter-choice > strong {
+  display: block;
+  font-size: 20px;
+  line-height: 1.5;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: var(--ink);
+  margin-top: 12px;
+}
+.starter-check {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--paper);
+  z-index: 2;
+}
+.starter-choice.is-selected .starter-check {
+  background: var(--green);
+}
+.starter-portrait {
+  display: block;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: visible;
+}
+.starter-portrait > .pet-art {
+  position: absolute;
+  width: 128%;
+  height: 128%;
+  left: -14%;
+  bottom: -2%;
+  max-width: none;
+}
+.starter-choice.is-selected .starter-portrait > .pet-art {
+  animation: starter-choice-wiggle 0.4s ease-out both;
+}
+.starter-introduction {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 77px;
+  padding: 23px 10px 12px;
+  max-width: 620px;
+  color: var(--muted);
+}
+.starter-introduction > svg {
+  flex-shrink: 0;
+  color: var(--orange);
+}
+.starter-introduction > p {
+  font-size: 13px;
+  line-height: 1.9;
+}
+.starter-start {
+  gap: 28px;
+}
+.starter-footnote {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.8;
+  margin-top: 9px;
+}
+.journey-screen[data-scene='choose'] .starter-expansion {
+  display: inline-block;
+  margin-top: 7px;
+  padding: 5px 0;
+  font-size: 10px;
+  line-height: 1.7;
+  color: var(--muted);
+  text-decoration-color: #a7a58a;
+  text-underline-offset: 3px;
+}
+.journey-screen[data-scene='choose'] .starter-expansion:hover {
+  color: var(--green);
+}
+@keyframes starter-choice-wiggle {
+  0% {
+    transform: rotate(-4deg) translateY(3px);
+  }
+  50% {
+    transform: rotate(3deg) translateY(-3px);
+  }
+  100% {
+    transform: rotate(0) translateY(0);
+  }
+}
+@media (max-width: 850px) {
+  .starter-choices {
+    gap: 17px;
+    max-width: 670px;
+  }
+  .starter-choice {
+    padding-inline: 11px;
+  }
+}
+@media (max-width: 600px) {
+  .journey-screen[data-scene='choose'] .journey-heading {
+    max-width: 300px;
+  }
+  .journey-screen[data-scene='choose'] .journey-title {
+    font-size: 28px;
+  }
+  .journey-screen[data-scene='choose'] .journey-content {
+    padding-top: 28px;
+    padding-bottom: 5px;
+  }
+  .journey-screen[data-scene='choose'] .journey-footer {
+    gap: 11px;
+  }
+  .starter-choices {
+    gap: 10px;
+    padding: 8px 2px 6px;
+  }
+  .starter-choice {
+    padding: 26px 3px 17px;
+    border-radius: 7px;
+  }
+  .starter-choice.is-selected {
+    transform: translateY(-7px);
+  }
+  .starter-choice > strong {
+    font-size: 16px;
+    letter-spacing: 1px;
+    margin-top: 12px;
+  }
+  .starter-check {
+    width: 21px;
+    height: 21px;
+    right: 8px;
+    top: 9px;
+  }
+  .starter-check > svg {
+    width: 13px;
+  }
+  .starter-portrait {
+    aspect-ratio: 0.91;
+  }
+  .starter-portrait > .pet-art {
+    width: 145%;
+    height: 145%;
+    left: -22.5%;
+    bottom: -6%;
+  }
+  .starter-introduction {
+    min-height: 77px;
+    padding: 22px 0 10px;
+    gap: 6px;
+    max-width: 310px;
+  }
+  .starter-introduction > p {
+    font-size: 11px;
+  }
+  .starter-introduction > svg {
+    width: 13px;
+  }
+  .starter-footnote {
+    font-size: 10px;
+    margin-top: 6px;
+  }
+  .journey-screen[data-scene='choose'] .starter-expansion {
+    font-size: 9px;
+  }
+}
+@media (max-width: 360px) {
+  .starter-choices {
+    gap: 8px;
+  }
+  .starter-choice {
+    padding-top: 24px;
+    padding-bottom: 15px;
+  }
+  .starter-choice > strong {
+    font-size: 14px;
+  }
+  .starter-check {
+    right: 6px;
+    width: 19px;
+    height: 19px;
+  }
+  .starter-introduction {
+    gap: 5px;
+  }
+  .starter-introduction > p {
+    font-size: 10px;
+  }
+}
+@media (max-width: 600px) and (max-height: 740px) {
+  .journey-screen[data-scene='choose'] .journey-heading {
+    margin-top: 16px;
+  }
+  .journey-screen[data-scene='choose'] .journey-content {
+    padding-top: 22px;
+  }
+  .starter-portrait {
+    aspect-ratio: 1.05;
+  }
+  .starter-introduction {
+    min-height: 65px;
+    padding-top: 20px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .starter-choice {
+    transition: none;
+  }
+  .starter-choice.is-selected .starter-portrait > .pet-art {
+    animation: none;
+  }
+}
+
+@media (min-width: 601px) and (max-height: 820px) {
+  .journey-screen[data-scene='choose'] .journey-heading {
+    margin-top: 14px;
+  }
+  .journey-screen[data-scene='choose'] .journey-content {
+    padding-top: 20px;
+    padding-bottom: 8px;
+  }
+  .journey-screen[data-scene='choose'] .journey-footer {
+    gap: 8px;
+  }
+  .starter-choices {
+    width: min(620px, 100%);
+    gap: 20px;
+  }
+  .starter-choice {
+    padding: 20px 10px 19px;
+  }
+  .starter-portrait {
+    aspect-ratio: 1.2;
+  }
+  .starter-choice > strong {
+    margin-top: 8px;
+    font-size: 18px;
+  }
+  .starter-introduction {
+    min-height: 57px;
+    padding-top: 15px;
+    padding-bottom: 8px;
+  }
+  .starter-footnote {
+    margin-top: 5px;
+  }
+  .journey-screen[data-scene='choose'] .starter-expansion {
+    margin-top: 2px;
+  }
+}
+@media (max-width: 600px) and (max-height: 740px) {
+  .journey-screen[data-scene='choose'] .journey-title {
+    font-size: 25px;
+  }
+  .journey-screen[data-scene='choose'] .journey-content {
+    padding-top: 19px;
+    padding-bottom: 3px;
+  }
+  .journey-screen[data-scene='choose'] .journey-footer {
+    gap: 8px;
+  }
+  .starter-choice {
+    padding-top: 23px;
+    padding-bottom: 14px;
+  }
+  .starter-portrait {
+    aspect-ratio: 1.1;
+  }
+  .starter-choice > strong {
+    margin-top: 8px;
+  }
+  .starter-introduction {
+    min-height: 57px;
+    padding-top: 16px;
+    padding-bottom: 7px;
+  }
+  .starter-footnote {
+    margin-top: 4px;
+  }
+  .journey-screen[data-scene='choose'] .starter-expansion {
+    margin-top: 2px;
   }
 }

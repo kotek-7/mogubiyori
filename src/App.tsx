@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   BookOpen,
   Camera,
@@ -17,6 +17,10 @@ import { Pet, GatheringScene, DishArt, ItemArt } from './GameArt'
 import { GameDialogs } from './GameDialogs'
 import type { Dialog } from './GameDialogs'
 import { StarterSelection, RecipeBoard, FriendsBoard } from './CollectionScreens'
+import { WelcomeScene } from './WelcomeScene'
+import { MealJourney } from './MealJourney'
+import { FeastJourney } from './FeastJourney'
+import { transitionScene } from './journeyTransition'
 import {
   chooseStarter,
   claimLogin,
@@ -34,11 +38,16 @@ import {
   streakOf,
   todayTokyo,
 } from './game'
-import type { FeedInput } from './game'
+import type { FeedInput, GameState, SpeciesId } from './game'
 import { loadGame, saveGame } from './gameStorage'
 import './play.css'
 
 type Page = 'room' | 'book' | 'album' | 'shop'
+type MealOptions = { recipeId?: string; targetId?: SpeciesId }
+type Journey =
+  | { type: 'welcome'; speciesId: SpeciesId }
+  | ({ type: 'meal' } & MealOptions)
+  | { type: 'feast'; before: GameState; after: GameState }
 function route(): Page {
   const hash = window.location.hash.slice(1)
   return hash === 'album' || hash === 'shop' || hash === 'book' ? hash : 'room'
@@ -55,6 +64,10 @@ function App() {
   const [state, setState] = useState(loadGame)
   const [page, setPage] = useState<Page>(route)
   const [dialog, setDialog] = useState<Dialog | null>(null)
+  const [journey, setJourney] = useState<Journey | null>(null)
+  const feedButton = useRef<HTMLButtonElement>(null)
+  const restoreFeedFocus = useRef(false)
+  const submitted = useRef(false)
   const [storageError, setStorageError] = useState(false)
   const [toast, setToast] = useState('')
   const [petting, setPetting] = useState(false)
@@ -106,27 +119,48 @@ function App() {
     const timer = setTimeout(() => setPetting(false), 1700)
     return () => clearTimeout(timer)
   }, [petting])
+  useEffect(() => {
+    if (!journey && restoreFeedFocus.current) {
+      restoreFeedFocus.current = false
+      feedButton.current?.focus({ preventScroll: true })
+    }
+  }, [journey])
   function navigate(next: Page) {
     setPage(next)
     window.location.hash = next
     window.scrollTo({ top: 0, behavior: 'instant' })
   }
   function submit(data: FeedInput) {
+    if (submitted.current || journey?.type !== 'meal') return
     const before = { ...state, today: shiftDay(todayTokyo(), state.dayOffset) }
     const after = feed(before, data)
     if (after === before) return
-    setState(after)
-    navigate('room')
-    setDialog({ type: 'feast', before, after })
+    submitted.current = true
+    transitionScene(() => {
+      setState(after)
+      setJourney({ type: 'feast', before, after })
+    })
   }
-  function closeDialog() {
+  function openMeal(options: MealOptions = {}) {
+    submitted.current = false
+    transitionScene(() => {
+      setToast('')
+      setDialog(null)
+      setJourney({ type: 'meal', ...options })
+    })
+  }
+  function finishJourney() {
     if (
-      dialog?.type === 'feast' &&
-      !dialog.before.owned.includes('sprout') &&
-      dialog.after.owned.includes('sprout')
+      journey?.type === 'feast' &&
+      !journey.before.owned.includes('sprout') &&
+      journey.after.owned.includes('sprout')
     )
       setState((s) => equipItem(s, 'sprout'))
-    setDialog(null)
+    transitionScene(() => {
+      restoreFeedFocus.current = true
+      setJourney(null)
+      navigate('room')
+    })
   }
   function showFriends() {
     setBookKind('friends')
@@ -136,10 +170,40 @@ function App() {
     return (
       <StarterSelection
         onChoose={(id) => {
-          setState((s) => chooseStarter(s, id))
-          navigate('room')
+          transitionScene(() => {
+            setState((s) => chooseStarter(s, id))
+            setJourney({ type: 'welcome', speciesId: id })
+            navigate('room')
+          })
         }}
       />
+    )
+  if (journey)
+    return (
+      <>
+        {journey.type === 'welcome' ? (
+          <WelcomeScene
+            speciesId={journey.speciesId}
+            onContinue={() => openMeal()}
+            onLater={finishJourney}
+          />
+        ) : journey.type === 'meal' ? (
+          <MealJourney
+            state={state}
+            recipeId={journey.recipeId}
+            targetId={journey.targetId}
+            onFeed={submit}
+            onClose={finishJourney}
+          />
+        ) : (
+          <FeastJourney before={journey.before} after={journey.after} onDone={finishJourney} />
+        )}
+        {storageError && (
+          <p role="alert" className="journey-storage-error">
+            この端末に保存できませんでした。再読み込みせずに続けてください。
+          </p>
+        )}
+      </>
     )
   const speech = petting
     ? 'えへへ。いっしょがいいね。'
@@ -231,7 +295,7 @@ function App() {
                     {state.visitors.map((id) => (
                       <button
                         key={id}
-                        onClick={() => setDialog({ type: 'record', targetId: id })}
+                        onClick={() => openMeal({ targetId: id })}
                         aria-label={`お客さんの${species.find((s) => s.id === id)!.name}にごはんをあげる`}
                       >
                         <Pet species={id} stage={0} mood="hungry" />
@@ -280,8 +344,9 @@ function App() {
                 </span>
               </button>
               <button
+                ref={feedButton}
                 className="primary-button play-feed"
-                onClick={() => setDialog({ type: 'record' })}
+                onClick={() => openMeal()}
               >
                 <Utensils size={21} />
                 {fed ? 'もうひと皿、あげる' : 'つくったごはんをあげる'}
@@ -351,7 +416,7 @@ function App() {
                   setState((s) => selectCompanion(s, id))
                   navigate('room')
                 }}
-                onFeedVisitor={(targetId) => setDialog({ type: 'record', targetId })}
+                onFeedVisitor={(targetId) => openMeal({ targetId })}
               />
             )}
             <button className="quiet-button play-memories" onClick={() => navigate('album')}>
@@ -392,7 +457,7 @@ function App() {
               <div className="empty-state">
                 <DishArt kind="rice" />
                 <h2>はじめてのごはん、まってるよ。</h2>
-                <button className="primary-button" onClick={() => setDialog({ type: 'record' })}>
+                <button className="primary-button" onClick={() => openMeal()}>
                   ごはんをあげる
                 </button>
               </div>
@@ -489,10 +554,10 @@ function App() {
           dialog={dialog}
           state={state}
           setState={setState}
-          onClose={closeDialog}
+          onClose={() => setDialog(null)}
           onNavigate={navigate}
           onToast={setToast}
-          onFeed={submit}
+          onRecord={openMeal}
         />
       )}
       {toast && (

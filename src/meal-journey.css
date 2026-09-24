@@ -1,0 +1,343 @@
+.meal-photo-scene {
+  position: relative;
+  width: min(100%, 390px);
+  margin: auto;
+  padding: 12px 18px 58px;
+}
+.meal-photo-card {
+  position: relative;
+  padding: 12px 12px 0;
+  background: #fffcf4;
+  border: 2px solid var(--ink);
+  border-radius: 5px;
+  box-shadow: 7px 8px 0 #e4ba64;
+  transform: rotate(-3deg);
+  animation: meal-photo-enter 450ms ease-out both;
+}
+.meal-photo-picker.photo-picker {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1.13;
+  margin: 0;
+  padding: 0;
+  border: 1px dashed #967452;
+  border-radius: 2px;
+  overflow: hidden;
+  background: #f4e8ce;
+  cursor: pointer;
+}
+.meal-photo-picker > img,
+.meal-photo-picker > svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.meal-photo-card.has-photo .meal-photo-picker {
+  border-style: solid;
+}
+.meal-photo-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 24px;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+.meal-camera {
+  width: 89px;
+  height: 89px;
+  display: grid;
+  place-items: center;
+  background: #fffaf0;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  color: var(--green);
+}
+.meal-photo-corners {
+  position: absolute;
+  inset: 20px;
+  border: 1px solid #ae9471;
+  border-radius: 16px;
+}
+.meal-photo-caption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 51px;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 1px;
+  color: var(--green);
+}
+.meal-photo-change {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  gap: 6px;
+  padding: 8px 12px;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  border-radius: 4px;
+  font-size: 11px;
+}
+.meal-photo-friend {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  display: flex;
+  align-items: flex-end;
+}
+.meal-photo-friend > svg {
+  width: 111px;
+  height: 111px;
+}
+.meal-photo-friend > span {
+  position: absolute;
+  bottom: 12px;
+  right: 112px;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 750;
+  transform: rotate(4deg);
+}
+.meal-photo-error {
+  max-width: 360px;
+  margin: 0 auto;
+}
+.meal-serving-art {
+  position: relative;
+  width: min(100%, 430px);
+  height: 330px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.meal-serving-speech {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 4px;
+  transform: translateX(-50%) rotate(-3deg);
+  padding: 7px 13px;
+  border: 1.5px solid var(--ink);
+  border-radius: 6px;
+  background: #fffaf0;
+  white-space: nowrap;
+  font-size: 11px;
+}
+.meal-serving-pet {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 228px;
+  height: 228px;
+  top: 22px;
+}
+.meal-serving-pet > svg {
+  width: 100%;
+  height: 100%;
+}
+.meal-tablecloth {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 134px;
+  border: 2px solid var(--ink);
+  border-radius: 50% 50% 8px 8px / 20% 20% 8px 8px;
+  background-color: #eabfb0;
+  background-image:
+    linear-gradient(90deg, #fff6df66 50%, transparent 50%),
+    linear-gradient(#fff6df66 50%, transparent 50%);
+  background-size: 28px 28px;
+  z-index: 2;
+}
+.meal-serving-dish {
+  position: absolute;
+  z-index: 3;
+  width: 180px;
+  height: 127px;
+  bottom: 23px;
+  left: 50%;
+  margin-left: -90px;
+  background: #fffcf4;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 6px 0 #ad8870;
+  animation: meal-serve-enter 500ms cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+.meal-serving-dish > img,
+.meal-serving-dish > svg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.meal-serving-cutlery {
+  position: absolute;
+  z-index: 3;
+  bottom: 66px;
+  left: 13%;
+  color: #535342;
+  transform: rotate(-9deg);
+}
+.meal-serve-form {
+  width: min(100%, 370px);
+  margin: 18px auto 0;
+}
+.meal-recipe-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+.meal-recipe-field > span {
+  font-size: 12px;
+  font-weight: 800;
+}
+.meal-recipe-field select,
+.meal-recipe-field input {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 13px;
+  border: 1.5px solid var(--ink);
+  border-radius: 5px;
+  background: #fffcf4;
+  font-size: 16px;
+}
+.meal-title-details {
+  margin-top: 10px;
+  text-align: left;
+}
+.meal-title-details > summary {
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 6px 0;
+}
+.meal-title-details .meal-recipe-field {
+  margin-top: 10px;
+}
+.meal-serve-form .repeat-hint {
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: var(--orange);
+}
+.journey-storage-error {
+  position: fixed;
+  z-index: 10;
+  top: 4px;
+  left: 10px;
+  right: 10px;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #fff;
+  background: var(--orange);
+  border-radius: 5px;
+}
+@keyframes meal-photo-enter {
+  from {
+    opacity: 0;
+    transform: translateY(16px) rotate(-7deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(-3deg);
+  }
+}
+@keyframes meal-serve-enter {
+  from {
+    opacity: 0;
+    transform: translateY(55px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@media (max-width: 600px) {
+  .meal-photo-scene {
+    width: min(100%, 340px);
+  }
+  .meal-serving-art {
+    height: 260px;
+    max-width: 360px;
+  }
+  .meal-serving-pet {
+    width: 190px;
+    height: 190px;
+    top: 20px;
+  }
+  .meal-tablecloth {
+    height: 107px;
+  }
+  .meal-serving-dish {
+    width: 148px;
+    height: 109px;
+    margin-left: -74px;
+    bottom: 14px;
+    padding: 8px;
+  }
+  .meal-serving-cutlery {
+    bottom: 46px;
+    left: 12%;
+  }
+  .meal-serve-form {
+    margin-top: 12px;
+  }
+}
+@media (max-height: 760px) {
+  .meal-photo-scene {
+    width: min(100%, 285px);
+    padding-bottom: 46px;
+  }
+  .meal-photo-friend > svg {
+    width: 85px;
+    height: 85px;
+  }
+  .meal-photo-friend > span {
+    right: 90px;
+  }
+  .meal-serving-art {
+    height: 200px;
+  }
+  .meal-serving-pet {
+    width: 156px;
+    height: 156px;
+    top: 12px;
+  }
+  .meal-tablecloth {
+    height: 76px;
+  }
+  .meal-serving-dish {
+    width: 115px;
+    height: 80px;
+    margin-left: -57px;
+    bottom: 8px;
+    padding: 5px;
+  }
+  .meal-serving-cutlery {
+    bottom: 30px;
+    left: 18%;
+  }
+  .meal-serving-speech {
+    top: 0;
+    padding: 5px 10px;
+    font-size: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .meal-photo-card,
+  .meal-serving-dish {
+    animation: none;
+  }
+}

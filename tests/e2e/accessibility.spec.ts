@@ -2,19 +2,38 @@ import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import { claimLogin, demoGame, feed, recipes, todayTokyo } from '../../src/game'
 import type { Page } from '@playwright/test'
+import {
+  chooseStarter,
+  feedSample,
+  journey,
+  navigate,
+  returnToPlaza,
+  sampleToTable,
+  start,
+  submitSample,
+  waitForSceneMotion,
+} from './helpers'
 
 async function check(page: Page, label: string) {
-  await page.evaluate(() => document.fonts.ready)
+  await waitForSceneMotion(page)
   const result = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
     .analyze()
   expect(result.violations, label).toEqual([])
 }
 
-async function start(page: Page) {
-  await page.goto('/')
-  await page.getByRole('button', { name: 'この子とはじめる' }).click()
-  await expect(page.getByRole('heading', { name: 'ごはんのひろば' })).toBeVisible()
+async function extendMealAnimationTimers(page: Page) {
+  // Keep transient meal scenes visible while axe runs; its own timers stay live.
+  // Real-time automatic completion is covered separately in app.spec.ts.
+  await page.addInitScript(() => {
+    const schedule = window.setTimeout.bind(window)
+    window.setTimeout = ((handler: TimerHandler, delay?: number, ...args: unknown[]) =>
+      schedule(
+        handler,
+        delay === 1800 || delay === 2000 ? 60000 : delay,
+        ...args,
+      )) as typeof window.setTimeout
+  })
 }
 
 test('starter selection is accessible before any companion has been chosen', async ({ page }) => {
@@ -24,9 +43,10 @@ test('starter selection is accessible before any companion has been chosen', asy
 })
 
 test('plaza, recipe collection, recipe detail and shop are accessible', async ({ page }) => {
+  await page.goto('/')
   await start(page)
   await check(page, 'plaza')
-  await page.getByRole('navigation').getByRole('button', { name: 'ずかん', exact: true }).click()
+  await navigate(page, 'ずかん')
   await check(page, 'recipe collection')
   await page
     .locator('.recipe-collection-card')
@@ -35,7 +55,7 @@ test('plaza, recipe collection, recipe detail and shop are accessible', async ({
   await page.getByRole('dialog').waitFor()
   await check(page, 'recipe detail')
   await page.getByRole('button', { name: '閉じる', exact: true }).click()
-  await page.getByRole('navigation').getByRole('button', { name: 'おみせ', exact: true }).click()
+  await navigate(page, 'おみせ')
   await check(page, 'shop')
 })
 
@@ -56,15 +76,61 @@ test('the companion collection with visitors has accessible labels and contrast'
   await check(page, 'companion collection and visitors')
 })
 
-test('mobile food submission and the growth celebration are accessible', async ({ page }) => {
+test('mobile welcome, photo, serving, eating, growth and card scenes are accessible', async ({
+  page,
+}) => {
+  test.setTimeout(60000)
   await page.setViewportSize({ width: 390, height: 844 })
-  await start(page)
-  await page.locator('.play-feed').click()
-  await page.getByRole('dialog').waitFor()
-  await check(page, 'photo submission')
-  await page.getByRole('button', { name: '写真なしで体験する' }).click()
-  await page.getByRole('combobox', { name: 'つくった料理', exact: true }).selectOption('curry')
+  await extendMealAnimationTimers(page)
+  await page.goto('/')
+  await chooseStarter(page)
+  await check(page, 'welcome')
+  await page.getByRole('button', { name: 'はじめてのごはんへ' }).click()
+  await expect(journey(page, 'photo')).toBeVisible()
+  await check(page, 'photo')
+  await sampleToTable(page, 'curry')
+  await check(page, 'serving')
   await page.getByRole('button', { name: 'こむぎにごはんをあげる', exact: true }).click()
-  await expect(page.locator('.feast')).not.toHaveClass(/is-eating/)
-  await check(page, 'growth and first recipe card celebration')
+  await expect(journey(page, 'eating')).toBeVisible()
+  await check(page, 'eating')
+  await page.getByRole('button', { name: '早送り', exact: true }).click()
+  await expect(journey(page, 'growth')).toBeVisible()
+  await check(page, 'growth')
+  await page.getByRole('button', { name: 'つづける', exact: true }).click()
+  await expect(journey(page, 'card')).toBeVisible()
+  await check(page, 'recipe card')
+})
+
+test('arrival, gift, recruitment and ordinary satisfaction scenes are accessible', async ({
+  page,
+}) => {
+  test.setTimeout(60000)
+  await extendMealAnimationTimers(page)
+  const state = claimLogin(demoGame(todayTokyo()))
+  await page.addInitScript(
+    (value) => localStorage.setItem('mogubiyori-v1', value),
+    JSON.stringify(state),
+  )
+  await page.goto('/')
+  await feedSample(page)
+  await page.getByRole('button', { name: '早送り', exact: true }).click()
+  await expect(journey(page, 'growth')).toBeVisible()
+  await page.getByRole('button', { name: 'つづける', exact: true }).click()
+  await expect(journey(page, 'arrivals')).toBeVisible()
+  await check(page, 'arrivals')
+  await page.getByRole('button', { name: 'つづける', exact: true }).click()
+  await expect(journey(page, 'gift')).toBeVisible()
+  await check(page, 'seven-day gift')
+  await page.getByRole('button', { name: 'ひろばへ', exact: true }).click()
+  await page.getByRole('button', { name: 'お客さんのまめにごはんをあげる' }).click()
+  await submitSample(page, '', 'まめ')
+  await page.getByRole('button', { name: '早送り', exact: true }).click()
+  await expect(journey(page, 'joined')).toBeVisible()
+  await check(page, 'recruitment')
+  await returnToPlaza(page)
+  await page.locator('.play-feed').click()
+  await submitSample(page, '', 'まめ')
+  await page.getByRole('button', { name: '早送り', exact: true }).click()
+  await expect(journey(page, 'satisfied')).toBeVisible()
+  await check(page, 'ordinary satisfaction')
 })

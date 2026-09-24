@@ -1,76 +1,33 @@
 import { test, expect } from '@playwright/test'
-import type { Page } from '@playwright/test'
-import { Buffer } from 'node:buffer'
 import { recipes } from '../../src/game'
-import type { GameState } from '../../src/game'
+import {
+  chooseStarter,
+  expectFocusedScene,
+  feedSample,
+  journey,
+  navigate,
+  nextDay,
+  returnToPlaza,
+  sampleToTable,
+  start,
+  storedGame,
+  submitSample,
+  uploadPhoto,
+  waitForSceneMotion,
+} from './helpers'
 
-async function storedGame(page: Page): Promise<GameState> {
-  return page.evaluate(() => JSON.parse(localStorage.getItem('mogubiyori-v1')!))
-}
-
-async function start(page: Page, name = 'こむぎ') {
-  await page.getByRole('button', { name: `${name}を選ぶ`, exact: true }).click()
-  await page.getByRole('button', { name: 'この子とはじめる' }).click()
-  await expect(page.getByRole('heading', { name: 'ごはんのひろば' })).toBeVisible()
-  await expect(page.getByRole('button', { name: 'コイン 140枚、おみせへ' })).toBeVisible()
-}
-
-async function navigate(page: Page, name: 'ひろば' | 'ずかん' | 'おみせ') {
-  await page
-    .getByRole('navigation', { name: 'メインナビゲーション' })
-    .getByRole('button', { name, exact: true })
-    .click()
-}
-
-async function submitSample(page: Page, recipeId = '', name = 'こむぎ') {
-  await page.getByRole('button', { name: '写真なしで体験する' }).click()
-  await page.getByRole('combobox', { name: 'つくった料理', exact: true }).selectOption(recipeId)
-  await page.getByRole('button', { name: `${name}にごはんをあげる`, exact: true }).click()
-  await expect(page.locator('.feast')).not.toHaveClass(/is-eating/)
-}
-
-async function feedSample(page: Page, recipeId = '') {
-  await page.locator('.play-feed').click()
-  await submitSample(page, recipeId)
-}
-
-async function returnToPlaza(page: Page) {
-  await page.locator('.feast > .primary-button').click()
-  await expect(page.getByRole('dialog')).toHaveCount(0)
-}
-
-async function nextDay(page: Page) {
-  await page.getByRole('button', { name: '設定', exact: true }).click()
-  await page.getByText('おためし設定', { exact: true }).click()
-  await page.getByRole('button', { name: '翌日に進む' }).click()
-  await expect(page.getByRole('dialog')).toHaveCount(0)
-}
-
-async function uploadPhoto(page: Page) {
-  const fixture = await page.evaluate(() => {
-    const canvas = document.createElement('canvas')
-    canvas.width = 100
-    canvas.height = 60
-    const context = canvas.getContext('2d')!
-    context.fillStyle = '#dfc992'
-    context.fillRect(0, 0, 100, 60)
-    return canvas.toDataURL('image/png').split(',')[1]
-  })
-  await page.getByLabel('料理の写真').setInputFiles({
-    name: 'meal.png',
-    mimeType: 'image/png',
-    buffer: Buffer.from(fixture, 'base64'),
-  })
-  await expect(page.getByRole('dialog').locator('.photo-picker img')).toBeVisible()
+async function attachViewport(page: import('@playwright/test').Page, name: string) {
+  await waitForSceneMotion(page)
+  const path = test.info().outputPath(`${name}.png`)
+  await page.screenshot({ path, fullPage: false })
+  await test.info().attach(name, { path, contentType: 'image/png' })
 }
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
 })
 
-test('each of the three starters can be chosen and the choice survives reload', async ({
-  page,
-}) => {
+test('each starter has a personal welcome and its choice survives reload', async ({ page }) => {
   for (const [id, name] of [
     ['komugi', 'こむぎ'],
     ['mame', 'まめ'],
@@ -79,7 +36,10 @@ test('each of the three starters can be chosen and the choice survives reload', 
     await expect(page.getByRole('group', { name: '最初のなかま' }).getByRole('button')).toHaveCount(
       3,
     )
-    await start(page, name)
+    await chooseStarter(page, name)
+    await expectFocusedScene(page, 'welcome')
+    await expect(journey(page)).toContainText(name)
+    await page.getByRole('button', { name: 'ひろばを見てみる' }).click()
     await page.reload()
     await expect(page.locator('.play-name')).toContainText(name)
     const state = await storedGame(page)
@@ -93,25 +53,45 @@ test('each of the three starters can be chosen and the choice survives reload', 
   }
 })
 
+test('welcome leads directly through focused photo, serving and individual reward scenes', async ({
+  page,
+}) => {
+  await chooseStarter(page)
+  await page.getByRole('button', { name: 'はじめてのごはんへ' }).click()
+  await expectFocusedScene(page, 'photo')
+  await sampleToTable(page, 'curry')
+  await expectFocusedScene(page, 'serve')
+  await page.getByRole('button', { name: 'こむぎにごはんをあげる', exact: true }).click()
+  await expectFocusedScene(page, 'eating')
+  await page.getByRole('button', { name: '早送り', exact: true }).click()
+  await expectFocusedScene(page, 'growth')
+  await expect(journey(page)).toContainText('こむぎが大きくなった！')
+  await expect(journey(page)).not.toContainText('はじめての一皿！')
+  await page.getByRole('button', { name: 'つづける', exact: true }).click()
+  await expectFocusedScene(page, 'card')
+  await expect(journey(page)).toContainText('カレー')
+  await expect(journey(page)).not.toContainText('こむぎが大きくなった！')
+  await page.getByRole('button', { name: 'ひろばへ', exact: true }).click()
+  await expect(page.locator('.play-name')).toContainText('すくすく')
+  expect((await storedGame(page)).cards).toEqual(['curry'])
+})
+
 test('varied meals grow the companion and visitors join only after being fed', async ({ page }) => {
   await start(page)
   await feedSample(page, 'egg-rice')
-  await expect(page.getByRole('dialog')).toContainText('すくすく成長！')
-  await returnToPlaza(page)
+  expect(await returnToPlaza(page)).toEqual(['eating', 'growth', 'card'])
   await expect(page.locator('.play-name')).toContainText('すくすく')
   await feedSample(page, 'tofu-soup')
-  await returnToPlaza(page)
+  expect(await returnToPlaza(page)).toEqual(['eating', 'card'])
   await feedSample(page, 'curry')
-  await expect(page.getByRole('dialog')).toContainText('おとなに成長！')
-  await expect(page.locator('.visitor-arrival')).toBeVisible()
-  await returnToPlaza(page)
+  expect(await returnToPlaza(page)).toEqual(['eating', 'growth', 'card', 'arrivals'])
   expect((await storedGame(page)).companions).toHaveLength(1)
   await expect(page.locator('.play-guests button')).toHaveCount(3)
   await page.getByRole('button', { name: 'お客さんのまめにごはんをあげる' }).click()
   expect((await storedGame(page)).companions).toHaveLength(1)
   await submitSample(page, 'fried-rice', 'まめ')
-  await expect(page.getByRole('dialog')).toContainText('なかまになった！')
-  await returnToPlaza(page)
+  const joinedScenes = await returnToPlaza(page)
+  expect(joinedScenes).toContain('joined')
   await expect(page.locator('.play-name')).toContainText('まめ')
   const state = await storedGame(page)
   expect(state.companions.map((buddy) => [buddy.id, buddy.xp])).toEqual([
@@ -131,14 +111,15 @@ test('varied meals grow the companion and visitors join only after being fed', a
   expect((await storedGame(page)).xp).toBe(135)
 })
 
-test('repeated recipes reduce growth while their card bonus is awarded once', async ({ page }) => {
+test('repeated recipes reduce growth while the card bonus is awarded once', async ({ page }) => {
   await start(page)
   for (const xp of [45, 30, 15]) {
     await page.locator('.play-feed').click()
-    await page.getByRole('combobox', { name: 'つくった料理', exact: true }).selectOption('curry')
-    if (xp < 45) await expect(page.locator('.repeat-hint')).toContainText(`+${xp} XP`)
-    await submitSample(page, 'curry')
-    await expect(page.locator('.feast-rewards')).toContainText(`+${xp} XP`)
+    await sampleToTable(page, 'curry')
+    if (xp < 45) await expect(journey(page)).toContainText(`+${xp} XP`)
+    await page.getByRole('button', { name: 'こむぎにごはんをあげる', exact: true }).click()
+    await expect(journey(page, 'eating')).toBeVisible()
+    expect((await storedGame(page)).meals[0].xp).toBe(xp)
     await returnToPlaza(page)
   }
   const state = await storedGame(page)
@@ -153,24 +134,26 @@ test('repeated recipes reduce growth while their card bonus is awarded once', as
   ).toBeVisible()
 })
 
-test('an undiscovered recipe can guide cooking and becomes a collected card afterward', async ({
+test('an undiscovered recipe guides cooking and becomes a collected card afterward', async ({
   page,
 }) => {
   await start(page)
   await navigate(page, 'ずかん')
-  const index = recipes.findIndex((recipe) => recipe.id === 'curry')
-  const curry = page.locator('.recipe-collection-card').nth(index)
+  const curry = page
+    .locator('.recipe-collection-card')
+    .nth(recipes.findIndex((recipe) => recipe.id === 'curry'))
   await expect(curry).toHaveClass(/is-unknown/)
   await curry.click()
   await expect(page.getByRole('dialog')).toContainText('材料')
   await expect(page.getByRole('dialog')).toContainText('つくりかた')
   await page.getByRole('button', { name: 'これをつくってあげる' }).click()
+  await expectFocusedScene(page, 'photo')
+  await page.getByRole('button', { name: '写真なしで体験する' }).click()
   await expect(page.getByRole('combobox', { name: 'つくった料理', exact: true })).toHaveValue(
     'curry',
   )
-  await submitSample(page, 'curry')
-  await expect(page.locator('.new-recipe-card')).toContainText('カレー')
-  await returnToPlaza(page)
+  await page.getByRole('button', { name: 'こむぎにごはんをあげる', exact: true }).click()
+  expect(await returnToPlaza(page)).toContain('card')
   await navigate(page, 'ずかん')
   await expect(page.getByRole('button', { name: 'カレーのレシピを見る', exact: true })).toHaveClass(
     /is-discovered/,
@@ -186,9 +169,11 @@ test('daily login and three/seven-day cooking bonuses cannot be claimed twice', 
   expect((await storedGame(page)).coins).toBe(140)
   for (let day = 1; day <= 7; day += 1) {
     await feedSample(page)
-    if (day === 3) await expect(page.locator('.bonus-note')).toContainText('+30 コイン')
-    if (day === 7) await expect(page.locator('.bonus-note')).toContainText('+100 コイン')
-    await returnToPlaza(page)
+    const state = await storedGame(page)
+    if (day === 3) expect(state.meals[0].streakBonus).toBe(30)
+    if (day === 7) expect(state.meals[0].streakBonus).toBe(100)
+    const scenes = await returnToPlaza(page)
+    if (day === 7) expect(scenes).toContain('gift')
     if (day < 7) await nextDay(page)
   }
   let state = await storedGame(page)
@@ -207,12 +192,42 @@ test('daily login and three/seven-day cooking bonuses cannot be claimed twice', 
   await expect(page.locator('.play-streak')).toContainText('7日連続')
 })
 
+test('photo and optional inputs survive going back, and cancellation never feeds', async ({
+  page,
+}) => {
+  await start(page)
+  const before = await storedGame(page)
+  await page.locator('.play-feed').click()
+  await uploadPhoto(page)
+  const photo = await journey(page).locator('img[src^="data:image/"]').getAttribute('src')
+  await page.getByRole('button', { name: '食卓へ', exact: true }).click()
+  await expectFocusedScene(page, 'serve')
+  await page.getByRole('combobox', { name: 'つくった料理', exact: true }).selectOption('curry')
+  await page.getByText('料理名をつける', { exact: true }).click()
+  await page.getByRole('textbox', { name: '料理名（任意）', exact: true }).fill('はじめてのカレー')
+  await page.getByRole('button', { name: '写真にもどる', exact: true }).click()
+  await expectFocusedScene(page, 'photo')
+  await expect(journey(page).locator('img[src^="data:image/"]')).toHaveAttribute('src', photo!)
+  await page.getByRole('button', { name: '食卓へ', exact: true }).click()
+  await expect(page.getByRole('combobox', { name: 'つくった料理', exact: true })).toHaveValue(
+    'curry',
+  )
+  await page.getByText('料理名をつける', { exact: true }).click()
+  await expect(page.getByRole('textbox', { name: '料理名（任意）', exact: true })).toHaveValue(
+    'はじめてのカレー',
+  )
+  await page.getByRole('button', { name: 'ひろばへ', exact: true }).click()
+  await expect(journey(page)).toHaveCount(0)
+  expect(await storedGame(page)).toEqual(before)
+})
+
 test('a real photo alone persists in the meal album without a required recipe or title', async ({
   page,
 }) => {
   await start(page)
   await page.locator('.play-feed').click()
   await uploadPhoto(page)
+  await page.getByRole('button', { name: '食卓へ', exact: true }).click()
   await page.getByRole('button', { name: 'こむぎにごはんをあげる', exact: true }).click()
   await returnToPlaza(page)
   await page.reload()
@@ -229,6 +244,37 @@ test('a real photo alone persists in the meal album without a required recipe or
   expect(state.meals[0].title).toBe('今日のごはん')
   expect(state.meals[0].photo).toMatch(/^data:image\/jpeg;base64,/)
   expect(state.cards).toEqual([])
+})
+
+test('an ordinary meal finishes automatically without an extra confirmation', async ({ page }) => {
+  await start(page)
+  await feedSample(page)
+  await returnToPlaza(page)
+  await feedSample(page)
+  await expect(journey(page, 'satisfied')).toBeVisible({ timeout: 5000 })
+  await expect(journey(page)).toContainText('ごちそうさま！')
+  await expect(journey(page).getByRole('button', { name: 'つづける' })).toHaveCount(0)
+  await expect(journey(page)).toHaveCount(0, { timeout: 5000 })
+  expect((await storedGame(page)).meals).toHaveLength(2)
+  await expect(page.locator('.play-feed')).toBeVisible()
+})
+
+test('fast-forward advances once and never grants rewards twice', async ({ page }) => {
+  await start(page)
+  await feedSample(page, 'curry')
+  const saved = await storedGame(page)
+  await journey(page, 'eating')
+    .getByRole('button', { name: '早送り', exact: true })
+    .evaluate((button: HTMLButtonElement) => {
+      button.click()
+      button.click()
+    })
+  await expect(journey(page, 'growth')).toBeVisible()
+  expect(await storedGame(page)).toEqual(saved)
+  await returnToPlaza(page)
+  await page.reload()
+  expect(await storedGame(page)).toEqual(saved)
+  expect((await storedGame(page)).meals).toHaveLength(1)
 })
 
 test('cosmetics use earned coins or trial gems without granting growth or meals', async ({
@@ -264,7 +310,7 @@ test('cosmetics use earned coins or trial gems without granting growth or meals'
   expect(state.meals).toEqual([])
 })
 
-test('mobile keeps the main feeding action in view and restores focus after Escape', async ({
+test('mobile scenes keep the main action in view and keyboard cancellation restores focus', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 })
@@ -273,11 +319,28 @@ test('mobile keeps the main feeding action in view and restores focus after Esca
   await expect(page.locator('main .primary-button')).toHaveCount(1)
   const rect = await action.boundingBox()
   expect(rect!.y + rect!.height).toBeLessThan(764)
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   await action.click()
+  await expectFocusedScene(page, 'photo')
   await page.keyboard.press('Escape')
-  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await expect(journey(page)).toHaveCount(0)
   await expect(action).toBeFocused()
+  await action.click()
+  await uploadPhoto(page)
+  for (const name of ['食卓へ', 'こむぎにごはんをあげる']) {
+    const button = page.getByRole('button', { name, exact: true })
+    await expect(button).toBeVisible()
+    await waitForSceneMotion(page)
+    const bounds = await button.boundingBox()
+    expect(bounds!.y).toBeGreaterThanOrEqual(0)
+    expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(844)
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+    await attachViewport(page, name === '食卓へ' ? 'mobile-photo' : 'mobile-serve')
+    await button.click()
+  }
+  await page.getByRole('button', { name: '早送り', exact: true }).click()
+  await expect(journey(page, 'growth')).toBeVisible()
+  await attachViewport(page, 'mobile-growth')
+  await returnToPlaza(page)
   for (const route of ['ずかん', 'おみせ', 'ひろば'] as const) {
     await navigate(page, route)
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
@@ -285,6 +348,30 @@ test('mobile keeps the main feeding action in view and restores focus after Esca
   await page.getByRole('button', { name: 'こむぎをなでる' }).click()
   await expect(page.locator('.play-speech')).toContainText('えへへ。いっしょがいいね。')
 })
+
+for (const viewport of [
+  { name: 'mobile', width: 390, height: 844 },
+  { name: 'desktop-short', width: 1280, height: 720 },
+]) {
+  test(`${viewport.name} first visit keeps the next action inside the viewport`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport)
+    for (const scene of ['choose', 'welcome']) {
+      await expect(journey(page, scene)).toBeVisible()
+      await waitForSceneMotion(page)
+      const bounds = await journey(page, scene).locator('.journey-primary').boundingBox()
+      expect(bounds).not.toBeNull()
+      expect(bounds!.y).toBeGreaterThanOrEqual(0)
+      expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(viewport.height)
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+        true,
+      )
+      await attachViewport(page, `${viewport.name}-${scene}`)
+      if (scene === 'choose') await chooseStarter(page)
+    }
+  })
+}
 
 test('submitting across midnight uses the new date before the timer refreshes', async ({
   page,
@@ -294,7 +381,7 @@ test('submitting across midnight uses the new date before the timer refreshes', 
   await page.reload()
   await start(page)
   await page.locator('.play-feed').click()
-  await page.getByRole('button', { name: '写真なしで体験する' }).click()
+  await sampleToTable(page)
   await page.clock.setFixedTime(new Date('2026-09-24T15:00:01Z'))
   await page.getByRole('button', { name: 'こむぎにごはんをあげる', exact: true }).click()
   await returnToPlaza(page)

@@ -1,0 +1,640 @@
+.feast-scene {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  min-height: 0;
+}
+.feast-scene .journey-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin: 0;
+}
+.feast-scene-art {
+  position: relative;
+  isolation: isolate;
+  width: min(350px, 100%);
+  height: 330px;
+  display: grid;
+  place-items: center;
+}
+.feast-scene-art > .pet-art {
+  width: 300px;
+  height: 300px;
+  position: relative;
+  z-index: 2;
+}
+.feast-dining-circle {
+  position: absolute;
+  width: 290px;
+  height: 290px;
+  border-radius: 50%;
+  background: #f7c544;
+  border: 2px solid var(--ink);
+  top: 5px;
+}
+.feast-table-edge {
+  position: absolute;
+  bottom: 10px;
+  left: 4%;
+  width: 92%;
+  height: 61px;
+  background: #cf6940;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  z-index: 3;
+  box-shadow:
+    0 9px 0 #a7462b,
+    0 12px 0 var(--ink);
+}
+.feast-plate {
+  position: absolute;
+  bottom: 21px;
+  width: 157px;
+  height: 99px;
+  z-index: 4;
+}
+.feast-plate > svg {
+  width: 100%;
+  height: 100%;
+}
+.feast-plate > img {
+  border: 4px solid var(--paper);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--ink);
+}
+.feast-heart {
+  position: absolute;
+  z-index: 3;
+  color: var(--orange);
+}
+.feast-heart-left {
+  top: 53px;
+  left: 0;
+  transform: rotate(-18deg);
+}
+.feast-heart-right {
+  top: 101px;
+  right: 2px;
+  transform: rotate(18deg);
+}
+.feast-heart > svg {
+  width: 29px;
+  height: 29px;
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+.feast-scene-eating .feast-dining-art > .pet-art {
+  animation: feast-chew 0.46s ease-in-out infinite;
+}
+.feast-scene-eating .feast-plate {
+  animation: feast-plate-bob 0.46s ease-in-out infinite;
+}
+.feast-scene-eating .feast-heart {
+  animation: feast-heart-drift 1.35s ease-in-out infinite;
+}
+.feast-scene-eating .feast-heart-right {
+  animation-delay: 0.4s;
+}
+.feast-scene-satisfied .feast-dining-circle {
+  background: #acd49b;
+}
+.feast-rays {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, #f7c544 0deg 12deg, transparent 12deg 30deg);
+  mask-image: radial-gradient(circle, #000 55%, transparent 71%);
+  animation: feast-ray-turn 24s linear infinite;
+}
+.feast-growth-reveal {
+  animation: feast-grow-in 850ms cubic-bezier(0.17, 0.7, 0.28, 1.15) both;
+}
+.feast-previous-form {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  width: 92px;
+  height: 92px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+}
+.feast-previous-form > .pet-art {
+  width: 88px;
+  height: 88px;
+}
+.feast-previous-form > svg:last-child {
+  position: absolute;
+  right: -29px;
+  color: var(--ink);
+}
+.feast-stage-label,
+.feast-nameplate,
+.feast-gift-ribbon {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  background: var(--green);
+  color: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  padding: 8px 19px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 900;
+  z-index: 4;
+}
+.feast-joined-art {
+  background: #acd49b;
+  border: 3px solid var(--ink);
+  border-radius: 50% 50% 12px 12px;
+  width: 290px;
+  height: 300px;
+  margin-top: 17px;
+}
+.feast-joined-art > .pet-art {
+  width: 270px;
+  height: 270px;
+  animation: feast-friend-in 0.7s ease-out both;
+}
+.feast-nameplate {
+  bottom: -10px;
+}
+.feast-friend-stamp {
+  position: absolute;
+  right: -28px;
+  top: -25px;
+  width: 82px;
+  height: 82px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: #f7c544;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(12deg);
+  z-index: 3;
+}
+.feast-friend-stamp span {
+  font-size: 9px;
+  font-weight: 950;
+  margin-top: 5px;
+}
+.feast-card-art {
+  width: min(286px, 100%);
+  height: 340px;
+  perspective: 950px;
+}
+.feast-recipe-flip {
+  width: 100%;
+  height: 100%;
+}
+.feast-recipe-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform: rotateY(180deg);
+  animation: feast-card-reveal 1s cubic-bezier(0.3, 0.1, 0.2, 1) both;
+}
+.feast-recipe-back,
+.feast-recipe-front {
+  position: absolute;
+  inset: 0;
+  border: 3px solid var(--ink);
+  border-radius: 12px;
+  backface-visibility: hidden;
+  box-shadow: 6px 7px 0 var(--ink);
+  overflow: hidden;
+}
+.feast-recipe-back {
+  background: var(--green);
+  color: var(--paper);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 21px;
+}
+.feast-recipe-back::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 2px dashed #fff5de99;
+  border-radius: 4px;
+}
+.feast-recipe-back span {
+  font-size: 24px;
+  letter-spacing: 4px;
+  font-weight: 950;
+}
+.feast-recipe-front {
+  transform: rotateY(180deg);
+  background: #fffaf0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 14px;
+}
+.feast-card-rarity {
+  font-size: 11px;
+  font-weight: 850;
+  border: 1.5px solid var(--ink);
+  color: var(--paper);
+  background: var(--green);
+  padding: 5px 14px;
+  border-radius: 4px;
+}
+.rarity-special .feast-card-rarity {
+  background: #f7c544;
+  color: var(--ink);
+}
+.rarity-rare .feast-card-rarity {
+  background: #235c96;
+}
+.feast-recipe-front > svg {
+  width: 100%;
+  height: 195px;
+  flex-shrink: 1;
+  margin: 5px 0;
+}
+.feast-recipe-front > strong {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 950;
+  line-height: 1.45;
+}
+.feast-card-bonus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 11px;
+  margin-top: 12px;
+  color: var(--muted);
+}
+.feast-arrivals-art {
+  position: relative;
+  width: min(470px, 100%);
+  height: 310px;
+  border: 3px solid var(--ink);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #b9d5a6;
+  box-shadow: 5px 6px 0 var(--ink);
+}
+.feast-arrivals-art > .gathering-scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.feast-arrival-friends {
+  position: absolute;
+  inset: 48px 8px 16px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4px;
+}
+.feast-arrival-friends > div {
+  flex: 1;
+  min-width: 0;
+  max-width: 155px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: feast-friend-in 0.6s ease-out both;
+}
+.feast-arrival-friends .pet-art {
+  width: 100%;
+  height: auto;
+}
+.feast-visitor-bubble {
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 10px;
+  padding: 7px 8px;
+  border: 1.5px solid var(--ink);
+  border-radius: 6px;
+  white-space: nowrap;
+  transform: rotate(-4deg);
+}
+.feast-arrival-friends strong {
+  background: var(--paper);
+  color: var(--ink);
+  padding: 4px 10px;
+  border: 1.5px solid var(--ink);
+  font-size: 12px;
+  border-radius: 4px;
+}
+.feast-gift-art {
+  width: 310px;
+  height: 305px;
+}
+.feast-gift-number {
+  position: absolute;
+  left: 50%;
+  top: -12px;
+  transform: translateX(-50%) rotate(-8deg);
+  font-size: 220px;
+  line-height: 1;
+  font-weight: 1000;
+  color: #f7c544;
+  -webkit-text-stroke: 2px var(--ink);
+  opacity: 0.75;
+}
+.feast-gift-art > svg {
+  width: 250px;
+  height: 250px;
+  position: relative;
+  z-index: 2;
+  animation: feast-grow-in 0.7s ease-out both;
+}
+.feast-gift-ribbon {
+  width: max-content;
+  max-width: 100%;
+  bottom: 5px;
+  justify-content: center;
+  font-size: 16px;
+}
+.feast-scene-rewards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  max-width: 450px;
+  padding: 16px 13px;
+  border-top: 2px solid var(--ink);
+  color: var(--ink);
+}
+.feast-scene-rewards > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.feast-scene-rewards strong {
+  font-size: 15px;
+  font-weight: 900;
+}
+.feast-scene-rewards small {
+  display: block;
+  flex-basis: 100%;
+  text-align: center;
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+@keyframes feast-chew {
+  50% {
+    transform: translateY(5px) scaleX(1.025);
+  }
+}
+@keyframes feast-plate-bob {
+  50% {
+    transform: translateY(2px) rotate(-2deg);
+  }
+}
+@keyframes feast-heart-drift {
+  0%,
+  100% {
+    opacity: 0;
+    translate: 0 10px;
+  }
+  45% {
+    opacity: 1;
+    translate: 0 -7px;
+  }
+}
+@keyframes feast-ray-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes feast-grow-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  45% {
+    opacity: 1;
+  }
+  75% {
+    transform: scale(1.06);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes feast-friend-in {
+  from {
+    opacity: 0;
+    transform: translateY(45px) rotate(-7deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes feast-card-reveal {
+  0%,
+  18% {
+    transform: rotateY(0deg) rotate(-4deg) scale(0.93);
+  }
+  100% {
+    transform: rotateY(180deg);
+  }
+}
+@media (max-width: 600px) {
+  .feast-scene {
+    gap: 15px;
+  }
+  .feast-scene-art {
+    width: 290px;
+    height: 280px;
+  }
+  .feast-scene-art > .pet-art {
+    width: 255px;
+    height: 255px;
+  }
+  .feast-dining-circle {
+    width: 246px;
+    height: 246px;
+  }
+  .feast-plate {
+    width: 138px;
+    height: 87px;
+    bottom: 16px;
+  }
+  .feast-table-edge {
+    height: 49px;
+  }
+  .feast-rays {
+    width: 280px;
+    height: 280px;
+  }
+  .feast-previous-form {
+    width: 75px;
+    height: 75px;
+  }
+  .feast-previous-form > .pet-art {
+    width: 72px;
+    height: 72px;
+  }
+  .feast-card-art {
+    width: 254px;
+    height: 308px;
+  }
+  .feast-recipe-front > svg {
+    height: 165px;
+  }
+  .feast-recipe-front > strong {
+    font-size: 18px;
+  }
+  .feast-joined-art {
+    width: 250px;
+    height: 265px;
+  }
+  .feast-joined-art > .pet-art {
+    width: 240px;
+    height: 240px;
+  }
+  .feast-friend-stamp {
+    width: 68px;
+    height: 68px;
+    right: -18px;
+    top: -16px;
+  }
+  .feast-friend-stamp span {
+    font-size: 8px;
+  }
+  .feast-arrivals-art {
+    height: 260px;
+  }
+  .feast-visitor-bubble {
+    padding: 6px;
+    font-size: 9px;
+  }
+  .feast-arrival-friends {
+    inset: 40px 4px 13px;
+  }
+  .feast-scene-rewards {
+    gap: 10px;
+    padding: 13px 5px;
+  }
+  .feast-scene-rewards > span {
+    font-size: 11px;
+  }
+  .feast-scene-rewards strong {
+    font-size: 14px;
+  }
+  .feast-gift-art {
+    height: 270px;
+  }
+  .feast-gift-art > svg {
+    width: 220px;
+    height: 220px;
+  }
+}
+@media (max-height: 740px) {
+  .feast-scene {
+    gap: 10px;
+  }
+  .feast-scene-art {
+    height: 218px;
+    width: 250px;
+  }
+  .feast-scene-art > .pet-art {
+    width: 210px;
+    height: 210px;
+  }
+  .feast-dining-circle {
+    width: 198px;
+    height: 198px;
+  }
+  .feast-plate {
+    width: 120px;
+    height: 74px;
+    bottom: 11px;
+  }
+  .feast-table-edge {
+    height: 42px;
+    bottom: 5px;
+  }
+  .feast-rays {
+    width: 218px;
+    height: 218px;
+  }
+  .feast-card-art {
+    width: 222px;
+    height: 261px;
+  }
+  .feast-recipe-front {
+    padding: 11px;
+  }
+  .feast-recipe-front > svg {
+    height: 131px;
+  }
+  .feast-recipe-front > strong {
+    font-size: 16px;
+  }
+  .feast-card-bonus {
+    margin-top: 7px;
+    font-size: 10px;
+  }
+  .feast-joined-art {
+    width: 210px;
+    height: 225px;
+  }
+  .feast-arrivals-art {
+    height: 218px;
+  }
+  .feast-gift-art > svg {
+    width: 190px;
+    height: 190px;
+  }
+  .feast-gift-number {
+    font-size: 178px;
+  }
+  .feast-gift-ribbon {
+    font-size: 14px;
+  }
+  .feast-stage-label {
+    font-size: 14px;
+    padding: 6px 13px;
+  }
+  .feast-scene-rewards {
+    gap: 7px;
+    padding: 10px 5px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feast-scene *,
+  .feast-scene *::before,
+  .feast-scene *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .feast-recipe-flip-inner {
+    transform: rotateY(180deg);
+  }
+}

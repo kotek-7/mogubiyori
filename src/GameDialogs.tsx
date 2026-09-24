@@ -1,19 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
-import {
-  Camera,
-  Check,
-  ChevronRight,
-  Coins,
-  Flame,
-  Gem,
-  Gift,
-  Heart,
-  HelpCircle,
-  Moon,
-  Sparkles,
-  X,
-} from 'lucide-react'
+import { Check, ChevronRight, Coins, Flame, Gem, HelpCircle, Moon, Sparkles, X } from 'lucide-react'
 import { DishArt, GatheringScene, ItemArt, Pet } from './GameArt'
 import {
   addDemoGems,
@@ -25,9 +12,7 @@ import {
   initialGame,
   items,
   levelOf,
-  mealXp,
   recipes,
-  species,
   stageOf,
   purchaseItem,
   restGame,
@@ -35,14 +20,11 @@ import {
   streakOf,
   todayTokyo,
 } from './game'
-import type { FeedInput, GameMeal, GameState, Item, SpeciesId } from './game'
-import { resizePhoto } from './photo'
+import type { GameMeal, GameState, Item, SpeciesId } from './game'
 import { RecipeDetail } from './CollectionScreens'
 
 export type Dialog =
-  | { type: 'record'; recipeId?: string; targetId?: SpeciesId }
   | { type: 'recipe'; recipeId: string }
-  | { type: 'feast'; before: GameState; after: GameState }
   | { type: 'meal'; meal: GameMeal }
   | { type: 'item'; item: Item }
   | { type: 'settings' | 'profile' | 'streak' | 'gems' | 'rest' | 'letters' | 'help' }
@@ -54,7 +36,7 @@ type Props = {
   onClose: () => void
   onNavigate: (page: 'room' | 'album' | 'shop') => void
   onToast: (text: string) => void
-  onFeed: (input: FeedInput) => void
+  onRecord: (options?: { recipeId?: string; targetId?: SpeciesId }) => void
 }
 
 function Sheet({
@@ -121,282 +103,6 @@ function Currency({ kind, amount }: { kind: 'coins' | 'gems'; amount: number }) 
   )
 }
 
-function Record({
-  state,
-  onFeed,
-  recipeId: initialRecipeId,
-  targetId,
-}: Pick<Props, 'state' | 'onFeed'> & { recipeId?: string; targetId?: SpeciesId }) {
-  const input = useRef<HTMLInputElement>(null)
-  const [photo, setPhoto] = useState<string>()
-  const [recipeId, setRecipeId] = useState(initialRecipeId ?? '')
-  const recipe = recipes.find((entry) => entry.id === recipeId)
-  const [sampleMode, setSampleMode] = useState(false)
-  const [title, setTitle] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
-  const target = targetId ?? state.activeId
-  const buddy = state.companions.find((entry) => entry.id === target)
-  const targetName = species.find((entry) => entry.id === target)?.name ?? 'ともだち'
-  const ready = !!photo || sampleMode
-  const xp = mealXp(state, recipeId || undefined, target ?? undefined)
-  async function select(file?: File) {
-    if (!file) return
-    setLoading(true)
-    setError('')
-    try {
-      setPhoto(await resizePhoto(file))
-      setSampleMode(false)
-    } catch (error) {
-      setError(error instanceof Error ? error.message : '写真を読み込めませんでした。')
-    } finally {
-      setLoading(false)
-    }
-  }
-  return (
-    <form
-      onSubmit={(event) => {
-        event.preventDefault()
-        if (ready && !loading && target)
-          onFeed({
-            title: title.trim() || recipe?.name || '今日のごはん',
-            photo,
-            sample: recipe?.sample ?? 'rice',
-            recipeId: recipeId || undefined,
-            targetId: target,
-          })
-        else input.current?.click()
-      }}
-    >
-      <div className="record-buddy">
-        <Pet species={target ?? 'komugi'} stage={stageOf(buddy?.xp ?? 0)} mood="hungry" />
-        <p>{targetName}にも、ひとくち。</p>
-      </div>
-      <label className={`photo-picker ${ready ? 'has-photo' : ''}`}>
-        <input
-          ref={input}
-          type="file"
-          accept="image/jpeg,image/png,image/webp"
-          capture="environment"
-          aria-label="料理の写真"
-          disabled={loading}
-          onChange={(event) => {
-            void select(event.target.files?.[0])
-            event.target.value = ''
-          }}
-        />
-        {photo ? (
-          <img src={photo} alt="今日の料理" />
-        ) : sampleMode ? (
-          <DishArt kind={recipe?.sample ?? 'rice'} />
-        ) : (
-          <>
-            <span className="camera-circle">
-              <Camera size={30} />
-            </span>
-            <strong>{loading ? '写真を準備しています…' : '料理の写真を選ぶ'}</strong>
-            <small>いつもの一皿で、だいじょうぶ。</small>
-          </>
-        )}
-        {ready && (
-          <span className="change-photo">
-            <Camera size={14} />
-            写真を変える
-          </span>
-        )}
-      </label>
-      {!ready && (
-        <button
-          type="button"
-          className="sample-start"
-          onClick={() => {
-            setSampleMode(true)
-            setError('')
-          }}
-        >
-          写真なしで体験する
-        </button>
-      )}
-      <label className="field recipe-choice">
-        つくった料理
-        <select value={recipeId} onChange={(event) => setRecipeId(event.target.value)}>
-          <option value="">いつものごはん</option>
-          {recipes.map((entry) => (
-            <option key={entry.id} value={entry.id}>
-              {entry.name}
-            </option>
-          ))}
-        </select>
-      </label>
-      {xp < 45 && <p className="repeat-hint">同じごはんが続いているので、今回は +{xp} XP。</p>}
-      {ready && (
-        <details className="record-details">
-          <summary>料理名をつける</summary>
-          <label className="field">
-            料理名（任意）
-            <input
-              value={title}
-              maxLength={40}
-              placeholder={recipe?.name ?? '今日のごはん'}
-              onChange={(event) => setTitle(event.target.value)}
-            />
-          </label>
-        </details>
-      )}
-      {error && (
-        <p className="error-message" role="alert">
-          {error}
-        </p>
-      )}
-      <button type="submit" className="primary-button full" disabled={loading || !target}>
-        {loading ? '写真を準備しています…' : ready ? `${targetName}にごはんをあげる` : '写真を選ぶ'}
-      </button>
-      <small className="privacy-note">写真はこの端末に保存されます。</small>
-    </form>
-  )
-}
-
-function Feast({
-  before,
-  after,
-  onClose,
-}: {
-  before: GameState
-  after: GameState
-  onClose: () => void
-}) {
-  const [eating, setEating] = useState(true)
-  useEffect(() => {
-    const timer = window.setTimeout(() => setEating(false), 1800)
-    return () => window.clearTimeout(timer)
-  }, [])
-  const meal = after.meals[0]
-  const targetId = meal.targetId ?? after.activeId ?? 'komugi'
-  const target = after.companions.find((entry) => entry.id === targetId)
-  const previous = before.companions.find((entry) => entry.id === targetId)
-  const stage = stageOf(target?.xp ?? 0)
-  const previousStage = stageOf(previous?.xp ?? 0)
-  const grew = !!previous && stage > previousStage
-  const recruited = !!target && !previous
-  const buddyName = species.find((entry) => entry.id === targetId)?.name ?? after.name
-  const gift = !before.owned.includes('sprout') && after.owned.includes('sprout')
-  const cards = recipes.filter(
-    (recipe) => after.cards.includes(recipe.id) && !before.cards.includes(recipe.id),
-  )
-  const arrivals = after.visitors.filter((id) => !before.visitors.includes(id))
-  return (
-    <div
-      className={`feast ${eating ? 'is-eating' : ''} ${grew && !eating ? 'has-evolved' : ''}`}
-      aria-live="polite"
-    >
-      <div className="feast-art">
-        <Pet
-          species={targetId}
-          stage={eating ? previousStage : stage}
-          mood={eating ? 'eating' : 'happy'}
-          hat={after.equipped.hat}
-        />
-        <div className="feast-dish">
-          {meal.photo ? <img src={meal.photo} alt="" /> : <DishArt kind={meal.sample} />}
-        </div>
-        <span className="floating-heart one" aria-hidden="true">
-          ♥
-        </span>
-        <span className="floating-heart two" aria-hidden="true">
-          ♥
-        </span>
-      </div>
-      {eating ? (
-        <h3>もぐもぐ…</h3>
-      ) : (
-        <>
-          {grew && (
-            <span className="level-tag evolution-tag">
-              {stage === 2 ? 'おとなに成長！' : 'すくすく成長！'}
-            </span>
-          )}
-          <h3>
-            {recruited ? (
-              <>
-                {buddyName}が<br />
-                なかまになった！
-              </>
-            ) : grew ? (
-              <>
-                {buddyName}が<br />
-                大きくなった！
-              </>
-            ) : (
-              <>
-                おいしかったぁ。
-                <br />
-                ごちそうさま！
-              </>
-            )}
-          </h3>
-          <div className="feast-rewards">
-            <span>
-              <Sparkles size={15} />+{meal.xp} XP
-            </span>
-            <span>
-              <Coins size={15} />
-              合計 +{meal.coins} コイン
-            </span>
-            <span>
-              <Heart size={15} />
-              おなかいっぱい
-            </span>
-          </div>
-          {!!meal.streakBonus && (
-            <p className="bonus-note">
-              {streakOf(after)}日継続のお祝い +{meal.streakBonus} コイン
-            </p>
-          )}
-          <div className="streak-result">
-            <Flame size={24} />
-            <strong>{streakOf(after)}日つづいた！</strong>
-          </div>
-          {cards.map((card) => (
-            <div className={`new-recipe-card rarity-${card.rarity}`} key={card.id}>
-              <DishArt kind={card.sample} />
-              <div>
-                <small>はじめてつくった！</small>
-                <strong>{card.name}</strong>
-                <span>レシピカード +{card.reward} コイン</span>
-              </div>
-              <Sparkles size={20} />
-            </div>
-          ))}
-          {arrivals.length > 0 && (
-            <div className="visitor-arrival">
-              <div className="arrival-pets">
-                {arrivals.map((id) => (
-                  <Pet key={id} species={id} stage={0} mood="hungry" />
-                ))}
-              </div>
-              <strong>おいしそうなにおいに、お客さんが！</strong>
-              <small>ごはんを分けると、なかまになるかも。</small>
-            </div>
-          )}
-          {gift && (
-            <div className="new-gift">
-              <ItemArt id="sprout" />
-              <div>
-                <small>7日のおくりもの</small>
-                <strong>ふたばのかんむり</strong>
-              </div>
-              <Gift size={18} />
-            </div>
-          )}
-          <button className="primary-button full" onClick={onClose}>
-            {gift ? 'かぶって、ひろばへ' : arrivals.length ? 'お客さんに会いにいく' : 'ひろばへ'}
-          </button>
-        </>
-      )}
-    </div>
-  )
-}
-
 export function GameDialogs({
   dialog,
   state,
@@ -404,7 +110,7 @@ export function GameDialogs({
   onClose,
   onNavigate,
   onToast,
-  onFeed,
+  onRecord,
 }: Props) {
   const [local, setLocal] = useState<Dialog>(dialog)
   const [reset, setReset] = useState<'seed' | 'fresh' | null>(null)
@@ -457,33 +163,13 @@ export function GameDialogs({
   let title = ''
   let content: ReactNode
   switch (local.type) {
-    case 'record':
-      title = '今日のごはん'
-      content = (
-        <Record state={state} onFeed={onFeed} recipeId={local.recipeId} targetId={local.targetId} />
-      )
-      break
     case 'recipe':
       title = recipes.find((recipe) => recipe.id === local.recipeId)?.name ?? 'レシピ'
       content = (
         <RecipeDetail
           recipeId={local.recipeId}
           state={state}
-          onCook={() => setLocal({ type: 'record', recipeId: local.recipeId })}
-        />
-      )
-      break
-    case 'feast':
-      title = `${state.name}のごはん時間`
-      content = (
-        <Feast
-          before={local.before}
-          after={local.after}
-          onClose={() => {
-            if (!local.before.owned.includes('sprout') && local.after.owned.includes('sprout'))
-              setState((current) => equipItem(current, 'sprout'))
-            close()
-          }}
+          onCook={() => onRecord({ recipeId: local.recipeId })}
         />
       )
       break
@@ -772,7 +458,7 @@ export function GameDialogs({
           <p>{activeFed ? '明日もいっしょに、たべようね。' : 'いつもの一皿、まってるよ。'}</p>
           <div style={{ marginTop: 24 }}>{reminderControl()}</div>
           {!activeFed && (
-            <button className="primary-button full" onClick={() => setLocal({ type: 'record' })}>
+            <button className="primary-button full" onClick={() => onRecord()}>
               ごはんをあげる
             </button>
           )}

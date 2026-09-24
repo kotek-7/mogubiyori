@@ -12,6 +12,7 @@ import {
   Utensils,
 } from 'lucide-react'
 import { DishArt, Pet } from './GameArt'
+import { JourneyFrame } from './JourneyFrame'
 import { recipes, species, stageOf } from './game'
 import type { GameState, SpeciesId } from './game'
 import './collection.css'
@@ -24,50 +25,54 @@ export function StarterSelection({ onChoose }: { onChoose: (id: SpeciesId) => vo
   const [selected, setSelected] = useState<SpeciesId>('komugi')
   const friend = species.find((entry) => entry.id === selected)!
   return (
-    <main className="starter-screen">
-      <div className="starter-brand">
-        <Leaf size={20} />
-        もぐ日和
-      </div>
-      <div className="starter-heading">
-        <span className="collection-eyebrow">きみのごはんを、まっている。</span>
-        <h1>
-          はじめまして、
-          <br className="starter-mobile-break" />
-          だれにする？
-        </h1>
-        <p>いっしょに暮らす子を、ひとり。</p>
-      </div>
-      <div className="starter-choices" role="group" aria-label="最初のなかま">
-        {species.slice(0, 3).map((entry) => (
-          <button
-            key={entry.id}
-            className={`starter-choice starter-${entry.id} ${selected === entry.id ? 'is-selected' : ''}`}
-            aria-label={`${entry.name}を選ぶ`}
-            aria-pressed={selected === entry.id}
-            onClick={() => setSelected(entry.id)}
-          >
-            <span className="starter-check">{selected === entry.id && <Check size={15} />}</span>
-            <span className="starter-portrait">
-              <Pet species={entry.id} stage={0} mood={selected === entry.id ? 'happy' : 'hungry'} />
-            </span>
-            <strong>{entry.name}</strong>
+    <JourneyFrame
+      scene="choose"
+      eyebrow="きみのごはんを、まっている。"
+      title="はじめまして、だれにする？"
+      subtitle="いっしょに暮らす子を、ひとり。"
+      footer={
+        <>
+          <button className="journey-primary starter-start" onClick={() => onChoose(selected)}>
+            この子とはじめる
+            <ArrowRight size={18} />
           </button>
-        ))}
+          <p className="starter-footnote">つくって、たべて。ふたりで育っていこう。</p>
+          <a className="starter-expansion" href="/expansion/index.html">
+            料理となかまの新しい図鑑を見る ↗
+          </a>
+        </>
+      }
+    >
+      <div className="starter-screen">
+        <div className="starter-choices" role="group" aria-label="最初のなかま">
+          {species.slice(0, 3).map((entry) => (
+            <button
+              key={entry.id}
+              className={`starter-choice starter-${entry.id} ${selected === entry.id ? 'is-selected' : ''}`}
+              aria-label={`${entry.name}を選ぶ`}
+              aria-pressed={selected === entry.id}
+              onClick={() => setSelected(entry.id)}
+            >
+              <span className="starter-check" aria-hidden="true">
+                {selected === entry.id && <Check size={15} />}
+              </span>
+              <span className="starter-portrait">
+                <Pet
+                  species={entry.id}
+                  stage={0}
+                  mood={selected === entry.id ? 'happy' : 'hungry'}
+                />
+              </span>
+              <strong>{entry.name}</strong>
+            </button>
+          ))}
+        </div>
+        <div className="starter-introduction" aria-live="polite">
+          <Heart size={15} />
+          <p>{friend.description}</p>
+        </div>
       </div>
-      <div className="starter-introduction" aria-live="polite">
-        <Heart size={15} />
-        <p>{friend.description}</p>
-      </div>
-      <button className="primary-button starter-start" onClick={() => onChoose(selected)}>
-        この子とはじめる
-        <ArrowRight size={18} />
-      </button>
-      <p className="starter-footnote">つくって、たべて。ふたりで育っていこう。</p>
-      <a className="starter-expansion" href="/expansion/index.html">
-        料理となかまの新しい図鑑を見る ↗
-      </a>
-    </main>
+    </JourneyFrame>
   )
 }
 
