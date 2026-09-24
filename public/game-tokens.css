@@ -26,8 +26,6 @@
   --game-radius-card: 8px;
   --game-radius-control: 12px;
   --game-radius-scene: 24px;
-  --game-shadow-panel: 0 3px 0 #37282218;
-  --game-shadow-control: 0 2px 0 #37282226;
   --game-frame-action: url('/art/ui/action-frame.svg');
   --game-frame-paper: url('/art/ui/paper-frame.svg');
   --game-paper-rim: inset 0 0 0 3px var(--game-surface), inset 0 0 0 4px var(--game-line);

@@ -143,7 +143,7 @@ p {
 .primary-button {
   color: #fffaf0;
   background: #ac502f;
-  box-shadow: 0 4px 0 #843d26;
+  box-shadow: none;
   transition:
     transform 0.15s,
     background 0.15s;
@@ -152,14 +152,14 @@ p {
   background: #9e4528;
 }
 .primary-button:active {
-  transform: translateY(3px);
-  box-shadow: 0 1px 0 #843d26;
+  filter: brightness(0.88);
+  box-shadow: none;
 }
 .secondary-button {
   color: #5f6747;
   border: 1px solid #cbd1b7;
   background: #eef0e2;
-  box-shadow: 0 3px 0 #dce1cd;
+  box-shadow: none;
 }
 .currency {
   display: inline-flex;
@@ -358,7 +358,7 @@ p {
   background: #ecdfc7;
   isolation: isolate;
   border: 1px solid #e2d4bb;
-  box-shadow: 0 6px 0 #e9e0cd70;
+  box-shadow: none;
 }
 .room-illustration {
   width: 100%;
@@ -417,7 +417,7 @@ p {
   border-radius: 20px;
   padding: 17px 23px;
   color: #6f5137;
-  box-shadow: 0 4px 0 #846b3610;
+  box-shadow: none;
   font-size: 14px;
   font-weight: 650;
   display: flex;
@@ -494,7 +494,7 @@ p {
   background: #fff8e9dd;
   color: #89744e;
   border-radius: 15px;
-  box-shadow: 0 3px 0 #aa89562b;
+  box-shadow: none;
   z-index: 5;
 }
 .room-letter > span {
@@ -637,7 +637,7 @@ p {
 }
 .completed-button {
   background: #657854;
-  box-shadow: 0 4px 0 #4b5d3e;
+  box-shadow: none;
 }
 .completed-button:hover {
   background: #596d49;
@@ -683,10 +683,10 @@ p {
   border: 1px solid var(--line);
   border-radius: 17px;
   text-align: left;
-  box-shadow: 0 4px 7px #4c351403;
+  box-shadow: none;
 }
 .memory-card:hover {
-  transform: translateY(-3px);
+  border-color: var(--game-line-strong);
 }
 .memory-photo {
   height: 220px;
@@ -1505,7 +1505,7 @@ body:has(dialog[open]) {
 .segmented > button[aria-pressed='true'] {
   background: #fffdf7;
   color: #755333;
-  box-shadow: 0 1px 4px #67542e12;
+  box-shadow: none;
 }
 .settings-row {
   display: flex;

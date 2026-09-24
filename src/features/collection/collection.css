@@ -56,14 +56,14 @@
   border-radius: 20px;
   overflow: hidden;
   padding: 7px;
-  box-shadow: 0 4px 0 #e7decb70;
+  box-shadow: none;
   transition:
-    transform 0.2s,
-    box-shadow 0.2s;
+    border-color 0.2s,
+    background 0.2s;
 }
 .recipe-collection-card:not(:disabled):hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 0 #e7decb70;
+  border-color: var(--game-line-strong);
+  box-shadow: none;
 }
 .recipe-collection-card.recipe-rarity-rare {
   border-color: #c0c8a2;
@@ -205,16 +205,11 @@
   background: #fffdf6;
   border-radius: 26px;
   padding: 21px 17px 16px;
-  box-shadow: 0 5px 0 #e8e0ce80;
+  box-shadow: none;
   overflow: hidden;
-  transition: transform 0.2s;
-}
-.friend-card:hover {
-  transform: translateY(-3px);
 }
 .friend-card.is-active {
-  border: 2px solid #91a475;
-  padding: 20px 16px 15px;
+  border-color: var(--game-action);
 }
 .friend-card-top {
   display: flex;
@@ -777,19 +772,18 @@
   padding: 23px 14px 25px;
   border: 2px solid var(--ink);
   border-radius: 8px;
-  box-shadow: 4px 4px 0 var(--ink);
+  box-shadow: none;
   background: #fffaf0;
   transition:
-    transform 0.2s,
-    box-shadow 0.2s,
+    border-color 0.2s,
     background 0.2s;
 }
 .starter-choice:hover {
-  transform: translateY(-4px);
+  border-color: var(--game-action);
 }
 .starter-choice.is-selected {
-  transform: translateY(-8px);
-  box-shadow: 6px 8px 0 var(--ink);
+  border-color: var(--game-action);
+  box-shadow: none;
 }
 .starter-choice.starter-komugi.is-selected {
   background: #f7c544;
@@ -926,9 +920,6 @@
   .starter-choice {
     padding: 26px 3px 17px;
     border-radius: 7px;
-  }
-  .starter-choice.is-selected {
-    transform: translateY(-7px);
   }
   .starter-choice > strong {
     font-size: 16px;

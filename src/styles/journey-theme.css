@@ -44,7 +44,7 @@
 }
 
 .journey-screen .journey-icon-button:active {
-  transform: translateY(1px);
+  background: var(--game-action-soft);
 }
 
 .journey-screen .journey-progress {
@@ -111,7 +111,7 @@
 }
 
 .journey-screen .journey-secondary {
-  box-shadow: var(--game-shadow-control);
+  box-shadow: none;
   font-weight: 750;
   border: 1px solid var(--game-line-strong);
   border-radius: var(--game-radius-control);
@@ -126,8 +126,8 @@
 }
 
 .journey-screen .journey-secondary:active {
-  transform: translateY(2px);
-  box-shadow: none;
+  border-color: var(--game-action);
+  background: var(--game-action-soft);
 }
 
 .journey-screen .journey-speech {
@@ -178,8 +178,12 @@
 }
 
 .journey-screen .starter-choice:hover {
-  transform: translateY(-4px);
+  transform: none;
   box-shadow: none;
+}
+
+.journey-screen .starter-choice:hover .starter-portrait::before {
+  border-color: var(--game-action);
 }
 
 .journey-screen .starter-choice.is-selected,
@@ -187,7 +191,7 @@
 .journey-screen .starter-choice.starter-mame.is-selected,
 .journey-screen .starter-choice.starter-shizuku.is-selected {
   background: transparent;
-  transform: translateY(-7px);
+  transform: none;
   box-shadow: none;
 }
 
