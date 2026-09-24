@@ -1,5 +1,6 @@
 import { Check, Heart, Leaf, Sparkles, Utensils } from 'lucide-react'
 import { Pet } from '../../ui/art/GameArt'
+import { DiscoverySilhouette } from '../../ui/art/DiscoverySilhouette'
 import { species, stageOf, stageName } from '../../app/game/browserGame'
 import type { GameState, SpeciesId } from '../../app/game/browserGame'
 import { GrowthTrail } from './GrowthTrail'
@@ -15,6 +16,9 @@ export function FriendsBoard({
 }) {
   const visitors = state.visitors.filter(
     (id) => !state.companions.some((friend) => friend.id === id),
+  )
+  const unknown = species.filter(
+    ({ id }) => !state.companions.some((friend) => friend.id === id) && !visitors.includes(id),
   )
   return (
     <div className="collection-screen">
@@ -92,6 +96,25 @@ export function FriendsBoard({
             </button>
           )
         })}
+        {unknown.map((entry) => (
+          <article
+            key={entry.id}
+            className="friend-card is-unknown"
+            aria-label={`未発見のなかま ${species.indexOf(entry) + 1}`}
+          >
+            <span className="friend-card-top">
+              <strong>？？？</strong>
+              <span>未発見</span>
+            </span>
+            <span className="friend-current">
+              <DiscoverySilhouette>
+                <Pet species={entry.id} stage={0} />
+              </DiscoverySilhouette>
+            </span>
+            <span className="friend-growth-name">まだ出会っていない</span>
+            <GrowthTrail species={entry.id} stage={null} />
+          </article>
+        ))}
       </div>
       {!visitors.length && state.companions.length < species.length && (
         <p className="friend-discovery-note">

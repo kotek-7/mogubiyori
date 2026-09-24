@@ -7,7 +7,7 @@ import {
   initialGame,
   todayTokyo,
 } from '../../src/app/game/browserGame'
-import { waitForSceneMotion } from './helpers'
+import { navigate, storedGame, waitForSceneMotion } from './helpers'
 
 test('five forms unlock in order and collected forms can be revisited without changing growth', async ({
   page,
@@ -30,8 +30,17 @@ test('five forms unlock in order and collected forms can be revisited without ch
     const dialog = page.getByRole('dialog')
     await expect(dialog.locator('.growth-trail-step')).toHaveCount(5)
     await expect(dialog.locator('.growth-trail-step:disabled')).toHaveCount(4 - stage)
-    // Undiscovered forms have no illustration in the DOM, including hidden future silhouettes.
-    await expect(dialog.locator('.growth-trail-step.is-unknown .pet-art')).toHaveCount(0)
+    // Future outlines invite discovery; only earned forms can be opened in full colour.
+    await expect(dialog.locator('.growth-trail-step.is-unknown .discovery-silhouette')).toHaveCount(
+      4 - stage,
+    )
+    await expect(
+      dialog.locator('.growth-trail-step.is-discovered .discovery-silhouette'),
+    ).toHaveCount(0)
+    for (const future of growthStages.filter((entry) => entry.stage > stage)) {
+      const outline = dialog.locator(`.growth-trail-step.is-unknown .pet-stage-${future.stage}`)
+      await expect(outline).toBeVisible()
+    }
     await dialog.getByRole('button', { name: 'うまれたての姿を見る' }).click()
     await expect(dialog.locator('.profile-sheet > .pet-art')).toHaveClass(/pet-stage-0/)
     await dialog.getByText('姿の特徴', { exact: true }).click()
@@ -41,6 +50,40 @@ test('five forms unlock in order and collected forms can be revisited without ch
     await expect(page.locator('.play-pet .pet-art')).toHaveClass(new RegExp(`pet-stage-${stage}`))
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   }
+})
+
+test('the collection shows unseen companions and forms without revealing their names or changing progress', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  const state = claimLogin(chooseStarter(initialGame(todayTokyo()), 'komugi'))
+  state.tutorial = { version: 1, step: 4, status: 'completed' }
+  state.visitors = ['mame']
+  await page.addInitScript(
+    (value) => localStorage.setItem('mogubiyori-v1', value),
+    JSON.stringify(state),
+  )
+  await page.goto('/')
+  const before = await storedGame(page)
+  await navigate(page, 'ずかん')
+  await page.getByRole('button', { name: 'なかま', exact: true }).click()
+  await expect(page.locator('.friend-card:not(.is-unknown)')).toHaveCount(1)
+  await expect(page.locator('.friend-card.is-unknown')).toHaveCount(4)
+  await expect(
+    page.locator('.friend-card.is-unknown .friend-current .discovery-silhouette'),
+  ).toHaveCount(4)
+  await expect(page.locator('.friend-card.is-unknown .growth-trail-step.is-unknown')).toHaveCount(
+    20,
+  )
+  await expect(page.locator('.friend-visitor')).toHaveCount(1)
+  await expect(page.locator('.friend-visitor .discovery-silhouette')).toHaveCount(0)
+  await expect(page.locator('.friend-visitor')).toContainText('まめ')
+  await expect(page.locator('.friend-card.is-unknown').first()).not.toContainText('しずく')
+  await expect(page.locator('.friend-card.is-unknown button')).toHaveCount(0)
+  await waitForSceneMotion(page)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])
+  expect(await storedGame(page)).toEqual(before)
 })
 
 test('the five-form collection is readable with keyboard and assistive technology', async ({

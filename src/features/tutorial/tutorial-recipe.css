@@ -381,16 +381,9 @@
   font-size: 9px;
   color: var(--game-success);
 }
-.tutorial-recipe-unknown {
-  display: grid;
-  place-items: center;
-  width: 46px;
-  height: 53px;
-  border: 1px dashed var(--game-line);
-  border-radius: var(--game-radius-card);
-  color: var(--game-muted);
-  font-size: 29px;
-  font-weight: 800;
+.tutorial-recipe-slot > .recipe-silhouette {
+  width: 61px;
+  height: 61px;
 }
 .tutorial-recipe-empty {
   font-size: 9px;
@@ -402,11 +395,6 @@
   animation: tutorial-recipe-beacon 1.8s ease-in-out infinite;
   border: 2px solid var(--game-action);
   background: var(--game-action-soft);
-}
-.tutorial-recipe-target .tutorial-recipe-unknown {
-  border-color: var(--game-action);
-  background: var(--game-action-soft);
-  color: var(--game-action-dark);
 }
 .tutorial-recipe-open-label {
   color: var(--game-action-dark);
@@ -452,7 +440,8 @@
   border-radius: var(--game-radius-card);
   background: var(--game-canvas);
 }
-.tutorial-recipe-detail-art > svg {
+.tutorial-recipe-detail-art > svg,
+.tutorial-recipe-detail-art > .recipe-silhouette {
   width: 100%;
   height: 100%;
 }
@@ -730,10 +719,9 @@
   .tutorial-recipe-slot > strong {
     font-size: 11px;
   }
-  .tutorial-recipe-unknown {
-    width: 36px;
-    height: 40px;
-    font-size: 24px;
+  .tutorial-recipe-slot > .recipe-silhouette {
+    width: 46px;
+    height: 46px;
   }
   .tutorial-recipe-open-label {
     font-size: 9px;

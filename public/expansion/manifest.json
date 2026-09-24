@@ -9,9 +9,10 @@
     "content/expansion/characters.json": "4caa6d6b99ee31d3251bbd540f39898ca49b37d979ff81730394c387c66779d2",
     "content/expansion/items.json": "4c1458a4ff55f246655710016d953035362c3dfdebfb815a607548c8db35150f",
     "scripts/content/recipe-art.mjs": "81416d6bf48dfc9d0f841506e41ef29c5b6b388501b3519349435c603ec74d00",
+    "scripts/content/recipe-silhouette.mjs": "24e7e24fd20524cc86b86d76922394edf6184ea4a13271076e329c22d41d6805",
     "scripts/content/dessert-art.mjs": "d818be726df3f3fde987703367b4dbabb505ce9a4eaa7b9bfdca39fcc7dbcc0c",
     "scripts/content/savory-art.mjs": "21dc950f7944ccf0f737e7e137d3e6d2b60cca30e9834b8a3a480fe8cbe37851",
-    "scripts/content/build-pack.mjs": "dcc390f8a8e6ca9f9785ba8618f281ead4bfecad489a7aafb23f710457726e5e",
+    "scripts/content/build-pack.mjs": "b81ace6011d82aa46baea8e6a0bfd8d4e16b33d7b28b0fbbba8f2784e3b4e654",
     "scripts/content/generate-companions-items.py": "f0b0efe20fbce3c25a9bb9cbb8b8df9d5ccd02e706cc1d5c2edcfe9b49e7de2c"
   },
   "catalog": "catalog.json",

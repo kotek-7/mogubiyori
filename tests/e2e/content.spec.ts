@@ -21,6 +21,17 @@ test('the main collection searches all 310 recipes and replaces the separate rec
   await navigate(page, 'ずかん')
   await expect(page.locator('.collection-count')).toContainText('/ 310')
   await expect(page.locator('.recipe-collection-card')).toHaveCount(24)
+  await expect(page.locator('.recipe-collection-card .discovery-silhouette')).toHaveCount(24)
+  expect(
+    await page
+      .locator('.recipe-collection-card .dish-art')
+      .first()
+      .evaluate((art) => {
+        const picture = art.closest('.recipe-card-picture')!.getBoundingClientRect()
+        const illustration = art.getBoundingClientRect()
+        return illustration.top >= picture.top && illustration.bottom <= picture.bottom + 1
+      }),
+  ).toBe(true)
   await expect(page.getByRole('link', { name: '料理を探す' })).toHaveCount(0)
   await page.getByRole('searchbox', { name: '名前・材料で検索' }).fill('ふんわり親子丼')
   await page
@@ -30,9 +41,10 @@ test('the main collection searches all 310 recipes and replaces the separate rec
   await expect(page.getByRole('dialog')).toContainText('つくりかた')
   await expect(page.getByRole('dialog')).toContainText('おいしくつくるコツ')
   await expect(page.getByRole('dialog').locator('ol > li').first()).toBeVisible()
-  await expect(
-    page.getByRole('dialog').getByRole('img', { name: 'ふんわり親子丼' }),
-  ).toHaveAttribute('src', '/expansion/assets/recipes/r-oyako-don.svg')
+  await expect(page.getByRole('dialog').locator('.discovery-silhouette img')).toHaveAttribute(
+    'src',
+    '/expansion/assets/recipe-silhouettes/r-oyako-don.svg',
+  )
   await page.keyboard.press('Escape')
   await expect(page.getByRole('dialog')).not.toBeVisible()
   await page.getByRole('searchbox', { name: '名前・材料で検索' }).fill('存在しない献立')
@@ -96,6 +108,7 @@ test('an added recipe earns one card and keeps its artwork and progress after re
   await navigate(page, 'ずかん')
   await page.getByRole('combobox', { name: 'カード', exact: true }).selectOption('yes')
   await expect(page.locator('.recipe-collection-card')).toHaveCount(1)
+  await expect(page.locator('.recipe-collection-card .discovery-silhouette')).toHaveCount(0)
   await expect(page.locator('.recipe-collection-card img')).toHaveAttribute('src', recipe.artPath!)
   await page.getByRole('button', { name: 'ごはんの記録' }).click()
   await expect(page.locator('.memory-card img')).toHaveAttribute('src', recipe.artPath!)
@@ -126,6 +139,7 @@ test('the shared meal picker is accessible on mobile and cancellation preserves 
   await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
   await expect(journey(page, 'recipe-pick')).toBeVisible()
   await expect(page.locator('.recipe-collection-card')).toHaveCount(24)
+  await expect(page.locator('.recipe-collection-card .discovery-silhouette')).toHaveCount(24)
   await waitForSceneMotion(page)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])

@@ -1,6 +1,7 @@
 // Keep the established cascade order while styles live beside their owners.
 import '../styles/base.css'
 import '../ui/journey/journey.css'
+import '../ui/art/discovery-silhouette.css'
 import '../features/companions/growth.css'
 import '../features/collection/collection.css'
 import '../features/collection/recipe-browser.css'

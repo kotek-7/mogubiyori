@@ -28,7 +28,7 @@ export function RecipeDetail({
       className={`recipe-detail ${state.cards.includes(recipeId) ? 'is-acquired' : 'is-unacquired'}`}
     >
       <div className="recipe-detail-art">
-        <RecipeArt recipe={recipe} />
+        <RecipeArt recipe={recipe} silhouette={!state.cards.includes(recipeId)} />
         <span className={`recipe-rarity recipe-rarity-${recipe.rarity}`}>
           {rarityNames[recipe.rarity]}
         </span>

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { BookOpen, Camera, Check, Clock3, Coins, Hand, Sparkles, Utensils } from 'lucide-react'
 import { DishArt } from '../../ui/art/GameArt'
+import { RecipeArt } from '../../ui/art/RecipeArt'
 import { TutorialGuide } from './TutorialGuide'
 import { recipes } from '../../app/game/browserGame'
 
@@ -227,26 +228,20 @@ export function TutorialCards({
                   aria-label="おにぎりのレシピを見る"
                   onClick={() => advance('browse', 'recipe')}
                 >
-                  <span className="tutorial-recipe-unknown" aria-hidden="true">
-                    ?
-                  </span>
+                  <RecipeArt recipe={onigiri} silhouette />
                   <strong>おにぎり</strong>
                   <span className="tutorial-recipe-open-label">レシピを見る</span>
                   <Hand className="tutorial-recipe-pointer" size={25} aria-hidden="true" />
                 </button>
               ) : (
                 <div className="tutorial-recipe-slot tutorial-recipe-unavailable">
-                  <span className="tutorial-recipe-unknown" aria-hidden="true">
-                    ?
-                  </span>
+                  <RecipeArt recipe={onigiri} silhouette />
                   <strong>おにぎり</strong>
                   <span className="tutorial-recipe-empty">未獲得</span>
                 </div>
               )}
               <div className="tutorial-recipe-slot tutorial-recipe-unavailable">
-                <span className="tutorial-recipe-unknown" aria-hidden="true">
-                  ?
-                </span>
+                <RecipeArt sample="soup" silhouette />
                 <strong>スープ</strong>
                 <span className="tutorial-recipe-empty">未獲得</span>
               </div>
@@ -257,7 +252,7 @@ export function TutorialCards({
           <section className="tutorial-recipe-detail" aria-labelledby="tutorial-onigiri-title">
             <header className="tutorial-recipe-detail-heading">
               <div className="tutorial-recipe-detail-art">
-                <DishArt kind={onigiri.sample} />
+                <RecipeArt recipe={onigiri} silhouette />
               </div>
               <h2 id="tutorial-onigiri-title">
                 <span>レシピ</span>

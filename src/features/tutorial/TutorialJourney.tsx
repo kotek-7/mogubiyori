@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { ArrowRight, Camera, Heart, LockKeyhole, Sparkles } from 'lucide-react'
+import { ArrowRight, Camera, Heart, Sparkles } from 'lucide-react'
 import { DishArt, GatheringScene, Pet } from '../../ui/art/GameArt'
+import { DiscoverySilhouette } from '../../ui/art/DiscoverySilhouette'
 import { JourneyFrame } from '../../ui/journey/JourneyFrame'
 import { TutorialFriends } from './TutorialCollectionLessons'
 import { TutorialCards } from './TutorialRecipeLesson'
@@ -232,7 +233,9 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
                     {stage <= form ? (
                       <Pet species={speciesId} stage={stage} mood="happy" />
                     ) : (
-                      <LockKeyhole size={20} />
+                      <DiscoverySilhouette>
+                        <Pet species={speciesId} stage={stage} />
+                      </DiscoverySilhouette>
                     )}
                   </div>
                   <span>{stage <= form ? formName : '???'}</span>

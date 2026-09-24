@@ -1,13 +1,5 @@
 import { useId, useMemo, useRef, useState } from 'react'
-import {
-  BookOpen,
-  ChevronLeft,
-  ChevronRight,
-  Clock3,
-  Search,
-  Sparkles,
-  Utensils,
-} from 'lucide-react'
+import { BookOpen, ChevronLeft, ChevronRight, Clock3, Search, Sparkles } from 'lucide-react'
 import type { GameState } from '../../app/game/browserGame'
 import { recipes, recipeCategories } from '../../../shared/content/recipes'
 import { RecipeArt } from '../../ui/art/RecipeArt'
@@ -214,17 +206,7 @@ export function RecipeBrowser({
                 onClick={() => onRecipe(recipe.id)}
               >
                 <span className="recipe-card-picture">
-                  {open ? (
-                    <RecipeArt recipe={recipe} />
-                  ) : (
-                    <span className="recipe-card-back" aria-hidden="true">
-                      <Utensils size={31} />
-                      <span>?</span>
-                      <i />
-                      <i />
-                      <i />
-                    </span>
-                  )}
+                  <RecipeArt recipe={recipe} silhouette={!open} />
                   <span className={`recipe-rarity recipe-rarity-${recipe.rarity}`}>
                     {recipe.rarity === 'special' && <Sparkles size={10} />}
                     {rarityNames[recipe.rarity]}

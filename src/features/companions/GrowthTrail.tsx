@@ -1,8 +1,9 @@
 import { Pet } from '../../ui/art/GameArt'
+import { DiscoverySilhouette } from '../../ui/art/DiscoverySilhouette'
 import { growthStages } from '../../app/game/browserGame'
 import type { GrowthStage, SpeciesId } from '../../app/game/browserGame'
 
-/** Future forms stay undisclosed; collected forms remain available to revisit. */
+/** Future forms show only their outlines; collected forms can be revisited. */
 export function GrowthTrail({
   species,
   stage,
@@ -10,21 +11,27 @@ export function GrowthTrail({
   onSelect,
 }: {
   species: SpeciesId
-  stage: GrowthStage
-  selected?: GrowthStage
+  stage: GrowthStage | null
+  selected?: GrowthStage | null
   onSelect?: (stage: GrowthStage) => void
 }) {
   return (
-    <span className="growth-trail" role="group" aria-label={`出会った姿 ${stage + 1}/5`}>
+    <span
+      className="growth-trail"
+      role="group"
+      aria-label={`出会った姿 ${stage === null ? 0 : stage + 1}/5`}
+    >
       {growthStages.map(({ stage: form, name }) => {
-        const discovered = form <= stage
+        const discovered = stage !== null && form <= stage
         const content = (
           <>
             <span className="growth-trail-art">
               {discovered ? (
                 <Pet species={species} stage={form} mood="happy" />
               ) : (
-                <span aria-hidden="true">?</span>
+                <DiscoverySilhouette>
+                  <Pet species={species} stage={form} />
+                </DiscoverySilhouette>
               )}
             </span>
             <small>{discovered ? name : '？？？'}</small>

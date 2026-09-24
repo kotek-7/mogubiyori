@@ -3,6 +3,28 @@
   min-width: 0;
   scroll-margin-top: 24px;
 }
+.recipe-card-picture > .recipe-silhouette,
+.recipe-detail-art > .recipe-silhouette {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.recipe-silhouette > .discovery-silhouette-art {
+  min-height: 0;
+}
+.recipe-silhouette .dish-art {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+}
+/* Legacy dishes share a canvas, table grid, and ground shadow before the food. */
+.recipe-silhouette svg.dish-art > rect,
+.recipe-silhouette svg.dish-art > path,
+.recipe-silhouette svg.dish-art > ellipse {
+  display: none;
+}
 .recipe-browser-controls {
   display: grid;
   gap: 16px;

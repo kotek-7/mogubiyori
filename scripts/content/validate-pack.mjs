@@ -1,6 +1,7 @@
 import { readFile, stat } from 'node:fs/promises'
 import { createHash } from 'node:crypto'
 import assert from 'node:assert/strict'
+import { recipeSilhouette } from './recipe-silhouette.mjs'
 const raw = await readFile('public/expansion/catalog.json', 'utf8'),
   data = JSON.parse(raw)
 const manifest = JSON.parse(await readFile('public/expansion/manifest.json', 'utf8'))
@@ -11,7 +12,7 @@ const failures = [],
 function check(ok, msg) {
   if (!ok) failures.push(msg)
 }
-async function asset(path, label) {
+async function asset(path, label, compareGeometry = true) {
   check(
     typeof path === 'string' && /^\/expansion\/assets\/[\w/-]+\.(svg|png)$/.test(path),
     `${label}: invalid art path`,
@@ -30,7 +31,7 @@ async function asset(path, label) {
       const hash = createHash('sha256')
         .update(svg.replace(/<title.*?<\/title>/s, ''))
         .digest('hex')
-      if (artHashes.has(hash))
+      if (compareGeometry && artHashes.has(hash))
         warnings.push(`${label}: identical geometry to ${artHashes.get(hash)}`)
       else artHashes.set(hash, label)
     }
@@ -78,6 +79,17 @@ for (const r of data.recipes) {
   )
   check(r.art.toppings?.length > 0, `${label}: missing toppings`)
   await asset(r.artPath, label)
+  const silhouettePath = r.artPath.replace('/assets/recipes/', '/assets/recipe-silhouettes/')
+  await asset(silhouettePath, `${label} silhouette`, false)
+  try {
+    check(
+      (await readFile(`public${silhouettePath}`, 'utf8')) ===
+        recipeSilhouette(await readFile(`public${r.artPath}`, 'utf8')),
+      `${label}: stale silhouette; run npm run content:build`,
+    )
+  } catch {
+    failures.push(`${label}: could not verify silhouette`)
+  }
 }
 check(data.characters.length >= 36, 'fewer than 36 characters')
 for (const c of data.characters) {

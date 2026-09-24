@@ -51,6 +51,29 @@ button.growth-trail-step {
   color: var(--game-teal-dark);
   font-weight: 800;
 }
+.growth-trail-step.is-unknown .growth-trail-art {
+  border-style: dashed;
+  background: var(--game-neutral-soft);
+}
+.growth-trail-art .discovery-silhouette-mark {
+  inset: auto 1px 1px auto;
+  width: 16px;
+  font-size: 10px;
+}
+.friend-card .growth-trail-art .discovery-silhouette-mark {
+  display: none;
+}
+.friend-card.is-unknown {
+  border-style: dashed;
+  background: var(--game-neutral-soft);
+}
+.friend-card.is-unknown .friend-current:before {
+  background: var(--game-surface);
+}
+.friend-card.is-unknown .friend-card-top > span,
+.friend-card.is-unknown .friend-growth-name {
+  color: var(--game-muted);
+}
 .growth-trail-step small {
   font-size: 10px;
   line-height: 1.5;

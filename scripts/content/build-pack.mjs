@@ -1,6 +1,7 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { createHash } from 'node:crypto'
 import { recipeArt } from './recipe-art.mjs'
+import { recipeSilhouette } from './recipe-silhouette.mjs'
 const read = async (path) => JSON.parse(await readFile(path, 'utf8'))
 const sourceRecipes = (
   await Promise.all(
@@ -20,12 +21,17 @@ if (recipes.length !== sourceRecipes.length)
 const characters = await read('content/expansion/characters.json')
 const items = await read('content/expansion/items.json')
 await mkdir('public/expansion/assets/recipes', { recursive: true })
+await mkdir('public/expansion/assets/recipe-silhouettes', { recursive: true })
 const modes = {}
 for (const recipe of recipes) {
   const { svg, mode } = recipeArt(recipe)
   recipe.artPath = `/expansion/assets/recipes/${recipe.id}.svg`
   modes[mode] = (modes[mode] || 0) + 1
   await writeFile(`public${recipe.artPath}`, svg)
+  await writeFile(
+    `public/expansion/assets/recipe-silhouettes/${recipe.id}.svg`,
+    recipeSilhouette(svg),
+  )
 }
 const categories = {
   rice: 'ごはん',
@@ -61,6 +67,7 @@ const sourceFiles = [
   'content/expansion/characters.json',
   'content/expansion/items.json',
   'scripts/content/recipe-art.mjs',
+  'scripts/content/recipe-silhouette.mjs',
   'scripts/content/dessert-art.mjs',
   'scripts/content/savory-art.mjs',
   'scripts/content/build-pack.mjs',
