@@ -87,6 +87,7 @@ npm run test:e2e
 E2Eは専用ポート4173でテスト用サーバーを起動します。料理認識APIはモックで検証し、テストから実モデルを呼び出しません。実際の判定はCloudflareへ接続した8787で確認します。React・TypeScript・Viteで構成し、育成・報酬・購入のルールは `src/game.ts` にまとめています。
 
 - [プロダクト仕様](docs/product.md)
+- [世界設定](docs/world.md)
 - [体験検証](docs/experiments.md)
 
 ## 料理図鑑と追加コンテンツ
