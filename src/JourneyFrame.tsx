@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef } from 'react'
 import type { ReactNode } from 'react'
 import { ArrowLeft, X } from 'lucide-react'
-import { MoguMark } from './GameMotifs'
+import { MoguMark, VillageBackdrop } from './GameMotifs'
 import './journey.css'
 
 export type JourneyFrameProps = {
@@ -43,6 +43,7 @@ export function JourneyFrame({
 
   return (
     <main className="journey-screen" data-scene={scene} aria-labelledby={titleId}>
+      <VillageBackdrop />
       <header className="journey-header">
         <span className="journey-header-side">
           {onBack && (

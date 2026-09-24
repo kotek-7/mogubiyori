@@ -1,14 +1,14 @@
 .streak-celebration {
-  --streak-ink: var(--game-ink, #243b53);
-  --streak-muted: var(--game-muted, #526777);
-  --streak-gold: var(--game-gold, #f5b544);
-  --streak-teal: var(--game-teal, #087f79);
+  --streak-ink: var(--game-ink);
+  --streak-muted: var(--game-muted);
+  --streak-gold: var(--game-gold);
   color: var(--streak-ink);
   width: min(370px, 100%);
   display: grid;
   gap: 22px;
   padding: 18px 10px;
   box-sizing: border-box;
+  --streak-teal: var(--game-success);
 }
 .streak-celebration-count {
   display: flex;
@@ -24,13 +24,13 @@
   width: 94px;
   height: 94px;
   border-radius: 50%;
-  background: #fff0cb;
+  background: var(--game-surface);
   color: var(--streak-gold);
 }
 .streak-celebration-flame > svg:first-child {
   width: 68px;
   height: 68px;
-  stroke: var(--game-gold-dark, #8a5710);
+  stroke: var(--game-gold-dark);
   stroke-width: 1.4;
 }
 .streak-celebration-spark {
@@ -39,7 +39,7 @@
   top: -2px;
   width: 26px;
   height: 26px;
-  color: var(--game-gold-dark, #8a5710);
+  color: var(--game-gold-dark);
   opacity: 0;
 }
 .streak-celebration-number > span {
@@ -87,10 +87,11 @@
   place-items: center;
   width: min(100%, 58px);
   height: 48px;
-  border: 1.5px dashed var(--game-line, #c8dad5);
-  background: var(--game-surface, #fffef8);
-  color: var(--streak-muted);
-  border-radius: 11px;
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-card);
+  background: var(--game-surface);
+  box-shadow: var(--game-paper-rim);
+  color: var(--game-ink);
 }
 .streak-celebration-stamp > svg {
   width: 21px;
@@ -100,11 +101,11 @@
   border-style: solid;
   border-color: var(--streak-teal);
   color: var(--streak-teal);
-  background: var(--game-teal-soft, #d9efeb);
+  background: var(--game-success-soft);
 }
 .streak-celebration-days .is-latest.is-recorded .streak-celebration-stamp {
   color: var(--streak-ink);
-  border-color: var(--game-gold-dark, #8a5710);
+  border-color: var(--game-gold-dark);
   background: var(--streak-gold);
   animation: streak-stamp-in 450ms cubic-bezier(0.2, 0.75, 0.2, 1.2) both;
 }
@@ -120,21 +121,23 @@
   gap: 13px;
   width: min(290px, 100%);
   padding: 12px 16px;
-  border: 1.5px solid var(--streak-gold);
-  border-radius: 14px;
-  color: var(--streak-ink);
-  background: #fff0cb;
   box-sizing: border-box;
   visibility: hidden;
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-card);
+  background: var(--game-surface);
+  box-shadow: var(--game-paper-rim);
+  color: var(--game-ink);
 }
 .streak-celebration-prize > svg {
   width: 32px;
   height: 32px;
-  color: var(--game-gold-dark, #8a5710);
+  color: var(--game-gold-dark);
 }
 .streak-celebration-prize > div {
   display: grid;
   gap: 4px;
+  color: var(--game-gold-dark);
 }
 .streak-celebration-prize span {
   font-size: 11px;
@@ -208,7 +211,7 @@
 .streak-celebration.is-compact .streak-celebration-stamp {
   height: 34px;
   width: min(100%, 43px);
-  border-radius: 8px;
+  border-radius: var(--game-radius-card);
 }
 .streak-celebration.is-compact .streak-celebration-stamp > svg {
   width: 17px;
@@ -221,7 +224,7 @@
   width: auto;
   gap: 9px;
   padding: 7px 13px;
-  border-radius: 10px;
+  border-radius: var(--game-radius-card);
 }
 .streak-celebration.is-compact .streak-celebration-prize > svg {
   width: 25px;
@@ -271,7 +274,7 @@
 }
 @keyframes streak-glow {
   50% {
-    box-shadow: 0 0 0 18px #f5b54422;
+    box-shadow: 0 0 0 18px color-mix(in srgb, var(--game-gold) 15%, transparent);
   }
 }
 @media (max-height: 680px) {

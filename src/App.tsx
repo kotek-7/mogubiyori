@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Check, Settings2 } from 'lucide-react'
-import { MoguMark, VillageSign } from './GameMotifs'
+import { MoguMark, VillageBackdrop, VillageSign } from './GameMotifs'
 import { GameDialogs } from './GameDialogs'
 import type { Dialog } from './GameDialogs'
 import { StarterSelection } from './CollectionScreens'
@@ -276,6 +276,7 @@ function App() {
       }}
     >
       <div className="play-app" data-home-guide={homeGuide}>
+        <VillageBackdrop />
         <a className="skip-link" href="#main">
           本文へ
         </a>

@@ -1,10 +1,9 @@
-/* Scene geometry lives with the journeys. These surfaces belong to the kitchen:
-   oven arches for companions, a camera face, striped cloth and recipe paper. */
+/* Journey layouts use the shared action, selection, paper and scene surfaces. */
 .journey-screen {
   --ink: var(--game-ink);
   --muted: var(--game-muted);
   --paper: var(--game-surface);
-  --green: var(--game-teal);
+  --green: var(--game-action);
   --orange: var(--game-coral);
   position: relative;
   color: var(--game-ink);
@@ -40,7 +39,7 @@
 }
 
 .journey-screen .journey-icon-button:hover {
-  border-color: var(--game-teal);
+  border-color: var(--game-action);
   background: var(--game-surface);
 }
 
@@ -60,12 +59,12 @@
 .journey-screen .journey-progress > span {
   height: 5px;
   border: 0;
-  border-radius: 1px;
-  background: #c6c3af;
+  border-radius: var(--game-radius-card);
+  background: var(--game-line);
 }
 
 .journey-screen .journey-progress > span.is-complete {
-  background: var(--game-teal);
+  background: var(--game-action);
 }
 
 .journey-screen .journey-eyebrow {
@@ -101,84 +100,49 @@
 .journey-screen .journey-primary {
   position: relative;
   min-height: 60px;
-  padding: 15px 54px 15px 28px;
-  border: 0;
-  border-radius: 7px 7px 22px 7px;
-  background: var(--game-teal);
-  box-shadow: none;
-  color: var(--game-surface);
   font-weight: 850;
   letter-spacing: 0;
+  padding: 15px 21px;
 }
 
 .journey-screen .journey-primary > svg {
-  position: absolute;
-  right: 12px;
-  width: 34px;
-  height: 34px;
-  padding: 8px;
-  border-radius: 50%;
-  color: var(--game-ink);
-  background: var(--game-gold);
-}
-
-.journey-screen .journey-primary:hover:not(:disabled) {
-  background: var(--game-teal-dark);
-  transform: translateY(-2px);
-}
-
-.journey-screen .journey-primary:active:not(:disabled) {
-  transform: translateY(1px);
-  box-shadow: none;
-}
-
-.journey-screen .journey-primary:disabled {
-  background: #d5d3c3;
-  color: var(--game-muted);
-  box-shadow: none;
-  opacity: 1;
-}
-
-.journey-screen .journey-primary:disabled > svg {
-  color: var(--game-muted);
-  background: var(--game-canvas);
+  width: 20px;
+  height: 20px;
 }
 
 .journey-screen .journey-secondary {
-  border: 0;
-  border-radius: 3px;
-  background: none;
-  box-shadow: none;
-  color: var(--game-muted);
-  font-weight: 650;
-  text-decoration: underline;
-  text-decoration-color: var(--game-line);
-  text-underline-offset: 5px;
+  box-shadow: var(--game-shadow-control);
+  font-weight: 750;
+  border: 1px solid var(--game-line-strong);
+  border-radius: var(--game-radius-control);
+  background: var(--game-surface);
+  text-decoration: none;
+  color: var(--game-ink);
 }
 
 .journey-screen .journey-secondary:hover {
-  background: var(--game-surface);
-  color: var(--game-teal-dark);
-  text-decoration-color: currentColor;
+  color: var(--game-action-dark);
+  background: var(--game-action-soft);
 }
 
 .journey-screen .journey-secondary:active {
-  transform: translateY(1px);
+  transform: translateY(2px);
+  box-shadow: none;
 }
 
 .journey-screen .journey-speech {
-  border: 0;
-  border-radius: 18px 18px 18px 3px;
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-card);
   background: var(--game-surface);
-  box-shadow: none;
+  box-shadow: var(--game-paper-rim);
   color: var(--game-ink);
 }
 
 .journey-screen .journey-welcome-world {
-  border: 0;
-  border-radius: 48% 48% 4px 4px;
+  border: 1px solid var(--game-line-strong, var(--game-line));
+  border-radius: var(--game-radius-scene);
   background: var(--game-sea);
-  box-shadow: 0 8px 0 var(--game-clay);
+  box-shadow: none;
 }
 
 .journey-screen .journey-welcome-world > .gathering-scene {
@@ -194,40 +158,23 @@
   fill: var(--game-coral);
 }
 
-/* The three companions stand in open oven arches. Only the chosen name is a tag. */
-.journey-screen[data-scene='choose']::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  inset: auto 0 0;
-  height: 24%;
-  background: #e4d5b6;
-  pointer-events: none;
-}
+/* Companion selection keeps the scene frame and the shared action highlight. */
 
 .journey-screen .starter-choice {
-  --starter-arch: #d9b989;
   border: 0;
   border-radius: 0;
   background: transparent;
   box-shadow: none;
 }
 
-.journey-screen .starter-choice.starter-mame {
-  --starter-arch: #a8b79b;
-}
-
-.journey-screen .starter-choice.starter-shizuku {
-  --starter-arch: var(--game-sea);
-}
-
 .journey-screen .starter-portrait::before {
   content: '';
   position: absolute;
   inset: 0 2% -10%;
-  border-radius: 48% 48% 2px 2px;
-  background: var(--starter-arch);
-  box-shadow: inset 0 -9px 0 #213b5014;
+  border: 1px solid var(--game-line-strong, var(--game-line));
+  border-radius: var(--game-radius-scene);
+  background: var(--game-surface);
+  box-shadow: none;
 }
 
 .journey-screen .starter-choice:hover {
@@ -245,8 +192,9 @@
 }
 
 .journey-screen .starter-choice.is-selected .starter-portrait::before {
-  background: var(--game-gold);
-  box-shadow: inset 0 -9px 0 #d4a137;
+  background: var(--game-action-soft);
+  border: 2px solid var(--game-action);
+  box-shadow: none;
 }
 
 .journey-screen .starter-choice > strong {
@@ -264,9 +212,10 @@
 }
 
 .journey-screen .starter-choice.is-selected > strong {
-  background: var(--game-teal);
-  border-radius: 2px 2px 10px 2px;
-  color: var(--game-surface);
+  background: var(--game-action-soft);
+  border: 1px solid var(--game-action);
+  border-radius: var(--game-radius-card);
+  color: var(--game-action-dark);
 }
 
 .journey-screen .starter-check {
@@ -278,7 +227,7 @@
 }
 
 .journey-screen .starter-choice.is-selected .starter-check {
-  background: var(--game-teal);
+  background: var(--game-action);
   color: var(--game-surface);
 }
 
@@ -297,45 +246,44 @@
 }
 
 .journey-screen[data-scene='choose'] .starter-expansion:hover {
-  color: var(--game-teal-dark);
+  color: var(--game-action-dark);
   text-decoration-color: currentColor;
 }
 
 /* A camera face for the photo, then a striped cloth for serving. */
 .journey-screen .meal-photo-card {
   padding: 14px;
-  border: 0;
-  border-radius: 22px 22px 5px 5px;
-  background: var(--game-teal);
-  box-shadow: 0 6px 0 var(--game-teal-dark);
   transform: none;
   animation-name: meal-photo-theme-enter;
+  border: 1px solid var(--game-line-strong, var(--game-line));
+  border-radius: var(--game-radius-scene);
+  background: var(--game-canvas);
+  box-shadow: none;
 }
 
 .journey-screen .meal-photo-picker.photo-picker,
 .journey-screen .meal-photo-card.has-photo .meal-photo-picker {
-  border: 1px solid #f2e6cc55;
-  border-radius: 12px 12px 2px 2px;
-  background: var(--game-teal);
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-control);
+  background: var(--game-surface);
 }
 
 .journey-screen .meal-photo-placeholder {
-  color: var(--game-surface);
   letter-spacing: 0;
+  color: var(--game-ink);
 }
 
 .journey-screen .meal-camera {
   border: 0;
-  background: var(--game-gold);
-  color: var(--game-ink);
   box-shadow: none;
+  background: var(--game-action-soft);
+  color: var(--game-action);
 }
 
 .journey-screen .meal-photo-corners {
   inset: 16px;
   border: 0;
   border-radius: 0;
-  color: #fff9eb80;
   background:
     linear-gradient(currentColor 0 0) top left / 22px 1px no-repeat,
     linear-gradient(currentColor 0 0) top left / 1px 22px no-repeat,
@@ -345,20 +293,21 @@
     linear-gradient(currentColor 0 0) bottom left / 1px 22px no-repeat,
     linear-gradient(currentColor 0 0) bottom right / 22px 1px no-repeat,
     linear-gradient(currentColor 0 0) bottom right / 1px 22px no-repeat;
+  color: var(--game-line-strong, var(--game-line));
 }
 
 .journey-screen .meal-photo-caption {
-  color: var(--game-teal-dark);
+  color: var(--game-action-dark);
   font-weight: 800;
   letter-spacing: 0;
 }
 
 .journey-screen .meal-photo-change {
-  border: 0;
-  border-radius: 4px;
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-control);
   background: var(--game-surface);
-  color: var(--game-teal-dark);
   box-shadow: none;
+  color: var(--game-ink);
 }
 
 .journey-screen .meal-photo-friend > span {
@@ -368,12 +317,12 @@
 }
 
 .journey-screen .meal-serving-speech {
-  border: 0;
-  border-radius: 15px 15px 2px 15px;
-  background: var(--game-surface);
-  box-shadow: none;
-  color: var(--game-ink);
   transform: translateX(-50%);
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-card);
+  background: var(--game-surface);
+  box-shadow: var(--game-paper-rim);
+  color: var(--game-ink);
 }
 
 /* Young companions sit high enough to see over the serving plate. */
@@ -384,16 +333,16 @@
   transform: translateY(-10%);
 }
 .journey-screen .meal-tablecloth {
-  border: 0;
-  border-radius: 50% 50% 3px 3px / 20% 20% 3px 3px;
-  background: repeating-linear-gradient(90deg, var(--game-clay) 0 30px, #e2a477 30px 60px);
-  box-shadow: inset 0 8px 0 #fff9eb24;
+  border: 1px solid var(--game-line-strong, var(--game-line));
+  border-radius: var(--game-radius-scene);
+  background: var(--game-clay) url('/art/ui/table-linen.svg') center / cover;
+  box-shadow: none;
 }
 
 .journey-screen .meal-serving-dish {
   border: 6px solid var(--game-surface);
-  background: #d9e9e6;
-  box-shadow: 0 4px 0 #ac613f;
+  background: var(--game-surface);
+  box-shadow: 0 4px 0 var(--game-clay);
 }
 
 .journey-screen .meal-serving-cutlery {
@@ -407,28 +356,27 @@
 
 .journey-screen .meal-recipe-field select,
 .journey-screen .meal-recipe-field input {
-  border: 0;
-  border-bottom: 2px solid var(--game-teal);
-  border-radius: 3px 3px 0 0;
   background: var(--game-surface);
   color: var(--game-ink);
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-control);
 }
 
 .journey-screen .meal-recipe-candidates button {
   border: 1px solid var(--game-line);
-  border-radius: 4px;
   background: var(--game-surface);
   color: var(--game-ink);
+  border-radius: var(--game-radius-control);
 }
 
 .journey-screen .meal-recipe-candidates button[aria-pressed='true'] {
-  border-color: var(--game-teal);
-  background: var(--game-teal);
-  color: var(--game-surface);
+  border-color: var(--game-action);
+  background: var(--game-action-soft);
+  color: var(--game-action-dark);
 }
 
 .journey-screen .meal-title-details > summary {
-  color: var(--game-teal-dark);
+  color: var(--game-action-dark);
 }
 
 .journey-screen .meal-serve-form .repeat-hint {
@@ -440,27 +388,28 @@
 
 .journey-screen .meal-photo-error,
 .journey-storage-error {
-  color: #823721;
-  background: #fff1df;
+  color: var(--game-action-dark);
+  background: var(--game-action-soft);
   border: 1px solid var(--game-coral);
-  border-radius: 4px;
+  border-radius: var(--game-radius-card);
 }
 
 /* Each reward is a distinct object: a dining scene, a name tag or a recipe card. */
 .journey-screen .feast-dining-circle {
-  border: 0;
-  border-radius: 48% 48% 3px 3px;
+  border: 1px solid var(--game-line-strong, var(--game-line));
+  border-radius: var(--game-radius-scene);
   background: var(--game-sea);
+  box-shadow: none;
 }
 
 .journey-screen .feast-scene-satisfied .feast-dining-circle {
-  background: var(--game-gold);
+  background: var(--game-success-soft);
 }
 
 .journey-screen .feast-table-edge {
   border: 0;
   background: var(--game-clay);
-  box-shadow: 0 7px 0 #a15c3f;
+  box-shadow: 0 7px 0 var(--game-clay);
 }
 
 .journey-screen .feast-plate > img {
@@ -475,10 +424,12 @@
 }
 
 .journey-screen .feast-rays {
-  border: 0;
-  background: var(--game-gold);
   mask-image: none;
   animation: none;
+  border: 1px solid var(--game-line-strong, var(--game-line));
+  border-radius: var(--game-radius-scene);
+  background: var(--game-success-soft);
+  box-shadow: none;
 }
 
 .journey-screen .feast-previous-form {
@@ -488,26 +439,26 @@
 }
 
 .journey-screen .feast-previous-form > svg:last-child {
-  color: var(--game-teal);
+  color: var(--game-action);
 }
 
 .journey-screen .feast-stage-label,
 .journey-screen .feast-nameplate,
 .journey-screen .feast-gift-ribbon {
   transform: translateX(-50%);
-  border: 0;
-  border-radius: 3px 3px 12px 3px;
-  background: var(--game-teal);
-  box-shadow: none;
-  color: var(--game-surface);
   font-weight: 850;
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-card);
+  background: var(--game-surface);
+  box-shadow: var(--game-paper-rim);
+  color: var(--game-ink);
 }
 
 .journey-screen .feast-joined-art {
-  border: 0;
-  border-radius: 48% 48% 3px 3px;
+  border: 1px solid var(--game-line-strong, var(--game-line));
+  border-radius: var(--game-radius-scene);
   background: var(--game-sea);
-  box-shadow: 0 7px 0 var(--game-clay);
+  box-shadow: none;
 }
 
 .journey-screen .feast-friend-stamp {
@@ -524,19 +475,21 @@
 
 .journey-screen .feast-recipe-back,
 .journey-screen .feast-recipe-front {
-  border: 1px solid var(--game-teal-dark);
-  border-radius: 9px;
-  box-shadow: 0 5px 0 #d0b995;
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-card);
+  background: var(--game-surface);
+  box-shadow: var(--game-paper-rim);
+  color: var(--game-ink);
 }
 
 .journey-screen .feast-recipe-back {
-  background: var(--game-teal);
   color: var(--game-surface);
+  background: var(--game-ink);
 }
 
 .journey-screen .feast-recipe-back::before {
-  border: 1px solid #fff9eb80;
-  border-radius: 2px;
+  border: 1px solid var(--game-surface);
+  border-radius: var(--game-radius-card);
 }
 
 .journey-screen .feast-recipe-back span {
@@ -558,15 +511,15 @@
 .journey-screen .feast-card-rarity {
   align-self: flex-start;
   border: 0;
-  border-radius: 2px;
-  background: var(--game-teal-soft);
-  color: var(--game-teal-dark);
+  border-radius: var(--game-radius-card);
   font-weight: 750;
+  background: var(--game-canvas);
+  color: var(--game-muted);
 }
 
 .journey-screen .feast-recipe-flip.rarity-rare .feast-card-rarity {
-  background: var(--game-teal);
-  color: var(--game-surface);
+  background: var(--game-success-soft);
+  color: var(--game-success);
 }
 
 .journey-screen .feast-recipe-flip.rarity-special .feast-card-rarity {
@@ -579,20 +532,20 @@
 }
 
 .journey-screen .feast-arrivals-art {
-  border: 0;
-  border-radius: 35% 35% 3px 3px;
+  border: 1px solid var(--game-line-strong, var(--game-line));
+  border-radius: var(--game-radius-scene);
   background: var(--game-sea);
-  box-shadow: 0 7px 0 var(--game-clay);
+  box-shadow: none;
 }
 
 .journey-screen .feast-visitor-bubble,
 .journey-screen .feast-arrival-friends strong {
-  border: 0;
-  border-radius: 3px;
-  background: var(--game-surface);
-  color: var(--game-ink);
-  box-shadow: none;
   transform: none;
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-card);
+  background: var(--game-surface);
+  box-shadow: var(--game-paper-rim);
+  color: var(--game-ink);
 }
 
 .journey-screen .feast-gift-number {
@@ -619,60 +572,6 @@
   color: var(--game-muted);
 }
 
-/* Tutorial content keeps its sequence and short-screen sizing. */
-.journey-screen .tutorial-example {
-  padding-inline: 0;
-  border: 0;
-  border-radius: 0;
-  background: none;
-}
-
-.journey-screen .tutorial-meal-world {
-  border-radius: 35% 35% 3px 3px;
-  background: var(--game-sea);
-}
-
-.journey-screen .tutorial-photo {
-  border-radius: 3px;
-  box-shadow: 0 3px 0 #527d87;
-}
-
-.journey-screen .tutorial-xp-panel {
-  border: 0;
-  border-top: 1px solid var(--game-line);
-  border-radius: 0;
-  background: none;
-}
-
-.journey-screen .tutorial-evolution-ring {
-  border: 0;
-  background: var(--game-gold);
-}
-
-.journey-screen .tutorial-evolution > strong {
-  border-radius: 3px 3px 10px 3px;
-}
-
-.journey-screen .tutorial-form-trail li > div {
-  border-radius: 45% 45% 3px 3px;
-  background: #d5d7c4;
-}
-
-.journey-screen .tutorial-form-trail .is-seen > div {
-  border-color: transparent;
-  background: var(--game-surface);
-}
-
-.journey-screen .tutorial-form-trail [aria-current] > div {
-  border-color: var(--game-teal);
-  background: var(--game-gold);
-}
-
-.journey-screen .tutorial-resume {
-  border-radius: 3px;
-  background: transparent;
-}
-
 .journey-screen .journey-primary:focus-visible,
 .journey-screen .journey-secondary:focus-visible,
 .journey-screen .journey-icon-button:focus-visible,
@@ -683,13 +582,13 @@
 .journey-screen .meal-recipe-field select:focus-visible,
 .journey-screen .meal-recipe-field input:focus-visible,
 .journey-screen .meal-title-details > summary:focus-visible {
-  outline: 3px solid var(--game-teal);
+  outline: 3px solid var(--game-action);
   outline-offset: 4px;
 }
 
 .journey-screen .meal-photo-picker:focus-visible {
-  outline-color: var(--game-gold);
   outline-offset: -5px;
+  outline-color: var(--game-action);
 }
 
 /* Text is visible from the first frame. Movement belongs to scene objects. */
@@ -786,10 +685,5 @@
   .journey-screen .feast-arrival-friends > div,
   .journey-screen .feast-growth-reveal {
     animation: none;
-  }
-
-  .journey-screen .journey-primary:hover:not(:disabled),
-  .journey-screen .starter-choice:hover {
-    transform: none;
   }
 }

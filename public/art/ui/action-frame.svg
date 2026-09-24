@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
+  <!-- A provision label: all four corners have the same cut-in profile.
+       20px nine-slice margins preserve the drawn rim at every button width. -->
+  <path d="M15 2H105C105 9 111 15 118 15V105C111 105 105 111 105 118H15C15 111 9 105 2 105V15C9 15 15 9 15 2Z" fill="#b94732" stroke="#963a2c" stroke-width="2"/>
+  <path d="M20 7H100C102 14 106 18 113 20V100C106 102 102 106 100 113H20C18 106 14 102 7 100V20C14 18 18 14 20 7Z" stroke="#f9f6ed" stroke-opacity=".48" stroke-width="1"/>
+</svg>

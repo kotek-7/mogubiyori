@@ -60,7 +60,7 @@ button:disabled {
   top: -80px;
   left: 12px;
   background: var(--game-surface);
-  border-radius: 12px;
+  border-radius: var(--game-radius-control);
   padding: 14px;
   z-index: 20;
 }
@@ -92,7 +92,7 @@ svg {
   gap: 5px;
   min-height: 44px;
   padding: 0 15px 0 9px;
-  border-radius: 22px;
+  border-radius: var(--game-radius-control);
   background: var(--game-teal-soft);
   color: var(--game-teal-dark);
   font-size: 12px;
@@ -147,7 +147,7 @@ svg {
   gap: 5px;
   padding: 5px;
   border: 1px solid var(--game-line);
-  border-radius: 21px;
+  border-radius: var(--game-radius-card);
   background: var(--game-surface);
 }
 .tabs :is(button, a) {
@@ -162,7 +162,7 @@ svg {
   gap: 10px;
   padding: 10px 16px;
   border: 0;
-  border-radius: 16px;
+  border-radius: var(--game-radius-control);
   color: var(--game-muted);
   background: transparent;
   font-size: 14px;
@@ -180,14 +180,14 @@ svg {
   stroke-width: 1.65;
 }
 .tabs :is(button, a)[aria-pressed='true'] {
-  color: white;
-  background: var(--game-teal);
-  box-shadow: 0 3px 0 var(--game-teal-dark);
+  color: var(--game-action-dark);
+  background: var(--game-action-soft);
+  box-shadow: inset 0 -3px 0 var(--game-action);
 }
 .tab-count {
   min-width: 26px;
   padding: 3px 7px;
-  border-radius: 11px;
+  border-radius: var(--game-radius-control);
   color: var(--game-muted);
   background: var(--game-canvas);
   font-size: 10px;
@@ -234,7 +234,7 @@ svg {
   min-width: 0;
   min-height: 44px;
   border: 1px solid var(--game-line);
-  border-radius: 12px;
+  border-radius: var(--game-radius-control);
   background: var(--game-surface);
   color: var(--game-ink);
   font-size: 12px;
@@ -258,7 +258,7 @@ svg {
   min-height: 44px;
   padding: 8px 3px;
   border: 0;
-  border-radius: 10px;
+  border-radius: var(--game-radius-control);
   color: var(--game-teal-dark);
   background: transparent;
   font-size: 10px;
@@ -285,9 +285,9 @@ svg {
   overflow: hidden;
   text-align: left;
   border: 1px solid var(--game-line);
-  border-radius: 18px;
+  border-radius: var(--game-radius-card);
   background: var(--game-surface);
-  box-shadow: 0 3px 0 #c8dad560;
+  box-shadow: var(--game-paper-rim), var(--game-shadow-panel);
   display: flex;
   flex-direction: column;
   transition:
@@ -331,7 +331,7 @@ svg {
   left: 10px;
   z-index: 1;
   padding: 3px 7px;
-  border-radius: 7px;
+  border-radius: var(--game-radius-control);
   background: var(--game-surface);
   color: var(--game-muted);
   font-size: 9px;
@@ -412,7 +412,7 @@ svg {
   min-height: 44px;
   min-width: 106px;
   border: 1px solid var(--game-line);
-  border-radius: 23px;
+  border-radius: var(--game-radius-control);
   color: var(--game-teal-dark);
   background: var(--game-surface);
   font-size: 12px;
@@ -471,13 +471,13 @@ dialog {
   max-height: 90dvh;
   padding: 0;
   border: 1px solid var(--game-line);
-  border-radius: 26px;
+  border-radius: var(--game-radius-card);
   color: var(--game-ink);
   background: var(--game-surface);
-  box-shadow: 0 20px 70px #243b5330;
+  box-shadow: 0 20px 70px #37282230;
 }
 dialog::backdrop {
-  background: #243b5373;
+  background: #37282273;
 }
 .close {
   width: 44px;
@@ -493,7 +493,7 @@ dialog::backdrop {
   border-radius: 50%;
   color: var(--game-ink);
   background: var(--game-surface);
-  box-shadow: 0 2px 8px #243b5314;
+  box-shadow: 0 2px 8px #37282214;
 }
 .close svg {
   width: 18px;
@@ -519,7 +519,7 @@ dialog::backdrop {
   width: 100%;
   max-height: 360px;
   object-fit: contain;
-  border-radius: 16px;
+  border-radius: var(--game-radius-control);
 }
 .detail-visual > .growth-preview {
   background: var(--game-teal-soft);
@@ -531,7 +531,7 @@ dialog::backdrop {
 .edition {
   display: inline-flex;
   align-items: center;
-  border-radius: 20px;
+  border-radius: var(--game-radius-control);
   background: var(--game-teal-soft);
   color: var(--game-teal-dark);
   padding: 6px 11px;
@@ -625,7 +625,7 @@ dialog::backdrop {
   display: inline-block;
   margin: 3px 4px 3px 0;
   padding: 5px 8px;
-  border-radius: 9px;
+  border-radius: var(--game-radius-control);
   color: var(--game-muted);
   background: var(--game-canvas);
   font-size: 10px;
@@ -633,7 +633,7 @@ dialog::backdrop {
 .tip {
   padding: 13px 15px;
   border: 1px solid var(--game-line);
-  border-radius: 14px;
+  border-radius: var(--game-radius-control);
   background: var(--game-teal-soft);
 }
 .reward {
@@ -642,8 +642,8 @@ dialog::backdrop {
   gap: 7px;
   width: fit-content;
   padding: 8px 12px;
-  border-radius: 13px;
-  background: #fff3d7;
+  border-radius: var(--game-radius-control);
+  background: var(--game-gold-soft);
   color: var(--game-ink);
   font-weight: 750;
 }
@@ -665,7 +665,7 @@ dialog::backdrop {
   min-width: 0;
   overflow: hidden;
   border: 2px solid transparent;
-  border-radius: 14px;
+  border-radius: var(--game-radius-card);
   background: var(--game-surface);
   padding: 0 0 9px;
   color: var(--game-muted);
@@ -688,7 +688,7 @@ dialog::backdrop {
   position: relative;
   aspect-ratio: 4/3;
   overflow: hidden;
-  border-radius: 18px;
+  border-radius: var(--game-radius-control);
   background: var(--game-teal-soft);
 }
 .tryon .room {
@@ -725,7 +725,7 @@ dialog::backdrop {
   min-height: 44px;
   padding: 10px 14px;
   border: 1px solid var(--game-line);
-  border-radius: 12px;
+  border-radius: var(--game-radius-control);
   background: var(--game-surface);
   font-size: 12px;
 }
@@ -733,7 +733,7 @@ dialog::backdrop {
   .card:hover {
     transform: translateY(-3px);
     border-color: var(--game-teal);
-    box-shadow: 0 5px 12px #243b5312;
+    box-shadow: 0 5px 12px #37282212;
   }
   .tabs :is(button, a):not([aria-pressed='true']):hover,
   .reset:hover {
@@ -791,7 +791,7 @@ dialog::backdrop {
     grid-row: 1;
     background: var(--game-surface);
     border: 1px solid var(--game-line);
-    border-radius: 12px;
+    border-radius: var(--game-radius-control);
   }
 }
 @media (max-width: 560px) {
@@ -832,14 +832,14 @@ dialog::backdrop {
   .tabs {
     gap: 3px;
     padding: 4px;
-    border-radius: 19px;
+    border-radius: var(--game-radius-card);
   }
   .tabs :is(button, a) {
     flex-direction: column;
     min-height: 66px;
     gap: 5px;
     padding: 8px 3px;
-    border-radius: 14px;
+    border-radius: var(--game-radius-control);
     font-size: 10px;
   }
   .tabs :is(button, a) > svg {
@@ -887,7 +887,7 @@ dialog::backdrop {
     gap: 12px 10px;
   }
   .card {
-    border-radius: 18px;
+    border-radius: var(--game-radius-card);
   }
   .card-copy {
     padding: 10px 11px 11px;
@@ -935,7 +935,7 @@ dialog::backdrop {
   dialog {
     width: calc(100% - 20px);
     max-height: 94dvh;
-    border-radius: 23px;
+    border-radius: var(--game-radius-control);
   }
   .detail-layout {
     display: flex;
@@ -959,7 +959,7 @@ dialog::backdrop {
     gap: 4px;
   }
   .stage {
-    border-radius: 11px;
+    border-radius: var(--game-radius-card);
     font-size: 9px;
     letter-spacing: -0.04em;
   }

@@ -43,6 +43,7 @@ test('each starter has a personal welcome and its choice survives reload', async
     await expectFocusedScene(page, 'welcome')
     await expect(journey(page)).toContainText(name)
     await page.getByRole('button', { name: 'ひろばを見てみる' }).click()
+    await waitForSceneMotion(page)
     await page.reload()
     await expect(page.locator('.play-name')).toContainText(name)
     const state = await storedGame(page)
