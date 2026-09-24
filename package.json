@@ -1,5 +1,5 @@
 {
-  "name": "hitosaji",
+  "name": "mogubiyori",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "test": "vitest run tests/domain.test.ts",
+    "test": "vitest run tests/*.test.ts",
     "test:e2e": "playwright test",
     "format": "prettier --write src tests docs *.ts *.json *.html *.md",
     "format:check": "prettier --check src tests docs *.ts *.json *.html *.md"

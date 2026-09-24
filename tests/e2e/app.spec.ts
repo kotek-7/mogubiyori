@@ -1,10 +1,40 @@
 import { test, expect } from '@playwright/test'
 import type { Page } from '@playwright/test'
+import type { GameState } from '../../src/game'
 
-async function openLab(page: Page) {
-  await page.getByRole('button', { name: '設定', exact: true }).click()
-  await page.getByRole('button', { name: 'アイデアの実験室', exact: true }).click()
+async function storedGame(page: Page): Promise<GameState> {
+  return page.evaluate(() => JSON.parse(localStorage.getItem('mogubiyori-v1')!))
 }
+
+async function navigate(page: Page, name: 'おへや' | '思い出' | 'おみせ') {
+  await page
+    .getByRole('navigation', { name: 'メインナビゲーション' })
+    .getByRole('button', { name, exact: true })
+    .click()
+}
+
+async function feedSample(page: Page) {
+  await page.getByRole('button', { name: 'つくったごはんをあげる' }).click()
+  await page.getByRole('button', { name: '写真なしで体験する' }).click()
+  await page.getByRole('button', { name: 'こむぎにごはんをあげる' }).click()
+  await expect(page.locator('.feast')).not.toHaveClass(/is-eating/)
+}
+
+async function returnToRoom(page: Page) {
+  await page
+    .getByRole('dialog')
+    .getByRole('button', { name: /おへや/ })
+    .click()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+}
+
+async function nextDay(page: Page) {
+  await page.getByRole('button', { name: '設定', exact: true }).click()
+  await page.getByText('おためし設定', { exact: true }).click()
+  await page.getByRole('button', { name: '翌日に進む' }).click()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+}
+
 async function uploadPhoto(page: Page) {
   const fixture = await page.evaluate(() => {
     const canvas = document.createElement('canvas')
@@ -20,172 +50,227 @@ async function uploadPhoto(page: Page) {
     mimeType: 'image/png',
     buffer: Buffer.from(fixture, 'base64'),
   })
-  await expect(page.getByAltText('記録する料理の写真')).toBeVisible()
+  await expect(page.getByRole('dialog').locator('.photo-picker img')).toBeVisible()
 }
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
 })
 
-test('one primary action leads from today through photo and celebration back to completed today', async ({
+test('cooking feeds the companion, levels up and unlocks the seventh-day gift in one loop', async ({
   page,
 }) => {
-  await expect(page.locator('main .primary')).toHaveCount(1)
-  await expect(page.locator('main .recipe-card')).toHaveCount(0)
-  expect((await page.locator('main').innerText()).length).toBeLessThan(130)
-  await page.getByRole('button', { name: '今日の一皿を残す' }).click()
-  await expect(page.getByRole('dialog').locator('.primary')).toHaveCount(1)
-  await expect(page.getByRole('button', { name: '写真を選ぶ', exact: true })).toBeVisible()
-  await page.getByRole('button', { name: '写真なしで試す' }).click()
-  await expect(page.getByLabel('料理の名前', { exact: true })).not.toBeVisible()
-  await page.getByRole('button', { name: 'この一皿を記録する' }).click()
-  await expect(page.getByRole('heading', { name: '今日も、つづいた！' })).toBeVisible()
-  await expect(page.locator('.success-count')).toHaveText('7日連続')
-  await expect(page.getByRole('dialog').locator('.primary')).toHaveCount(1)
-  await page.getByRole('button', { name: 'つづける', exact: true }).click()
-  await expect(page.getByRole('dialog')).toHaveCount(0)
-  await expect(page.locator('.daily-ritual')).toHaveClass(/is-complete/)
-  await expect(page.getByRole('button', { name: '今日の記録を見る' })).toBeVisible()
+  await expect(page.locator('main .primary-button')).toHaveCount(1)
+  await expect(page.locator('.streak-badge')).toHaveText('6日連続')
+  await expect(page.getByRole('progressbar', { name: '満腹度' })).toHaveAttribute(
+    'aria-valuenow',
+    '28',
+  )
+  await feedSample(page)
+  await expect(page.getByRole('dialog')).toContainText('7日つづいた！')
+  await expect(page.getByRole('dialog')).toContainText('ふたばのかんむり')
+  await returnToRoom(page)
+  await expect(page.getByRole('button', { name: '今日のごはん、ありがとう' })).toBeVisible()
+  await expect(page.locator('.pet-profile')).toContainText('Lv. 4')
+  await expect(page.getByRole('progressbar', { name: '満腹度' })).toHaveAttribute(
+    'aria-valuenow',
+    '96',
+  )
   await page.reload()
-  await expect(page.locator('.ritual-count')).toHaveText('7日連続')
+  await expect(page.locator('.streak-badge')).toHaveText('7日連続')
+  const state = await storedGame(page)
+  expect(state.meals).toHaveLength(7)
+  expect(state.coins).toBe(150)
+  expect(state.equipped.hat).toBe('sprout')
 })
 
-test('a real photo alone is sufficient and is saved without inventing a dish or classification', async ({
-  page,
-}) => {
-  await page.getByRole('button', { name: '今日の一皿を残す' }).click()
+test('a photo alone becomes a persistent meal without requiring a dish name', async ({ page }) => {
+  await page.getByRole('button', { name: 'つくったごはんをあげる' }).click()
   await uploadPhoto(page)
-  await page.getByRole('button', { name: 'この一皿を記録する' }).click()
-  await page.getByRole('button', { name: 'つづける', exact: true }).click()
+  await page.getByRole('button', { name: 'こむぎにごはんをあげる' }).click()
+  await returnToRoom(page)
   await page.reload()
-  await page.getByRole('button', { name: '今日の記録を見る' }).click()
-  await expect(page.getByRole('dialog')).toContainText('未分類')
-  await expect(page.getByRole('dialog').getByAltText('今日の一皿')).toHaveAttribute(
+  await navigate(page, '思い出')
+  await expect(page.locator('.memory-card')).toHaveCount(7)
+  await page.locator('.memory-card').first().click()
+  await expect(page.getByRole('dialog')).toContainText('今日のごはん')
+  await expect(page.getByRole('dialog').getByRole('img')).toHaveAttribute(
     'src',
-    /^data:image\/jpeg/,
+    /^data:image\/jpeg;base64,/,
   )
-  const stored = await page.evaluate(() =>
-    JSON.parse(localStorage.getItem('hitosaji-demo-v1')!).meals.at(-1),
-  )
-  expect(stored.recipeId).toBe('')
-  expect(stored.title).toBe('今日の一皿')
-  expect(stored.category).toBe('未分類')
-  expect(stored.visibility).toBe('private')
+  const meal = (await storedGame(page)).meals[0]
+  expect(meal.title).toBe('今日のごはん')
+  expect(meal.photo).toMatch(/^data:image\/jpeg;base64,/)
 })
 
-test('optional details preserve privacy while private records still unlock the feed', async ({
+test('a new day brings hunger back and missing a meal breaks the streak without losing growth', async ({
   page,
 }) => {
-  await page.getByRole('button', { name: '今日の一皿を残す' }).click()
-  await page.getByRole('button', { name: '写真なしで試す' }).click()
-  await page.getByText('メモ・公開範囲', { exact: true }).click()
-  await page.getByLabel('料理の名前', { exact: true }).fill('わたしだけの一皿')
-  await page.getByLabel('今日のひとこと').fill('できたことがうれしい。')
-  await page.getByRole('button', { name: 'この一皿を記録する' }).click()
-  await page.getByRole('button', { name: 'つづける', exact: true }).click()
-  await page.getByRole('navigation').getByRole('button', { name: '食卓', exact: true }).click()
-  await expect(page.locator('.feed-card')).toHaveCount(3)
-  await expect(page.getByRole('heading', { name: 'わたしだけの一皿' })).toHaveCount(0)
-  await page.getByRole('button', { name: 'むぎの料理にいいね' }).click()
-  await page.reload()
-  await expect(page.getByRole('button', { name: 'むぎの料理にいいね' })).toHaveAttribute(
-    'aria-pressed',
-    'true',
-  )
-  await page.getByRole('navigation').getByRole('button', { name: '記録', exact: true }).click()
-  await page.getByRole('button', { name: /わたしだけの一皿/ }).click()
-  await expect(page.getByRole('dialog')).toContainText('できたことがうれしい。')
-})
-
-test('optional anonymous sharing adds the meal to the local feed', async ({ page }) => {
-  await page.getByRole('button', { name: '今日の一皿を残す' }).click()
-  await uploadPhoto(page)
-  await page.getByText('メモ・公開範囲', { exact: true }).click()
-  await page.getByLabel('料理の名前', { exact: true }).fill('今日の野菜スープ')
-  await page.getByLabel('料理のジャンル').selectOption('スープ')
-  await page.getByRole('button', { name: '匿名でみんな', exact: true }).click()
-  await page.getByRole('button', { name: 'この一皿を記録する' }).click()
-  await page.getByRole('button', { name: 'つづける', exact: true }).click()
-  await page.getByRole('navigation').getByRole('button', { name: '食卓', exact: true }).click()
-  await expect(page.locator('.feed-card')).toHaveCount(4)
-  await expect(page.getByText('となりの自炊さん（あなた）')).toBeVisible()
-})
-
-test('variants and observations are kept behind settings and exported', async ({ page }) => {
-  await openLab(page)
-  const lab = page.getByRole('dialog')
-  await lab.getByRole('button', { name: '3日分の提案', exact: true }).click()
-  await lab.getByRole('button', { name: '週3日の目標', exact: true }).click()
-  await lab.getByRole('button', { name: 'いつでも見る', exact: true }).click()
-  await lab.getByLabel('触って気づいたこと').fill('週3日なら続きそう。')
-  const downloadPromise = page.waitForEvent('download')
-  await lab.getByRole('button', { name: '設定とメモを書き出す' }).click()
-  const stream = await (await downloadPromise).createReadStream()
-  const chunks = []
-  for await (const chunk of stream!) chunks.push(chunk)
-  const data = JSON.parse(Buffer.concat(chunks).toString())
-  expect(data.notes).toBe('週3日なら続きそう。')
-  expect(data.settings.habit).toBe('weekly')
-  expect(data.meals.every((m: Record<string, unknown>) => !('photo' in m))).toBe(true)
-  await lab.getByRole('button', { name: 'この設定で体験する' }).click()
-  await expect(page.locator('.ritual-count')).toHaveText('3/ 3日')
-  await page.getByRole('button', { name: '献立に迷ったら' }).click()
-  await expect(page.locator('.recipe-card')).toHaveCount(3)
-  await page.getByRole('navigation').getByRole('button', { name: '食卓', exact: true }).click()
-  await expect(page.locator('.feed-card')).toHaveCount(3)
-})
-
-test('a rest preserves the streak but an unprotected day breaks it', async ({ page }) => {
-  await page.getByRole('button', { name: 'おやすみチケット 残り2枚' }).click()
+  await page.getByRole('button', { name: '今日はおやすみ', exact: true }).click()
   await page.getByRole('button', { name: 'チケットを使って休む' }).click()
-  await expect(page.locator('.ritual-message')).toHaveText('今日は、おやすみ。')
-  await openLab(page)
-  await page.getByRole('button', { name: '翌日へ進める' }).click()
-  await page.getByRole('button', { name: 'この設定で体験する' }).click()
-  await expect(page.locator('.ritual-count')).toHaveText('6日連続')
-  await openLab(page)
-  await page.getByRole('button', { name: '翌日へ進める' }).click()
-  await page.getByRole('button', { name: 'この設定で体験する' }).click()
-  await expect(page.locator('.ritual-count')).toHaveText('1日目へ')
-  await page.getByRole('navigation').getByRole('button', { name: '食卓', exact: true }).click()
-  await expect(page.locator('.feed-locked')).toBeVisible()
+  await expect(page.getByRole('progressbar', { name: '満腹度' })).toHaveAttribute(
+    'aria-valuenow',
+    '28',
+  )
+  await nextDay(page)
+  await expect(page.locator('.streak-badge')).toHaveText('6日連続')
+  await expect(page.getByRole('progressbar', { name: '満腹度' })).toHaveAttribute(
+    'aria-valuenow',
+    '8',
+  )
+  await feedSample(page)
+  await returnToRoom(page)
+  await nextDay(page)
+  await expect(page.getByRole('progressbar', { name: '満腹度' })).toHaveAttribute(
+    'aria-valuenow',
+    '28',
+  )
+  await expect(page.locator('.streak-badge')).toHaveText('7日連続')
+  await expect(page.getByRole('button', { name: 'つくったごはんをあげる' })).toBeVisible()
+  await nextDay(page)
+  await expect(page.getByRole('progressbar', { name: '満腹度' })).toHaveAttribute(
+    'aria-valuenow',
+    '8',
+  )
+  await expect(page.locator('.streak-badge')).toHaveText('0日連続')
+  await expect(page.locator('.pet-profile')).toContainText('Lv. 4')
+  await expect(page.locator('.speech-bubble')).toContainText('おなかぺこぺこ')
+  await feedSample(page)
+  await returnToRoom(page)
+  await expect(page.locator('.streak-badge')).toHaveText('1日連続')
 })
 
-test('optional recipe assistance still filters, guides cooking and leads into recording', async ({
+test('earned coins buy a cosmetic and owned cosmetics can be equipped again for free', async ({
   page,
 }) => {
-  await page.getByRole('button', { name: '献立に迷ったら' }).click()
-  await page.getByRole('button', { name: 'さくっと 5分以内' }).click()
-  await expect(page.locator('.recipe-card')).toHaveCount(1)
-  await page.getByRole('textbox', { name: '料理名・食材で検索' }).fill('見つからない料理')
-  await expect(page.locator('.empty-state')).toBeVisible()
-  await page.getByRole('button', { name: '条件を広げてみる' }).click()
-  await page.locator('.recipe-card').first().click()
-  await page.getByRole('dialog').locator('.cooking-steps button').first().click()
-  await expect(page.getByRole('dialog').locator('.cooking-steps button').first()).toHaveAttribute(
-    'aria-pressed',
-    'true',
-  )
-  await page.getByRole('button', { name: 'できた！ 一皿を記録' }).click()
-  await expect(page.getByRole('dialog')).toHaveAttribute('aria-label', '今日の一皿')
+  await navigate(page, 'おみせ')
+  await page.getByRole('button', { name: /ふたばのかんむり/ }).click()
+  await page.getByRole('dialog').getByRole('button', { name: '手に入れて、おきがえ' }).click()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  let state = await storedGame(page)
+  expect(state.coins).toBe(0)
+  expect(state.equipped.hat).toBe('sprout')
+  await navigate(page, 'おみせ')
+  await page.getByRole('button', { name: /いつものこむぎ/ }).click()
+  await page.getByRole('dialog').getByRole('button', { name: 'これにおきがえ' }).click()
+  await navigate(page, 'おみせ')
+  await page.getByRole('button', { name: /ふたばのかんむり/ }).click()
+  await page.getByRole('dialog').getByRole('button', { name: 'これにおきがえ' }).click()
+  await page.reload()
+  state = await storedGame(page)
+  expect(state.coins).toBe(0)
+  expect(state.equipped.hat).toBe('sprout')
+  await navigate(page, 'おみせ')
+  await expect(page.locator('.shop-card.is-equipped')).toContainText('ふたばのかんむり')
 })
 
-test('the main action fits on mobile and a new user can start from an empty album', async ({
+test('trial gems enable cosmetic purchases and leave feeding as the source of growth', async ({
+  page,
+}) => {
+  await page.getByRole('button', { name: 'ジェム 60個' }).click()
+  await expect(page.getByRole('dialog')).toContainText('請求はありません')
+  await page.getByRole('dialog').getByRole('button', { name: '購入を体験する' }).click()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await expect(page.getByRole('button', { name: 'ジェム 210個' })).toBeVisible()
+  await navigate(page, 'おみせ')
+  await page.getByRole('button', { name: /コックさんの帽子/ }).click()
+  await page.getByRole('dialog').getByRole('button', { name: '手に入れて、おきがえ' }).click()
+  await navigate(page, 'おみせ')
+  await page
+    .getByRole('group', { name: 'おみせのカテゴリ' })
+    .getByRole('button', { name: 'おへや', exact: true })
+    .click()
+  await page.getByRole('button', { name: /木もれびのおへや/ }).click()
+  await page.getByRole('dialog').getByRole('button', { name: '手に入れて、おきがえ' }).click()
+  await navigate(page, 'おへや')
+  await expect(page.locator('.room-scene')).toHaveClass(/room-garden/)
+  await expect(page.getByRole('progressbar', { name: '満腹度' })).toHaveAttribute(
+    'aria-valuenow',
+    '28',
+  )
+  const state = await storedGame(page)
+  expect(state.gems).toBe(30)
+  expect(state.xp).toBe(260)
+  expect(state.equipped).toEqual({ hat: 'chef', room: 'garden' })
+})
+
+test('reminder tone changes the companion message and persists after reopening', async ({
+  page,
+}) => {
+  await page.getByRole('button', { name: '設定', exact: true }).click()
+  await page.getByRole('button', { name: 'ひかえめ', exact: true }).click()
+  await page.getByRole('button', { name: '閉じる', exact: true }).click()
+  await expect(page.locator('.speech-bubble')).toContainText('きょうのごはん、なにかなぁ。')
+  await page.getByRole('button', { name: '設定', exact: true }).click()
+  await page.getByRole('button', { name: /ぐいぐい/ }).click()
+  await page.getByRole('button', { name: '閉じる', exact: true }).click()
+  await page.reload()
+  await expect(page.locator('.speech-bubble')).toContainText('ねえねえ、ごはんまだ〜？')
+  await page.getByRole('button', { name: 'こむぎからのおたより' }).click()
+  await expect(page.getByRole('dialog')).toContainText('こむぎ')
+  expect((await storedGame(page)).reminder).toBe('eager')
+})
+
+test('mobile room keeps feeding in view and navigation remains usable without overflow', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 })
-  const action = page.getByRole('button', { name: '今日の一皿を残す' })
+  const action = page.getByRole('button', { name: 'つくったごはんをあげる' })
   const rect = await action.boundingBox()
-  expect(rect!.y + rect!.height).toBeLessThan(740)
+  expect(rect!.y + rect!.height).toBeLessThan(760)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   await action.click()
   await page.keyboard.press('Escape')
   await expect(page.getByRole('dialog')).toHaveCount(0)
-  await openLab(page)
-  await page.getByRole('button', { name: 'はじめての自炊' }).click()
-  await page.getByRole('button', { name: '記録を置き換えて開始' }).click()
-  await page.getByRole('button', { name: 'この設定で体験する' }).click()
-  await expect(page.locator('.ritual-count')).toHaveText('1日目へ')
-  await page.getByRole('navigation').getByRole('button', { name: '記録', exact: true }).click()
-  await expect(page.getByRole('heading', { name: '最初の一皿を、ここに。' })).toBeVisible()
+  await expect(action).toBeFocused()
+  await navigate(page, '思い出')
+  await expect(page.locator('.memory-card')).toHaveCount(6)
+  await navigate(page, 'おみせ')
+  await expect(page.getByRole('heading', { name: 'よりみち商店。' })).toBeVisible()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  await navigate(page, 'おへや')
+  await page.getByRole('button', { name: 'こむぎをなでる' }).click()
+  await expect(page.locator('.speech-bubble')).toContainText('えへへ。きょうも会えたね。')
+})
+
+test('the game keeps earlier cooking-app records untouched in their own storage key', async ({
+  page,
+}) => {
+  const oldData = JSON.stringify({
+    version: 1,
+    meals: [{ title: '以前の自炊記録' }],
+    note: 'preserve me',
+  })
+  await page.evaluate((value) => localStorage.setItem('hitosaji-demo-v1', value), oldData)
+  await page.reload()
+  await feedSample(page)
+  await returnToRoom(page)
+  await page.reload()
+  expect(await page.evaluate(() => localStorage.getItem('hitosaji-demo-v1'))).toBe(oldData)
+  await expect(page.getByRole('button', { name: '今日のごはん、ありがとう' })).toBeVisible()
+})
+
+test('a meal submitted after midnight belongs to the new day even before the date timer runs', async ({
+  page,
+}) => {
+  await page.clock.setFixedTime(new Date('2026-09-24T14:59:59Z'))
+  await page.evaluate(() => localStorage.removeItem('mogubiyori-v1'))
+  await page.reload()
+  await expect(page.locator('.streak-badge')).toHaveText('6日連続')
+  await page.getByRole('button', { name: 'つくったごはんをあげる' }).click()
+  await page.getByRole('button', { name: '写真なしで体験する' }).click()
+
+  // Changing Date without advancing timers leaves the open form on yesterday's state.
+  await page.clock.setFixedTime(new Date('2026-09-24T15:00:01Z'))
+  await page.getByRole('button', { name: 'こむぎにごはんをあげる' }).click()
+  await expect(page.getByRole('dialog')).toContainText('1日つづいた！')
+  await returnToRoom(page)
+
+  const state = await storedGame(page)
+  expect(state.today).toBe('2026-09-25')
+  expect(state.meals[0].day).toBe('2026-09-25')
+  expect(state.meals[0].xp).toBe(45)
+  expect(state.meals.some((meal) => meal.day === '2026-09-24')).toBe(false)
+  await expect(page.locator('.streak-badge')).toHaveText('1日連続')
+  await expect(page.getByRole('button', { name: '今日のごはん、ありがとう' })).toBeVisible()
 })
