@@ -150,7 +150,8 @@ svg {
   border-radius: 21px;
   background: var(--game-surface);
 }
-.tabs button {
+.tabs :is(button, a) {
+  text-decoration: none;
   flex: 1;
   min-width: 0;
   min-height: 57px;
@@ -170,7 +171,7 @@ svg {
     background 0.15s,
     color 0.15s;
 }
-.tabs button > svg {
+.tabs :is(button, a) > svg {
   width: 24px;
   height: 24px;
   flex-shrink: 0;
@@ -178,7 +179,7 @@ svg {
   stroke: currentColor;
   stroke-width: 1.65;
 }
-.tabs button[aria-pressed='true'] {
+.tabs :is(button, a)[aria-pressed='true'] {
   color: white;
   background: var(--game-teal);
   box-shadow: 0 3px 0 var(--game-teal-dark);
@@ -192,7 +193,7 @@ svg {
   font-size: 10px;
   font-variant-numeric: tabular-nums;
 }
-.tabs button[aria-pressed='true'] .tab-count {
+.tabs :is(button, a)[aria-pressed='true'] .tab-count {
   color: var(--game-teal-dark);
   background: var(--game-surface);
 }
@@ -734,7 +735,7 @@ dialog::backdrop {
     border-color: var(--game-teal);
     box-shadow: 0 5px 12px #243b5312;
   }
-  .tabs button:not([aria-pressed='true']):hover,
+  .tabs :is(button, a):not([aria-pressed='true']):hover,
   .reset:hover {
     background: var(--game-teal-soft);
     color: var(--game-teal-dark);
@@ -758,7 +759,7 @@ dialog::backdrop {
   .card-name {
     font-size: 13px;
   }
-  .tabs button {
+  .tabs :is(button, a) {
     gap: 7px;
     font-size: 12px;
   }
@@ -833,7 +834,7 @@ dialog::backdrop {
     padding: 4px;
     border-radius: 19px;
   }
-  .tabs button {
+  .tabs :is(button, a) {
     flex-direction: column;
     min-height: 66px;
     gap: 5px;
@@ -841,7 +842,7 @@ dialog::backdrop {
     border-radius: 14px;
     font-size: 10px;
   }
-  .tabs button > svg {
+  .tabs :is(button, a) > svg {
     width: 23px;
     height: 23px;
   }

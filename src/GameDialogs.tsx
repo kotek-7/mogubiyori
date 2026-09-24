@@ -1,7 +1,8 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
 import { Check, ChevronRight, Coins, Flame, Gem, HelpCircle, Moon, Sparkles, X } from 'lucide-react'
-import { DishArt, GatheringScene, ItemArt, Pet } from './GameArt'
+import { GatheringScene, ItemArt, Pet } from './GameArt'
+import { RecipeArt } from './RecipeArt'
 import {
   addDemoGems,
   advanceGame,
@@ -14,6 +15,7 @@ import {
   growthProgress,
   stageName,
   recipes,
+  recipeById,
   stageOf,
   purchaseItem,
   restGame,
@@ -184,7 +186,7 @@ export function GameDialogs({
             {local.meal.photo ? (
               <img src={local.meal.photo} alt={local.meal.title} />
             ) : (
-              <DishArt kind={local.meal.sample} />
+              <RecipeArt recipe={recipeById(local.meal.recipeId)} sample={local.meal.sample} />
             )}
           </div>
           <p>

@@ -1,0 +1,177 @@
+.recipe-browser {
+  width: 100%;
+  min-width: 0;
+  scroll-margin-top: 24px;
+}
+.recipe-browser-controls {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid var(--game-line, #dfd5bc);
+  border-radius: 18px;
+  background: var(--game-teal-soft, #f7f1e3);
+}
+.recipe-browser-controls label {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--game-muted, #66543e);
+}
+.recipe-browser-search-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.recipe-browser-search-field > svg {
+  position: absolute;
+  left: 13px;
+  color: var(--game-muted, #786650);
+  pointer-events: none;
+}
+.recipe-browser-search input,
+.recipe-browser-filters select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  border: 1px solid var(--game-line, #d4c8ae);
+  border-radius: 10px;
+  background: var(--game-surface, #fffdf6);
+  color: var(--game-ink, #574634);
+  font: inherit;
+  font-weight: 400;
+}
+.recipe-browser-search input {
+  padding: 11px 12px 11px 40px;
+  font-size: 16px;
+}
+.recipe-browser-search input::placeholder {
+  color: var(--game-muted, #7a6a54);
+}
+.recipe-browser-filters {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.recipe-browser-filters select {
+  padding: 10px 8px;
+  cursor: pointer;
+}
+.recipe-browser-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 56px;
+  color: var(--game-muted, #71614b);
+  font-size: 12px;
+}
+.recipe-browser-summary p {
+  margin: 0;
+}
+.recipe-browser-summary strong {
+  font-size: 16px;
+}
+.recipe-browser-reset {
+  min-height: 44px;
+  padding: 8px 4px;
+  border: 0;
+  background: transparent;
+  color: var(--game-teal-dark, #5f6342);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.recipe-browser .recipe-card-description > strong {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.6;
+  padding-right: 9px;
+}
+.recipe-browser .recipe-card-description > span {
+  flex-wrap: wrap;
+  font-size: 11px;
+}
+.recipe-browser .recipe-card-description > .recipe-card-undiscovered {
+  gap: 4px;
+  margin-top: 9px;
+}
+.recipe-browser .recipe-card-arrow {
+  bottom: 20px;
+}
+.recipe-browser-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 42px 18px;
+  border: 1px dashed var(--game-line, #d4c8ae);
+  border-radius: 18px;
+  color: var(--game-muted, #71614b);
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.recipe-browser-empty p {
+  margin: 0;
+}
+.recipe-browser-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  margin-top: 28px;
+  font-size: 13px;
+  color: var(--game-muted, #66543e);
+}
+.recipe-browser-pagination button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 44px;
+  padding: 9px 12px;
+  border: 1px solid var(--game-line, #d4c8ae);
+  border-radius: 10px;
+  background: var(--game-surface, #fffdf6);
+  color: var(--game-ink, #574634);
+  font: inherit;
+}
+.recipe-browser-pagination button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+@media (max-width: 600px) {
+  .recipe-browser-controls {
+    gap: 14px;
+    padding: 14px;
+    border-radius: 14px;
+  }
+  .recipe-browser-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 10px;
+  }
+  .recipe-browser-filters select {
+    font-size: 13px;
+  }
+  .recipe-browser-summary {
+    font-size: 11px;
+  }
+  .recipe-browser .recipe-card-description > strong,
+  .recipe-browser .recipe-collection-card.is-unknown .recipe-card-description > strong {
+    font-size: 12px;
+    padding-right: 0;
+  }
+  .recipe-browser .recipe-card-description > span {
+    font-size: 10px;
+    gap: 8px;
+  }
+  .recipe-browser-pagination {
+    gap: 12px;
+    font-size: 12px;
+  }
+  .recipe-browser-pagination button {
+    padding-inline: 9px;
+  }
+}

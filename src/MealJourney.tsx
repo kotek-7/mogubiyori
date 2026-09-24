@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { ArrowRight, Camera, ImagePlus, Utensils } from 'lucide-react'
-import { DishArt, Pet } from './GameArt'
+import { ArrowRight, Camera, ImagePlus, Search, Utensils } from 'lucide-react'
+import { Pet } from './GameArt'
 import { JourneyFrame } from './JourneyFrame'
 import { PlayGuide } from './PlayGuide'
+import { RecipeArt } from './RecipeArt'
+import { RecipeBrowser } from './RecipeBrowser'
 import { mealXp, recipes, species, stageOf } from './game'
 import type { FeedInput, GameState, SpeciesId } from './game'
 import { resizePhoto } from './photo'
@@ -27,7 +29,7 @@ export function MealJourney({
   onFeed,
   onClose,
 }: Props) {
-  const [step, setStep] = useState<'photo' | 'serve'>('photo')
+  const [step, setStep] = useState<'photo' | 'serve' | 'recipe-pick'>('photo')
   const [photo, setPhoto] = useState<string>()
   const [sample, setSample] = useState(false)
   const [recipeId, setRecipeId] = useState(initialRecipeId ?? '')
@@ -82,7 +84,8 @@ export function MealJourney({
       // Let native select menus and expanded fields handle their own dismissal.
       if (event.target instanceof HTMLSelectElement) return
       event.preventDefault()
-      if (step === 'serve') transitionScene(() => setStep('photo'))
+      if (step === 'recipe-pick') transitionScene(() => setStep('serve'))
+      else if (step === 'serve') transitionScene(() => setStep('photo'))
       else close()
     }
     window.addEventListener('keydown', escape)
@@ -143,11 +146,35 @@ export function MealJourney({
     })
   }
 
-  const dish = photo ? (
-    <img src={photo} alt="今日の料理" />
-  ) : (
-    <DishArt kind={recipe?.sample ?? 'rice'} />
-  )
+  function chooseRecipe(id: string) {
+    recipeChosen.current = true
+    transitionScene(() => {
+      setRecipeId(id)
+      setStep('serve')
+    })
+  }
+
+  const dish = photo ? <img src={photo} alt="今日の料理" /> : <RecipeArt recipe={recipe} />
+
+  if (step === 'recipe-pick')
+    return (
+      <JourneyFrame
+        scene="recipe-pick"
+        title="つくった料理を選ぶ"
+        onBack={() => transitionScene(() => setStep('serve'))}
+        backLabel="食卓にもどる"
+        progress={{ current: 2, total: 2 }}
+        footer={
+          <button type="button" className="journey-secondary" onClick={() => chooseRecipe('')}>
+            いつものごはんにする
+          </button>
+        }
+      >
+        <div className="meal-recipe-browser">
+          <RecipeBrowser state={state} onRecipe={chooseRecipe} mode="select" />
+        </div>
+      </JourneyFrame>
+    )
 
   if (step === 'photo')
     return (
@@ -335,23 +362,19 @@ export function MealJourney({
             ))}
           </div>
         )}
-        <label className="meal-recipe-field">
+        <div className="meal-recipe-field">
           <span>つくった料理</span>
-          <select
-            value={recipeId}
-            onChange={(event) => {
-              recipeChosen.current = true
-              setRecipeId(event.target.value)
-            }}
-          >
-            <option value="">いつものごはん</option>
-            {recipes.map((entry) => (
-              <option key={entry.id} value={entry.id}>
-                {entry.name}
-              </option>
-            ))}
-          </select>
-        </label>
+          <div className="meal-selected-recipe">
+            <span className="meal-selected-recipe-art" aria-hidden="true">
+              <RecipeArt recipe={recipe} />
+            </span>
+            <output aria-label="つくった料理">{recipe?.name ?? 'いつものごはん'}</output>
+            <button type="button" onClick={() => transitionScene(() => setStep('recipe-pick'))}>
+              <Search size={15} aria-hidden="true" />
+              料理を選ぶ
+            </button>
+          </div>
+        </div>
         {xp < 45 && <p className="repeat-hint">同じ料理が続いているため、今回は +{xp} XPです。</p>}
         <details className="meal-title-details">
           <summary>料理名をつける</summary>

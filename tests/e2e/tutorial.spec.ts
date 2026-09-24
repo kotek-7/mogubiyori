@@ -200,7 +200,7 @@ async function practice(
     const board = screen.locator('.tutorial-recipe-board')
     await expect(board.locator('.is-filled')).toContainText('カレー')
     await expect(
-      screen.getByRole('group', { name: 'レシピカード 1/10', exact: true }),
+      screen.getByRole('group', { name: 'レシピカード 1/310', exact: true }),
     ).toBeVisible()
     const wallet = screen.getByRole('group', { name: '70コイン', exact: true })
     await expect(wallet).toBeVisible()

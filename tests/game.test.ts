@@ -128,7 +128,7 @@ describe('companions and recipe cards', () => {
     expect(common.meals[0].coins).toBe(20)
     expect(common.cards).toEqual(['curry', 'egg-rice'])
     expect(feed(common, { ...meal, recipeId: 'unknown' }).cards).toEqual(common.cards)
-    expect(recipes).toHaveLength(10)
+    expect(recipes).toHaveLength(310)
     expect(new Set(recipes.map((recipe) => recipe.id)).size).toBe(recipes.length)
   })
 

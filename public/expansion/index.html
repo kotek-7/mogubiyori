@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#E8F2EE" />
-    <title>図鑑 | もぐ日和</title>
+    <title>なかま・きせかえ | もぐ日和</title>
     <link rel="stylesheet" href="/game-tokens.css" />
     <link rel="stylesheet" href="./catalog.css" />
     <script type="module" src="./catalog.js"></script>
@@ -22,7 +22,7 @@
             <path d="M14 7C10 4 5 4 3 5v18c3-1 7-1 11 2 4-3 8-3 11-2V5c-2-1-7-1-11 2Z" />
             <path d="M14 7v18M7 10h3m-3 5h3m8-5h3m-3 5h3" />
           </svg>
-          <h1>図鑑</h1>
+          <h1>なかま・きせかえ</h1>
         </div>
         <div class="catalog-total" id="counts" aria-live="polite">もぐ日和</div>
       </div>
@@ -31,16 +31,15 @@
       <section class="library" id="catalog" aria-labelledby="catalog-heading">
         <h2 class="sr-only" id="catalog-heading">図鑑一覧</h2>
         <nav class="tabs" aria-label="図鑑の種類">
-          <button type="button" data-tab="recipes" aria-pressed="true">
+          <a href="/#book">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="13" cy="13" r="7" />
               <circle cx="13" cy="13" r="4" />
               <path d="M3 3v6m-2-6v4q0 2 2 2t2-2V3M3 9v12" />
             </svg>
-            <span class="tab-label">料理カード</span
-            ><span class="tab-count" id="recipe-count"></span>
-          </button>
-          <button type="button" data-tab="characters" aria-pressed="false">
+            <span class="tab-label">料理カード</span>
+          </a>
+          <button type="button" data-tab="characters" aria-pressed="true">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M4 10Q1 2 7 4l3 3h4l3-3q6-2 3 6c4 10-3 12-8 12S0 20 4 10Z" />
               <path d="M8 12v1m8-1v1m-7 4q3 3 6 0" />
@@ -57,41 +56,24 @@
             ><span class="tab-count" id="item-count"></span>
           </button>
         </nav>
-        <form class="filters" id="filters" role="search">
+        <form class="filters is-simple" id="filters" role="search">
           <label class="search">
-            <span class="sr-only" id="query-label">名前・材料で検索</span>
+            <span class="sr-only">名前・特徴で検索</span>
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="10" cy="10" r="6.5" />
               <path d="m15 15 5 5" />
             </svg>
-            <input id="query" type="search" placeholder="名前・材料で検索" autocomplete="off" />
+            <input id="query" type="search" placeholder="名前・特徴で検索" autocomplete="off" />
           </label>
           <label class="filter-control"
             >分類<select id="category">
               <option value="">すべて</option>
             </select></label
           >
-          <label class="filter-control recipe-filter"
-            >時間<select id="time">
-              <option value="0">すべて</option>
-              <option value="10">10分以内</option>
-              <option value="20">20分以内</option>
-              <option value="30">30分以内</option>
-            </select></label
-          >
-          <label class="filter-control recipe-filter"
-            >難易度<select id="difficulty">
-              <option value="">すべて</option>
-              <option value="1">かんたん</option>
-              <option value="2">ひと工夫</option>
-              <option value="3">じっくり</option>
-            </select></label
-          >
           <label class="filter-control"
             >並び順<select id="sort">
               <option value="default">図鑑順</option>
               <option value="name">名前順</option>
-              <option value="time">時間順</option>
             </select></label
           >
           <button type="reset" class="reset">条件を戻す</button>
@@ -117,9 +99,7 @@
     <footer>
       <details>
         <summary>この図鑑について</summary>
-        <p>
-          追加コンテンツのプレビューです。獲得・購入は本体への接続前です。調理時間は目安です。レシピの実調理による確認は未実施です。
-        </p>
+        <p>なかま・きせかえのプレビューです。獲得・購入は本体への接続前です。</p>
         <a href="./manifest.json">コンテンツ情報</a>
       </details>
     </footer>

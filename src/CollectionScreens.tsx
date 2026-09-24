@@ -3,7 +3,6 @@ import {
   ArrowRight,
   BookOpen,
   Check,
-  ChevronRight,
   Clock3,
   Heart,
   Leaf,
@@ -11,11 +10,13 @@ import {
   Sparkles,
   Utensils,
 } from 'lucide-react'
-import { DishArt, Pet } from './GameArt'
+import { Pet } from './GameArt'
 import { JourneyFrame } from './JourneyFrame'
 import { recipes, species, stageOf, stageName } from './game'
 import type { GameState, SpeciesId } from './game'
 import { GrowthTrail } from './GrowthTrail'
+import { RecipeBrowser } from './RecipeBrowser'
+import { RecipeArt } from './RecipeArt'
 import './collection.css'
 
 const difficultyNames = ['かんたん', 'ひと工夫', 'じっくり']
@@ -85,59 +86,7 @@ export function RecipeBoard({
           <span>/ {recipes.length}</span>
         </span>
       </div>
-      <div className="recipe-board">
-        {recipes.map((recipe) => {
-          const open = state.cards.includes(recipe.id)
-          return (
-            <button
-              key={recipe.id}
-              className={`recipe-collection-card recipe-rarity-${recipe.rarity} ${open ? 'is-discovered' : 'is-unknown'}`}
-              aria-label={
-                open ? `${recipe.name}のレシピを見る` : `${recipe.name}のレシピを見る（未獲得）`
-              }
-              onClick={() => onRecipe(recipe.id)}
-            >
-              <span className="recipe-card-picture">
-                {open ? (
-                  <DishArt kind={recipe.sample} />
-                ) : (
-                  <span className="recipe-card-back" aria-hidden="true">
-                    <Utensils size={31} />
-                    <span>?</span>
-                    <i />
-                    <i />
-                    <i />
-                  </span>
-                )}
-                <span className={`recipe-rarity recipe-rarity-${recipe.rarity}`}>
-                  {recipe.rarity === 'special' && <Sparkles size={10} />}
-                  {rarityNames[recipe.rarity]}
-                </span>
-              </span>
-              <span className="recipe-card-description">
-                <strong>{recipe.name}</strong>
-                <span>
-                  {open ? (
-                    <>
-                      <span>
-                        <Clock3 size={12} />
-                        {recipe.minutes}分
-                      </span>
-                      <span>{difficultyNames[recipe.difficulty - 1]}</span>
-                    </>
-                  ) : (
-                    <span>
-                      <BookOpen size={12} />
-                      未獲得 · レシピを見る
-                    </span>
-                  )}
-                </span>
-              </span>
-              <ChevronRight className="recipe-card-arrow" size={15} />
-            </button>
-          )
-        })}
-      </div>
+      <RecipeBrowser state={state} onRecipe={onRecipe} />
     </div>
   )
 }
@@ -263,11 +212,12 @@ export function RecipeDetail({
       className={`recipe-detail ${state.cards.includes(recipeId) ? 'is-acquired' : 'is-unacquired'}`}
     >
       <div className="recipe-detail-art">
-        <DishArt kind={recipe.sample} />
+        <RecipeArt recipe={recipe} />
         <span className={`recipe-rarity recipe-rarity-${recipe.rarity}`}>
           {rarityNames[recipe.rarity]}
         </span>
       </div>
+      {recipe.description && <p className="recipe-detail-description">{recipe.description}</p>}
       <div className="recipe-detail-meta">
         <span>
           <Clock3 size={15} />
@@ -280,13 +230,19 @@ export function RecipeDetail({
         </span>
       </div>
       <section className="recipe-detail-ingredients">
-        <h3>材料</h3>
+        <h3>材料{recipe.servings && `（${recipe.servings}人分）`}</h3>
         <ul>
           {recipe.ingredients.map((ingredient) => (
             <li key={ingredient}>{ingredient}</li>
           ))}
         </ul>
       </section>
+      {!!recipe.equipment?.length && (
+        <section className="recipe-detail-equipment">
+          <h3>使う道具</h3>
+          <p>{recipe.equipment.join('・')}</p>
+        </section>
+      )}
       <section className="recipe-detail-steps">
         <h3>つくりかた</h3>
         <ol>
@@ -298,6 +254,12 @@ export function RecipeDetail({
           ))}
         </ol>
       </section>
+      {recipe.tip && (
+        <section className="recipe-detail-tip">
+          <h3>おいしくつくるコツ</h3>
+          <p>{recipe.tip}</p>
+        </section>
+      )}
       <button className="primary-button full recipe-cook" onClick={() => onCook(recipe.id)}>
         <Utensils size={18} />
         この料理を記録する

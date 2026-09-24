@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { readFileSync, existsSync } from 'node:fs'
-import { recipes as legacyRecipes } from '../src/game'
+import { legacyRecipes } from '../src/recipes'
 import {
   mergeById,
   adaptRecipe,

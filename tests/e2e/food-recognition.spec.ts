@@ -7,6 +7,8 @@ import {
   navigate,
   returnToPlaza,
   start,
+  selectMealRecipe,
+  selectedMealRecipe,
   storedGame,
   uploadPhoto,
   waitForSceneMotion,
@@ -36,9 +38,6 @@ async function mockRecognition(page: Page) {
     },
   }
 }
-
-const recipeSelect = (page: Page) =>
-  page.getByRole('combobox', { name: 'つくった料理', exact: true })
 
 async function toTable(page: Page) {
   await page.getByRole('button', { name: '食卓へ', exact: true }).click()
@@ -71,11 +70,15 @@ test('a mocked photo suggestion grants its card and XP only after feeding is con
 
   // Recognition must not block continuing to the table or save a meal itself.
   await toTable(page)
-  await expect(journey(page).getByRole('status')).toContainText('料理を見ています。')
+  await expect(journey(page).locator('.meal-recognition-status')).toContainText(
+    '料理を見ています。',
+  )
   expect(await storedGame(page)).toEqual(before)
   await api.reply(0, ['curry', 'onigiri'])
-  await expect(recipeSelect(page)).toHaveValue('curry')
-  await expect(journey(page).getByRole('status')).toContainText('料理の候補が見つかりました。')
+  await expect(selectedMealRecipe(page)).toHaveText('カレー')
+  await expect(journey(page).locator('.meal-recognition-status')).toContainText(
+    '料理の候補が見つかりました。',
+  )
   expect(await storedGame(page)).toEqual(before)
   await page.screenshot({ path: testInfo.outputPath('recognition-mocked-serve.png') })
 
@@ -97,6 +100,24 @@ test('a mocked photo suggestion grants its card and XP only after feeding is con
   expect(await storedGame(page)).toEqual(saved)
 })
 
+test('photo recognition accepts an added recipe from the shared catalog', async ({ page }) => {
+  const api = await mockRecognition(page)
+  const recipe = recipes.find((entry) => entry.id === 'r-oyako-don')!
+  await page.locator('.play-feed').click()
+  await uploadPhoto(page)
+  await api.waitFor(1)
+  await api.reply(0, [recipe.id])
+  await toTable(page)
+  await expect(selectedMealRecipe(page)).toHaveText(recipe.name)
+  expect((await storedGame(page)).cards).toEqual([])
+  await giveMeal(page)
+  expect((await storedGame(page)).cards).toEqual([recipe.id])
+  expect((await storedGame(page)).meals[0]).toMatchObject({
+    recipeId: recipe.id,
+    cardBonus: recipe.reward,
+  })
+})
+
 test('a late suggestion preserves a manually selected recipe and custom meal title', async ({
   page,
 }) => {
@@ -108,14 +129,18 @@ test('a late suggestion preserves a manually selected recipe and custom meal tit
     await uploadPhoto(page)
     await api.waitFor(index + 1)
     await toTable(page)
-    if (edit === 'recipe') await recipeSelect(page).selectOption('onigiri')
+    if (edit === 'recipe') await selectMealRecipe(page, 'onigiri')
     else {
       await page.getByText('料理名をつける', { exact: true }).click()
       await page.getByRole('textbox', { name: '料理名（任意）', exact: true }).fill('梅のおにぎり')
     }
     await api.reply(index, ['curry'])
-    await expect(journey(page).getByRole('status')).toContainText('料理の候補が見つかりました。')
-    await expect(recipeSelect(page)).toHaveValue(edit === 'recipe' ? 'onigiri' : '')
+    await expect(journey(page).locator('.meal-recognition-status')).toContainText(
+      '料理の候補が見つかりました。',
+    )
+    await expect(selectedMealRecipe(page)).toHaveText(
+      edit === 'recipe' ? 'おかかのおにぎり' : 'いつものごはん',
+    )
     if (edit === 'title')
       await expect(page.getByRole('textbox', { name: '料理名（任意）', exact: true })).toHaveValue(
         '梅のおにぎり',
@@ -145,7 +170,7 @@ test('a recipe chosen from the collection remains selected after a different pho
   await api.waitFor(1)
   await api.reply(0, ['onigiri'])
   await toTable(page)
-  await expect(recipeSelect(page)).toHaveValue('curry')
+  await expect(selectedMealRecipe(page)).toHaveText('カレー')
   await giveMeal(page)
   expect((await storedGame(page)).meals[0].recipeId).toBe('curry')
   expect((await storedGame(page)).cards).toEqual(['curry'])
@@ -179,9 +204,9 @@ test('replacing a photo prevents an older response from replacing the latest rec
   expect(secondRequest.photo).not.toBe(firstRequest.photo)
   await api.reply(1, ['onigiri'])
   await toTable(page)
-  await expect(recipeSelect(page)).toHaveValue('onigiri')
+  await expect(selectedMealRecipe(page)).toHaveText('おかかのおにぎり')
   await api.reply(0, ['curry'])
-  await expect(recipeSelect(page)).toHaveValue('onigiri')
+  await expect(selectedMealRecipe(page)).toHaveText('おかかのおにぎり')
   await giveMeal(page)
   expect((await storedGame(page)).meals[0]).toMatchObject({
     recipeId: 'onigiri',
@@ -203,9 +228,11 @@ test('failed, unknown and empty recognition responses still allow manually recor
     await api.waitFor(index + 1)
     await api.reply(index, result.candidates, result.status)
     await toTable(page)
-    await expect(journey(page).getByRole('status')).toContainText('手動で選べます。')
-    await expect(recipeSelect(page)).toHaveValue('')
-    await recipeSelect(page).selectOption('curry')
+    await expect(journey(page).locator('.meal-recognition-status')).toContainText(
+      '手動で選べます。',
+    )
+    await expect(selectedMealRecipe(page)).toHaveText('いつものごはん')
+    await selectMealRecipe(page, 'curry')
     await giveMeal(page)
     const saved = await storedGame(page)
     expect(saved.meals).toHaveLength(index + 1)
@@ -230,7 +257,7 @@ test('photo-free play skips recognition and ignores a response for a discarded p
   await page.getByRole('button', { name: '写真なしで体験する', exact: true }).click()
   await expect(journey(page, 'serve')).toBeVisible()
   await api.reply(0, ['curry'])
-  await expect(recipeSelect(page)).toHaveValue('')
+  await expect(selectedMealRecipe(page)).toHaveText('いつものごはん')
   expect(await storedGame(page)).toEqual(before)
   await giveMeal(page)
   const saved = await storedGame(page)
@@ -255,7 +282,7 @@ test('cancelling a pending recognition keeps the save and the next meal unchange
   await page.locator('.play-feed').click()
   await page.getByRole('button', { name: '写真なしで体験する', exact: true }).click()
   await api.reply(0, ['curry'])
-  await expect(recipeSelect(page)).toHaveValue('')
+  await expect(selectedMealRecipe(page)).toHaveText('いつものごはん')
   expect(await storedGame(page)).toEqual(before)
   await page.getByRole('button', { name: 'ひろばへ', exact: true }).click()
   expect(await storedGame(page)).toEqual(before)

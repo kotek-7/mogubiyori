@@ -10,6 +10,8 @@ import {
   nextDay,
   returnToPlaza,
   sampleToTable,
+  selectMealRecipe,
+  selectedMealRecipe,
   start,
   storedGame,
   submitSample,
@@ -169,9 +171,7 @@ test('an undiscovered recipe guides cooking and becomes a collected card afterwa
   await page.getByRole('button', { name: 'この料理を記録する' }).click()
   await expectFocusedScene(page, 'photo')
   await page.getByRole('button', { name: '写真なしで体験する' }).click()
-  await expect(page.getByRole('combobox', { name: 'つくった料理', exact: true })).toHaveValue(
-    'curry',
-  )
+  await expect(selectedMealRecipe(page)).toHaveText('カレー')
   await page.getByRole('button', { name: 'こむぎにごはんをあげる', exact: true }).click()
   expect(await returnToPlaza(page)).toContain('card')
   await navigate(page, 'ずかん')
@@ -184,6 +184,8 @@ test('daily login and three/seven-day cooking bonuses cannot be claimed twice', 
   page,
 }) => {
   test.setTimeout(60000)
+  // This checks seven days of accounting; animation timing is covered by streak.spec.ts.
+  await page.emulateMedia({ reducedMotion: 'reduce' })
   await start(page)
   await page.reload()
   expect((await storedGame(page)).coins).toBe(140)
@@ -223,16 +225,14 @@ test('photo and optional inputs survive going back, and cancellation never feeds
   const photo = await journey(page).locator('img[src^="data:image/"]').getAttribute('src')
   await page.getByRole('button', { name: '食卓へ', exact: true }).click()
   await expectFocusedScene(page, 'serve')
-  await page.getByRole('combobox', { name: 'つくった料理', exact: true }).selectOption('curry')
+  await selectMealRecipe(page, 'curry')
   await page.getByText('料理名をつける', { exact: true }).click()
   await page.getByRole('textbox', { name: '料理名（任意）', exact: true }).fill('はじめてのカレー')
   await page.getByRole('button', { name: '写真にもどる', exact: true }).click()
   await expectFocusedScene(page, 'photo')
   await expect(journey(page).locator('img[src^="data:image/"]')).toHaveAttribute('src', photo!)
   await page.getByRole('button', { name: '食卓へ', exact: true }).click()
-  await expect(page.getByRole('combobox', { name: 'つくった料理', exact: true })).toHaveValue(
-    'curry',
-  )
+  await expect(selectedMealRecipe(page)).toHaveText('カレー')
   await page.getByText('料理名をつける', { exact: true }).click()
   await expect(page.getByRole('textbox', { name: '料理名（任意）', exact: true })).toHaveValue(
     'はじめてのカレー',

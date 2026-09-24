@@ -13,6 +13,7 @@ import {
   Utensils,
 } from 'lucide-react'
 import { Pet, GatheringScene, DishArt, ItemArt } from './GameArt'
+import { RecipeArt } from './RecipeArt'
 import { GameDialogs } from './GameDialogs'
 import type { Dialog } from './GameDialogs'
 import { StarterSelection, RecipeBoard, FriendsBoard } from './CollectionScreens'
@@ -31,6 +32,7 @@ import {
   growthProgress,
   items,
   LOGIN_BONUS,
+  recipeById,
   selectCompanion,
   shiftDay,
   species,
@@ -549,10 +551,6 @@ function App() {
               ごはんの記録
               <ChevronRight size={14} />
             </button>
-            <a className="expansion-link" href="/expansion/index.html">
-              <span>料理を探す</span>
-              <ChevronRight size={14} />
-            </a>
           </>
         )}
         {page === 'album' && (
@@ -572,7 +570,7 @@ function App() {
                     {meal.photo ? (
                       <img src={meal.photo} alt={meal.title} />
                     ) : (
-                      <DishArt kind={meal.sample} />
+                      <RecipeArt recipe={recipeById(meal.recipeId)} sample={meal.sample} />
                     )}
                     <span>{meal.day.slice(5).replace('-', '/')}</span>
                   </div>

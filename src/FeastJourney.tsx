@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowRight, Coins, Flame, Heart, Sparkles, Utensils } from 'lucide-react'
-import { DishArt, GatheringScene, ItemArt, Pet } from './GameArt'
+import { GatheringScene, ItemArt, Pet } from './GameArt'
+import { RecipeArt } from './RecipeArt'
 import { JourneyFrame } from './JourneyFrame'
 import { FeastXpReward } from './FeastXpReward'
 import { StreakCelebration } from './StreakCelebration'
@@ -142,7 +143,7 @@ export function FeastJourney({
               {meal.photo ? (
                 <img src={meal.photo} alt={meal.title} />
               ) : (
-                <DishArt kind={meal.sample} />
+                <RecipeArt recipe={recipeById(meal.recipeId)} sample={meal.sample} />
               )}
             </div>
             <span className="feast-heart feast-heart-left" aria-hidden="true">
@@ -199,7 +200,7 @@ export function FeastJourney({
                         ? 'レア'
                         : 'ノーマル'}
                   </span>
-                  <DishArt kind={recipe.sample} />
+                  <RecipeArt recipe={recipe} />
                   <strong>{recipe.name}</strong>
                   <span className="feast-card-bonus">
                     <Coins size={16} />

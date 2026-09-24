@@ -1,5 +1,5 @@
-import type { Recipe } from '../game'
-import type { ExpansionCharacter, ExpansionItem, ExpansionRecipe } from './expansion'
+import type { Recipe } from '../recipes'
+import type { ExpansionCharacter, ExpansionItem, ExpansionRecipe } from './types'
 
 /** Combine catalog releases without changing existing IDs or previously saved progress. */
 export function mergeById<T extends { id: string }>(
@@ -14,7 +14,9 @@ export function mergeById<T extends { id: string }>(
   return [...merged.values()]
 }
 
-export function adaptRecipe(recipe: ExpansionRecipe): Recipe {
+export function adaptRecipe(
+  recipe: Omit<ExpansionRecipe, 'artPath'> & { artPath?: string },
+): Recipe {
   const samples: Record<string, string> = {
     rice: 'rice',
     noodles: 'pasta',
@@ -31,6 +33,14 @@ export function adaptRecipe(recipe: ExpansionRecipe): Recipe {
     ingredients: recipe.ingredients.map((ingredient) => `${ingredient.name} ${ingredient.amount}`),
     steps: recipe.steps,
     reward: recipe.reward,
+    artPath: recipe.artPath ?? `/expansion/assets/recipes/${recipe.id}.svg`,
+    category: recipe.category,
+    description: recipe.description,
+    cuisine: recipe.cuisine,
+    servings: recipe.servings,
+    tip: recipe.tip,
+    tags: recipe.tags,
+    equipment: recipe.equipment,
   }
 }
 

@@ -2,6 +2,7 @@ import { expect } from '@playwright/test'
 import type { Page } from '@playwright/test'
 import { Buffer } from 'node:buffer'
 import type { GameState } from '../../src/game'
+import { recipes } from '../../src/game'
 
 export const journey = (page: Page, name?: string) =>
   page.locator(`main.journey-screen${name ? `[data-scene="${name}"]` : ''}`)
@@ -58,7 +59,23 @@ export async function sampleToTable(page: Page, recipeId = '') {
   await expect(journey(page, 'photo')).toBeVisible()
   await page.getByRole('button', { name: '写真なしで体験する' }).click()
   await expect(journey(page, 'serve')).toBeVisible()
-  await page.getByRole('combobox', { name: 'つくった料理', exact: true }).selectOption(recipeId)
+  await selectMealRecipe(page, recipeId)
+}
+
+export const selectedMealRecipe = (page: Page) => page.getByLabel('つくった料理', { exact: true })
+
+export async function selectMealRecipe(page: Page, recipeId: string) {
+  if (!recipeId && (await selectedMealRecipe(page).textContent()) === 'いつものごはん') return
+  await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
+  await expect(journey(page, 'recipe-pick')).toBeVisible()
+  if (recipeId) {
+    const recipe = recipes.find((entry) => entry.id === recipeId)!
+    await page.getByRole('searchbox', { name: '名前・材料で検索' }).fill(recipe.name)
+    await page.getByRole('button', { name: `${recipe.name}を選ぶ`, exact: true }).click()
+  } else {
+    await page.getByRole('button', { name: 'いつものごはんにする', exact: true }).click()
+  }
+  await expect(journey(page, 'serve')).toBeVisible()
 }
 
 export async function submitSample(page: Page, recipeId = '', name = 'こむぎ') {

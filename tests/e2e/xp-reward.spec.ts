@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test'
 import type { Locator, Page } from '@playwright/test'
 import { chooseStarter, claimLogin, demoGame, feed, initialGame, todayTokyo } from '../../src/game'
 import type { GameState } from '../../src/game'
+import { selectMealRecipe } from './helpers'
 
 const plainMeal = { title: '今日のごはん', sample: 'rice' }
 const scene = (page: Page, name: string) => page.locator(`main[data-scene="${name}"]`)
@@ -28,7 +29,7 @@ async function serve(page: Page, recipeId = '', recipient = 'こむぎ') {
   if (recipient === 'こむぎ') await page.locator('.play-feed').click()
   else await page.getByRole('button', { name: `お客さんの${recipient}にごはんをあげる` }).click()
   await page.getByRole('button', { name: '写真なしで体験する', exact: true }).click()
-  await page.getByRole('combobox', { name: 'つくった料理', exact: true }).selectOption(recipeId)
+  await selectMealRecipe(page, recipeId)
   await page.getByRole('button', { name: `${recipient}にごはんをあげる`, exact: true }).click()
   await expect(scene(page, 'eating')).toBeVisible()
   const saved = await stored(page)

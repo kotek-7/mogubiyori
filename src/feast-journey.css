@@ -244,10 +244,12 @@
 .rarity-rare .feast-card-rarity {
   background: #235c96;
 }
-.feast-recipe-front > svg {
+.feast-recipe-front > .dish-art {
   width: 100%;
   height: 195px;
+  min-height: 0;
   flex-shrink: 1;
+  object-fit: contain;
   margin: 5px 0;
 }
 .feast-recipe-front > strong {
@@ -472,7 +474,7 @@
     width: 254px;
     height: 308px;
   }
-  .feast-recipe-front > svg {
+  .feast-recipe-front > .dish-art {
     height: 165px;
   }
   .feast-recipe-front > strong {
@@ -546,7 +548,7 @@
   .feast-recipe-front {
     padding: 11px;
   }
-  .feast-recipe-front > svg {
+  .feast-recipe-front > .dish-art {
     height: 131px;
   }
   .feast-recipe-front > strong {

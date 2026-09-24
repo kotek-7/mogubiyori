@@ -85,7 +85,7 @@ describe('food recognition API', () => {
     expect(env.ASSETS.fetch).not.toHaveBeenCalled()
   })
 
-  it('filters invented and inactive IDs, deduplicates, and returns at most three candidates', async () => {
+  it('accepts adopted recipes, filters invented IDs, deduplicates, and caps candidates at three', async () => {
     const env = environment(
       completion({
         candidates: [
@@ -101,7 +101,7 @@ describe('food recognition API', () => {
     )
     const response = await worker.fetch(request(), env)
     expect(response.status).toBe(200)
-    expect(await response.json()).toEqual({ candidates: ['curry', 'onigiri', 'egg-rice'] })
+    expect(await response.json()).toEqual({ candidates: ['r-oyako-don', 'curry', 'onigiri'] })
   })
 
   it.each([{ candidates: [] }, { candidates: ['not-a-recipe'] }])(
