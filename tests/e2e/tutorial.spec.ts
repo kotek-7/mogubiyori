@@ -174,7 +174,19 @@ async function practice(
     await expectChapterLocked(page)
     await expect(screen.locator('.tutorial-xp-panel')).toHaveCount(0)
     await onCheckpoint?.('tutorial-meal-photo')
-    await action(page, 'この写真でごはんをあげる', checkLayout)
+    await action(page, 'この写真を記録する', checkLayout)
+    await expect(screen.locator('.tutorial-meal-world')).toHaveClass(/is-hungry/)
+    await expect(screen.locator('.tutorial-xp-panel')).toContainText('0 XP')
+    await expect(screen.getByRole('progressbar', { name: '最初の成長まで' })).toHaveAttribute(
+      'aria-valuenow',
+      '0',
+    )
+    await expectChapterLocked(page)
+    await expect(screen.getByRole('region', { name: 'あそびかたガイド' })).toContainText(
+      '写真を記録できました。ごはんをあげて、',
+    )
+    await onCheckpoint?.('tutorial-meal-hungry')
+    await action(page, 'ごはんをあげる', checkLayout)
     await expect(screen.getByRole('button', { name: '食事中', exact: true })).toBeDisabled()
     await expect(journey(page).locator('button.tutorial-chapter-next')).toHaveCount(0)
     await expect(screen.locator('.tutorial-xp-panel')).toContainText('+45 XP')
@@ -464,7 +476,7 @@ test('a paused lesson can resume and completed guidance can replay without chang
   expect(await storedGame(page)).toEqual(completed)
 })
 
-test('the first lesson resets interrupted capture and unsubmitted photos without feeding', async ({
+test('the first lesson resets interrupted photos and waits for explicit feeding', async ({
   page,
 }) => {
   await chooseStarter(page)
@@ -488,7 +500,19 @@ test('the first lesson resets interrupted capture and unsubmitted photos without
   await expect(lesson).toHaveAttribute('data-phase', 'cooking')
   await expectChapterLocked(page)
   await expect(screen.locator('.tutorial-xp-panel')).toHaveCount(0)
-  await practice(page, 0)
+  await practice(page, 0, false, async (checkpoint) => {
+    if (checkpoint !== 'tutorial-meal-hungry') return
+    // Stay past the former automatic feeding duration before choosing to feed.
+    await page.waitForTimeout(2000)
+    await expect(screen.locator('.tutorial-meal-world')).toHaveClass(/is-hungry/)
+    await expect(screen.locator('.tutorial-xp-panel')).toContainText('0 XP')
+    await expect(screen.getByRole('progressbar', { name: '最初の成長まで' })).toHaveAttribute(
+      'aria-valuenow',
+      '0',
+    )
+    await expectChapterLocked(page)
+    await expectPracticeOnly(page, before)
+  })
   await expectPracticeOnly(page, before)
 })
 

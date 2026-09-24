@@ -50,7 +50,7 @@ export function TutorialJourney(props: Props) {
 
 function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onComplete }: Props) {
   const name = species.find((entry) => entry.id === speciesId)!.name
-  const [meal, setMeal] = useState<TutorialPhotoPhase | 'eating' | 'full'>('cooking')
+  const [meal, setMeal] = useState<TutorialPhotoPhase | 'hungry' | 'eating' | 'full'>('cooking')
   const [form, setForm] = useState<GrowthStage>(0)
   const [ready, setReady] = useState(false)
   const [friendPhase, setFriendPhase] = useState<
@@ -94,7 +94,8 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
   if (step === 0 && meal !== 'cooking') {
     title = {
       capturing: 'カレーの例を撮影中',
-      photo: '写真を記録してごはんを届けよう',
+      photo: '料理の写真を記録しよう',
+      hungry: `${name}にごはんをあげよう`,
       eating: `${name}が食事中`,
       full: 'ごはんで経験値を獲得',
     }[meal]
@@ -119,7 +120,7 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
     }[cardPhase]
   }
   let action = 'つづける'
-  if (step === 0 && !done) action = '食事中'
+  if (step === 0 && !done) action = meal === 'hungry' ? 'ごはんをあげる' : '食事中'
   if (step === 1 && !done) action = form === 0 ? '育った姿を見る' : 'もっと育った姿を見る'
   if (step === 4) {
     action = 'ひろばへ'
@@ -131,6 +132,7 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
           : `${days}日連続を達成`
   }
   function advance() {
+    if (step === 0 && meal === 'hungry') return setMeal('eating')
     if (step === 1 && form < 2) return setForm((form + 1) as GrowthStage)
     if (!done) return
     if (step === 4) return onComplete()
@@ -173,19 +175,19 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
     >
       <div className={`tutorial-lesson tutorial-step-${step}`}>
         <span className="tutorial-example">{step === 4 ? '自炊の記録例' : '操作の練習'}</span>
-        {step === 0 && meal !== 'eating' && meal !== 'full' && (
-          <TutorialPhotoExample
-            onPhaseChange={setMeal}
-            onSubmit={() => setMeal('eating')}
-            submitLabel="この写真でごはんをあげる"
-          />
+        {step === 0 && (meal === 'cooking' || meal === 'capturing' || meal === 'photo') && (
+          <TutorialPhotoExample onPhaseChange={setMeal} onSubmit={() => setMeal('hungry')} />
         )}
-        {step === 0 && (meal === 'eating' || meal === 'full') && (
+        {step === 0 && (meal === 'hungry' || meal === 'eating' || meal === 'full') && (
           <>
             <div className={`tutorial-meal-world is-${meal}`}>
               <GatheringScene />
               <div className="tutorial-meal-pet">
-                <Pet species={speciesId} stage={0} mood={meal === 'eating' ? 'eating' : 'happy'} />
+                <Pet
+                  species={speciesId}
+                  stage={0}
+                  mood={meal === 'hungry' ? 'hungry' : meal === 'eating' ? 'eating' : 'happy'}
+                />
               </div>
               <div className="tutorial-photo">
                 <Camera size={18} />
@@ -199,7 +201,7 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
             </div>
             <div className="tutorial-xp-panel" role="status">
               <div>
-                <span>{meal === 'full' ? '満腹' : '食事中'}</span>
+                <span>{meal === 'full' ? '満腹' : meal === 'eating' ? '食事中' : '空腹'}</span>
                 <strong>{meal === 'full' ? '+45 XP' : '0 XP'}</strong>
               </div>
               <div
@@ -221,7 +223,9 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
             >
               {done
                 ? 'ごはんを食べると経験値がたまります。毎日の自炊で育てていきましょう。'
-                : '写真を記録すると、なかまにごはんが届きます。'}
+                : meal === 'hungry'
+                  ? `写真を記録できました。ごはんをあげて、${name}に食べてもらいましょう。`
+                  : `${name}がごはんを食べています。`}
             </TutorialGuide>
           </>
         )}
