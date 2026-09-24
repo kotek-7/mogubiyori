@@ -25,6 +25,8 @@ export function ShopPage() {
         onChange={setShopKind}
         options={[
           { value: 'hat', label: 'ぼうし' },
+          { value: 'neck', label: 'くびもと' },
+          { value: 'bag', label: 'かばん' },
           { value: 'room', label: 'ひろば' },
         ]}
       />
@@ -48,8 +50,15 @@ export function ShopPage() {
                 }}
               >
                 <div className="item-art">
-                  {item.id === 'none' ? (
-                    <Pet species={state.activeId!} stage={stage} mood="happy" />
+                  {item.id === 'none' || item.id === 'neck-none' || item.id === 'bag-none' ? (
+                    <Pet
+                      species={state.activeId ?? 'komugi'}
+                      stage={stage}
+                      mood="happy"
+                      hat={item.kind === 'hat' ? item.id : state.equipped.hat}
+                      neck={item.kind === 'neck' ? item.id : state.equipped.neck}
+                      bag={item.kind === 'bag' ? item.id : state.equipped.bag}
+                    />
                   ) : (
                     <ItemArt id={item.id} />
                   )}

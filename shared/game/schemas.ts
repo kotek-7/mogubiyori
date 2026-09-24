@@ -18,6 +18,24 @@ export const localPhotoSchema = z
   .string()
   .regex(/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/)
 const uniqueStrings = z.array(z.string()).refine((values) => new Set(values).size === values.length)
+const itemKinds = ['hat', 'neck', 'bag', 'room'] as const
+
+/** Old saves and operation receipts predate the neck and bag slots. */
+export const equippedSchema = z
+  .strictObject({
+    hat: z.string(),
+    neck: z.string().default('neck-none'),
+    bag: z.string().default('bag-none'),
+    room: z.string(),
+  })
+  .refine(
+    (equipped) =>
+      itemKinds.every((kind) =>
+        items.some((item) => item.id === equipped[kind] && item.kind === kind),
+      ),
+    'Invalid equipment slot',
+  )
+
 export const tutorialSchema = z.object({
   version: z.literal(1),
   step: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
@@ -59,13 +77,16 @@ export const saveBaseSchema = z.object({
     .refine((meals) => new Set(meals.map((meal) => meal.id)).size === meals.length),
   rests: uniqueStrings.refine((days) => days.every((day) => daySchema.safeParse(day).success)),
   tickets: nonnegativeIntegerSchema,
-  owned: uniqueStrings.refine(
-    (ids) =>
-      ids.includes('none') &&
-      ids.includes('plain') &&
-      ids.every((id) => items.some((item) => item.id === id)),
-  ),
-  equipped: z.object({ hat: z.string(), room: z.string() }),
+  owned: uniqueStrings
+    .refine(
+      (ids) =>
+        ids.includes('none') &&
+        ids.includes('plain') &&
+        ids.every((id) => items.some((item) => item.id === id)),
+    )
+    // Free removal choices also exist when reading a snapshot from an older server.
+    .transform((ids) => [...ids, ...['neck-none', 'bag-none'].filter((id) => !ids.includes(id))]),
+  equipped: equippedSchema,
   reminder: z.enum(['gentle', 'eager']),
 })
 
@@ -92,7 +113,7 @@ export const gameStateSchema: z.ZodType<GameState> = saveBaseSchema
         ? state.companions.length === 0
         : state.companions.some((companion) => companion.id === state.activeId)) &&
       !state.visitors.some((id) => state.companions.some((companion) => companion.id === id)) &&
-      (['hat', 'room'] as const).every((kind) =>
+      itemKinds.every((kind) =>
         items.some(
           (item) =>
             item.id === state.equipped[kind] && item.kind === kind && state.owned.includes(item.id),

@@ -81,6 +81,8 @@ export function RoomPage() {
           fed={fed}
           resting={resting}
           hat={state.equipped.hat}
+          neck={state.equipped.neck}
+          bag={state.equipped.bag}
         />
         {state.visitors.length > 0 && (
           <div className="play-guests">

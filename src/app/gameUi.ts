@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react'
 import type { Dispatch, RefObject, SetStateAction } from 'react'
 import type { GameCommand } from '../../shared/game/commands'
-import type { SpeciesId } from '../../shared/game/types'
+import type { ItemKind, SpeciesId } from '../../shared/game/types'
 import type { Dialog } from './dialogs/GameDialogs'
 
 export type Page = 'room' | 'book' | 'album' | 'shop'
@@ -21,8 +21,8 @@ type GameUi = {
   setBookKind: Setter<'recipes' | 'friends'>
   navigate: (page: Page) => void
   run: (command: GameCommand, onSuccess?: () => void) => void
-  shopKind: 'hat' | 'room'
-  setShopKind: Setter<'hat' | 'room'>
+  shopKind: ItemKind
+  setShopKind: Setter<ItemKind>
 }
 
 // Only screen coordination lives here. Persisted data comes from GameSession.

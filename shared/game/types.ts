@@ -1,6 +1,7 @@
 export type SpeciesId = 'komugi' | 'mame' | 'shizuku' | 'yuzu' | 'momo' | 'goma'
 export type Companion = { id: SpeciesId; xp: number; joinedDay: string }
 export type GrowthStage = 0 | 1 | 2 | 3 | 4
+export type ItemKind = 'hat' | 'neck' | 'bag' | 'room'
 export type { Recipe } from '../content/recipes'
 export type FeedInput = {
   title: string
@@ -47,7 +48,7 @@ export type GameState = {
   rests: string[]
   tickets: number
   owned: string[]
-  equipped: { hat: string; room: string }
+  equipped: Record<ItemKind, string>
   reminder: 'gentle' | 'eager'
   companions: Companion[]
   activeId: SpeciesId | null
@@ -60,7 +61,8 @@ export type Item = {
   id: string
   name: string
   description: string
-  kind: 'hat' | 'room'
+  kind: ItemKind
   currency: 'coins' | 'gems'
   price: number
+  artPath?: string
 }

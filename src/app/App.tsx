@@ -10,7 +10,7 @@ import { MealJourney } from '../features/meal/MealJourney'
 import { FeastJourney } from '../features/feast/FeastJourney'
 import { PlayGuide } from '../features/tutorial/PlayGuide'
 import { transitionScene } from '../ui/journey/journeyTransition'
-import type { FeedInput, SpeciesId, TutorialStep } from './game/browserGame'
+import type { FeedInput, ItemKind, SpeciesId, TutorialStep } from './game/browserGame'
 import type { FeedReceipt } from '../../shared/game/receipt'
 import type { GameCommand } from '../../shared/game/commands'
 import { Outlet, useNavigate, useRouter, useRouterState } from '@tanstack/react-router'
@@ -52,7 +52,7 @@ function App() {
   const restoreFeedFocus = useRef(false)
   const [toast, setToast] = useState('')
   const [bookKind, setBookKind] = useState<'recipes' | 'friends'>('recipes')
-  const [shopKind, setShopKind] = useState<'hat' | 'room'>('hat')
+  const [shopKind, setShopKind] = useState<ItemKind>('hat')
   const homeGuide = state.tutorial.status === 'completed' ? state.tutorial.homeGuide : undefined
   const showMealGuide = homeGuide === 'meal' && !dialog
   const showGrowthGuide = homeGuide === 'growth' && !dialog

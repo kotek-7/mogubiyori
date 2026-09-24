@@ -13,6 +13,8 @@ export function FeastXpReward({
   species,
   name,
   hat,
+  neck,
+  bag,
   fromXp,
   toXp,
   gained,
@@ -20,6 +22,8 @@ export function FeastXpReward({
   species: SpeciesId
   name: string
   hat: string
+  neck: string
+  bag: string
   fromXp: number
   toXp: number
   gained: number
@@ -53,7 +57,7 @@ export function FeastXpReward({
     <div className="feast-xp-reward">
       <div className="feast-xp-portrait">
         <span className="feast-xp-orbit" aria-hidden="true" />
-        <Pet species={species} stage={before.stage} hat={hat} mood="happy" />
+        <Pet species={species} stage={before.stage} hat={hat} neck={neck} bag={bag} mood="happy" />
         <Sparkles className="feast-xp-spark feast-xp-spark-left" aria-hidden="true" />
         <Sparkles className="feast-xp-spark feast-xp-spark-right" aria-hidden="true" />
       </div>

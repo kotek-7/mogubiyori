@@ -33,6 +33,8 @@ export function ItemDetail({
           stage={activeStage}
           mood="happy"
           hat={item.kind === 'hat' ? item.id : state.equipped.hat}
+          neck={item.kind === 'neck' ? item.id : state.equipped.neck}
+          bag={item.kind === 'bag' ? item.id : state.equipped.bag}
         />
       </div>
       <p>{item.description}</p>

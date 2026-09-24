@@ -29,6 +29,8 @@ export function CompanionInteraction({
   name,
   stage,
   hat,
+  neck,
+  bag,
   fed,
   resting,
 }: {
@@ -36,6 +38,8 @@ export function CompanionInteraction({
   name: string
   stage: GrowthStage
   hat: string
+  neck: string
+  bag: string
   fed: boolean
   resting: boolean
 }) {
@@ -81,7 +85,7 @@ export function CompanionInteraction({
     const observer = new ResizeObserver(measure)
     observer.observe(button)
     return () => observer.disconnect()
-  }, [species, stage, hat])
+  }, [species, stage, hat, neck, bag])
 
   function interact(action: InteractionKind) {
     const now = performance.now()
@@ -135,6 +139,8 @@ export function CompanionInteraction({
           stage={stage}
           mood={reaction?.mood ?? (resting ? 'sleepy' : fed ? 'happy' : 'hungry')}
           hat={hat}
+          neck={neck}
+          bag={bag}
         />
         <span
           data-gesture-surface=""

@@ -17,7 +17,14 @@ export function RestPanel({
   const activeStage = stageOf(active?.xp ?? 0)
   return (
     <div className="rest-sheet">
-      <Pet species={activeSpecies} stage={activeStage} mood="sleepy" hat={state.equipped.hat} />
+      <Pet
+        species={activeSpecies}
+        stage={activeStage}
+        mood="sleepy"
+        hat={state.equipped.hat}
+        neck={state.equipped.neck}
+        bag={state.equipped.bag}
+      />
       <p>1枚使うと今日の連続記録を維持できます。</p>
       <span className="rest-tickets">おやすみチケット　あと {state.tickets} 枚</span>
       <button

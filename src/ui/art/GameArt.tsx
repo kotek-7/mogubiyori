@@ -3,6 +3,7 @@ import { items } from '../../../shared/content/catalog'
 import type { GrowthStage, SpeciesId } from '../../app/game/browserGame'
 import { CompanionArt, type CompanionMood } from './CompanionArt'
 import { KayaScenery } from './KayaScenery'
+import { Neckwear, ShoulderBag, WardrobeThumbnail } from './WardrobeArt'
 // oxlint-disable-next-line react/only-export-components -- Keep the companion art API in one place.
 export { companionFormDescription } from './CompanionArt'
 export type { CompanionMood } from './CompanionArt'
@@ -10,9 +11,16 @@ export type { CompanionMood } from './CompanionArt'
 type ArtProps = { className?: string }
 
 function Hat({ kind = 'none' }: { kind?: string }) {
+  const artPath = items.find((item) => item.id === kind && item.kind === 'hat')?.artPath
+  if (artPath)
+    return (
+      <g className="pet-hat" data-item={kind}>
+        <image href={artPath} x="0" y="4" width="300" height="300" />
+      </g>
+    )
   if (kind === 'beret')
     return (
-      <g className="pet-hat">
+      <g className="pet-hat" data-item={kind}>
         <path
           d="M78 72c-7-19 23-41 66-40 43 1 75 17 72 34-2 13-34 18-69 16-32-1-65 1-69-10Z"
           fill="#ac6d55"
@@ -26,7 +34,7 @@ function Hat({ kind = 'none' }: { kind?: string }) {
     )
   if (kind === 'sprout')
     return (
-      <g className="pet-hat">
+      <g className="pet-hat" data-item={kind}>
         <path
           d="M149 70c-2-19 4-33 9-44"
           fill="none"
@@ -56,7 +64,7 @@ function Hat({ kind = 'none' }: { kind?: string }) {
     )
   if (kind === 'chef')
     return (
-      <g className="pet-hat">
+      <g className="pet-hat" data-item={kind}>
         <path
           d="M112 55c-19-3-23-30-6-40 10-6 20-3 26 4 8-21 36-19 41 1 24-14 44 17 27 32-6 5-13 7-21 6l-2 24h-60Z"
           fill="#fffdf4"
@@ -82,6 +90,8 @@ export function Pet({
   stage = 0,
   mood = 'hungry',
   hat = 'none',
+  neck = 'neck-none',
+  bag = 'bag-none',
   portrait = false,
   className = '',
 }: ArtProps & {
@@ -89,6 +99,8 @@ export function Pet({
   stage?: GrowthStage
   mood?: CompanionMood
   hat?: string
+  neck?: string
+  bag?: string
   portrait?: boolean
 }) {
   return (
@@ -97,6 +109,8 @@ export function Pet({
       stage={stage}
       mood={mood}
       hat={<Hat kind={hat} />}
+      neck={<Neckwear kind={neck} />}
+      bag={<ShoulderBag kind={bag} />}
       portrait={portrait}
       className={className}
     />
@@ -511,9 +525,24 @@ export function DishArt({ kind = 'rice', className = '' }: ArtProps & { kind?: s
 }
 
 export function ItemArt({ id, className = '' }: ArtProps & { id: string }) {
-  if (id === 'none') return <Pet mood="happy" className={`item-illustration ${className}`} />
+  if (id === 'none' || id === 'neck-none' || id === 'bag-none')
+    return <Pet mood="happy" className={`item-illustration ${className}`} />
+  if (id.startsWith('neck-') || id.startsWith('bag-'))
+    return <WardrobeThumbnail id={id} className={className} />
   if (items.some((item) => item.id === id && item.kind === 'room'))
     return <GatheringScene variant={id} className={`item-illustration ${className}`} />
+  const artPath = items.find((item) => item.id === id && item.kind === 'hat')?.artPath
+  if (artPath)
+    return (
+      <svg
+        className={`item-illustration ${className}`}
+        viewBox="60 -6 180 118"
+        fill="none"
+        aria-hidden="true"
+      >
+        <image href={artPath} width="300" height="300" />
+      </svg>
+    )
   return (
     <svg
       className={`item-illustration ${className}`}

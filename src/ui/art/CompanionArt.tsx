@@ -71,6 +71,55 @@ const poses: Record<SpeciesId, readonly Pose[]> = {
   ],
 }
 
+type WardrobePose = { neck: [number, number, number]; bag: [number, number, number] }
+
+// Collar and shoulder positions follow each authored anatomy. In particular, the
+// adult birds have slender necks above their chests, while newborns wear smaller pouches.
+const wardrobePoses: Record<SpeciesId, readonly WardrobePose[]> = {
+  komugi: [
+    { neck: [150, 230, 0.65], bag: [150, 229, 0.43] },
+    { neck: [150, 214, 0.87], bag: [150, 213, 0.57] },
+    { neck: [148, 205, 1.02], bag: [148, 203, 0.69] },
+    { neck: [147, 180, 0.89], bag: [147, 181, 0.85] },
+    { neck: [143, 184, 0.94], bag: [143, 184, 0.88] },
+  ],
+  mame: [
+    { neck: [146, 232, 0.59], bag: [146, 231, 0.4] },
+    { neck: [148, 214, 0.74], bag: [148, 214, 0.55] },
+    { neck: [145, 201, 0.84], bag: [145, 201, 0.7] },
+    { neck: [146, 173, 0.72], bag: [146, 181, 0.78] },
+    { neck: [144, 176, 0.76], bag: [144, 184, 0.85] },
+  ],
+  shizuku: [
+    { neck: [149, 234, 0.59], bag: [149, 232, 0.41] },
+    { neck: [149, 214, 0.78], bag: [149, 212, 0.59] },
+    { neck: [149, 185, 0.83], bag: [149, 190, 0.75] },
+    { neck: [152, 141, 0.6], bag: [152, 163, 0.85] },
+    { neck: [147, 152, 0.65], bag: [147, 171, 0.88] },
+  ],
+  yuzu: [
+    { neck: [150, 234, 0.6], bag: [150, 232, 0.4] },
+    { neck: [147, 217, 0.75], bag: [147, 215, 0.55] },
+    { neck: [143, 190, 0.84], bag: [143, 194, 0.72] },
+    { neck: [136, 166, 0.73], bag: [136, 180, 0.84] },
+    { neck: [137, 175, 0.82], bag: [137, 183, 0.88] },
+  ],
+  momo: [
+    { neck: [151, 234, 0.59], bag: [151, 232, 0.39] },
+    { neck: [149, 215, 0.76], bag: [149, 214, 0.55] },
+    { neck: [132, 199, 0.82], bag: [136, 200, 0.72] },
+    { neck: [142, 164, 0.78], bag: [142, 178, 0.83] },
+    { neck: [135, 180, 0.82], bag: [138, 185, 0.86] },
+  ],
+  goma: [
+    { neck: [150, 238, 0.56], bag: [150, 235, 0.36] },
+    { neck: [150, 211, 0.86], bag: [150, 211, 0.58] },
+    { neck: [150, 183, 0.9], bag: [150, 188, 0.77] },
+    { neck: [149, 159, 0.89], bag: [149, 173, 0.94] },
+    { neck: [150, 164, 0.92], bag: [150, 177, 0.94] },
+  ],
+}
+
 const descriptions: Record<SpeciesId, readonly string[]> = {
   komugi: [
     '麦粒のような丸い体に小さな手足と耳がついています。',
@@ -1597,6 +1646,8 @@ export function CompanionArt({
   stage,
   mood,
   hat,
+  neck,
+  bag,
   portrait = false,
   className = '',
 }: {
@@ -1604,6 +1655,8 @@ export function CompanionArt({
   stage: GrowthStage
   mood: CompanionMood
   hat?: ReactNode
+  neck?: ReactNode
+  bag?: ReactNode
   portrait?: boolean
   className?: string
 }) {
@@ -1611,6 +1664,8 @@ export function CompanionArt({
   const Drawing = drawings[species]
   const [hatX, hatY, hatScale] = pose.hat
   const [faceX, faceY, faceScale] = pose.face
+  const [neckX, neckY, neckScale] = wardrobePoses[species][stage].neck
+  const [bagX, bagY, bagScale] = wardrobePoses[species][stage].bag
   // Small badges frame the face, independent of the full-body growth silhouette.
   const portraitSize = 200 * faceScale
   return (
@@ -1635,6 +1690,8 @@ export function CompanionArt({
         strokeLinejoin="round"
       >
         <Drawing stage={stage} />
+        <g transform={`translate(${bagX} ${bagY}) scale(${bagScale})`}>{bag}</g>
+        <g transform={`translate(${neckX} ${neckY}) scale(${neckScale})`}>{neck}</g>
         <Face species={species} stage={stage} mood={mood} />
         <g transform={`translate(${hatX} ${hatY}) scale(${hatScale}) translate(-150 -80)`}>{hat}</g>
       </g>

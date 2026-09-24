@@ -226,6 +226,8 @@ export function MealJourney({
               stage={stageOf(buddy?.xp ?? 0)}
               mood="hungry"
               hat={state.equipped.hat}
+              neck={state.equipped.neck}
+              bag={state.equipped.bag}
             />
           </div>
         </div>
@@ -283,6 +285,8 @@ export function MealJourney({
             stage={stageOf(buddy?.xp ?? 0)}
             mood="hungry"
             hat={state.equipped.hat}
+            neck={state.equipped.neck}
+            bag={state.equipped.bag}
           />
         </div>
         <div className="meal-tablecloth" />

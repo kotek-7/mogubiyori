@@ -30,6 +30,8 @@ export function CompanionProfile({
         stage={shownStage}
         mood={activeFed ? 'happy' : 'hungry'}
         hat={state.equipped.hat}
+        neck={state.equipped.neck}
+        bag={state.equipped.bag}
       />
       <span className="level-tag">
         {stageName(shownStage)} · {shownStage + 1}/5

@@ -16,6 +16,8 @@ export function MealReminder({ state, onRecord }: { state: GameState; onRecord: 
         stage={activeStage}
         mood={hungerOf(state) > 50 ? 'happy' : 'hungry'}
         hat={state.equipped.hat}
+        neck={state.equipped.neck}
+        bag={state.equipped.bag}
       />
       <h3>{activeFed ? '今日のごはんは記録済みです' : '今日のごはんが未記録です'}</h3>
       <p>{state.name}</p>

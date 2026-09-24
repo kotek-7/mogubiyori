@@ -3,6 +3,7 @@ import type { GameCommand } from './commands'
 import type { FeedReceipt } from './receipt'
 import type { GameState } from './types'
 import {
+  equippedSchema,
   gameStateSchema,
   mealSchema,
   nonnegativeIntegerSchema,
@@ -66,7 +67,7 @@ export const feedReceiptSchema: z.ZodType<FeedReceipt> = z.strictObject({
     afterXp: nonnegativeIntegerSchema,
     joined: z.boolean(),
   }),
-  equipped: z.strictObject({ hat: z.string(), room: z.string() }),
+  equipped: equippedSchema,
   newCards: z.array(z.string()),
   newVisitors: z.array(speciesIdSchema),
   newItems: z.array(z.string()),

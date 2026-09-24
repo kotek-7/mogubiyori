@@ -338,7 +338,12 @@ test('cosmetics use earned coins or trial gems without granting growth or meals'
   const state = await storedGame(page)
   expect(state.coins).toBe(20)
   expect(state.gems).toBe(30)
-  expect(state.equipped).toEqual({ hat: 'chef', room: 'garden' })
+  expect(state.equipped).toEqual({
+    hat: 'chef',
+    neck: 'neck-none',
+    bag: 'bag-none',
+    room: 'garden',
+  })
   expect(state.xp).toBe(0)
   expect(state.meals).toEqual([])
 })

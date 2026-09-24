@@ -119,6 +119,8 @@ export function FeastJourney({
             species={targetId}
             name={name}
             hat={equipped.hat}
+            neck={equipped.neck}
+            bag={equipped.bag}
             fromXp={target.beforeXp}
             toXp={target.afterXp}
             gained={meal.xp}
@@ -127,7 +129,14 @@ export function FeastJourney({
         {step.type === 'eating' && (
           <div className="journey-art feast-scene-art feast-dining-art">
             <div className="feast-dining-circle" />
-            <Pet species={targetId} stage={beforeStage} mood="eating" hat={equipped.hat} />
+            <Pet
+              species={targetId}
+              stage={beforeStage}
+              mood="eating"
+              hat={equipped.hat}
+              neck={equipped.neck}
+              bag={equipped.bag}
+            />
             <div className="feast-table-edge" />
             <div className="feast-plate">
               {photo ? (
@@ -152,10 +161,19 @@ export function FeastJourney({
               stage={afterStage}
               mood="happy"
               hat={equipped.hat}
+              neck={equipped.neck}
+              bag={equipped.bag}
               className="feast-growth-reveal"
             />
             <div className="feast-previous-form">
-              <Pet species={targetId} stage={beforeStage} mood="happy" />
+              <Pet
+                species={targetId}
+                stage={beforeStage}
+                mood="happy"
+                hat={equipped.hat}
+                neck={equipped.neck}
+                bag={equipped.bag}
+              />
               <ArrowRight size={22} aria-hidden="true" />
             </div>
             <span className="feast-stage-label">

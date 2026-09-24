@@ -36,7 +36,7 @@ describe('new room purchases and saved ownership', () => {
         owned: [...start.owned, id],
         equipped: { ...start.equipped, room: id },
       })
-      expect(start.owned).toEqual(['none', 'plain'])
+      expect(start.owned).toEqual(['none', 'plain', 'neck-none', 'bag-none'])
       expect(start.equipped.room).toBe('plain')
 
       const saved = JSON.stringify(purchased.state)
