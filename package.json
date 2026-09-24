@@ -1,0 +1,36 @@
+{
+  "name": "hitosaji",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "test": "vitest run tests/domain.test.ts",
+    "test:e2e": "playwright test",
+    "format": "prettier --write src tests docs *.ts *.json *.html *.md",
+    "format:check": "prettier --check src tests docs *.ts *.json *.html *.md"
+  },
+  "dependencies": {
+    "@fontsource-variable/noto-sans-jp": "^5.3.0",
+    "@fontsource-variable/nunito-sans": "^5.3.0",
+    "lucide-react": "^1.47.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.81.0",
+    "prettier": "^3.9.9",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0",
+    "vitest": "^5.0.1"
+  }
+}
