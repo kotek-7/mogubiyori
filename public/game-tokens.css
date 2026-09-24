@@ -1,23 +1,34 @@
-/* Kaya village: indigo shutters, sunlit clay, pottery and the sea.
-   Shared by the game and recipe catalog; colours are original to Mogubiyori. */
+/* One palette for controls, paper and scenery. See docs/game-ui-design.md.
+   Legacy teal names are aliases so the game and expansion catalog stay aligned. */
 :root {
-  --game-ink: #213b50;
-  --game-muted: #53666e;
-  --game-canvas: #f2e6cc;
-  --game-surface: #fff9eb;
-  --game-teal: #285675;
-  --game-teal-dark: #1f435e;
-  --game-teal-soft: #d8e7e7;
-  --game-gold: #f6c64e;
-  --game-gold-dark: #795018;
-  --game-coral: #d85b43;
-  --game-line: #b9b6a0;
-  --game-blue: #235aa1;
-  --game-purple: #715381;
-  --game-sea: #83c7cd;
-  --game-clay: #cc7550;
-  --game-radius-card: 12px;
+  --game-ink: #372822;
+  --game-muted: #6d6056;
+  --game-canvas: #e9e7e1;
+  --game-surface: #f9f6ed;
+  --game-action: #b94732;
+  --game-action-dark: #963a2c;
+  --game-action-soft: #f3e2dc;
+  --game-teal: var(--game-action);
+  --game-teal-dark: var(--game-action-dark);
+  --game-teal-soft: var(--game-action-soft);
+  --game-gold: #d3a548;
+  --game-gold-soft: #f3ead2;
+  --game-gold-dark: #77521c;
+  --game-coral: var(--game-action);
+  --game-line: #bdb5a9;
+  --game-line-strong: #847468;
+  --game-blue: #4d7389;
+  --game-purple: #786078;
+  --game-sea: #7f9ba9;
+  --game-clay: #bb795c;
+  --game-success: #52664e;
+  --game-success-soft: #e1e6dc;
+  --game-radius-card: 8px;
   --game-radius-control: 12px;
-  --game-shadow-panel: 0 5px 0 #213b501c;
-  --game-shadow-control: 0 2px 0 #213b5030;
+  --game-radius-scene: 24px;
+  --game-shadow-panel: 0 3px 0 #37282218;
+  --game-shadow-control: 0 2px 0 #37282226;
+  --game-frame-action: url('/art/ui/action-frame.svg');
+  --game-frame-paper: url('/art/ui/paper-frame.svg');
+  --game-paper-rim: inset 0 0 0 3px var(--game-surface), inset 0 0 0 4px var(--game-line);
 }

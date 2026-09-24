@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  color: var(--game-ink, #243b53);
+  color: var(--game-ink);
 }
 
 .tutorial-friend-guide {
@@ -13,7 +13,7 @@
 
 .tutorial-collection-result {
   margin: 0;
-  color: var(--game-teal-dark, #06665f);
+  color: var(--game-success);
   font-size: 15px;
   font-weight: 750;
   line-height: 1.6;
@@ -33,9 +33,10 @@
   width: 100%;
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--game-line, #c8dad5);
-  border-radius: 28px;
-  background: var(--game-teal-soft, #d9efeb);
+  border: 1px solid var(--game-line-strong, var(--game-line));
+  border-radius: var(--game-radius-scene);
+  background: var(--game-sea);
+  box-shadow: none;
 }
 
 .tutorial-friends-plaza {
@@ -50,10 +51,10 @@
   align-items: center;
   gap: 4px;
   padding: 3px 7px;
-  border-radius: 12px;
+  border-radius: var(--game-radius-card);
   background: var(--game-surface);
   font-size: 10px;
-  color: var(--game-teal-dark);
+  color: var(--game-action-dark);
 }
 
 .tutorial-friends-plaza > .gathering-scene,
@@ -62,7 +63,7 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.18;
+  opacity: 1;
 }
 
 .tutorial-friends-host {
@@ -74,23 +75,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: var(--game-ink, #243b53);
+  color: var(--game-ink);
   font-size: 12px;
   line-height: 1.5;
 }
 
 .tutorial-friends-host > strong {
   padding: 2px 8px;
-  border-radius: 10px;
-  background: var(--game-surface, #fffef8);
+  border-radius: var(--game-radius-card);
+  background: var(--game-surface);
 }
 
 .tutorial-friend-stage {
   margin-top: 3px;
   padding: 2px 7px;
-  border-radius: 10px;
-  background: var(--game-surface, #fffef8);
-  color: var(--game-teal-dark, #06665f);
+  border-radius: var(--game-radius-card);
+  background: var(--game-surface);
+  color: var(--game-action-dark);
   font-size: 10px;
   line-height: 1.4;
 }
@@ -121,10 +122,10 @@
   height: 28px;
   display: grid;
   place-items: center;
-  border: 2px solid var(--game-line, #c8dad5);
+  border: 2px solid var(--game-line);
   border-radius: 50%;
-  background: var(--game-surface, #fffef8);
-  color: var(--game-muted, #526777);
+  background: var(--game-surface);
+  color: var(--game-muted);
 }
 
 .tutorial-host-dish > .dish-art {
@@ -148,7 +149,7 @@
 
 .tutorial-food-aroma > path {
   fill: none;
-  stroke: #c4872f;
+  stroke: var(--game-clay);
   stroke-width: 3;
   stroke-linecap: round;
   stroke-dasharray: 18 13;
@@ -157,14 +158,14 @@
 }
 
 .tutorial-food-aroma > path:nth-child(2) {
-  stroke: #fffef8;
+  stroke: var(--game-surface);
   stroke-width: 5;
   opacity: 0.9;
   animation-delay: -1s;
 }
 
 .tutorial-food-aroma > path:nth-child(3) {
-  stroke: #dda84f;
+  stroke: var(--game-clay);
   opacity: 0.8;
   animation-delay: -2s;
 }
@@ -212,13 +213,13 @@
   height: 34px;
   display: grid;
   place-items: center;
-  border: 2px solid var(--game-gold-dark, #8a5710);
-  border-radius: 50% 50% 50% 4px;
-  background: var(--game-gold, #f5b544);
-  color: var(--game-ink, #243b53);
+  color: var(--game-ink);
   font-size: 24px;
   font-weight: 850;
   line-height: 1;
+  border: 1px solid var(--game-line-strong, var(--game-line));
+  border-radius: 50%;
+  background: var(--game-surface);
 }
 
 .tutorial-visitor-badge {
@@ -230,10 +231,10 @@
   flex-direction: column;
   align-items: center;
   padding: 4px 11px;
-  border: 1px solid var(--game-teal, #087f79);
-  border-radius: 14px;
-  background: var(--game-surface, #fffef8);
-  color: var(--game-teal-dark, #06665f);
+  border: 1px solid var(--game-action);
+  border-radius: var(--game-radius-card);
+  background: var(--game-surface);
+  color: var(--game-action-dark);
   font-size: 10px;
   line-height: 1.4;
   white-space: nowrap;
@@ -253,11 +254,11 @@
   height: 29px;
   display: grid;
   place-items: center;
-  border: 2px solid var(--game-gold-dark, #8a5710);
   border-radius: 50%;
-  background: var(--game-surface, #fffef8);
-  box-shadow: 0 0 0 4px #f5b54450;
-  color: var(--game-muted, #526777);
+  background: var(--game-surface);
+  color: var(--game-muted);
+  border: 2px solid var(--game-action);
+  box-shadow: 0 0 0 3px var(--game-action-soft);
 }
 
 .tutorial-visitor-plate > .dish-art {
@@ -280,7 +281,7 @@
   z-index: 1;
   left: calc(50% - 11px);
   top: 4px;
-  color: var(--game-coral, #d5634d);
+  color: var(--game-coral);
   fill: currentColor;
   animation: tutorial-friend-joined 550ms ease-out both;
 }
@@ -288,9 +289,11 @@
 .tutorial-friend-roster {
   width: 100%;
   padding: 10px;
-  border: 1px solid var(--game-line, #c8dad5);
-  border-radius: 22px;
-  background: var(--game-surface, #fffef8);
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-card);
+  background: var(--game-surface);
+  box-shadow: var(--game-paper-rim);
+  color: var(--game-ink);
 }
 
 .tutorial-friend-roster h2 {
@@ -304,7 +307,7 @@
 }
 
 .tutorial-friend-roster h2 > svg {
-  color: var(--game-teal, #087f79);
+  color: var(--game-action);
 }
 
 .tutorial-friend-roster ul {
@@ -322,15 +325,17 @@
   align-items: center;
   min-width: 0;
   padding: 0 4px 6px;
-  border: 1px solid var(--game-line, #c8dad5);
-  border-radius: 16px;
-  background: var(--game-canvas, #e8f2ee);
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-card);
+  background: var(--game-surface);
+  box-shadow: var(--game-paper-rim);
+  color: var(--game-ink);
 }
 
 .tutorial-friend-roster li.is-new {
-  border-color: var(--game-teal, #087f79);
-  background: var(--game-teal-soft, #d9efeb);
   animation: tutorial-friend-arrive 400ms ease-out both;
+  border-color: var(--game-action);
+  background: var(--game-action-soft);
 }
 
 .tutorial-friend-roster .tutorial-friend-portrait {
@@ -355,7 +360,7 @@
 }
 
 .tutorial-friend-roster li > span {
-  color: var(--game-muted, #526777);
+  color: var(--game-muted);
   font-size: 10px;
   line-height: 1.5;
 }
@@ -369,10 +374,10 @@
   top: 10px;
   left: 12px;
   padding: 4px 11px;
-  border: 1px solid var(--game-line, #c8dad5);
-  border-radius: 20px;
-  background: var(--game-surface, #fffef8);
-  color: var(--game-teal-dark, #06665f);
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-card);
+  background: var(--game-surface);
+  color: var(--game-ink);
   font-size: 11px;
   font-weight: 700;
 }
@@ -396,10 +401,12 @@
 .tutorial-friend-growth {
   width: 100%;
   padding: 10px 14px;
-  border: 1px solid var(--game-line, #c8dad5);
-  border-radius: 18px;
-  background: var(--game-surface, #fffef8);
   text-align: left;
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-card);
+  background: var(--game-surface);
+  box-shadow: var(--game-paper-rim);
+  color: var(--game-ink);
 }
 
 .tutorial-friend-growth:focus {
@@ -415,22 +422,22 @@
 }
 
 .tutorial-friend-growth-heading > span {
-  color: var(--game-muted, #526777);
+  color: var(--game-muted);
   font-size: 10px;
 }
 
 .tutorial-friend-growth-heading > b {
   margin-left: auto;
-  color: var(--game-teal-dark, #06665f);
   white-space: nowrap;
+  color: var(--game-gold-dark);
 }
 
 .tutorial-friend-growth-track {
   height: 7px;
   margin: 7px 0 5px;
-  border-radius: 10px;
   overflow: hidden;
-  background: var(--game-teal-soft, #d9efeb);
+  background: var(--game-success-soft);
+  border-radius: 999px;
 }
 
 .tutorial-friend-growth-track > i {
@@ -438,12 +445,12 @@
   width: 37.5%;
   height: 100%;
   border-radius: inherit;
-  background: var(--game-teal, #087f79);
+  background: var(--game-success);
 }
 
 .tutorial-friend-growth > span {
   display: block;
-  color: var(--game-muted, #526777);
+  color: var(--game-muted);
   font-size: 11px;
   line-height: 1.5;
 }
@@ -472,7 +479,7 @@
 }
 
 .tutorial-collection-lesson button:focus-visible {
-  outline: 3px solid var(--game-blue, #326ab0);
+  outline: 3px solid var(--game-blue);
   outline-offset: 3px;
 }
 
@@ -561,6 +568,7 @@
   }
   .tutorial-friend-growth {
     padding: 6px 10px;
+    box-shadow: var(--game-paper-rim);
   }
 }
 

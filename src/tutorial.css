@@ -1,6 +1,3 @@
-.journey-screen:has(.tutorial-lesson) {
-  background: var(--game-canvas);
-}
 .journey-screen:has(.tutorial-lesson) .journey-heading {
   margin-bottom: 8px;
 }
@@ -35,25 +32,28 @@
   display: inline-flex;
   padding: 4px 12px;
   margin-bottom: 12px;
-  border: 1px solid var(--game-line);
-  border-radius: 20px;
   font-size: 11px;
   color: var(--game-muted);
-  background: var(--game-surface);
+  border: 0;
+  border-radius: 0;
+  background: none;
+  padding-inline: 0;
 }
 .tutorial-meal-world {
   position: relative;
   height: 235px;
-  border-radius: 40px;
-  background: var(--game-teal-soft);
   overflow: hidden;
+  border: 1px solid var(--game-line-strong, var(--game-line));
+  border-radius: var(--game-radius-scene);
+  background: var(--game-sea);
+  box-shadow: none;
 }
 .tutorial-meal-world > .gathering-scene {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.18;
+  opacity: 1;
 }
 .tutorial-meal-pet {
   position: absolute;
@@ -69,10 +69,6 @@
 .tutorial-photo {
   width: 125px;
   padding: 10px;
-  border: 2px solid var(--game-surface);
-  border-radius: 20px;
-  background: var(--game-surface);
-  box-shadow: 0 5px 0 #b4ccc2;
   position: absolute;
   bottom: 44px;
   left: 22px;
@@ -80,10 +76,15 @@
   transition:
     transform 0.6s,
     opacity 0.6s;
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-card);
+  background: var(--game-surface);
+  box-shadow: var(--game-paper-rim);
+  color: var(--game-ink);
 }
 .tutorial-photo > svg:first-child {
   display: block;
-  color: var(--game-teal);
+  color: var(--game-action);
 }
 .tutorial-photo > svg:last-child {
   display: block;
@@ -94,7 +95,7 @@
   position: absolute;
   top: 90px;
   left: 41%;
-  color: var(--game-teal);
+  color: var(--game-action);
 }
 .is-eating .tutorial-photo {
   transform: translate(95px, 0) rotate(0deg) scale(0.6);
@@ -121,13 +122,19 @@
   right: 70px;
   font-weight: 800;
   font-size: 14px;
+  padding: 2px 8px;
+  background: var(--game-surface);
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-card);
 }
 .tutorial-xp-panel {
   padding: 17px 20px;
   margin-top: 12px;
-  background: var(--game-surface);
   border: 1px solid var(--game-line);
-  border-radius: 20px;
+  border-radius: var(--game-radius-card);
+  background: var(--game-surface);
+  box-shadow: var(--game-paper-rim);
+  color: var(--game-ink);
 }
 .tutorial-xp-panel > div:first-child {
   display: flex;
@@ -135,21 +142,21 @@
   font-size: 14px;
 }
 .tutorial-xp-panel > div:first-child strong {
-  color: var(--game-teal-dark);
+  color: var(--game-gold-dark);
 }
 .tutorial-xp-track {
   height: 10px;
-  border-radius: 10px;
-  background: var(--game-teal-soft);
   margin: 10px 0;
   overflow: hidden;
+  border-radius: 999px;
+  background: var(--game-success-soft);
 }
 .tutorial-xp-track > i {
   display: block;
   height: 100%;
-  background: var(--game-teal);
   border-radius: inherit;
   transition: width 0.65s ease-out;
+  background: var(--game-success);
 }
 .tutorial-xp-panel > span {
   font-size: 11px;
@@ -172,9 +179,10 @@
   position: absolute;
   width: 215px;
   height: 215px;
-  border: 10px solid #d3e6df;
-  border-radius: 50%;
-  background: var(--game-teal-soft);
+  border: 1px solid var(--game-line-strong, var(--game-line));
+  border-radius: var(--game-radius-scene);
+  background: var(--game-success-soft);
+  box-shadow: none;
 }
 .tutorial-evolution-spark {
   position: absolute;
@@ -185,11 +193,13 @@
 .tutorial-evolution > strong {
   align-self: end;
   z-index: 1;
-  background: var(--game-teal);
-  color: var(--game-surface);
   padding: 7px 20px;
-  border-radius: 25px;
   font-size: 13px;
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-card);
+  background: var(--game-surface);
+  box-shadow: var(--game-paper-rim);
+  color: var(--game-ink);
 }
 .tutorial-form-trail {
   display: grid;
@@ -203,18 +213,19 @@
   height: 65px;
   display: grid;
   place-items: center;
-  background: #dae8e2;
   border: 2px solid transparent;
-  border-radius: 18px;
   color: var(--game-muted);
   overflow: hidden;
+  background: var(--game-canvas);
+  border-radius: var(--game-radius-card);
 }
 .tutorial-form-trail .is-seen > div {
   background: var(--game-surface);
   border-color: var(--game-line);
 }
 .tutorial-form-trail [aria-current] > div {
-  border-color: var(--game-teal);
+  background: var(--game-action-soft);
+  border-color: var(--game-action);
 }
 .tutorial-form-trail .pet-art {
   width: 86px;
@@ -239,11 +250,11 @@
   width: fit-content;
   margin: 12px auto 0;
   padding: 8px 14px;
-  border-radius: 20px;
-  color: var(--game-teal-dark);
-  background: var(--game-teal-soft);
   font-size: 12px;
   font-weight: 700;
+  background: none;
+  border-radius: 0;
+  color: var(--game-muted);
 }
 @keyframes tutorial-pop {
   from {
@@ -277,9 +288,14 @@
   .tutorial-photo {
     width: 110px;
     left: 18px;
+    box-shadow: var(--game-paper-rim);
   }
   .tutorial-pet-name {
     right: 60px;
+    padding: 2px 8px;
+    background: var(--game-surface);
+    border: 1px solid var(--game-line);
+    border-radius: var(--game-radius-card);
   }
   .tutorial-evolution {
     height: 220px;
@@ -332,10 +348,10 @@
     margin-bottom: 6px;
     font-size: 9px;
     padding-block: 2px;
+    padding-inline: 0;
   }
   .tutorial-meal-world {
     height: 110px;
-    border-radius: 26px;
   }
   .tutorial-meal-pet {
     width: 135px;
@@ -348,6 +364,7 @@
     left: 20px;
     bottom: 27px;
     padding: 7px;
+    box-shadow: var(--game-paper-rim);
   }
   .tutorial-photo > svg:last-child {
     height: 48px;
@@ -358,6 +375,10 @@
   .tutorial-pet-name {
     bottom: 7px;
     font-size: 12px;
+    padding: 2px 8px;
+    background: var(--game-surface);
+    border: 1px solid var(--game-line);
+    border-radius: var(--game-radius-card);
   }
   .tutorial-fed-heart {
     top: 8px;
@@ -366,6 +387,7 @@
   .tutorial-xp-panel {
     padding: 6px 12px;
     margin-top: 7px;
+    box-shadow: var(--game-paper-rim);
   }
   .tutorial-xp-track {
     margin-block: 6px;
@@ -380,11 +402,11 @@
   .tutorial-evolution-ring {
     width: 98px;
     height: 98px;
-    border-width: 6px;
   }
   .tutorial-evolution > strong {
     font-size: 11px;
     padding: 5px 15px;
+    box-shadow: var(--game-paper-rim);
   }
   .tutorial-form-trail {
     margin-top: 10px;
@@ -392,7 +414,6 @@
   }
   .tutorial-form-trail li > div {
     height: 48px;
-    border-radius: 12px;
   }
   .tutorial-form-trail .pet-art {
     width: 66px;

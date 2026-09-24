@@ -22,38 +22,110 @@ summary:focus-visible {
   outline: 3px solid var(--game-blue);
   outline-offset: 4px;
 }
+/* One action pattern, shared by home, journeys, lessons and dialogs.
+   The SVG rim uses nine-slice scaling so its four matching corners never stretch. */
 .primary-button,
-.secondary-button {
+.journey-screen .journey-primary,
+.journey-screen .tutorial-step-action,
+.journey-screen .tutorial-chapter-next {
+  border: 0 solid transparent;
   border-radius: var(--game-radius-control);
+  border-image: var(--game-frame-action) 20 fill / 20px;
+  background: var(--game-action);
+  background-clip: content-box;
+  color: var(--game-surface);
+  box-shadow: none;
+  filter: drop-shadow(0 2px 0 var(--game-action-dark));
   font-weight: 800;
   letter-spacing: 0;
-  min-height: 50px;
+  transition:
+    transform 150ms,
+    filter 150ms;
 }
 .primary-button {
-  background: var(--game-teal);
-  color: #fff;
-  border: 1px solid var(--game-teal-dark);
-  box-shadow: 0 3px 0 var(--game-teal-dark);
+  min-height: 50px;
 }
-.primary-button:hover {
-  background: var(--game-teal-dark);
+.primary-button:hover:not(:disabled),
+.journey-screen .journey-primary:hover:not(:disabled),
+.journey-screen .tutorial-step-action:hover:not(:disabled),
+.journey-screen .tutorial-chapter-next:hover:not(:disabled) {
+  background: var(--game-action);
+  background-clip: content-box;
+  filter: brightness(0.94) drop-shadow(0 2px 0 var(--game-action-dark));
+  transform: translateY(-1px);
 }
-.primary-button:active {
+.primary-button:active:not(:disabled),
+.journey-screen .journey-primary:active:not(:disabled),
+.journey-screen .tutorial-step-action:active:not(:disabled),
+.journey-screen .tutorial-chapter-next:active:not(:disabled) {
+  background: var(--game-action);
+  background-clip: content-box;
   transform: translateY(2px);
-  box-shadow: 0 1px 0 var(--game-teal-dark);
+  filter: none;
+  box-shadow: none;
+}
+.primary-button:disabled,
+.journey-screen .journey-primary:disabled,
+.journey-screen .tutorial-step-action:disabled,
+.journey-screen .tutorial-chapter-next:disabled {
+  border-image-source: var(--game-frame-paper);
+  background: var(--game-surface);
+  background-clip: content-box;
+  transform: none;
+  color: var(--game-muted);
+  filter: none;
+  opacity: 0.65;
+  box-shadow: none;
 }
 .secondary-button {
-  color: var(--game-teal-dark);
+  min-height: 50px;
+  border-radius: var(--game-radius-control);
+  font-weight: 750;
+  letter-spacing: 0;
+  color: var(--game-ink);
   background: var(--game-surface);
-  border: 1px solid var(--game-line);
+  border: 1px solid var(--game-line-strong);
   box-shadow: var(--game-shadow-control);
 }
 .secondary-button:hover {
-  background: var(--game-teal-soft);
+  background: var(--game-action-soft);
 }
 .secondary-button:active {
   transform: translateY(2px);
   box-shadow: none;
+}
+
+/* Original marginal drawings, shared across screens. Keep the reading area clear. */
+.village-backdrop {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1;
+  color: #b6b3a2;
+}
+.village-margin {
+  position: absolute;
+  bottom: 0;
+  width: clamp(220px, 20vw, 310px);
+  height: auto;
+}
+.village-margin-left {
+  left: -80px;
+}
+.village-margin-right {
+  right: -80px;
+}
+@media (max-width: 1100px) {
+  .village-margin {
+    opacity: 0.55;
+  }
+  .village-margin-left {
+    left: -155px;
+  }
+  .village-margin-right {
+    right: -155px;
+  }
 }
 .icon-button {
   color: var(--game-muted);
@@ -71,18 +143,18 @@ summary:focus-visible {
   color: var(--game-teal-dark);
 }
 .currency.coins {
-  color: #835009;
+  color: var(--game-gold-dark);
 }
 .currency.coins svg {
   fill: var(--game-gold);
-  stroke: #835009;
+  stroke: var(--game-gold-dark);
 }
 .currency.gems {
-  color: #624592;
+  color: var(--game-purple);
 }
 .currency.gems svg {
-  fill: #c6b2ef;
-  stroke: #624592;
+  fill: #d8ccda;
+  stroke: var(--game-purple);
 }
 .meter,
 .play-growth-track {
@@ -90,18 +162,20 @@ summary:focus-visible {
   margin: 12px 0 8px;
   border: 0;
   border-radius: 2px;
-  background: #14374e;
+  background: var(--game-success-soft);
   box-shadow: inset 0 1px 0 #ffffff1f;
 }
 .meter > span {
-  background: var(--game-teal);
+  background: var(--game-success);
 }
 
 /* Home: a place to live, with a compact HUD and one main action. */
 .play-app {
   background: var(--game-canvas);
   padding-bottom: 128px;
-  border-top: 6px solid var(--game-teal);
+  border-top: 0;
+  position: relative;
+  isolation: isolate;
 }
 .play-header {
   height: 86px;
@@ -134,7 +208,7 @@ summary:focus-visible {
 .play-wallet > button:nth-child(2) {
   background: transparent;
   border: 0;
-  border-radius: 8px;
+  border-radius: var(--game-radius-control);
   box-shadow: none;
   min-height: 44px;
   padding: 8px 12px;
@@ -183,7 +257,7 @@ summary:focus-visible {
 .play-page-room .play-world.theme-night {
   height: clamp(370px, 48vh, 490px);
   border: 0;
-  border-radius: 36px 36px 0 0;
+  border-radius: var(--game-radius-scene) var(--game-radius-scene) 0 0;
   box-shadow: none;
   filter: none;
 }
@@ -200,11 +274,11 @@ summary:focus-visible {
   color: var(--game-ink);
   background: var(--game-surface);
   border: 0;
-  border-radius: 5px 14px 14px 5px;
+  border-radius: var(--game-radius-control);
   padding: 8px 12px;
   font-size: 11px;
   font-weight: 750;
-  box-shadow: 0 2px 0 #213b5020;
+  box-shadow: 0 2px 0 #37282220;
 }
 .play-world-top > button {
   display: grid;
@@ -250,7 +324,7 @@ summary:focus-visible {
   bottom: 18px;
   background: var(--game-surface);
   border: 0;
-  border-radius: 8px;
+  border-radius: var(--game-radius-control);
   color: var(--game-teal-dark);
   font-size: 11px;
   font-weight: 800;
@@ -259,10 +333,10 @@ summary:focus-visible {
 .play-guests {
   background: var(--game-surface);
   border: 0;
-  border-radius: 20px;
+  border-radius: var(--game-radius-card);
   padding: 10px 8px;
   bottom: 15%;
-  box-shadow: 0 3px 0 #243b5318;
+  box-shadow: 0 3px 0 #37282218;
 }
 .play-guests > span,
 .play-guests button span {
@@ -271,11 +345,12 @@ summary:focus-visible {
 .play-care {
   position: relative;
   z-index: 4;
-  color: var(--game-surface);
-  background: var(--game-teal-dark);
-  border: 0;
-  border-radius: 0 0 24px 24px;
-  box-shadow: 0 5px 0 #152e4226;
+  color: var(--game-ink);
+  background: var(--game-surface);
+  border: 1px solid var(--game-line-strong);
+  border-top: 4px double var(--game-line-strong);
+  border-radius: 0 0 var(--game-radius-scene) var(--game-radius-scene);
+  box-shadow: var(--game-shadow-panel);
   padding: 23px 28px 20px;
   margin: 0;
   grid-template-columns: 1fr 1.1fr;
@@ -286,60 +361,48 @@ summary:focus-visible {
 }
 .play-care button:focus-visible,
 .play-care .is-guide-target:focus-visible {
-  outline-color: var(--game-surface);
+  outline-color: var(--game-action);
 }
 .play-name {
   gap: 8px;
 }
 .play-name strong {
   font-size: 22px;
-  color: var(--game-surface);
+  color: var(--game-ink);
 }
 .play-name small {
   border-radius: 0;
-  color: #e3eeee;
+  color: var(--game-muted);
   background: transparent;
   padding: 3px 0;
   font-weight: 600;
 }
 .play-name > svg {
-  color: var(--game-sea);
+  color: var(--game-muted);
 }
 .play-growth-track {
   height: 10px;
   margin: 10px 0 7px;
-  border: 1px solid #b3d1c9;
-  border-radius: 8px;
-  box-shadow: inset 0 1px 2px #243b530d;
+  border: 1px solid var(--game-line-strong);
+  border-radius: var(--game-radius-control);
+  box-shadow: inset 0 1px 2px #3728220d;
 }
 .play-growth-track i {
-  background: var(--game-sea);
+  background: var(--game-success);
   border-radius: 2px;
 }
 .play-next {
-  color: #d6e6e8;
+  color: var(--game-muted);
   font-size: 11px;
 }
 .primary-button.play-feed {
   min-height: 60px;
-  border-radius: 8px 24px 24px 8px;
-  background: var(--game-gold);
-  color: var(--game-ink);
-  border: 0;
-  box-shadow: 0 4px 0 #b78230;
   font-size: 16px;
-  font-weight: 900;
-}
-.primary-button.play-feed:hover {
-  background: #ffdb79;
-}
-.primary-button.play-feed:active {
-  box-shadow: 0 1px 0 #c88925;
-  transform: translateY(3px);
+  font-weight: 850;
 }
 .play-today,
 .play-hunger {
-  color: #d6e6e8;
+  color: var(--game-muted);
   font-size: 10px;
 }
 .play-rewards {
@@ -362,17 +425,19 @@ summary:focus-visible {
   padding: 5px 14px 6px;
   gap: 10px;
   border: 0;
-  border-bottom: 3px solid #213b5033;
-  border-radius: 18px 18px 28px 28px;
+  border-image: var(--game-frame-paper) 20 fill / 20px;
+  border-radius: var(--game-radius-control);
   background: var(--game-surface);
-  box-shadow: 0 3px 18px #213b501a;
+  background-clip: content-box;
+  box-shadow: none;
+  filter: drop-shadow(0 3px 0 #37282218);
   backdrop-filter: none;
 }
 .play-nav > button {
   position: relative;
   min-height: 74px;
   padding: 3px 8px 6px;
-  border-radius: 8px 8px 18px 18px;
+  border-radius: var(--game-radius-control);
   color: var(--game-ink);
   gap: 1px;
   font-size: 11px;
@@ -383,12 +448,12 @@ summary:focus-visible {
   height: 40px;
 }
 .play-nav > button[aria-current='page'] {
-  background: #f7dda0;
+  background: var(--game-action-soft);
   color: var(--game-teal-dark);
-  box-shadow: inset 0 -3px 0 var(--game-clay);
+  box-shadow: inset 0 -3px 0 var(--game-action);
 }
 .play-nav > button:hover {
-  background: #f7e8c5;
+  background: var(--game-action-soft);
 }
 
 /* Collection menus: pictures first, labels second, details on demand. */
@@ -486,38 +551,38 @@ summary:focus-visible {
   background: var(--game-surface);
   border: 1px solid var(--game-line);
   border-radius: var(--game-radius-card);
-  box-shadow: 0 3px 0 #213b5020;
+  box-shadow: var(--game-paper-rim), var(--game-shadow-panel);
 }
 .recipe-collection-card {
   padding: 7px;
-  border-radius: 4px 14px 14px 4px;
-  border-bottom: 3px solid var(--game-teal);
+  border-radius: var(--game-radius-card);
+  border-bottom: 1px solid var(--game-line);
 }
 .recipe-collection-card:not(:disabled):hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 0 #b6d2c9;
+  box-shadow: 0 5px 0 var(--game-line);
 }
 .recipe-collection-card.recipe-rarity-rare {
-  border-color: #78b8ad;
+  border-color: var(--game-success);
 }
 .recipe-collection-card.recipe-rarity-special {
-  border-color: #d49b35;
+  border-color: var(--game-gold);
 }
 .recipe-card-picture {
-  background: #eee3cc;
-  border-radius: 3px 8px 8px 3px;
+  background: var(--game-canvas);
+  border-radius: var(--game-radius-card);
   aspect-ratio: 1.45;
 }
 .recipe-card-back {
-  background: var(--game-teal);
+  background: var(--game-ink);
   color: var(--game-surface);
   border: 0;
-  border-radius: 3px 8px 8px 3px;
-  outline: 1px solid #fff9eb66;
+  border-radius: var(--game-radius-card);
+  outline: 1px solid #f9f6ed80;
   outline-offset: -9px;
 }
 .recipe-card-back > span {
-  color: #fff;
+  color: var(--game-surface);
   font-size: 32px;
 }
 .recipe-card-back > svg {
@@ -533,14 +598,14 @@ summary:focus-visible {
   border-color: var(--game-line);
 }
 .recipe-rarity.recipe-rarity-rare {
-  color: var(--game-teal-dark);
-  background: var(--game-teal-soft);
-  border-color: #9fc9bc;
+  color: var(--game-success);
+  background: var(--game-success-soft);
+  border-color: var(--game-line);
 }
 .recipe-rarity.recipe-rarity-special {
-  color: #714707;
-  background: #ffedc4;
-  border-color: #deb770;
+  color: var(--game-gold-dark);
+  background: var(--game-gold-soft);
+  border-color: var(--game-gold);
 }
 .recipe-card-description {
   padding: 12px 6px 10px;
@@ -559,8 +624,8 @@ summary:focus-visible {
 .friend-card {
   padding: 18px 16px 15px;
   border: 0;
-  border-top: 3px solid var(--game-teal);
-  border-radius: 0 0 12px 12px;
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-card);
   box-shadow: none;
 }
 .friend-card.is-active {
@@ -579,13 +644,13 @@ summary:focus-visible {
   opacity: 1;
 }
 .friend-mame .friend-current:before {
-  background: #e1edd8;
+  background: var(--game-success-soft);
 }
 .friend-shizuku .friend-current:before {
-  background: #ddecf6;
+  background: #e0e6e8;
 }
 .friend-momo .friend-current:before {
-  background: #f8e4dd;
+  background: var(--game-action-soft);
 }
 .friend-growth-name {
   background: var(--game-teal-soft);
@@ -606,9 +671,9 @@ summary:focus-visible {
   color: var(--game-muted);
 }
 .friend-visitors {
-  background: #d5e8e0;
-  border-color: #b4d4c7;
-  border-radius: 24px;
+  background: var(--game-canvas);
+  border-color: var(--game-line);
+  border-radius: var(--game-radius-card);
 }
 .friend-section-heading > span {
   color: var(--game-teal-dark);
@@ -645,7 +710,7 @@ summary:focus-visible {
 .equipped-label {
   color: var(--game-teal-dark);
   background: var(--game-surface);
-  border-radius: 10px;
+  border-radius: var(--game-radius-control);
 }
 .owned-label,
 .shop-footnote {
@@ -657,17 +722,19 @@ summary:focus-visible {
 .meal-card {
   background: var(--game-surface);
   border-color: var(--game-line);
-  border-radius: 20px;
+  border-radius: var(--game-radius-card);
 }
 .sheet {
   background: var(--game-surface);
   border: 0;
-  border-top: 7px solid var(--game-teal);
-  border-radius: 12px 12px 20px 20px;
-  box-shadow: 0 18px 64px #213b5038;
+  border: 1px solid var(--game-line-strong);
+  border-radius: var(--game-radius-card);
+  box-shadow:
+    var(--game-paper-rim),
+    0 18px 64px #37282238;
 }
 .sheet::backdrop {
-  background: #18394573;
+  background: #37282273;
   backdrop-filter: blur(3px);
 }
 .sheet-header {
@@ -695,7 +762,7 @@ summary:focus-visible {
   color: var(--game-ink);
   background: #fff;
   border-color: var(--game-line);
-  border-radius: 14px;
+  border-radius: var(--game-radius-control);
   min-height: 46px;
 }
 .recipe-detail-meta > span,
@@ -715,16 +782,16 @@ summary:focus-visible {
 .segmented {
   background: var(--game-canvas);
   border-color: var(--game-line);
-  border-radius: 16px;
+  border-radius: var(--game-radius-card);
 }
 .segmented > button {
   color: var(--game-muted);
-  border-radius: 12px;
+  border-radius: var(--game-radius-control);
 }
 .segmented > button[aria-pressed='true'] {
-  color: #fff;
-  background: var(--game-teal);
-  box-shadow: 0 2px 0 var(--game-teal-dark);
+  color: var(--game-action-dark);
+  background: var(--game-action-soft);
+  box-shadow: inset 0 0 0 2px var(--game-action);
 }
 .profile-sheet p,
 .profile-sheet > small,
@@ -773,14 +840,14 @@ summary:focus-visible {
   background: var(--game-teal-soft);
 }
 .streak-gift {
-  background: #fff1d0;
-  border-color: #e5cd95;
+  background: var(--game-gold-soft);
+  border-color: var(--game-line);
 }
 .reset-confirm {
-  background: #fae7e1;
+  background: var(--game-action-soft);
 }
 .reset-confirm > p {
-  color: #97422e;
+  color: var(--game-action-dark);
 }
 .reset-buttons > button {
   border-color: var(--game-line);
@@ -789,14 +856,14 @@ summary:focus-visible {
   background: var(--game-ink);
   color: #fff;
   border: 0;
-  border-radius: 16px;
+  border-radius: var(--game-radius-card);
   bottom: calc(104px + env(safe-area-inset-bottom));
 }
 
 .play-location {
   display: block;
   margin-bottom: 6px;
-  color: var(--game-teal);
+  color: var(--game-action-dark);
   font-size: 11px;
   font-weight: 750;
   letter-spacing: 0.12em;
@@ -805,11 +872,16 @@ summary:focus-visible {
 .play-page-album {
   background: var(--game-surface);
   margin-top: 14px;
-  border-top: 6px solid var(--game-teal);
-  border-radius: 5px 5px 16px 16px;
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-card);
   box-shadow:
-    -7px 0 0 var(--game-teal),
-    0 4px 0 #c5b898;
+    -5px 0 0 var(--game-clay),
+    var(--game-paper-rim),
+    var(--game-shadow-panel);
+}
+.play-app .tutorial-resume {
+  min-height: 44px;
+  margin-top: 6px;
 }
 .play-feed > .mogu-mark {
   width: 30px;
@@ -890,8 +962,8 @@ summary:focus-visible {
   .play-page-room .play-world,
   .play-page-room .play-world.theme-garden,
   .play-page-room .play-world.theme-night {
-    height: 350px;
-    border-radius: 24px 24px 0 0;
+    height: min(350px, 38svh);
+    border-radius: var(--game-radius-scene) var(--game-radius-scene) 0 0;
     border-width: 0;
   }
   .play-world-top {
@@ -932,7 +1004,7 @@ summary:focus-visible {
     right: 7px;
     padding: 8px 4px;
     bottom: 18%;
-    border-radius: 16px;
+    border-radius: var(--game-radius-card);
   }
   .play-guests button {
     width: 44px;
@@ -940,7 +1012,7 @@ summary:focus-visible {
   .play-care {
     margin: 0;
     padding: 15px 17px 13px;
-    border-radius: 0 0 20px 20px;
+    border-radius: 0 0 var(--game-radius-scene) var(--game-radius-scene);
     gap: 12px;
   }
   .play-growth {
@@ -967,7 +1039,7 @@ summary:focus-visible {
   .primary-button.play-feed {
     min-height: 56px;
     font-size: 15px;
-    border-radius: 8px 20px 20px 8px;
+    border-radius: var(--game-radius-control);
   }
   .play-today,
   .play-hunger {

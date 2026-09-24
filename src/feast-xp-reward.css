@@ -15,8 +15,10 @@
 .feast-xp-orbit {
   position: absolute;
   inset: 25px 15px 5px;
-  border-radius: 50%;
-  background: var(--game-teal-soft);
+  border: 1px solid var(--game-line-strong, var(--game-line));
+  border-radius: var(--game-radius-scene);
+  background: var(--game-success-soft);
+  box-shadow: none;
 }
 .feast-xp-portrait > .pet-art {
   position: relative;
@@ -47,9 +49,9 @@
   justify-content: center;
   gap: 9px;
   margin: 2px 0 18px;
-  color: var(--game-teal-dark);
   line-height: 1.1;
   animation: feast-xp-pop 550ms cubic-bezier(0.2, 0.75, 0.25, 1.3) both;
+  color: var(--game-gold-dark);
 }
 .feast-xp-gain > strong {
   font-size: 66px;
@@ -70,9 +72,10 @@
   width: 100%;
   padding: 18px 21px 14px;
   border: 1px solid var(--game-line);
-  border-radius: 22px;
+  border-radius: var(--game-radius-card);
   background: var(--game-surface);
-  box-shadow: 0 3px 0 var(--game-line);
+  box-shadow: var(--game-paper-rim);
+  color: var(--game-ink);
 }
 .feast-xp-recipient,
 .feast-xp-total {
@@ -112,10 +115,10 @@
   position: relative;
   width: 100%;
   height: 16px;
-  border: 1px solid #accac1;
-  border-radius: 999px;
-  background: var(--game-teal-soft);
+  border: 1px solid var(--game-line);
   overflow: hidden;
+  border-radius: 999px;
+  background: var(--game-success-soft);
 }
 .feast-xp-meter > span {
   position: absolute;
@@ -123,10 +126,10 @@
   border-radius: inherit;
 }
 .feast-xp-earned {
-  background: var(--game-gold-dark);
+  background: var(--game-gold);
 }
 .feast-xp-existing {
-  background: var(--game-teal);
+  background: var(--game-success);
 }
 .feast-xp-next {
   display: flex;
@@ -135,9 +138,9 @@
   gap: 5px;
   min-height: 22px;
   margin-top: 10px;
-  color: var(--game-teal-dark);
   font-size: 12px;
   font-variant-numeric: tabular-nums;
+  color: var(--game-success);
 }
 .feast-xp-panel.is-filled {
   border-color: var(--game-gold-dark);
@@ -189,6 +192,7 @@
   }
   .feast-xp-panel {
     padding: 13px 18px 10px;
+    box-shadow: var(--game-paper-rim);
   }
   .feast-xp-total {
     margin-top: 8px;
@@ -216,6 +220,7 @@
   }
   .feast-xp-panel {
     padding: 8px 16px 6px;
+    box-shadow: var(--game-paper-rim);
   }
 }
 @media (prefers-reduced-motion: reduce) {

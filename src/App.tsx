@@ -11,7 +11,7 @@ import {
   Utensils,
 } from 'lucide-react'
 import { Pet, GatheringScene, DishArt, ItemArt } from './GameArt'
-import { MoguMark, VillageSign } from './GameMotifs'
+import { MoguMark, VillageBackdrop, VillageSign } from './GameMotifs'
 import { RecipeArt } from './RecipeArt'
 import { GameDialogs } from './GameDialogs'
 import type { Dialog } from './GameDialogs'
@@ -323,6 +323,7 @@ function App() {
     )
   return (
     <div className="play-app" data-home-guide={homeGuide}>
+      <VillageBackdrop />
       <a className="skip-link" href="#main">
         本文へ
       </a>

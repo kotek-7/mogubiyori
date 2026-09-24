@@ -212,15 +212,16 @@
   gap: 10px;
   min-width: 0;
   padding: 10px;
-  border: 1.5px solid var(--ink);
-  border-radius: 5px;
-  background: #fffcf4;
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-card);
+  background: var(--game-surface);
+  box-shadow: var(--game-paper-rim);
 }
 .meal-selected-recipe-art {
   flex: 0 0 46px;
   height: 46px;
   overflow: hidden;
-  border-radius: 4px;
+  border-radius: var(--game-radius-card);
 }
 .meal-selected-recipe-art > img,
 .meal-selected-recipe-art > svg {
@@ -248,12 +249,13 @@
   flex-shrink: 0;
   min-height: 44px;
   padding: 8px;
-  border: 1.5px solid var(--ink);
-  border-radius: 5px;
-  background: var(--green);
-  color: #fff;
+  border: 1px solid var(--game-line-strong);
+  border-radius: var(--game-radius-control);
+  background: var(--game-surface);
+  color: var(--game-ink);
   font-size: 11px;
   cursor: pointer;
+  box-shadow: var(--game-shadow-control);
 }
 .meal-recipe-browser {
   width: 100%;

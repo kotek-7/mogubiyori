@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
+  <!-- The same provision-label outline as the primary action, on unglazed paper. -->
+  <path d="M15 2H105C105 9 111 15 118 15V105C111 105 105 111 105 118H15C15 111 9 105 2 105V15C9 15 15 9 15 2Z" fill="#f9f6ed" stroke="#847468" stroke-width="1.5"/>
+  <path d="M20 7H100C102 14 106 18 113 20V100C106 102 102 106 100 113H20C18 106 14 102 7 100V20C14 18 18 14 20 7Z" stroke="#bdb5a9" stroke-width="1"/>
+</svg>
