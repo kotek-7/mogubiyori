@@ -1,3 +1,4 @@
+import { VillageSign } from '../../ui/art/GameMotifs'
 import { ChevronRight } from 'lucide-react'
 import { RecipeBoard } from './RecipeBoard'
 import { FriendsBoard } from '../companions/FriendsBoard'
@@ -12,6 +13,7 @@ export function BookPage() {
     <>
       <div className="play-page-heading">
         <h1>図鑑</h1>
+        <VillageSign kind="book" />
       </div>
       <div className="play-book-tabs" role="group" aria-label="ずかんのカテゴリ">
         <button aria-pressed={bookKind === 'recipes'} onClick={() => setBookKind('recipes')}>

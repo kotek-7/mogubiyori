@@ -22,12 +22,12 @@ export function VillageSign({ kind }: { kind: 'room' | 'book' | 'shop' }) {
         <>
           <path
             d="M8 39V23a16 16 0 0 1 32 0v16Z"
-            fill="var(--game-clay)"
+            fill="var(--game-surface)"
             stroke="currentColor"
             strokeWidth="2.4"
           />
           <path d="M16 40V28a8 8 0 0 1 16 0v12" fill="currentColor" />
-          <path d="M21 35c-3-4 1-7 3-10 0 4 7 6 4 11Z" fill="var(--game-gold)" />
+          <path d="M21 35c-3-4 1-7 3-10 0 4 7 6 4 11Z" fill="var(--game-surface)" />
           <path
             d="M5 40h38M15 16h4m9 0h4M22 10h4"
             stroke="currentColor"
@@ -44,9 +44,9 @@ export function VillageSign({ kind }: { kind: 'room' | 'book' | 'shop' }) {
             strokeWidth="2.4"
             strokeLinejoin="round"
           />
-          <path d="M14 8h23v26H14Z" fill="var(--game-sea)" />
+          <path d="M14 8h23v26H14Z" fill="var(--game-neutral-soft)" />
           <path d="M23 17c-3-3-7 1-5 4l6 6 6-6c2-3-2-7-5-4Z" fill="currentColor" />
-          <path d="M31 8v9l-3-2-3 2V8" fill="var(--game-action)" />
+          <path d="M31 8v9l-3-2-3 2V8" fill="var(--sign-accent, currentColor)" />
         </>
       ) : (
         <>
@@ -58,7 +58,7 @@ export function VillageSign({ kind }: { kind: 'room' | 'book' | 'shop' }) {
           />
           <path
             d="m9 7-4 15c3 4 7 4 10 0 3 4 7 4 10 0 3 4 7 4 10 0 3 4 6 4 8 0L39 7Z"
-            fill="var(--game-action)"
+            fill="var(--sign-accent, currentColor)"
             stroke="currentColor"
             strokeWidth="2.4"
             strokeLinejoin="round"

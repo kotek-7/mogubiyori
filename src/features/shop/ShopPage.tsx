@@ -1,3 +1,4 @@
+import { VillageSign } from '../../ui/art/GameMotifs'
 import { Check } from 'lucide-react'
 import { Pet, ItemArt } from '../../ui/art/GameArt'
 import { Currency } from '../../ui/Currency'
@@ -13,6 +14,7 @@ export function ShopPage() {
     <>
       <div className="play-page-heading">
         <h1>おみせ</h1>
+        <VillageSign kind="shop" />
       </div>
       <div className="play-book-tabs" role="group" aria-label="おみせのカテゴリ">
         <button aria-pressed={shopKind === 'hat'} onClick={() => setShopKind('hat')}>

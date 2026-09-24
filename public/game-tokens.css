@@ -1,28 +1,37 @@
-/* One palette for controls, paper and scenery. See docs/game-ui-design.md.
+/* Shared game UI roles. See docs/game-ui-design.md.
    Legacy teal names are aliases so the game and expansion catalog stay aligned. */
 :root {
-  --game-ink: #372822;
-  --game-muted: #6d6056;
-  --game-canvas: #e9e7e1;
-  --game-surface: #f9f6ed;
-  --game-action: #b94732;
-  --game-action-dark: #963a2c;
-  --game-action-soft: #f3e2dc;
+  /* ENDESGA 8 by ENDESGA: https://lospec.com/palette-list/endesga-8
+     A starting palette, not a colour-count limit: navy/red for the UI,
+     yellow for small coin/reward illustrations. White surfaces are pure white;
+     neutral steps mix achromatic grey with white, never the navy pigment.
+     Scenery and companions retain their material colours. */
+  --game-ink: #1b1c33;
+  --game-surface: #ffffff;
+  --game-neutral: #202020;
+  --game-action: #d32734;
+  --game-canvas: #ffffff;
+  --game-muted: color-mix(in srgb, var(--game-neutral) 72%, var(--game-surface));
+  --game-neutral-soft: color-mix(in srgb, var(--game-neutral) 6%, var(--game-surface));
+  --game-action-dark: color-mix(in srgb, var(--game-action) 90%, var(--game-ink));
+  --game-action-soft: var(--game-neutral-soft);
+  --game-inverse-muted: color-mix(in srgb, var(--game-surface) 76%, var(--game-neutral));
+  --game-inverse-line: color-mix(in srgb, var(--game-surface) 30%, var(--game-neutral));
   --game-teal: var(--game-action);
   --game-teal-dark: var(--game-action-dark);
   --game-teal-soft: var(--game-action-soft);
-  --game-gold: #d3a548;
-  --game-gold-soft: #f3ead2;
-  --game-gold-dark: #77521c;
+  --game-gold: #e6da29;
+  --game-gold-soft: var(--game-neutral-soft);
+  --game-gold-dark: var(--game-ink);
   --game-coral: var(--game-action);
-  --game-line: #bdb5a9;
-  --game-line-strong: #847468;
-  --game-blue: #4d7389;
-  --game-purple: #786078;
-  --game-sea: #7f9ba9;
-  --game-clay: #bb795c;
-  --game-success: #52664e;
-  --game-success-soft: #e1e6dc;
+  --game-line: color-mix(in srgb, var(--game-neutral) 18%, var(--game-surface));
+  --game-line-strong: color-mix(in srgb, var(--game-neutral) 48%, var(--game-surface));
+  --game-blue: var(--game-ink);
+  --game-purple: var(--game-ink);
+  --game-sea: var(--game-neutral-soft);
+  --game-clay: var(--game-ink);
+  --game-success: var(--game-ink);
+  --game-success-soft: var(--game-neutral-soft);
   --game-radius-card: 8px;
   --game-radius-control: 12px;
   --game-radius-scene: 24px;

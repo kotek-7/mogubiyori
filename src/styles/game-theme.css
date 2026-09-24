@@ -101,7 +101,7 @@ summary:focus-visible {
   overflow: hidden;
   pointer-events: none;
   z-index: -1;
-  color: #b6b3a2;
+  color: var(--game-line);
 }
 .village-margin {
   position: absolute;
@@ -152,7 +152,7 @@ summary:focus-visible {
   color: var(--game-purple);
 }
 .currency.gems svg {
-  fill: #d8ccda;
+  fill: var(--game-surface);
   stroke: var(--game-purple);
 }
 .meter,
@@ -162,7 +162,7 @@ summary:focus-visible {
   border: 0;
   border-radius: 2px;
   background: var(--game-success-soft);
-  box-shadow: inset 0 1px 0 #ffffff1f;
+  box-shadow: none;
 }
 .meter > span {
   background: var(--game-success);
@@ -351,11 +351,13 @@ summary:focus-visible {
   color: var(--game-muted);
 }
 .play-care {
+  --play-guide-outline: var(--game-surface);
+  --play-guide-outline-pulse: var(--game-inverse-muted);
   position: relative;
   z-index: 4;
-  color: var(--game-ink);
-  background: var(--game-surface);
-  border: 1px solid var(--game-line-strong);
+  color: var(--game-surface);
+  background: var(--game-ink);
+  border: 1px solid var(--game-ink);
   border-radius: 0 0 var(--game-radius-scene) var(--game-radius-scene);
   box-shadow: none;
   padding: 23px 28px 20px;
@@ -368,38 +370,39 @@ summary:focus-visible {
 }
 .play-care button:focus-visible,
 .play-care .is-guide-target:focus-visible {
-  outline-color: var(--game-action);
+  outline-color: var(--game-surface);
 }
 .play-name {
   gap: 8px;
 }
 .play-name strong {
-  font-size: 22px;
-  color: var(--game-ink);
+  font-size: 24px;
+  color: var(--game-surface);
 }
 .play-name small {
   border-radius: 0;
-  color: var(--game-muted);
+  color: var(--game-inverse-muted);
   background: transparent;
   padding: 3px 0;
   font-weight: 600;
 }
 .play-name > svg {
-  color: var(--game-muted);
+  color: var(--game-inverse-muted);
 }
 .play-growth-track {
   height: 10px;
   margin: 10px 0 7px;
-  border: 1px solid var(--game-line-strong);
+  border: 1px solid var(--game-inverse-line);
   border-radius: var(--game-radius-control);
-  box-shadow: inset 0 1px 2px #3728220d;
+  background: transparent;
+  box-shadow: none;
 }
 .play-growth-track i {
-  background: var(--game-success);
+  background: var(--game-surface);
   border-radius: 2px;
 }
 .play-next {
-  color: var(--game-muted);
+  color: var(--game-inverse-muted);
   font-size: 11px;
 }
 .primary-button.play-feed {
@@ -409,7 +412,7 @@ summary:focus-visible {
 }
 .play-today,
 .play-hunger {
-  color: var(--game-muted);
+  color: var(--game-inverse-muted);
   font-size: 10px;
 }
 .play-rewards {
@@ -438,10 +441,11 @@ summary:focus-visible {
   background: var(--game-surface);
   background-clip: content-box;
   box-shadow: none;
-  filter: drop-shadow(0 6px 12px #37282220);
+  filter: drop-shadow(0 6px 12px #1b1c3320);
   backdrop-filter: none;
 }
 .play-nav > button {
+  --sign-accent: currentColor;
   position: relative;
   min-height: 61px;
   padding: 0 6px 4px;
@@ -457,6 +461,15 @@ summary:focus-visible {
 .play-nav > button > svg {
   width: 38px;
   height: 38px;
+  transition: transform 180ms ease-out;
+}
+.play-nav > button[aria-current='page'] > svg {
+  transform: translateY(-2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .play-nav > button > svg {
+    transition: none;
+  }
 }
 .play-nav > button > span {
   position: relative;
@@ -493,9 +506,15 @@ summary:focus-visible {
 .play-page-heading {
   margin: 8px 0 20px;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 16px;
+}
+.play-page-heading > .village-sign {
+  flex: 0 0 auto;
+  width: 64px;
+  height: 64px;
+  color: var(--game-action);
 }
 .play-page-heading h1 {
   font-size: 34px;
@@ -600,7 +619,7 @@ summary:focus-visible {
   border-color: var(--game-success);
 }
 .recipe-collection-card.recipe-rarity-special {
-  border-color: var(--game-gold);
+  border-color: var(--game-ink);
 }
 .recipe-card-picture {
   background: var(--game-canvas);
@@ -612,7 +631,7 @@ summary:focus-visible {
   color: var(--game-surface);
   border: 0;
   border-radius: var(--game-radius-card);
-  outline: 1px solid #f9f6ed80;
+  outline: 1px solid #ffffff80;
   outline-offset: -9px;
 }
 .recipe-card-back > span {
@@ -624,7 +643,7 @@ summary:focus-visible {
   transform: none;
 }
 .recipe-card-back > i {
-  background: #fff;
+  background: var(--game-surface);
 }
 .recipe-rarity {
   color: var(--game-muted);
@@ -639,7 +658,7 @@ summary:focus-visible {
 .recipe-rarity.recipe-rarity-special {
   color: var(--game-gold-dark);
   background: var(--game-gold-soft);
-  border-color: var(--game-gold);
+  border-color: var(--game-line);
 }
 .recipe-card-description {
   padding: 12px 6px 10px;
@@ -679,7 +698,7 @@ summary:focus-visible {
   background: var(--game-success-soft);
 }
 .friend-shizuku .friend-current:before {
-  background: #e0e6e8;
+  background: var(--game-neutral-soft);
 }
 .friend-momo .friend-current:before {
   background: var(--game-action-soft);
@@ -717,6 +736,26 @@ summary:focus-visible {
   background: var(--game-surface);
   border-color: var(--game-line);
   color: var(--game-muted);
+}
+
+.big-streak {
+  color: var(--game-ink);
+}
+.streak-sheet > p,
+.streak-week small,
+.streak-gift small,
+.streak-gift div > span {
+  color: var(--game-muted);
+}
+.day-dot {
+  background: var(--game-muted);
+}
+.streak-week > div > span {
+  background: var(--game-neutral-soft);
+}
+.streak-week .rested {
+  color: var(--game-muted);
+  background: var(--game-neutral-soft);
 }
 
 /* Shop, records and native dialogs share the same surfaces and state colours. */
@@ -760,10 +799,10 @@ summary:focus-visible {
   background: var(--game-surface);
   border: 1px solid var(--game-line-strong);
   border-radius: var(--game-radius-card);
-  box-shadow: 0 18px 64px #37282238;
+  box-shadow: 0 18px 64px #1b1c3338;
 }
 .sheet::backdrop {
-  background: #37282273;
+  background: #1b1c3373;
   backdrop-filter: blur(3px);
 }
 .sheet-header {
@@ -789,7 +828,7 @@ summary:focus-visible {
 .field textarea,
 .field select {
   color: var(--game-ink);
-  background: #fff;
+  background: var(--game-surface);
   border-color: var(--game-line);
   border-radius: var(--game-radius-control);
   min-height: 46px;
@@ -883,7 +922,7 @@ summary:focus-visible {
 }
 .toast {
   background: var(--game-ink);
-  color: #fff;
+  color: var(--game-surface);
   border: 0;
   border-radius: var(--game-radius-card);
   bottom: calc(104px + env(safe-area-inset-bottom));
@@ -912,6 +951,14 @@ summary:focus-visible {
 .play-feed > .mogu-mark {
   width: 30px;
   height: 30px;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .play-feed > .mogu-mark {
+    transition: transform 180ms ease-out;
+  }
+  .play-feed:hover > .mogu-mark {
+    transform: rotate(-8deg) scale(1.08);
+  }
 }
 .play-page-book .recipe-browser-controls {
   padding: 0 0 18px;

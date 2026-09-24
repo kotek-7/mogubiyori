@@ -382,14 +382,14 @@ export function DishArt({ kind = 'rice', className = '' }: ArtProps & { kind?: s
           y2="230"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#f8eacb" />
-          <stop offset="1" stopColor="#e8d4b0" />
+          <stop stopColor="var(--game-neutral-soft)" />
+          <stop offset="1" stopColor="var(--game-line)" />
         </linearGradient>
       </defs>
       <rect width="240" height="240" rx="30" fill={`url(#${id}-dish)`} />
       <path
         d="M0 58h240M0 177h240M61 0v240M183 0v240"
-        stroke="#fff7e4"
+        stroke="var(--game-surface)"
         strokeWidth="18"
         opacity=".4"
       />

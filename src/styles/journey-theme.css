@@ -350,7 +350,7 @@
 }
 
 .journey-screen .meal-serving-cutlery {
-  color: var(--game-ink);
+  color: var(--game-surface);
 }
 
 .journey-screen .meal-recipe-field > span {
@@ -553,7 +553,7 @@
 }
 
 .journey-screen .feast-gift-number {
-  color: var(--game-gold);
+  color: var(--game-ink);
   -webkit-text-stroke: 0;
   opacity: 1;
   transform: translateX(-50%);

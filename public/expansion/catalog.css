@@ -480,10 +480,10 @@ dialog {
   border-radius: var(--game-radius-card);
   color: var(--game-ink);
   background: var(--game-surface);
-  box-shadow: 0 20px 70px #37282230;
+  box-shadow: 0 20px 70px #1b1c3330;
 }
 dialog::backdrop {
-  background: #37282273;
+  background: #1b1c3373;
 }
 .close {
   width: 44px;
