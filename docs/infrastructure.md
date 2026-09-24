@@ -123,14 +123,21 @@ Cloudflare Vite pluginによるビルド結果は、静的ファイルが`dist/c
 
 `kotek-7/mogubiyori`の`main`へのpushで、全検証が成功した後に`production`環境からCloudflare Worker `mogubiyori`へ公開する。PRや他のブランチ、別リポジトリでは公開しない。公開前にGitHubの`main`と実行中のコミットを照合し、古いコミットの再実行による巻き戻しを避ける。進行中の本番公開は後続のpushで中断しない。
 
-検証jobが作成した`dist/`を7日間のartifactとして渡し、公開jobでは再ビルドせず`wrangler deploy --config dist/mogubiyori/wrangler.json`を実行する。Vite pluginの設定切替用ファイルは別jobへ引き継がれないため、生成した設定を直接指定する。公開後はHTTPSで取得したHTMLがビルド結果と一致することと、認識APIのGETが405を返すことを確認する。AI推論や本番データの書き込みは行わない。
+検証jobはlocalのビルドと全テストを終えた後、公開対象のmainについてリポジトリ変数の`VITE_*`を使って本番用の`dist/`を再ビルドする。`VITE_GAME_MODE`の変数が未設定なら本番はlocalを維持する。cloudを指定したのにURLまたは公開キーがない場合は、公開前に失敗させる。テストでは引き続きlocalの明示とcloud用のmock設定を使い、本番データには接続しない。
+
+本番用`dist/`を7日間のartifactとして渡し、公開jobでは再ビルドせず`wrangler deploy --config dist/mogubiyori/wrangler.json`を実行する。Vite pluginの設定切替用ファイルは別jobへ引き継がれないため、生成した設定を直接指定する。公開後はHTTPSで取得したHTMLがビルド結果と一致することと、認識APIのGETが405を返すことを確認する。AI推論や本番データの書き込みは行わない。
 
 GitHubのリポジトリ設定「Secrets and variables → Actions」に以下を登録する。
 
-| 種類     | 名前                    | 内容                                       |
-| -------- | ----------------------- | ------------------------------------------ |
-| Secret   | `CLOUDFLARE_API_TOKEN`  | 本番Workerを更新できるCloudflare API token |
-| Variable | `CLOUDFLARE_ACCOUNT_ID` | `769b391d51df077598b7d91579605fe2`         |
+| 種類     | 名前                            | 内容                                       |
+| -------- | ------------------------------- | ------------------------------------------ |
+| Secret   | `CLOUDFLARE_API_TOKEN`          | 本番Workerを更新できるCloudflare API token |
+| Variable | `CLOUDFLARE_ACCOUNT_ID`         | `769b391d51df077598b7d91579605fe2`         |
+| Variable | `VITE_GAME_MODE`                | `cloud`でDB保存へ切替。未設定は`local`     |
+| Variable | `VITE_SUPABASE_URL`             | cloudで使うSupabase project URL            |
+| Variable | `VITE_SUPABASE_PUBLISHABLE_KEY` | cloudで使う公開可能なキー                  |
+
+この表のVariableはリポジトリ変数として登録する。本番用ビルドは`production`環境の公開jobより前に実行するため、environment変数だけでは参照できない。Workerの`SUPABASE_URL`と`SUPABASE_SERVICE_ROLE_KEY`は別途CloudflareのWorker Secretへ登録する。service-role keyやGoogle Client SecretをGitHubの`VITE_*`変数へ入れない。cloudへの切替は、DB migration・匿名サインイン・Worker接続を準備してから行う。Google providerとidentity linkingは任意の引き継ぎ機能用に設定する。
 
 トークンはCloudflareの[API Tokens](https://dash.cloudflare.com/profile/api-tokens)で作成し、対象アカウントのWorkers Scripts編集と、`kotek7.com`のZone読み取り・Workers Routes編集を許可する。Workers AIのbindingを含むためWorkers AI読み取りも許可する。[CloudflareのGitHub Actions手順](https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/)も参照。端末のWrangler OAuth tokenは有効期限が短いため、GitHubには登録しない。
 
