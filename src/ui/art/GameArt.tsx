@@ -1,4 +1,5 @@
 import { useId } from 'react'
+import { items } from '../../../shared/content/catalog'
 import type { GrowthStage, SpeciesId } from '../../app/game/browserGame'
 import { CompanionArt, type CompanionMood } from './CompanionArt'
 import { KayaScenery } from './KayaScenery'
@@ -511,7 +512,7 @@ export function DishArt({ kind = 'rice', className = '' }: ArtProps & { kind?: s
 
 export function ItemArt({ id, className = '' }: ArtProps & { id: string }) {
   if (id === 'none') return <Pet mood="happy" className={`item-illustration ${className}`} />
-  if (id === 'plain' || id === 'garden' || id === 'night')
+  if (items.some((item) => item.id === id && item.kind === 'room'))
     return <GatheringScene variant={id} className={`item-illustration ${className}`} />
   return (
     <svg

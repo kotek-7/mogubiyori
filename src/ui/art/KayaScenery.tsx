@@ -1,12 +1,19 @@
 import { useId } from 'react'
+import { GroveScenery } from './GroveScenery'
+import { SeasideScenery } from './SeasideScenery'
+import { BrookScenery } from './BrookScenery'
+import { GreenhouseScenery } from './GreenhouseScenery'
 
 type KayaSceneryProps = { className?: string; variant?: string }
 
 /** The open yard of Kaya's lower hearth, looking out toward the eastern bay. */
 export function KayaScenery({ className = '', variant = 'plain' }: KayaSceneryProps) {
   const id = useId()
+  if (variant === 'garden') return <GroveScenery className={className} />
+  if (variant === 'seaside') return <SeasideScenery className={className} />
+  if (variant === 'brook') return <BrookScenery className={className} />
+  if (variant === 'greenhouse') return <GreenhouseScenery className={className} />
   const night = variant === 'night'
-  const garden = variant === 'garden'
   const ink = '#372822'
   const cream = '#F9F6ED'
   const sand = night ? '#AAA496' : '#E5D9C1'
@@ -413,37 +420,6 @@ export function KayaScenery({ className = '', variant = 'plain' }: KayaSceneryPr
           strokeLinecap="round"
         />
       </g>
-      {garden && (
-        <g>
-          <path
-            d="M185 339c5-44-7-98 0-166m0 121-23-28m23-22 22-25m-22-7-13-23M789 272q-5-31 0-59"
-            stroke={olive}
-            strokeWidth="3.5"
-            strokeLinecap="round"
-          />
-          <g fill={olive}>
-            <path d="M184 280c-32 5-51-12-46-32 26-7 46 6 46 32Zm2-39c-3-29 15-46 36-39 5 25-9 41-36 39Zm-3-32c-30 1-41-16-32-34 22-1 35 11 32 34Zm606 50c-26 0-36-14-30-29 21-1 32 10 30 29Z" />
-          </g>
-          <path
-            d="m147 257 29 17m20-42 18-20m-53-29 17 20m590 33 15 16"
-            stroke={night ? '#A1A98E' : '#C0C3A5'}
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-          <g fill={roof} stroke={line} strokeWidth="1.6">
-            <path d="M152 255c-1-7 8-11 12-8 8-4 14 5 10 12-6 12-22 8-22-4Zm48-47c0-6 6-10 11-7 10-1 12 13 4 17-9 5-16-2-15-10Zm-30-30c0-7 8-10 13-5 10 4 5 17-4 17-7 0-10-5-9-12Z" />
-          </g>
-          <path
-            d="m159 247 4 3 5-5m38-45 3 4 5-3m-37-29 2 4 5-3"
-            stroke={olive}
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-          <path d="M165 317h42l-6 35q-15 7-30 0Z" fill={blue} stroke={line} strokeWidth="2" />
-          <path d="M164 315q22-2 44 0v8q-22 2-44 0Z" fill={cream} stroke={line} strokeWidth="1.7" />
-          <path d="M175 334q6-5 12 0t12 0" stroke={cream} strokeWidth="2" strokeLinecap="round" />
-        </g>
-      )}
       {night && (
         <g>
           <path d="M606 226v-13m-10 15h21" stroke={ink} strokeWidth="4" strokeLinecap="round" />

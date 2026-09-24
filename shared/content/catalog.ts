@@ -68,7 +68,7 @@ export const items: Item[] = [
   {
     id: 'garden',
     name: '木もれびのひろば',
-    description: '木々に囲まれたひろば。',
+    description: '大きな木の枝葉から、やわらかな光が差すひろば。',
     kind: 'room',
     currency: 'gems',
     price: 100,
@@ -80,5 +80,29 @@ export const items: Item[] = [
     kind: 'room',
     currency: 'gems',
     price: 120,
+  },
+  {
+    id: 'seaside',
+    name: '夕なぎの浜辺',
+    description: '夕焼けの海と、波が寄せる砂浜。',
+    kind: 'room',
+    currency: 'coins',
+    price: 320,
+  },
+  {
+    id: 'brook',
+    name: '小川のほとり',
+    description: 'せせらぎに木の橋がかかる、緑のほとり。',
+    kind: 'room',
+    currency: 'coins',
+    price: 280,
+  },
+  {
+    id: 'greenhouse',
+    name: '温室のひろば',
+    description: 'ガラス屋根の下で、草花に囲まれるひろば。',
+    kind: 'room',
+    currency: 'gems',
+    price: 140,
   },
 ]
