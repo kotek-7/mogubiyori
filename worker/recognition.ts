@@ -1,4 +1,4 @@
-import { recipes } from '../src/game'
+import { recipes } from '../shared/catalog'
 
 export const FOOD_MODEL = '@cf/google/gemma-4-26b-a4b-it'
 export const MAX_PHOTO_BYTES = 2 * 1024 * 1024

@@ -5,9 +5,9 @@ import { RecipeArt } from './RecipeArt'
 import { JourneyFrame } from './JourneyFrame'
 import { FeastXpReward } from './FeastXpReward'
 import { StreakCelebration } from './StreakCelebration'
-import { items, recipeById, species, stageName, stageOf, streakOf } from './game'
-import type { GameState } from './game'
-import { deriveFeastSteps } from './feastSteps'
+import { items, recipeById, species, stageName, stageOf } from './game'
+import type { FeedReceipt } from '../shared/receipt'
+import { feastStepsFromReceipt } from './feastSteps'
 import { transitionScene } from './journeyTransition'
 import './feast-journey.css'
 
@@ -15,15 +15,15 @@ export const EATING_DURATION = 1800
 export const XP_REWARD_DURATION = 3500
 
 export function FeastJourney({
-  before,
-  after,
+  receipt,
+  photo,
   onDone,
 }: {
-  before: GameState
-  after: GameState
+  receipt: FeedReceipt
+  photo?: string
   onDone: () => void
 }) {
-  const steps = useMemo(() => deriveFeastSteps(before, after), [before, after])
+  const steps = useMemo(() => feastStepsFromReceipt(receipt), [receipt])
   const [index, setIndex] = useState(0)
   const [completedStreak, setCompletedStreak] = useState<number | null>(null)
   const step = steps[index]
@@ -57,16 +57,11 @@ export function FeastJourney({
   }, [step, advance, finish])
   if (!step) return null
 
-  const meal = after.meals.find((entry) => !before.meals.some((old) => old.id === entry.id))!
-  const targetId = meal.targetId ?? after.activeId ?? 'komugi'
-  const previous = before.companions.find((companion) => companion.id === targetId)
-  const current = after.companions.find((companion) => companion.id === targetId)
-  const beforeStage = step.type === 'growth' ? step.from : stageOf(previous?.xp ?? 0)
-  const afterStage = step.type === 'growth' ? step.to : stageOf(current?.xp ?? 0)
-  const name =
-    targetId === after.activeId
-      ? after.name
-      : (species.find((candidate) => candidate.id === targetId)?.name ?? after.name)
+  const { meal, target, equipped, streak } = receipt
+  const targetId = target.id
+  const beforeStage = step.type === 'growth' ? step.from : stageOf(target.beforeXp)
+  const afterStage = step.type === 'growth' ? step.to : stageOf(target.afterXp)
+  const name = target.name
   const last = index === steps.length - 1
   const recipe = step.type === 'card' ? recipeById(step.recipeId) : undefined
   const giftName = items.find((item) => item.id === 'sprout')?.name ?? 'ふたばのかんむり'
@@ -99,7 +94,7 @@ export function FeastJourney({
       </span>
       <span>
         <Flame size={15} />
-        <strong>{streakOf(after)}日連続</strong>
+        <strong>{streak.afterDays}日連続</strong>
       </span>
       {!!meal.streakBonus && <small>継続ボーナス +{meal.streakBonus} コインを含む</small>}
     </div>
@@ -128,20 +123,20 @@ export function FeastJourney({
           <FeastXpReward
             species={targetId}
             name={name}
-            hat={after.equipped.hat}
-            fromXp={previous?.xp ?? 0}
-            toXp={current?.xp ?? 0}
+            hat={equipped.hat}
+            fromXp={target.beforeXp}
+            toXp={target.afterXp}
             gained={meal.xp}
           />
         )}
         {step.type === 'eating' && (
           <div className="journey-art feast-scene-art feast-dining-art">
             <div className="feast-dining-circle" />
-            <Pet species={targetId} stage={beforeStage} mood="eating" hat={after.equipped.hat} />
+            <Pet species={targetId} stage={beforeStage} mood="eating" hat={equipped.hat} />
             <div className="feast-table-edge" />
             <div className="feast-plate">
-              {meal.photo ? (
-                <img src={meal.photo} alt={meal.title} />
+              {photo ? (
+                <img src={photo} alt={meal.title} />
               ) : (
                 <RecipeArt recipe={recipeById(meal.recipeId)} sample={meal.sample} />
               )}
@@ -161,7 +156,7 @@ export function FeastJourney({
               species={targetId}
               stage={afterStage}
               mood="happy"
-              hat={after.equipped.hat}
+              hat={equipped.hat}
               className="feast-growth-reveal"
             />
             <div className="feast-previous-form">
@@ -204,7 +199,7 @@ export function FeastJourney({
                   <strong>{recipe.name}</strong>
                   <span className="feast-card-bonus">
                     <Coins size={16} />
-                    カードボーナス +{recipe.reward} コイン
+                    カードボーナス +{meal.cardBonus ?? 0} コイン
                   </span>
                 </div>
               </div>
@@ -213,7 +208,7 @@ export function FeastJourney({
         )}
         {step.type === 'arrivals' && (
           <div className="journey-art feast-arrivals-art">
-            <GatheringScene variant={after.equipped.room} />
+            <GatheringScene variant={equipped.room} />
             <div className="feast-arrival-friends">
               {step.visitors.map((id, position) => (
                 <div key={id} style={{ animationDelay: `${position * 170}ms` }}>

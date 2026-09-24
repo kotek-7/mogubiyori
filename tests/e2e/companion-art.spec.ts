@@ -25,8 +25,31 @@ test('all thirty companion forms have distinct geometry and support every hat', 
   const geometryBySpecies: Record<string, string[]> = {}
   const day = todayTokyo()
   const hats = ['beret', 'sprout', 'chef'] as const
+  async function displaySave(value: string) {
+    const previousPortrait = await page
+      .locator('.play-pet')
+      .evaluateAll((elements) => elements[0]?.innerHTML ?? null)
+    await page.evaluate((newValue) => {
+      const key = 'mogubiyori-v1'
+      const oldValue = localStorage.getItem(key)
+      localStorage.setItem(key, newValue)
+      // The local gateway observes the same event sent by another browser tab.
+      // Persistence/reload is tested elsewhere; art coverage needs 120 states.
+      window.dispatchEvent(
+        new StorageEvent('storage', {
+          key,
+          oldValue,
+          newValue,
+          storageArea: localStorage,
+          url: location.href,
+        }),
+      )
+    }, value)
+    await expect.poll(() => page.locator('.play-pet').innerHTML()).not.toBe(previousPortrait)
+  }
   try {
     await page.goto('/')
+    await expect(page.getByRole('group', { name: '最初のなかま' })).toBeVisible()
     for (const friend of species) {
       const signatures: string[] = []
       for (const { stage, name, threshold } of growthStages) {
@@ -40,11 +63,7 @@ test('all thirty companion forms have distinct geometry and support every hat', 
           claimedLoginDays: [day],
           owned: ['none', 'plain', ...hats],
         }
-        await page.evaluate(
-          (value) => localStorage.setItem('mogubiyori-v1', value),
-          JSON.stringify(state),
-        )
-        await page.reload()
+        await displaySave(JSON.stringify(state))
         await expect(page.locator('.play-name')).toContainText(`${name} · ${stage + 1}/5`)
         const portrait = page.locator('.play-pet .pet-art')
         await expect(portrait).toBeVisible()
@@ -112,11 +131,7 @@ test('all thirty companion forms have distinct geometry and support every hat', 
 
         const hatSignatures: string[] = []
         for (const hat of hats) {
-          await page.evaluate(
-            (value) => localStorage.setItem('mogubiyori-v1', value),
-            JSON.stringify({ ...state, equipped: { ...state.equipped, hat } }),
-          )
-          await page.reload()
+          await displaySave(JSON.stringify({ ...state, equipped: { ...state.equipped, hat } }))
           await expect(page.locator('.play-name')).toContainText(`${name} · ${stage + 1}/5`)
           const hatArt = page.locator('.play-pet .pet-art .pet-hat')
           await expect(hatArt).toBeVisible()

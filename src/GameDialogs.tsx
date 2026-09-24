@@ -1,32 +1,29 @@
-import { useEffect, useId, useRef, useState } from 'react'
-import type { Dispatch, ReactNode, SetStateAction } from 'react'
-import { Check, ChevronRight, Coins, Flame, Gem, HelpCircle, Moon, Sparkles, X } from 'lucide-react'
+import { useRef, useState } from 'react'
+import type { ReactNode } from 'react'
+import { Check, ChevronRight, Coins, Flame, Gem, HelpCircle, Moon, Sparkles } from 'lucide-react'
 import { GatheringScene, ItemArt, Pet } from './GameArt'
-import { RecipeArt } from './RecipeArt'
 import {
-  addDemoGems,
-  advanceGame,
-  demoGame,
-  equipItem,
   fedToday,
   hungerOf,
-  initialGame,
   items,
   growthProgress,
   stageName,
   recipes,
-  recipeById,
   stageOf,
-  purchaseItem,
-  restGame,
   shiftDay,
   streakOf,
-  todayTokyo,
 } from './game'
 import type { GameMeal, GameState, GrowthStage, Item, SpeciesId } from './game'
 import { RecipeDetail } from './CollectionScreens'
 import { GrowthTrail } from './GrowthTrail'
 import { companionFormDescription } from './CompanionArt'
+import { useGameSession } from './app/useGameSession'
+import { AccountSettings } from './features/auth/AuthGate'
+import { MealArtwork } from './ui/MealArtwork'
+import { Sheet } from './ui/Sheet'
+import { createOperationId } from './lib/operationId'
+import type { GameCommand } from '../shared/commands'
+import type { DemoCommand } from './services/gameGateway'
 
 export type Dialog =
   | { type: 'recipe'; recipeId: string }
@@ -37,66 +34,11 @@ export type Dialog =
 type Props = {
   dialog: Dialog
   state: GameState
-  setState: Dispatch<SetStateAction<GameState>>
   onClose: () => void
   onNavigate: (page: 'room' | 'album' | 'shop') => void
   onToast: (text: string) => void
   onRecord: (options?: { recipeId?: string; targetId?: SpeciesId }) => void
   onTutorial: () => void
-}
-
-function Sheet({
-  title,
-  onClose,
-  children,
-}: {
-  title: string
-  onClose: () => void
-  children: ReactNode
-}) {
-  const ref = useRef<HTMLDialogElement>(null)
-  const id = useId()
-  useEffect(() => {
-    const element = ref.current
-    const previousFocus = document.activeElement
-    element?.showModal()
-    return () => {
-      element?.close()
-      if (previousFocus instanceof HTMLElement && previousFocus.isConnected)
-        previousFocus.focus({ preventScroll: true })
-    }
-  }, [])
-  return (
-    <dialog
-      ref={ref}
-      className="sheet"
-      aria-labelledby={id}
-      onCancel={(event) => {
-        event.preventDefault()
-        onClose()
-      }}
-      onClick={(event) => {
-        if (event.target === event.currentTarget) {
-          const box = event.currentTarget.getBoundingClientRect()
-          if (
-            event.clientX < box.left ||
-            event.clientX > box.right ||
-            event.clientY < box.top ||
-            event.clientY > box.bottom
-          )
-            onClose()
-        }
-      }}
-    >
-      <header className="sheet-header">
-        <h2 id={id}>{title}</h2>
-        <button type="button" className="icon-button" aria-label="閉じる" onClick={onClose}>
-          <X size={20} />
-        </button>
-      </header>
-      <div className="sheet-body">{children}</div>
-    </dialog>
-  )
 }
 
 function Currency({ kind, amount }: { kind: 'coins' | 'gems'; amount: number }) {
@@ -112,13 +54,45 @@ function Currency({ kind, amount }: { kind: 'coins' | 'gems'; amount: number }) 
 export function GameDialogs({
   dialog,
   state,
-  setState,
   onClose,
   onNavigate,
   onToast,
   onRecord,
   onTutorial,
 }: Props) {
+  const { execute, demo, gateway, busy } = useGameSession()
+  const inFlight = useRef(false)
+  const retryCommand = useRef<{ encoded: string; operationId: string } | null>(null)
+  const isLocal = gateway.mode === 'local'
+  async function perform(action: () => Promise<unknown>, onSuccess?: () => void) {
+    if (busy || inFlight.current) return
+    inFlight.current = true
+    try {
+      await action()
+      onSuccess?.()
+    } catch {
+      // The session displays the error. Keep this dialog and its input for retry.
+    } finally {
+      inFlight.current = false
+    }
+  }
+  function runCommand(command: GameCommand, onSuccess?: () => void) {
+    if (busy || inFlight.current) return
+    const encoded = JSON.stringify(command)
+    if (retryCommand.current?.encoded !== encoded)
+      retryCommand.current = { encoded, operationId: createOperationId() }
+    const operationId = retryCommand.current.operationId
+    void perform(
+      () => execute(command, operationId),
+      () => {
+        retryCommand.current = null
+        onSuccess?.()
+      },
+    )
+  }
+  function runDemo(command: DemoCommand, onSuccess: () => void) {
+    if (isLocal) void perform(() => demo(command), onSuccess)
+  }
   const [local, setLocal] = useState<Dialog>(dialog)
   const [reset, setReset] = useState<'seed' | 'fresh' | null>(null)
   const [returnItem, setReturnItem] = useState<Item | null>(null)
@@ -140,11 +114,11 @@ export function GameDialogs({
     close()
   }
   function changeReminder(reminder: GameState['reminder']) {
-    setState((current) => ({ ...current, reminder }))
+    runCommand({ type: 'updateSettings', input: { reminder } })
   }
   function reminderControl() {
     return (
-      <fieldset className="reminder-setting">
+      <fieldset className="reminder-setting" disabled={busy}>
         <legend>ごはんのリマインダー</legend>
         <div className="segmented">
           <button
@@ -183,11 +157,7 @@ export function GameDialogs({
       content = (
         <div className="meal-view">
           <div className="meal-view-art">
-            {local.meal.photo ? (
-              <img src={local.meal.photo} alt={local.meal.title} />
-            ) : (
-              <RecipeArt recipe={recipeById(local.meal.recipeId)} sample={local.meal.sample} />
-            )}
+            <MealArtwork meal={local.meal} />
           </div>
           <p>
             {new Intl.DateTimeFormat('ja-JP', { month: 'long', day: 'numeric' }).format(
@@ -232,18 +202,19 @@ export function GameDialogs({
           )}
           <button
             className="primary-button full"
-            disabled={equipped || (!owned && !enough && item.currency === 'coins')}
+            disabled={
+              busy || equipped || (!owned && !enough && (item.currency === 'coins' || !isLocal))
+            }
             onClick={() => {
               if (!owned && !enough) {
                 setReturnItem(item)
                 setLocal({ type: 'gems' })
                 return
               }
-              setState((current) =>
-                owned ? equipItem(current, item.id) : purchaseItem(current, item.id),
-              )
-              onToast(`${item.name}を設定しました`)
-              leave('room')
+              runCommand({ type: owned ? 'equip' : 'purchase', id: item.id }, () => {
+                onToast(`${item.name}を設定しました`)
+                leave('room')
+              })
             }}
           >
             {equipped
@@ -253,7 +224,9 @@ export function GameDialogs({
                 : enough
                   ? '購入して使う'
                   : item.currency === 'gems'
-                    ? 'ジェムを追加する'
+                    ? isLocal
+                      ? 'ジェムを追加する'
+                      : 'ジェムが足りません'
                     : 'コインが足りません'}
           </button>
           {!owned && !enough && (
@@ -267,6 +240,16 @@ export function GameDialogs({
       break
     }
     case 'gems':
+      if (!isLocal) {
+        title = 'ジェム'
+        content = (
+          <div className="gem-sheet">
+            <Currency kind="gems" amount={state.gems} />
+            <p>ジェムの購入はまだ利用できません。</p>
+          </div>
+        )
+        break
+      }
       title = 'ジェムのお店'
       content = (
         <div className="gem-sheet">
@@ -280,12 +263,14 @@ export function GameDialogs({
           </div>
           <button
             className="primary-button full"
-            onClick={() => {
-              setState(addDemoGems)
-              onToast('150ジェムを受け取りました')
-              if (returnItem) setLocal({ type: 'item', item: returnItem })
-              else close()
-            }}
+            disabled={busy}
+            onClick={() =>
+              runDemo({ type: 'addGems' }, () => {
+                onToast('150ジェムを受け取りました')
+                if (returnItem) setLocal({ type: 'item', item: returnItem })
+                else close()
+              })
+            }
           >
             購入を体験する
           </button>
@@ -410,14 +395,13 @@ export function GameDialogs({
           <span className="rest-tickets">おやすみチケット　あと {state.tickets} 枚</span>
           <button
             className="primary-button full"
-            disabled={already || state.tickets === 0 || fedToday(state)}
-            onClick={() => {
-              setState((current) =>
-                restGame({ ...current, today: shiftDay(todayTokyo(), current.dayOffset) }),
-              )
-              onToast('おやすみチケットを使いました')
-              close()
-            }}
+            disabled={busy || already || state.tickets === 0 || fedToday(state)}
+            onClick={() =>
+              runCommand({ type: 'rest' }, () => {
+                onToast('おやすみチケットを使いました')
+                close()
+              })
+            }
           >
             {already
               ? '使用済み'
@@ -457,7 +441,7 @@ export function GameDialogs({
       content = (
         <div className="settings-sheet">
           {reminderControl()}
-          <button className="secondary-button full" onClick={onTutorial}>
+          <button className="secondary-button full" disabled={busy} onClick={onTutorial}>
             <Sparkles size={18} />
             {state.tutorial.status === 'completed'
               ? 'チュートリアルをもう一度'
@@ -468,51 +452,60 @@ export function GameDialogs({
             あそびかた
             <ChevronRight size={16} />
           </button>
-          <details className="playground">
-            <summary>おためし設定</summary>
-            <p>日付や育成状況を変更できます。</p>
-            <button
-              className="secondary-button full"
-              onClick={() => {
-                setState(advanceGame)
-                onToast('翌日になりました')
-                leave('room')
-              }}
-            >
-              翌日に進む
-            </button>
-            <div className="reset-buttons">
-              <button onClick={() => setReset('seed')}>成長・出会いを体験</button>
-              <button onClick={() => setReset('fresh')}>最初から育てる</button>
-            </div>
-            {reset && (
-              <div className="reset-confirm">
-                <p>
-                  この端末の写真・育成記録を消して、
-                  {reset === 'fresh' ? '最初から育てます。' : '成長・出会いを体験します。'}
-                </p>
-                <div className="reset-buttons">
-                  <button onClick={() => setReset(null)}>やめる</button>
-                  <button
-                    onClick={() => {
-                      setState(
-                        reset === 'fresh'
-                          ? initialGame(todayTokyo(), true)
-                          : demoGame(todayTokyo()),
-                      )
-                      onToast('育成記録を初期化しました')
-                      onNavigate('room')
-                      onClose()
-                    }}
-                  >
-                    記録を消して始める
-                  </button>
-                </div>
+          <AccountSettings />
+          {isLocal && (
+            <details className="playground">
+              <summary>おためし設定</summary>
+              <p>日付や育成状況を変更できます。</p>
+              <button
+                className="secondary-button full"
+                disabled={busy}
+                onClick={() =>
+                  runDemo({ type: 'advanceDay' }, () => {
+                    onToast('翌日になりました')
+                    leave('room')
+                  })
+                }
+              >
+                翌日に進む
+              </button>
+              <div className="reset-buttons">
+                <button disabled={busy} onClick={() => setReset('seed')}>
+                  成長・出会いを体験
+                </button>
+                <button disabled={busy} onClick={() => setReset('fresh')}>
+                  最初から育てる
+                </button>
               </div>
-            )}
-          </details>
+              {reset && (
+                <div className="reset-confirm">
+                  <p>
+                    この端末の写真・育成記録を消して、
+                    {reset === 'fresh' ? '最初から育てます。' : '成長・出会いを体験します。'}
+                  </p>
+                  <div className="reset-buttons">
+                    <button onClick={() => setReset(null)}>やめる</button>
+                    <button
+                      disabled={busy}
+                      onClick={() =>
+                        runDemo({ type: 'reset', preset: reset }, () => {
+                          onToast('育成記録を初期化しました')
+                          onNavigate('room')
+                          onClose()
+                        })
+                      }
+                    >
+                      記録を消して始める
+                    </button>
+                  </div>
+                </div>
+              )}
+            </details>
+          )}
           <p className="settings-note">
-            記録はこのブラウザーに保存されます。
+            {isLocal
+              ? '記録はこのブラウザーに保存されます。'
+              : '記録と写真はアカウントごとにクラウドへ保存されます。'}
             <br />
             写真は料理の候補を見つけるため、縮小してCloudflareへ送信します。
             端末へのプッシュ通知は行いません。
@@ -554,7 +547,7 @@ export function GameDialogs({
   }
   return (
     <Sheet title={title} onClose={close}>
-      {content}
+      <div aria-busy={busy}>{content}</div>
     </Sheet>
   )
 }

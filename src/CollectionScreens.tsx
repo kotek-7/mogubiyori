@@ -22,7 +22,13 @@ import './collection.css'
 const difficultyNames = ['かんたん', 'ひと工夫', 'じっくり']
 const rarityNames = { common: 'ノーマル', rare: 'レア', special: 'スペシャル' }
 
-export function StarterSelection({ onChoose }: { onChoose: (id: SpeciesId) => void }) {
+export function StarterSelection({
+  onChoose,
+  busy = false,
+}: {
+  onChoose: (id: SpeciesId) => void
+  busy?: boolean
+}) {
   const [selected, setSelected] = useState<SpeciesId>('komugi')
   return (
     <JourneyFrame
@@ -30,7 +36,11 @@ export function StarterSelection({ onChoose }: { onChoose: (id: SpeciesId) => vo
       title="最初のなかまを選ぶ"
       footer={
         <>
-          <button className="journey-primary starter-start" onClick={() => onChoose(selected)}>
+          <button
+            className="journey-primary starter-start"
+            disabled={busy}
+            onClick={() => onChoose(selected)}
+          >
             この子とはじめる
             <ArrowRight size={18} />
           </button>

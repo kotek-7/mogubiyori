@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { advanceGame, chooseStarter, demoGame, feed, initialGame, restGame } from '../src/game'
-import { deriveFeastSteps } from '../src/feastSteps'
+import { deriveFeastSteps, feastStepsFromReceipt } from '../src/feastSteps'
+import { createFeedReceipt } from '../shared/receipt'
+import type { FeedReceipt } from '../shared/receipt'
 
 const day = '2026-09-24'
 const plainMeal = { title: '今日のごはん', sample: 'rice' }
@@ -179,5 +181,22 @@ describe('feast journey events', () => {
       afterDays: 1,
       reward: 0,
     })
+  })
+})
+
+describe('committed meal receipts', () => {
+  it('presents a serialized receipt without depending on later saved state', () => {
+    const before = demoGame(day)
+    const after = feed(before, { ...plainMeal, recipeId: 'curry' })
+    const receipt = JSON.parse(JSON.stringify(createFeedReceipt(before, after))) as FeedReceipt
+    const expected = deriveFeastSteps(before, after)
+    after.companions[0].xp += 1000
+    after.cards.push('onigiri')
+    after.visitors = []
+    after.equipped.hat = 'none'
+    expect(feastStepsFromReceipt(receipt)).toEqual(expected)
+    expect(receipt.meal).not.toHaveProperty('photo')
+    expect(receipt).not.toHaveProperty('before')
+    expect(receipt).not.toHaveProperty('after')
   })
 })

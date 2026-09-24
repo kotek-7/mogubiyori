@@ -1,0 +1,11 @@
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+/* The existing game palette remains the source of truth for the art direction. */
+@theme inline {
+  --color-game-ink: var(--game-ink);
+  --color-game-paper: var(--game-surface);
+  --color-game-accent: var(--game-teal);
+  --radius-game: var(--game-radius-control);
+}

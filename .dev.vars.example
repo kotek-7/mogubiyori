@@ -1,0 +1,4 @@
+# Copy to .dev.vars for Wrangler. Never use a service-role key in VITE_* variables.
+SUPABASE_URL=http://127.0.0.1:54321
+SUPABASE_SERVICE_ROLE_KEY=replace-with-server-only-key
+SUPABASE_PHOTO_BUCKET=meal-photos

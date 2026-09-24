@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { animate } from 'motion'
+import { useReducedMotion } from 'motion/react'
 import { ArrowRight, Check, Sparkles } from 'lucide-react'
 import { Pet } from './GameArt'
 import { growthProgress, growthStages, stageName } from './game'
@@ -23,26 +25,17 @@ export function FeastXpReward({
   toXp: number
   gained: number
 }) {
-  const [displayXp, setDisplayXp] = useState(() =>
-    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      ? toXp
-      : fromXp,
-  )
+  const reducedMotion = useReducedMotion()
+  const [displayXp, setDisplayXp] = useState(() => (reducedMotion ? toXp : fromXp))
   useEffect(() => {
-    const motion = window.matchMedia('(prefers-reduced-motion: reduce)')
-    let frame = 0
-    let startedAt: number | undefined
-    const tick = (now: number) => {
-      startedAt ??= now
-      const elapsed = Math.max(0, now - startedAt - COUNT_DELAY)
-      const progress = motion.matches ? 1 : Math.min(1, elapsed / COUNT_DURATION)
-      const eased = 1 - (1 - progress) ** 3
-      setDisplayXp(Math.round(fromXp + (toXp - fromXp) * eased))
-      if (progress < 1) frame = requestAnimationFrame(tick)
-    }
-    frame = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(frame)
-  }, [fromXp, toXp])
+    const animation = animate(fromXp, toXp, {
+      duration: reducedMotion ? 0 : COUNT_DURATION / 1000,
+      delay: reducedMotion ? 0 : COUNT_DELAY / 1000,
+      ease: [0.33, 1, 0.68, 1],
+      onUpdate: (value) => setDisplayXp(Math.round(value)),
+    })
+    return () => animation.stop()
+  }, [fromXp, toXp, reducedMotion])
 
   const before = growthProgress(fromXp)
   const threshold = before.nextThreshold

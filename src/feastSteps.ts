@@ -1,5 +1,7 @@
-import { growthStages, recipeById, stageOf, streakOf } from './game'
+import { growthStages, recipeById, stageOf } from './game'
 import type { GameState, GrowthStage, SpeciesId } from './game'
+import { createFeedReceipt } from '../shared/receipt'
+import type { FeedReceipt } from '../shared/receipt'
 
 export type FeastStep =
   | { type: 'eating' | 'xp' | 'joined' }
@@ -9,47 +11,39 @@ export type FeastStep =
   | { type: 'streak'; beforeDays: number; afterDays: number; reward: number }
   | { type: 'gift'; itemId: 'sprout' }
 
-/** Presentation only: the completed meal has already awarded every reward. */
-export function deriveFeastSteps(before: GameState, after: GameState): FeastStep[] {
-  const existingMealIds = new Set(before.meals.map((meal) => meal.id))
-  const meal = after.meals.find((entry) => !existingMealIds.has(entry.id))
-  if (!meal) return []
-  const targetId = meal.targetId ?? after.activeId
-  const previous = before.companions.find((companion) => companion.id === targetId)
-  const current = after.companions.find((companion) => companion.id === targetId)
+/** Presentation only: this receipt describes one operation already committed. */
+export function feastStepsFromReceipt(receipt: FeedReceipt): FeastStep[] {
   const steps: FeastStep[] = [{ type: 'eating' }, { type: 'xp' }]
-
-  if (previous && current) {
-    let from = stageOf(previous.xp)
+  const { target, streak } = receipt
+  if (!target.joined) {
+    let from = stageOf(target.beforeXp)
     for (const { stage: to } of growthStages) {
-      if (to > from && to <= stageOf(current.xp)) {
+      if (to > from && to <= stageOf(target.afterXp)) {
         steps.push({ type: 'growth', from, to })
         from = to
       }
     }
-  }
-  if (!previous && current) steps.push({ type: 'joined' })
+  } else steps.push({ type: 'joined' })
 
-  for (const recipeId of new Set(after.cards)) {
-    if (!before.cards.includes(recipeId) && recipeById(recipeId)) {
-      steps.push({ type: 'card', recipeId })
-    }
+  for (const recipeId of new Set(receipt.newCards)) {
+    if (recipeById(recipeId)) steps.push({ type: 'card', recipeId })
   }
-  const visitors = [...new Set(after.visitors)].filter(
-    (id) =>
-      !before.visitors.includes(id) && !after.companions.some((companion) => companion.id === id),
-  )
+  const visitors = [...new Set(receipt.newVisitors)]
   if (visitors.length) steps.push({ type: 'arrivals', visitors })
-  const beforeDays = streakOf({ ...before, today: meal.day })
-  const afterDays = streakOf({ ...after, today: meal.day })
-  if (
-    !before.meals.some((previousMeal) => previousMeal.day === meal.day) &&
-    afterDays > beforeDays
-  ) {
-    steps.push({ type: 'streak', beforeDays, afterDays, reward: meal.streakBonus ?? 0 })
+  if (streak.afterDays > streak.beforeDays) {
+    steps.push({
+      type: 'streak',
+      beforeDays: streak.beforeDays,
+      afterDays: streak.afterDays,
+      reward: streak.bonus,
+    })
   }
-  if (!before.owned.includes('sprout') && after.owned.includes('sprout')) {
-    steps.push({ type: 'gift', itemId: 'sprout' })
-  }
+  if (receipt.newItems.includes('sprout')) steps.push({ type: 'gift', itemId: 'sprout' })
   return steps
+}
+
+/** Legacy adapter for callers holding a local synchronous transition. */
+export function deriveFeastSteps(before: GameState, after: GameState): FeastStep[] {
+  const receipt = createFeedReceipt(before, after)
+  return receipt ? feastStepsFromReceipt(receipt) : []
 }

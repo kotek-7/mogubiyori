@@ -1,0 +1,37 @@
+import { createContext, useContext } from 'react'
+import type { Dispatch, RefObject, SetStateAction } from 'react'
+import type { GameCommand } from '../../shared/commands'
+import type { SpeciesId } from '../../shared/types'
+import type { Dialog } from '../GameDialogs'
+
+export type Page = 'room' | 'book' | 'album' | 'shop'
+type Setter<T> = Dispatch<SetStateAction<T>>
+type GameUi = {
+  setDialog: Setter<Dialog | null>
+  petting: boolean
+  setPetting: Setter<boolean>
+  openMeal: (options?: { recipeId?: string; targetId?: SpeciesId }) => void
+  showFriends: () => void
+  showGrowthGuide: boolean
+  dismissHomeGuide: () => void
+  growthButton: RefObject<HTMLButtonElement | null>
+  openProfile: () => void
+  showMealGuide: boolean
+  feedButton: RefObject<HTMLButtonElement | null>
+  startTutorial: () => void
+  bookKind: 'recipes' | 'friends'
+  setBookKind: Setter<'recipes' | 'friends'>
+  navigate: (page: Page) => void
+  run: (command: GameCommand, onSuccess?: () => void) => void
+  shopKind: 'hat' | 'room'
+  setShopKind: Setter<'hat' | 'room'>
+}
+
+// Only screen coordination lives here. Persisted data comes from GameSession.
+const GameUiContext = createContext<GameUi | null>(null)
+export const GameUiProvider = GameUiContext.Provider
+export function useGameUi() {
+  const value = useContext(GameUiContext)
+  if (!value) throw new Error('GameUiProvider is missing')
+  return value
+}
