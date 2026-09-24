@@ -65,7 +65,7 @@ async function expectGainUnobstructed(page: Page) {
 
 test.use({ viewport: { width: 390, height: 844 } })
 
-test('the first meal visibly counts XP up, keeps the newborn and returns automatically', async ({
+test('the first meal visibly counts XP up and then records the first cooking day', async ({
   page,
 }, testInfo) => {
   await seed(page, starter())
@@ -99,6 +99,11 @@ test('the first meal visibly counts XP up, keeps the newborn and returns automat
   expect(progress).toBeLessThanOrEqual(38)
   await page.screenshot({ path: testInfo.outputPath('xp-first-meal-390.png') })
   await expect(scene(page, 'xp')).toHaveCount(0, { timeout: 6000 })
+  await expect(scene(page, 'streak')).toBeVisible()
+  await expect(scene(page, 'streak').locator('.streak-celebration-number strong')).toHaveText('1')
+  await expect(scene(page, 'streak').locator('.streak-celebration-prize')).toHaveCount(0)
+  expect(await stored(page)).toEqual(saved)
+  await scene(page, 'streak').getByRole('button', { name: 'ひろばへ', exact: true }).click()
   await expect(page.locator('.play-pet .pet-art')).toHaveClass(/pet-stage-0/)
   expect(saved.xp).toBe(45)
   expect(await stored(page)).toEqual(saved)
@@ -187,7 +192,7 @@ test('the final form still earns XP without promising a sixth form or resetting 
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  const state = starter()
+  const state = feed(starter(), plainMeal)
   state.xp = 1050
   state.companions[0].xp = 1050
   state.visitors = ['mame', 'shizuku', 'yuzu']
@@ -229,22 +234,26 @@ test('reduced motion presents the settled reward and fast-forward cannot grant i
     })
   await expect(scene(page, 'card')).toBeVisible()
   expect(await stored(page)).toEqual(saved)
-  await scene(page, 'card').getByRole('button', { name: 'ひろばへ', exact: true }).click()
+  await scene(page, 'card').getByRole('button', { name: 'つづける', exact: true }).click()
+  await expect(scene(page, 'streak')).toBeVisible()
+  await scene(page, 'streak').getByRole('button', { name: 'ひろばへ', exact: true }).click()
   await expect(page.locator('.play-feed')).toBeVisible()
   await page.reload()
   expect(await stored(page)).toEqual(saved)
   expect(saved.meals).toHaveLength(1)
 })
 
-test('a short mobile ordinary reward keeps its summary and finish button inside the viewport', async ({
+test('a short mobile additional meal keeps its summary and finish button inside the viewport', async ({
   page,
 }, testInfo) => {
   await page.setViewportSize({ width: 320, height: 568 })
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await seed(page, starter())
+  const before = feed(starter(), plainMeal)
+  await seed(page, before)
   const saved = await serve(page)
-  await expect.poll(() => displayedTotal(page)).toBe(45)
-  await expect(scene(page, 'xp').locator('.feast-scene-rewards')).toContainText('+30')
+  await expect.poll(() => displayedTotal(page)).toBe(90)
+  await expect(scene(page, 'xp').locator('.feast-scene-rewards')).toContainText('+0')
+  expect(saved.coins).toBe(before.coins)
   const buttonBox = await scene(page, 'xp')
     .getByRole('button', { name: 'ひろばへ', exact: true })
     .boundingBox()

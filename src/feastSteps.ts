@@ -1,4 +1,4 @@
-import { growthStages, recipeById, stageOf } from './game'
+import { growthStages, recipeById, stageOf, streakOf } from './game'
 import type { GameState, GrowthStage, SpeciesId } from './game'
 
 export type FeastStep =
@@ -6,6 +6,7 @@ export type FeastStep =
   | { type: 'growth'; from: GrowthStage; to: GrowthStage }
   | { type: 'card'; recipeId: string }
   | { type: 'arrivals'; visitors: SpeciesId[] }
+  | { type: 'streak'; beforeDays: number; afterDays: number; reward: number }
   | { type: 'gift'; itemId: 'sprout' }
 
 /** Presentation only: the completed meal has already awarded every reward. */
@@ -39,6 +40,14 @@ export function deriveFeastSteps(before: GameState, after: GameState): FeastStep
       !before.visitors.includes(id) && !after.companions.some((companion) => companion.id === id),
   )
   if (visitors.length) steps.push({ type: 'arrivals', visitors })
+  const beforeDays = streakOf({ ...before, today: meal.day })
+  const afterDays = streakOf({ ...after, today: meal.day })
+  if (
+    !before.meals.some((previousMeal) => previousMeal.day === meal.day) &&
+    afterDays > beforeDays
+  ) {
+    steps.push({ type: 'streak', beforeDays, afterDays, reward: meal.streakBonus ?? 0 })
+  }
   if (!before.owned.includes('sprout') && after.owned.includes('sprout')) {
     steps.push({ type: 'gift', itemId: 'sprout' })
   }

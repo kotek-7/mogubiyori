@@ -83,7 +83,7 @@ export async function returnToPlaza(page: Page): Promise<string[]> {
   const scenes: string[] = []
   await expect(journey(page)).toHaveAttribute(
     'data-scene',
-    /^(eating|xp|growth|joined|card|arrivals|gift)$/,
+    /^(eating|xp|growth|joined|card|arrivals|streak|gift)$/,
   )
   for (let step = 0; step < 12; step += 1) {
     await waitForSceneMotion(page)

@@ -3,6 +3,7 @@ import { ArrowRight, Coins, Flame, Heart, Sparkles, Utensils } from 'lucide-reac
 import { DishArt, GatheringScene, ItemArt, Pet } from './GameArt'
 import { JourneyFrame } from './JourneyFrame'
 import { FeastXpReward } from './FeastXpReward'
+import { StreakCelebration } from './StreakCelebration'
 import { items, recipeById, species, stageName, stageOf, streakOf } from './game'
 import type { GameState } from './game'
 import { deriveFeastSteps } from './feastSteps'
@@ -23,6 +24,9 @@ export function FeastJourney({
 }) {
   const steps = useMemo(() => deriveFeastSteps(before, after), [before, after])
   const [index, setIndex] = useState(0)
+  const [completedStreak, setCompletedStreak] = useState<number | null>(null)
+  const step = steps[index]
+  const waitingForStreak = step?.type === 'streak' && completedStreak !== index
   const finished = useRef(false)
   const doneCallback = useRef(onDone)
   useEffect(() => {
@@ -34,10 +38,10 @@ export function FeastJourney({
     doneCallback.current()
   }, [])
   const advance = useCallback(() => {
+    if (waitingForStreak) return
     if (index >= steps.length - 1) finish()
     else transitionScene(() => setIndex((current) => (current === index ? current + 1 : current)))
-  }, [index, steps.length, finish])
-  const step = steps[index]
+  }, [index, steps.length, finish, waitingForStreak])
   useEffect(() => {
     if (!step) {
       finish()
@@ -71,11 +75,17 @@ export function FeastJourney({
     joined: `${name}が仲間になりました`,
     card: 'レシピカード獲得',
     arrivals: '新しいお客さん',
-    gift: '7日連続達成',
+    streak: '自炊の連続記録',
+    gift: '7日のおくりもの',
     xp: 'XP獲得',
   }
   const rewardSummary = (
-    <div className="feast-scene-rewards" role="group" aria-label="獲得した報酬">
+    <div
+      className={`feast-scene-rewards${waitingForStreak ? ' feast-summary-pending' : ''}`}
+      role="group"
+      aria-label="獲得した報酬"
+      aria-hidden={waitingForStreak || undefined}
+    >
       {step.type !== 'xp' && (
         <span>
           <Sparkles size={15} />
@@ -104,6 +114,7 @@ export function FeastJourney({
           type="button"
           className={step.type === 'eating' ? 'journey-secondary' : 'journey-primary'}
           onClick={advance}
+          disabled={waitingForStreak}
           aria-label={step.type === 'eating' ? '早送り' : undefined}
         >
           {step.type === 'eating' ? '早送り' : last ? 'ひろばへ' : 'つづける'}
@@ -220,6 +231,14 @@ export function FeastJourney({
             <ItemArt id="sprout" />
             <span className="feast-gift-ribbon">{giftName}</span>
           </div>
+        )}
+        {step.type === 'streak' && (
+          <StreakCelebration
+            beforeDays={step.beforeDays}
+            afterDays={step.afterDays}
+            reward={step.reward}
+            onComplete={() => setCompletedStreak(index)}
+          />
         )}
         {step.type === 'arrivals' && (
           <p className="journey-note">ごはんをあげると仲間になります。</p>

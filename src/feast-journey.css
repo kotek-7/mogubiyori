@@ -7,6 +7,9 @@
   gap: 18px;
   min-height: 0;
 }
+.feast-summary-pending {
+  visibility: hidden;
+}
 .feast-scene .journey-note {
   display: flex;
   align-items: center;

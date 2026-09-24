@@ -77,7 +77,7 @@ test('the companion collection with visitors has accessible labels and contrast'
   await check(page, 'companion collection and visitors')
 })
 
-test('mobile welcome, photo, serving, eating, XP, growth and card scenes are accessible', async ({
+test('mobile welcome, photo, serving, eating, XP, growth, card and daily streak scenes are accessible', async ({
   page,
 }) => {
   test.setTimeout(60000)
@@ -101,6 +101,14 @@ test('mobile welcome, photo, serving, eating, XP, growth and card scenes are acc
   await advanceXp(page)
   await expect(journey(page, 'card')).toBeVisible()
   await check(page, 'recipe card')
+  await page.getByRole('button', { name: 'つづける', exact: true }).click()
+  await expect(journey(page, 'streak')).toBeVisible()
+  await expect(journey(page, 'streak').locator('.streak-celebration')).toHaveAttribute(
+    'data-phase',
+    'complete',
+  )
+  await expect(journey(page, 'streak').locator('.streak-celebration-prize')).toHaveCount(0)
+  await check(page, 'first cooking day')
   await returnToPlaza(page)
   await feedSample(page, 'tofu-soup')
   await returnToPlaza(page)
@@ -111,7 +119,9 @@ test('mobile welcome, photo, serving, eating, XP, growth and card scenes are acc
   await check(page, 'growth')
 })
 
-test('arrival, gift, recruitment and ordinary XP scenes are accessible', async ({ page }) => {
+test('arrival, streak, gift, recruitment and ordinary XP scenes are accessible', async ({
+  page,
+}) => {
   test.setTimeout(60000)
   await extendMealAnimationTimers(page)
   const state = claimLogin(demoGame(todayTokyo()))
@@ -127,6 +137,13 @@ test('arrival, gift, recruitment and ordinary XP scenes are accessible', async (
   await page.getByRole('button', { name: 'つづける', exact: true }).click()
   await expect(journey(page, 'arrivals')).toBeVisible()
   await check(page, 'arrivals')
+  await page.getByRole('button', { name: 'つづける', exact: true }).click()
+  await expect(journey(page, 'streak')).toBeVisible()
+  await expect(journey(page, 'streak').locator('.streak-celebration')).toHaveAttribute(
+    'data-phase',
+    'complete',
+  )
+  await check(page, 'seven-day streak')
   await page.getByRole('button', { name: 'つづける', exact: true }).click()
   await expect(journey(page, 'gift')).toBeVisible()
   await check(page, 'seven-day gift')

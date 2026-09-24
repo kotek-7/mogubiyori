@@ -1,0 +1,307 @@
+.streak-celebration {
+  --streak-ink: var(--game-ink, #243b53);
+  --streak-muted: var(--game-muted, #526777);
+  --streak-gold: var(--game-gold, #f5b544);
+  --streak-teal: var(--game-teal, #087f79);
+  color: var(--streak-ink);
+  width: min(370px, 100%);
+  display: grid;
+  gap: 22px;
+  padding: 18px 10px;
+  box-sizing: border-box;
+}
+.streak-celebration-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  min-height: 98px;
+}
+.streak-celebration-flame {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 94px;
+  height: 94px;
+  border-radius: 50%;
+  background: #fff0cb;
+  color: var(--streak-gold);
+}
+.streak-celebration-flame > svg:first-child {
+  width: 68px;
+  height: 68px;
+  stroke: var(--game-gold-dark, #8a5710);
+  stroke-width: 1.4;
+}
+.streak-celebration-spark {
+  position: absolute;
+  right: -8px;
+  top: -2px;
+  width: 26px;
+  height: 26px;
+  color: var(--game-gold-dark, #8a5710);
+  opacity: 0;
+}
+.streak-celebration-number > span {
+  color: var(--streak-muted);
+  font-size: 12px;
+  font-weight: 750;
+}
+.streak-celebration-number > div {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  line-height: 1.05;
+  margin-top: 4px;
+}
+.streak-celebration-number strong {
+  font-size: 66px;
+  font-weight: 950;
+  font-variant-numeric: tabular-nums;
+}
+.streak-celebration-number > div > span {
+  font-size: 20px;
+  font-weight: 850;
+}
+.streak-celebration-days {
+  display: grid;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.streak-celebration-days > li {
+  display: grid;
+  gap: 7px;
+  justify-items: center;
+  min-width: 0;
+}
+.streak-celebration-days > li > span {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--streak-muted);
+  white-space: nowrap;
+}
+.streak-celebration-stamp {
+  display: grid;
+  place-items: center;
+  width: min(100%, 58px);
+  height: 48px;
+  border: 1.5px dashed var(--game-line, #c8dad5);
+  background: var(--game-surface, #fffef8);
+  color: var(--streak-muted);
+  border-radius: 11px;
+}
+.streak-celebration-stamp > svg {
+  width: 21px;
+  height: 21px;
+}
+.streak-celebration-days .is-recorded .streak-celebration-stamp {
+  border-style: solid;
+  border-color: var(--streak-teal);
+  color: var(--streak-teal);
+  background: var(--game-teal-soft, #d9efeb);
+}
+.streak-celebration-days .is-latest.is-recorded .streak-celebration-stamp {
+  color: var(--streak-ink);
+  border-color: var(--game-gold-dark, #8a5710);
+  background: var(--streak-gold);
+  animation: streak-stamp-in 450ms cubic-bezier(0.2, 0.75, 0.2, 1.2) both;
+}
+.streak-celebration-prize-slot {
+  min-height: 65px;
+  display: grid;
+  place-items: center;
+}
+.streak-celebration-prize {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  width: min(290px, 100%);
+  padding: 12px 16px;
+  border: 1.5px solid var(--streak-gold);
+  border-radius: 14px;
+  color: var(--streak-ink);
+  background: #fff0cb;
+  box-sizing: border-box;
+  visibility: hidden;
+}
+.streak-celebration-prize > svg {
+  width: 32px;
+  height: 32px;
+  color: var(--game-gold-dark, #8a5710);
+}
+.streak-celebration-prize > div {
+  display: grid;
+  gap: 4px;
+}
+.streak-celebration-prize span {
+  font-size: 11px;
+  font-weight: 750;
+}
+.streak-celebration-prize strong {
+  font-size: 25px;
+  line-height: 1;
+  font-weight: 950;
+}
+.streak-celebration-prize small {
+  font-size: 12px;
+  font-weight: 750;
+}
+.streak-celebration.is-counted .streak-celebration-number strong {
+  display: inline-block;
+  animation: streak-count-in 450ms ease-out both;
+}
+.streak-celebration.is-rewarded .streak-celebration-flame {
+  animation: streak-glow 750ms ease-out both;
+}
+.streak-celebration.is-rewarded .streak-celebration-spark {
+  opacity: 1;
+  animation: streak-count-in 450ms ease-out both;
+}
+.streak-celebration.is-rewarded .streak-celebration-prize {
+  visibility: visible;
+  animation: streak-prize-in 550ms cubic-bezier(0.2, 0.75, 0.2, 1.15) both;
+}
+.streak-celebration.is-compact {
+  height: 170px;
+  padding: 0 4px;
+  gap: 7px;
+  grid-template-rows: 55px 53px 48px;
+}
+.streak-celebration.is-compact .streak-celebration-count {
+  min-height: 0;
+  gap: 12px;
+}
+.streak-celebration.is-compact .streak-celebration-flame {
+  width: 50px;
+  height: 50px;
+}
+.streak-celebration.is-compact .streak-celebration-flame > svg:first-child {
+  width: 39px;
+  height: 39px;
+}
+.streak-celebration.is-compact .streak-celebration-spark {
+  width: 18px;
+  height: 18px;
+  right: -6px;
+}
+.streak-celebration.is-compact .streak-celebration-number > span {
+  font-size: 10px;
+}
+.streak-celebration.is-compact .streak-celebration-number > div {
+  margin-top: 0;
+}
+.streak-celebration.is-compact .streak-celebration-number strong {
+  font-size: 36px;
+}
+.streak-celebration.is-compact .streak-celebration-number > div > span {
+  font-size: 14px;
+}
+.streak-celebration.is-compact .streak-celebration-days > li {
+  gap: 3px;
+}
+.streak-celebration.is-compact .streak-celebration-days > li > span {
+  font-size: 10px;
+}
+.streak-celebration.is-compact .streak-celebration-stamp {
+  height: 34px;
+  width: min(100%, 43px);
+  border-radius: 8px;
+}
+.streak-celebration.is-compact .streak-celebration-stamp > svg {
+  width: 17px;
+  height: 17px;
+}
+.streak-celebration.is-compact .streak-celebration-prize-slot {
+  min-height: 0;
+}
+.streak-celebration.is-compact .streak-celebration-prize {
+  width: auto;
+  gap: 9px;
+  padding: 7px 13px;
+  border-radius: 10px;
+}
+.streak-celebration.is-compact .streak-celebration-prize > svg {
+  width: 25px;
+  height: 25px;
+}
+.streak-celebration.is-compact .streak-celebration-prize > div {
+  gap: 2px;
+}
+.streak-celebration.is-compact .streak-celebration-prize span {
+  font-size: 10px;
+}
+.streak-celebration.is-compact .streak-celebration-prize strong {
+  font-size: 19px;
+}
+.streak-celebration.is-compact .streak-celebration-prize small {
+  font-size: 10px;
+}
+@keyframes streak-stamp-in {
+  from {
+    transform: scale(1.35) rotate(-10deg);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes streak-count-in {
+  from {
+    transform: translateY(8px) scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes streak-prize-in {
+  from {
+    transform: translateY(15px) scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes streak-glow {
+  50% {
+    box-shadow: 0 0 0 18px #f5b54422;
+  }
+}
+@media (max-height: 680px) {
+  .streak-celebration:not(.is-compact) {
+    gap: 12px;
+    padding-block: 8px;
+  }
+  .streak-celebration:not(.is-compact) .streak-celebration-count {
+    min-height: 75px;
+  }
+  .streak-celebration:not(.is-compact) .streak-celebration-flame {
+    width: 72px;
+    height: 72px;
+  }
+  .streak-celebration:not(.is-compact) .streak-celebration-flame > svg:first-child {
+    width: 54px;
+    height: 54px;
+  }
+  .streak-celebration:not(.is-compact) .streak-celebration-number strong {
+    font-size: 48px;
+  }
+  .streak-celebration:not(.is-compact) .streak-celebration-stamp {
+    height: 37px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .streak-celebration *,
+  .streak-celebration *::before,
+  .streak-celebration *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
