@@ -49,7 +49,7 @@ pnpm deploy
 
 Cloudflare Workers AIの`@cf/google/gemma-4-26b-a4b-it`で料理候補を最大3件取得します。違う場合は候補や「料理を選ぶ」の検索一覧から変更できます。カードは「ごはんをあげる」の保存成功時に確定します。
 
-認識対象は`shared/recipes.ts`に登録した310種です。料理選択・カード獲得・写真判定で共通に使います。通信失敗や判定待ちでも手動で進められ、手動で選んだ料理・入力した名前を遅い判定で上書きしません。写真は端末で縮小してからWorkerへ送信します。
+認識対象は`shared/content/recipes.ts`に登録した310種です。料理選択・カード獲得・写真判定で共通に使います。通信失敗や判定待ちでも手動で進められ、手動で選んだ料理・入力した名前を遅い判定で上書きしません。写真は端末で縮小してからWorkerへ送信します。
 
 [Gemma 4のモデル仕様](https://developers.cloudflare.com/workers-ai/models/gemma-4-26b-a4b-it/)、[Workers AIの料金](https://developers.cloudflare.com/workers-ai/platform/pricing/)
 
@@ -75,6 +75,14 @@ Cloudflare Workers AIの`@cf/google/gemma-4-26b-a4b-it`で料理候補を最大3
 `cloud`では認証したユーザーごとにSupabaseへ保存し、操作IDによる再送処理とrevisionによる同時更新の検査を行います。XP・コイン・カードはWorkerが計算し、保存が確定した結果から演出します。Google連携後は別端末から同じアカウントで続けられる構成です。実際のGoogle認証と端末間の確認には接続先の準備が必要です。
 
 日付は日本時間を使い、ローカルの試用操作だけ日付を進められます。自炊したかどうかは自己申告です。既存ローカルセーブのクラウド取込、下書きの再読み込み後の復元、プッシュ通知、実決済は未実装です。
+
+## コードの配置
+
+画面・固有部品・CSS・単体テストは`src/features/<機能>/`にまとめています。`src/app/`はアプリの構成、route、dialogの切り替えを担当し、保存セッションとlocal/cloudの接続は`src/app/game/`に置きます。複数機能で使う描画や画面枠は`src/ui/`で共有します。
+
+ブラウザとWorkerに共通のルールは`shared/game/`、採用コンテンツは`shared/content/`です。Worker側のゲーム操作とSupabase接続は`worker/game/`、料理認識は`worker/recognition/`に置きます。CSSは各機能の近くに置き、既存の適用順を保つため`src/app/styles.ts`から明示した順に読み込みます。
+
+単体テストは実装に隣接し、機能や保存境界を横断するテストは`tests/integration/`、ブラウザ全体の検証は`tests/e2e/`と`tests/cloud/`に置きます。詳しい責務と開発時のルールは[アーキテクチャ](docs/architecture.md)を参照してください。
 
 ## 検証
 

@@ -18,24 +18,34 @@ flowchart TD
   API --> Supabase[Supabase Auth / PostgreSQL / private Storage]
 ```
 
-| 場所                                               | 担当                                                   |
-| -------------------------------------------------- | ------------------------------------------------------ |
-| `src/app/`                                         | ルーティング、読み込み・更新状態、保存先の接続         |
-| `src/features/auth/`                               | ログイン、匿名ユーザー、Google連携、セッション         |
-| `src/features/meal/`                               | 食事の下書き、写真処理、料理選択、確定までの進行       |
-| `src/services/`                                    | UIから見た共通操作と、local/cloudそれぞれの保存方法    |
-| `src/ui/`                                          | dialogや写真表示など、機能をまたいで使う表示部品       |
-| `shared/types.ts`                                  | ゲーム状態・入力のTypeScript型                         |
-| `shared/game.ts`                                   | 育成・報酬・購入などのルールと参照関数                 |
-| `shared/commands.ts`                               | 名前付き操作をルールへ変換する入口                     |
-| `shared/catalog.ts`, `shared/recipes.ts`           | 採用コンテンツの正本                                   |
-| `shared/contracts.ts`, `shared/schemas.ts`         | HTTPと保存データの実行時検証                           |
-| `shared/receipt.ts`                                | 確定した給餌1回分の演出用結果                          |
-| `shared/saveMigrations.ts`, `shared/stateCodec.ts` | 既存セーブの移行と検証                                 |
-| `worker/`                                          | HTTP、認証、操作再送、DB・画像サービスへの接続         |
-| `supabase/migrations/`                             | DBテーブル、整合性を保つ関数、実行権限、private bucket |
+| 場所                                          | 担当                                                                               |
+| --------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `src/app/`                                    | アプリの構成、route、dialogの切り替え、CSSの読込順                                 |
+| `src/app/game/`                               | 保存セッション、Query cache、local/cloud gateway、ブラウザの時刻・IDとlocalStorage |
+| `src/features/room/`、`companions/`           | ひろば、最初のなかま選び、なかま一覧、成長の表示                                   |
+| `src/features/collection/`、`album/`、`shop/` | 図鑑と料理詳細、食事記録、買い物と各機能のpanel                                    |
+| `src/features/meal/`                          | 食事の下書き、写真処理、料理選択、確定までの進行                                   |
+| `src/features/feast/`、`streak/`、`tutorial/` | 食後と継続のお祝い、初回案内                                                       |
+| `src/features/auth/`                          | ログイン、匿名ユーザー、Google連携、認証セッション                                 |
+| `src/features/settings/`                      | 設定とヘルプのpanel                                                                |
+| `src/ui/`                                     | 複数機能で使う描画、`Sheet`、`JourneyFrame`などの表示部品                          |
+| `src/styles/`                                 | 全体の基礎スタイル、共通テーマ                                                     |
+| `shared/game/`                                | ゲーム状態・型、ルール、command、契約・schema、receipt、保存移行                   |
+| `shared/content/`                             | 採用catalogとレシピ、追加コンテンツの型と変換                                      |
+| `worker/`                                     | HTTPの入口、共通エラー、環境binding                                                |
+| `worker/game/`                                | 操作再送・確定、repository契約、Supabase Auth・DB・Storage接続                     |
+| `worker/recognition/`                         | 料理写真の認識、入力・モデル出力の検証                                             |
+| `supabase/migrations/`                        | DBテーブル、整合性を保つ関数、実行権限、private bucket                             |
 
-`shared/`はReact、ブラウザの保存領域、`src/`、Worker bindingに依存しない。日付と食事IDは呼出元から渡す。`src/game.ts`、`src/recipes.ts`、`src/content/`の再exportは既存画面向けの互換窓口であり、Workerは直接`shared/`を参照する。
+`shared/`はReact、ブラウザの保存領域、`src/`、Worker bindingに依存しない。日付と食事IDは呼出元から渡す。`src/app/game/browserGame.ts`はブラウザ用の日付・IDを補う入口を保ち、Workerは直接`shared/`を参照する。ブラウザのcloud gatewayからWorkerへの参照は、Hono clientのための`AppType`の型importに限る。
+
+## 機能内の配置
+
+機能の画面・固有部品・状態遷移・CSS・単体テストを同じ`src/features/<機能>/`へ置く。たとえば食事は`meal/`内に`MealJourney.tsx`、`mealMachine.ts`、`mealMachine.test.ts`、写真処理とCSSをまとめる。複数機能で使う描画は`src/ui/art/`、共通の進行画面枠と切り替えは`src/ui/journey/`へ置く。
+
+なかま選びの`StarterSelection`となかま一覧の`FriendsBoard`は`companions/`、料理一覧の`RecipeBoard`と詳細の`RecipeDetail`は`collection/`が担当する。dialogの中身も担当featureへ置き、`src/app/dialogs/GameDialogs.tsx`は表示するpanelの切り替えを担当する。routeから開くページは各featureに置き、`src/app/router.tsx`から接続する。
+
+CSSは機能の近くに置くが、読み込みは`src/app/styles.ts`へ集める。基礎・機能・テーマの順番を明示し、routeの読み込み時期で既存のcascadeが変わらないようにする。CSSの場所を移すだけの変更ではセレクターや値を変えない。機能のCSSを追加するときも、この入口で読み込む順序を決める。
 
 ## 状態の所有者
 
@@ -88,21 +98,23 @@ MotionはXP表示など画面内の補間に使う。View Transitionsは場面�
 
 localの写真は従来どおり縮小したData URLをセーブに含める。cloud gatewayは写真を先にWorkerへ送信し、給餌コマンドには`photoId`だけを渡す。写真と食事の紐付けはDBの確定処理内で行う。表示時は所有者を確認して発行した短期間のURLを使い、URLを永続的な写真IDとして保存しない。
 
-採用レシピは`shared/recipes.ts`で既存10件と追加300件を合成する。UI、保存時のカード検証、ゲームルール、写真認識は同じregistryを参照する。既存レシピIDと`rice` / `pasta` / `soup` / `curry`のsample値は維持する。追加レシピの画像は`artPath`で表示する。追加キャラクター・着せ替えの採用はレシピの採用と別に扱う。
+採用レシピは`shared/content/recipes.ts`で既存10件と追加300件を合成する。UI、保存時のカード検証、ゲームルール、写真認識は同じregistryを参照する。既存レシピIDと`rice` / `pasta` / `soup` / `curry`のsample値は維持する。追加レシピの画像は`artPath`で表示する。追加キャラクター・着せ替えの採用はレシピの採用と別に扱う。
 
 local保存の`mogubiyori-v1`は既存セーブを移行して読み込む。単体のチュートリアル設定が不正でも、写真・成長・通貨を捨てない。共有codecは不正なセーブで例外を返す。localの互換窓口だけが欠損・破損を初期状態へ置き換える。cloudでは読込失敗や未対応データをエラーとして扱い、空のゲームで上書きしない。
 
 ## 機能を並行して開発するとき
 
-1. 機能固有の画面・処理は`src/features/<機能>/`にまとめる。共通表示だけを`src/ui/`へ置く。
+1. 機能固有の画面・部品・処理・CSS・単体テストは`src/features/<機能>/`にまとめる。共通表示は`src/ui/`、アプリ全体の接続は`src/app/`へ置く。
 2. ゲーム状態を変更する機能は、sharedの操作・型・schemaを先に決め、WorkerとUIで同じ契約を使う。
 3. UIからDBやlocalStorageを直接更新しない。Workerから`src/`をimportしない。
 4. 新しい報酬はゲームルールで計算し、必要な演出情報をreceiptへ追加する。React側で報酬を再計算しない。
 5. 永続化する項目の変更では既存セーブの移行、初期状態、cloud schema、テストを一緒に更新する。コンテンツIDを変更・廃止する場合は過去の所持・記録の扱いも決める。
-6. 同時作業は別worktreeとbranchで行い、shared契約とrouteの変更を担当者間で共有する。生成物だけを手で変更せず、コンテンツの正本と生成手順を更新する。
+6. 同時作業は別worktreeとbranchで行い、shared契約・route・`src/app/styles.ts`の変更を担当者間で共有する。生成物だけを手で変更せず、コンテンツの正本と生成手順を更新する。
 
 ## 検証の境界
 
-Vitestは純粋ルール、保存移行、契約、食事machine、Worker APIとサービスadapterを検証する。Playwrightは操作の流れ・入力保持・再読み込み・アクセシビリティを確認し、E2E中の料理認識はmockにする。DB関数の権限・原子性・同時再送は、隔離PostgreSQLを起動する`supabase/tests/run-local.sh`で検証する。
+Vitestの単体テストは`src/`、`shared/`、`worker/`で対象実装の隣へ置く。純粋ルール、保存移行、契約、食事machine、Worker APIとサービスadapterを検証する。ブラウザの保存互換・採用コンテンツ・cloud gatewayとWorkerの接続など、複数の境界を横断するテストは`tests/integration/`へ残す。sharedの単体テストからfrontendへ依存させない。
+
+Playwrightは`tests/e2e/`でlocalの操作・入力保持・再読み込み・アクセシビリティを、`tests/cloud/`でmockのAuth・APIを使うcloudの操作を確認する。E2E中の料理認識もmockにする。DB関数の権限・原子性・同時再送は、隔離PostgreSQLを起動する`supabase/tests/run-local.sh`で検証する。
 
 これらの検証と、実際のSupabase Auth/Storage・Workers AI・公開URLでの確認は別に記録する。SQLの成功だけではGoogle連携や写真のHTTP経路を確認したことにはならない。

@@ -1,8 +1,8 @@
 import { expect } from '@playwright/test'
 import type { Page } from '@playwright/test'
 import { Buffer } from 'node:buffer'
-import type { GameState } from '../../src/game'
-import { recipes } from '../../src/game'
+import type { GameState } from '../../src/app/game/browserGame'
+import { recipes } from '../../src/app/game/browserGame'
 
 export const journey = (page: Page, name?: string) =>
   page.locator(`main.journey-screen${name ? `[data-scene="${name}"]` : ''}`)

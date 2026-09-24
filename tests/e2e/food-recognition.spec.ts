@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 import type { Page, Route } from '@playwright/test'
 import { Buffer } from 'node:buffer'
-import { recipes } from '../../src/game'
+import { recipes } from '../../src/app/game/browserGame'
 import {
   journey,
   navigate,

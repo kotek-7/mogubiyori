@@ -144,14 +144,16 @@ Venbaの上記画像は材質と配色の参考とし、写っていないメニ
 | `public/art/ui/action-frame.svg`             | 全主操作で使う、朱の対称な札。9分割で角と内枠を保つ。                                         |
 | `public/art/ui/paper-frame.svg`              | 同じ輪郭を器白の面で描いた札。ナビゲーションの外枠。                                          |
 | `public/art/ui/table-linen.svg`              | 食卓の布。共通の波と穂を縁に配置した図案。                                                    |
-| `src/GameMotifs.tsx`                         | `MoguMark`、`VillageSign`、`VillageBackdrop`。器と湯気の紋、村の案内記号、共通の背景画。      |
-| `src/KayaScenery.tsx`                        | 下のかまどの通常・庭・夜。材質と距離に応じた場面の描線と配色。                                |
-| `src/GameArt.tsx`                            | なかまや料理などの描画APIと、ひろば背景への接続。                                             |
-| `src/game-theme.css`                         | 共通部品の本体への適用。HUD、ひろば、ナビ、コレクション、ショップ、ダイアログの面と操作状態。 |
-| `src/journey-theme.css`                      | 同じ共通部品を出会い、写真、料理確認、食事、成果表示へ適用する。                              |
+| `src/ui/art/GameMotifs.tsx`                  | `MoguMark`、`VillageSign`、`VillageBackdrop`。器と湯気の紋、村の案内記号、共通の背景画。      |
+| `src/ui/art/KayaScenery.tsx`                 | 下のかまどの通常・庭・夜。材質と距離に応じた場面の描線と配色。                                |
+| `src/ui/art/GameArt.tsx`                     | なかまや料理などの描画APIと、ひろば背景への接続。                                             |
+| `src/styles/game-theme.css`                  | 共通部品の本体への適用。HUD、ひろば、ナビ、コレクション、ショップ、ダイアログの面と操作状態。 |
+| `src/styles/journey-theme.css`               | 同じ共通部品を出会い、写真、料理確認、食事、成果表示へ適用する。                              |
 | `public/expansion/index.html`                | 拡張図鑑の構造と共有トークンの読み込み。                                                      |
 | `public/expansion/catalog.css`・`catalog.js` | 拡張図鑑の配置、検索、絞り込み、一覧、詳細。操作色と紙面は共有規則に合わせる。                |
 
-本体も `index.html` から共有トークンを読み込む。機能ごとのCSSは配置と進行を受け持ち、色・角・影・選択状態は共有トークンと本体・Journeyのテーマへ集約する。別のテーマファイルや画面専用の上書きを重ねない。
+本体も `index.html` から共有トークンを読み込む。機能ごとのCSSは `src/features/<機能>/`、共通の画面枠は `src/ui/journey/` に置く。`src/app/styles.ts` から順番を明示して読み込み、ファイルの配置やrouteの読み込み時期で既存のcascadeを変えない。
+
+機能ごとのCSSは配置と進行を受け持ち、色・角・影・選択状態は共有トークンと本体・Journeyのテーマへ集約する。別のテーマファイルや画面専用の上書きを重ねない。
 
 新しい画面や操作を追加するときは、主操作の札、二次操作、記録紙面、場面のどれに当たるかを決め、既存の通常・hover・押下・無効・フォーカス・選択の規則を再利用する。追加内容の個性は料理、なかま、村の絵で表し、操作の手掛かりは同じ言葉と形で保つ。

@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 import type { Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
-import type { GameState } from '../../src/game'
+import type { GameState } from '../../src/app/game/browserGame'
 import { chooseStarter, journey, storedGame, waitForSceneMotion } from './helpers'
 
 const scenes = [

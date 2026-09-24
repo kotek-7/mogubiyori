@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
-import { claimLogin, demoGame, feed, recipes, todayTokyo } from '../../src/game'
+import { claimLogin, demoGame, feed, recipes, todayTokyo } from '../../src/app/game/browserGame'
 import type { Page } from '@playwright/test'
 import {
   advanceXp,

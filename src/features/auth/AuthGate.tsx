@@ -3,9 +3,9 @@ import type { ReactNode } from 'react'
 import type { Session, SupabaseClient } from '@supabase/supabase-js'
 import { createAuthClient, readRuntimeConfig } from './auth'
 import type { RuntimeConfig } from './auth'
-import { createLocalGameGateway } from '../../services/localGameGateway'
-import { createCloudGameGateway } from '../../services/cloudGameGateway'
-import type { GameGateway } from '../../services/gameGateway'
+import { createLocalGameGateway } from '../../app/game/localGameGateway'
+import { createCloudGameGateway } from '../../app/game/cloudGameGateway'
+import type { GameGateway } from '../../app/game/gameGateway'
 
 type AuthContextValue = { client: SupabaseClient; session: Session }
 const AuthContext = createContext<AuthContextValue | null>(null)

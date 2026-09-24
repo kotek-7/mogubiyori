@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test'
 import type { Locator, Page } from '@playwright/test'
-import { chooseStarter, claimLogin, feed, initialGame } from '../../src/game'
-import type { GameState } from '../../src/game'
+import { chooseStarter, claimLogin, feed, initialGame } from '../../src/app/game/browserGame'
+import type { GameState } from '../../src/app/game/browserGame'
 import { journey, returnToPlaza, sampleToTable, storedGame, waitForSceneMotion } from './helpers'
 
 type GuidePhase = NonNullable<GameState['tutorial']['homeGuide']>

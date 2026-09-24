@@ -5,8 +5,8 @@ import {
   lazyRouteComponent,
   redirect,
 } from '@tanstack/react-router'
-import App from '../App'
-import { RoomPage } from './pages/RoomPage'
+import App from './App'
+import { RoomPage } from '../features/room/RoomPage'
 
 const rootRoute = createRootRoute({
   component: App,
@@ -27,17 +27,17 @@ const room = createRoute({ getParentRoute: () => rootRoute, path: '/', component
 const book = createRoute({
   getParentRoute: () => rootRoute,
   path: '/book',
-  component: lazyRouteComponent(() => import('./pages/BookPage'), 'BookPage'),
+  component: lazyRouteComponent(() => import('../features/collection/BookPage'), 'BookPage'),
 })
 const album = createRoute({
   getParentRoute: () => rootRoute,
   path: '/album',
-  component: lazyRouteComponent(() => import('./pages/AlbumPage'), 'AlbumPage'),
+  component: lazyRouteComponent(() => import('../features/album/AlbumPage'), 'AlbumPage'),
 })
 const shop = createRoute({
   getParentRoute: () => rootRoute,
   path: '/shop',
-  component: lazyRouteComponent(() => import('./pages/ShopPage'), 'ShopPage'),
+  component: lazyRouteComponent(() => import('../features/shop/ShopPage'), 'ShopPage'),
 })
 const callback = createRoute({
   getParentRoute: () => rootRoute,

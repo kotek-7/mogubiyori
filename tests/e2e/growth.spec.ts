@@ -1,6 +1,12 @@
 import { expect, test } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
-import { chooseStarter, claimLogin, growthStages, initialGame, todayTokyo } from '../../src/game'
+import {
+  chooseStarter,
+  claimLogin,
+  growthStages,
+  initialGame,
+  todayTokyo,
+} from '../../src/app/game/browserGame'
 import { waitForSceneMotion } from './helpers'
 
 test('five forms unlock in order and collected forms can be revisited without changing growth', async ({

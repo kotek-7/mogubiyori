@@ -1,8 +1,8 @@
 import { createContext, useContext } from 'react'
 import type { Dispatch, RefObject, SetStateAction } from 'react'
-import type { GameCommand } from '../../shared/commands'
-import type { SpeciesId } from '../../shared/types'
-import type { Dialog } from '../GameDialogs'
+import type { GameCommand } from '../../shared/game/commands'
+import type { SpeciesId } from '../../shared/game/types'
+import type { Dialog } from './dialogs/GameDialogs'
 
 export type Page = 'room' | 'book' | 'album' | 'shop'
 type Setter<T> = Dispatch<SetStateAction<T>>

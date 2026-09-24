@@ -1,7 +1,14 @@
 import { expect, test } from '@playwright/test'
 import type { Page } from '@playwright/test'
-import { chooseStarter, claimLogin, feed, initialGame, shiftDay, todayTokyo } from '../../src/game'
-import type { GameState } from '../../src/game'
+import {
+  chooseStarter,
+  claimLogin,
+  feed,
+  initialGame,
+  shiftDay,
+  todayTokyo,
+} from '../../src/app/game/browserGame'
+import type { GameState } from '../../src/app/game/browserGame'
 import { feedSample, journey, returnToPlaza, storedGame } from './helpers'
 
 const plainMeal = { title: '今日のごはん', sample: 'rice' }

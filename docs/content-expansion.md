@@ -30,17 +30,17 @@
 
 ## ファイルと再生成
 
-原稿は `content/expansion/recipes/*.json`、`characters.json`、`items.json`。本体のレシピは `src/recipes.ts` が料理原稿2ファイルを直接取り込む。プレビュー用の配信形式は `public/expansion/catalog.json`。`manifest.json` に版数、件数、カタログ SHA-256、原稿・描画器のハッシュ、画像の出所を持つ。通常の `npm run build` / `pnpm run build` でも検証が走り、原稿を変えたまま配信用データの再生成を忘れた場合はビルドを止める。
+原稿は `content/expansion/recipes/*.json`、`characters.json`、`items.json`。本体のレシピは `shared/content/recipes.ts` が料理原稿2ファイルを直接取り込む。プレビュー用の配信形式は `public/expansion/catalog.json`。`manifest.json` に版数、件数、カタログ SHA-256、原稿・描画器のハッシュ、画像の出所を持つ。通常の `pnpm build` でも検証が走り、原稿を変えたまま配信用データの再生成を忘れた場合はビルドを止める。
 
 ```sh
 # 原稿を編集した後、配信用カタログと料理SVGを再生成する
-npm run content:build
+pnpm content:build
 # 参照・件数・重複・各項目を検証する
-npm run content:check
-npm test
-npm run lint
-npm run build
-npm run test:e2e
+pnpm content:check
+pnpm test
+pnpm lint
+pnpm build
+pnpm test:e2e
 ```
 
 原稿をスクリプトから再作成する場合のみ、次を実行する。JSONへの手修正を上書きするため、通常のビルドでは実行しない。
@@ -49,7 +49,7 @@ npm run test:e2e
 python3 scripts/content/author-staples.py
 python3 scripts/content/author-mains.py
 python3 scripts/content/generate-companions-items.py
-npm run content:build
+pnpm content:build
 ```
 
 料理SVGは `scripts/content/recipe-art.mjs` と専用の `dessert-art.mjs`・`savory-art.mjs`、料理ごとの器・形・具材メタデータから生成する。300ファイルは300回の画像モデル出力ではない。料理の原画をさらに個別に磨く場合は、描画規則または料理のメタデータを編集する。生成済みSVGへの直接編集は次回の `content:build` で上書きされる。形状を共有する料理もあるが、画像パスを全て固有に持つ。
@@ -58,13 +58,15 @@ npm run content:build
 
 ### 接続済みのレシピ
 
-`src/recipes.ts` は既存10種を `legacyRecipes` として保持し、料理原稿2ファイルを `adaptRecipe` で変換して `mergeById` で合流させる。全310種の `recipes`、表示型 `Recipe`、分類名 `recipeCategories` を公開する。`src/game.ts` は `recipes` と `Recipe` を再公開し、既存の参照を維持している。
+`shared/content/recipes.ts` は既存10種を `legacyRecipes` として保持し、料理原稿2ファイルを `adaptRecipe` で変換して `mergeById` で合流させる。全310種の `recipes`、表示型 `Recipe`、分類名 `recipeCategories` を公開する。`shared/content/catalog.ts` はゲームから使うレシピ参照と、採用済みのなかま・成長段階・アイテムを提供する。
 
-登録は同期的に完了するため、`gameStorage.ts` が保存済みカードを検証する時点で追加300種のIDも参照できる。写真判定の `worker/recognition.ts` も同じ登録内容を使う。カードは給餌時に初めて獲得し、同じ料理のカード報酬は再読み込み後も重ねて付与しない。
+登録は同期的に完了するため、`shared/game/stateCodec.ts` が保存済みカードを検証する時点で追加300種のIDも参照できる。ブラウザの保存入口は `src/app/game/gameStorage.ts`、写真判定は `worker/recognition/recognition.ts` で、どちらも同じ登録内容を使う。カードは給餌時に初めて獲得し、同じ料理のカード報酬は再読み込み後も重ねて付与しない。
 
-`RecipeBrowser` を図鑑と食卓の料理選択で共用し、検索・絞り込み・24件ごとのページ送りに対応する。`RecipeArt` は追加料理の `artPath` を描画し、既存料理には `sample` の描画器を使う。分量・説明・コツ・道具・タグも `Recipe` に保持する。
+`src/features/collection/`に図鑑の画面、`RecipeBoard`・`RecipeDetail`・`RecipeBrowser`とCSSをまとめる。`RecipeBrowser` は食卓の料理選択でも共用し、検索・絞り込み・24件ごとのページ送りに対応する。共通描画の `src/ui/art/RecipeArt.tsx` は追加料理の `artPath` を描画し、既存料理には `sample` の描画器を使う。分量・説明・コツ・道具・タグも `Recipe` に保持する。
 
-型定義はブラウザに依存しない `src/content/types.ts` に置く。`src/content/expansion.ts` は型を再公開し、プレビュー用カタログの非同期ローダーを提供する。`src/content/adoption.ts` にはレシピ変換のほか、将来の来客候補・アイテム条件判定がある。
+型定義はブラウザに依存しない `shared/content/types.ts` に置く。`src/features/collection/expansion.ts` は型を再公開し、プレビュー用カタログの非同期ローダーを提供する。`shared/content/adoption.ts` にはレシピ変換のほか、将来の来客候補・アイテム条件判定がある。
+
+生成物と本体の整合性は `tests/integration/content.test.ts` と `tests/integration/recipe-adoption.test.ts` で検証する。原稿の `content/`、配信用の `public/expansion/`、生成・検証手順の `scripts/content/` はそれぞれの役割を保つ。
 
 ### なかま・アイテムの今後の取り込み
 

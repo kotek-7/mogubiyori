@@ -1,0 +1,171 @@
+import { describe, expect, it, vi } from 'vitest'
+import { createLocalGameGateway } from './localGameGateway'
+import { chooseStarter, initialGame, LOGIN_BONUS, shiftDay } from './browserGame'
+import type { GameState } from './browserGame'
+import type { GameCommand } from '../../../shared/game/commands'
+
+const day = '2026-09-25'
+const meal: GameCommand = { type: 'feed', input: { title: '今日のごはん', sample: 'rice' } }
+const starter = () => chooseStarter(initialGame(day), 'komugi')
+
+function memoryStorage(initial: GameState) {
+  let saved = structuredClone(initial)
+  let fail = false
+  return {
+    read: vi.fn(() => structuredClone(saved)),
+    write: vi.fn((state: GameState) => {
+      if (fail) {
+        fail = false
+        return false
+      }
+      saved = structuredClone(state)
+      return true
+    }),
+    failNextWrite() {
+      fail = true
+    },
+    saved: () => structuredClone(saved),
+  }
+}
+
+describe('local game gateway', () => {
+  it('retains the last good save and retries a rejected meal without losing the input', async () => {
+    const initial = starter()
+    const storage = memoryStorage(initial)
+    const gateway = createLocalGameGateway(storage, () => day)
+    storage.failNextWrite()
+    await expect(gateway.execute(meal, 'meal-operation')).rejects.toThrow('保存できませんでした')
+    expect(storage.saved()).toEqual(initial)
+    expect(await gateway.load()).toEqual({ state: initial, revision: 0 })
+    const retry = await gateway.execute(meal, 'meal-operation')
+    expect(retry.snapshot.revision).toBe(1)
+    expect(retry.snapshot.state.meals).toHaveLength(1)
+    expect(retry.receipt?.meal).toMatchObject({ id: 'meal-meal-operation', title: '今日のごはん' })
+    expect(storage.saved()).toEqual(retry.snapshot.state)
+  })
+
+  it('replays an operation once while returning current state and its original receipt', async () => {
+    const storage = memoryStorage(starter())
+    const gateway = createLocalGameGateway(storage, () => day)
+    const first = await gateway.execute(meal, 'first-meal')
+    const latest = await gateway.execute(
+      { type: 'updateSettings', input: { name: '新しい名前', reminder: 'eager' } },
+      'settings',
+    )
+    const replay = await gateway.execute(meal, 'first-meal')
+    expect(replay.receipt).toEqual(first.receipt)
+    expect(replay.snapshot).toEqual(latest.snapshot)
+    expect(replay.snapshot.state.meals).toHaveLength(1)
+    expect(replay.snapshot.state.xp).toBe(45)
+    expect(storage.write).toHaveBeenCalledTimes(2)
+  })
+
+  it('rejects a changed payload under an already completed operation ID', async () => {
+    const storage = memoryStorage(starter())
+    const gateway = createLocalGameGateway(storage, () => day)
+    const first = await gateway.execute(meal, 'same-id')
+    await expect(
+      gateway.execute({ type: 'feed', input: { title: '別の料理', sample: 'rice' } }, 'same-id'),
+    ).rejects.toThrow('同じ操作ID')
+    expect(storage.saved()).toEqual(first.snapshot.state)
+    expect(storage.write).toHaveBeenCalledTimes(1)
+  })
+
+  it('applies concurrently requested commands in order without losing prior updates', async () => {
+    const initial = initialGame(day)
+    const storage = memoryStorage(initial)
+    const gateway = createLocalGameGateway(storage, () => day)
+    const results = await Promise.all([
+      gateway.execute({ type: 'chooseStarter', id: 'komugi' }, 'starter'),
+      gateway.execute({ type: 'claimLogin' }, 'login'),
+      gateway.execute(meal, 'meal'),
+      gateway.execute(
+        { type: 'updateSettings', input: { name: 'こむぎの部屋', reminder: 'gentle' } },
+        'settings',
+      ),
+    ])
+    const saved = storage.saved()
+    expect(results.map((result) => result.snapshot.revision)).toEqual([1, 2, 3, 4])
+    expect(saved).toMatchObject({
+      activeId: 'komugi',
+      xp: 45,
+      name: 'こむぎの部屋',
+      reminder: 'gentle',
+    })
+    expect(saved.coins).toBe(initial.coins + LOGIN_BONUS + 30)
+    expect(saved.claimedLoginDays).toEqual([day])
+    expect(saved.meals).toHaveLength(1)
+    expect(saved).toEqual(results[3].snapshot.state)
+  })
+
+  it('uses the injected current day and local day offset at command time', async () => {
+    let currentDay = day
+    const initial = { ...starter(), today: '2026-09-20', dayOffset: 2 }
+    const storage = memoryStorage(initial)
+    const gateway = createLocalGameGateway(storage, () => currentDay)
+    const loaded = await gateway.load()
+    expect(loaded.state.today).toBe('2026-09-27')
+    expect(storage.write).not.toHaveBeenCalled()
+    currentDay = shiftDay(day, 1)
+    const result = await gateway.execute(meal, 'after-midnight')
+    expect(result.snapshot.state.today).toBe('2026-09-28')
+    expect(result.receipt?.meal.day).toBe('2026-09-28')
+    expect(storage.saved().meals[0].day).toBe('2026-09-28')
+  })
+
+  it('keeps operation replay available when a demo reset cannot be saved', async () => {
+    const storage = memoryStorage(starter())
+    const gateway = createLocalGameGateway(storage, () => day)
+    const committed = await gateway.execute(meal, 'first-meal')
+    storage.failNextWrite()
+    await expect(gateway.demo!({ type: 'reset', preset: 'fresh' })).rejects.toThrow(
+      '保存できませんでした',
+    )
+    const replay = await gateway.execute(meal, 'first-meal')
+    expect(replay).toEqual(committed)
+    expect(storage.saved()).toEqual(committed.snapshot.state)
+    expect(storage.write).toHaveBeenCalledTimes(2)
+  })
+
+  it.each([
+    { type: 'purchase', id: 'sunhat' },
+    { type: 'rest' },
+    { type: 'chooseStarter', id: 'shizuku' },
+  ] satisfies GameCommand[])(
+    'rejects an unapplied $type even when the date rolled over',
+    async (command) => {
+      const initial = { ...starter(), today: '2026-09-24', coins: 0, tickets: 0 }
+      const storage = memoryStorage(initial)
+      const gateway = createLocalGameGateway(storage, () => day)
+      await expect(gateway.execute(command, 'unapplied')).rejects.toThrow(
+        '操作を完了できませんでした',
+      )
+      expect(storage.saved()).toEqual(initial)
+      expect(storage.write).not.toHaveBeenCalled()
+      expect((await gateway.load()).revision).toBe(0)
+    },
+  )
+
+  it('recovers the command queue after a failure', async () => {
+    const storage = memoryStorage(starter())
+    const gateway = createLocalGameGateway(storage, () => day)
+    storage.failNextWrite()
+    const rejected = gateway.execute(meal, 'rejected')
+    const next = gateway.execute({ type: 'updateSettings', input: { name: '元気' } }, 'next')
+    await expect(rejected).rejects.toThrow('保存できませんでした')
+    await expect(next).resolves.toMatchObject({
+      snapshot: { revision: 1, state: { name: '元気' } },
+    })
+    expect(storage.saved().meals).toHaveLength(0)
+  })
+
+  it('does not load storage for a cancelled request', async () => {
+    const storage = memoryStorage(starter())
+    const gateway = createLocalGameGateway(storage, () => day)
+    const controller = new AbortController()
+    controller.abort()
+    await expect(gateway.load(controller.signal)).rejects.toThrow()
+    expect(storage.read).not.toHaveBeenCalled()
+    await expect(gateway.load()).resolves.toMatchObject({ revision: 0 })
+  })
+})

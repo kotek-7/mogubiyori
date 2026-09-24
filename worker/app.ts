@@ -3,13 +3,13 @@ import type { MiddlewareHandler } from 'hono'
 import { HTTPException } from 'hono/http-exception'
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
-import { commandRequestSchema } from '../shared/contracts'
+import { commandRequestSchema } from '../shared/game/contracts'
 import { ApiError, readBytes } from './errors'
 import type { Env } from './env'
-import { executeCommand, loadGame, tokyoDay } from './gameService'
-import type { CloudServices } from './repository'
-import { MAX_PHOTO_BYTES, recognizeFood, RecognitionError } from './recognition'
-import { createCloudServices, PHOTO_URL_LIFETIME } from './supabase'
+import { executeCommand, loadGame, tokyoDay } from './game/gameService'
+import type { CloudServices } from './game/repository'
+import { MAX_PHOTO_BYTES, recognizeFood, RecognitionError } from './recognition/recognition'
+import { createCloudServices, PHOTO_URL_LIFETIME } from './game/supabase'
 
 type AppEnvironment = { Bindings: Env }
 type Dependencies = { services: (env: Env) => CloudServices; now: () => Date; uuid: () => string }

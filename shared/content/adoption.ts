@@ -1,4 +1,4 @@
-import type { Recipe } from '../recipes'
+import type { Recipe } from './recipes'
 import type { ExpansionCharacter, ExpansionItem, ExpansionRecipe } from './types'
 
 /** Combine catalog releases without changing existing IDs or previously saved progress. */

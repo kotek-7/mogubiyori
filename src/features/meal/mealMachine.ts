@@ -1,7 +1,7 @@
 import { and, assign, fromPromise, not, setup, stateIn } from 'xstate'
-import { recipes } from '../../../shared/catalog'
-import type { FeedInput, SpeciesId } from '../../../shared/types'
-import type { FeedReceipt } from '../../../shared/receipt'
+import { recipes } from '../../../shared/content/catalog'
+import type { FeedInput, SpeciesId } from '../../../shared/game/types'
+import type { FeedReceipt } from '../../../shared/game/receipt'
 import { createOperationId } from '../../lib/operationId'
 
 export type MealMachineInput = { targetId: SpeciesId; recipeId?: string }

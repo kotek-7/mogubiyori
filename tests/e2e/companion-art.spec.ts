@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto'
 import { writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { growthStages, initialGame, species, todayTokyo } from '../../src/game'
+import { growthStages, initialGame, species, todayTokyo } from '../../src/app/game/browserGame'
 
 test('all thirty companion forms have distinct geometry and support every hat', async ({
   browser,

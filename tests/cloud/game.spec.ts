@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test'
 import type { Page } from '@playwright/test'
-import { applyGameCommand } from '../../shared/commands'
-import type { CommandRequest, CommandResponse, GameSnapshot } from '../../shared/contracts'
-import { chooseStarter, initialGame } from '../../shared/game'
+import { applyGameCommand } from '../../shared/game/commands'
+import type { CommandRequest, CommandResponse, GameSnapshot } from '../../shared/game/contracts'
+import { chooseStarter, initialGame } from '../../shared/game/game'
 
 const userId = '00000000-0000-4000-8000-000000000001'
 const day = '2026-09-26'

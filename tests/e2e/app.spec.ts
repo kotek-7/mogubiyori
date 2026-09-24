@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { recipes } from '../../src/game'
+import { recipes } from '../../src/app/game/browserGame'
 import {
   advanceXp,
   chooseStarter,

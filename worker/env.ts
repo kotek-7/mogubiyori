@@ -1,4 +1,4 @@
-import type { AiBinding } from './recognition'
+import type { AiBinding } from './recognition/recognition'
 
 export interface Env {
   AI?: AiBinding
