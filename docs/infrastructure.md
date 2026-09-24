@@ -24,10 +24,12 @@
 
 ## localとcloud
 
-| 設定                           | 保存先                    | 認証                 | 利用目的                               |
-| ------------------------------ | ------------------------- | -------------------- | -------------------------------------- |
-| `VITE_GAME_MODE=local`（既定） | ブラウザの`mogubiyori-v1` | 不要                 | 既存セーブを使うローカル体験・UI開発   |
-| `VITE_GAME_MODE=cloud`         | Supabase                  | 匿名開始またはGoogle | 複数端末での継続・サーバーでの操作確定 |
+| 設定                   | 保存先                    | 認証                             | 利用目的                               |
+| ---------------------- | ------------------------- | -------------------------------- | -------------------------------------- |
+| `VITE_GAME_MODE=local` | ブラウザの`mogubiyori-v1` | 不要                             | 既存セーブを使うローカル体験・UI開発   |
+| `VITE_GAME_MODE=cloud` | Supabase                  | 自動の匿名認証・任意のGoogle連携 | 複数端末での継続・サーバーでの操作確定 |
+
+`VITE_GAME_MODE`を省略すると、SupabaseのURLと公開キーがある環境はcloud、どちらもない開発環境はlocalになる。片方だけの設定はエラーとして扱う。`VITE_GAME_MODE=local`の明示はSupabase設定より優先する。
 
 localでもAPIを利用できれば写真認識を呼べる。認識できないときは手動選択で進める。cloudの設定不足やサービス障害ではエラーを表示し、localへ自動で切り替えない。日付送り、試用ジェム追加、セーブリセットはlocalだけに表示する。
 
@@ -75,9 +77,15 @@ Workerのservice-role keyはRLSを迂回できるため、WorkerとRPCの所有�
 
 ### Authの設定
 
-Supabaseで匿名サインイン、Google provider、manual identity linkingを有効にする。ブラウザ側はSupabase SDKのPKCEとセッション更新を使う。匿名開始からのGoogle連携は`linkIdentity`、既存アカウントへのログインはGoogleサインインで扱う。
+Supabaseで[匿名サインイン](https://supabase.com/docs/guides/auth/auth-anonymous)を有効にする。cloudの起動時には保存済みセッションを復元し、セッションがなければ自動で匿名ユーザーを作成する。初回の認証方法選択やGoogleログインは通常のプレイ動線に置かない。匿名ユーザーも`auth.users`に登録され、同じユーザーIDでDBの記録を読み書きする。SQLの`anon`ロールによる未認証アクセスとは異なる。
 
-Google側にはSupabaseが表示するOAuth callbackを設定する。Supabaseのredirect allowlistには、利用するoriginの`/auth/callback`を登録する。ローカル開発と公開環境で使用するURLをそれぞれ確認する。Google identityが既に別ユーザーへ紐付いている場合のデータ自動合算は行わない。
+Googleでの引き継ぎを使う場合は、次を設定する。匿名認証とDB保存はGoogle未設定でも利用できる。
+
+1. [Google providerの公式手順](https://supabase.com/docs/guides/auth/social-login/auth-google)に従い、Google CloudでWeb applicationのOAuth clientを作成し、Client IDとClient SecretをSupabaseのGoogle providerへ登録する。GoogleのAuthorized redirect URIsには、Supabaseが表示する`https://<project-ref>.supabase.co/auth/v1/callback`を設定する。
+2. SupabaseのAuth設定で[manual identity linking](https://supabase.com/docs/guides/auth/auth-identity-linking#manual-linking-beta)を有効にする。設定画面の「Googleと連携する」は`linkIdentity`でGoogleを現在のユーザーに追加するため、匿名で育てた記録のユーザーIDは変わらない。
+3. Supabaseの[redirect allowlist](https://supabase.com/docs/guides/auth/redirect-urls)には、ゲームへ戻る`https://mogubiyori.kotek7.com/auth/callback`と、使用する開発originの`/auth/callback`を登録する。Google側のcallbackと、ゲームへ戻るURLは別々に設定する。
+
+ブラウザ側はSupabase SDKのPKCE、callbackのセッション復元、トークン更新を使う。別端末などで既存のGoogleアカウントの記録を開く場合は、設定画面の「Googleで続きから」で`signInWithOAuth`を使う。Google identityが既に別ユーザーへ紐付いている場合も、匿名ユーザーとそのアカウントの記録を自動で合算しない。Google連携済みユーザーがログアウトすると、新しい匿名ユーザーで始まる。
 
 匿名ユーザーにはブラウザ外から復帰する認証手段がないため、引き継ぐときにGoogleを連携する。Turnstileの画面・captcha token送信は未実装なので、Bot対策を必須にする設定はその対応と合わせて行う。
 

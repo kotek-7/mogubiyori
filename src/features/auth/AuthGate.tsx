@@ -6,6 +6,7 @@ import type { RuntimeConfig } from './auth'
 import { createLocalGameGateway } from '../../app/game/localGameGateway'
 import { createCloudGameGateway } from '../../app/game/cloudGameGateway'
 import type { GameGateway } from '../../app/game/gameGateway'
+import { ensureAnonymousSession } from './anonymousSession'
 
 type AuthContextValue = { client: SupabaseClient; session: Session }
 const AuthContext = createContext<AuthContextValue | null>(null)
@@ -44,54 +45,46 @@ function CloudGate({
   const [client] = useState(() => (authClient ??= createAuthClient(config)))
   const [session, setSession] = useState<Session | null>(null)
   const [ready, setReady] = useState(false)
-  const [busy, setBusy] = useState(false)
+  const [attempt, setAttempt] = useState(0)
   const [error, setError] = useState('')
+  const [oauthReturn] = useState(() => window.location.pathname === '/auth/callback')
   useEffect(() => {
     let active = true
-    void client.auth
-      .getSession()
-      .then(({ data, error }) => {
+    let initialized = false
+    void ensureAnonymousSession(client)
+      .then((restored) => {
         if (!active) return
-        setSession(data.session)
-        setError(error?.message ?? '')
+        initialized = true
+        setSession(restored)
         setReady(true)
       })
-      .catch((error: unknown) => {
+      .catch(() => {
         if (!active) return
-        setError(error instanceof Error ? error.message : '接続できませんでした')
+        setError(
+          oauthReturn
+            ? 'Googleとの連携を完了できませんでした。元の画面に戻ってやり直せます。'
+            : '記録の保存先に接続できませんでした。通信状況を確認して、もう一度お試しください。',
+        )
         setReady(true)
       })
-    const { data } = client.auth.onAuthStateChange((_event, next) => {
+    const { data } = client.auth.onAuthStateChange((event, next) => {
+      if (!active || !initialized || event === 'INITIAL_SESSION') return
       setSession(next)
-      setReady(true)
+      if (!next) {
+        setReady(false)
+        setAttempt((current) => current + 1)
+      }
     })
     return () => {
       active = false
       data.subscription.unsubscribe()
     }
-  }, [client])
+  }, [client, attempt, oauthReturn])
   const userId = session?.user.id
   const gateway = useMemo(
     () => (userId ? createCloudGameGateway(client, userId) : null),
     [client, userId],
   )
-  async function begin(google: boolean) {
-    setBusy(true)
-    setError('')
-    try {
-      const result = google
-        ? await client.auth.signInWithOAuth({
-            provider: 'google',
-            options: { redirectTo: `${window.location.origin}/auth/callback` },
-          })
-        : await client.auth.signInAnonymously()
-      if (result.error) throw result.error
-    } catch (error) {
-      setError(error instanceof Error ? error.message : '接続できませんでした')
-    } finally {
-      setBusy(false)
-    }
-  }
   if (!ready)
     return (
       <main className="grid min-h-dvh place-items-center" role="status">
@@ -102,15 +95,24 @@ function CloudGate({
     return <AuthContext value={{ client, session }}>{children(gateway)}</AuthContext>
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col items-center justify-center gap-5 p-6 text-center">
-      <h1 className="text-3xl font-extrabold">もぐ日和</h1>
-      <p>きみのごはんで、なかまが育つ。</p>
-      <button className="primary-button full" disabled={busy} onClick={() => void begin(false)}>
-        はじめる
-      </button>
-      <button className="secondary-button full" disabled={busy} onClick={() => void begin(true)}>
-        Googleで続きから
-      </button>
+      <h1>{oauthReturn ? 'Googleとの連携を完了できませんでした' : '接続できませんでした'}</h1>
       {error && <p role="alert">{error}</p>}
+      {oauthReturn ? (
+        <a className="primary-button" href="/">
+          ひろばへ戻る
+        </a>
+      ) : (
+        <button
+          className="primary-button"
+          onClick={() => {
+            setReady(false)
+            setError('')
+            setAttempt((current) => current + 1)
+          }}
+        >
+          もう一度試す
+        </button>
+      )}
     </main>
   )
 }
@@ -118,33 +120,76 @@ function CloudGate({
 export function AccountSettings() {
   const auth = useCloudAuth()
   const [error, setError] = useState('')
+  const [busy, setBusy] = useState(false)
+  const [restore, setRestore] = useState(false)
   if (!auth) return null
-  async function link() {
-    const result = await auth!.client.auth.linkIdentity({
-      provider: 'google',
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
-    })
-    if (result.error) setError(result.error.message)
-  }
-  async function logout() {
-    const result = await auth!.client.auth.signOut()
-    if (result.error) setError(result.error.message)
+  async function accountAction(action: 'link' | 'restore' | 'logout') {
+    if (busy) return
+    setBusy(true)
+    setError('')
+    try {
+      const options = { redirectTo: `${window.location.origin}/auth/callback` }
+      const result =
+        action === 'logout'
+          ? await auth!.client.auth.signOut({ scope: 'local' })
+          : action === 'link'
+            ? await auth!.client.auth.linkIdentity({ provider: 'google', options })
+            : await auth!.client.auth.signInWithOAuth({ provider: 'google', options })
+      if (result.error) throw result.error
+    } catch {
+      setError(
+        action === 'logout'
+          ? 'ログアウトできませんでした。もう一度お試しください。'
+          : 'Googleに接続できませんでした。記録はそのままです。もう一度お試しください。',
+      )
+    } finally {
+      setBusy(false)
+    }
   }
   return (
     <section className="my-5 flex flex-col gap-3" aria-label="アカウント">
       <h3>記録の引き継ぎ</h3>
       {auth.session.user.is_anonymous ? (
         <>
-          <p>Googleと連携すると、ほかの端末でも続けられます。</p>
-          <button className="secondary-button full" onClick={() => void link()}>
+          <p>記録は自動で保存されています。Googleと連携すると、ほかの端末でも続けられます。</p>
+          <p>連携せずにブラウザーのデータを消すと、この記録には戻れなくなります。</p>
+          <button
+            className="secondary-button full"
+            disabled={busy}
+            onClick={() => void accountAction('link')}
+          >
             Googleと連携する
           </button>
+          <button className="quiet-button" disabled={busy} onClick={() => setRestore(true)}>
+            Googleで続きから
+          </button>
+          {restore && (
+            <div className="flex flex-col gap-3">
+              <p>
+                以前Googleと連携した記録を開きます。今の記録は合算されません。今の記録を残したい場合は、先に「Googleと連携する」を選んでください。
+              </p>
+              <button
+                className="secondary-button full"
+                disabled={busy}
+                onClick={() => void accountAction('restore')}
+              >
+                Googleの記録を開く
+              </button>
+              <button className="quiet-button" disabled={busy} onClick={() => setRestore(false)}>
+                やめる
+              </button>
+            </div>
+          )}
         </>
       ) : (
         <p>Googleアカウントに連携済みです。</p>
       )}
       {!auth.session.user.is_anonymous && (
-        <button className="quiet-button" onClick={() => void logout()}>
+        <button
+          className="quiet-button"
+          disabled={busy}
+          onClick={() => void accountAction('logout')}
+        >
           ログアウト
         </button>
       )}

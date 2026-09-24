@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import type { ReactNode } from 'react'
 import { ArrowRight, Check } from 'lucide-react'
 import { Pet } from '../../ui/art/GameArt'
 import { JourneyFrame } from '../../ui/journey/JourneyFrame'
@@ -8,15 +9,18 @@ import type { SpeciesId } from '../../app/game/browserGame'
 export function StarterSelection({
   onChoose,
   busy = false,
+  accountSettings,
 }: {
   onChoose: (id: SpeciesId) => void
   busy?: boolean
+  accountSettings?: ReactNode
 }) {
   const [selected, setSelected] = useState<SpeciesId>('komugi')
   return (
     <JourneyFrame
       scene="choose"
       title="最初のなかまを選ぶ"
+      headerAction={accountSettings}
       footer={
         <>
           <button

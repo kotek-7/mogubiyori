@@ -10,6 +10,7 @@ export type JourneyFrameProps = {
   subtitle?: string
   children: ReactNode
   footer?: ReactNode
+  headerAction?: ReactNode
   onBack?: () => void
   onClose?: () => void
   backLabel?: string
@@ -24,6 +25,7 @@ export function JourneyFrame({
   subtitle,
   children,
   footer,
+  headerAction,
   onBack,
   onClose,
   backLabel = '戻る',
@@ -76,6 +78,7 @@ export function JourneyFrame({
           </span>
         )}
         <span className="journey-header-side">
+          {headerAction}
           {onClose && (
             <button
               type="button"
