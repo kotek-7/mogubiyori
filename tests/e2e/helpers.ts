@@ -72,11 +72,18 @@ export async function feedSample(page: Page, recipeId = '') {
   await submitSample(page, recipeId)
 }
 
+export async function advanceXp(page: Page) {
+  const screen = journey(page, 'xp')
+  await expect(screen).toBeVisible()
+  await screen.getByRole('button', { name: /^(つづける|ひろばへ)$/ }).click()
+  await expect(screen).toHaveCount(0)
+}
+
 export async function returnToPlaza(page: Page): Promise<string[]> {
   const scenes: string[] = []
   await expect(journey(page)).toHaveAttribute(
     'data-scene',
-    /^(eating|growth|joined|card|arrivals|gift|satisfied)$/,
+    /^(eating|xp|growth|joined|card|arrivals|gift)$/,
   )
   for (let step = 0; step < 12; step += 1) {
     await waitForSceneMotion(page)
@@ -88,8 +95,6 @@ export async function returnToPlaza(page: Page): Promise<string[]> {
     scenes.push(current)
     if (current === 'eating') {
       await screen.getByRole('button', { name: '早送り', exact: true }).click()
-    } else if (current === 'satisfied') {
-      await expect(screen).toHaveCount(0, { timeout: 6000 })
     } else {
       await screen.getByRole('button', { name: /^(つづける|ひろばへ)$/ }).click()
     }

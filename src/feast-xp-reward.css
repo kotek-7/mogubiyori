@@ -1,0 +1,227 @@
+.feast-xp-reward {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(360px, 100%);
+  color: var(--game-ink);
+}
+.feast-xp-portrait {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 240px;
+  height: 225px;
+}
+.feast-xp-orbit {
+  position: absolute;
+  inset: 25px 15px 5px;
+  border-radius: 50%;
+  background: var(--game-teal-soft);
+}
+.feast-xp-portrait > .pet-art {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  view-transition-name: journey-companion;
+  animation: feast-xp-hop 700ms 200ms ease-out both;
+}
+.feast-xp-spark {
+  position: absolute;
+  width: 27px;
+  height: 27px;
+  color: var(--game-gold-dark);
+  animation: feast-xp-spark 800ms 200ms ease-out both;
+}
+.feast-xp-spark-left {
+  top: 48px;
+  left: 0;
+}
+.feast-xp-spark-right {
+  top: 100px;
+  right: 0;
+  animation-delay: 350ms;
+}
+.feast-xp-gain {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 9px;
+  margin: 2px 0 18px;
+  color: var(--game-teal-dark);
+  line-height: 1.1;
+  animation: feast-xp-pop 550ms cubic-bezier(0.2, 0.75, 0.25, 1.3) both;
+}
+.feast-xp-gain > strong {
+  font-size: 66px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -2px;
+}
+.feast-xp-gain > span {
+  font-size: 25px;
+  font-weight: 900;
+}
+.feast-xp-gain > svg {
+  align-self: center;
+  width: 30px;
+  height: 30px;
+}
+.feast-xp-panel {
+  width: 100%;
+  padding: 18px 21px 14px;
+  border: 1px solid var(--game-line);
+  border-radius: 22px;
+  background: var(--game-surface);
+  box-shadow: 0 3px 0 var(--game-line);
+}
+.feast-xp-recipient,
+.feast-xp-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.feast-xp-recipient > strong {
+  font-size: 18px;
+  overflow-wrap: anywhere;
+}
+.feast-xp-recipient > span {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--game-muted);
+}
+.feast-xp-total {
+  margin: 14px 0 9px;
+  font-size: 12px;
+  color: var(--game-muted);
+}
+.feast-xp-total > span[aria-hidden] {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-variant-numeric: tabular-nums;
+}
+.feast-xp-total strong {
+  min-width: 3ch;
+  color: var(--game-ink);
+  font-size: 21px;
+  font-weight: 850;
+  text-align: right;
+}
+.feast-xp-meter {
+  position: relative;
+  width: 100%;
+  height: 16px;
+  border: 1px solid #accac1;
+  border-radius: 999px;
+  background: var(--game-teal-soft);
+  overflow: hidden;
+}
+.feast-xp-meter > span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+}
+.feast-xp-earned {
+  background: var(--game-gold-dark);
+}
+.feast-xp-existing {
+  background: var(--game-teal);
+}
+.feast-xp-next {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  min-height: 22px;
+  margin-top: 10px;
+  color: var(--game-teal-dark);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.feast-xp-panel.is-filled {
+  border-color: var(--game-gold-dark);
+}
+.feast-xp-panel.is-filled .feast-xp-next {
+  color: var(--game-gold-dark);
+  font-size: 16px;
+  font-weight: 850;
+}
+@keyframes feast-xp-pop {
+  from {
+    transform: translateY(12px) scale(0.7);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes feast-xp-hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  45% {
+    transform: translateY(-14px);
+  }
+}
+@keyframes feast-xp-spark {
+  from {
+    transform: translateY(16px) scale(0.3);
+  }
+  to {
+    transform: none;
+  }
+}
+@media (max-height: 740px) {
+  .feast-xp-portrait {
+    width: 190px;
+    height: 165px;
+  }
+  .feast-xp-portrait > .pet-art {
+    width: 190px;
+    height: 190px;
+  }
+  .feast-xp-gain {
+    margin-bottom: 12px;
+  }
+  .feast-xp-gain > strong {
+    font-size: 52px;
+  }
+  .feast-xp-panel {
+    padding: 13px 18px 10px;
+  }
+  .feast-xp-total {
+    margin-top: 8px;
+  }
+}
+@media (max-height: 620px) {
+  .feast-xp-portrait {
+    width: 150px;
+    height: 110px;
+  }
+  .feast-xp-portrait > .pet-art {
+    width: 110px;
+    height: 110px;
+  }
+  .feast-xp-orbit {
+    inset: 15px 5px 0;
+  }
+  .feast-xp-spark {
+    top: 35px;
+    width: 20px;
+    height: 20px;
+  }
+  .feast-xp-gain > strong {
+    font-size: 48px;
+  }
+  .feast-xp-panel {
+    padding: 10px 16px 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feast-xp-portrait > .pet-art,
+  .feast-xp-gain,
+  .feast-xp-spark {
+    animation: none;
+  }
+}

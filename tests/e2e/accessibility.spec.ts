@@ -3,6 +3,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { claimLogin, demoGame, feed, recipes, todayTokyo } from '../../src/game'
 import type { Page } from '@playwright/test'
 import {
+  advanceXp,
   chooseStarter,
   feedSample,
   journey,
@@ -30,7 +31,7 @@ async function extendMealAnimationTimers(page: Page) {
     window.setTimeout = ((handler: TimerHandler, delay?: number, ...args: unknown[]) =>
       schedule(
         handler,
-        delay === 1800 || delay === 2000 ? 60000 : delay,
+        delay === 1800 || delay === 3500 ? 60000 : delay,
         ...args,
       )) as typeof window.setTimeout
   })
@@ -76,7 +77,7 @@ test('the companion collection with visitors has accessible labels and contrast'
   await check(page, 'companion collection and visitors')
 })
 
-test('mobile welcome, photo, serving, eating, growth and card scenes are accessible', async ({
+test('mobile welcome, photo, serving, eating, XP, growth and card scenes are accessible', async ({
   page,
 }) => {
   test.setTimeout(60000)
@@ -94,6 +95,9 @@ test('mobile welcome, photo, serving, eating, growth and card scenes are accessi
   await expect(journey(page, 'eating')).toBeVisible()
   await check(page, 'eating')
   await page.getByRole('button', { name: '早送り', exact: true }).click()
+  await expect(journey(page, 'xp')).toBeVisible()
+  await check(page, 'XP reward')
+  await advanceXp(page)
   await expect(journey(page, 'card')).toBeVisible()
   await check(page, 'recipe card')
   await returnToPlaza(page)
@@ -101,13 +105,12 @@ test('mobile welcome, photo, serving, eating, growth and card scenes are accessi
   await returnToPlaza(page)
   await feedSample(page, 'onigiri')
   await page.getByRole('button', { name: '早送り', exact: true }).click()
+  await advanceXp(page)
   await expect(journey(page, 'growth')).toBeVisible()
   await check(page, 'growth')
 })
 
-test('arrival, gift, recruitment and ordinary satisfaction scenes are accessible', async ({
-  page,
-}) => {
+test('arrival, gift, recruitment and ordinary XP scenes are accessible', async ({ page }) => {
   test.setTimeout(60000)
   await extendMealAnimationTimers(page)
   const state = claimLogin(demoGame(todayTokyo()))
@@ -118,6 +121,7 @@ test('arrival, gift, recruitment and ordinary satisfaction scenes are accessible
   await page.goto('/')
   await feedSample(page)
   await page.getByRole('button', { name: '早送り', exact: true }).click()
+  await advanceXp(page)
   await expect(journey(page, 'growth')).toBeVisible()
   await page.getByRole('button', { name: 'つづける', exact: true }).click()
   await expect(journey(page, 'arrivals')).toBeVisible()
@@ -129,12 +133,13 @@ test('arrival, gift, recruitment and ordinary satisfaction scenes are accessible
   await page.getByRole('button', { name: 'お客さんのまめにごはんをあげる' }).click()
   await submitSample(page, '', 'まめ')
   await page.getByRole('button', { name: '早送り', exact: true }).click()
+  await advanceXp(page)
   await expect(journey(page, 'joined')).toBeVisible()
   await check(page, 'recruitment')
   await returnToPlaza(page)
   await page.locator('.play-feed').click()
   await submitSample(page, '', 'まめ')
   await page.getByRole('button', { name: '早送り', exact: true }).click()
-  await expect(journey(page, 'satisfied')).toBeVisible()
-  await check(page, 'ordinary satisfaction')
+  await expect(journey(page, 'xp')).toBeVisible()
+  await check(page, 'ordinary XP reward')
 })

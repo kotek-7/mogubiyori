@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowRight, Coins, Flame, Heart, Sparkles, Utensils } from 'lucide-react'
 import { DishArt, GatheringScene, ItemArt, Pet } from './GameArt'
 import { JourneyFrame } from './JourneyFrame'
+import { FeastXpReward } from './FeastXpReward'
 import { items, recipeById, species, stageName, stageOf, streakOf } from './game'
 import type { GameState } from './game'
 import { deriveFeastSteps } from './feastSteps'
@@ -9,7 +10,7 @@ import { transitionScene } from './journeyTransition'
 import './feast-journey.css'
 
 export const EATING_DURATION = 1800
-export const SATISFIED_DURATION = 2000
+export const XP_REWARD_DURATION = 3500
 
 export function FeastJourney({
   before,
@@ -42,10 +43,10 @@ export function FeastJourney({
       finish()
       return
     }
-    if (step.type !== 'eating' && step.type !== 'satisfied') return
+    if (step.type !== 'eating' && step.type !== 'xp') return
     const timeout = window.setTimeout(
       advance,
-      step.type === 'eating' ? EATING_DURATION : SATISFIED_DURATION,
+      step.type === 'eating' ? EATING_DURATION : XP_REWARD_DURATION,
     )
     return () => window.clearTimeout(timeout)
   }, [step, advance, finish])
@@ -71,14 +72,16 @@ export function FeastJourney({
     card: 'レシピカード獲得',
     arrivals: '新しいお客さん',
     gift: '7日連続達成',
-    satisfied: 'ごはんを記録しました',
+    xp: 'XP獲得',
   }
   const rewardSummary = (
     <div className="feast-scene-rewards" role="group" aria-label="獲得した報酬">
-      <span>
-        <Sparkles size={15} />
-        <strong>+{meal.xp}</strong> XP
-      </span>
+      {step.type !== 'xp' && (
+        <span>
+          <Sparkles size={15} />
+          <strong>+{meal.xp}</strong> XP
+        </span>
+      )}
       <span>
         <Coins size={15} />
         <strong>+{meal.coins}</strong> コイン
@@ -109,15 +112,20 @@ export function FeastJourney({
       }
     >
       <div className={`feast-scene feast-scene-${step.type}`}>
-        {(step.type === 'eating' || step.type === 'satisfied') && (
+        {step.type === 'xp' && (
+          <FeastXpReward
+            species={targetId}
+            name={name}
+            hat={after.equipped.hat}
+            fromXp={previous?.xp ?? 0}
+            toXp={current?.xp ?? 0}
+            gained={meal.xp}
+          />
+        )}
+        {step.type === 'eating' && (
           <div className="journey-art feast-scene-art feast-dining-art">
             <div className="feast-dining-circle" />
-            <Pet
-              species={targetId}
-              stage={step.type === 'eating' ? beforeStage : afterStage}
-              mood={step.type === 'eating' ? 'eating' : 'happy'}
-              hat={after.equipped.hat}
-            />
+            <Pet species={targetId} stage={beforeStage} mood="eating" hat={after.equipped.hat} />
             <div className="feast-table-edge" />
             <div className="feast-plate">
               {meal.photo ? (

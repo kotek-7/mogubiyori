@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { recipes } from '../../src/game'
 import {
+  advanceXp,
   chooseStarter,
   expectFocusedScene,
   feedSample,
@@ -64,6 +65,9 @@ test('the first meal rewards cooking while keeping the initial form recognizable
   await page.getByRole('button', { name: 'こむぎにごはんをあげる', exact: true }).click()
   await expectFocusedScene(page, 'eating')
   await page.getByRole('button', { name: '早送り', exact: true }).click()
+  await expectFocusedScene(page, 'xp')
+  await expect(journey(page, 'xp').getByLabel('45 XP獲得', { exact: true })).toBeVisible()
+  await advanceXp(page)
   await expectFocusedScene(page, 'card')
   await expect(journey(page)).toContainText('カレー')
   await expect(journey(page).locator('.feast-growth-art')).toHaveCount(0)
@@ -258,13 +262,18 @@ test('a real photo alone persists in the meal album without a required recipe or
   expect(state.cards).toEqual([])
 })
 
-test('an ordinary meal finishes automatically without an extra confirmation', async ({ page }) => {
+test('an ordinary meal shows XP and returns automatically without another confirmation', async ({
+  page,
+}) => {
   await start(page)
   await feedSample(page)
   await returnToPlaza(page)
   await feedSample(page)
-  await expect(journey(page, 'satisfied')).toBeVisible({ timeout: 5000 })
-  await expect(journey(page)).toContainText('ごはんを記録しました')
+  await expect(journey(page, 'xp')).toBeVisible({ timeout: 5000 })
+  await expect(journey(page, 'xp').getByRole('progressbar', { name: '次の成長まで' })).toBeVisible()
+  await expect(
+    journey(page, 'xp').getByRole('button', { name: 'ひろばへ', exact: true }),
+  ).toBeVisible()
   await expect(journey(page).getByRole('button', { name: 'つづける' })).toHaveCount(0)
   await expect(journey(page)).toHaveCount(0, { timeout: 5000 })
   expect((await storedGame(page)).meals).toHaveLength(2)
@@ -282,6 +291,9 @@ test('fast-forward advances once and never grants rewards twice', async ({ page 
       button.click()
       button.click()
     })
+  await expect(journey(page, 'xp')).toBeVisible()
+  expect(await storedGame(page)).toEqual(saved)
+  await advanceXp(page)
   await expect(journey(page, 'card')).toBeVisible()
   expect(await storedGame(page)).toEqual(saved)
   await returnToPlaza(page)
@@ -359,6 +371,7 @@ test('mobile scenes keep the main action in view and keyboard cancellation resto
   await returnToPlaza(page)
   await feedSample(page, 'tofu-soup')
   await page.getByRole('button', { name: '早送り', exact: true }).click()
+  await advanceXp(page)
   await expect(journey(page, 'growth')).toBeVisible()
   await attachViewport(page, 'mobile-growth')
   await returnToPlaza(page)

@@ -8,10 +8,10 @@ const types = (before: ReturnType<typeof initialGame>, after: ReturnType<typeof 
   deriveFeastSteps(before, after).map((step) => step.type)
 
 describe('feast journey events', () => {
-  it('shows only a short satisfied scene when no discovery occurred', () => {
+  it('shows XP after eating even when no discovery occurred', () => {
     const before = feed(demoGame(day), plainMeal)
     const after = feed(before, plainMeal)
-    expect(types(before, after)).toEqual(['eating', 'satisfied'])
+    expect(types(before, after)).toEqual(['eating', 'xp'])
   })
 
   it('keeps the first two meals newborn and celebrates the third meal growth', () => {
@@ -19,10 +19,11 @@ describe('feast journey events', () => {
     const first = feed(start, plainMeal)
     const second = feed(first, plainMeal)
     const third = feed(second, plainMeal)
-    expect(types(start, first)).toEqual(['eating', 'satisfied'])
-    expect(types(first, second)).toEqual(['eating', 'satisfied'])
+    expect(types(start, first)).toEqual(['eating', 'xp'])
+    expect(types(first, second)).toEqual(['eating', 'xp'])
     expect(deriveFeastSteps(second, third)).toEqual([
       { type: 'eating' },
+      { type: 'xp' },
       { type: 'growth', from: 0, to: 1 },
     ])
   })
@@ -37,6 +38,7 @@ describe('feast journey events', () => {
     }
     expect(deriveFeastSteps(before, after)).toEqual([
       { type: 'eating' },
+      { type: 'xp' },
       { type: 'growth', from: 0, to: 1 },
       { type: 'growth', from: 1, to: 2 },
       { type: 'growth', from: 2, to: 3 },
@@ -50,32 +52,39 @@ describe('feast journey events', () => {
     const before = demoGame(day)
     const after = feed(before, { ...plainMeal, recipeId: 'curry' })
     const steps = deriveFeastSteps(before, after)
-    expect(steps.map((step) => step.type)).toEqual(['eating', 'growth', 'card', 'arrivals', 'gift'])
-    expect(steps[1]).toEqual({ type: 'growth', from: 1, to: 2 })
-    expect(steps[2]).toEqual({ type: 'card', recipeId: 'curry' })
-    expect(steps[3]).toEqual({ type: 'arrivals', visitors: ['mame', 'shizuku', 'yuzu'] })
+    expect(steps.map((step) => step.type)).toEqual([
+      'eating',
+      'xp',
+      'growth',
+      'card',
+      'arrivals',
+      'gift',
+    ])
+    expect(steps[2]).toEqual({ type: 'growth', from: 1, to: 2 })
+    expect(steps[3]).toEqual({ type: 'card', recipeId: 'curry' })
+    expect(steps[4]).toEqual({ type: 'arrivals', visitors: ['mame', 'shizuku', 'yuzu'] })
   })
 
   it('celebrates a visitor joining without claiming that an unowned baby evolved', () => {
     const before = feed(demoGame(day), plainMeal)
     const after = feed(before, { ...plainMeal, targetId: 'mame', recipeId: 'egg-rice' })
-    expect(types(before, after)).toEqual(['eating', 'joined', 'card', 'arrivals'])
+    expect(types(before, after)).toEqual(['eating', 'xp', 'joined', 'card', 'arrivals'])
     expect(deriveFeastSteps(before, after).at(-1)).toEqual({ type: 'arrivals', visitors: ['momo'] })
   })
 
   it('does not replay collected cards, already seen visitors or a purchased gift', () => {
     const initial = { ...demoGame(day), owned: ['none', 'plain', 'sprout'] }
     const grown = feed(initial, { ...plainMeal, recipeId: 'curry' })
-    expect(types(initial, grown)).toEqual(['eating', 'growth', 'card', 'arrivals'])
+    expect(types(initial, grown)).toEqual(['eating', 'xp', 'growth', 'card', 'arrivals'])
     const repeated = feed(grown, { ...plainMeal, recipeId: 'curry' })
-    expect(types(grown, repeated)).toEqual(['eating', 'satisfied'])
+    expect(types(grown, repeated)).toEqual(['eating', 'xp'])
   })
 
   it('uses the recipient growth rather than the previously active companion', () => {
     const house = feed(demoGame(day), plainMeal)
     const joined = feed(house, { ...plainMeal, targetId: 'mame' })
     const backToAdult = feed(joined, { ...plainMeal, targetId: 'komugi' })
-    expect(types(joined, backToAdult)).toEqual(['eating', 'satisfied'])
+    expect(types(joined, backToAdult)).toEqual(['eating', 'xp'])
   })
 
   it('does not create a journey without a new meal and never changes game state', () => {
@@ -84,9 +93,22 @@ describe('feast journey events', () => {
     const beforeJson = JSON.stringify(before),
       afterJson = JSON.stringify(after)
     expect(deriveFeastSteps(before, before)).toEqual([])
-    expect(types(before, after)).toEqual(['eating', 'satisfied'])
+    expect(types(before, after)).toEqual(['eating', 'xp'])
     deriveFeastSteps(before, after)
     expect(JSON.stringify(before)).toBe(beforeJson)
     expect(JSON.stringify(after)).toBe(afterJson)
+  })
+
+  it('reports XP exactly once at the final form without inventing another growth stage', () => {
+    const starter = chooseStarter(initialGame(day), 'komugi')
+    const before = {
+      ...starter,
+      xp: 1050,
+      companions: [{ ...starter.companions[0], xp: 1050 }],
+      visitors: ['mame', 'shizuku', 'yuzu'] as typeof starter.visitors,
+    }
+    const after = feed(before, plainMeal)
+    expect(after.xp).toBe(1095)
+    expect(deriveFeastSteps(before, after)).toEqual([{ type: 'eating' }, { type: 'xp' }])
   })
 })
