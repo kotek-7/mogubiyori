@@ -9,6 +9,7 @@ export type FeedInput = {
   photoId?: string
   sample: string
   recipeId?: string
+  dishId?: string
   targetId?: SpeciesId
 }
 export type GameMeal = {
@@ -21,6 +22,7 @@ export type GameMeal = {
   xp: number
   coins: number
   recipeId?: string
+  dishId?: string
   targetId?: SpeciesId
   cardBonus?: number
   streakBonus?: number

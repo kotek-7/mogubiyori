@@ -1,4 +1,5 @@
 import { species, growthStages, recipeById, items } from '../content/catalog'
+import { genericDishById } from '../content/dishes'
 import type { Companion, FeedInput, GameState, GrowthStage, SpeciesId } from './types'
 
 export function shiftDay(day: string, days: number): string {
@@ -156,6 +157,7 @@ export function feed(
     return state
   const first = !fedToday(state)
   const recipe = recipeById(input.recipeId)
+  const dish = recipe ? undefined : genericDishById(input.dishId)
   const xp = mealXp(state, recipe?.id, targetId)
   const cardBonus = recipe && !state.cards.includes(recipe.id) ? recipe.reward : 0
   const coins = (first ? 30 : 0) + cardBonus
@@ -194,12 +196,13 @@ export function feed(
       {
         id: environment.mealId,
         day: state.today,
-        title: input.title.trim() || '今日のごはん',
+        title: input.title.trim() || dish?.name || '今日のごはん',
         ...(input.photo ? { photo: input.photo } : {}),
         ...(input.photoId ? { photoId: input.photoId } : {}),
-        sample: input.sample,
+        sample: dish?.sample ?? input.sample,
         targetId,
         ...(recipe ? { recipeId: recipe.id } : {}),
+        ...(dish ? { dishId: dish.id } : {}),
         cardBonus,
         streakBonus: 0,
         xp,

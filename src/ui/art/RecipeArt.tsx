@@ -8,7 +8,7 @@ export function RecipeArt({
   silhouette = false,
   className = '',
 }: {
-  recipe?: Recipe
+  recipe?: Pick<Recipe, 'name' | 'sample' | 'artPath'>
   sample?: string
   silhouette?: boolean
   className?: string

@@ -57,6 +57,7 @@ export const mealSchema = z.object({
   xp: nonnegativeIntegerSchema,
   coins: nonnegativeIntegerSchema,
   recipeId: z.string().min(1).optional(),
+  dishId: z.string().min(1).optional(),
   targetId: speciesIdSchema.optional(),
   cardBonus: nonnegativeIntegerSchema.optional(),
   streakBonus: nonnegativeIntegerSchema.optional(),

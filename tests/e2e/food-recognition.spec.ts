@@ -55,6 +55,75 @@ test.beforeEach(async ({ page }) => {
   await start(page)
 })
 
+test('loading follows the photo to the table and a generic suggestion persists without a recipe card', async ({
+  page,
+}, testInfo) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  const api = await mockRecognition(page)
+  await page.locator('.play-feed').click()
+  await uploadPhoto(page)
+  await api.waitFor(1)
+  await expect(page.getByRole('progressbar', { name: '料理を検出中' })).toBeVisible()
+  await expect(page.getByRole('status')).toContainText('料理を見ています。')
+  await page.screenshot({ path: testInfo.outputPath('recognition-loading-photo.png') })
+  await toTable(page)
+  await expect(page.getByRole('progressbar', { name: '料理を検出中' })).toBeVisible()
+  await page.screenshot({ path: testInfo.outputPath('recognition-loading-table.png') })
+  await api.reply(0, ['generic-pasta'])
+  await expect(page.getByRole('progressbar', { name: '料理を検出中' })).toHaveCount(0)
+  await expect(selectedMealRecipe(page)).toHaveText('パスタ')
+  await giveMeal(page)
+  const saved = await storedGame(page)
+  expect(saved.meals[0]).toMatchObject({
+    dishId: 'generic-pasta',
+    title: 'パスタ',
+    sample: 'pasta',
+    xp: 45,
+    cardBonus: 0,
+  })
+  expect(saved.meals[0].recipeId).toBeUndefined()
+  expect(saved.cards).toEqual([])
+  expect(await returnToPlaza(page)).not.toContain('card')
+  await page.reload()
+  expect(await storedGame(page)).toEqual(saved)
+  await page.goto('/album')
+  await expect(page.locator('.memory-card')).toContainText('パスタ')
+})
+
+test('generic dishes can be selected manually when recognition fails', async ({
+  page,
+}, testInfo) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  const api = await mockRecognition(page)
+  await page.locator('.play-feed').click()
+  await uploadPhoto(page)
+  await api.waitFor(1)
+  await api.reply(0, [], 503)
+  await expect(page.getByRole('progressbar', { name: '料理を検出中' })).toHaveCount(0)
+  await toTable(page)
+  await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
+  const choices = page.getByRole('group', { name: '料理の種類で選ぶ' })
+  await expect(choices.getByRole('button')).toHaveCount(16)
+  for (const name of ['パスタ', 'カレー', 'チャーハン', 'ハンバーグ']) {
+    await expect(choices.getByRole('button', { name: `${name}として記録` })).toBeVisible()
+  }
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  await page.screenshot({ path: testInfo.outputPath('generic-dish-picker-mobile.png') })
+  await choices.getByRole('button', { name: 'ハンバーグとして記録' }).click()
+  await expect(selectedMealRecipe(page)).toHaveText('ハンバーグ')
+  await expect(page.locator('.meal-selected-recipe-art img')).toHaveAttribute(
+    'src',
+    /r-onion-hamburg-steak\.svg$/,
+  )
+  await giveMeal(page)
+  expect((await storedGame(page)).meals[0]).toMatchObject({
+    dishId: 'generic-hamburg',
+    title: 'ハンバーグ',
+    cardBonus: 0,
+  })
+  expect((await storedGame(page)).cards).toEqual([])
+})
+
 test('a mocked photo suggestion grants its card and XP only after feeding is confirmed', async ({
   page,
 }, testInfo) => {

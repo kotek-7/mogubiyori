@@ -44,6 +44,73 @@ function start(overrides: Partial<MealServices> = {}, input: Partial<MealMachine
 const photo = (name = 'meal.jpg') => new File(['photo'], name, { type: 'image/jpeg' })
 
 describe('meal draft workflow', () => {
+  it('submits a recognized generic dish without assigning a recipe card', async () => {
+    const { actor, services } = start({ recognizeFood: async () => ['generic-pasta'] })
+    actor.send({ type: 'PHOTO_SELECTED', file: photo() })
+    await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
+    expect(actor.getSnapshot().context).toMatchObject({ recipeId: '', dishId: 'generic-pasta' })
+    actor.send({ type: 'NEXT' })
+    actor.send({ type: 'SUBMIT' })
+    await waitFor(actor, (state) => state.matches('committed'))
+    expect(services.submit).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: 'パスタ',
+        sample: 'pasta',
+        recipeId: undefined,
+        dishId: 'generic-pasta',
+      }),
+      'operation-1',
+    )
+  })
+
+  it('keeps a manually selected dish when recognition finishes late and clears it when a recipe is selected', async () => {
+    const recognition = pending<string[]>()
+    const { actor } = start({ recognizeFood: () => recognition.promise })
+    actor.send({ type: 'PHOTO_SELECTED', file: photo() })
+    await waitFor(actor, (state) => state.matches({ editing: { media: 'recognizing' } }))
+    actor.send({ type: 'NEXT' })
+    actor.send({ type: 'OPEN_RECIPES' })
+    actor.send({ type: 'RECIPE_SELECTED', recipeId: 'generic-hamburg' })
+    recognition.resolve(['curry'])
+    await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
+    expect(actor.getSnapshot().context).toMatchObject({ recipeId: '', dishId: 'generic-hamburg' })
+    actor.send({ type: 'RECIPE_CHANGED', recipeId: 'curry' })
+    expect(actor.getSnapshot().context).toMatchObject({ recipeId: 'curry', dishId: undefined })
+  })
+
+  it('clears an automatic generic classification when its photo is replaced', async () => {
+    const { actor } = start({
+      recognizeFood: async (image) => (image.includes('first') ? ['generic-pasta'] : []),
+    })
+    actor.send({ type: 'PHOTO_SELECTED', file: photo('first.jpg') })
+    await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
+    expect(actor.getSnapshot().context.dishId).toBe('generic-pasta')
+    actor.send({ type: 'PHOTO_SELECTED', file: photo('second.jpg') })
+    await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
+    expect(actor.getSnapshot().context.dishId).toBeUndefined()
+  })
+
+  it('creates a new operation when only the generic classification changes after a failed save', async () => {
+    const submit = vi
+      .fn()
+      .mockRejectedValueOnce(new Error('通信できませんでした'))
+      .mockResolvedValueOnce(receipt)
+    const { actor } = start({ submit })
+    actor.send({ type: 'USE_SAMPLE' })
+    actor.send({ type: 'TITLE_CHANGED', title: 'お昼ごはん' })
+    actor.send({ type: 'RECIPE_CHANGED', recipeId: 'generic-fried-rice' })
+    actor.send({ type: 'SUBMIT' })
+    await waitFor(actor, (state) => state.matches({ editing: { navigation: 'serve' } }))
+    actor.send({ type: 'RECIPE_CHANGED', recipeId: 'generic-donburi' })
+    actor.send({ type: 'SUBMIT' })
+    await waitFor(actor, (state) => state.matches('committed'))
+    expect(submit.mock.calls.map((call) => call[1])).toEqual(['operation-1', 'operation-2'])
+    expect(submit.mock.calls[1][0]).toMatchObject({
+      dishId: 'generic-donburi',
+      title: 'お昼ごはん',
+    })
+  })
+
   it('requires a ready draft at the table before committing a meal', async () => {
     const { actor, services } = start()
     actor.send({ type: 'SUBMIT' })
