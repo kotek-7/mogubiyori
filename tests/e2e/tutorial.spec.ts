@@ -22,6 +22,51 @@ const chapters = [
 const internalActions = (page: Page) =>
   journey(page).locator('button.tutorial-step-action, button.tutorial-recipe-target')
 
+type StreakSample = {
+  phase: string
+  days: number
+  recorded: number
+  bonus: boolean
+  actions: number
+  next: boolean
+}
+
+async function observeTutorialStreak(page: Page) {
+  await page.addInitScript(() => {
+    const samples: StreakSample[] = []
+    let active = false
+    const observer = new MutationObserver(() => {
+      const screen = document.querySelector('main[data-scene="tutorial-streak"]')
+      const root = screen?.querySelector('.streak-celebration')
+      const phase = root?.getAttribute('data-phase')
+      if (!root || !phase) {
+        active = false
+        return
+      }
+      if (!active) samples.length = 0
+      active = true
+      const sample = {
+        phase,
+        days: Number(root.querySelector('.streak-celebration-number strong')?.textContent),
+        recorded: root.querySelectorAll('.streak-celebration-days .is-recorded').length,
+        bonus:
+          root.querySelector('.streak-celebration-prize')?.getAttribute('aria-hidden') === 'false',
+        actions: screen!.querySelectorAll('.tutorial-step-action').length,
+        next: !!screen!.querySelector('.tutorial-chapter-next'),
+      }
+      if (JSON.stringify(samples.at(-1)) === JSON.stringify(sample)) return
+      samples.push(sample)
+      document.documentElement.dataset.tutorialStreakSamples = JSON.stringify(samples)
+    })
+    observer.observe(document, {
+      subtree: true,
+      childList: true,
+      characterData: true,
+      attributes: true,
+    })
+  })
+}
+
 async function expectChapterLocked(page: Page) {
   await expect(journey(page).locator('button.tutorial-chapter-next')).toHaveCount(0)
   await expect(internalActions(page)).toHaveCount(1)
@@ -215,35 +260,29 @@ async function practice(
     await onCheckpoint?.('tutorial-cards-recipe')
   } else {
     const celebration = screen.getByRole('group', { name: '自炊の連続記録', exact: true })
-    const reducedMotion = await page.evaluate(
-      () => matchMedia('(prefers-reduced-motion: reduce)').matches,
+    await expect(internalActions(page)).toHaveCount(0)
+    await expect(screen.locator('button.tutorial-chapter-next')).toBeVisible({ timeout: 15000 })
+    await expectChapterReady(page)
+    await expect(celebration).toHaveAttribute('data-phase', 'complete')
+    await expect(celebration.getByRole('listitem', { name: /記録済み$/ })).toHaveCount(3)
+    await expect(celebration.locator('.streak-celebration-number strong')).toHaveText('3')
+    const samples: StreakSample[] = await page.evaluate(() =>
+      JSON.parse(document.documentElement.dataset.tutorialStreakSamples!),
     )
-    await expect(celebration.locator('.streak-celebration-number strong')).toHaveText('0')
-    await expect(celebration.getByRole('listitem', { name: /記録済み$/ })).toHaveCount(0)
-    await onCheckpoint?.('tutorial-streak-empty')
-    for (let day = 1; day <= 3; day += 1) {
-      await action(page, `${day}日目のごはんを記録する`, checkLayout)
-      if (!reducedMotion) {
-        if (day < 3) await expect(internalActions(page)).toBeDisabled()
-        else await expect(internalActions(page)).toHaveCount(0)
-        await expect(screen.locator('button.tutorial-chapter-next')).toHaveCount(0)
-      }
-      await expect(
-        celebration.getByRole('listitem', { name: `${day}日目 記録済み`, exact: true }),
-      ).toBeVisible()
-      await expect(celebration).toHaveAttribute('data-phase', 'complete')
-      await expect(celebration.getByRole('listitem', { name: /記録済み$/ })).toHaveCount(day)
-      await expect(celebration.locator('.streak-celebration-number strong')).toHaveText(String(day))
-      if (day < 3) await expectChapterLocked(page)
-      else await expectChapterReady(page)
-      await onCheckpoint?.(`tutorial-streak-day-${day}`)
-    }
+    const completed = samples.filter(({ phase }) => phase === 'complete')
+    expect([...new Set(completed.map(({ days }) => days))]).toEqual([0, 1, 2, 3])
+    expect(completed.every(({ days, recorded }) => days === recorded)).toBe(true)
+    expect(samples.every(({ actions }) => actions === 0)).toBe(true)
+    expect(samples.filter(({ days }) => days < 3).every(({ next, bonus }) => !next && !bonus)).toBe(
+      true,
+    )
     await expect(celebration.locator('.streak-celebration-prize')).toHaveAttribute(
       'aria-hidden',
       'false',
     )
     await expect(celebration.locator('.streak-celebration-prize')).toContainText('3日連続ボーナス')
     await expect(celebration.locator('.streak-celebration-prize strong')).toContainText('+30')
+    await onCheckpoint?.('tutorial-streak-day-3')
   }
 }
 
@@ -265,12 +304,11 @@ async function nextLesson(
 
 test.beforeEach(async ({ page }) => {
   await page.clock.setFixedTime(new Date('2026-09-24T03:00:00Z'))
+  await observeTutorialStreak(page)
   await page.goto('/')
 })
 
-test('five hands-on lessons resume after reload and never award real game progress', async ({
-  page,
-}) => {
+test('five lessons resume after reload and never award real game progress', async ({ page }) => {
   test.setTimeout(60000)
   await chooseStarter(page)
   const before = await storedGame(page)

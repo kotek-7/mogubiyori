@@ -32,7 +32,7 @@ async function seed(page: Page, state: GameState) {
   await expect(page.locator('.play-pet')).toBeVisible()
 }
 
-async function serve(page: Page, recipeId = '', recipient = 'こむぎ') {
+async function serve(page: Page, recipeId = '', recipient = 'こむぎ', skipEating = true) {
   if (recipient === 'こむぎ') await page.locator('.play-feed').click()
   else await page.getByRole('button', { name: `お客さんの${recipient}にごはんをあげる` }).click()
   await page.getByRole('button', { name: '写真なしで体験する', exact: true }).click()
@@ -40,7 +40,12 @@ async function serve(page: Page, recipeId = '', recipient = 'こむぎ') {
   await page.getByRole('button', { name: `${recipient}にごはんをあげる`, exact: true }).click()
   await expect(scene(page, 'eating')).toBeVisible()
   const saved = await stored(page)
-  await page.getByRole('button', { name: '早送り', exact: true }).click()
+  if (skipEating) await page.getByRole('button', { name: '早送り', exact: true }).click()
+  else {
+    await page.clock.fastForward(2000)
+    await expect(scene(page, 'eating')).toBeVisible()
+    await page.clock.fastForward(1600)
+  }
   await expect(scene(page, 'xp')).toBeVisible()
   return saved
 }
@@ -73,10 +78,11 @@ async function expectGainUnobstructed(page: Page) {
 
 test.use({ viewport: { width: 390, height: 844 } })
 
-test('the first meal visibly counts XP up and then records the first cooking day', async ({
+test('the first meal lingers while eating and keeps XP and streak rewards until continued', async ({
   page,
 }, testInfo) => {
   await seed(page, starter())
+  await page.clock.install()
   await page.evaluate(() => {
     const samples: number[] = []
     const observer = new MutationObserver(() => {
@@ -90,7 +96,7 @@ test('the first meal visibly counts XP up and then records the first cooking day
     })
     observer.observe(document.body, { subtree: true, childList: true, characterData: true })
   })
-  const saved = await serve(page)
+  const saved = await serve(page, '', 'こむぎ', false)
   await expect(scene(page, 'xp').locator('.feast-xp-gain')).toContainText('+45')
   await expect.poll(() => displayedTotal(page)).toBe(45)
   const values: number[] = await page.evaluate(() =>
@@ -106,10 +112,14 @@ test('the first meal visibly counts XP up and then records the first cooking day
   expect(progress).toBeGreaterThanOrEqual(37)
   expect(progress).toBeLessThanOrEqual(38)
   await page.screenshot({ path: testInfo.outputPath('xp-first-meal-390.png') })
-  await expect(scene(page, 'xp')).toHaveCount(0, { timeout: 6000 })
+  await page.clock.fastForward(30000)
+  await expect(scene(page, 'xp')).toBeVisible()
+  await scene(page, 'xp').getByRole('button', { name: 'つづける', exact: true }).click()
   await expect(scene(page, 'streak')).toBeVisible()
   await expect(scene(page, 'streak').locator('.streak-celebration-number strong')).toHaveText('1')
   await expect(scene(page, 'streak').locator('.streak-celebration-prize')).toHaveCount(0)
+  await page.clock.fastForward(30000)
+  await expect(scene(page, 'streak')).toBeVisible()
   expect(await stored(page)).toEqual(saved)
   await scene(page, 'streak').getByRole('button', { name: 'ひろばへ', exact: true }).click()
   await expect(page.locator('.play-pet .pet-art')).toHaveClass(/pet-stage-0/)
@@ -212,7 +222,7 @@ test('the final form still earns XP without promising a sixth form or resetting 
     await meterPercent(scene(page, 'xp').getByRole('progressbar', { name: '次の成長まで' })),
   ).toBe(100)
   await expect(scene(page, 'xp')).not.toContainText('あと 0 XP')
-  await expect(scene(page, 'xp')).toHaveCount(0, { timeout: 6000 })
+  await scene(page, 'xp').getByRole('button', { name: 'ひろばへ', exact: true }).click()
   await expect(page.locator('.play-pet .pet-art')).toHaveClass(/pet-stage-4/)
   expect(await stored(page)).toEqual(saved)
 })

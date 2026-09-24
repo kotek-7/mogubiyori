@@ -51,7 +51,7 @@ export function TutorialFriends({
       currentPhase.current = 'joined'
       setPhase('joined')
       onPhaseChange?.('joined')
-    }, 850)
+    }, 1700)
     return () => window.clearTimeout(timer)
   }, [isEating, phase, guest.id, onPhaseChange])
 

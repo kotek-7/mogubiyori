@@ -10,8 +10,7 @@ import type { FeedReceipt } from '../../../shared/game/receipt'
 import { feastStepsFromReceipt } from './feastSteps'
 import { transitionScene } from '../../ui/journey/journeyTransition'
 
-export const EATING_DURATION = 1800
-export const XP_REWARD_DURATION = 3500
+export const EATING_DURATION = 3600
 
 export function FeastJourney({
   receipt,
@@ -47,11 +46,8 @@ export function FeastJourney({
       finish()
       return
     }
-    if (step.type !== 'eating' && step.type !== 'xp') return
-    const timeout = window.setTimeout(
-      advance,
-      step.type === 'eating' ? EATING_DURATION : XP_REWARD_DURATION,
-    )
+    if (step.type !== 'eating') return
+    const timeout = window.setTimeout(advance, EATING_DURATION)
     return () => window.clearTimeout(timeout)
   }, [step, advance, finish])
   if (!step) return null

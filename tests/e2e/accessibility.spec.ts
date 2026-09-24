@@ -24,16 +24,12 @@ async function check(page: Page, label: string) {
 }
 
 async function extendMealAnimationTimers(page: Page) {
-  // Keep transient meal scenes visible while axe runs; its own timers stay live.
-  // Real-time automatic completion is covered separately in app.spec.ts.
+  // Keep the eating scene visible while axe runs; its own timers stay live.
+  // Automatic eating completion is covered separately in xp-reward.spec.ts.
   await page.addInitScript(() => {
     const schedule = window.setTimeout.bind(window)
     window.setTimeout = ((handler: TimerHandler, delay?: number, ...args: unknown[]) =>
-      schedule(
-        handler,
-        delay === 1800 || delay === 3500 ? 60000 : delay,
-        ...args,
-      )) as typeof window.setTimeout
+      schedule(handler, delay === 3600 ? 60000 : delay, ...args)) as typeof window.setTimeout
   })
 }
 

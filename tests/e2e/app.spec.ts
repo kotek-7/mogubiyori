@@ -268,9 +268,7 @@ test('a real photo alone persists in the meal album without a required recipe or
   expect(state.cards).toEqual([])
 })
 
-test('an ordinary meal shows XP and returns automatically without another confirmation', async ({
-  page,
-}) => {
+test('an ordinary meal keeps XP visible until the user returns to the plaza', async ({ page }) => {
   await start(page)
   await feedSample(page)
   await returnToPlaza(page)
@@ -281,9 +279,10 @@ test('an ordinary meal shows XP and returns automatically without another confir
     journey(page, 'xp').getByRole('button', { name: 'ひろばへ', exact: true }),
   ).toBeVisible()
   await expect(journey(page).getByRole('button', { name: 'つづける' })).toHaveCount(0)
-  await expect(journey(page)).toHaveCount(0, { timeout: 5000 })
+  await journey(page, 'xp').getByRole('button', { name: 'ひろばへ', exact: true }).click()
+  await expect(journey(page)).toHaveCount(0)
   expect((await storedGame(page)).meals).toHaveLength(2)
-  await expect(page.locator('.play-feed')).toHaveText('もう一度あげる')
+  await expect(page.locator('.play-feed')).toHaveAccessibleName('もう一度あげる')
   await expect(page.locator('.play-condition')).toHaveText('満腹')
 })
 

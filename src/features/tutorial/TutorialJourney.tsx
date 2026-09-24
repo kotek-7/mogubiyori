@@ -58,8 +58,16 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
   const [days, setDays] = useState(0)
   const [streakReady, setStreakReady] = useState(true)
   useEffect(() => {
+    if (step !== 4 || !streakReady || days >= 3) return
+    const timer = window.setTimeout(() => {
+      setStreakReady(false)
+      setDays((current) => current + 1)
+    }, 1600)
+    return () => window.clearTimeout(timer)
+  }, [step, days, streakReady])
+  useEffect(() => {
     if (meal !== 'eating') return
-    const timer = window.setTimeout(() => setMeal('full'), 850)
+    const timer = window.setTimeout(() => setMeal('full'), 1700)
     return () => window.clearTimeout(timer)
   }, [meal])
   useEffect(() => {
@@ -102,7 +110,7 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
   if (step === 0 && !done) action = meal === 'eating' ? '食事中' : 'ごはんをあげてみる'
   if (step === 1 && !done) action = form === 0 ? '育った姿を見る' : 'もっと育った姿を見る'
   if (step === 4) {
-    action = done ? 'ひろばへ' : !streakReady ? '記録中' : `${days + 1}日目のごはんを記録する`
+    action = 'ひろばへ'
     if (days > 0)
       title = !streakReady
         ? `${days}日目のごはんを記録`
@@ -114,11 +122,6 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
     if (step === 0 && meal === 'hungry') return setMeal('eating')
     if (step === 0 && meal === 'eating') return
     if (step === 1 && form < 2) return setForm((form + 1) as GrowthStage)
-    if (step === 4 && days < 3 && streakReady) {
-      setStreakReady(false)
-      setDays(days + 1)
-      return
-    }
     if (!done) return
     if (step === 4) return onComplete()
     onStep((step + 1) as TutorialStep)
@@ -159,7 +162,7 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
       }
     >
       <div className={`tutorial-lesson tutorial-step-${step}`}>
-        <span className="tutorial-example">操作の練習</span>
+        <span className="tutorial-example">{step === 4 ? '自炊の記録例' : '操作の練習'}</span>
         {step === 0 && (
           <>
             <div className={`tutorial-meal-world is-${meal}`}>
@@ -264,17 +267,13 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
               compact
               onComplete={() => setStreakReady(true)}
             />
-            <TutorialGuide
-              action={
-                days < 3 ? { label: action, onClick: advance, disabled: !streakReady } : undefined
-              }
-            >
+            <TutorialGuide>
               {days === 0
-                ? '毎日ごはんを記録すると、連続記録が伸びていきます。まずは1日目から試しましょう。'
+                ? '毎日ごはんを記録すると、連続記録が伸びていきます。3日間の様子を見てみましょう。'
                 : !streakReady
                   ? `${days}日目のごはんを記録しています。`
                   : days === 1
-                    ? '1日目の記録がつきました。次は翌日も自炊してみましょう。'
+                    ? '1日目の記録がつきました。翌日も自炊すると…'
                     : days === 2
                       ? '2日連続になりました。もう1日続けるとボーナスがもらえます。'
                       : `3日連続のボーナスを獲得しました。毎日のログインでも${LOGIN_BONUS}コインもらえます。`}
