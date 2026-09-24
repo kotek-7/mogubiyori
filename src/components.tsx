@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react'
 import type { ReactNode } from 'react'
-import { X, Clock3, ArrowUpRight, Check, Sparkles } from 'lucide-react'
+import { X, Clock3, ArrowUpRight, Check } from 'lucide-react'
 import type { AppState, Recipe } from './domain'
-import { recommendationReason } from './domain'
 import { FoodArt } from './Illustrations'
 
 export function Modal({
@@ -45,7 +44,6 @@ export function Modal({
     >
       <div className="modal-header">
         <div>
-          <span className="eyebrow">HITOSAJI</span>
           <h2>{title}</h2>
         </div>
         <button className="icon-button" aria-label="閉じる" onClick={onClose}>
@@ -94,11 +92,6 @@ export function RecipeCard({
           </span>
         </div>
         <h3>{recipe.name}</h3>
-        <p>{recipe.subtitle}</p>
-        <div className="recipe-reason">
-          <Sparkles size={13} />
-          <span>{recommendationReason(recipe, state)}</span>
-        </div>
       </div>
     </button>
   )

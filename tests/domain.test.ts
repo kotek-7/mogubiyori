@@ -111,6 +111,25 @@ describe('experiment variants', () => {
   })
 })
 
+describe('photo-only recording', () => {
+  it('does not award a novelty bonus or repetition penalty for an unknown dish', () => {
+    const state = initialState(day, true)
+    expect(rewardFor(state, '未分類').xp).toBe(20)
+    const saved = recordMeal(state, {
+      ...meal(),
+      category: '未分類',
+      recipeId: '',
+      title: '今日の一皿',
+    })
+    expect(parseState(JSON.stringify(saved))).toEqual(saved)
+    expect(streak(saved)).toBe(1)
+    let next = recordMeal(advanceDay(saved), { ...meal(), category: '未分類', recipeId: '' })
+    next = advanceDay(next)
+    next.settings.repetition = 'penalty'
+    expect(rewardFor(next, '未分類').xp).toBe(20)
+  })
+})
+
 describe('calendar and persistence', () => {
   it('handles month, year and leap-day boundaries', () => {
     expect(addDays('2026-12-31', 1)).toBe('2027-01-01')

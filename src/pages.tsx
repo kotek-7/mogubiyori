@@ -1,20 +1,16 @@
 import { useState } from 'react'
 import {
-  ArrowRight,
   ArrowUpRight,
   Camera,
   Check,
   ChefHat,
   ChevronRight,
-  Clock3,
   Flame as FlameIcon,
   Heart,
   Leaf,
   LockKeyhole,
   Plus,
-  RefreshCw,
   Snowflake,
-  Sparkles,
   Sprout,
   Users,
   Utensils,
@@ -30,7 +26,6 @@ import {
   pantryOptions,
   recipes,
   recommend,
-  recommendationReason,
   streak,
   weekDays,
   weeklyCount,
@@ -106,8 +101,7 @@ export function Effort({ state, setState }: Pick<PageProps, 'state' | 'setState'
   return (
     <div className="effort-control">
       <div>
-        <span className="eyebrow">MAKE IT YOUR PACE</span>
-        <h3>今日は、どのくらい作れそう？</h3>
+        <h3>使える時間</h3>
       </div>
       <div className="effort-options" role="group" aria-label="調理に使える時間">
         {[
@@ -133,305 +127,121 @@ export function Effort({ state, setState }: Pick<PageProps, 'state' | 'setState'
   )
 }
 
-export function Today(props: PageProps) {
-  const { state, onRecipe, onRecord, onRest, onPage } = props
-  const [offset, setOffset] = useState(0)
-  const list = recommend(state, offset)
-  const pick = list[0]
+export function Today({ state, onRecord, onRest, onPage, onMeal }: PageProps) {
   const done = cookedToday(state)
   const resting = state.rests.includes(state.today)
   const weekly = state.settings.habit === 'weekly'
   const count = weekly ? weeklyCount(state) : streak(state)
-  const xp = state.meals.reduce((sum, m) => sum + m.xp, 0)
-  const totalCategories = new Set(state.meals.map((m) => m.category)).size
   return (
-    <>
-      <div className="page-heading">
-        <div>
-          <span className="eyebrow">A LITTLE COOKING, A LITTLE JOY.</span>
-          <h1>
-            今日の、ひとさじ<span className="orange">。</span>
-          </h1>
-          <p>上手じゃなくていい。自分のために、ひとつ作ろう。</p>
-        </div>
-        <span className="date-label">{dayLabel(state.today, true)}</span>
+    <section className={`daily-ritual ${done ? 'is-complete' : ''}`} aria-label="今日の継続">
+      <p className="ritual-date">{dayLabel(state.today, true)}</p>
+      <div className="ritual-flame">
+        <Flame />
       </div>
-      <div className="today-grid">
-        <div className="today-main">
-          {done && (
-            <div className="complete-banner">
-              <span className="check-circle">
-                <Check size={18} />
-              </span>
-              <span>
-                <strong>今日も「つくれた」を灯しました。</strong>
-                <small>もう一品の記録も、もちろんどうぞ。</small>
-              </span>
-              <button className="text-button" onClick={() => onPage('album')}>
-                記録を見る <ArrowRight size={16} />
-              </button>
-            </div>
-          )}
-          <section className="hero-card">
-            <div className="hero-copy">
-              <span className="soft-badge">
-                <Sparkles size={13} /> 今日のおすすめ
-              </span>
-              <h2>
-                迷ったら、
-                <br />
-                今日はこれにしよう。
-              </h2>
-              <p className="hero-recipe-name">{pick.name}</p>
-              <p className="hero-subtitle">{pick.subtitle}</p>
-              <div className="hero-meta">
-                <span>
-                  <Clock3 size={15} />
-                  {pick.minutes}分
-                </span>
-                <span>
-                  <Utensils size={15} />
-                  1人分
-                </span>
-                <span>かんたん</span>
-              </div>
-              <button className="button primary" onClick={() => onRecipe(pick)}>
-                これを作ってみる <ArrowRight size={17} />
-              </button>
-              <button className="hero-swap" onClick={() => setOffset((o) => o + 1)}>
-                <RefreshCw size={13} /> ほかの一品にする
-              </button>
-            </div>
-            <div className="hero-art">
-              <span className="handwritten">ひと皿から、はじめよう。</span>
-              <FoodArt recipe={pick} />
-              <span className="food-sticker">
-                <Leaf size={15} /> 気負わず、おいしく。
-              </span>
-            </div>
-            <div className="hero-footer">
-              <Sparkles size={15} />
-              <span>{recommendationReason(pick, state)}</span>
-              <span className="tiny-label">あなたに合わせて</span>
-            </div>
-          </section>
-          <section className="personalize-panel">
-            <Effort {...props} />
-            <Pantry {...props} />
-          </section>
-          <section className="recommendations-section">
-            <div className="section-heading">
-              <div>
-                <span className="eyebrow">
-                  {state.settings.recommendation === 'three'
-                    ? 'YOUR NEXT THREE MEALS'
-                    : 'A LITTLE MORE INSPIRATION'}
-                </span>
-                <h2>
-                  {state.settings.recommendation === 'three'
-                    ? `次の${Math.min(3, list.length)}食も、ゆるっと決めておく。`
-                    : 'こんな一品も、どう？'}
-                </h2>
-              </div>
-              <button className="text-button" onClick={() => onPage('recipes')}>
-                献立ノート <ArrowUpRight size={17} />
-              </button>
-            </div>
+      <h1 className="ritual-count">
+        <strong>{weekly ? count : count || 1}</strong>
+        <span>{weekly ? '/ 3日' : count ? '日連続' : '日目へ'}</span>
+      </h1>
+      <p className="ritual-message">
+        {done
+          ? '今日も、つづいた。'
+          : resting
+            ? '今日は、おやすみ。'
+            : weekly
+              ? '今週も、自分のペースで。'
+              : count
+                ? `今日の一皿で、${count + 1}日目。`
+                : '最初の一皿から。'}
+      </p>
+      <div className="ritual-week" role="group" aria-label="今週の記録">
+        {weekDays(state.today).map((day, i) => {
+          const checked = state.meals.some((m) => m.day === day)
+          const rest = state.rests.includes(day)
+          return (
             <div
-              className={`recipe-grid ${state.settings.recommendation === 'three' ? 'three' : ''}`}
+              key={day}
+              className={`ritual-day ${day === state.today ? 'is-today' : ''}`}
+              role="group"
+              aria-label={`${dayLabel(day)} ${checked ? '記録済み' : rest ? 'おやすみ' : '未記録'}`}
             >
-              {(state.settings.recommendation === 'three'
-                ? list.slice(0, 3)
-                : list.slice(1, 3)
-              ).map((recipe, i) => (
-                <RecipeCard
-                  key={recipe.id}
-                  recipe={recipe}
-                  state={state}
-                  label={
-                    state.settings.recommendation === 'three'
-                      ? ['今日', '次に作る日', 'その次の日'][i]
-                      : undefined
-                  }
-                  onSelect={() => onRecipe(recipe)}
-                />
-              ))}
-            </div>
-            {state.settings.recommendation === 'three' && (
-              <p className="helper">予定が変わっても大丈夫。作れる日に、好きな順番で。</p>
-            )}
-          </section>
-        </div>
-        <aside className="today-aside">
-          <section className="streak-card">
-            <div className="card-topline">
-              <span className="eyebrow">MY LITTLE FLAME</span>
-              <FlameIcon size={17} />
-            </div>
-            <div className="streak-visual">
-              <Flame />
-              <div className="streak-number">
-                {count}
-                <span>{weekly ? '/ 3日' : '日'}</span>
+              <span>{['月', '火', '水', '木', '金', '土', '日'][i]}</span>
+              <div className={checked ? 'cooked' : rest ? 'rested' : ''}>
+                {checked ? (
+                  <Check size={19} strokeWidth={3} />
+                ) : rest ? (
+                  <Snowflake size={18} />
+                ) : (
+                  <span className="day-dot" />
+                )}
               </div>
             </div>
-            <h3>
-              {weekly
-                ? count >= 3
-                  ? '今週の目標、達成！'
-                  : '今週、作れた日。'
-                : count > 0
-                  ? 'ちいさな火が、つづいてる。'
-                  : '今日から、火を灯そう。'}
-            </h3>
-            <p>
-              {weekly
-                ? '毎日じゃなくても、自分のペースで。'
-                : done
-                  ? '今日のひとさじも、ちゃんと積み重なった。'
-                  : resting
-                    ? '今日はおやすみ。火は消さずに、また明日。'
-                    : '今日のひとさじで、もう一日。'}
-            </p>
-            <div className="week-strip">
-              {weekDays(state.today).map((day, i) => {
-                const checked = state.meals.some((m) => m.day === day),
-                  rest = state.rests.includes(day)
-                return (
-                  <div key={day} className={`week-day ${day === state.today ? 'is-today' : ''}`}>
-                    <span>{['月', '火', '水', '木', '金', '土', '日'][i]}</span>
-                    <div className={checked ? 'cooked' : rest ? 'rested' : ''}>
-                      {checked ? (
-                        <Check size={15} strokeWidth={3} />
-                      ) : rest ? (
-                        <Snowflake size={14} />
-                      ) : day === state.today ? (
-                        <span className="today-dot" />
-                      ) : (
-                        '·'
-                      )}
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-            <div className="xp-progress">
-              <div>
-                <span>
-                  <Sparkles size={13} /> 小さな積み重ね
-                </span>
-                <strong>{xp} XP</strong>
-              </div>
-              <div className="progress-track">
-                <span style={{ width: `${(xp % 200) / 2}%` }} />
-              </div>
-              <small>次の節目まで {200 - (xp % 200)} XP</small>
-            </div>
-          </section>
-          <button className={`record-invite ${done ? 'is-done' : ''}`} onClick={() => onRecord()}>
-            <span className="record-icon">
-              <Camera size={22} />
-            </span>
-            <span>
-              <strong>{done ? 'もう一皿、残しておく？' : 'もう作った？'}</strong>
-              <small>写真で、今日の一皿を記録</small>
-            </span>
-            <ChevronRight size={19} />
-          </button>
-          {weekly ? (
-            <div className="rest-card">
-              <span className="round-icon">
-                <Sprout size={20} />
-              </span>
-              <div>
-                <h3>週3回から、少しずつ。</h3>
-                <p>おやすみの日も含めて、あなたのペースです。</p>
-              </div>
-            </div>
-          ) : (
-            <button
-              className="rest-card"
-              aria-label={`おやすみチケット 残り${state.freezes}枚`}
-              onClick={onRest}
-              disabled={done || resting || state.freezes === 0}
-            >
-              <span className="round-icon">
-                <Snowflake size={20} />
-              </span>
-              <div>
-                <h3>{resting ? '今日はおやすみ中' : '作れない日があっても。'}</h3>
-                <p>
-                  {done
-                    ? '今日は記録できました'
-                    : resting
-                      ? '継続の火は守られています'
-                      : `おやすみチケット 残り${state.freezes}枚`}
-                </p>
-              </div>
-              {!done && !resting && <ChevronRight size={16} />}
-            </button>
-          )}
-          <section className="growth-card">
-            <span className="eyebrow">SMALL STEPS, REAL GROWTH</span>
-            <h3>
-              「つくれる」が、
-              <br />
-              すこしずつ増えている。
-            </h3>
-            <div className="growth-icons">
-              <span className={totalCategories >= 1 ? 'earned' : ''}>
-                <Sprout size={21} />
-              </span>
-              <i />
-              <span className={totalCategories >= 3 ? 'earned' : ''}>
-                <Utensils size={21} />
-              </span>
-              <i />
-              <span className={totalCategories >= 5 ? 'earned' : ''}>
-                <ChefHat size={21} />
-              </span>
-            </div>
-            <p>
-              <strong>{totalCategories}</strong> / 5ジャンルに挑戦
-            </p>
-            <button className="text-button" onClick={() => onPage('album')}>
-              自分のあしあとを見る <ArrowRight size={14} />
-            </button>
-          </section>
-          <div className="little-note">
-            <span>ひとさじの約束</span>
-            <p>
-              凝った料理も、レンジの一品も。
-              <br />
-              自分のために作ったら、
-              <br />
-              それは立派な自炊です。
-            </p>
-            <span className="note-doodle">✳</span>
-          </div>
-        </aside>
+          )
+        })}
       </div>
-    </>
+      <button
+        className="button primary ritual-cta"
+        onClick={() =>
+          done ? onMeal(state.meals.filter((m) => m.day === state.today).at(-1)!) : onRecord()
+        }
+      >
+        {done ? (
+          <>
+            <Check size={20} />
+            今日の記録を見る
+          </>
+        ) : (
+          <>
+            <Camera size={21} />
+            今日の一皿を残す
+          </>
+        )}
+      </button>
+      <div className="ritual-secondary">
+        {done ? (
+          <span className="resting-label">また明日。</span>
+        ) : !weekly && !resting ? (
+          <button
+            className="text-button"
+            aria-label={`おやすみチケット 残り${state.freezes}枚`}
+            onClick={onRest}
+            disabled={state.freezes === 0}
+          >
+            <Snowflake size={15} />
+            今日はおやすみ<span className="ticket-count">{state.freezes}</span>
+          </button>
+        ) : resting ? (
+          <span className="resting-label">
+            <Snowflake size={15} />
+            継続はそのまま
+          </span>
+        ) : null}
+      </div>
+      {!done && (
+        <button className="recipe-help" onClick={() => onPage('recipes')}>
+          献立に迷ったら <ChevronRight size={15} />
+        </button>
+      )}
+    </section>
   )
 }
 
 export function RecipesPage(props: PageProps) {
   const [search, setSearch] = useState('')
+  const [offset, setOffset] = useState(0)
   const [onlyOwned, setOnlyOwned] = useState(false)
-  const list = recommend(props.state).filter(
+  const list = recommend(props.state, offset).filter(
     (r) =>
       (!onlyOwned || r.ingredients.every((i) => props.state.pantry.includes(i.name))) &&
       `${r.name}${r.ingredients.map((i) => i.name).join('')}`.includes(search),
   )
+  const suggested = list.slice(0, props.state.settings.recommendation === 'three' ? 3 : 1)
   return (
     <>
       <div className="page-heading">
         <div>
-          <span className="eyebrow">YOUR RECIPE NOTEBOOK</span>
           <h1>
             献立ノート<span className="orange">。</span>
           </h1>
-          <p>今日の余裕と、冷蔵庫にあるものから。</p>
         </div>
         <span className="outlined-badge">ひとり分のレシピ {recipes.length}品</span>
       </div>
@@ -460,7 +270,7 @@ export function RecipesPage(props: PageProps) {
         <span className="helper">{list.length}品</span>
       </div>
       <div className="recipe-grid three">
-        {list.map((r) => (
+        {(search || onlyOwned ? list : suggested).map((r) => (
           <RecipeCard
             key={r.id}
             recipe={r}
@@ -469,6 +279,11 @@ export function RecipesPage(props: PageProps) {
           />
         ))}
       </div>
+      {!search && !onlyOwned && list.length > suggested.length && (
+        <button className="text-button next-recipe" onClick={() => setOffset((o) => o + 1)}>
+          ほかの一品にする <ChevronRight size={16} />
+        </button>
+      )}
       {list.length === 0 && (
         <div className="empty-state">
           <Sprout size={40} />
@@ -503,39 +318,14 @@ export function Album(props: PageProps) {
     <>
       <div className="page-heading">
         <div>
-          <span className="eyebrow">YOUR COOKING STORY</span>
           <h1>
             自炊アルバム<span className="orange">。</span>
           </h1>
-          <p>なんでもない一皿が、あなたの「つくれる」になる。</p>
         </div>
         <button className="button primary" onClick={() => props.onRecord()}>
           <Plus size={17} />
           一皿を記録
         </button>
-      </div>
-      <div className="album-stats">
-        <div>
-          <span>これまでの一皿</span>
-          <strong>
-            {all.length}
-            <small>皿</small>
-          </strong>
-        </div>
-        <div>
-          <span>つくったジャンル</span>
-          <strong>
-            {new Set(all.map((m) => m.category)).size}
-            <small>種類</small>
-          </strong>
-        </div>
-        <div>
-          <span>今週つくれた日</span>
-          <strong>
-            {weeklyCount(props.state)}
-            <small>日</small>
-          </strong>
-        </div>
       </div>
       <div className="filter-row chip-list" role="group" aria-label="料理ジャンル">
         {(['すべて', ...categories] as const).map((c) => (
@@ -566,12 +356,7 @@ export function Album(props: PageProps) {
                 </span>
               </div>
               <div className="album-card-copy">
-                <span className="eyebrow">{meal.category}</span>
                 <h3>{meal.title}</h3>
-                <p>{meal.note || '今日もひとつ、つくれた。'}</p>
-                <span className="album-xp">
-                  <Sparkles size={12} /> +{meal.xp} XP
-                </span>
               </div>
             </button>
           )
@@ -581,7 +366,7 @@ export function Album(props: PageProps) {
         <div className="empty-state">
           <Camera size={40} />
           <h2>{all.length ? 'このジャンルは、これから。' : '最初の一皿を、ここに。'}</h2>
-          <p>写真とひとことから、自分だけの自炊の記録がはじまります。</p>
+          <p>写真1枚で、今日の「つくれた」を残そう。</p>
           <button className="button primary" onClick={() => props.onRecord()}>
             一皿を記録する
           </button>
@@ -636,11 +421,9 @@ export function Community(props: PageProps) {
     <>
       <div className="page-heading">
         <div>
-          <span className="eyebrow">DIFFERENT TABLES, SAME LITTLE STEPS</span>
           <h1>
             みんなの食卓<span className="orange">。</span>
           </h1>
-          <p>どこかで誰かも、今日の一皿を作っている。</p>
         </div>
         <span className="outlined-badge">
           <span className="green-dot" />
@@ -649,13 +432,6 @@ export function Community(props: PageProps) {
       </div>
       {!unlocked ? (
         <section className="feed-locked">
-          <div className="locked-illustrations">
-            {friends.map((f) => (
-              <div key={f.id}>
-                <FoodArt recipe={recipes.find((r) => r.id === f.recipeId)!} />
-              </div>
-            ))}
-          </div>
           <div className="locked-message">
             <span className="round-icon">
               <LockKeyhole size={24} />
@@ -674,16 +450,10 @@ export function Community(props: PageProps) {
               <Camera size={17} />
               今日の一皿を記録する
             </button>
-            <small>上手な料理も、きれいな写真も、必要ありません。</small>
           </div>
         </section>
       ) : (
         <>
-          <div className="community-banner">
-            <Heart size={20} />
-            <span>今日もつくれた、をおすそわけ。</span>
-            <small>いいね・フォローはこの端末内のデモです</small>
-          </div>
           <div className="filter-row">
             <button
               className={`chip ${!following ? 'active' : ''}`}

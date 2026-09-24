@@ -1,18 +1,14 @@
 import { useEffect, useState } from 'react'
 import {
-  ArrowUpRight,
   Bell,
   BookOpen,
-  Camera,
   Check,
+  ChevronRight,
   CircleHelp,
   FlaskConical,
   Flame as FlameIcon,
-  House,
   Images,
-  Leaf,
-  Menu,
-  Sparkles,
+  Settings2,
   Users,
   X,
 } from 'lucide-react'
@@ -28,25 +24,24 @@ import {
   RestDialog,
   SuccessDialog,
 } from './dialogs'
-import { cookedToday, recordMeal, rewardFor, streak, freezeDay, weeklyCount } from './domain'
+import { cookedToday, recordMeal, freezeDay } from './domain'
 import type { Meal, Recipe } from './domain'
 import { loadState, saveState } from './storage'
 
 type Dialog =
   | { type: 'recipe'; recipe: Recipe }
   | { type: 'record'; recipe?: Recipe }
-  | { type: 'success'; xp: number; message: string }
+  | { type: 'success' }
   | { type: 'meal'; meal: Meal }
-  | { type: 'rest' | 'lab' | 'reminder' | 'about' }
+  | { type: 'rest' | 'lab' | 'reminder' | 'about' | 'settings' }
 const navItems = [
-  { id: 'today' as const, label: '今日のひとさじ', short: '今日', icon: House },
-  { id: 'recipes' as const, label: '献立ノート', short: '献立', icon: BookOpen },
-  { id: 'album' as const, label: '自炊アルバム', short: '記録', icon: Images },
-  { id: 'community' as const, label: 'みんなの食卓', short: '食卓', icon: Users },
+  { id: 'today' as const, label: '今日', icon: FlameIcon },
+  { id: 'album' as const, label: '記録', icon: Images },
+  { id: 'community' as const, label: '食卓', icon: Users },
 ]
 function currentPage(): Page {
   const hash = window.location.hash.slice(1)
-  return navItems.some((n) => n.id === hash) ? (hash as Page) : 'today'
+  return ['today', 'recipes', 'album', 'community'].includes(hash) ? (hash as Page) : 'today'
 }
 
 function App() {
@@ -56,7 +51,6 @@ function App() {
     window.location.hash === '#lab' ? { type: 'lab' } : null,
   )
   const [storageError, setStorageError] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
   const [toast, setToast] = useState('')
   useEffect(() => {
     // Storage is an external system; its failure must be visible to the user.
@@ -79,7 +73,6 @@ function App() {
   function navigate(next: Page) {
     setPage(next)
     window.location.hash = next
-    setMenuOpen(false)
     window.scrollTo({ top: 0, behavior: 'instant' })
   }
   function closeDialog() {
@@ -87,9 +80,9 @@ function App() {
     if (window.location.hash === '#lab') window.history.replaceState(null, '', `#${page}`)
   }
   function saveMeal(input: Omit<Meal, 'id' | 'day' | 'xp'>) {
-    const reward = rewardFor(state, input.category)
     setState((s) => recordMeal(s, input))
-    setDialog({ type: 'success', xp: reward.xp, message: reward.label })
+    navigate('today')
+    setDialog({ type: 'success' })
   }
   const pageProps = {
     state,
@@ -105,121 +98,36 @@ function App() {
       <a className="skip-link" href="#main-content">
         本文へスキップ
       </a>
-      {menuOpen && (
-        <button
-          className="sidebar-scrim"
-          aria-label="メニューを閉じる"
-          onClick={() => setMenuOpen(false)}
-        />
-      )}
-      <aside className={`sidebar ${menuOpen ? 'open' : ''}`}>
+      <header className="app-header">
         <button className="brand" onClick={() => navigate('today')} aria-label="ひとさじ ホーム">
-          <span className="brand-icon">
-            <Flame />
-          </span>
-          <span>
-            <strong>ひとさじ</strong>
-            <small>HITOSAJI</small>
-          </span>
+          <Flame />
+          <strong>ひとさじ</strong>
         </button>
-        <span className="brand-tagline">自炊に、ちいさな火を。</span>
-        <div className="nav-caption">YOUR KITCHEN</div>
-        <nav className="desktop-nav" aria-label="メインナビゲーション">
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              className={page === item.id ? 'active' : ''}
-              aria-current={page === item.id ? 'page' : undefined}
-              onClick={() => navigate(item.id)}
-            >
-              <item.icon size={19} strokeWidth={1.7} />
-              <span>{item.label}</span>
-              {page === item.id && <span className="nav-dot" />}
-            </button>
-          ))}
-        </nav>
-        <div className="sidebar-bottom">
-          <div className="sidebar-message">
-            <Flame />
-            <p>
-              きょうの自分に、
-              <br />
-              ひとさじのやさしさを。
-            </p>
-            <span>ONE MEAL AT A TIME.</span>
+        <button
+          className="icon-button"
+          aria-label="設定"
+          onClick={() => setDialog({ type: 'settings' })}
+        >
+          <Settings2 size={21} />
+        </button>
+      </header>
+      <main id="main-content" className={`main-content ${page === 'today' ? 'home-content' : ''}`}>
+        {storageError && (
+          <div className="storage-error" role="alert">
+            ブラウザに保存できません。再読み込みすると変更が失われます。
           </div>
-          <button className="utility-nav" onClick={() => setDialog({ type: 'about' })}>
-            <CircleHelp size={17} />
-            ひとさじについて
-            <ArrowUpRight size={14} />
-          </button>
-          <button className="utility-nav lab-link" onClick={() => setDialog({ type: 'lab' })}>
-            <FlaskConical size={17} />
-            アイデアの実験室
-            <ArrowUpRight size={14} />
-          </button>
-          <div className="sidebar-footer">
-            <span className="green-dot" />
-            LOCAL PREVIEW <span>v0.1</span>
-          </div>
-        </div>
-      </aside>
-      <div className="workspace">
-        <header className="topbar">
-          <div className="breadcrumb">
-            <button
-              className="icon-button mobile-menu"
-              aria-label="メニューを開く"
-              onClick={() => setMenuOpen(true)}
-            >
-              <Menu size={21} />
-            </button>
-            <Leaf size={16} />
-            <span>わたしのキッチン</span>
-            <span className="breadcrumb-slash">/</span>
-            <strong>{navItems.find((n) => n.id === page)?.label}</strong>
-          </div>
-          <div className="topbar-actions">
-            <span className="header-streak">
-              <FlameIcon size={17} fill="currentColor" />
-              {state.settings.habit === 'weekly' ? weeklyCount(state) : streak(state)}
-              <span>{state.settings.habit === 'weekly' ? '日 / 週' : '日'}</span>
-            </span>
-            <button
-              className="icon-button notification-button"
-              aria-label="お知らせ"
-              onClick={() => setDialog({ type: 'reminder' })}
-            >
-              <Bell size={19} />
-              {!cookedToday(state) && <i />}
-            </button>
-            <span className="topbar-divider" />
-            <span className="user-avatar">ひ</span>
-          </div>
-        </header>
-        <main id="main-content" className="main-content">
-          {storageError && (
-            <div className="storage-error" role="alert">
-              保存容量が足りないか、ブラウザの保存が無効です。今の操作はできますが、再読み込みすると変更が失われます。
-            </div>
-          )}
-          {page === 'today' ? (
-            <Today {...pageProps} />
-          ) : page === 'recipes' ? (
-            <RecipesPage {...pageProps} />
-          ) : page === 'album' ? (
-            <Album {...pageProps} />
-          ) : (
-            <Community {...pageProps} />
-          )}
-          <footer className="page-footer">
-            <span>ひとさじ</span>
-            <p>がんばりすぎず、つくりつづける。</p>
-            <span className="footer-flower">✳</span>
-          </footer>
-        </main>
-      </div>
-      <nav className="mobile-nav" aria-label="モバイルナビゲーション">
+        )}
+        {page === 'today' ? (
+          <Today {...pageProps} />
+        ) : page === 'recipes' ? (
+          <RecipesPage {...pageProps} />
+        ) : page === 'album' ? (
+          <Album {...pageProps} />
+        ) : (
+          <Community {...pageProps} />
+        )}
+      </main>
+      <nav className="main-nav" aria-label="メインナビゲーション">
         {navItems.map((item) => (
           <button
             key={item.id}
@@ -227,16 +135,10 @@ function App() {
             aria-current={page === item.id ? 'page' : undefined}
             onClick={() => navigate(item.id)}
           >
-            <item.icon size={20} />
-            <span>{item.short}</span>
+            <item.icon size={21} strokeWidth={1.7} />
+            <span>{item.label}</span>
           </button>
         ))}
-        <button onClick={() => setDialog({ type: 'record' })}>
-          <span className="mobile-camera">
-            <Camera size={19} />
-          </span>
-          <span>残す</span>
-        </button>
       </nav>
       {dialog?.type === 'recipe' && (
         <RecipeDialog
@@ -255,18 +157,7 @@ function App() {
           onSave={saveMeal}
         />
       )}
-      {dialog?.type === 'success' && (
-        <SuccessDialog
-          state={state}
-          xp={dialog.xp}
-          message={dialog.message}
-          onClose={closeDialog}
-          onCommunity={() => {
-            closeDialog()
-            navigate('community')
-          }}
-        />
-      )}
+      {dialog?.type === 'success' && <SuccessDialog state={state} onClose={closeDialog} />}
       {dialog?.type === 'rest' && (
         <RestDialog
           state={state}
@@ -274,7 +165,7 @@ function App() {
           onConfirm={() => {
             setState((s) => freezeDay(s))
             closeDialog()
-            setToast('おやすみチケットで、今日の火を守りました。')
+            setToast('今日の継続を守りました。')
           }}
         />
       )}
@@ -282,71 +173,69 @@ function App() {
       {dialog?.type === 'lab' && (
         <LabDialog state={state} setState={setState} onClose={closeDialog} />
       )}
-      {dialog?.type === 'reminder' && (
-        <Modal title="ひとさじからのおたより" onClose={closeDialog}>
-          <div className="notification-content">
-            <Flame />
-            <span className="eyebrow">TODAY'S LITTLE NUDGE</span>
-            <h3>
-              {cookedToday(state)
-                ? '今日の一皿、ちゃんと見届けたよ。'
-                : state.rests.includes(state.today)
-                  ? '今日はゆっくり、また明日。'
-                  : state.settings.reminder === 'gentle'
-                    ? '今日は一品だけ、どう？'
-                    : '今日の記録は、まだみたい。'}
-            </h3>
-            <p>
-              {cookedToday(state)
-                ? '積み重ねた「つくれた」は、あなたの力。明日も自分のペースで。'
-                : state.rests.includes(state.today)
-                  ? 'おやすみチケットで、継続の火は守られているよ。'
-                  : state.settings.reminder === 'gentle'
-                    ? '5分でできるごはんがあるよ。小さな一歩から、はじめてみよう。'
-                    : '日付が変わる前に、今日の一皿を記録して継続の火を灯そう！'}
-            </p>
+      {dialog?.type === 'settings' && (
+        <Modal title="設定" onClose={closeDialog}>
+          <div className="settings-menu">
             <button
-              className="button primary full"
               onClick={() => {
                 closeDialog()
-                navigate(cookedToday(state) ? 'album' : 'recipes')
+                navigate('recipes')
               }}
             >
-              {cookedToday(state) ? '自分のあしあとを見る' : '作れそうな一品を探す'}
-              <ArrowUpRight size={17} />
+              <BookOpen size={19} />
+              献立ノート
+              <ChevronRight size={17} />
             </button>
-            <small>アプリ内のおたよりです。端末への通知は送信されません。</small>
+            <button onClick={() => setDialog({ type: 'reminder' })}>
+              <Bell size={19} />
+              おたより
+              <ChevronRight size={17} />
+            </button>
+            <button onClick={() => setDialog({ type: 'about' })}>
+              <CircleHelp size={19} />
+              ひとさじについて
+              <ChevronRight size={17} />
+            </button>
+            <button onClick={() => setDialog({ type: 'lab' })}>
+              <FlaskConical size={19} />
+              アイデアの実験室
+              <ChevronRight size={17} />
+            </button>
+          </div>
+        </Modal>
+      )}
+      {dialog?.type === 'reminder' && (
+        <Modal title="おたより" onClose={closeDialog}>
+          <div className="notification-content">
+            <Flame />
+            <h3>
+              {cookedToday(state)
+                ? '今日も、つづいたね。'
+                : state.rests.includes(state.today)
+                  ? 'ゆっくり休んで、また明日。'
+                  : state.settings.reminder === 'gentle'
+                    ? '今日の一皿、残しておこう。'
+                    : '日付が変わる前に、あと一歩。'}
+            </h3>
+            <button className="button primary full" onClick={() => setDialog({ type: 'record' })}>
+              一皿を残す
+            </button>
+            <small>アプリ内のおたよりです。</small>
           </div>
         </Modal>
       )}
       {dialog?.type === 'about' && (
-        <Modal title="自炊に、ちいさな火を。" onClose={closeDialog}>
+        <Modal title="ひとさじについて" onClose={closeDialog}>
           <div className="about-content">
             <Flame />
-            <h3>ひとさじ</h3>
+            <h3>自炊を、つづける。</h3>
             <p>
-              何を作るか迷う日も、
+              一皿つくって、写真を残す。
               <br />
-              いつもと同じごはんになる日も。
-              <br />
-              自分のために作る、小さな一歩を。
+              毎日の小さな積み重ねを、ここに。
             </p>
-            <div className="about-promises">
-              <span>
-                <Sparkles size={19} />
-                いまの余裕で作れる一品を見つける
-              </span>
-              <span>
-                <Camera size={19} />
-                写真1枚から「つくれた」を残す
-              </span>
-              <span>
-                <FlameIcon size={19} />
-                小さな積み重ねを、自信に変える
-              </span>
-            </div>
             <p className="about-local">
-              このプレビューは、あなたのブラウザだけで動きます。料理の記録と写真は端末内に保存され、ほかの利用者には送信されません。みんなの食卓にはサンプルの投稿が含まれます。
+              写真と記録はこのブラウザに保存されます。食卓はサンプル表示で、ほかの利用者への送信はありません。
             </p>
           </div>
         </Modal>
@@ -363,5 +252,4 @@ function App() {
     </div>
   )
 }
-
 export default App

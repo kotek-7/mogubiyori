@@ -210,7 +210,7 @@ export type Meal = {
   day: string
   recipeId: string
   title: string
-  category: Category
+  category: Category | '未分類'
   photo?: string
   note: string
   visibility: 'private' | 'anonymous' | 'friends'
@@ -335,7 +335,7 @@ export function recommendationReason(recipe: Recipe, state: AppState) {
     return '最近とちがう一品で、レパートリーをひとつ。'
   return `家にある${owned}つの食材を使って、気軽に。`
 }
-export function rewardFor(state: AppState, category: Category) {
+export function rewardFor(state: AppState, category: Meal['category']) {
   if (cookedToday(state))
     return {
       xp: 0,
@@ -344,8 +344,9 @@ export function rewardFor(state: AppState, category: Category) {
       label: '今日のごほうびは獲得済み。記録は何度でも。',
     }
   const recent = state.meals.filter((m) => m.day >= addDays(state.today, -3) && m.day < state.today)
-  const repeated = recent.filter((m) => m.category === category).length >= 2
-  const novel = !state.meals.some((m) => m.category === category)
+  const repeated =
+    category !== '未分類' && recent.filter((m) => m.category === category).length >= 2
+  const novel = category !== '未分類' && !state.meals.some((m) => m.category === category)
   const xp = state.settings.repetition === 'penalty' && repeated ? 10 : 20 + (novel ? 10 : 0)
   return {
     xp,

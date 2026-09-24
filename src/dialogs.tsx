@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import {
   ArrowRight,
   Camera,
@@ -7,14 +7,11 @@ import {
   Clock3,
   Download,
   EyeOff,
-  Flame as FlameIcon,
-  ImagePlus,
   Leaf,
   LockKeyhole,
   RotateCcw,
   Snowflake,
   Sparkles,
-  Upload,
   Users,
   Utensils,
 } from 'lucide-react'
@@ -26,12 +23,11 @@ import {
   dayLabel,
   initialState,
   recipes,
-  rewardFor,
   streak,
   todayInTokyo,
   weeklyCount,
 } from './domain'
-import type { AppState, Category, Meal, Recipe, Settings } from './domain'
+import type { AppState, Meal, Recipe, Settings } from './domain'
 import { resizePhoto } from './storage'
 import { RecentDates } from './pages'
 import type { Dispatch, SetStateAction } from 'react'
@@ -145,7 +141,7 @@ export function RecipeDialog({
 }
 
 export function RecordDialog({
-  recipe = recipes[0],
+  recipe,
   state,
   onClose,
   onSave,
@@ -155,17 +151,20 @@ export function RecordDialog({
   onClose: () => void
   onSave: (input: Omit<Meal, 'id' | 'day' | 'xp'>) => void
 }) {
-  const [selected, setSelected] = useState(recipe)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [selected, setSelected] = useState(recipe ?? recipes[0])
   const [photo, setPhoto] = useState<string>()
   const [sample, setSample] = useState(false)
-  const [title, setTitle] = useState(recipe.name)
-  const [category, setCategory] = useState<Category>(recipe.category)
+  const [title, setTitle] = useState(recipe?.name ?? '')
+  const [category, setCategory] = useState<Meal['category']>(recipe?.category ?? '未分類')
   const [note, setNote] = useState('')
   const [visibility, setVisibility] = useState<Meal['visibility']>('private')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const reward = rewardFor(state, category)
-  const selectSample = (id: string) => {
+  const ready = !!photo || sample
+  const todayDone = state.meals.some((m) => m.day === state.today)
+  const nextDay = streak(state) + (todayDone ? 0 : 1)
+  function selectSample(id: string) {
     const r = recipes.find((r) => r.id === id)!
     setSelected(r)
     setTitle(r.name)
@@ -180,6 +179,10 @@ export function RecordDialog({
     setError('')
     try {
       setPhoto(await resizePhoto(file))
+      if (sample && !recipe) {
+        setTitle('')
+        setCategory('未分類')
+      }
       setSample(false)
     } catch (e) {
       setError(e instanceof Error ? e.message : '写真を読み込めませんでした。')
@@ -188,14 +191,19 @@ export function RecordDialog({
     }
   }
   return (
-    <Modal title="今日の「つくれた」を残そう。" onClose={onClose} wide>
+    <Modal title="今日の一皿" onClose={onClose}>
       <form
+        className="quick-record"
         onSubmit={(e) => {
           e.preventDefault()
-          if ((!photo && !sample) || !title.trim() || loading) return
+          if (loading) return
+          if (!ready) {
+            inputRef.current?.click()
+            return
+          }
           onSave({
-            recipeId: selected.id,
-            title: title.trim(),
+            recipeId: photo && !recipe ? '' : selected.id,
+            title: title.trim() || '今日の一皿',
             category,
             note: note.trim(),
             visibility,
@@ -203,205 +211,173 @@ export function RecordDialog({
           })
         }}
       >
-        <div className="record-layout">
-          <div>
-            <div
-              className={`photo-upload ${photo || sample ? 'has-photo' : ''}`}
-              style={sample ? { background: selected.color } : undefined}
-            >
-              {photo ? (
-                <img src={photo} alt="記録する料理の写真" />
-              ) : sample ? (
-                <FoodArt recipe={selected} />
-              ) : (
-                <div className="upload-placeholder">
-                  <span>
-                    <Camera size={32} strokeWidth={1.5} />
-                  </span>
-                  <h3>いつものごはんを、1枚。</h3>
-                  <p>盛りつけも、映えも、気にしない。</p>
-                </div>
+        <div
+          className="flow-progress"
+          role="group"
+          aria-label={ready ? '写真を選択済み。次は記録。' : '写真を選ぶ'}
+        >
+          <span className="active" />
+          <span className={ready ? 'active' : ''} />
+        </div>
+        <label
+          className={`capture-area ${ready ? 'has-photo' : ''}`}
+          style={sample ? { background: selected.color } : undefined}
+        >
+          {photo ? (
+            <img src={photo} alt="記録する料理の写真" />
+          ) : sample ? (
+            <FoodArt recipe={selected} />
+          ) : (
+            <Camera size={49} strokeWidth={1.4} />
+          )}
+          <input
+            ref={inputRef}
+            aria-label="料理の写真"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            disabled={loading}
+            onChange={(e) => void upload(e.target.files?.[0])}
+          />
+          {ready && (
+            <span className="change-photo">
+              <Camera size={14} />
+              変更
+            </span>
+          )}
+        </label>
+        {!ready && (
+          <button type="button" className="sample-link" onClick={() => selectSample(selected.id)}>
+            写真なしで試す
+          </button>
+        )}
+        {ready && (
+          <details className="record-options">
+            <summary>メモ・公開範囲</summary>
+            <div className="record-fields">
+              {sample && (
+                <label className="field">
+                  <span>サンプル料理</span>
+                  <select
+                    aria-label="サンプル料理"
+                    value={selected.id}
+                    onChange={(e) => selectSample(e.target.value)}
+                  >
+                    {recipes.map((r) => (
+                      <option key={r.id} value={r.id}>
+                        {r.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
               )}
-              <label className="upload-label">
-                <Upload size={16} />
-                {loading ? '写真を準備中…' : photo || sample ? '写真を変える' : '写真を選ぶ・撮る'}
+              <label className="field">
+                <span>料理の名前</span>
                 <input
-                  aria-label="料理の写真"
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp"
-                  disabled={loading}
-                  onChange={(e) => void upload(e.target.files?.[0])}
+                  aria-label="料理の名前"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  maxLength={60}
+                  placeholder="今日の一皿"
                 />
               </label>
-            </div>
-            <div className="sample-control">
-              <span className="helper">写真がなくても体験できます</span>
-              <button
-                type="button"
-                className="text-button"
-                onClick={() => selectSample(selected.id)}
-              >
-                <ImagePlus size={15} />
-                サンプルの一皿を使う
-              </button>
-              {sample && (
+              <label className="field">
+                <span>ジャンル</span>
                 <select
-                  aria-label="サンプル料理"
-                  value={selected.id}
-                  onChange={(e) => selectSample(e.target.value)}
+                  aria-label="料理のジャンル"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value as Meal['category'])}
                 >
-                  {recipes.map((r) => (
-                    <option key={r.id} value={r.id}>
-                      {r.name}
-                    </option>
+                  <option>未分類</option>
+                  {categories.map((c) => (
+                    <option key={c}>{c}</option>
                   ))}
                 </select>
-              )}
+              </label>
+              <label className="field">
+                <span>ひとこと</span>
+                <textarea
+                  aria-label="今日のひとこと"
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  rows={2}
+                  maxLength={200}
+                />
+              </label>
+              <fieldset className="visibility-field">
+                <legend>公開範囲</legend>
+                <div className="visibility-options">
+                  {[
+                    { value: 'private', label: '自分だけ', icon: <LockKeyhole size={17} /> },
+                    { value: 'anonymous', label: '匿名でみんな', icon: <EyeOff size={17} /> },
+                    { value: 'friends', label: '友達だけ', icon: <Users size={17} /> },
+                  ].map((option) => (
+                    <button
+                      type="button"
+                      key={option.value}
+                      aria-pressed={visibility === option.value}
+                      className={visibility === option.value ? 'selected' : ''}
+                      onClick={() => setVisibility(option.value as Meal['visibility'])}
+                    >
+                      {option.icon}
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+                <small>公開は端末内のプレビューです。</small>
+              </fieldset>
             </div>
-            <p className="privacy-note">
-              <LockKeyhole size={13} />
-              写真はこのブラウザ内に保存されます。
-            </p>
-          </div>
-          <div className="record-fields">
-            <label className="field">
-              <span>料理の名前</span>
-              <input
-                aria-label="料理の名前"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                maxLength={60}
-                required
-                placeholder="たとえば、わたしの炒飯"
-              />
-            </label>
-            <label className="field">
-              <span>料理のジャンル</span>
-              <select
-                aria-label="料理のジャンル"
-                value={category}
-                onChange={(e) => setCategory(e.target.value as Category)}
-              >
-                {categories.map((c) => (
-                  <option key={c}>{c}</option>
-                ))}
-              </select>
-              <small>
-                {photo
-                  ? '写真を見ながら、名前とジャンルを入力してください。'
-                  : '料理の名前とジャンルは、自由に直せます。'}
-              </small>
-            </label>
-            <label className="field">
-              <span>
-                今日のひとこと <small>任意</small>
-              </span>
-              <textarea
-                aria-label="今日のひとこと"
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-                rows={2}
-                maxLength={200}
-                placeholder="できたことを、ひとつ。"
-              />
-            </label>
-            <fieldset className="visibility-field">
-              <legend>この一皿を見せるのは</legend>
-              <div className="visibility-options">
-                {[
-                  { value: 'private', label: '自分だけ', icon: <LockKeyhole size={17} /> },
-                  { value: 'anonymous', label: '匿名でみんな', icon: <EyeOff size={17} /> },
-                  { value: 'friends', label: '友達だけ', icon: <Users size={17} /> },
-                ].map((option) => (
-                  <button
-                    type="button"
-                    aria-pressed={visibility === option.value}
-                    className={visibility === option.value ? 'selected' : ''}
-                    key={option.value}
-                    onClick={() => setVisibility(option.value as Meal['visibility'])}
-                  >
-                    {option.icon}
-                    {option.label}
-                  </button>
-                ))}
-              </div>
-              <small>
-                {visibility === 'private'
-                  ? '自分だけの記録でも、みんなの食卓を見られます。'
-                  : 'デモでは食卓のプレビューに表示されます。外部への公開はありません。'}
-              </small>
-            </fieldset>
-          </div>
-        </div>
-        <div
-          className={`reward-preview ${reward.repeated && state.settings.repetition === 'penalty' ? 'penalty' : ''}`}
-        >
-          <Sparkles size={18} />
-          <span>{reward.label}</span>
-          <strong>+{reward.xp} XP</strong>
-        </div>
+          </details>
+        )}
         {error && (
           <p className="error-message" role="alert">
             {error}
           </p>
         )}
-        <div className="modal-footer">
-          <span className="helper">{dayLabel(state.today)}の記録</span>
+        <div className="record-submit">
           <button
             type="submit"
-            className="button primary"
-            disabled={(!photo && !sample) || !title.trim() || loading}
+            className="button primary full"
+            aria-label={ready ? 'この一皿を記録する' : '写真を選ぶ'}
+            disabled={loading}
           >
-            この一皿を記録する <ArrowRight size={17} />
+            {loading
+              ? '読み込み中…'
+              : !ready
+                ? '写真を選ぶ'
+                : todayDone || state.settings.habit === 'weekly'
+                  ? 'この一皿を記録する'
+                  : `記録して、${nextDay}日目へ`}
           </button>
+          <small>
+            <LockKeyhole size={12} />
+            {visibility === 'private'
+              ? '自分だけ'
+              : visibility === 'anonymous'
+                ? '匿名でみんな'
+                : '友達だけ'}{' '}
+            · 端末に保存
+          </small>
         </div>
       </form>
     </Modal>
   )
 }
 
-export function SuccessDialog({
-  state,
-  xp,
-  message,
-  onClose,
-  onCommunity,
-}: {
-  state: AppState
-  xp: number
-  message: string
-  onClose: () => void
-  onCommunity: () => void
-}) {
+export function SuccessDialog({ state, onClose }: { state: AppState; onClose: () => void }) {
+  const weekly = state.settings.habit === 'weekly'
   return (
-    <Modal title="今日もひとつ、つくれた！" onClose={onClose}>
-      <div className="success-body">
-        <div className="success-rays">
+    <Modal title="今日も、つづいた！" onClose={onClose}>
+      <div className="streak-success">
+        <div className="celebration-flame">
           <Flame />
         </div>
-        <span className="success-xp">
-          <Sparkles size={21} />+{xp} XP
-        </span>
-        <h3>
-          その一皿が、
-          <br />
-          明日の自分の力になる。
-        </h3>
-        <p>{message}</p>
-        <div className="success-stat">
-          <FlameIcon size={21} />
-          <strong>
-            {state.settings.habit === 'weekly' ? weeklyCount(state) : streak(state)}日
-          </strong>{' '}
-          {state.settings.habit === 'weekly'
-            ? '今週も、自分のペースで'
-            : '小さな火がつづいています'}
+        <div className="success-count">
+          <strong>{weekly ? weeklyCount(state) : streak(state)}</strong>
+          <span>{weekly ? '/ 3日' : '日連続'}</span>
         </div>
-        <button className="button primary full" onClick={onCommunity}>
-          みんなの食卓がひらきました <ArrowRight size={17} />
-        </button>
-        <button className="text-button" onClick={onClose}>
-          今日のひとさじに戻る
+        <p>{weekly ? '今週も、一歩ずつ。' : 'また明日、この続きを。'}</p>
+        <button className="button primary full" onClick={onClose}>
+          つづける
         </button>
       </div>
     </Modal>
@@ -418,36 +394,15 @@ export function RestDialog({
   onConfirm: () => void
 }) {
   return (
-    <Modal title="今日は、おやすみにしよう。" onClose={onClose}>
+    <Modal title="今日はおやすみ" onClose={onClose}>
       <div className="rest-dialog-body">
-        <span className="big-snow">
-          <Snowflake size={44} />
+        <Snowflake size={52} />
+        <p>チケットで、連続記録を守れます。</p>
+        <span className="rest-ticket-count">
+          残り {state.freezes}枚 → {Math.max(0, state.freezes - 1)}枚
         </span>
-        <h3>休むことも、つづけること。</h3>
-        <p>
-          おやすみチケットを1枚使うと、
-          <br />
-          今日つくらなくても、継続の火を守れます。
-        </p>
-        <div className="rest-rules">
-          <span>
-            <Check size={16} />
-            継続日数は増えず、そのままキープ
-          </span>
-          <span>
-            <Check size={16} />
-            今日つくれたらチケットは戻ります
-          </span>
-          <span>
-            <LockKeyhole size={16} />
-            みんなの食卓は記録した日にひらきます
-          </span>
-        </div>
         <button className="button primary full" onClick={onConfirm} disabled={state.freezes < 1}>
-          チケットを1枚使う <span>残り{state.freezes}枚</span>
-        </button>
-        <button className="text-button" onClick={onClose}>
-          やっぱり今日は作ってみる
+          チケットを使って休む
         </button>
       </div>
     </Modal>
@@ -497,8 +452,8 @@ const experiments: {
       { value: 'three', label: '3日分の提案' },
     ],
     meanings: {
-      one: 'ホームで今日の1品に集中。ほかの一品への変更もできます。',
-      three: 'ホームに次の3食を表示。不規則な生活に合わせ、日付を固定しません。',
+      one: '献立ノートで1品ずつ提案します。',
+      three: '献立ノートで次の3食を提案。日付は固定しません。',
     },
   },
   {

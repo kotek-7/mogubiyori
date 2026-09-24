@@ -21,7 +21,7 @@ export function parseState(value: string | null): AppState {
           date(m.day) &&
           typeof m.recipeId === 'string' &&
           typeof m.title === 'string' &&
-          categories.includes(m.category as never) &&
+          (m.category === '未分類' || categories.includes(m.category as never)) &&
           typeof m.note === 'string' &&
           ['private', 'anonymous', 'friends'].includes(m.visibility as string) &&
           typeof m.xp === 'number' &&
