@@ -211,6 +211,38 @@
 .friend-card.is-active {
   border-color: var(--game-action);
 }
+.friend-profile-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: inherit;
+  text-align: center;
+}
+.friend-profile-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 12px;
+  color: var(--game-teal-dark);
+  font-size: 12px;
+}
+.friend-card .friend-select {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 12px;
+  padding: 8px 4px;
+  font-size: 12px;
+}
+.friend-visitor .friend-profile-link {
+  margin-bottom: 12px;
+}
 .friend-card-top {
   display: flex;
   align-items: center;
@@ -364,6 +396,7 @@
 }
 .friend-visitor-portrait {
   position: relative;
+  width: 100%;
   max-width: 180px;
   margin: 0 auto;
 }
@@ -384,9 +417,8 @@
   padding: 5px 10px;
   color: #806249;
 }
-.friend-visitor h2 {
+.friend-visitor-name {
   font-size: 15px;
-  margin-bottom: 15px;
 }
 .friend-visitor .primary-button {
   font-size: 12px;
@@ -698,7 +730,7 @@
   .friend-visitor-portrait > .pet-art {
     height: 150px;
   }
-  .friend-visitor h2 {
+  .friend-visitor-name {
     font-size: 13px;
     margin-top: 4px;
   }

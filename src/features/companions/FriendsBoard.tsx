@@ -1,4 +1,4 @@
-import { Check, Heart, Leaf, Sparkles, Utensils } from 'lucide-react'
+import { Check, ChevronRight, Heart, Leaf, Sparkles, Utensils } from 'lucide-react'
 import { Pet } from '../../ui/art/GameArt'
 import { DiscoverySilhouette } from '../../ui/art/DiscoverySilhouette'
 import { species, stageOf, stageName } from '../../app/game/browserGame'
@@ -8,10 +8,12 @@ import { GrowthTrail } from './GrowthTrail'
 export function FriendsBoard({
   state,
   onSelect,
+  onProfile,
   onFeedVisitor,
 }: {
   state: GameState
   onSelect: (id: SpeciesId) => void
+  onProfile: (id: SpeciesId) => void
   onFeedVisitor: (id: SpeciesId) => void
 }) {
   const visitors = state.visitors.filter(
@@ -45,10 +47,21 @@ export function FriendsBoard({
               const visitor = species.find((entry) => entry.id === id)!
               return (
                 <article key={id} className={`friend-visitor friend-${id}`}>
-                  <div className="friend-visitor-portrait">
-                    <Pet species={id} stage={0} mood="hungry" />
-                  </div>
-                  <h2>{visitor.name}</h2>
+                  <button
+                    type="button"
+                    className="friend-profile-link"
+                    onClick={() => onProfile(id)}
+                    aria-label={`${visitor.name}の説明を見る`}
+                  >
+                    <span className="friend-visitor-portrait">
+                      <Pet species={id} stage={0} mood="hungry" />
+                    </span>
+                    <strong className="friend-visitor-name">{visitor.name}</strong>
+                    <span className="friend-profile-hint">
+                      説明を見る
+                      <ChevronRight size={14} aria-hidden="true" />
+                    </span>
+                  </button>
                   <button className="primary-button" onClick={() => onFeedVisitor(id)}>
                     <Utensils size={17} />
                     ごはんをあげる<span className="sr-only">：{visitor.name}</span>
@@ -66,34 +79,42 @@ export function FriendsBoard({
           const stage = stageOf(companion.xp)
           const active = state.activeId === companion.id
           return (
-            <button
+            <article
               key={companion.id}
               className={`friend-card friend-${companion.id} ${active ? 'is-active' : ''}`}
-              onClick={() => onSelect(companion.id)}
-              aria-label={`${entry.name}と暮らす`}
-              aria-pressed={active}
             >
-              <span className="friend-card-top">
-                <strong>{entry.name}</strong>
-                <span>
-                  {active ? (
-                    <>
-                      <Check size={12} />
-                      ひろばにいる
-                    </>
-                  ) : (
-                    'ひろばに呼ぶ'
-                  )}
+              <button
+                type="button"
+                className="friend-profile-link"
+                onClick={() => onProfile(companion.id)}
+                aria-label={`${entry.name}の説明を見る`}
+              >
+                <span className="friend-card-top">
+                  <strong>{entry.name}</strong>
                 </span>
-              </span>
-              <span className="friend-current">
-                <Pet species={companion.id} stage={stage} mood="happy" />
-              </span>
-              <span className="friend-growth-name">
-                {stageName(stage)} · {stage + 1}/5
-              </span>
-              <GrowthTrail species={companion.id} stage={stage} />
-            </button>
+                <span className="friend-current">
+                  <Pet species={companion.id} stage={stage} mood="happy" />
+                </span>
+                <span className="friend-growth-name">
+                  {stageName(stage)} · {stage + 1}/5
+                </span>
+                <GrowthTrail species={companion.id} stage={stage} />
+                <span className="friend-profile-hint">
+                  説明を見る
+                  <ChevronRight size={14} aria-hidden="true" />
+                </span>
+              </button>
+              <button
+                type="button"
+                className="secondary-button friend-select"
+                onClick={() => onSelect(companion.id)}
+                aria-label={`${entry.name}と暮らす`}
+                aria-pressed={active}
+              >
+                {active && <Check size={12} aria-hidden="true" />}
+                {active ? 'ひろばにいる' : 'ひろばに呼ぶ'}
+              </button>
+            </article>
           )
         })}
         {unknown.map((entry) => (

@@ -376,7 +376,11 @@ function App() {
         <AnimatePresence>
           {dialog && (
             <GameDialogs
-              key={dialog.type}
+              key={
+                dialog.type === 'profile'
+                  ? `profile:${dialog.speciesId ?? state.activeId}`
+                  : dialog.type
+              }
               dialog={dialog}
               state={state}
               onClose={() => setDialog(null)}

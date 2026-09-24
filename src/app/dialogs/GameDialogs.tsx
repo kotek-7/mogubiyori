@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import { recipes } from '../game/browserGame'
+import { recipes, species } from '../game/browserGame'
 import type { GameMeal, GameState, GrowthStage, Item, SpeciesId } from '../game/browserGame'
 import { RecipeDetail } from '../../features/collection/RecipeDetail'
 import { useGameSession } from '../game/useGameSession'
@@ -22,7 +22,8 @@ export type Dialog =
   | { type: 'recipe'; recipeId: string }
   | { type: 'meal'; meal: GameMeal }
   | { type: 'item'; item: Item }
-  | { type: 'settings' | 'profile' | 'streak' | 'gems' | 'rest' | 'letters' | 'help' }
+  | { type: 'profile'; speciesId?: SpeciesId }
+  | { type: 'settings' | 'streak' | 'gems' | 'rest' | 'letters' | 'help' }
 
 type Props = {
   dialog: Dialog
@@ -148,17 +149,23 @@ export function GameDialogs({
         />
       )
       break
-    case 'profile':
-      title = state.name
+    case 'profile': {
+      const speciesId = local.speciesId ?? state.activeId ?? 'komugi'
+      title =
+        speciesId === state.activeId
+          ? state.name
+          : species.find((entry) => entry.id === speciesId)!.name
       content = (
         <CompanionProfile
           state={state}
+          speciesId={speciesId}
           previewStage={previewStage}
           onPreviewStage={setPreviewStage}
           onShop={() => leave('shop')}
         />
       )
       break
+    }
     case 'streak':
       title = '連続記録'
       content = <StreakPanel state={state} onRest={() => setLocal({ type: 'rest' })} />

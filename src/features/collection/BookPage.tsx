@@ -34,6 +34,7 @@ export function BookPage() {
         ) : (
           <FriendsBoard
             state={state}
+            onProfile={(speciesId) => setDialog({ type: 'profile', speciesId })}
             onSelect={(id) => {
               run({ type: 'selectCompanion', id }, () => navigate('room'))
             }}
