@@ -1,21 +1,23 @@
-/* Original palette informed by the visual hierarchy of Pocket Camp, Pokémon Sleep
-   and Pikmin Bloom. These values are design choices, not official brand colours. */
+/* Kaya village: indigo shutters, sunlit clay, pottery and the sea.
+   Shared by the game and recipe catalog; colours are original to Mogubiyori. */
 :root {
-  --game-ink: #243b53;
-  --game-muted: #526777;
-  --game-canvas: #e8f2ee;
-  --game-surface: #fffef8;
-  --game-teal: #087f79;
-  --game-teal-dark: #06665f;
-  --game-teal-soft: #d9efeb;
-  --game-gold: #f5b544;
-  --game-gold-dark: #8a5710;
-  --game-coral: #d5634d;
-  --game-line: #c8dad5;
-  --game-blue: #326ab0;
-  --game-purple: #765bb4;
-  --game-radius-card: 20px;
-  --game-radius-control: 16px;
-  --game-shadow-panel: 0 5px 0 #c8dad566, 0 12px 28px #243b530a;
-  --game-shadow-control: 0 3px 0 #bad2cc;
+  --game-ink: #213b50;
+  --game-muted: #53666e;
+  --game-canvas: #f2e6cc;
+  --game-surface: #fff9eb;
+  --game-teal: #285675;
+  --game-teal-dark: #1f435e;
+  --game-teal-soft: #d8e7e7;
+  --game-gold: #f6c64e;
+  --game-gold-dark: #795018;
+  --game-coral: #d85b43;
+  --game-line: #b9b6a0;
+  --game-blue: #235aa1;
+  --game-purple: #715381;
+  --game-sea: #83c7cd;
+  --game-clay: #cc7550;
+  --game-radius-card: 12px;
+  --game-radius-control: 12px;
+  --game-shadow-panel: 0 5px 0 #213b501c;
+  --game-shadow-control: 0 2px 0 #213b5030;
 }

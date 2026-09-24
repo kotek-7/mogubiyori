@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef } from 'react'
 import type { ReactNode } from 'react'
-import { ArrowLeft, Leaf, X } from 'lucide-react'
+import { ArrowLeft, X } from 'lucide-react'
+import { MoguMark } from './GameMotifs'
 import './journey.css'
 
 export type JourneyFrameProps = {
@@ -70,7 +71,7 @@ export function JourneyFrame({
           </div>
         ) : (
           <span className="journey-brand">
-            <Leaf size={19} />
+            <MoguMark />
             <span>もぐ日和</span>
           </span>
         )}

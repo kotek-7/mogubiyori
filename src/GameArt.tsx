@@ -1,6 +1,7 @@
 import { useId } from 'react'
 import type { GrowthStage, SpeciesId } from './game'
 import { CompanionArt } from './CompanionArt'
+import { KayaScenery } from './KayaScenery'
 // oxlint-disable-next-line react/only-export-components -- Keep the companion art API in one place.
 export { companionFormDescription } from './CompanionArt'
 
@@ -527,26 +528,5 @@ export function GatheringScene({
   className = '',
   variant = 'plain',
 }: ArtProps & { variant?: string }) {
-  const backgrounds: Record<string, string> = {
-    plain: 'i-picnic-hill',
-    garden: 'i-orchard-porch',
-    night: 'i-rooftop-supper',
-  }
-  const background = backgrounds[variant] ?? backgrounds.plain
-  return (
-    <svg
-      className={`gathering-scene gathering-${variant} ${className}`}
-      viewBox="0 0 800 580"
-      preserveAspectRatio="xMidYMid slice"
-      fill="none"
-      aria-hidden="true"
-    >
-      <image
-        href={`${import.meta.env.BASE_URL}expansion/assets/items/${background}.svg`}
-        width="800"
-        height="580"
-        preserveAspectRatio="xMidYMid slice"
-      />
-    </svg>
-  )
+  return <KayaScenery variant={variant} className={className} />
 }

@@ -7,12 +7,11 @@ import {
   Coins,
   Flame,
   Gem,
-  Leaf,
   Settings2,
-  ShoppingBag,
   Utensils,
 } from 'lucide-react'
 import { Pet, GatheringScene, DishArt, ItemArt } from './GameArt'
+import { MoguMark, VillageSign } from './GameMotifs'
 import { RecipeArt } from './RecipeArt'
 import { GameDialogs } from './GameDialogs'
 import type { Dialog } from './GameDialogs'
@@ -333,7 +332,7 @@ function App() {
           aria-label="もぐ日和 ホーム"
           onClick={() => navigate('room')}
         >
-          <Leaf size={19} />
+          <MoguMark />
           <span>もぐ日和</span>
         </button>
         <div className="play-wallet">
@@ -362,7 +361,10 @@ function App() {
         {page === 'room' && (
           <>
             <div className="play-greeting">
-              <h1>ごはんのひろば</h1>
+              <div>
+                <span className="play-location">カヤ村・下のかまど</span>
+                <h1>ごはんのひろば</h1>
+              </div>
               <button className="play-streak" onClick={() => setDialog({ type: 'streak' })}>
                 <Flame size={17} fill="currentColor" />
                 <strong>{streak}</strong>日連続
@@ -481,7 +483,7 @@ function App() {
                   aria-describedby={showMealGuide ? 'home-meal-guide-text' : undefined}
                   onClick={() => openMeal()}
                 >
-                  <Utensils size={21} />
+                  <MoguMark />
                   {fed ? 'もう一度あげる' : 'ごはんをあげる'}
                 </button>
               </div>
@@ -653,10 +655,10 @@ function App() {
         )}
         <nav className="play-nav" aria-label="メインナビゲーション">
           {[
-            { id: 'room' as const, name: 'ひろば', Icon: Utensils },
-            { id: 'book' as const, name: 'ずかん', Icon: BookOpen },
-            { id: 'shop' as const, name: 'おみせ', Icon: ShoppingBag },
-          ].map(({ id, name, Icon }) => (
+            { id: 'room' as const, name: 'ひろば' },
+            { id: 'book' as const, name: 'ずかん' },
+            { id: 'shop' as const, name: 'おみせ' },
+          ].map(({ id, name }) => (
             <button
               key={id}
               ref={id === 'book' ? bookButton : undefined}
@@ -674,7 +676,7 @@ function App() {
                 navigate(id)
               }}
             >
-              <Icon size={23} />
+              <VillageSign kind={id} />
               <span>{name}</span>
             </button>
           ))}

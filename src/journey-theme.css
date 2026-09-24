@@ -1,10 +1,12 @@
-/* Journey skin only. Scene sizing, focus and progression stay with the scene components. */
+/* Scene geometry lives with the journeys. These surfaces belong to the kitchen:
+   oven arches for companions, a camera face, striped cloth and recipe paper. */
 .journey-screen {
   --ink: var(--game-ink);
   --muted: var(--game-muted);
   --paper: var(--game-surface);
   --green: var(--game-teal);
   --orange: var(--game-coral);
+  position: relative;
   color: var(--game-ink);
   background: var(--game-canvas);
 }
@@ -12,48 +14,54 @@
 .journey-screen .journey-brand {
   justify-self: center;
   width: fit-content;
-  padding: 8px 16px;
-  border: 1px solid var(--game-line);
-  border-radius: 999px;
-  background: var(--game-surface);
-  box-shadow: 0 2px 0 var(--game-line);
-  color: var(--game-teal-dark);
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: 0.3px;
+  padding: 6px 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--game-ink);
+  font-size: 17px;
+  font-weight: 950;
+  letter-spacing: -0.5px;
+}
+
+.journey-screen .journey-brand > .mogu-mark {
+  width: 34px;
+  height: 34px;
+  color: var(--game-coral);
 }
 
 .journey-screen .journey-icon-button {
   border: 1px solid var(--game-line);
   border-radius: 50%;
-  background: var(--game-surface);
-  box-shadow: 0 2px 0 var(--game-line);
+  background: transparent;
+  box-shadow: none;
   color: var(--game-ink);
 }
 
 .journey-screen .journey-icon-button:hover {
   border-color: var(--game-teal);
-  background: var(--game-teal-soft);
-  color: var(--game-teal-dark);
+  background: var(--game-surface);
 }
 
 .journey-screen .journey-icon-button:active {
-  transform: translateY(2px);
-  box-shadow: none;
+  transform: translateY(1px);
 }
 
 .journey-screen .journey-progress {
-  padding: 11px 14px;
-  border: 1px solid var(--game-line);
-  border-radius: 999px;
-  background: var(--game-surface);
-  box-shadow: 0 2px 0 var(--game-line);
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
 }
 
 .journey-screen .journey-progress > span {
+  height: 5px;
   border: 0;
-  border-radius: 999px;
-  background: var(--game-teal-soft);
+  border-radius: 1px;
+  background: #c6c3af;
 }
 
 .journey-screen .journey-progress > span.is-complete {
@@ -63,15 +71,26 @@
 .journey-screen .journey-eyebrow {
   color: var(--game-muted);
   font-weight: 650;
-  letter-spacing: 0.3px;
+  letter-spacing: 0;
 }
 
 .journey-screen .journey-title {
   color: var(--game-ink);
-  font-size: clamp(25px, 2.8vw, 32px);
-  font-weight: 800;
-  letter-spacing: 0;
-  line-height: 1.45;
+  font-size: clamp(28px, 3.2vw, 36px);
+  font-weight: 950;
+  letter-spacing: -0.045em;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+
+.journey-screen:is(
+    [data-scene='growth'],
+    [data-scene='joined'],
+    [data-scene='card'],
+    [data-scene='gift']
+  )
+  .journey-title {
+  font-size: clamp(28px, 3.8vw, 42px);
 }
 
 .journey-screen .journey-subtitle,
@@ -80,65 +99,86 @@
 }
 
 .journey-screen .journey-primary {
-  border: 1px solid #dda23d;
-  border-radius: 999px;
-  background: var(--game-gold);
-  box-shadow: 0 3px 0 var(--game-gold-dark);
+  position: relative;
+  min-height: 60px;
+  padding: 15px 54px 15px 28px;
+  border: 0;
+  border-radius: 7px 7px 22px 7px;
+  background: var(--game-teal);
+  box-shadow: none;
+  color: var(--game-surface);
+  font-weight: 850;
+  letter-spacing: 0;
+}
+
+.journey-screen .journey-primary > svg {
+  position: absolute;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  padding: 8px;
+  border-radius: 50%;
   color: var(--game-ink);
-  font-weight: 800;
-  letter-spacing: 0.2px;
+  background: var(--game-gold);
 }
 
 .journey-screen .journey-primary:hover:not(:disabled) {
-  background: #f7c361;
+  background: var(--game-teal-dark);
+  transform: translateY(-2px);
 }
 
 .journey-screen .journey-primary:active:not(:disabled) {
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 var(--game-gold-dark);
+  transform: translateY(1px);
+  box-shadow: none;
 }
 
 .journey-screen .journey-primary:disabled {
-  background: #dce6e1;
-  border-color: var(--game-line);
-  box-shadow: 0 2px 0 var(--game-line);
+  background: #d5d3c3;
   color: var(--game-muted);
+  box-shadow: none;
   opacity: 1;
 }
 
+.journey-screen .journey-primary:disabled > svg {
+  color: var(--game-muted);
+  background: var(--game-canvas);
+}
+
 .journey-screen .journey-secondary {
-  border: 1px solid var(--game-line);
-  border-radius: 999px;
-  background: var(--game-surface);
-  box-shadow: 0 2px 0 var(--game-line);
-  color: var(--game-teal-dark);
-  font-weight: 700;
+  border: 0;
+  border-radius: 3px;
+  background: none;
+  box-shadow: none;
+  color: var(--game-muted);
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-color: var(--game-line);
+  text-underline-offset: 5px;
 }
 
 .journey-screen .journey-secondary:hover {
-  background: var(--game-teal-soft);
-  border-color: #a0c9bf;
+  background: var(--game-surface);
   color: var(--game-teal-dark);
+  text-decoration-color: currentColor;
 }
 
 .journey-screen .journey-secondary:active {
   transform: translateY(1px);
-  box-shadow: 0 1px 0 var(--game-line);
 }
 
 .journey-screen .journey-speech {
-  border: 1px solid var(--game-line);
-  border-radius: 20px;
+  border: 0;
+  border-radius: 18px 18px 18px 3px;
   background: var(--game-surface);
-  box-shadow: 0 2px 0 var(--game-line);
+  box-shadow: none;
   color: var(--game-ink);
 }
 
 .journey-screen .journey-welcome-world {
-  border: 2px solid var(--game-line);
-  border-radius: 40px;
-  background: var(--game-teal-soft);
-  box-shadow: 0 3px 0 #b6cec2;
+  border: 0;
+  border-radius: 48% 48% 4px 4px;
+  background: var(--game-sea);
+  box-shadow: 0 8px 0 var(--game-clay);
 }
 
 .journey-screen .journey-welcome-world > .gathering-scene {
@@ -146,7 +186,7 @@
 }
 
 .journey-screen .journey-welcome-sparkle {
-  color: var(--game-teal);
+  color: var(--game-gold);
 }
 
 .journey-screen .journey-welcome-heart {
@@ -154,51 +194,97 @@
   fill: var(--game-coral);
 }
 
-/* Keep the existing three-way selection and character scale. */
+/* The three companions stand in open oven arches. Only the chosen name is a tag. */
+.journey-screen[data-scene='choose']::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: auto 0 0;
+  height: 24%;
+  background: #e4d5b6;
+  pointer-events: none;
+}
+
 .journey-screen .starter-choice {
-  border: 2px solid var(--game-line);
-  border-radius: 24px;
-  background: var(--game-surface);
-  box-shadow: 0 3px 0 #b9d0c7;
+  --starter-arch: #d9b989;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.journey-screen .starter-choice.starter-mame {
+  --starter-arch: #a8b79b;
+}
+
+.journey-screen .starter-choice.starter-shizuku {
+  --starter-arch: var(--game-sea);
+}
+
+.journey-screen .starter-portrait::before {
+  content: '';
+  position: absolute;
+  inset: 0 2% -10%;
+  border-radius: 48% 48% 2px 2px;
+  background: var(--starter-arch);
+  box-shadow: inset 0 -9px 0 #213b5014;
 }
 
 .journey-screen .starter-choice:hover {
-  border-color: #78b4a6;
-  transform: translateY(-3px);
-  box-shadow: 0 3px 0 #9fc3b6;
+  transform: translateY(-4px);
+  box-shadow: none;
 }
 
 .journey-screen .starter-choice.is-selected,
 .journey-screen .starter-choice.starter-komugi.is-selected,
 .journey-screen .starter-choice.starter-mame.is-selected,
 .journey-screen .starter-choice.starter-shizuku.is-selected {
-  border-color: var(--game-teal);
-  background: var(--game-teal-soft);
-  transform: translateY(-5px);
-  box-shadow: 0 3px 0 var(--game-teal-dark);
+  background: transparent;
+  transform: translateY(-7px);
+  box-shadow: none;
+}
+
+.journey-screen .starter-choice.is-selected .starter-portrait::before {
+  background: var(--game-gold);
+  box-shadow: inset 0 -9px 0 #d4a137;
 }
 
 .journey-screen .starter-choice > strong {
+  position: relative;
+  z-index: 1;
+  width: fit-content;
+  max-width: 100%;
+  margin: 12px auto 0;
+  padding: 6px 18px;
   color: var(--game-ink);
-  font-size: 19px;
-  font-weight: 800;
-  letter-spacing: 0.2px;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1.5;
 }
 
-.journey-screen .starter-check {
-  border: 1.5px solid var(--game-line);
-  background: var(--game-surface);
+.journey-screen .starter-choice.is-selected > strong {
+  background: var(--game-teal);
+  border-radius: 2px 2px 10px 2px;
   color: var(--game-surface);
 }
 
+.journey-screen .starter-check {
+  top: 12px;
+  right: 8px;
+  border: 0;
+  background: transparent;
+  color: transparent;
+}
+
 .journey-screen .starter-choice.is-selected .starter-check {
-  border-color: var(--game-teal);
   background: var(--game-teal);
   color: var(--game-surface);
 }
 
 .journey-screen .starter-introduction,
-.journey-screen .starter-footnote {
+.journey-screen .starter-footnote,
+.journey-screen[data-scene='choose'] .starter-expansion {
   color: var(--game-muted);
 }
 
@@ -207,105 +293,138 @@
 }
 
 .journey-screen[data-scene='choose'] .starter-expansion {
-  color: var(--game-muted);
-  text-decoration-color: #90aea3;
+  text-decoration-color: var(--game-line);
 }
 
 .journey-screen[data-scene='choose'] .starter-expansion:hover {
   color: var(--game-teal-dark);
-  text-decoration-color: var(--game-teal);
+  text-decoration-color: currentColor;
 }
 
-/* Photography is a camera surface, without a tilted paper-card treatment. */
+/* A camera face for the photo, then a striped cloth for serving. */
 .journey-screen .meal-photo-card {
-  border: 1.5px solid var(--game-line);
-  border-radius: 24px;
-  background: var(--game-surface);
-  box-shadow: 0 3px 0 #b9d0c7;
+  padding: 14px;
+  border: 0;
+  border-radius: 22px 22px 5px 5px;
+  background: var(--game-teal);
+  box-shadow: 0 6px 0 var(--game-teal-dark);
   transform: none;
   animation-name: meal-photo-theme-enter;
 }
 
 .journey-screen .meal-photo-picker.photo-picker,
 .journey-screen .meal-photo-card.has-photo .meal-photo-picker {
-  border: 1px solid #b2cfc5;
-  border-radius: 16px;
-  background: var(--game-teal-soft);
+  border: 1px solid #f2e6cc55;
+  border-radius: 12px 12px 2px 2px;
+  background: var(--game-teal);
 }
 
 .journey-screen .meal-photo-placeholder {
-  color: var(--game-muted);
+  color: var(--game-surface);
   letter-spacing: 0;
 }
 
 .journey-screen .meal-camera {
-  border: 1px solid var(--game-line);
-  background: var(--game-surface);
-  color: var(--game-teal);
-  box-shadow: 0 2px 0 #b2cfc5;
+  border: 0;
+  background: var(--game-gold);
+  color: var(--game-ink);
+  box-shadow: none;
 }
 
 .journey-screen .meal-photo-corners {
-  border: 1px solid #96bfb2;
-  border-radius: 18px;
+  inset: 16px;
+  border: 0;
+  border-radius: 0;
+  color: #fff9eb80;
+  background:
+    linear-gradient(currentColor 0 0) top left / 22px 1px no-repeat,
+    linear-gradient(currentColor 0 0) top left / 1px 22px no-repeat,
+    linear-gradient(currentColor 0 0) top right / 22px 1px no-repeat,
+    linear-gradient(currentColor 0 0) top right / 1px 22px no-repeat,
+    linear-gradient(currentColor 0 0) bottom left / 22px 1px no-repeat,
+    linear-gradient(currentColor 0 0) bottom left / 1px 22px no-repeat,
+    linear-gradient(currentColor 0 0) bottom right / 22px 1px no-repeat,
+    linear-gradient(currentColor 0 0) bottom right / 1px 22px no-repeat;
 }
 
 .journey-screen .meal-photo-caption {
   color: var(--game-teal-dark);
-  font-weight: 750;
-  letter-spacing: 0.2px;
+  font-weight: 800;
+  letter-spacing: 0;
 }
 
 .journey-screen .meal-photo-change {
-  border: 1px solid var(--game-line);
-  border-radius: 999px;
+  border: 0;
+  border-radius: 4px;
   background: var(--game-surface);
   color: var(--game-teal-dark);
-  box-shadow: 0 2px 0 var(--game-line);
+  box-shadow: none;
 }
 
 .journey-screen .meal-photo-friend > span {
   color: var(--game-ink);
-  font-weight: 700;
+  font-weight: 750;
   transform: none;
 }
 
 .journey-screen .meal-serving-speech {
-  border: 1px solid var(--game-line);
-  border-radius: 999px;
+  border: 0;
+  border-radius: 15px 15px 2px 15px;
   background: var(--game-surface);
-  box-shadow: 0 2px 0 var(--game-line);
+  box-shadow: none;
   color: var(--game-ink);
   transform: translateX(-50%);
 }
 
+/* Young companions sit high enough to see over the serving plate. */
+.journey-screen .meal-serving-pet > .pet-stage-0 {
+  transform: translateY(-22%);
+}
+.journey-screen .meal-serving-pet > .pet-stage-1 {
+  transform: translateY(-10%);
+}
 .journey-screen .meal-tablecloth {
-  border: 1px solid #96b8ad;
-  background: #c3ddd6;
-  box-shadow: 0 3px 0 #a7c8bc;
+  border: 0;
+  border-radius: 50% 50% 3px 3px / 20% 20% 3px 3px;
+  background: repeating-linear-gradient(90deg, var(--game-clay) 0 30px, #e2a477 30px 60px);
+  box-shadow: inset 0 8px 0 #fff9eb24;
 }
 
 .journey-screen .meal-serving-dish {
-  border: 1.5px solid var(--game-line);
-  background: var(--game-surface);
-  box-shadow: 0 3px 0 #aac4b9;
+  border: 6px solid var(--game-surface);
+  background: #d9e9e6;
+  box-shadow: 0 4px 0 #ac613f;
 }
 
 .journey-screen .meal-serving-cutlery {
-  color: var(--game-muted);
+  color: var(--game-ink);
 }
 
 .journey-screen .meal-recipe-field > span {
   color: var(--game-ink);
-  font-weight: 750;
+  font-weight: 800;
 }
 
 .journey-screen .meal-recipe-field select,
 .journey-screen .meal-recipe-field input {
-  border: 1.5px solid var(--game-line);
-  border-radius: 14px;
+  border: 0;
+  border-bottom: 2px solid var(--game-teal);
+  border-radius: 3px 3px 0 0;
   background: var(--game-surface);
   color: var(--game-ink);
+}
+
+.journey-screen .meal-recipe-candidates button {
+  border: 1px solid var(--game-line);
+  border-radius: 4px;
+  background: var(--game-surface);
+  color: var(--game-ink);
+}
+
+.journey-screen .meal-recipe-candidates button[aria-pressed='true'] {
+  border-color: var(--game-teal);
+  background: var(--game-teal);
+  color: var(--game-surface);
 }
 
 .journey-screen .meal-title-details > summary {
@@ -313,39 +432,35 @@
 }
 
 .journey-screen .meal-serve-form .repeat-hint {
-  border: 1px solid var(--game-line);
-  border-radius: 12px;
-  background: var(--game-surface);
+  border: 0;
+  border-radius: 0;
+  background: none;
   color: var(--game-muted);
 }
 
-.journey-screen .meal-photo-error {
-  color: #934333;
-  background: #fcebe7;
-  border-color: var(--game-coral);
-}
-
+.journey-screen .meal-photo-error,
 .journey-storage-error {
+  color: #823721;
+  background: #fff1df;
   border: 1px solid var(--game-coral);
-  border-radius: 12px;
-  background: #fcebe7;
-  color: var(--game-ink);
+  border-radius: 4px;
 }
 
-/* Celebration keeps its reveal animations and screen dimensions. */
+/* Each reward is a distinct object: a dining scene, a name tag or a recipe card. */
 .journey-screen .feast-dining-circle {
   border: 0;
-  background: var(--game-teal-soft);
+  border-radius: 48% 48% 3px 3px;
+  background: var(--game-sea);
 }
 
 .journey-screen .feast-scene-satisfied .feast-dining-circle {
-  background: #c6e8de;
+  background: var(--game-gold);
 }
 
 .journey-screen .feast-table-edge {
-  border: 1.5px solid #91b8aa;
-  background: #bad9cb;
-  box-shadow: 0 3px 0 #94b9a7;
+  border: 0;
+  background: var(--game-clay);
+  box-shadow: 0 7px 0 #a15c3f;
 }
 
 .journey-screen .feast-plate > img {
@@ -360,16 +475,16 @@
 }
 
 .journey-screen .feast-rays {
-  border: 12px solid #d5e6df;
-  background: var(--game-teal-soft);
+  border: 0;
+  background: var(--game-gold);
   mask-image: none;
   animation: none;
 }
 
 .journey-screen .feast-previous-form {
-  border: 1.5px solid var(--game-line);
-  background: var(--game-surface);
-  box-shadow: 0 2px 0 var(--game-line);
+  border: 2px solid var(--game-surface);
+  background: var(--game-canvas);
+  box-shadow: none;
 }
 
 .journey-screen .feast-previous-form > svg:last-child {
@@ -380,38 +495,38 @@
 .journey-screen .feast-nameplate,
 .journey-screen .feast-gift-ribbon {
   transform: translateX(-50%);
-  border: 1px solid var(--game-teal-dark);
-  border-radius: 999px;
+  border: 0;
+  border-radius: 3px 3px 12px 3px;
   background: var(--game-teal);
-  box-shadow: 0 2px 0 var(--game-teal-dark);
+  box-shadow: none;
   color: var(--game-surface);
-  font-weight: 800;
+  font-weight: 850;
 }
 
 .journey-screen .feast-joined-art {
-  border: 2px solid var(--game-line);
-  border-radius: 40px;
-  background: var(--game-teal-soft);
-  box-shadow: 0 3px 0 #b9d0c7;
+  border: 0;
+  border-radius: 48% 48% 3px 3px;
+  background: var(--game-sea);
+  box-shadow: 0 7px 0 var(--game-clay);
 }
 
 .journey-screen .feast-friend-stamp {
   border: 2px solid var(--game-surface);
-  background: var(--game-teal);
-  color: var(--game-surface);
-  box-shadow: 0 2px 0 var(--game-line);
+  background: var(--game-gold);
+  color: var(--game-ink);
+  box-shadow: none;
   transform: none;
 }
 
 .journey-screen .feast-friend-stamp span {
-  font-weight: 800;
+  font-weight: 900;
 }
 
 .journey-screen .feast-recipe-back,
 .journey-screen .feast-recipe-front {
-  border: 1.5px solid var(--game-line);
-  border-radius: 24px;
-  box-shadow: 0 3px 0 #b9d0c7;
+  border: 1px solid var(--game-teal-dark);
+  border-radius: 9px;
+  box-shadow: 0 5px 0 #d0b995;
 }
 
 .journey-screen .feast-recipe-back {
@@ -420,14 +535,14 @@
 }
 
 .journey-screen .feast-recipe-back::before {
-  border: 1px solid #ffffff66;
-  border-radius: 15px;
+  border: 1px solid #fff9eb80;
+  border-radius: 2px;
 }
 
 .journey-screen .feast-recipe-back span {
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
+  font-size: 26px;
+  font-weight: 950;
+  letter-spacing: -0.04em;
 }
 
 .journey-screen .feast-recipe-front {
@@ -437,25 +552,26 @@
 
 .journey-screen .feast-recipe-front > strong {
   color: var(--game-ink);
-  font-weight: 800;
+  font-weight: 900;
 }
 
 .journey-screen .feast-card-rarity {
+  align-self: flex-start;
   border: 0;
-  border-radius: 999px;
+  border-radius: 2px;
   background: var(--game-teal-soft);
   color: var(--game-teal-dark);
   font-weight: 750;
 }
 
 .journey-screen .feast-recipe-flip.rarity-rare .feast-card-rarity {
-  background: var(--game-blue);
+  background: var(--game-teal);
   color: var(--game-surface);
 }
 
 .journey-screen .feast-recipe-flip.rarity-special .feast-card-rarity {
-  background: var(--game-purple);
-  color: var(--game-surface);
+  background: var(--game-gold);
+  color: var(--game-ink);
 }
 
 .journey-screen .feast-card-bonus {
@@ -463,43 +579,98 @@
 }
 
 .journey-screen .feast-arrivals-art {
-  border: 2px solid var(--game-line);
-  border-radius: 28px;
-  background: var(--game-teal-soft);
-  box-shadow: 0 3px 0 #b9d0c7;
+  border: 0;
+  border-radius: 35% 35% 3px 3px;
+  background: var(--game-sea);
+  box-shadow: 0 7px 0 var(--game-clay);
 }
 
 .journey-screen .feast-visitor-bubble,
 .journey-screen .feast-arrival-friends strong {
-  border: 1px solid var(--game-line);
-  border-radius: 999px;
+  border: 0;
+  border-radius: 3px;
   background: var(--game-surface);
   color: var(--game-ink);
-  box-shadow: 0 2px 0 var(--game-line);
+  box-shadow: none;
   transform: none;
 }
 
 .journey-screen .feast-gift-number {
-  color: #c0ddd5;
+  color: var(--game-gold);
   -webkit-text-stroke: 0;
   opacity: 1;
   transform: translateX(-50%);
 }
 
 .journey-screen .feast-scene-rewards {
-  border: 1px solid var(--game-line);
-  border-radius: 20px;
-  background: var(--game-surface);
+  border: 0;
+  border-top: 1px solid var(--game-line);
+  border-radius: 0;
+  background: none;
   color: var(--game-ink);
-  box-shadow: 0 2px 0 var(--game-line);
+  box-shadow: none;
 }
 
 .journey-screen .feast-scene-rewards strong {
-  font-weight: 800;
+  font-weight: 900;
 }
 
 .journey-screen .feast-scene-rewards small {
   color: var(--game-muted);
+}
+
+/* Tutorial content keeps its sequence and short-screen sizing. */
+.journey-screen .tutorial-example {
+  padding-inline: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+
+.journey-screen .tutorial-meal-world {
+  border-radius: 35% 35% 3px 3px;
+  background: var(--game-sea);
+}
+
+.journey-screen .tutorial-photo {
+  border-radius: 3px;
+  box-shadow: 0 3px 0 #527d87;
+}
+
+.journey-screen .tutorial-xp-panel {
+  border: 0;
+  border-top: 1px solid var(--game-line);
+  border-radius: 0;
+  background: none;
+}
+
+.journey-screen .tutorial-evolution-ring {
+  border: 0;
+  background: var(--game-gold);
+}
+
+.journey-screen .tutorial-evolution > strong {
+  border-radius: 3px 3px 10px 3px;
+}
+
+.journey-screen .tutorial-form-trail li > div {
+  border-radius: 45% 45% 3px 3px;
+  background: #d5d7c4;
+}
+
+.journey-screen .tutorial-form-trail .is-seen > div {
+  border-color: transparent;
+  background: var(--game-surface);
+}
+
+.journey-screen .tutorial-form-trail [aria-current] > div {
+  border-color: var(--game-teal);
+  background: var(--game-gold);
+}
+
+.journey-screen .tutorial-resume {
+  border-radius: 3px;
+  background: transparent;
 }
 
 .journey-screen .journey-primary:focus-visible,
@@ -508,11 +679,29 @@
 .journey-screen .starter-choice:focus-visible,
 .journey-screen .starter-expansion:focus-visible,
 .journey-screen .meal-photo-picker:focus-visible,
+.journey-screen .meal-recipe-candidates button:focus-visible,
 .journey-screen .meal-recipe-field select:focus-visible,
 .journey-screen .meal-recipe-field input:focus-visible,
 .journey-screen .meal-title-details > summary:focus-visible {
   outline: 3px solid var(--game-teal);
   outline-offset: 4px;
+}
+
+.journey-screen .meal-photo-picker:focus-visible {
+  outline-color: var(--game-gold);
+  outline-offset: -5px;
+}
+
+/* Text is visible from the first frame. Movement belongs to scene objects. */
+.journey-screen .journey-heading,
+.journey-screen .journey-content,
+.journey-screen .journey-footer {
+  animation-name: journey-panel-enter;
+}
+
+.journey-screen .feast-arrival-friends > div,
+.journey-screen .feast-growth-reveal {
+  animation-name: journey-companion-enter;
 }
 
 @keyframes meal-photo-theme-enter {
@@ -524,18 +713,7 @@
   }
 }
 
-/* Keep text legible from the first frame; movement belongs to the scene,
-   rather than fading the entire menu and its controls. */
-.journey-screen .journey-heading,
-.journey-screen .journey-content,
-.journey-screen .journey-footer {
-  animation-name: game-panel-enter;
-}
-.journey-screen .feast-arrival-friends > div,
-.journey-screen .feast-growth-reveal {
-  animation-name: game-companion-enter;
-}
-@keyframes game-panel-enter {
+@keyframes journey-panel-enter {
   from {
     transform: translateY(8px);
   }
@@ -543,7 +721,8 @@
     transform: translateY(0);
   }
 }
-@keyframes game-companion-enter {
+
+@keyframes journey-companion-enter {
   from {
     transform: translateY(12px) scale(0.94);
   }
@@ -554,35 +733,29 @@
 
 @media (max-width: 600px) {
   .journey-screen .journey-brand {
-    font-size: 14px;
-    padding: 7px 12px;
+    font-size: 16px;
   }
 
   .journey-screen .journey-title,
   .journey-screen[data-scene='choose'] .journey-title {
-    font-size: 25px;
-    line-height: 1.5;
-  }
-
-  .journey-screen .starter-choice {
-    border-radius: 20px;
+    font-size: 28px;
+    line-height: 1.45;
   }
 
   .journey-screen .starter-choice > strong {
+    padding: 5px 10px;
     font-size: 16px;
   }
 
-  .journey-screen .journey-welcome-world {
-    border-radius: 32px;
-  }
-
-  .journey-screen .feast-joined-art {
-    border-radius: 32px;
+  .journey-screen .starter-check {
+    right: 1px;
+    top: 13px;
   }
 }
 
 @media (max-width: 360px) {
   .journey-screen .starter-choice > strong {
+    padding-inline: 8px;
     font-size: 14px;
   }
 }
@@ -590,12 +763,33 @@
 @media (max-width: 600px) and (max-height: 740px) {
   .journey-screen .journey-title,
   .journey-screen[data-scene='choose'] .journey-title {
-    font-size: 23px;
+    font-size: 25px;
+  }
+}
+
+@media (max-height: 620px) {
+  .journey-screen .journey-primary {
+    min-height: 50px;
+    padding-block: 10px;
+  }
+
+  .journey-screen .journey-content {
+    padding-block: 12px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .journey-screen .meal-photo-card {
+  .journey-screen .meal-photo-card,
+  .journey-screen .journey-heading,
+  .journey-screen .journey-content,
+  .journey-screen .journey-footer,
+  .journey-screen .feast-arrival-friends > div,
+  .journey-screen .feast-growth-reveal {
     animation: none;
+  }
+
+  .journey-screen .journey-primary:hover:not(:disabled),
+  .journey-screen .starter-choice:hover {
+    transform: none;
   }
 }
