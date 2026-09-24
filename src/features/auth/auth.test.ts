@@ -8,9 +8,28 @@ const cloud = {
 }
 
 describe('runtime storage mode', () => {
-  it('defaults to local play only when cloud mode has not been requested', () => {
+  it('keeps unconfigured development and explicitly local play in the browser', () => {
     expect(readRuntimeConfig({})).toEqual({ mode: 'local' })
     expect(readRuntimeConfig({ VITE_GAME_MODE: 'local' })).toEqual({ mode: 'local' })
+  })
+
+  it('uses cloud persistence automatically when Supabase is configured', () => {
+    const { VITE_GAME_MODE: _, ...connection } = cloud
+    expect(readRuntimeConfig(connection)).toEqual({
+      mode: 'cloud',
+      url: cloud.VITE_SUPABASE_URL,
+      publishableKey: cloud.VITE_SUPABASE_PUBLISHABLE_KEY,
+    })
+    expect(readRuntimeConfig({ ...connection, VITE_GAME_MODE: 'local' })).toEqual({ mode: 'local' })
+  })
+
+  it('does not silently fall back to local saves when only part of the connection is set', () => {
+    expect(() => readRuntimeConfig({ VITE_SUPABASE_URL: cloud.VITE_SUPABASE_URL })).toThrow(
+      'Cloud mode requires',
+    )
+    expect(() => readRuntimeConfig({ VITE_SUPABASE_PUBLISHABLE_KEY: 'test-key' })).toThrow(
+      'Cloud mode requires',
+    )
   })
 
   it('retains an explicitly configured cloud service', () => {

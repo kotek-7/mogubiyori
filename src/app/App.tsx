@@ -19,6 +19,7 @@ import { GameUiProvider } from './gameUi'
 import type { Page } from './gameUi'
 import { Currency } from '../ui/Currency'
 import { Toast } from '../ui/Toast'
+import { AccountMenu } from '../features/auth/AccountMenu'
 
 type MealOptions = { recipeId?: string; targetId?: SpeciesId }
 type Journey =
@@ -26,7 +27,7 @@ type Journey =
   | ({ type: 'meal' } & MealOptions)
   | { type: 'feast'; receipt: FeedReceipt; photo?: string }
 function App() {
-  const { state, execute, error, busy, retry, dismissError } = useGameSession()
+  const { state, execute, error, busy, retry, dismissError, gateway } = useGameSession()
   const router = useRouter()
   const routerNavigate = useNavigate()
   // The requested location changes before the outlet commits. Follow the
@@ -196,6 +197,7 @@ function App() {
       <>
         <StarterSelection
           busy={busy}
+          accountSettings={gateway.mode === 'cloud' ? <AccountMenu /> : undefined}
           onChoose={(id) =>
             run({ type: 'chooseStarter', id }, () => {
               setJourney(null)

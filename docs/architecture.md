@@ -51,6 +51,8 @@ CSSは機能の近くに置くが、読み込みは`src/app/styles.ts`へ集め�
 
 保存済みゲームは`GameSession`のQuery cacheで保持する。キーには保存先のidentityを含め、localとアカウントごとの状態を分ける。操作成功時は返されたsnapshotを反映し、既に取得したrevisionより古い応答で状態を巻き戻さない。定期取得と画面再フォーカスで他端末の変更を取り込む。
 
+cloudの`AuthGate`は保存済みセッションの復元を待ち、セッションがない場合は匿名認証を自動で行う。認証方法を選ぶ画面は置かない。Google連携と既存アカウントへのGoogleログインは設定画面に置き、連携は同じユーザーIDを保つ`linkIdentity`、ログインは`signInWithOAuth`を使う。別ユーザーの記録を合算せず、アカウント変更時はidentityに対応したゲームへ切り替える。ログアウト後は新しい匿名ユーザーで始める。
+
 dialogの開閉、ずかんのタブ、表示中の演出などはReactの状態に置く。食事の写真・入力・選択・処理中状態はXStateに置く。永続化する`GameState`を別のグローバルstoreへ複製しない。
 
 TanStack Routerは`/`、`/book`、`/album`、`/shop`、`/auth/callback`を扱う。画面URLと保存済みゲームは別の責務とする。旧URLの`#book`等は対応するpathへ移す。
