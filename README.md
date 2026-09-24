@@ -24,7 +24,32 @@ npm run build
 npm run preview
 ```
 
-`dist/` を静的配信できます。PCとスマートフォンに対応し、イラストとフォントは同梱しています。
+`dist/` を静的配信できます。料理の自動判定を使う場合は、次のCloudflare Workerも起動します。PCとスマートフォンに対応し、イラストとフォントは同梱しています。
+
+## 写真から料理を選ぶ（Gemma 4）
+
+Cloudflare Workers AIの学習済み `@cf/google/gemma-4-26b-a4b-it` を使います。追加学習は不要です。写真を選ぶと料理候補を最大3件取得し、食卓の「つくった料理」に最初の候補を選択します。違う場合は候補や選択欄から変更できます。カードは「ごはんをあげる」で確定し、写真を判定しただけでは増えません。
+
+Cloudflareへログインしてから、Workerと画面を起動します。
+
+```sh
+npx wrangler login
+npm run dev:cloudflare
+```
+
+`http://127.0.0.1:8787` を開きます。スマートフォンへ公開する場合は、`npm run build` 後に `npx wrangler dev --ip 0.0.0.0 --port 8787` で起動します。写真は端末で縮小してからWorker経由でCloudflareのモデルへ送られます。Workers AIは開発中もCloudflareアカウントの利用枠を使います。
+
+画面をホットリロードしながら作業するときは、初回に `npm run build` を行い、別々のターミナルで `npm run dev:api` と `npm run dev` を実行します。Viteは `/api` をローカルの8787へ転送します。APIが起動していない場合も、手動選択と写真なしの体験は使えます。
+
+```sh
+npm run deploy
+```
+
+公開時はWorker・静的ファイル・AI bindingをまとめて配信します。ブラウザへAPIトークンを渡す設定は不要です。CIから公開する場合はCloudflareのアカウントID・APIトークンをCIのSecretsで管理します。
+
+認識対象は `src/game.ts` の採用済みレシピです。追加用パックの300種は本体へ採用するときに認識対象へ含めます。写真から分からない料理、通信失敗、判定待ちでも手動で進められます。すでに手動で選んだ料理・入力した名前は、後から届いた判定で上書きしません。
+
+[Gemma 4のモデル仕様](https://developers.cloudflare.com/workers-ai/models/gemma-4-26b-a4b-it/)、[Workers AIの料金](https://developers.cloudflare.com/workers-ai/platform/pricing/)
 
 ## 遊び方
 
@@ -45,7 +70,7 @@ npm run preview
 
 記録・写真・育成・購入状態は、このブラウザの `localStorage`（`mogubiyori-v1`）に保存します。再読み込み後も残りますが、端末間では共有されません。サイトデータを消すと記録も消えます。
 
-日付は日本時間に追従し、設定で進めた日数を加算します。写真は端末内で縮小します。写真からの自炊・料理判定、認証、クラウド保存、プッシュ通知、実決済は未実装です。料理カードは本人が選んだ料理に基づいて獲得します。
+日付は日本時間に追従し、設定で進めた日数を加算します。写真は端末内で縮小します。Cloudflare接続時は料理候補を自動判定しますが、実際に自炊したかどうかは自己申告です。認証、クラウド保存、プッシュ通知、実決済は未実装です。料理カードは給餌時に選択されている料理に基づいて獲得します。
 
 ## 検証
 
@@ -59,7 +84,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-E2Eはポート5173を使用します。起動済みならそのサーバーを使用します。React・TypeScript・Viteで構成し、育成・報酬・購入のルールは `src/game.ts` にまとめています。
+E2Eは専用ポート4173でテスト用サーバーを起動します。料理認識APIはモックで検証し、テストから実モデルを呼び出しません。実際の判定はCloudflareへ接続した8787で確認します。React・TypeScript・Viteで構成し、育成・報酬・購入のルールは `src/game.ts` にまとめています。
 
 - [プロダクト仕様](docs/product.md)
 - [体験検証](docs/experiments.md)

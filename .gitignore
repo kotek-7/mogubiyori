@@ -26,3 +26,10 @@ dist-ssr
 .playwright-mcp/
 test-results/
 playwright-report/
+
+# Cloudflare local state and credentials
+.wrangler/
+.dev.vars
+.dev.vars.*
+.env
+.env.*

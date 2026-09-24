@@ -5,13 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:cloudflare": "npm run build && wrangler dev --ip 127.0.0.1 --port 8787",
+    "dev:api": "wrangler dev --ip 127.0.0.1 --port 8787",
+    "deploy": "npm run build && wrangler deploy",
     "build": "node scripts/content/validate-pack.mjs && tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
     "test": "vitest run tests/*.test.ts",
     "test:e2e": "playwright test",
-    "format": "prettier --write src tests docs *.ts *.json *.html *.md",
-    "format:check": "prettier --check src tests docs *.ts *.json *.html *.md",
+    "format": "prettier --write src worker tests docs *.ts *.json *.jsonc *.html *.md",
+    "format:check": "prettier --check src worker tests docs *.ts *.json *.jsonc *.html *.md",
     "content:build": "node scripts/content/build-pack.mjs && node scripts/content/validate-pack.mjs",
     "content:check": "node scripts/content/validate-pack.mjs"
   },
@@ -33,6 +36,7 @@
     "prettier": "^3.9.9",
     "typescript": "~6.0.2",
     "vite": "^8.3.0",
-    "vitest": "^5.0.1"
+    "vitest": "^5.0.1",
+    "wrangler": "4.127.1"
   }
 }

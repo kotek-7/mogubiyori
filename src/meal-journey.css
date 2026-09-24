@@ -92,6 +92,34 @@
   max-width: 360px;
   margin: 0 auto;
 }
+.meal-recognition-status {
+  max-width: 370px;
+  margin: 8px auto 12px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+  text-align: center;
+}
+.meal-recipe-candidates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.meal-recipe-candidates button {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--ink);
+  border-radius: 5px;
+  background: #fffcf4;
+  color: var(--ink);
+  font-size: 12px;
+  cursor: pointer;
+}
+.meal-recipe-candidates button[aria-pressed='true'] {
+  background: var(--green);
+  color: #fff;
+}
 .meal-serving-art {
   position: relative;
   width: min(100%, 430px);

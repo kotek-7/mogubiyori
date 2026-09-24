@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mogubiyori",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-09-04",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api", "/api/*"],
+  },
+  "ai": {
+    "binding": "AI",
+    "remote": true,
+  },
+  "observability": {
+    "enabled": true,
+  },
+}

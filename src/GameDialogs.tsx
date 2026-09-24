@@ -504,7 +504,8 @@ export function GameDialogs({
           <p className="settings-note">
             記録はこのブラウザーに保存されます。
             <br />
-            写真の判定や端末へのプッシュ通知は行いません。
+            写真は料理の候補を見つけるため、縮小してCloudflareへ送信します。
+            端末へのプッシュ通知は行いません。
           </p>
         </div>
       )

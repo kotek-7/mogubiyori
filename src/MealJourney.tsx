@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { ArrowRight, Camera, ImagePlus, Utensils } from 'lucide-react'
 import { DishArt, Pet } from './GameArt'
 import { JourneyFrame } from './JourneyFrame'
 import { mealXp, recipes, species, stageOf } from './game'
 import type { FeedInput, GameState, SpeciesId } from './game'
 import { resizePhoto } from './photo'
+import { recognizeFood } from './foodRecognition'
 import { transitionScene } from './journeyTransition'
 import './meal-journey.css'
 
@@ -30,8 +31,15 @@ export function MealJourney({
   const [title, setTitle] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [recognition, setRecognition] = useState<
+    'idle' | 'recognizing' | 'matched' | 'unknown' | 'failed'
+  >('idle')
+  const [candidates, setCandidates] = useState<string[]>([])
   const input = useRef<HTMLInputElement>(null)
   const request = useRef(0)
+  const recognitionRequest = useRef<AbortController | null>(null)
+  const recipeChosen = useRef(Boolean(initialRecipeId))
+  const titleEdited = useRef(false)
   const submitted = useRef(false)
   const target = targetId ?? state.activeId ?? 'komugi'
   const buddy = state.companions.find((entry) => entry.id === target)
@@ -40,10 +48,28 @@ export function MealJourney({
   const recipe = recipes.find((entry) => entry.id === recipeId)
   const ready = Boolean(photo || sample)
   const xp = mealXp(state, recipeId || undefined, target)
+  const recognitionMessage =
+    recognition === 'recognizing'
+      ? step === 'photo'
+        ? '料理を見ています。先に食卓へ進めます。'
+        : '料理を見ています。このままごはんをあげられます。'
+      : recognition === 'matched'
+        ? '料理の候補が見つかりました。'
+        : recognition === 'unknown'
+          ? '料理がわかりませんでした。手動で選べます。'
+          : recognition === 'failed'
+            ? '写真の確認ができませんでした。料理は手動で選べます。'
+            : ''
+  const close = useCallback(() => {
+    request.current += 1
+    recognitionRequest.current?.abort()
+    onClose()
+  }, [onClose])
 
   useEffect(
     () => () => {
       request.current += 1
+      recognitionRequest.current?.abort()
     },
     [],
   )
@@ -54,15 +80,36 @@ export function MealJourney({
       if (event.target instanceof HTMLSelectElement) return
       event.preventDefault()
       if (step === 'serve') transitionScene(() => setStep('photo'))
-      else onClose()
+      else close()
     }
     window.addEventListener('keydown', escape)
     return () => window.removeEventListener('keydown', escape)
-  }, [step, onClose])
+  }, [step, close])
+
+  async function identifyPhoto(photo: string, id: number) {
+    const controller = new AbortController()
+    recognitionRequest.current = controller
+    setRecognition('recognizing')
+    try {
+      const found = await recognizeFood(photo, controller.signal)
+      if (id !== request.current || controller.signal.aborted) return
+      setCandidates(found)
+      setRecognition(found.length ? 'matched' : 'unknown')
+      if (found[0] && !recipeChosen.current && !titleEdited.current) setRecipeId(found[0])
+    } catch {
+      if (id === request.current && !controller.signal.aborted) setRecognition('failed')
+    } finally {
+      if (recognitionRequest.current === controller) recognitionRequest.current = null
+    }
+  }
 
   async function selectPhoto(file?: File) {
     if (!file) return
     const id = ++request.current
+    recognitionRequest.current?.abort()
+    setCandidates([])
+    setRecognition('idle')
+    if (!recipeChosen.current) setRecipeId('')
     setLoading(true)
     setError('')
     try {
@@ -70,6 +117,7 @@ export function MealJourney({
       if (id !== request.current) return
       setPhoto(result)
       setSample(false)
+      void identifyPhoto(result, id)
     } catch (cause) {
       if (id === request.current)
         setError(cause instanceof Error ? cause.message : '写真を読み込めませんでした。')
@@ -81,6 +129,8 @@ export function MealJourney({
   function serve() {
     if (!ready || loading || submitted.current) return
     submitted.current = true
+    request.current += 1
+    recognitionRequest.current?.abort()
     onFeed({
       targetId: target,
       title: title.trim() || recipe?.name || '今日のごはん',
@@ -101,7 +151,7 @@ export function MealJourney({
       <JourneyFrame
         scene="photo"
         title="料理の写真"
-        onClose={onClose}
+        onClose={close}
         closeLabel="ひろばへ"
         progress={{ current: 1, total: 2 }}
         footer={
@@ -120,10 +170,15 @@ export function MealJourney({
               className="journey-secondary"
               disabled={loading}
               onClick={() => {
+                request.current += 1
+                recognitionRequest.current?.abort()
                 transitionScene(() => {
                   setPhoto(undefined)
                   setSample(true)
                   setError('')
+                  setCandidates([])
+                  setRecognition('idle')
+                  if (!recipeChosen.current) setRecipeId('')
                   setStep('serve')
                 })
               }}
@@ -182,6 +237,11 @@ export function MealJourney({
             />
           </div>
         </div>
+        {recognitionMessage && (
+          <p className="meal-recognition-status" role="status">
+            {recognitionMessage}
+          </p>
+        )}
         {error && (
           <p className="error-message meal-photo-error" role="alert">
             {error}
@@ -196,7 +256,7 @@ export function MealJourney({
       title="ごはんをあげる"
       onBack={() => transitionScene(() => setStep('photo'))}
       backLabel="写真にもどる"
-      onClose={onClose}
+      onClose={close}
       closeLabel="ひろばへ"
       progress={{ current: 2, total: 2 }}
       footer={
@@ -234,9 +294,37 @@ export function MealJourney({
           serve()
         }}
       >
+        {recognitionMessage && (
+          <p className="meal-recognition-status" role="status">
+            {recognitionMessage}
+          </p>
+        )}
+        {candidates.length > 0 && (
+          <div className="meal-recipe-candidates" role="group" aria-label="写真から見つかった料理">
+            {candidates.map((id) => (
+              <button
+                key={id}
+                type="button"
+                aria-pressed={recipeId === id}
+                onClick={() => {
+                  recipeChosen.current = true
+                  setRecipeId(id)
+                }}
+              >
+                {recipes.find((entry) => entry.id === id)?.name}
+              </button>
+            ))}
+          </div>
+        )}
         <label className="meal-recipe-field">
           <span>つくった料理</span>
-          <select value={recipeId} onChange={(event) => setRecipeId(event.target.value)}>
+          <select
+            value={recipeId}
+            onChange={(event) => {
+              recipeChosen.current = true
+              setRecipeId(event.target.value)
+            }}
+          >
             <option value="">いつものごはん</option>
             {recipes.map((entry) => (
               <option key={entry.id} value={entry.id}>
@@ -254,7 +342,10 @@ export function MealJourney({
               value={title}
               maxLength={40}
               placeholder={recipe?.name ?? '今日のごはん'}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(event) => {
+                titleEdited.current = true
+                setTitle(event.target.value)
+              }}
             />
           </label>
         </details>
