@@ -1,0 +1,984 @@
+/* Game chrome. Layout and interaction remain in the feature components;
+   the shared palette lives in public/game-tokens.css for the game and catalog. */
+:root {
+  --ink: var(--game-ink);
+  --muted: var(--game-muted);
+  --paper: var(--game-surface);
+  --line: var(--game-line);
+  --green: var(--game-teal);
+  --orange: var(--game-gold-dark);
+  color: var(--game-ink);
+  background: var(--game-canvas);
+}
+::selection {
+  background: var(--game-teal-soft);
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--game-blue);
+  outline-offset: 4px;
+}
+.primary-button,
+.secondary-button {
+  border-radius: var(--game-radius-control);
+  font-weight: 800;
+  letter-spacing: 0;
+  min-height: 50px;
+}
+.primary-button {
+  background: var(--game-teal);
+  color: #fff;
+  border: 1px solid var(--game-teal-dark);
+  box-shadow: 0 3px 0 var(--game-teal-dark);
+}
+.primary-button:hover {
+  background: var(--game-teal-dark);
+}
+.primary-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--game-teal-dark);
+}
+.secondary-button {
+  color: var(--game-teal-dark);
+  background: var(--game-surface);
+  border: 1px solid var(--game-line);
+  box-shadow: var(--game-shadow-control);
+}
+.secondary-button:hover {
+  background: var(--game-teal-soft);
+}
+.secondary-button:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+.icon-button {
+  color: var(--game-muted);
+  min-width: 44px;
+  min-height: 44px;
+}
+.icon-button:hover {
+  background: var(--game-teal-soft);
+}
+.quiet-button,
+.eyebrow {
+  color: var(--game-muted);
+}
+.quiet-button:hover {
+  color: var(--game-teal-dark);
+}
+.currency.coins {
+  color: #835009;
+}
+.currency.coins svg {
+  fill: var(--game-gold);
+  stroke: #835009;
+}
+.currency.gems {
+  color: #624592;
+}
+.currency.gems svg {
+  fill: #c6b2ef;
+  stroke: #624592;
+}
+.meter,
+.play-growth-track {
+  background: var(--game-teal-soft);
+}
+.meter > span {
+  background: var(--game-teal);
+}
+
+/* Home: a place to live, with a compact HUD and one main action. */
+.play-app {
+  background: var(--game-canvas);
+  padding-bottom: 116px;
+}
+.play-header {
+  height: 76px;
+  max-width: 1080px;
+  padding: 0 28px;
+  margin: 0 auto;
+  border: 0;
+}
+.play-brand {
+  min-height: 44px;
+  color: var(--game-teal-dark);
+  font-size: 21px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+.play-brand > svg {
+  width: 32px;
+  height: 32px;
+  padding: 5px;
+  color: var(--game-teal);
+  background: var(--game-surface);
+  border-radius: 11px;
+  transform: none;
+}
+.play-wallet {
+  gap: 8px;
+}
+.play-wallet > button,
+.play-wallet > button:nth-child(2) {
+  background: var(--game-surface);
+  border: 1px solid var(--game-line);
+  border-radius: 24px;
+  box-shadow: 0 2px 0 #c8dad566;
+  min-height: 44px;
+  padding: 8px 12px;
+}
+.play-wallet > .icon-button {
+  width: 44px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+.play-wallet > .icon-button:hover {
+  background: var(--game-teal-soft);
+}
+.play-main {
+  max-width: 1040px;
+  padding: 12px 28px 32px;
+}
+.play-page-room {
+  max-width: 840px;
+  padding: 8px 24px 16px;
+}
+.play-greeting {
+  margin: 0 4px 12px;
+}
+.play-greeting h1 {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+.play-streak {
+  color: #a3412c;
+  background: #fff2e7;
+  min-height: 44px;
+  border-radius: 22px;
+  padding: 6px 10px;
+  gap: 5px;
+}
+.play-streak strong {
+  font-size: 17px;
+}
+.play-world,
+.play-world.theme-garden,
+.play-world.theme-night {
+  height: clamp(350px, 48vh, 440px);
+  border: 5px solid var(--game-surface);
+  border-radius: 32px;
+  box-shadow: var(--game-shadow-panel);
+  filter: none;
+}
+.play-world-top {
+  top: 14px;
+  left: 15px;
+  right: 14px;
+}
+.play-world-top > span {
+  color: var(--game-teal-dark);
+  background: var(--game-surface);
+  border: 0;
+  border-radius: 18px;
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 750;
+  box-shadow: 0 2px 0 #243b5314;
+}
+.play-world-top > button {
+  width: 44px;
+  height: 44px;
+  background: var(--game-surface);
+  border: 0;
+  border-radius: 16px;
+  color: var(--game-teal-dark);
+  box-shadow: var(--game-shadow-control);
+}
+.play-world-top i {
+  width: 9px;
+  height: 9px;
+  right: 1px;
+  top: 1px;
+  background: var(--game-coral);
+  box-shadow: 0 0 0 2px var(--game-surface);
+}
+.play-speech {
+  top: 24%;
+  max-width: calc(100% - 48px);
+  padding: 12px 20px;
+  border-radius: 22px;
+  border: 0;
+  background: var(--game-surface);
+  color: var(--game-ink);
+  box-shadow: 0 3px 0 #243b5320;
+  font-weight: 700;
+  font-size: 13px;
+  text-align: center;
+  white-space: normal;
+  width: max-content;
+}
+.play-speech:after {
+  background: var(--game-surface);
+  border: 0;
+}
+.play-pet {
+  width: 310px;
+  height: 310px;
+  bottom: 7%;
+}
+.play-friend-count {
+  min-height: 44px;
+  padding: 3px 12px 3px 7px;
+  left: 14px;
+  bottom: 16px;
+  background: var(--game-surface);
+  border: 0;
+  border-radius: 24px;
+  color: var(--game-teal-dark);
+  font-size: 11px;
+  font-weight: 800;
+  box-shadow: 0 3px 0 #243b5318;
+}
+.play-guests {
+  background: var(--game-surface);
+  border: 0;
+  border-radius: 20px;
+  padding: 10px 8px;
+  bottom: 15%;
+  box-shadow: 0 3px 0 #243b5318;
+}
+.play-guests > span,
+.play-guests button span {
+  color: var(--game-muted);
+}
+.play-care {
+  position: relative;
+  z-index: 4;
+  background: var(--game-surface);
+  border: 1px solid var(--game-line);
+  border-radius: 24px;
+  box-shadow: var(--game-shadow-panel);
+  padding: 19px 22px 16px;
+  margin: -4px 14px 0;
+  grid-template-columns: 1fr 1.18fr;
+  gap: 8px 26px;
+}
+.play-growth {
+  min-height: 44px;
+}
+.play-name {
+  gap: 8px;
+}
+.play-name strong {
+  font-size: 19px;
+  color: var(--game-ink);
+}
+.play-name small {
+  border-radius: 8px;
+  color: var(--game-teal-dark);
+  background: var(--game-teal-soft);
+  padding: 3px 7px;
+  font-weight: 750;
+}
+.play-name > svg {
+  color: var(--game-muted);
+}
+.play-growth-track {
+  height: 10px;
+  margin: 10px 0 7px;
+  border: 1px solid #b3d1c9;
+  border-radius: 8px;
+  box-shadow: inset 0 1px 2px #243b530d;
+}
+.play-growth-track i {
+  background: var(--game-teal);
+  border-radius: 6px;
+}
+.play-next {
+  color: var(--game-muted);
+  font-size: 11px;
+}
+.primary-button.play-feed {
+  min-height: 58px;
+  border-radius: 18px;
+  background: var(--game-gold);
+  color: var(--game-ink);
+  border: 1px solid #e3a234;
+  box-shadow: 0 4px 0 #c88925;
+  font-size: 15px;
+  font-weight: 900;
+}
+.primary-button.play-feed:hover {
+  background: #ffc65c;
+}
+.primary-button.play-feed:active {
+  box-shadow: 0 1px 0 #c88925;
+  transform: translateY(3px);
+}
+.play-today,
+.play-hunger {
+  color: var(--game-muted);
+  font-size: 10px;
+}
+.play-rewards {
+  margin: 13px 20px 0;
+  color: var(--game-muted);
+  font-size: 11px;
+}
+.play-rewards > button {
+  min-height: 44px;
+}
+.play-rewards svg {
+  color: var(--game-gold-dark);
+}
+
+/* Persistent navigation uses colour only for the current destination. */
+.play-nav {
+  width: 440px;
+  max-width: calc(100% - 28px);
+  bottom: max(14px, env(safe-area-inset-bottom));
+  padding: 6px;
+  gap: 4px;
+  border: 1px solid var(--game-line);
+  border-radius: 26px;
+  background: var(--game-surface);
+  box-shadow:
+    0 4px 0 #bcd3cb,
+    0 12px 28px #243b5314;
+  backdrop-filter: none;
+}
+.play-nav > button {
+  min-height: 62px;
+  padding: 6px 8px;
+  border-radius: 20px;
+  color: var(--game-muted);
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 800;
+}
+.play-nav > button > svg {
+  width: 25px;
+  height: 25px;
+  stroke-width: 2;
+}
+.play-nav > button[aria-current='page'] {
+  background: var(--game-teal-soft);
+  color: var(--game-teal-dark);
+  box-shadow: none;
+}
+.play-nav > button:hover {
+  background: var(--game-teal-soft);
+}
+
+/* Collection menus: pictures first, labels second, details on demand. */
+.play-page-heading {
+  margin: 8px 0 20px;
+}
+.play-page-heading h1 {
+  font-size: 29px;
+  font-weight: 850;
+  letter-spacing: 0;
+  margin-top: 4px;
+}
+.play-page-heading > span {
+  color: var(--game-muted);
+  font-size: 11px;
+}
+.play-book-tabs {
+  background: #d3e6df;
+  padding: 5px;
+  border-radius: 18px;
+  margin: 20px 0;
+  border: 0;
+}
+.play-book-tabs > button {
+  color: var(--game-muted);
+  border-radius: 14px;
+  min-height: 44px;
+}
+.play-book-tabs > button[aria-pressed='true'] {
+  background: var(--game-teal);
+  color: #fff;
+  box-shadow: 0 2px 0 var(--game-teal-dark);
+}
+.expansion-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 15px 18px;
+  border-radius: 18px;
+  color: var(--game-teal-dark);
+  background: var(--game-surface);
+  border: 1px solid var(--game-line);
+  font-size: 14px;
+  font-weight: 850;
+  text-decoration: none;
+  box-shadow: 0 3px 0 #c8dad566;
+}
+.expansion-link:hover {
+  background: var(--game-teal-soft);
+}
+.expansion-link > span:last-child {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--game-teal-soft);
+}
+.expansion-link small {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--game-muted);
+  margin-top: 4px;
+}
+.collection-heading h2 {
+  font-size: 24px;
+  letter-spacing: 0;
+}
+.collection-eyebrow,
+.collection-intro {
+  color: var(--game-muted);
+}
+.collection-intro {
+  margin-bottom: 20px;
+}
+.collection-count {
+  background: var(--game-surface);
+  color: var(--game-muted);
+  border: 1px solid var(--game-line);
+  padding: 8px 13px;
+  font-weight: 700;
+}
+.collection-count strong {
+  color: var(--game-teal-dark);
+}
+.recipe-board,
+.friend-board {
+  gap: 18px;
+}
+.recipe-collection-card,
+.friend-card,
+.shop-card {
+  background: var(--game-surface);
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-card);
+  box-shadow: 0 3px 0 #c8dad580;
+}
+.recipe-collection-card {
+  padding: 7px;
+}
+.recipe-collection-card:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 #b6d2c9;
+}
+.recipe-collection-card.recipe-rarity-rare {
+  border-color: #78b8ad;
+}
+.recipe-collection-card.recipe-rarity-special {
+  border-color: #d49b35;
+}
+.recipe-card-picture {
+  background: #f2f0e6;
+  border-radius: 14px;
+  aspect-ratio: 1.45;
+}
+.recipe-card-back {
+  background: var(--game-teal);
+  color: #e1f3ed;
+  border: 1px solid var(--game-teal-dark);
+  border-radius: 14px;
+}
+.recipe-card-back > span {
+  color: #fff;
+  font-size: 32px;
+}
+.recipe-card-back > svg {
+  opacity: 0.8;
+  transform: none;
+}
+.recipe-card-back > i {
+  background: #fff;
+}
+.recipe-rarity {
+  color: var(--game-muted);
+  background: var(--game-surface);
+  border-color: var(--game-line);
+}
+.recipe-rarity.recipe-rarity-rare {
+  color: var(--game-teal-dark);
+  background: var(--game-teal-soft);
+  border-color: #9fc9bc;
+}
+.recipe-rarity.recipe-rarity-special {
+  color: #714707;
+  background: #ffedc4;
+  border-color: #deb770;
+}
+.recipe-card-description {
+  padding: 12px 6px 10px;
+}
+.recipe-card-description > strong,
+.recipe-collection-card.is-unknown .recipe-card-description > strong {
+  color: var(--game-ink);
+  font-size: 14px;
+}
+.recipe-card-description > span {
+  color: var(--game-muted);
+}
+.recipe-card-arrow {
+  color: var(--game-teal);
+}
+.friend-card {
+  padding: 18px 16px 15px;
+}
+.friend-card.is-active {
+  border: 2px solid var(--game-teal);
+  padding: 17px 15px 14px;
+}
+.friend-card-top > strong {
+  color: var(--game-ink);
+  letter-spacing: 0;
+}
+.friend-card-top > span {
+  color: var(--game-teal-dark);
+}
+.friend-current:before {
+  background: var(--game-teal-soft);
+  opacity: 1;
+}
+.friend-mame .friend-current:before {
+  background: #e1edd8;
+}
+.friend-shizuku .friend-current:before {
+  background: #ddecf6;
+}
+.friend-momo .friend-current:before {
+  background: #f8e4dd;
+}
+.friend-growth-name {
+  background: var(--game-teal-soft);
+  color: var(--game-teal-dark);
+}
+.friend-growth {
+  border-color: var(--game-line);
+}
+.friend-growth-step > span {
+  background: var(--game-canvas);
+}
+.friend-growth-step.is-current > span {
+  background: var(--game-teal-soft);
+  border-color: var(--game-teal);
+}
+.friend-growth-step small,
+.friend-discovery-note {
+  color: var(--game-muted);
+}
+.friend-visitors {
+  background: #d5e8e0;
+  border-color: #b4d4c7;
+  border-radius: 24px;
+}
+.friend-section-heading > span {
+  color: var(--game-teal-dark);
+}
+.friend-visitor {
+  background: var(--game-surface);
+}
+.friend-visitor-portrait > span {
+  background: var(--game-surface);
+  border-color: var(--game-line);
+  color: var(--game-muted);
+}
+
+/* Shop, records and native dialogs share the same surfaces and state colours. */
+.play-shop-banner {
+  background: var(--game-teal-soft);
+  border: 1px solid var(--game-line);
+  border-radius: 24px;
+}
+.play-shop-banner > span {
+  color: var(--game-muted);
+}
+.play-shop-banner > span strong {
+  color: var(--game-teal-dark);
+}
+.play-shop-banner > svg:last-child {
+  color: var(--game-gold-dark);
+}
+.category-tabs > button {
+  min-height: 44px;
+  color: var(--game-muted);
+  border-color: var(--game-line);
+  border-radius: 14px;
+  background: var(--game-surface);
+}
+.category-tabs > button[aria-pressed='true'] {
+  color: #fff;
+  background: var(--game-teal);
+  border-color: var(--game-teal);
+}
+.shop-card.is-equipped {
+  border: 2px solid var(--game-teal);
+}
+.item-art {
+  background: var(--game-canvas);
+}
+.equipped-label {
+  color: var(--game-teal-dark);
+  background: var(--game-surface);
+  border-radius: 10px;
+}
+.owned-label,
+.shop-footnote {
+  color: var(--game-muted);
+}
+.album-heading h1 {
+  color: var(--game-ink);
+}
+.meal-card {
+  background: var(--game-surface);
+  border-color: var(--game-line);
+  border-radius: 20px;
+}
+.sheet {
+  background: var(--game-surface);
+  border: 1px solid var(--game-line);
+  border-radius: 28px;
+  box-shadow: 0 18px 64px #243b532e;
+}
+.sheet::backdrop {
+  background: #18394573;
+  backdrop-filter: blur(3px);
+}
+.sheet-header {
+  background: var(--game-surface);
+  border-color: var(--game-line);
+  backdrop-filter: none;
+  padding: 14px 20px;
+}
+.sheet-header h2 {
+  font-weight: 850;
+  font-size: 18px;
+}
+.sheet-header > .icon-button {
+  width: 44px;
+  height: 44px;
+  background: var(--game-teal-soft);
+  color: var(--game-teal-dark);
+}
+.sheet-lead {
+  color: var(--game-muted);
+}
+.field input,
+.field textarea,
+.field select {
+  color: var(--game-ink);
+  background: #fff;
+  border-color: var(--game-line);
+  border-radius: 14px;
+  min-height: 46px;
+}
+.recipe-detail-meta > span,
+.recipe-detail-ingredients li {
+  color: var(--game-muted);
+}
+.recipe-detail-ingredients {
+  background: var(--game-canvas);
+}
+.recipe-detail-ingredients li:before {
+  background: var(--game-teal);
+}
+.recipe-detail-steps li > span {
+  color: var(--game-teal-dark);
+  background: var(--game-teal-soft);
+}
+.segmented {
+  background: var(--game-canvas);
+  border-color: var(--game-line);
+  border-radius: 16px;
+}
+.segmented > button {
+  color: var(--game-muted);
+  border-radius: 12px;
+}
+.segmented > button[aria-pressed='true'] {
+  color: #fff;
+  background: var(--game-teal);
+  box-shadow: 0 2px 0 var(--game-teal-dark);
+}
+.profile-sheet p,
+.profile-sheet > small,
+.settings-note,
+.gem-sheet p,
+.gem-sheet > small,
+.gem-price small,
+.playground summary,
+.playground > p {
+  color: var(--game-muted);
+}
+.streak-week .cooked {
+  color: var(--game-teal-dark);
+  background: var(--game-teal-soft);
+}
+.streak-gift {
+  background: #fff1d0;
+  border-color: #e5cd95;
+}
+.reset-confirm {
+  background: #fae7e1;
+}
+.reset-confirm > p {
+  color: #97422e;
+}
+.reset-buttons > button {
+  border-color: var(--game-line);
+}
+.toast {
+  background: var(--game-ink);
+  color: #fff;
+  border: 0;
+  border-radius: 16px;
+  bottom: calc(104px + env(safe-area-inset-bottom));
+}
+
+@media (max-width: 600px) {
+  .play-app {
+    padding-bottom: calc(112px + env(safe-area-inset-bottom));
+  }
+  .play-header {
+    height: 68px;
+    padding: 0 16px;
+    gap: 8px;
+  }
+  .play-brand {
+    font-size: 17px;
+    letter-spacing: 0;
+    gap: 5px;
+  }
+  .play-brand > svg {
+    width: 27px;
+    height: 27px;
+    padding: 4px;
+  }
+  .play-wallet {
+    gap: 5px;
+  }
+  .play-wallet > button,
+  .play-wallet > button:nth-child(2) {
+    padding: 7px 9px;
+    min-height: 44px;
+    gap: 4px;
+  }
+  .play-wallet .currency {
+    font-size: 12px;
+    gap: 4px;
+  }
+  .play-wallet > .icon-button {
+    width: 44px;
+    padding: 0;
+  }
+  .play-main {
+    padding: 8px 16px 22px;
+  }
+  .play-page-room {
+    padding: 3px 12px 16px;
+  }
+  .play-greeting {
+    margin: 0 5px 8px;
+  }
+  .play-greeting h1 {
+    font-size: 13px;
+  }
+  .play-streak {
+    min-height: 44px;
+    font-size: 10px;
+    padding: 5px 8px;
+  }
+  .play-world,
+  .play-world.theme-garden,
+  .play-world.theme-night {
+    height: 340px;
+    border-radius: 28px;
+    border-width: 4px;
+  }
+  .play-world-top {
+    top: 11px;
+    left: 11px;
+    right: 11px;
+  }
+  .play-world-top > span {
+    font-size: 10px;
+    padding: 7px 10px;
+  }
+  .play-speech {
+    top: 25%;
+    font-size: 12px;
+    padding: 11px 16px;
+  }
+  .play-page-room .play-pet {
+    width: 250px;
+    height: 250px;
+    bottom: 7%;
+  }
+  .play-page-room .with-visitors .play-pet {
+    width: 180px;
+    height: 195px;
+    left: 32%;
+    bottom: 10%;
+  }
+  .with-visitors .play-speech {
+    left: 40%;
+    max-width: 70%;
+  }
+  .play-friend-count {
+    font-size: 10px;
+    min-height: 44px;
+    left: 10px;
+    bottom: 11px;
+  }
+  .play-guests {
+    right: 7px;
+    padding: 8px 4px;
+    bottom: 18%;
+    border-radius: 16px;
+  }
+  .play-guests button {
+    width: 44px;
+  }
+  .play-care {
+    margin: -1px 5px 0;
+    padding: 15px 17px 13px;
+    border-radius: 22px;
+    gap: 12px;
+  }
+  .play-growth {
+    grid-template-columns: 1fr 1fr;
+    gap: 3px 14px;
+  }
+  .play-name {
+    gap: 5px;
+  }
+  .play-name strong {
+    font-size: 17px;
+  }
+  .play-name small {
+    font-size: 9px;
+    padding: 3px 6px;
+  }
+  .play-growth-track {
+    height: 9px;
+    margin: 3px 0 3px;
+  }
+  .play-next {
+    font-size: 9px;
+  }
+  .primary-button.play-feed {
+    min-height: 55px;
+    font-size: 14px;
+    border-radius: 16px;
+  }
+  .play-today,
+  .play-hunger {
+    font-size: 9px;
+  }
+  .play-rewards {
+    margin: 9px 12px 0;
+    font-size: 10px;
+  }
+  .play-nav {
+    width: 400px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+  }
+  .play-nav > button {
+    min-height: 58px;
+    font-size: 10px;
+  }
+  .play-page-heading {
+    margin: 6px 0 18px;
+  }
+  .play-page-heading h1 {
+    font-size: 25px;
+  }
+  .expansion-link {
+    padding: 13px 14px;
+    font-size: 13px;
+  }
+  .expansion-link small {
+    font-size: 10px;
+  }
+  .collection-heading h2 {
+    font-size: 21px;
+  }
+  .collection-intro {
+    font-size: 11px;
+    margin-bottom: 18px;
+  }
+  .recipe-board,
+  .friend-board {
+    gap: 13px;
+  }
+  .recipe-card-picture {
+    aspect-ratio: 1.18;
+  }
+  .recipe-card-description > strong,
+  .recipe-collection-card.is-unknown .recipe-card-description > strong {
+    font-size: 12px;
+  }
+  .recipe-card-description > span {
+    font-size: 9px;
+    gap: 8px;
+  }
+  .friend-card {
+    padding: 15px 10px 13px;
+  }
+  .friend-card.is-active {
+    padding: 14px 9px 12px;
+  }
+}
+@media (max-width: 380px), (max-width: 600px) and (max-height: 760px) {
+  .play-page-room .play-world {
+    height: 282px;
+  }
+  .play-page-room .play-pet {
+    width: 182px;
+    height: 182px;
+    bottom: 6%;
+  }
+  .play-page-room .with-visitors .play-pet {
+    width: 157px;
+    height: 169px;
+    bottom: 12%;
+  }
+  .play-page-room .play-speech {
+    top: 26%;
+  }
+  .play-care {
+    gap: 9px;
+    padding: 12px 14px;
+  }
+  .play-header {
+    height: 62px;
+    padding: 0 12px;
+  }
+  .play-brand > svg {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .play-app *,
+  .sheet * {
+    scroll-behavior: auto;
+    transition: none;
+  }
+}

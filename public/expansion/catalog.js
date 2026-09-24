@@ -14,6 +14,13 @@ const duration = (minutes) =>
 const rarity = { common: 'いつもの一皿', rare: 'ひと工夫の一皿', special: 'とっておきの一皿' }
 const img = (path, alt = '', className = '') =>
   `<img src="${esc(path)}" alt="${esc(alt)}" class="${className}" loading="lazy" decoding="async">`
+const clockIcon =
+  '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="M10 5v5l3 2"/></svg>'
+const growthIcon =
+  '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 17V8M10 12Q2 12 3 5q7 0 7 7Zm0-3q0-7 7-6 1 6-7 6Z"/></svg>'
+const coinIcon =
+  '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m10 5 3 5-3 5-3-5Z"/></svg>'
+const nextIcon = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="m8 5 5 5-5 5"/></svg>'
 function hatTransform(character) {
   const t = character.stages[2].renderSpec.hatTransform
   return `translate(${t.translateX} ${t.translateY}) scale(${t.scaleX} ${t.scaleY})`
@@ -50,8 +57,8 @@ function options() {
       .map(([id, name]) => `<option value="${id}">${esc(name)}</option>`)
       .join('')
   document.querySelectorAll('.recipe-filter').forEach((el) => (el.hidden = tab !== 'recipes'))
-  $('#query').placeholder =
-    tab === 'recipes' ? '例：なす、フライパン、朝ごはん' : '名前や好きなことばでさがす'
+  $('#filters').classList.toggle('is-simple', tab !== 'recipes')
+  $('#query').placeholder = tab === 'recipes' ? '名前や材料でさがす' : '名前や好きなことばでさがす'
   $('#sort').querySelector('[value=time]').hidden = tab !== 'recipes'
 }
 function render() {
@@ -75,15 +82,19 @@ function render() {
         isCharacter = tab === 'characters',
         index = data[tab].indexOf(e) + 1
       const picture = isCharacter ? e.stages[2].artPath : e.artPath
+      const pictureMarkup =
+        !isRecipe && !isCharacter && e.kind === 'hat'
+          ? `<svg viewBox="65 -8 170 118" aria-hidden="true"><image href="${esc(picture)}" width="300" height="300"/></svg>`
+          : img(picture)
       const kicker = isRecipe
         ? data.categories[e.category]
         : isCharacter
           ? data.collections[e.habitat]
           : data.collections[e.collection]
       const meta = isRecipe
-        ? `${duration(e.minutes)} / ${difficulty[e.difficulty]}`
+        ? `${duration(e.minutes)} · ${difficulty[e.difficulty]}`
         : isCharacter
-          ? '3つの成長する姿'
+          ? '成長3段階'
           : `${e.price.toLocaleString()} ${e.currency === 'coins' ? 'コイン' : 'ジェム'}`
       const label = isRecipe
         ? 'レシピをひらく'
@@ -92,7 +103,7 @@ function render() {
           : e.kind === 'hat'
             ? 'かぶってみる'
             : 'ひろばを見る'
-      return `<button class="card" data-id="${e.id}" aria-label="${esc(e.name)}：${label}"><span class="card-art ${isCharacter ? 'character' : !isRecipe ? 'item-' + e.kind : ''}"><span class="card-no">No. ${String(index).padStart(3, '0')}</span>${img(picture)}</span><span class="card-copy"><span class="card-kicker">${esc(kicker)}</span><strong class="card-name">${esc(e.name)}</strong><span class="card-desc">${esc(e.description)}</span><span class="card-meta"><span>${meta}</span><span>${label} ↗</span></span></span></button>`
+      return `<button class="card" data-id="${e.id}" aria-label="${esc(e.name)}：${label}"><span class="card-art ${isCharacter ? 'character' : !isRecipe ? 'item-' + e.kind : ''}"><span class="card-no">No. ${String(index).padStart(3, '0')}</span>${pictureMarkup}</span><span class="card-copy"><span class="card-kicker">${esc(kicker)}</span><strong class="card-name">${esc(e.name)}</strong><span class="card-meta"><span class="card-meta-info ${!isRecipe && !isCharacter ? 'card-price' : ''}">${isRecipe ? clockIcon : isCharacter ? growthIcon : coinIcon}${meta}</span><span class="card-next">${nextIcon}</span></span></span></button>`
     })
     .join('')
   $('#empty').hidden = !!result.total
@@ -106,7 +117,7 @@ function detail(entry) {
     info = ''
   if (tab === 'recipes') {
     visual = img(e.artPath, e.name)
-    info = `<span class="edition">${esc(data.categories[e.category])} / ${esc(e.cuisine)}</span><h2 id="detail-title">${esc(e.name)}</h2><p>${esc(e.description)}</p><div><span class="pill">${duration(e.minutes)}</span><span class="pill">${difficulty[e.difficulty]}</span><span class="pill">${rarity[e.rarity]}</span></div><h3>材料（${e.servings}人分）</h3><ul class="ingredients">${e.ingredients.map((i) => `<li><span>${esc(i.name)}</span><strong>${esc(i.amount)}</strong></li>`).join('')}</ul><h3>つくり方</h3><ol>${e.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol><h3>おいしくするコツ</h3><p class="tip">${esc(e.tip)}</p><p>道具：${e.equipment.map(esc).join('、')}</p><p>${e.tags.map((t) => `<span class="pill">${esc(t)}</span>`).join('')}</p><p>初めて作ると +${e.reward}コイン</p>`
+    info = `<span class="edition">${esc(data.categories[e.category])} / ${esc(e.cuisine)}</span><h2 id="detail-title">${esc(e.name)}</h2><p>${esc(e.description)}</p><div><span class="pill">${duration(e.minutes)}</span><span class="pill">${difficulty[e.difficulty]}</span><span class="pill">${rarity[e.rarity]}</span></div><h3>材料（${e.servings}人分）</h3><ul class="ingredients">${e.ingredients.map((i) => `<li><span>${esc(i.name)}</span><strong>${esc(i.amount)}</strong></li>`).join('')}</ul><h3>つくり方</h3><ol>${e.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol><h3>おいしくするコツ</h3><p class="tip">${esc(e.tip)}</p><p>道具：${e.equipment.map(esc).join('、')}</p><p>${e.tags.map((t) => `<span class="pill">${esc(t)}</span>`).join('')}</p><p class="reward">${coinIcon}初めて作ると +${e.reward}コイン</p>`
   } else if (tab === 'characters') {
     visual =
       img(e.stages[2].artPath, e.name, 'growth-preview') +
@@ -184,7 +195,7 @@ try {
   if (!response.ok) throw new Error('catalog unavailable')
   data = await response.json()
   $('#counts').innerHTML =
-    `<div><strong>${data.recipes.length}</strong><span>料理カード</span></div><div><strong>${data.characters.length}</strong><span>新しいなかま</span></div><div><strong>${data.items.length}</strong><span>きせかえとひろば</span></div>`
+    `<span>全 </span><strong>${data.recipes.length + data.characters.length + data.items.length}</strong><span>種類</span>`
   $('#recipe-count').textContent = data.recipes.length
   $('#character-count').textContent = data.characters.length
   $('#item-count').textContent = data.items.length

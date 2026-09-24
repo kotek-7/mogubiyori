@@ -3,114 +3,131 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#24624b" />
+    <meta name="theme-color" content="#E8F2EE" />
     <title>料理図鑑 | もぐ日和</title>
+    <link rel="stylesheet" href="/game-tokens.css" />
     <link rel="stylesheet" href="./catalog.css" />
     <script type="module" src="./catalog.js"></script>
   </head>
   <body>
     <a class="skip" href="#catalog">図鑑へ進む</a>
-    <header>
-      <a class="brand" href="/">もぐ日和<span>きみのごはんで、なかまが育つ。</span></a
-      ><a class="back" href="/">ひろばへ ↗</a>
+    <header class="catalog-header">
+      <div class="header-inner">
+        <a class="back" href="/">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6" /></svg>
+          <span>ひろばへ</span>
+        </a>
+        <div class="header-title">
+          <svg viewBox="0 0 28 28" aria-hidden="true">
+            <path d="M14 7C10 4 5 4 3 5v18c3-1 7-1 11 2 4-3 8-3 11-2V5c-2-1-7-1-11 2Z" />
+            <path d="M14 7v18M7 10h3m-3 5h3m8-5h3m-3 5h3" />
+          </svg>
+          <h1>図鑑</h1>
+        </div>
+        <div class="catalog-total" id="counts" aria-live="polite">もぐ日和</div>
+      </div>
     </header>
     <main>
-      <section class="hero">
-        <div class="hero-copy">
-          <span class="edition">もぐ日和の料理図鑑　第一集</span>
-          <h1>いただきますを、<br />集めよう。</h1>
-          <p>いつものごはんも、はじめての一皿も。<br />つくるたび、世界がひとつ広がる。</p>
-          <a class="cta" href="#catalog">次の一皿をさがす <span>↓</span></a>
-          <div class="hero-numbers" id="counts" aria-live="polite"></div>
-        </div>
-        <img
-          src="./assets/scenes/neighborhood-table.png"
-          alt="食堂でおにぎりやスープを分け合うこむぎたち"
-          width="1536"
-          height="1024"
-          fetchpriority="high"
-        />
-      </section>
       <section class="library" id="catalog" aria-labelledby="catalog-heading">
-        <div class="section-head">
-          <div>
-            <span class="edition">きょうは、なににする？</span>
-            <h2 id="catalog-heading">食卓からひろがる図鑑</h2>
-          </div>
-          <p>気になるカードをひらいてみよう。</p>
-        </div>
+        <h2 class="sr-only" id="catalog-heading">食卓の図鑑</h2>
         <nav class="tabs" aria-label="図鑑の種類">
           <button type="button" data-tab="recipes" aria-pressed="true">
-            料理カード <span id="recipe-count"></span></button
-          ><button type="button" data-tab="characters" aria-pressed="false">
-            なかまたち <span id="character-count"></span></button
-          ><button type="button" data-tab="items" aria-pressed="false">
-            きせかえとひろば <span id="item-count"></span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="13" cy="13" r="7" />
+              <circle cx="13" cy="13" r="4" />
+              <path d="M3 3v6m-2-6v4q0 2 2 2t2-2V3M3 9v12" />
+            </svg>
+            <span class="tab-label">料理カード</span
+            ><span class="tab-count" id="recipe-count"></span>
+          </button>
+          <button type="button" data-tab="characters" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 10Q1 2 7 4l3 3h4l3-3q6-2 3 6c4 10-3 12-8 12S0 20 4 10Z" />
+              <path d="M8 12v1m8-1v1m-7 4q3 3 6 0" />
+            </svg>
+            <span class="tab-label">なかまたち</span
+            ><span class="tab-count" id="character-count"></span>
+          </button>
+          <button type="button" data-tab="items" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 14 8 5q4-3 8 0l2 9M7 11h10" />
+              <ellipse cx="12" cy="16" rx="10" ry="4" />
+            </svg>
+            <span class="tab-label">きせかえとひろば</span
+            ><span class="tab-count" id="item-count"></span>
           </button>
         </nav>
         <form class="filters" id="filters" role="search">
-          <label class="search"
-            >名前・材料・ことば<input
-              id="query"
-              type="search"
-              placeholder="例：なす、フライパン、朝ごはん"
-              autocomplete="off" /></label
-          ><label
+          <label class="search">
+            <span class="sr-only">名前・材料・ことば</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="10" cy="10" r="6.5" />
+              <path d="m15 15 5 5" />
+            </svg>
+            <input id="query" type="search" placeholder="名前や材料でさがす" autocomplete="off" />
+          </label>
+          <label class="filter-control"
             >分類<select id="category">
               <option value="">すべて</option>
             </select></label
-          ><label class="recipe-filter"
+          >
+          <label class="filter-control recipe-filter"
             >時間<select id="time">
               <option value="0">すべて</option>
               <option value="10">10分以内</option>
               <option value="20">20分以内</option>
               <option value="30">30分以内</option>
             </select></label
-          ><label class="recipe-filter"
+          >
+          <label class="filter-control recipe-filter"
             >難易度<select id="difficulty">
               <option value="">すべて</option>
               <option value="1">かんたん</option>
               <option value="2">ひと工夫</option>
               <option value="3">じっくり</option>
             </select></label
-          ><label
+          >
+          <label class="filter-control"
             >並び順<select id="sort">
               <option value="default">図鑑順</option>
               <option value="name">名前順</option>
               <option value="time">時間順</option>
             </select></label
-          ><button type="reset" class="reset">条件を戻す</button>
+          >
+          <button type="reset" class="reset">条件を戻す</button>
         </form>
         <div class="results-line">
           <p id="result-count" role="status">図鑑を読み込んでいます…</p>
-          <span>カードを押して詳しく</span>
+          <span>タップしてくわしく</span>
         </div>
         <div id="cards" class="cards"></div>
         <div id="empty" class="empty" hidden>
-          ぴったりのカードが見つかりませんでした。<br />ことばや条件を少し変えてみてください。
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="27" cy="27" r="19" />
+            <path d="m41 41 14 14M20 25h1m13 0h1m-13 10q5-4 10 0" />
+          </svg>
+          <strong>まだ見つからないみたい</strong>
+          <p>ことばや条件を少し変えてみてください。</p>
         </div>
         <nav class="pagination" aria-label="ページ送り">
           <button type="button" id="prev">← 前へ</button><span id="page-number"></span
           ><button type="button" id="next">次へ →</button>
         </nav>
       </section>
-      <section class="direction">
-        <strong>おいしい色。<br />たのしいかたち。</strong>
-        <p>朱色、深緑、青、山吹。<br />料理のかたちを眺めながら、<br />きょうのひと皿を選ぼう。</p>
-        <div class="swatches" role="img" aria-label="朱色、深緑、青、山吹、墨色の配色">
-          <i></i><i></i><i></i><i></i><i></i>
-        </div>
-      </section>
     </main>
     <footer>
-      <span>もぐ日和　料理図鑑 第一集</span>
-      <p>
-        追加コンテンツのプレビューです。獲得・購入は本体への接続前です。<br />調理時間は目安です。レシピの実調理による確認は未実施です。
-      </p>
-      <a href="./manifest.json">コンテンツ情報</a>
+      <details>
+        <summary>この図鑑について</summary>
+        <p>
+          追加コンテンツのプレビューです。獲得・購入は本体への接続前です。調理時間は目安です。レシピの実調理による確認は未実施です。
+        </p>
+        <a href="./manifest.json">コンテンツ情報</a>
+      </details>
     </footer>
     <dialog id="detail" aria-labelledby="detail-title">
-      <button type="button" class="close" aria-label="閉じる">×</button>
+      <button type="button" class="close" aria-label="閉じる">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+      </button>
       <div id="detail-body"></div>
     </dialog>
   </body>

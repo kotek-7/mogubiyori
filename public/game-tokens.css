@@ -1,0 +1,21 @@
+/* Original palette informed by the visual hierarchy of Pocket Camp, Pokémon Sleep
+   and Pikmin Bloom. These values are design choices, not official brand colours. */
+:root {
+  --game-ink: #243b53;
+  --game-muted: #526777;
+  --game-canvas: #e8f2ee;
+  --game-surface: #fffef8;
+  --game-teal: #087f79;
+  --game-teal-dark: #06665f;
+  --game-teal-soft: #d9efeb;
+  --game-gold: #f5b544;
+  --game-gold-dark: #8a5710;
+  --game-coral: #d5634d;
+  --game-line: #c8dad5;
+  --game-blue: #326ab0;
+  --game-purple: #765bb4;
+  --game-radius-card: 20px;
+  --game-radius-control: 16px;
+  --game-shadow-panel: 0 5px 0 #c8dad566, 0 12px 28px #243b530a;
+  --game-shadow-control: 0 3px 0 #bad2cc;
+}
