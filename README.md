@@ -105,7 +105,7 @@ pnpm test:db
 
 通常のE2Eは4173番（`E2E_PORT`で変更可能）、cloud用E2Eは4190番で専用サーバーを起動します。Auth・ゲームAPI・認識はmockを使い、実クラウドへアクセスしません。DBテストは隔離した一時PostgreSQLへmigrationを適用し、権限と同時更新を確認します。
 
-GitHub Actionsにも型検査・lint・unit・build・E2E・DB検証を設定しています。自動デプロイは行いません。
+GitHub Actionsの[CI/CD](https://github.com/kotek-7/mogubiyori/actions/workflows/ci.yml)で型検査・lint・format・unit・build・E2E・DB検証を行います。`kotek-7/mogubiyori`の`main`へpushすると、全検証に成功したビルドを[mogubiyori.kotek7.com](https://mogubiyori.kotek7.com/)へ自動公開します。PRと他のブランチは検証のみです。初期設定と再実行の手順は[実行環境とクラウド接続](docs/infrastructure.md#github-actionsの自動公開)を参照してください。
 
 - [アーキテクチャと開発境界](docs/architecture.md)
 - [実行環境とクラウド接続](docs/infrastructure.md)

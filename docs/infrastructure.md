@@ -105,11 +105,35 @@ Google側にはSupabaseが表示するOAuth callbackを設定する。Supabase�
 
 このDBテストはSupabase Auth/StorageのHTTPサービスを起動しない。Google認証、実際のprivate写真、Workers AI、端末を替えた続きからの再開は、設定済み環境で別に確認する。
 
-GitHub Actionsの[CI](../.github/workflows/ci.yml)はNode.js 24、`packageManager`指定のpnpm、固定したlockfileを使い、lint・format・unit test・build・local/cloudのE2E・隔離PostgreSQLの検証を行う。`CLOUDFLARE_REMOTE_BINDINGS=false`を設定し、外部認証情報や実AIを使わない。CIにはデプロイ処理を含めない。
+GitHub Actionsの[CI/CD](../.github/workflows/ci.yml)はNode.js 24、`packageManager`指定のpnpm、固定したlockfileを使い、lint・format・unit test・build・local/cloudのE2E・隔離PostgreSQLの検証を行う。検証jobには`CLOUDFLARE_REMOTE_BINDINGS=false`と`VITE_GAME_MODE=local`を設定し、外部認証情報や実AIを使わない。失敗時のブラウザtraceは7日間保存する。
 
 Cloudflare Vite pluginによるビルド結果は、静的ファイルが`dist/client/`、Worker本体と生成したWrangler設定が`dist/mogubiyori/`へ出力される。生成した設定はビルドごとに更新されるため、手で編集しない。リモート接続を使わずビルドする場合は`CLOUDFLARE_REMOTE_BINDINGS=false pnpm build`を使う。
 
-ビルド・公開手順は [README](../README.md) と`package.json`のscriptsを正本とする。cloud用の環境変数とWorker Secret、DB migration、Auth redirectの準備後に公開する。デプロイコマンドが存在するだけでは、公開済み・接続確認済みとは扱わない。
+ビルド・公開手順は [README](../README.md) と`package.json`のscriptsを正本とする。現在の公開は端末内保存の`local`モードを使う。`cloud`へ切り替える場合は、ビルド時の環境変数とWorker Secret、DB migration、Auth redirectを準備する。
+
+### GitHub Actionsの自動公開
+
+`kotek-7/mogubiyori`の`main`へのpushで、全検証が成功した後に`production`環境からCloudflare Worker `mogubiyori`へ公開する。PRや他のブランチ、別リポジトリでは公開しない。公開前にGitHubの`main`と実行中のコミットを照合し、古いコミットの再実行による巻き戻しを避ける。進行中の本番公開は後続のpushで中断しない。
+
+検証jobが作成した`dist/`を7日間のartifactとして渡し、公開jobでは再ビルドせず`wrangler deploy --config dist/mogubiyori/wrangler.json`を実行する。Vite pluginの設定切替用ファイルは別jobへ引き継がれないため、生成した設定を直接指定する。公開後はHTTPSで取得したHTMLがビルド結果と一致することと、認識APIのGETが405を返すことを確認する。AI推論や本番データの書き込みは行わない。
+
+GitHubのリポジトリ設定「Secrets and variables → Actions」に以下を登録する。
+
+| 種類     | 名前                    | 内容                                       |
+| -------- | ----------------------- | ------------------------------------------ |
+| Secret   | `CLOUDFLARE_API_TOKEN`  | 本番Workerを更新できるCloudflare API token |
+| Variable | `CLOUDFLARE_ACCOUNT_ID` | `769b391d51df077598b7d91579605fe2`         |
+
+トークンはCloudflareの[API Tokens](https://dash.cloudflare.com/profile/api-tokens)で作成し、対象アカウントのWorkers Scripts編集と、`kotek7.com`のZone読み取り・Workers Routes編集を許可する。Workers AIのbindingを含むためWorkers AI読み取りも許可する。[CloudflareのGitHub Actions手順](https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/)も参照。端末のWrangler OAuth tokenは有効期限が短いため、GitHubには登録しない。
+
+CLIで登録する場合は、以下のSecret入力欄にtokenを入力する。コマンド引数やファイルにtokenを記載する必要はない。
+
+```sh
+gh secret set CLOUDFLARE_API_TOKEN --repo kotek-7/mogubiyori
+gh variable set CLOUDFLARE_ACCOUNT_ID --repo kotek-7/mogubiyori --body 769b391d51df077598b7d91579605fe2
+```
+
+手動でやり直す場合は、GitHub Actionsの「CI/CD → Run workflow」で`main`を選ぶか、`gh workflow run ci.yml --ref main --repo kotek-7/mogubiyori`を実行する。検証から再実行し、成功後に公開する。
 
 ## 現在の範囲
 
