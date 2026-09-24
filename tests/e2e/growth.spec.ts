@@ -5,8 +5,10 @@ import {
   claimLogin,
   growthStages,
   initialGame,
+  species,
   todayTokyo,
 } from '../../src/app/game/browserGame'
+import { companionProfiles } from '../../shared/content/companionProfiles'
 import { navigate, storedGame, waitForSceneMotion } from './helpers'
 
 test('five forms unlock in order and collected forms can be revisited without changing growth', async ({
@@ -43,7 +45,7 @@ test('five forms unlock in order and collected forms can be revisited without ch
     }
     await dialog.getByRole('button', { name: 'うまれたての姿を見る' }).click()
     await expect(dialog.locator('.profile-sheet > .pet-art')).toHaveClass(/pet-stage-0/)
-    await dialog.getByText('姿の特徴', { exact: true }).click()
+    await expect(dialog.getByRole('heading', { name: 'うまれたてのころ' })).toBeVisible()
     await expect(dialog.locator('.profile-form-description')).toBeVisible()
     await expect(dialog.locator('.profile-form-description')).not.toBeEmpty()
     await page.getByRole('button', { name: '閉じる', exact: true }).click()
@@ -51,6 +53,55 @@ test('five forms unlock in order and collected forms can be revisited without ch
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   }
 })
+
+for (const entry of species) {
+  test(`${entry.name} keeps its shared story while browsing all five growth descriptions`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    const state = claimLogin(initialGame(todayTokyo()))
+    state.tutorial = { version: 1, step: 4, status: 'completed' }
+    state.xp = 1050
+    state.activeId = entry.id
+    state.name = entry.name
+    state.companions = [{ id: entry.id, xp: 1050, joinedDay: state.today }]
+    await page.goto('/')
+    await page.evaluate(
+      (value) => localStorage.setItem('mogubiyori-v1', value),
+      JSON.stringify(state),
+    )
+    await page.reload()
+    const before = await storedGame(page)
+    await page.locator('.play-growth').click()
+    const dialog = page.getByRole('dialog')
+    const profile = companionProfiles[entry.id]
+    const common = dialog.locator('.profile-description')
+    await expect(common.locator('summary')).toHaveText(`${entry.name}について`)
+    await expect(common.locator('p').first()).toHaveText(profile.ecology)
+    await expect(common.locator('p').last()).toHaveText(profile.habit)
+    const commonText = await common.textContent()
+    const descriptions = new Set<string>()
+    for (const { stage, name } of growthStages) {
+      await dialog.getByRole('button', { name: `${name}の姿を見る` }).click()
+      await expect(dialog.getByRole('heading', { name: `${name}のころ` })).toBeVisible()
+      const description = dialog.locator('.profile-form-description')
+      await expect(description).toHaveText(profile.stages[stage])
+      descriptions.add((await description.textContent())!)
+      expect(await common.textContent()).toBe(commonText)
+    }
+    expect(descriptions.size).toBe(5)
+    await common.locator('summary').click()
+    await expect(common.locator('p').first()).not.toBeVisible()
+    await expect(dialog.locator('.profile-form-description')).toBeVisible()
+    await dialog.getByRole('button', { name: 'きせかえ' }).scrollIntoViewIfNeeded()
+    await expect(dialog.getByRole('button', { name: 'きせかえ' })).toBeInViewport()
+    expect(await dialog.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(
+      true,
+    )
+    await page.getByRole('button', { name: '閉じる', exact: true }).click()
+    expect(await storedGame(page)).toEqual(before)
+  })
+}
 
 test('the collection shows unseen companions and forms without revealing their names or changing progress', async ({
   page,

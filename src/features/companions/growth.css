@@ -81,8 +81,39 @@ button.growth-trail-step {
   word-break: keep-all;
   overflow-wrap: anywhere;
 }
-.profile-form-description {
-  min-height: 3em;
+.profile-sheet .profile-form {
+  margin: 12px 0 20px;
+  text-align: left;
+}
+.profile-sheet .profile-form h3 {
+  margin: 0 0 8px;
+  color: var(--game-ink);
+  font-size: 14px;
+}
+.profile-sheet .profile-form-description,
+.profile-sheet .profile-description p {
+  margin: 0;
+  color: var(--game-ink);
+  font-size: 14px;
+  line-height: 1.9;
+  overflow-wrap: anywhere;
+}
+.profile-sheet .profile-description {
+  margin: 20px 0 0;
+  padding: 16px 0;
+  border-block: 1px solid var(--game-line);
+  text-align: left;
+}
+.profile-description summary {
+  min-height: 24px;
+  color: var(--game-teal-dark);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.profile-sheet .profile-description summary + p,
+.profile-sheet .profile-description p + p {
+  margin-top: 12px;
 }
 .profile-sheet .growth-discovery-hint {
   font-size: 12px;

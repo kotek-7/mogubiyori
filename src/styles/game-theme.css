@@ -871,24 +871,6 @@ summary:focus-visible {
 .playground > p {
   color: var(--game-muted);
 }
-.profile-description {
-  margin: 18px 0;
-  padding: 12px 0;
-  border-block: 1px solid var(--game-line);
-  text-align: left;
-}
-.profile-description summary {
-  min-height: 24px;
-  color: var(--game-teal-dark);
-  font-size: 13px;
-  cursor: pointer;
-}
-.profile-description .profile-form-description {
-  margin: 12px 0 0;
-  text-align: left;
-  font-size: 13px;
-  line-height: 1.8;
-}
 .help-sheet > p,
 .help-sheet li > span {
   color: var(--game-muted);

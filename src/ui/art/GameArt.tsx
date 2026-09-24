@@ -4,8 +4,6 @@ import type { GrowthStage, SpeciesId } from '../../app/game/browserGame'
 import { CompanionArt, type CompanionMood } from './CompanionArt'
 import { KayaScenery } from './KayaScenery'
 import { Neckwear, ShoulderBag, WardrobeThumbnail } from './WardrobeArt'
-// oxlint-disable-next-line react/only-export-components -- Keep the companion art API in one place.
-export { companionFormDescription } from './CompanionArt'
 export type { CompanionMood } from './CompanionArt'
 
 type ArtProps = { className?: string }
