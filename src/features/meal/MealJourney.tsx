@@ -248,7 +248,7 @@ export function MealJourney({
         </div>
         {!ready && (
           <p className="meal-recognition-status">
-            写真からAIが料理の候補を見つけます。違うときは食卓で選び直せます。
+            写真を提出すると該当する料理の候補が提示されます。
           </p>
         )}
         <RecognitionStatus pending={recognition === 'recognizing'} message={recognitionMessage} />
