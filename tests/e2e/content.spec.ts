@@ -25,9 +25,25 @@ test('character growth, cosmetic preview and mobile layout remain usable', async
   await page.getByRole('button', { name: 'なかまたち' }).click()
   await expect(page.locator('#result-count')).toContainText('36 種類')
   await page.locator('.card').first().click()
-  const adult = await page.locator('.growth-preview').getAttribute('src')
-  await page.locator('[data-stage="0"]').click()
-  await expect(page.locator('.growth-preview')).not.toHaveAttribute('src', adult!)
+  const stages = page.getByRole('group', { name: '成長段階' }).getByRole('button')
+  await expect(stages).toHaveCount(5)
+  await expect(page.locator('[data-stage="4"]')).toHaveAttribute('aria-pressed', 'true')
+  const finalForm = await page.locator('.growth-preview').getAttribute('src')
+  expect(finalForm).toMatch(/-4\.svg$/)
+  const names = ['うまれたて', 'ちびっこ', 'わんぱく', 'おとな', 'とっておき']
+  for (const [index, name] of names.entries()) {
+    const button = page.locator(`[data-stage="${index}"]`)
+    await expect(button).toHaveText(name)
+    await button.click()
+    await expect(button).toHaveAttribute('aria-pressed', 'true')
+    await expect(page.locator('.growth-preview')).toHaveAttribute(
+      'src',
+      new RegExp(`-${index}\\.svg$`),
+    )
+    const rect = await button.boundingBox()
+    expect(rect && rect.width >= 44 && rect.height >= 44).toBe(true)
+    expect(rect && rect.x >= 0 && rect.x + rect.width <= 390).toBe(true)
+  }
   await page.getByRole('button', { name: '閉じる', exact: true }).click()
   await page.getByRole('button', { name: 'きせかえとひろば' }).click()
   await expect(page.locator('#result-count')).toContainText('72 種類')

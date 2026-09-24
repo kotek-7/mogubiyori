@@ -14,6 +14,38 @@ describe('feast journey events', () => {
     expect(types(before, after)).toEqual(['eating', 'satisfied'])
   })
 
+  it('keeps the first two meals newborn and celebrates the third meal growth', () => {
+    const start = chooseStarter(initialGame(day), 'shizuku')
+    const first = feed(start, plainMeal)
+    const second = feed(first, plainMeal)
+    const third = feed(second, plainMeal)
+    expect(types(start, first)).toEqual(['eating', 'satisfied'])
+    expect(types(first, second)).toEqual(['eating', 'satisfied'])
+    expect(deriveFeastSteps(second, third)).toEqual([
+      { type: 'eating' },
+      { type: 'growth', from: 0, to: 1 },
+    ])
+  })
+
+  it('presents every crossed growth stage in order when one reward spans multiple stages', () => {
+    const before = chooseStarter(initialGame(day), 'komugi')
+    const fed = feed(before, plainMeal)
+    const after = {
+      ...fed,
+      xp: 1100,
+      companions: [{ ...fed.companions[0], xp: 1100 }],
+    }
+    expect(deriveFeastSteps(before, after)).toEqual([
+      { type: 'eating' },
+      { type: 'growth', from: 0, to: 1 },
+      { type: 'growth', from: 1, to: 2 },
+      { type: 'growth', from: 2, to: 3 },
+      { type: 'growth', from: 3, to: 4 },
+    ])
+    const next = feed(after, plainMeal)
+    expect(deriveFeastSteps(after, next).filter((step) => step.type === 'growth')).toEqual([])
+  })
+
   it('reveals growth, a new recipe, arrivals and the seven-day gift in that order', () => {
     const before = demoGame(day)
     const after = feed(before, { ...plainMeal, recipeId: 'curry' })
@@ -52,7 +84,7 @@ describe('feast journey events', () => {
     const beforeJson = JSON.stringify(before),
       afterJson = JSON.stringify(after)
     expect(deriveFeastSteps(before, before)).toEqual([])
-    expect(types(before, after)).toEqual(['eating', 'growth'])
+    expect(types(before, after)).toEqual(['eating', 'satisfied'])
     deriveFeastSteps(before, after)
     expect(JSON.stringify(before)).toBe(beforeJson)
     expect(JSON.stringify(after)).toBe(afterJson)

@@ -5,10 +5,13 @@ import {
   claimLogin,
   chooseStarter,
   demoGame,
+  growthProgress,
+  growthStages,
   mealXp,
   recipes,
   selectCompanion,
   stageOf,
+  stageName,
   advanceGame,
   equipItem,
   fedToday,
@@ -44,20 +47,30 @@ describe('companions and recipe cards', () => {
     expect(initial.companions).toEqual([])
   })
 
-  it('changes appearance at the exact childhood and adult growth thresholds', () => {
-    expect([0, 44, 45, 119, 120, 500].map(stageOf)).toEqual([0, 0, 1, 1, 2, 2])
+  it('keeps the first two meals in the newborn stage and first grows on meal three', () => {
     const selected = chooseStarter(initialGame(date), 'mame')
-    const child = feed(selected, { ...meal, recipeId: 'egg-rice' })
-    expect(stageOf(child.xp)).toBe(1)
-    expect(child.visitors).toEqual([])
-    const adult = feed(feed(child, { ...meal, recipeId: 'curry' }), {
-      ...meal,
-      recipeId: 'onigiri',
-    })
-    expect(stageOf(adult.xp)).toBe(2)
-    expect(adult.visitors).toHaveLength(3)
-    expect(adult.visitors).not.toContain('mame')
-    expect(new Set(adult.visitors).size).toBe(3)
+    const first = feed(selected, { ...meal, recipeId: 'egg-rice' })
+    const second = feed(first, { ...meal, recipeId: 'curry' })
+    const third = feed(second, { ...meal, recipeId: 'onigiri' })
+    expect([first.xp, second.xp, third.xp]).toEqual([45, 90, 135])
+    expect([first, second, third].map((state) => stageOf(state.xp))).toEqual([0, 0, 1])
+    expect(third.visitors).toEqual([])
+    expect(selected.xp).toBe(0)
+  })
+
+  it('opens visits at the playful stage and keeps them available through the final stage', () => {
+    const selected = chooseStarter(initialGame(date), 'mame')
+    for (const beforeXp of [254, 255, 600, 1050]) {
+      const before = {
+        ...selected,
+        xp: beforeXp,
+        companions: [{ ...selected.companions[0], xp: beforeXp }],
+      }
+      const after = feed(before, meal)
+      expect(after.visitors).toEqual(beforeXp === 254 ? [] : ['komugi', 'shizuku', 'yuzu'])
+      expect(after.visitors).not.toContain('mame')
+      expect(new Set(after.visitors).size).toBe(after.visitors.length)
+    }
   })
 
   it('recruits visitors by feeding and keeps every companion growth independent', () => {
@@ -69,19 +82,21 @@ describe('companions and recipe cards', () => {
     expect(joined.name).toBe('まめ')
     expect(joined.xp).toBe(45)
     expect(joined.companions.map((companion) => [companion.id, companion.xp])).toEqual([
-      ['komugi', 135],
+      ['komugi', 315],
       ['mame', 45],
     ])
     expect(joined.visitors).toEqual(['shizuku', 'yuzu', 'momo'])
     expect(joined.visitors).not.toContain('mame')
-    expect(selectCompanion(joined, 'komugi').xp).toBe(135)
+    expect(selectCompanion(joined, 'komugi').xp).toBe(315)
+    expect(stageOf(joined.xp)).toBe(0)
+    expect(stageOf(selectCompanion(joined, 'komugi').xp)).toBe(2)
     expect(selectCompanion(joined, 'komugi').name).toBe('こむぎ')
     expect(adult.companions).toHaveLength(1)
     expect(feed(adult, { ...meal, targetId: 'goma' })).toBe(adult)
   })
 
   it('reduces repeated recipes for the same recipient and resets after variety', () => {
-    const start = chooseStarter(initialGame(date), 'komugi')
+    const start = demoGame(date)
     const curry = { ...meal, recipeId: 'curry' }
     expect(mealXp(start, 'curry')).toBe(45)
     const first = feed(start, curry)
@@ -171,14 +186,91 @@ describe('login and streak bonuses', () => {
 })
 
 describe('daily cooking and growth', () => {
+  it('uses all five exact boundaries and caps appearance at the final stage', () => {
+    expect(growthStages).toEqual([
+      { stage: 0, name: 'うまれたて', threshold: 0 },
+      { stage: 1, name: 'ちびっこ', threshold: 120 },
+      { stage: 2, name: 'わんぱく', threshold: 300 },
+      { stage: 3, name: 'おとな', threshold: 600 },
+      { stage: 4, name: 'とっておき', threshold: 1050 },
+    ])
+    expect([0, 45, 119, 120, 299, 300, 599, 600, 1049, 1050, 9000].map(stageOf)).toEqual([
+      0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4,
+    ])
+    expect(growthStages.map(({ stage }) => stageName(stage))).toEqual([
+      'うまれたて',
+      'ちびっこ',
+      'わんぱく',
+      'おとな',
+      'とっておき',
+    ])
+  })
+
+  it('reports local stage progress, remaining XP and a completed final stage', () => {
+    for (const [xp, stage, nextThreshold] of [
+      [0, 0, 120],
+      [120, 1, 300],
+      [300, 2, 600],
+      [600, 3, 1050],
+    ]) {
+      expect(growthProgress(xp)).toEqual({
+        stage,
+        progress: 0,
+        remaining: nextThreshold - xp,
+        nextThreshold,
+      })
+      const halfway = (xp + nextThreshold) / 2
+      expect(growthProgress(halfway)).toEqual({
+        stage,
+        progress: 50,
+        remaining: nextThreshold - halfway,
+        nextThreshold,
+      })
+      expect(growthProgress(nextThreshold - 1).remaining).toBe(1)
+      expect(growthProgress(nextThreshold - 1).progress).toBeLessThan(100)
+    }
+    for (const xp of [1050, 9000, Number.MAX_SAFE_INTEGER]) {
+      expect(growthProgress(xp)).toEqual({
+        stage: 4,
+        progress: 100,
+        remaining: 0,
+        nextThreshold: null,
+      })
+    }
+  })
+
+  it('keeps invalid XP from producing invalid progress or accidental growth', () => {
+    for (const xp of [-1, -500, NaN, Infinity, -Infinity]) {
+      expect(stageOf(xp)).toBe(0)
+      expect(growthProgress(xp)).toEqual({
+        stage: 0,
+        progress: 0,
+        remaining: 120,
+        nextThreshold: 120,
+      })
+    }
+    expect(stageOf(119.9)).toBe(0)
+    expect(growthProgress(119.9).remaining).toBe(1)
+    const maximum = chooseStarter(initialGame(date), 'komugi')
+    maximum.companions[0].xp = Number.MAX_SAFE_INTEGER
+    maximum.xp = Number.MAX_SAFE_INTEGER
+    const after = feed(maximum, meal)
+    expect(after.xp).toBe(Number.MAX_SAFE_INTEGER)
+    expect(stageOf(after.xp)).toBe(4)
+    expect(parseGame(JSON.stringify(after), date)).toEqual(after)
+  })
+
   it('starts with six days and crosses the next growth level after a meal', () => {
     const before = demoGame(date)
     const after = feed(before, meal)
     expect(streakOf(before)).toBe(6)
-    expect(levelOf(before)).toEqual({ level: 1, progress: 90, needed: 100 })
+    expect(levelOf(before)).toEqual({ level: 3, progress: 70, needed: 100 })
+    expect(growthProgress(before.xp).remaining).toBe(30)
+    expect(stageOf(before.xp)).toBe(1)
     expect(hungerOf(before)).toBe(28)
     expect(after.coins).toBe(250)
-    expect(levelOf(after)).toEqual({ level: 2, progress: 35, needed: 100 })
+    expect(levelOf(after)).toEqual({ level: 4, progress: 15, needed: 100 })
+    expect(stageOf(after.xp)).toBe(2)
     expect(streakOf(after)).toBe(7)
     expect(hungerOf(after)).toBe(96)
     expect(fedToday(after)).toBe(true)
@@ -311,7 +403,7 @@ describe('cosmetic shop', () => {
     expect(bought.equipped.room).toBe('garden')
     expect(hungerOf(bought)).toBe(28)
     expect(streakOf(bought)).toBe(6)
-    expect(bought.xp).toBe(90)
+    expect(bought.xp).toBe(270)
   })
 })
 
@@ -319,7 +411,14 @@ describe('calendar and persistence', () => {
   it('migrates a saved companion without losing its name, photos, coins or streak', () => {
     const source = demoGame(date)
     const legacy = JSON.parse(JSON.stringify(source)) as Record<string, unknown>
-    for (const key of ['companions', 'activeId', 'visitors', 'cards', 'claimedLoginDays'])
+    for (const key of [
+      'companions',
+      'activeId',
+      'visitors',
+      'cards',
+      'claimedLoginDays',
+      'growthVersion',
+    ])
       delete legacy[key]
     legacy.name = 'むぎちゃん'
     legacy.xp = 305
@@ -334,8 +433,9 @@ describe('calendar and persistence', () => {
     const migrated = parseGame(JSON.stringify(legacy), date)
     expect(migrated.activeId).toBe('komugi')
     expect(migrated.name).toBe('むぎちゃん')
-    expect(migrated.xp).toBe(305)
-    expect(migrated.companions).toEqual([{ id: 'komugi', xp: 305, joinedDay: shiftDay(date, -6) }])
+    expect(migrated.growthVersion).toBe(2)
+    expect(migrated.xp).toBe(785)
+    expect(migrated.companions).toEqual([{ id: 'komugi', xp: 785, joinedDay: shiftDay(date, -6) }])
     expect(migrated.visitors).toEqual(['mame', 'shizuku', 'yuzu'])
     expect(migrated.coins).toBe(987)
     expect(migrated.gems).toBe(234)
@@ -347,6 +447,73 @@ describe('calendar and persistence', () => {
     expect(hungerOf(migrated)).toBe(28)
     expect(parseGame(JSON.stringify(migrated), date)).toEqual(migrated)
     expect(feed(migrated, { ...meal, recipeId: 'egg-rice' }).meals[0].cardBonus).toBe(0)
+  })
+
+  it('migrates old growth intervals once without promoting a near-threshold newborn', () => {
+    const source = chooseStarter(initialGame(date), 'komugi')
+    for (const [oldXp, migratedXp, stage] of [
+      [0, 0, 0],
+      [44, 117, 0],
+      [45, 300, 2],
+      [60, 360, 2],
+      [90, 480, 2],
+      [119, 596, 2],
+      [120, 600, 3],
+      [305, 785, 3],
+      [569, 1049, 3],
+      [9000, 1049, 3],
+      [Number.MAX_SAFE_INTEGER, 1049, 3],
+    ]) {
+      const legacy = {
+        ...source,
+        growthVersion: undefined,
+        xp: oldXp,
+        companions: [{ ...source.companions[0], xp: oldXp }],
+      }
+      const migrated = parseGame(JSON.stringify(legacy), date)
+      expect(migrated.growthVersion).toBe(2)
+      expect(migrated.xp).toBe(migratedXp)
+      expect(stageOf(migrated.xp)).toBe(stage)
+      expect(migrated.visitors).toHaveLength(stage >= 2 ? 3 : 0)
+      expect(parseGame(JSON.stringify(migrated), date)).toEqual(migrated)
+    }
+    expect(parseGame(JSON.stringify(source), date).xp).toBe(0)
+  })
+
+  it('migrates each old companion independently while preserving history and balances', () => {
+    const source = demoGame(date)
+    const legacy = {
+      ...source,
+      growthVersion: undefined,
+      activeId: 'mame',
+      xp: 999,
+      coins: 987,
+      gems: 234,
+      companions: [
+        { id: 'komugi', xp: 44, joinedDay: shiftDay(date, -6) },
+        { id: 'mame', xp: 90, joinedDay: shiftDay(date, -3) },
+        { id: 'shizuku', xp: 120, joinedDay: date },
+      ],
+      visitors: ['yuzu'],
+    }
+    const migrated = parseGame(JSON.stringify(legacy), date)
+    expect(migrated.companions.map(({ id, xp }) => [id, xp])).toEqual([
+      ['komugi', 117],
+      ['mame', 480],
+      ['shizuku', 600],
+    ])
+    expect(migrated.xp).toBe(480)
+    expect(migrated.activeId).toBe('mame')
+    expect(migrated.coins).toBe(987)
+    expect(migrated.gems).toBe(234)
+    expect(migrated.meals).toEqual(source.meals)
+    expect(migrated.visitors).toEqual(['yuzu', 'momo', 'goma'])
+    expect(migrated.companions.map(({ joinedDay }) => joinedDay)).toEqual(
+      legacy.companions.map(({ joinedDay }) => joinedDay),
+    )
+    const afterMeal = feed(migrated, { ...meal, targetId: 'komugi' })
+    expect(afterMeal.companions.map(({ xp }) => xp)).toEqual([162, 480, 600])
+    expect(parseGame(JSON.stringify(afterMeal), date)).toEqual(afterMeal)
   })
 
   it('persists recruited companions and keeps the active XP alias synchronized', () => {
@@ -361,6 +528,8 @@ describe('calendar and persistence', () => {
       { activeId: null },
       { companions: [...claimed.companions, claimed.companions[0]] },
       { companions: [{ id: 'komugi', xp: -1, joinedDay: date }] },
+      { companions: [{ id: 'komugi', xp: Infinity, joinedDay: date }] },
+      { companions: [{ id: 'komugi', xp: 0.5, joinedDay: date }] },
       { visitors: ['komugi'] },
       { visitors: ['goma', 'goma'] },
       { cards: ['curry', 'curry'] },
@@ -403,9 +572,14 @@ describe('calendar and persistence', () => {
       'null',
       ...[
         { version: 2 },
+        { growthVersion: 3 },
+        { growthVersion: '2' },
+        { growthVersion: null },
         { today: '2026-02-31' },
         { dayOffset: -1 },
         { xp: -1 },
+        { xp: Infinity },
+        { xp: NaN },
         { coins: 0.5 },
         { gems: '60' },
         { name: '' },

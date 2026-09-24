@@ -52,12 +52,22 @@ function isMeal(value: unknown): value is GameMeal {
   )
 }
 
+function migrateGrowthXp(xp: number): number {
+  // Old stages were [0, 45), [45, 120), and [120, infinity).
+  // Keep progress within each corresponding new stage; never skip to the new finale.
+  if (xp < 45) return Math.min(119, Math.floor((xp / 45) * 120))
+  if (xp < 120) return Math.min(599, 300 + Math.floor(((xp - 45) / 75) * 300))
+  // The old final stage had no next threshold, so preserve its excess XP directly.
+  return 600 + Math.min(449, xp - 120)
+}
+
 export function parseGame(raw: string | null, realDay = todayTokyo()): GameState {
   try {
     const state: unknown = raw ? JSON.parse(raw) : null
     if (
       !object(state) ||
       state.version !== 1 ||
+      (state.growthVersion !== undefined && state.growthVersion !== 2) ||
       !day(state.today) ||
       !integer(state.dayOffset) ||
       typeof state.name !== 'string' ||
@@ -92,6 +102,7 @@ export function parseGame(raw: string | null, realDay = todayTokyo()): GameState
 
     const today = shiftDay(realDay, state.dayOffset)
     if (!day(today)) return initialGame(realDay)
+    const migrateGrowth = state.growthVersion === undefined
     const legacy =
       state.companions === undefined &&
       state.activeId === undefined &&
@@ -106,9 +117,10 @@ export function parseGame(raw: string | null, realDay = todayTokyo()): GameState
         (earliest, meal) => (meal.day < earliest ? meal.day : earliest),
         state.today,
       )
-      const companions: Companion[] = [{ id: 'komugi', xp: state.xp, joinedDay }]
+      const xp = migrateGrowth ? migrateGrowthXp(state.xp) : state.xp
+      const companions: Companion[] = [{ id: 'komugi', xp, joinedDay }]
       const visitors =
-        stageOf(state.xp) === 2
+        stageOf(xp) >= 2
           ? species
               .filter((candidate) => candidate.id !== 'komugi')
               .slice(0, 3)
@@ -119,7 +131,9 @@ export function parseGame(raw: string | null, realDay = todayTokyo()): GameState
       ]
       return {
         ...state,
+        growthVersion: 2,
         today,
+        xp,
         meals,
         companions,
         activeId: 'komugi',
@@ -149,8 +163,29 @@ export function parseGame(raw: string | null, realDay = todayTokyo()): GameState
       new Set(state.claimedLoginDays).size !== state.claimedLoginDays.length
     )
       return initialGame(realDay)
-    const active = companions.find((companion) => companion.id === state.activeId)
-    return { ...state, today, xp: active?.xp ?? 0 } as GameState
+    const migratedCompanions = migrateGrowth
+      ? companions.map((companion) => ({ ...companion, xp: migrateGrowthXp(companion.xp) }))
+      : companions
+    const visitors = [...state.visitors]
+    if (migrateGrowth && migratedCompanions.some((companion) => stageOf(companion.xp) >= 2)) {
+      for (const candidate of species) {
+        if (visitors.length >= 3) break
+        if (
+          !migratedCompanions.some((companion) => companion.id === candidate.id) &&
+          !visitors.includes(candidate.id)
+        )
+          visitors.push(candidate.id)
+      }
+    }
+    const active = migratedCompanions.find((companion) => companion.id === state.activeId)
+    return {
+      ...state,
+      growthVersion: 2,
+      today,
+      companions: migratedCompanions,
+      visitors,
+      xp: active?.xp ?? 0,
+    } as GameState
   } catch {
     return initialGame(realDay)
   }

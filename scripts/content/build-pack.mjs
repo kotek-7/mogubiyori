@@ -64,6 +64,7 @@ const sourceFiles = [
   'scripts/content/dessert-art.mjs',
   'scripts/content/savory-art.mjs',
   'scripts/content/build-pack.mjs',
+  'scripts/content/generate-companions-items.py',
 ]
 const sourceHashes = Object.fromEntries(
   await Promise.all(
@@ -80,7 +81,7 @@ const manifest = {
   schemaVersion: 1,
   id: data.id,
   title: data.name,
-  contentVersion: '1.0.0',
+  contentVersion: '1.1.0',
   sourceHashes,
   catalog: 'catalog.json',
   sha256: createHash('sha256').update(serialized).digest('hex'),

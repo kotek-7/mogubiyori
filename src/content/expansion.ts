@@ -26,6 +26,16 @@ export type ExpansionRecipe = {
     vessel: string
   }
 }
+export type ExpansionGrowthForm = {
+  name: string
+  description: string
+  artPath: string
+  renderSpec: {
+    headAnchor: { x: number; y: number }
+    hatTransform: { translateX: number; translateY: number; scaleX: number; scaleY: number }
+  }
+}
+
 export type ExpansionCharacter = {
   id: string
   name: string
@@ -36,15 +46,13 @@ export type ExpansionCharacter = {
   favoriteTags: string[]
   discovery: { adultCompanions: number; uniqueRecipes: number }
   dialogue: { greeting: string; fed: string; newDish: string; repeatDish: string }
-  stages: {
-    name: string
-    description: string
-    artPath: string
-    renderSpec: {
-      headAnchor: { x: number; y: number }
-      hatTransform: { translateX: number; translateY: number; scaleX: number; scaleY: number }
-    }
-  }[]
+  stages: [
+    ExpansionGrowthForm,
+    ExpansionGrowthForm,
+    ExpansionGrowthForm,
+    ExpansionGrowthForm,
+    ExpansionGrowthForm,
+  ]
   palette: { body: string; accent: string; outline: string }
   silhouette: string
 }
@@ -84,6 +92,14 @@ export async function loadExpansionCatalog(signal?: AbortSignal): Promise<Expans
     !Array.isArray(data.recipes) ||
     !('characters' in data) ||
     !Array.isArray(data.characters) ||
+    !data.characters.every(
+      (character: unknown) =>
+        !!character &&
+        typeof character === 'object' &&
+        'stages' in character &&
+        Array.isArray(character.stages) &&
+        character.stages.length === 5,
+    ) ||
     !('items' in data) ||
     !Array.isArray(data.items)
   )

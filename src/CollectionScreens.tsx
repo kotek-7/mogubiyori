@@ -13,11 +13,11 @@ import {
 } from 'lucide-react'
 import { DishArt, Pet } from './GameArt'
 import { JourneyFrame } from './JourneyFrame'
-import { recipes, species, stageOf } from './game'
+import { recipes, species, stageOf, stageName } from './game'
 import type { GameState, SpeciesId } from './game'
+import { GrowthTrail } from './GrowthTrail'
 import './collection.css'
 
-const stageNames = ['ちいさいころ', 'すくすく', 'おとな']
 const difficultyNames = ['かんたん', 'ひと工夫', 'じっくり']
 const rarityNames = { common: 'ふつう', rare: 'レア', special: 'スペシャル' }
 
@@ -69,7 +69,10 @@ export function StarterSelection({ onChoose }: { onChoose: (id: SpeciesId) => vo
         </div>
         <div className="starter-introduction" aria-live="polite">
           <Heart size={15} />
-          <p>{friend.description}</p>
+          <p>
+            {friend.description}
+            <small className="starter-stage-note">うまれたての姿から、5つの姿へ。</small>
+          </p>
         </div>
       </div>
     </JourneyFrame>
@@ -236,29 +239,18 @@ export function FriendsBoard({
               <span className="friend-current">
                 <Pet species={companion.id} stage={stage} mood="happy" />
               </span>
-              <span className="friend-growth-name">{stageNames[stage]}</span>
-              <span className="friend-growth" aria-label={`成長：${stageNames[stage]}`}>
-                {([0, 1, 2] as const).map((step) => (
-                  <span
-                    key={step}
-                    className={`friend-growth-step ${step > stage ? 'is-future' : ''} ${step === stage ? 'is-current' : ''}`}
-                  >
-                    <span>
-                      <Pet species={companion.id} stage={step} mood="happy" />
-                      {step > stage && <i aria-hidden="true">?</i>}
-                    </span>
-                    <small>{stageNames[step]}</small>
-                  </span>
-                ))}
+              <span className="friend-growth-name">
+                {stageName(stage)} · {stage + 1}/5
               </span>
+              <GrowthTrail species={companion.id} stage={stage} />
             </button>
           )
         })}
       </div>
-      {!visitors.length && (
+      {!visitors.length && state.companions.length < species.length && (
         <p className="friend-discovery-note">
           <Leaf size={16} />
-          おとなになると、だれかが遊びにくるかも。
+          わんぱくまで育つと、だれかが遊びにくるかも。
         </p>
       )}
     </div>

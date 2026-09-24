@@ -1,7 +1,7 @@
 # アート素材の取り扱い
 
 - `public/expansion/assets/recipes/*.svg`：料理300品の器、料理の形、具材を組み合わせた決定的なベクター描画。元データは各レシピの `art`。
-- `public/expansion/assets/characters/*.svg`：なかま36種の成長3段階。透明背景。
+- `public/expansion/assets/characters/*.svg`：なかま36種の成長5段階（計180枚）。透明背景。
 - `public/expansion/assets/items/*.svg`：透明背景の帽子36点、ひろばの背景36点。
 - `public/expansion/assets/scenes/neighborhood-table.png`：内蔵 imagegen で生成したキービジュアル。対応プロンプトは `content/expansion/art/neighborhood-table.prompt.txt`。
 

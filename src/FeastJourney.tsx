@@ -55,8 +55,8 @@ export function FeastJourney({
   const targetId = meal.targetId ?? after.activeId ?? 'komugi'
   const previous = before.companions.find((companion) => companion.id === targetId)
   const current = after.companions.find((companion) => companion.id === targetId)
-  const beforeStage = stageOf(previous?.xp ?? 0)
-  const afterStage = stageOf(current?.xp ?? 0)
+  const beforeStage = step.type === 'growth' ? step.from : stageOf(previous?.xp ?? 0)
+  const afterStage = step.type === 'growth' ? step.to : stageOf(current?.xp ?? 0)
   const name =
     targetId === after.activeId
       ? after.name
@@ -66,7 +66,7 @@ export function FeastJourney({
   const giftName = items.find((item) => item.id === 'sprout')?.name ?? 'ふたばのかんむり'
   const titles = {
     eating: 'もぐもぐ…',
-    growth: `${name}が大きくなった！`,
+    growth: `${name}が新しいすがたに！`,
     joined: `${name}がなかまになった！`,
     card: 'はじめての一皿！',
     arrivals: 'お客さんがやってきた！',
@@ -165,7 +165,7 @@ export function FeastJourney({
             </div>
             <span className="feast-stage-label">
               <Sparkles size={17} />
-              {stageName(afterStage)}
+              {stageName(afterStage)} · {afterStage + 1}/5
             </span>
           </div>
         )}

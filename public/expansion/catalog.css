@@ -642,13 +642,13 @@ dialog::backdrop {
   stroke-width: 1.4;
 }
 .stages {
-  display: flex;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 5px;
   width: 100%;
   margin-top: 16px;
 }
 .stage {
-  flex: 1;
   min-width: 0;
   overflow: hidden;
   border: 2px solid transparent;
@@ -656,7 +656,9 @@ dialog::backdrop {
   background: var(--game-surface);
   padding: 0 0 9px;
   color: var(--game-muted);
-  font-size: 10px;
+  font-size: 9px;
+  line-height: 1.4;
+  min-height: 44px;
   font-weight: 750;
 }
 .stage img {
@@ -950,7 +952,13 @@ dialog::backdrop {
     font-size: 22px;
   }
   .stages {
-    max-width: 300px;
+    max-width: 340px;
+    gap: 4px;
+  }
+  .stage {
+    border-radius: 11px;
+    font-size: 9px;
+    letter-spacing: -0.04em;
   }
   .stage img {
     max-height: 95px;

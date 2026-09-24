@@ -3,7 +3,7 @@
   "counts": {
     "recipes": 300,
     "characters": 36,
-    "characterStages": 108,
+    "characterStages": 180,
     "items": 72
   },
   "categories": {
@@ -15,9 +15,9 @@
     "breakfast": 30,
     "snack": 25
   },
-  "filesChecked": 481,
+  "filesChecked": 553,
   "failures": [],
   "warnings": [],
-  "catalogBytes": 820634,
+  "catalogBytes": 860393,
   "kitchenTested": false
 }

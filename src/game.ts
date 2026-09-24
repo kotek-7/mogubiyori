@@ -8,6 +8,18 @@ export const species: { id: SpeciesId; name: string; description: string }[] = [
   { id: 'goma', name: 'ごま', description: '夜ごはんの時間が待ちきれない。' },
 ]
 export type Companion = { id: SpeciesId; xp: number; joinedDay: string }
+export type GrowthStage = 0 | 1 | 2 | 3 | 4
+export const growthStages: ReadonlyArray<{
+  stage: GrowthStage
+  name: string
+  threshold: number
+}> = [
+  { stage: 0, name: 'うまれたて', threshold: 0 },
+  { stage: 1, name: 'ちびっこ', threshold: 120 },
+  { stage: 2, name: 'わんぱく', threshold: 300 },
+  { stage: 3, name: 'おとな', threshold: 600 },
+  { stage: 4, name: 'とっておき', threshold: 1050 },
+]
 export type Recipe = {
   id: string
   name: string
@@ -212,6 +224,7 @@ export type GameMeal = {
 
 export type GameState = {
   version: 1
+  growthVersion: 2
   today: string
   dayOffset: number
   name: string
@@ -312,6 +325,7 @@ export function shiftDay(day: string, days: number): string {
 export function initialGame(day = todayTokyo(), _fresh = true): GameState {
   return {
     version: 1,
+    growthVersion: 2,
     today: day,
     dayOffset: 0,
     name: 'こむぎ',
@@ -343,14 +357,14 @@ export function demoGame(day = todayTokyo()): GameState {
   ]
   return {
     ...chooseStarter(initialGame(day), 'komugi'),
-    xp: 90,
-    companions: [{ id: 'komugi', xp: 90, joinedDay: shiftDay(day, -6) }],
+    xp: 270,
+    companions: [{ id: 'komugi', xp: 270, joinedDay: shiftDay(day, -6) }],
     meals: dishes.map((dish, i) => ({
       id: `seed-${i}`,
       day: shiftDay(day, -i - 1),
       ...dish,
       targetId: 'komugi',
-      xp: 15,
+      xp: 45,
       coins: 30,
     })),
   }
@@ -359,11 +373,33 @@ export function demoGame(day = todayTokyo()): GameState {
 export function activeCompanion(state: GameState): Companion | undefined {
   return state.companions.find((companion) => companion.id === state.activeId)
 }
-export function stageOf(xp: number): 0 | 1 | 2 {
-  return xp >= 120 ? 2 : xp >= 45 ? 1 : 0
+function normalizedXp(xp: number): number {
+  return Number.isFinite(xp) ? Math.min(Number.MAX_SAFE_INTEGER, Math.max(0, Math.floor(xp))) : 0
 }
-export function stageName(stage: 0 | 1 | 2): string {
-  return ['ちびっこ', 'すくすく', 'おとな'][stage]
+export function stageOf(xp: number): GrowthStage {
+  const earned = normalizedXp(xp)
+  return growthStages.findLast((candidate) => earned >= candidate.threshold)!.stage
+}
+export function stageName(stage: GrowthStage): string {
+  return growthStages[stage].name
+}
+export function growthProgress(xp: number): {
+  stage: GrowthStage
+  progress: number
+  remaining: number
+  nextThreshold: number | null
+} {
+  const earned = normalizedXp(xp)
+  const stage = stageOf(earned)
+  const nextThreshold = growthStages[stage + 1]?.threshold ?? null
+  if (nextThreshold === null) return { stage, progress: 100, remaining: 0, nextThreshold }
+  const threshold = growthStages[stage].threshold
+  return {
+    stage,
+    progress: ((earned - threshold) / (nextThreshold - threshold)) * 100,
+    remaining: nextThreshold - earned,
+    nextThreshold,
+  }
 }
 export function chooseStarter(state: GameState, id: SpeciesId): GameState {
   if (state.companions.length || !species.slice(0, 3).some((candidate) => candidate.id === id))
@@ -472,7 +508,7 @@ export function feed(state: GameState, input: FeedInput): GameState {
   const existing = state.companions.find((companion) => companion.id === targetId)
   const companion: Companion = {
     id: targetId,
-    xp: (existing?.xp ?? 0) + xp,
+    xp: Math.min(Number.MAX_SAFE_INTEGER, normalizedXp(existing?.xp ?? 0) + xp),
     joinedDay: existing?.joinedDay ?? state.today,
   }
   const companions = existing
@@ -480,7 +516,7 @@ export function feed(state: GameState, input: FeedInput): GameState {
     : [...state.companions, companion]
   const ownedIds = companions.map((current) => current.id)
   const visitors = state.visitors.filter((id) => !ownedIds.includes(id))
-  if (companions.some((current) => stageOf(current.xp) === 2)) {
+  if (companions.some((current) => stageOf(current.xp) >= 2)) {
     for (const candidate of species) {
       if (visitors.length >= 3) break
       if (!ownedIds.includes(candidate.id) && !visitors.includes(candidate.id))

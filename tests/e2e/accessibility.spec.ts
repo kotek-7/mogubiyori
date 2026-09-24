@@ -94,11 +94,15 @@ test('mobile welcome, photo, serving, eating, growth and card scenes are accessi
   await expect(journey(page, 'eating')).toBeVisible()
   await check(page, 'eating')
   await page.getByRole('button', { name: '早送り', exact: true }).click()
-  await expect(journey(page, 'growth')).toBeVisible()
-  await check(page, 'growth')
-  await page.getByRole('button', { name: 'つづける', exact: true }).click()
   await expect(journey(page, 'card')).toBeVisible()
   await check(page, 'recipe card')
+  await returnToPlaza(page)
+  await feedSample(page, 'tofu-soup')
+  await returnToPlaza(page)
+  await feedSample(page, 'onigiri')
+  await page.getByRole('button', { name: '早送り', exact: true }).click()
+  await expect(journey(page, 'growth')).toBeVisible()
+  await check(page, 'growth')
 })
 
 test('arrival, gift, recruitment and ordinary satisfaction scenes are accessible', async ({

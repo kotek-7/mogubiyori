@@ -22,7 +22,7 @@ const coinIcon =
   '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="m10 5 3 5-3 5-3-5Z"/></svg>'
 const nextIcon = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="m8 5 5 5-5 5"/></svg>'
 function hatTransform(character) {
-  const t = character.stages[2].renderSpec.hatTransform
+  const t = character.stages[4].renderSpec.hatTransform
   return `translate(${t.translateX} ${t.translateY}) scale(${t.scaleX} ${t.scaleY})`
 }
 const hat = (item, character) =>
@@ -81,7 +81,7 @@ function render() {
       const isRecipe = tab === 'recipes',
         isCharacter = tab === 'characters',
         index = data[tab].indexOf(e) + 1
-      const picture = isCharacter ? e.stages[2].artPath : e.artPath
+      const picture = isCharacter ? e.stages[4].artPath : e.artPath
       const pictureMarkup =
         !isRecipe && !isCharacter && e.kind === 'hat'
           ? `<svg viewBox="65 -8 170 118" aria-hidden="true"><image href="${esc(picture)}" width="300" height="300"/></svg>`
@@ -94,7 +94,7 @@ function render() {
       const meta = isRecipe
         ? `${duration(e.minutes)} · ${difficulty[e.difficulty]}`
         : isCharacter
-          ? '成長3段階'
+          ? '成長5段階'
           : `${e.price.toLocaleString()} ${e.currency === 'coins' ? 'コイン' : 'ジェム'}`
       const label = isRecipe
         ? 'レシピをひらく'
@@ -120,12 +120,12 @@ function detail(entry) {
     info = `<span class="edition">${esc(data.categories[e.category])} / ${esc(e.cuisine)}</span><h2 id="detail-title">${esc(e.name)}</h2><p>${esc(e.description)}</p><div><span class="pill">${duration(e.minutes)}</span><span class="pill">${difficulty[e.difficulty]}</span><span class="pill">${rarity[e.rarity]}</span></div><h3>材料（${e.servings}人分）</h3><ul class="ingredients">${e.ingredients.map((i) => `<li><span>${esc(i.name)}</span><strong>${esc(i.amount)}</strong></li>`).join('')}</ul><h3>つくり方</h3><ol>${e.steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol><h3>おいしくするコツ</h3><p class="tip">${esc(e.tip)}</p><p>道具：${e.equipment.map(esc).join('、')}</p><p>${e.tags.map((t) => `<span class="pill">${esc(t)}</span>`).join('')}</p><p class="reward">${coinIcon}初めて作ると +${e.reward}コイン</p>`
   } else if (tab === 'characters') {
     visual =
-      img(e.stages[2].artPath, e.name, 'growth-preview') +
-      `<div class="stages" role="group" aria-label="成長段階">${e.stages.map((s, i) => `<button class="stage" data-stage="${i}" aria-pressed="${i === 2}">${img(s.artPath)}${esc(s.name)}</button>`).join('')}</div>`
-    info = `<span class="edition">${esc(data.collections[e.habitat])}のなかま</span><h2 id="detail-title">${esc(e.name)}</h2><p>${esc(e.description)}</p><p class="quote">「${esc(e.dialogue.greeting)}」</p><h3>こんな子</h3><p>${esc(e.personality)}</p><h3>大好きなごはん</h3><p>${e.favoriteCategories.map((c) => esc(data.categories[c])).join('・')} / ${e.favoriteTags.map(esc).join('・')}</p><h3>成長のすがた</h3><p id="growth-description">${esc(e.stages[2].description)}</p><h3>出会いのヒント</h3><p>おとなのなかま ${e.discovery.adultCompanions}匹、料理カード ${e.discovery.uniqueRecipes}種類。</p><h3>はじめての一皿を食べると…</h3><p>「${esc(e.dialogue.newDish)}」</p><h3>いつもの味にも</h3><p>「${esc(e.dialogue.repeatDish)}」</p>`
+      img(e.stages[4].artPath, e.name, 'growth-preview') +
+      `<div class="stages" role="group" aria-label="成長段階">${e.stages.map((s, i) => `<button class="stage" data-stage="${i}" aria-pressed="${i === 4}">${img(s.artPath)}${esc(s.name)}</button>`).join('')}</div>`
+    info = `<span class="edition">${esc(data.collections[e.habitat])}のなかま</span><h2 id="detail-title">${esc(e.name)}</h2><p>${esc(e.description)}</p><p class="quote">「${esc(e.dialogue.greeting)}」</p><h3>こんな子</h3><p>${esc(e.personality)}</p><h3>大好きなごはん</h3><p>${e.favoriteCategories.map((c) => esc(data.categories[c])).join('・')} / ${e.favoriteTags.map(esc).join('・')}</p><h3>成長のすがた</h3><p id="growth-description">${esc(e.stages[4].description)}</p><h3>出会いのヒント</h3><p>おとなのなかま ${e.discovery.adultCompanions}匹、料理カード ${e.discovery.uniqueRecipes}種類。</p><h3>はじめての一皿を食べると…</h3><p>「${esc(e.dialogue.newDish)}」</p><h3>いつもの味にも</h3><p>「${esc(e.dialogue.repeatDish)}」</p>`
   } else {
     const pet = data.characters[0]
-    visual = `<div class="tryon ${e.kind === 'room' ? 'is-room' : ''}">${e.kind === 'room' ? img(e.artPath, '', 'room') : ''}${img(pet.stages[2].artPath, pet.name, 'pet')}${e.kind === 'hat' ? hat(e, pet) : ''}</div><label class="preview-label" for="preview-friend">いっしょに見てみる</label><select class="preview-select" id="preview-friend">${data.characters.map((c) => `<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select>`
+    visual = `<div class="tryon ${e.kind === 'room' ? 'is-room' : ''}">${e.kind === 'room' ? img(e.artPath, '', 'room') : ''}${img(pet.stages[4].artPath, pet.name, 'pet')}${e.kind === 'hat' ? hat(e, pet) : ''}</div><label class="preview-label" for="preview-friend">いっしょに見てみる</label><select class="preview-select" id="preview-friend">${data.characters.map((c) => `<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select>`
     info = `<span class="edition">${esc(data.collections[e.collection])} / ${e.kind === 'hat' ? 'ぼうし' : 'ひろば'}</span><h2 id="detail-title">${esc(e.name)}</h2><p>${esc(e.description)}</p><h3>手に入れるには</h3><p>${e.price.toLocaleString()} ${e.currency === 'coins' ? 'コイン' : 'ジェム'} / 料理カード ${e.unlock.uniqueRecipes}種類</p><p>好きな組み合わせで、きみだけの食卓に。</p>`
   }
   $('#detail-body').innerHTML =
@@ -142,7 +142,7 @@ function detail(entry) {
   )
   $('#preview-friend')?.addEventListener('change', (event) => {
     const c = data.characters.find((c) => c.id === event.target.value)
-    $('.tryon .pet').src = c.stages[2].artPath
+    $('.tryon .pet').src = c.stages[4].artPath
     $('.tryon .pet').alt = c.name
     $('.tryon .hat image')?.setAttribute('transform', hatTransform(c))
   })

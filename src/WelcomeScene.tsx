@@ -19,7 +19,7 @@ export function WelcomeScene({
       scene="welcome"
       eyebrow="あたらしい毎日の、はじまり"
       title={`${friend.name}と、いっしょに。`}
-      subtitle="きみのごはんが、この子の元気に。"
+      subtitle="まだ、うまれたて。小さなひとくちから育てよう。"
       footer={
         <>
           <button className="journey-primary" onClick={onContinue}>
@@ -42,6 +42,11 @@ export function WelcomeScene({
           <Heart className="journey-welcome-heart" size={22} aria-hidden="true" />
         </div>
         <p className="journey-speech journey-welcome-speech">きょうから、いっしょだね。</p>
+        <p className="welcome-growth-note">
+          うまれたて · 1/5 の姿
+          <br />
+          はじめてのごはんの後も、この姿でいっしょに過ごせます。
+        </p>
       </div>
     </JourneyFrame>
   )

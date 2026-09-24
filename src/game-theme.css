@@ -211,7 +211,8 @@ summary:focus-visible {
   box-shadow: 0 0 0 2px var(--game-surface);
 }
 .play-speech {
-  top: 24%;
+  z-index: 3;
+  top: 17%;
   max-width: calc(100% - 48px);
   padding: 12px 20px;
   border-radius: 22px;
@@ -233,6 +234,13 @@ summary:focus-visible {
   width: 310px;
   height: 310px;
   bottom: 7%;
+}
+.play-world:is([data-growth-stage='2'], [data-growth-stage='3'], [data-growth-stage='4']):not(
+    .with-visitors
+  )
+  .play-pet {
+  width: 280px;
+  height: 280px;
 }
 .play-friend-count {
   min-height: 44px;
@@ -822,7 +830,7 @@ summary:focus-visible {
     padding: 7px 10px;
   }
   .play-speech {
-    top: 25%;
+    top: 17%;
     font-size: 12px;
     padding: 11px 16px;
   }
@@ -830,6 +838,14 @@ summary:focus-visible {
     width: 250px;
     height: 250px;
     bottom: 7%;
+  }
+  .play-page-room
+    .play-world:is([data-growth-stage='2'], [data-growth-stage='3'], [data-growth-stage='4']):not(
+      .with-visitors
+    )
+    .play-pet {
+    width: 220px;
+    height: 220px;
   }
   .play-page-room .with-visitors .play-pet {
     width: 180px;
@@ -955,13 +971,21 @@ summary:focus-visible {
     height: 182px;
     bottom: 6%;
   }
+  .play-page-room
+    .play-world:is([data-growth-stage='2'], [data-growth-stage='3'], [data-growth-stage='4']):not(
+      .with-visitors
+    )
+    .play-pet {
+    width: 170px;
+    height: 170px;
+  }
   .play-page-room .with-visitors .play-pet {
     width: 157px;
     height: 169px;
     bottom: 12%;
   }
   .play-page-room .play-speech {
-    top: 26%;
+    top: 19%;
   }
   .play-care {
     gap: 9px;

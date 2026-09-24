@@ -27,8 +27,39 @@ describe('expansion adoption boundaries', () => {
       ...data.characters.flatMap((c) => c.stages.map((s) => s.artPath)),
       ...data.items.map((i) => i.artPath),
     ]
-    expect(paths).toHaveLength(480)
+    expect(paths).toHaveLength(552)
     for (const path of paths) expect(existsSync(`public${path}`), path).toBe(true)
+  })
+  it('gives all 36 companions five anatomically different growth stages', () => {
+    const names = ['うまれたて', 'ちびっこ', 'わんぱく', 'おとな', 'とっておき']
+    expect(data.characters).toHaveLength(36)
+    for (const character of data.characters) {
+      expect(
+        character.stages.map((stage) => stage.name),
+        character.id,
+      ).toEqual(names)
+      // Ignore paint, titles and group transforms: recoloring or scaling the
+      // same paths cannot satisfy this check for a new anatomical stage.
+      const geometry = character.stages.map((stage) => {
+        const svg = readFileSync(`public${stage.artPath}`, 'utf8')
+        return [...svg.matchAll(/<(path|circle|ellipse|rect|polygon|polyline|line)\b[^>]*>/g)]
+          .map(([element, shape]) => {
+            const attributes = [
+              ...element.matchAll(
+                /\b(d|cx|cy|r|rx|ry|x|y|width|height|points|x1|x2|y1|y2)="([^"]*)"/g,
+              ),
+            ].map(([, key, value]) => `${key}=${value}`)
+            return `${shape}:${attributes.join(';')}`
+          })
+          .join('|')
+      })
+      expect(new Set(geometry).size, character.id).toBe(5)
+      for (const stage of character.stages) {
+        expect(stage.description.trim(), character.id).not.toBe('')
+        expect(stage.renderSpec.hatTransform.scaleX).toBeGreaterThan(0)
+        expect(stage.renderSpec.hatTransform.scaleY).toBeGreaterThan(0)
+      }
+    }
   })
   it('only offers eligible unowned visitors, in a bounded deterministic group', () => {
     expect(

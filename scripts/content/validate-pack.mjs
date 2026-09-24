@@ -82,7 +82,7 @@ for (const r of data.recipes) {
 check(data.characters.length >= 36, 'fewer than 36 characters')
 for (const c of data.characters) {
   check(c.habitat in data.collections, `${c.id}: habitat`)
-  check(c.stages.length === 3, `${c.id}: growth stages`)
+  check(c.stages.length === 5, `${c.id}: growth stages`)
   check(
     c.favoriteCategories.every((k) => k in data.categories),
     `${c.id}: favorite category`,
@@ -93,7 +93,19 @@ for (const c of data.characters) {
     `${c.id}: dialogue`,
   )
   for (const [i, s] of c.stages.entries()) {
-    check(s.name && s.description, `${c.id}: stage description`)
+    check(
+      s.name === ['うまれたて', 'ちびっこ', 'わんぱく', 'おとな', 'とっておき'][i] && s.description,
+      `${c.id}: stage description`,
+    )
+    check(s.artPath.endsWith(`-${i}.svg`), `${c.id}: stage art order`)
+    const t = s.renderSpec?.hatTransform
+    check(
+      t &&
+        ['translateX', 'translateY', 'scaleX', 'scaleY'].every((key) => Number.isFinite(t[key])) &&
+        t.scaleX > 0 &&
+        t.scaleY > 0,
+      `${c.id}: headwear transform`,
+    )
     await asset(s.artPath, `${c.id} stage ${i}`)
   }
 }
@@ -115,6 +127,7 @@ check(
 check(
   manifest.counts.recipes === data.recipes.length &&
     manifest.counts.characters === data.characters.length &&
+    manifest.counts.characterStages === data.characters.reduce((n, c) => n + c.stages.length, 0) &&
     manifest.counts.items === data.items.length,
   'manifest counts mismatch',
 )

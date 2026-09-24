@@ -1,0 +1,95 @@
+.growth-trail {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  width: 100%;
+  padding: 14px 0 8px;
+}
+.growth-trail-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  padding: 3px 0;
+  border: 0;
+  border-radius: 12px;
+  color: var(--game-muted);
+  background: transparent;
+}
+button.growth-trail-step {
+  min-height: 68px;
+  cursor: pointer;
+}
+.growth-trail-step:disabled {
+  cursor: default;
+  opacity: 1;
+}
+.growth-trail-art {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 1px solid var(--game-line);
+  border-radius: 14px;
+  background: var(--game-canvas);
+  overflow: hidden;
+}
+.growth-trail-art .pet-art {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.growth-trail-art > span {
+  font-size: 23px;
+  font-weight: 800;
+}
+.growth-trail-step.is-selected .growth-trail-art {
+  border: 2px solid var(--game-teal);
+  background: var(--game-teal-soft);
+}
+.growth-trail-step.is-selected {
+  color: var(--game-teal-dark);
+  font-weight: 800;
+}
+.growth-trail-step small {
+  font-size: 10px;
+  line-height: 1.5;
+  margin-top: 5px;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.profile-form-description {
+  min-height: 3em;
+}
+.profile-sheet .growth-discovery-hint {
+  font-size: 12px;
+  margin: 2px 0 20px;
+}
+.starter-stage-note {
+  display: block;
+  font-size: 11px;
+  margin-top: 7px;
+  color: var(--game-muted);
+}
+.welcome-growth-note {
+  text-align: center;
+  color: var(--game-muted);
+  font-size: 12px;
+  line-height: 1.8;
+  margin: 8px 0 0;
+}
+@media (max-width: 500px) {
+  .friend-card .growth-trail {
+    gap: 3px;
+  }
+  .friend-card .growth-trail-art {
+    border-radius: 8px;
+  }
+  .friend-card .growth-trail-step small {
+    font-size: 8px;
+  }
+}
+.profile-sheet .level-tag {
+  color: var(--game-teal-dark);
+  background: var(--game-teal-soft);
+}

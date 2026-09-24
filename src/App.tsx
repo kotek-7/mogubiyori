@@ -28,6 +28,7 @@ import {
   feed,
   fedToday,
   hungerOf,
+  growthProgress,
   items,
   LOGIN_BONUS,
   selectCompanion,
@@ -78,9 +79,7 @@ function App() {
     streak = streakOf(state),
     dailyFed = fedToday(state)
   const fed = hunger === 96
-  const growth =
-    stage === 2 ? 100 : stage === 0 ? (state.xp / 45) * 100 : ((state.xp - 45) / 75) * 100
-  const nextGrowth = stage === 0 ? 45 - state.xp : 120 - state.xp
+  const { progress: growth, remaining: nextGrowth } = growthProgress(state.xp)
   useEffect(() => {
     // oxlint-disable-next-line react/set-state-in-effect
     setStorageError(!saveGame(state))
@@ -260,6 +259,7 @@ function App() {
               </button>
             </div>
             <section
+              data-growth-stage={stage}
               className={`play-world ${state.visitors.length ? 'with-visitors' : ''} theme-${state.equipped.room}`}
               aria-label={`${state.name}のひろば。${fed ? 'おなかいっぱい' : 'ごはんを待っています'}`}
             >
@@ -324,7 +324,9 @@ function App() {
               <button className="play-growth" onClick={() => setDialog({ type: 'profile' })}>
                 <span className="play-name">
                   <strong>{state.name}</strong>
-                  <small>{stageName(stage)}</small>
+                  <small>
+                    {stageName(stage)} · {stage + 1}/5
+                  </small>
                   <ChevronRight size={14} />
                 </span>
                 <span
@@ -338,8 +340,8 @@ function App() {
                   <i style={{ width: `${growth}%` }} />
                 </span>
                 <span className="play-next">
-                  {stage === 2
-                    ? 'おいしそうに食べると、仲間がやってくる。'
+                  {stage === 4
+                    ? 'とっておきの姿に育ったね。'
                     : `あと ${nextGrowth} XPで、新しいすがた。`}
                 </span>
               </button>

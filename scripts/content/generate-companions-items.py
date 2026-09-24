@@ -7,6 +7,7 @@ All paths are authored here; the JSON is the integration contract.
 from pathlib import Path
 import json
 import math
+import sys
 from html import escape
 import xml.etree.ElementTree as ET
 
@@ -76,7 +77,7 @@ def svg(content, name, view='0 0 300 300', ident='asset'):
 
 # Each entry specifies its own species silhouette, progression and voice.
 # slug, name, body, accent, silhouette, description, personality,
-# favorite categories, tags, three growth descriptions, dialogue
+# favorite categories, tags, legacy growth descriptions, dialogue
 PROFILES = [
 ('komepi','こめぴ',PAPER,RED,'rice-finch','米粒の羽とおにぎり形の胸を持つ、小さな文鳥。','一粒も残さない几帳面な収集家。','rice breakfast','お米 朝ごはん',
  ['米粒のような丸いひな。小さな海苔の前掛けが目印。','両翼が伸び、胸の海苔模様が三角に育つ。','稲穂の尾羽と三枚の風切羽を広げる。'],
@@ -208,7 +209,7 @@ def face(x=150,y=148,kind='normal',light=False):
     return eyes+line(f'M{x-8} {y+17}q8 10 16 0',col,3.5)+c(x-24,y-2,1,PAPER,'none')+c(x+24,y-2,1,PAPER,'none')
 
 
-def body_art(slug,s,b,a):
+def adult_art(slug,s,b,a):
     """Species paths are deliberately different; stages add functional anatomy."""
     back=''; main=''; front=''; f=face()
     foot=lambda x,y=248: e(x,y,19,11,a)
@@ -458,12 +459,575 @@ def body_art(slug,s,b,a):
         f=face(150,130)
         if s==2:front+=line('M215 218l27-8m-13 12 17 11',PAPER,3)+p('M83 209 67 218l16 11 15-12m110-8 21 12-18 9-16-11Z',TEAL)
     else: raise ValueError(slug)
-    # Baby silhouettes have genuinely fewer appendages; stage transforms also
-    # alter proportions, while the ground line and adult head anchor remain stable.
     content=back+main+front+f
-    if s==0: content=group(content,'translate(36 63) scale(.76 .76)')
-    elif s==1: content=group(content,'translate(15 25) scale(.9 .91)')
     return e(150,276,64+s*9,6,INK,'none',opacity='.12')+content
+
+
+STAGE_NAMES = ['うまれたて', 'ちびっこ', 'わんぱく', 'おとな', 'とっておき']
+
+# These are anatomical stages, not resized exports. The first stage is the
+# ingredient itself; the next two have their own head/body and limb paths.
+SEED_NOTES = {
+ 'komepi':'ひと粒のお米に目が開く。羽も足もまだない。',
+ 'kabun':'小さなかぶの種から、一本だけ根がのぞく。',
+ 'nanari':'菜種の粒に、黄いろい芽がひとつ。',
+ 'ichiri':'いちごの種から双葉が開き、顔がのぞく。',
+ 'soramame':'さやからこぼれた一粒のそら豆。',
+ 'himari':'しましまのひまわりの種に、小さな顔。',
+ 'kurune':'割れかけた栗の実。白い栗座がおなかになる。',
+ 'shiipo':'きのこの胞子から生まれた、一本足の丸い芽。',
+ 'waramo':'くるりと巻いたわらびの芽。尾も手もまだない。',
+ 'donguri':'小さなどんぐり。殻帽の下から目が開く。',
+ 'kuruwu':'くるみのひとかけら。殻の割れ目が眉になる。',
+ 'takenon':'地面から出たばかりの、三角のたけのこ。',
+ 'wakarun':'しずくを抱いた一枚のわかめ。ひれはまだない。',
+ 'hotape':'閉じた小さなほたて貝に、二つの目。',
+ 'shiochi':'四角い塩の結晶が、ころんと目を覚ます。',
+ 'konburuu':'水を含んでほどけはじめた、ひと巻きの昆布。',
+ 'aosaya':'水面に浮かぶ、小さなあおさのかけら。',
+ 'kohakani':'琥珀色の小さな巻き貝。脚はまだない。',
+ 'papriko':'一粒のパプリカの種から、へたの芽が出る。',
+ 'renpuku':'薄いれんこんの一節。穴の間に顔がある。',
+ 'negin':'ねぎの白い種根から、一本の葉がのぞく。',
+ 'caroron':'にんじんの種に、小さな房葉が生える。',
+ 'nasumii':'なすの種に、紫色の小さな芽がふくらむ。',
+ 'poncoro':'平たいかぼちゃの種。縁取りの中に顔がある。',
+ 'pururin':'カラメルを一粒のせた、丸いプリンのしずく。',
+ 'moffuru':'ぷくっとふくらんだ生地に、初めての格子がつく。',
+ 'panri':'一巻きのパン生地。まだ殻にも足にもなっていない。',
+ 'monaro':'小さなもなかの皮に、あんこの顔がのぞく。',
+ 'mintotto':'顔のついた一枚のミントの新芽。',
+ 'cacaoro':'割れたカカオの種。殻の中はやわらかな白色。',
+ 'tsukimo':'さつまいもの小さな芽いも。黄色い断面が目印。',
+ 'mitsuru':'琥珀を閉じ込めた、一滴の黒みつ。',
+ 'ankoro':'小さな白いへそを持つ、一粒の小豆。',
+ 'ramunon':'ラムネのしずくに、小さな泡がひとつ。',
+ 'yorucha':'くるんと丸まった一枚の茶葉。',
+ 'suirenne':'水に浮かぶ睡蓮の花芽。花びらはまだ閉じている。',
+}
+
+
+def little_face(x,y,light=False):
+    col=PAPER if light else INK
+    return c(x-13,y,3.5,col,'none')+c(x+13,y,3.5,col,'none')+line(f'M{x-5} {y+12}q5 5 10 0',col,2.5)
+
+
+def seed_art(slug,b,a):
+    art=''; top=167; light=False
+    if slug=='komepi': art=p('M124 173q37-31 53 13 21 62-17 76-41 5-41-43Z',PAPER)+line('M132 185q-13 28-2 48',YELLOW,3)
+    elif slug=='kabun': art=e(150,216,43,43,ORANGE)+p('M145 256q-8 21 11 16',PAPER)+leaf(150,176,11,GREEN)
+    elif slug=='nanari': art=c(150,220,40,YELLOW)+line('M150 180v-12',GREEN,4)+e(162,166,16,8,GREEN);top=174
+    elif slug=='ichiri': art=p('M113 219q9-54 36-54 38 1 39 57l-32 40q-37 0-43-43Z',YELLOW)+leaf(149,169,12,GREEN,-45)+leaf(149,169,12,GREEN,45)
+    elif slug=='soramame': art=p('M112 181q-20 19-4 60 11 31 51 20 48-14 29-45-14-18-25-9 7-32-18-36Z',GREEN)+line('M125 218q11-19 33-11',YELLOW,4);light=True
+    elif slug=='himari': art=p('M150 158q-52 38-37 75l37 34 34-33q23-39-34-76Z',ORANGE)+line('M128 177q-7 35-2 64m49-63q7 35-1 65',PAPER,8);top=158
+    elif slug=='kurune': art=p('M111 210q-4-30 38-45 44 16 45 47l-11 36h-66Z',ORANGE)+p('M117 244q33-12 66 0v10q-35 23-66 0Z',PAPER)
+    elif slug=='shiipo': art=r(130,216,40,45,PAPER,17)+p('M104 211q1-51 46-51 47 0 49 51-41 24-95 0Z',RED)+c(125,186,7,PAPER)+c(169,180,10,PAPER);top=162
+    elif slug=='waramo': art=p('M137 262v-28q-44-11-35-48 10-45 59-24 34 29 5 54-27 15-40-9 0-21 20-17-12 12 1 13 20-9 5-24-31-13-33 15-1 20 35 24v45Z',GREEN);top=163;light=True
+    elif slug=='donguri': art=p('M114 204q-6 48 36 63 47-20 38-65Z',ORANGE)+p('M106 200q7-44 44-43 41 1 46 43-49 19-90 0Z',GREEN)+line('M151 157v-13',INK,6);top=157
+    elif slug=='kuruwu': art=p('M148 174q-31-24-43 16-18 57 28 68l18-9 19 9q44-11 27-62-12-43-44-22Z',ORANGE)+line('M151 179v61M119 188l10 12-12 18m65-30-10 12 12 18',PAPER,4)
+    elif slug=='takenon': art=p('M150 153 104 246q44 24 92 0Z',GREEN)+p('m120 212 30-14 30 14-30 10Zm-12 27 42-16 42 16-42 14Z',YELLOW);top=155
+    elif slug=='wakarun': art=p('M136 159q-35 12-19 34-19 21 1 34-22 27 11 37l49-10q-13-15 5-32-16-15 1-34-28 0-22-29Z',GREEN)+line('M146 179v64',TEAL,5);top=163;light=True
+    elif slug=='hotape': art=p('M118 255q-50-54-14-78 23-18 46-7 27-14 48 10 35 40-20 78Z',PAPER)+line('M139 253l-22-72m43 70 22-67m-33 59v-65',RED,3);top=171
+    elif slug=='shiochi': art=p('M115 180 167 166l25 23v58l-54 16-23-22Z',PAPER)+p('M167 167v56l25 24v-58Z',TEAL)+line('M117 182l23 22 27-36m-27 37v54',BLUE,3);top=177
+    elif slug=='konburuu': art=p('M122 258q-36-65 5-89 43-21 65 20 18 42-24 45-35-5-15-28 14-7 13 8 18-2 8-20-29-14-40 10-13 20 13 54Z',GREEN)+line('M133 249q-22-29-11-49',YELLOW,3);top=172;light=True
+    elif slug=='aosaya': art=p('M106 194 119 169l27 13 31-14 22 23-11 29 6 28-37 14-26-16-30 6 14-29Z',TEAL)+line('M121 194l58 43m-26-53-2 60',GREEN,3)
+    elif slug=='kohakani': art=p('M110 242q-17-80 40-79 61 1 49 67l-36 31Z',ORANGE)+line('M177 238q-55-2-43-37 9-23 29-8 18 17-6 23',PAPER,5);top=167
+    elif slug=='papriko': art=e(150,220,40,46,PAPER)+leaf(152,177,14,GREEN,26)+line('M117 221q-7 24 14 32',YELLOW,3);top=177
+    elif slug=='renpuku':
+        art=e(150,218,51,44,PAPER)
+        for x,y in [(128,188),(170,190),(112,216),(190,219),(133,250),(166,249)]: art+=e(x,y,6,8,ORANGE,INK,2)
+        top=177
+    elif slug=='negin': art=p('M127 194v-45h23v-15h20v61q24 44-11 67-39 1-40-31Z',PAPER)+p('M126 187v-39h24v-14h21v53Z',GREEN)+line('M136 260l-6 14m21-11v12m10-13 9 11',ORANGE,3);top=184
+    elif slug=='caroron': art=p('M121 187q29-20 57 0l-17 74-24 5Z',ORANGE)+leaf(148,180,13,GREEN,-27)+leaf(148,180,15,GREEN,21)+line('m125 210 12-3m26 28 11-3',INK,3);top=187
+    elif slug=='nasumii': art=p('M138 168q-30-7-34 32-15 53 40 65 55-7 50-52-1-45-42-45Z',PURPLE)+p('m128 176 3-22 20 12 14-13 13 23-23 10Z',GREEN);light=True;top=173
+    elif slug=='poncoro': art=p('M150 162q-50 32-47 63 2 31 45 41 47-8 50-36 1-32-48-68Z',PAPER)+p('M150 179q-34 28-33 49 1 21 32 24 31-6 34-23-2-22-33-50Z',YELLOW);top=168
+    elif slug=='pururin': art=p('M131 176q-14 18-24 58-4 32 43 31 46 1 42-31l-22-58Z',YELLOW)+e(150,177,21,11,ORANGE);top=175
+    elif slug=='moffuru': art=r(106,179,89,82,YELLOW,32)+line('M133 185v70m32-70v70m-52-47h73m-74 25h75',ORANGE,5);top=183
+    elif slug=='panri': art=p('M107 204q-1-30 40-37 50-1 51 43-1 55-48 54-43-1-43-36 6-27 30-22 24 7 8 26-14 3-11-9',ORANGE)+line('M120 182q7 8 13 11m46-9-9 12',PAPER,4);top=174
+    elif slug=='monaro': art=c(150,218,48,PAPER)+c(150,218,37,ORANGE)+line('M121 197h58m-63 20h68m-61 20h59m-39-49v61m19-61v61',PAPER,3);top=173
+    elif slug=='mintotto': art=p('M150 265q-67-48-23-105 65-3 66 47-2 36-43 58Z',GREEN)+line('M147 249l9-72m-9 58-25-19m28 2 27-19',PAPER,3);light=True;top=162
+    elif slug=='cacaoro': art=p('M112 194q19-42 55-30 37 21 31 53-11 43-56 50-50-29-30-73Z',ORANGE)+p('M136 180q37-13 43 26-5 34-35 42-23-26-8-68Z',PAPER);top=171
+    elif slug=='tsukimo': art=p('M104 206q-2-28 32-31l36-12q33 4 26 40l-17 53q-12 26-39 5-37-19-38-55Z',PURPLE)+e(151,218,27,31,YELLOW);top=176
+    elif slug=='mitsuru': art=p('M151 159q-8 26-33 48-35 48 18 61 59 12 64-31 0-33-49-78Z',INK)+c(166,199,12,YELLOW);light=True;top=171
+    elif slug=='ankoro': art=p('M107 213q-1-47 38-46 49-5 49 52-1 48-43 48-46-1-44-54Z',RED)+e(155,179,16,5,PAPER,'none');top=173
+    elif slug=='ramunon': art=p('M151 158q-6 27-33 54-25 45 15 55 57 16 65-28 0-30-47-81Z',BLUE)+c(163,196,10,PAPER)+c(141,182,4,PAPER);top=174;light=True
+    elif slug=='yorucha': art=p('M111 204q-10-51 39-39 51-15 44 40-7 30-44 61-39-23-39-62Z',GREEN)+line('M151 255v-73m1 35-25-23m25 39 23-27',PAPER,3);top=172;light=True
+    elif slug=='suirenne': art=e(151,256,54,16,TEAL)+p('M111 213q1-37 22-49l17 22 18-23q23 16 23 51l-38 43Z',PINK)+line('M149 187l4 56',RED,3);top=175
+    else: raise ValueError(slug)
+    return e(150,276,41,5,INK,'none',opacity='.12')+art+little_face(150,221,light), (150,top,.48)
+
+
+def young_art(slug,stage,b,a):
+    """Stage 1 sits as one round body; stage 2 stands, walks or opens its wings."""
+    grown=stage==2
+    head_y=135 if grown else 179
+    back=''; front=''; detail=''; col=b
+    feet=(e(112,254,20,11,a)+e(188,254,20,11,a)) if grown else (e(127,258,13,7,a)+e(173,258,13,7,a))
+    if grown:
+        base=e(150,218,45,40,b)+e(150,143,63,54,b)
+        hands=p('M110 201q-35-12-32 10 1 17 32 13m79-21q31-20 36 0 7 21-33 23Z',b)
+    else:
+        base=p('M94 198q-4-65 55-65 61 0 58 64l-8 38q-48 45-97 0Z',b)
+        hands=''
+    head=(150,88 if grown else 134,.72 if grown else .64)
+    fy=142 if grown else 186
+    if slug=='komepi':
+        back=(p('M109 220 61 208l13-27 37 3m77 34 49-26-23-21-32 13Z',PAPER) if grown else p('M101 218 83 234l29-1m80-15 24 16-29 4Z',PAPER))
+        front=p(f'M135 {fy+26}l15-19 17 19v22h-32Z',INK)+p(f'M143 {fy+10}h15l-7 10Z',YELLOW)
+    elif slug=='kabun':
+        back=leaf(150,head[1]+3,26 if grown else 15,GREEN,-22)+leaf(150,head[1]+3,23 if grown else 12,GREEN,25)
+        back+=p('M149 250q-23 27 7 26-5-9 9-18Z',PAPER)
+        hands=p('M108 204q-29-9-30 19l24 7m87-25q31-11 33 16l-25 10Z',ORANGE) if grown else ''
+        front=line('M122 226h11m34 10h12',ORANGE,3)
+    elif slug=='nanari':
+        back=p(f'M111 {head[1]+14}q-38-41-15-45l26 34m66 11q35-41 15-45l-26 34Z',YELLOW)
+        if grown: base=e(152,225,53,29,YELLOW)+r(125,143,49,83,YELLOW,20)+e(150,127,50,40,YELLOW);head=(150,88,.59);fy=126
+        front=flower(111,201,11,PAPER)+flower(181,201,11,PAPER) if grown else flower(182,224,10,PAPER)
+    elif slug=='ichiri':
+        back=leaf(126,head[1]+15,33 if grown else 17,GREEN,-14)+leaf(177,head[1]+15,33 if grown else 11,GREEN,15)
+        front=''.join(p(f'M{x} {y}l3-5 3 5-3 5Z',YELLOW,'none') for x,y in ([(116,119),(188,120),(120,183),(179,185),(149,224)] if grown else [(117,165),(183,164),(146,226)]))
+        if grown:feet=e(106,247,30,16,RED)+e(199,247,30,16,RED)
+    elif slug=='soramame':
+        if grown:
+            back=e(183,205,63,43,GREEN)+c(157,199,23,YELLOW)+c(202,205,23,YELLOW)
+            base=p('M55 145q-12-51 22-53 38 12 18 54l-13 68q76-2 130 17l34 25q-104 26-190-13Z',YELLOW)
+            front=line('M60 102 43 72m40 25 18-28',INK,4)+c(43,72,5,GREEN)+c(101,69,5,GREEN)
+            return e(150,276,78,6,INK,'none',opacity='.12')+back+base+front+little_face(74,132),(75,98,.40)
+        back=e(157,211,55,49,GREEN)+c(169,206,27,YELLOW)
+        base=p('M108 254q-13-37 14-41 28 2 28 34l25 13-51 8Z',YELLOW)
+        front=line('M117 217l-9-13m22 9 7-15',INK,3)+c(108,204,4,GREEN)+c(137,198,4,GREEN)
+        return e(150,276,58,6,INK,'none',opacity='.12')+back+base+front+little_face(123,242),(124,217,.30)
+    elif slug=='himari':
+        if grown:
+            back=''.join(group(p('M-10-25q-16-33 7-47 25 15 13 47Z',YELLOW),f'translate(145 137) rotate({i*35-52})') for i in range(4))
+            base=p('M115 167q-24 45-19 76 46 33 91 1l-16-74Z',ORANGE)+p('M107 138q-2-45 49-35 23 8 34 29l23 9-19 27-52 12Z',PAPER)+p('M122 177q-7 39 8 70h29l7-76Z',PAPER)
+            front=c(209,144,6,INK)+line('M109 190l-19 58m87-58 18 58',ORANGE,12)
+            return e(150,276,61,6,INK,'none',opacity='.12')+back+feet+base+front+little_face(160,142),(156,103,.62)
+        back=p('M100 218l-7-24 24 9 12-28 21 18 20-16 17 37Z',YELLOW)
+        base=e(141,234,60,30,ORANGE)+p('M158 214q30-13 43 10l18 9-9 20-31 11-41-9Z',PAPER)
+        return e(150,276,62,6,INK,'none',opacity='.12')+back+base+c(216,236,5,INK)+little_face(181,238),(181,215,.44)
+    elif slug=='kurune':
+        back=p('M194 237q67 10 48-83-41-20-51 20 35-3 3 63Z',GREEN) if grown else e(204,229,28,29,GREEN)
+        back+=p(f'M106 {head[1]+22}l-7-36 28 20m48 0 28-20-9 36Z',ORANGE)
+        front=p(f'M105 {fy+10}q42-24 90 0l-19 26h-51Z',PAPER)
+    elif slug=='shiipo':
+        base=p('M112 199v-52h78v64l-12 43h-57Z',PAPER) if grown else r(115,185,73,68,PAPER,27)
+        back=p(f'M{72 if grown else 91} {head_y}q12-58 {78 if grown else 59}-58 {66 if grown else 55} 0 {78 if grown else 61} 58-73 29-{156 if grown else 120} 0Z',RED)
+        front=c(124,head_y-26,9,PAPER)+c(178,head_y-33,12,PAPER)+p(f'M175 {head_y+26}q31-2 26 23-10 13-17-1l-12-5Z',PAPER)
+        fy=head_y+28;head=(150,head_y-57,.68);hands=''
+    elif slug=='waramo':
+        back=p('M189 237q74 23 63-32-10-29-31-6 27-7 13 9-12 8-32-6Z',GREEN) if grown else line('M191 234q44 11 32-23-14-12-14 3',GREEN,12)
+        back+=p(f'M184 {head[1]+30}l19-35 12 48 20-18 9 43Z',YELLOW)
+        front=e(122,fy-3,15,22,PAPER)+e(182,fy-3,15,22,PAPER)
+    elif slug=='donguri':
+        back=p(f'M99 {head[1]+39}l-21-30 34 1m75 0 33-1-21 30Z',ORANGE)
+        front=p(f'M{89 if grown else 98} {head[1]+16}q6-42 {61 if grown else 52}-40 {58 if grown else 49}-2 {62 if grown else 52} 40-61 20-{123 if grown else 104} 0Z',GREEN)+line(f'M150 {head[1]-22}v-16',INK,5)+e(150,fy+24,25,17,PINK)+e(142,fy+23,3,5,INK)+e(158,fy+23,3,5,INK)
+    elif slug=='kuruwu':
+        back=p('M109 187 50 174q-8 45 51 68m87-55 61-14q8 45-50 70Z',ORANGE) if grown else p('M104 213 86 231l26 6m75-25 25 19-28 8Z',ORANGE)
+        front=e(125,fy,23,25,PAPER)+e(177,fy,23,25,PAPER)+p(f'M145 {fy+21}h13l-6 10Z',YELLOW)+line('M126 222l12 7 12-7 12 7 12-7',PAPER,3)
+    elif slug=='takenon':
+        back=c(99,head[1]+28,16,INK)+c(203,head[1]+28,16,INK)+(leaf(197,239,26,GREEN,65) if grown else '')
+        front=e(125,fy,17,22,INK)+e(178,fy,17,22,INK)+p(f'M113 {head[1]+9}l38-42 37 42-37-8Z',GREEN)+e(151,225,26,23,PAPER)
+        if grown:front+=p('M123 75l28-27 27 27-27-5Z',GREEN)
+    elif slug=='wakarun':
+        back=c(104,head[1]+25,15,GREEN)+c(197,head[1]+25,15,GREEN)+p('M183 239q59-9 48 18-31 24-57-12Z',GREEN)
+        front=e(150,fy+17,34,21,PAPER)+p(f'M106 {fy+45}l17-12 18 13 19-12 23 14 10-10 8 25-20 8-26-8-29 9-24-8Z',TEAL)
+    elif slug=='hotape':
+        if grown:
+            back=p('M127 249Q56 218 81 99q82 20 71 129Z',PAPER)+line('M126 224 93 120m34 103 5-91',RED,3)+p('M137 242q59-88 124-87-1 69-90 104Z',PAPER)+line('M161 241l81-70m-67 77 67-39',RED,3)
+            base=p('M106 228q47-18 89 12l42 14-18 12-86-4-31-13Z',PAPER)+e(158,213,43,34,PAPER)
+            front=p('M137 235 107 265l28 5 28-20m15-14 32 25 24-11-33-16Z',RED)
+            return e(150,276,74,6,INK,'none',opacity='.12')+back+base+front+little_face(159,214),(158,180,.52)
+        back=p('M92 202q-43-99 56-117 98 22 61 117Z',PAPER) if grown else p('M106 220q-29-68 44-86 72 18 45 86Z',PAPER)
+        back+=line('M150 204 101 117m49 81V95m0 105 49-80',RED,3) if grown else line('M150 219v-73',RED,3)
+        base=e(150,210,55,46,PAPER);fy=206;head=(150,165,.66)
+        hands=p('M103 220 75 236l17 10 28-13m67-14 36 19-19 8-30-17Z',RED)
+    elif slug=='shiochi':
+        front=e(150,211,35,35,PAPER)+e(150,fy,34,31,PAPER)+p(f'M142 {fy+15}h16l-8 10Z',YELLOW)+r(141,head[1]-16,20,28,TEAL,2)
+        hands=p('M104 190 77 214l21 20 13-27m84-19 29 27-22 20-14-29Z',BLUE)
+        if grown:front+=r(123,head[1]-5,16,20,PAPER,2)+r(164,head[1]-5,16,20,PAPER,2)
+    elif slug=='konburuu':
+        back=p('M184 237q80 25 52-24-17-22-22 0 15-6 13 5-9 9-34-1Z',GREEN)+(p('M190 207q71-33 39-102-18 52-44 63Z',TEAL) if grown else leaf(193,215,25,TEAL,55))
+        front=e(149,223,26,28,YELLOW)+p(f'M104 {head[1]+24}l5-32 23 18m36 0 24-19 5 31Z',GREEN)
+    elif slug=='aosaya':
+        if grown:
+            back=line('M150 243q-21 31 14 35',GREEN,7)
+            base=p('M150 91 114 134l-25 62 18 57 44 16 44-16 18-57-27-63Z',TEAL)
+            front=p('M112 139 150 168l-8 85-36-15-6-38Zm77 0-39 29 8 85 34-15 9-38Z',GREEN)+p('M123 163q27-27 55 0l-28 35Z',PAPER)
+            return e(150,283,42,5,INK,'none',opacity='.12')+back+base+front+little_face(150,169),(150,100,.51)
+        base=p('M150 108 66 176 45 226l66-4 39 33 42-34 63 6-20-50Z',TEAL) if grown else p('M150 147 95 202l-10 38 40-10 25 26 26-26 43 11-14-39Z',TEAL)
+        back=line('M151 243q-2 37 43 26',GREEN,7)
+        front=p('M103 209q44-42 93 0l-45 33Z',PAPER);fy=192 if grown else 217;head=(150,139 if grown else 174,.58);hands='';feet=''
+    elif slug=='kohakani':
+        back=e(150,175,56 if grown else 43,58,ORANGE)+line('M175 200q-62-7-33-48 34-16 28 21-16 13-20-2',PAPER,4)
+        base=e(150,237,57,25,RED);fy=228;head=(150,214,.57);feet='';hands=''
+        back+=line('M105 234l-30 17-5 14m51-26-12 29m75-26 17 26m-3-34 30 17 5 14',RED,7)
+        front=p('M102 220q-43-8-33-38l16 13 14-16q16 28 3 41m97 0q42-8 32-38l-16 13-14-16q-16 28-2 41Z',RED) if grown else p('M107 233 84 215l-2 20m110 0 21-20 5 20Z',RED)
+    elif slug=='papriko':
+        back=p(f'M108 {head[1]+25}l-9-39 35 25m31 0 36-26-9 42Z',GREEN)+line('M195 239q50 15 38-22-8-14-17 0',GREEN,10)
+        front=line(f'M112 {fy+43}q-8 26 12 53m64-53q7 26-13 53',INK,3)
+    elif slug=='renpuku':
+        back=''.join(e(x,y,20,9,PINK,INK,3,transform=f'rotate({rot} {x} {y})') for x,y,rot in ([(87,122,25),(87,154,-20),(216,123,-25),(214,155,20)] if grown else [(100,160,20),(200,160,-20)]))
+        front=c(139,226,5,INK)+c(162,238,5,INK)
+        if grown:back+=p('M189 240q51-27 56 10-34 15-47 1Z',TEAL)
+    elif slug=='negin':
+        back=p(f'M113 {head[1]+8}l-3-{50 if grown else 30} 19-9 9 {59 if grown else 39}m24 0 7-{57 if grown else 27} 20 10-9 {47 if grown else 17}Z',GREEN)+p('M184 239q71-10 46-48 39 45-9 72l-35-9Z',PAPER)
+        front=e(150,225,23,28,YELLOW)+(line('M220 250l11 7m-15-21 18 2',GREEN,7) if grown else '')
+    elif slug=='caroron':
+        back=p(f'M105 {head[1]+27}l-5-{55 if grown else 32} 33 {36 if grown else 19}m32 0 38-{36 if grown else 19}-5 {55 if grown else 32}Z',ORANGE)+leaf(190,246,31 if grown else 19,GREEN,69)
+        front=p(f'M108 {fy+10}l42 18 41-18-21 32h-42Z',PAPER)+c(150,fy+28,5,INK)
+    elif slug=='nasumii':
+        back=p(f'M112 {head[1]+18}l-8-33 32 25m29 0 31-25-7 33Z',PURPLE)
+        hands=p('M109 196 42 147l8 72 23-8 16 25 21-18m80-22 67-50-9 73-23-8-16 25-22-18Z',GREEN) if grown else p('M103 205 79 193l10 34 18 3m86-25 30-12-12 34-18 3Z',GREEN)
+        front=e(150,225,24,24,PAPER)+p(f'M128 {head[1]+5}l22-20 20 21-21 12Z',GREEN)
+    elif slug=='poncoro':
+        back=c(107,head[1]+16,17,GREEN)+c(196,head[1]+16,17,GREEN)+(line('M190 244q57 18 33-19',GREEN,12) if grown else '')
+        front=p(f'M103 {fy-9}q20-15 47 12 25-27 48-12l-9 27-40-5-36 5Z',INK)+line('M131 215v37m38-37v36',INK,3)
+    elif slug=='pururin':
+        back=p(f'M109 {head[1]+28}q-34-15-30-29 31-5 43 17m57 12q33-18 29-31-29-4-42 19Z',YELLOW)
+        if grown:back+=line('M125 102l-8-40m57 40 9-40',ORANGE,7);base=p('M115 163h69l23 89q-59 19-113 0Z',YELLOW)+e(150,141,55,44,YELLOW)
+        front=p(f'M{98 if grown else 106} {head[1]+15}q48-30 {104 if grown else 91} 0l-7 22-25-3-24 12-19-12-22 5Z',ORANGE)
+    elif slug=='moffuru':
+        base=(r(109,177,81,78,YELLOW,21)+r(90,95,122,99,YELLOW,29)) if grown else r(96,141,109,114,YELLOW,36)
+        back=p(f'M104 {head[1]+30}l-16-35 37 20m48 0 35-20-12 35Z',ORANGE)+(p('M183 226h47v30h-26v-14h11v-6h-32Z',ORANGE) if grown else '')
+        front=line('M128 203v37m28-37v37m-41-25h61m-59 15h58',ORANGE,5) if grown else line('M119 210h63m-48-15v45m27-44v43',ORANGE,4)
+    elif slug=='panri':
+        if not grown:
+            back=p('M105 214q-9-55 43-55 61-4 61 54 0 56-60 51-44-2-44-50Z',ORANGE)
+            front=line('M129 164q-19 21-14 44m39-46q-8 28 9 41m20-29q22 26 8 67m-14 10-14 9',PAPER,5)+e(139,234,28,23,PAPER)
+            return e(150,276,48,5,INK,'none',opacity='.12')+back+front+little_face(138,232),(140,212,.34)
+        back=(p('M195 237 237 248l-30-36Z',ORANGE)+e(163,193,65,63,ORANGE)) if grown else e(167,217,46,42,ORANGE)
+        base=p('M72 207q-17-38 27-45 30-4 45 25l9 57q-59 22-81-9Z',PAPER) if grown else p('M91 225q-7-41 30-39 39 7 29 44l-17 27-35-13Z',PAPER)
+        front=line('M136 139q-19 56 8 106m17-111q-8 65 14 116m15-110q15 40 9 96',PAPER,5) if grown else line('M157 178q-9 43 9 76m14-72q12 29 9 66',PAPER,4)
+        fy=199 if grown else 219;head=(102,162,.53) if grown else (120,186,.43);hands='';feet=e(104,256,18,10,ORANGE)+e(191,256,18,10,ORANGE)
+        return e(150,276,74,6,INK,'none',opacity='.12')+back+feet+base+front+little_face(104 if grown else 120,fy),head
+    elif slug=='monaro':
+        back=c(107,head[1]+14,16,RED)+c(196,head[1]+14,16,RED)
+        front=e(111,fy+22,17,15,ORANGE)+e(189,fy+22,17,15,ORANGE)+line('M134 218v30m20-30v30m19-30v30m-48-20h55m-56 14h55',RED,2.5)
+    elif slug=='mintotto':
+        back=(p('M137 194Q23 175 53 94q77 13 86 88m24 11q111-17 82-99-76 11-82 87Z',GREEN)+line('M137 181 68 110m96 72 67-70',PAPER,3)) if grown else (leaf(139,244,40,GREEN,-17)+leaf(162,244,40,GREEN,17))
+        base=e(150,218,22,36,YELLOW)+e(150,167 if grown else 191,34,31,PAPER);fy=164 if grown else 190;head=(150,137 if grown else 162,.46);hands='';feet=''
+        front=line(f'M139 {fy-28}l-12-20m38 20 13-20',INK,3)
+    elif slug=='cacaoro':
+        back=p('M190 233q61 16 43-65-50 8-43 65Z',ORANGE)
+        front=p(f'M110 {fy+2} 73 {fy+22}l12 15 41-19Z',PAPER)+line('M132 210q-8 27 3 43m32-46q-5 28 4 45',INK,3)
+    elif slug=='tsukimo':
+        back=c(107,head[1]+12,21,PURPLE)+c(196,head[1]+12,21,PURPLE)+(p('M188 240q67-16 27-58 55 20 28 64l-42 15Z',PURPLE) if grown else c(199,238,22,PURPLE))
+        front=p('M165 212q-27 13-8 34-36 7-35-18 4-22 43-16Z',YELLOW)
+    elif slug=='mitsuru':
+        if grown:
+            back=p('M195 211 255 142l6 96-54 8Z',TEAL)+p('M121 168l26-45 30 64m-39 52 16 29 28-24Z',BLUE)
+            base=p('M70 186q0-35 42-30l64 29 42 37-12 31q-77 23-135-23Z',INK)
+            front=line('M99 158q-32-51 5-67',YELLOW,4)+c(112,92,17,YELLOW)+line('M227 207l20-37m-17 48 18 8',PAPER,3)
+            return e(150,276,75,6,INK,'none',opacity='.12')+back+base+front+little_face(107,194,True),(111,158,.51)
+        back=p('M197 199 247 164l-9 78Z',TEAL)
+        base=e(150,207,62,48,INK);fy=201;head=(150,162,.70);hands='';feet=''
+        front=line('M146 162q-14-52 22-50',YELLOW,4)+c(178,114,17,YELLOW)+(p('M120 163l16-32 18 32m-16 83 10 21 25-24Z',BLUE) if grown else '')
+    elif slug=='ankoro':
+        back=(p('M111 180 59 131l14 116 76 17 78-18 14-115-53 49Z',PAPER) if grown else p('M105 208 79 224l31 16m82-32 29 16-30 16Z',PAPER))
+        back+=c(107,head[1]+14,18,RED)+c(196,head[1]+14,18,RED)+p('M177 240q55 6 26 29l-25-12Z',RED)
+        front=e(150,fy+17,33,23,PAPER);hands=''
+    elif slug=='ramunon':
+        if grown:
+            back=''.join(line(f'M{x} 217q-15 19 0 35t-2 24',TEAL if i%2 else BLUE,7) for i,x in enumerate([117,139,161,183]))
+            base=p('M123 101q27-20 54 0l11 50 27 58-26 15-18-13-21 17-23-17-19 13-24-15 27-58Z',BLUE)
+            front=c(137,118,6,PAPER)+c(169,145,8,PAPER)+c(117,175,4,PAPER)+line('M110 204q40-15 79 0',TEAL,4)
+            return e(150,285,49,5,INK,'none',opacity='.12')+back+base+front+little_face(150,181,True),(150,104,.42)
+        base=p('M89 192q0-77 61-77 64 1 64 77l-21 19-23-13-20 14-22-14-20 13Z',BLUE) if grown else p('M103 219q0-73 47-73 50 1 50 73l-18 12-17-10-15 12-17-12-15 10Z',BLUE)
+        back=''.join(line(f'M{x} 215q-18 23 2 45',TEAL,7) for x in ([114,138,162,186] if grown else [132,168]))
+        front=c(128,147 if grown else 171,6,PAPER)+c(162,136 if grown else 159,5,PAPER);fy=180 if grown else 203;head=(150,116 if grown else 149,.61);feet='';hands=''
+    elif slug=='yorucha':
+        back=leaf(112,head[1]+25,26 if grown else 17,GREEN,-16)+leaf(190,head[1]+25,26 if grown else 17,GREEN,16)+p('M190 240q76 5 43-64-8 43-44 42Z',GREEN)
+        front=p(f'M105 {fy+11}l45 18 45-18-23 32h-45Z',PAPER)
+        if grown:front+=leaf(150,250,19,PAPER)
+    elif slug=='suirenne':
+        back=p('M184 240q62 16 47-25-29-20-47 5Z',TEAL)
+        back+=''.join(group(p('M-12 0q-14-25 3-41 22 10 22 38Z',PINK),f'translate(150 {fy+33}) rotate({angle})') for angle in ([-65,0,65] if grown else [0]))
+        base=base.replace(b,TEAL);front=e(150,fy+16,36,22,PAPER)+e(150,227,22,24,PAPER)
+    else:raise ValueError(slug)
+    light=slug in {'nasumii','poncoro','tsukimo','mitsuru','ramunon','yorucha'}
+    expression=little_face(150,fy,light) if not grown else face(150,fy,light=light)
+    if slug=='takenon': expression=little_face(150,fy,True) if not grown else face(150,fy,light=True)
+    return e(150,276,61 if grown else 48,6,INK,'none',opacity='.12')+back+feet+base+hands+front+expression,head
+
+
+YOUNG_NOTES = {
+ 'komepi':('丸いひなに短い羽と足が生え、胸には小さな海苔模様。','頭と胴が分かれ、横へ開いた羽で羽ばたく練習をする。'),
+ 'kabun':('小さな葉と短い根を持つ、丸いかぶの幼体。','頭の葉が広がり、橙色の前足で土を掘りはじめる。'),
+ 'nanari':('短い首と細い耳の子。胸に一輪の花が咲く。','首と脚が伸び、左右の肩に花が咲く。'),
+ 'ichiri':('ころんとした実に、小さな二枚の葉耳が生える。','頭と胴が分かれ、長い葉耳と大きな後ろ足で跳ねる。'),
+ 'soramame':('一粒の殻に隠れ、丸い顔だけを入口からのぞかせる。','二粒の殻を背負い、長い首をまっすぐ上へ伸ばす。'),
+ 'himari':('低く伏せた丸い幼体。小さな鼻と短い花びらがのぞく。','細長い胴を起こし、前足で立つ。鼻先と背の花びらが伸びる。'),
+ 'kurune':('栗形の頭と短い丸尾を持つ。胸の白い栗座が目印。','頭と胴が分かれ、抱えこめる大きな尾と前足が育つ。'),
+ 'shiipo':('小さな傘から、丸い顔と短い鼻を出す。','傘の下で胴が長く伸び、曲がる鼻と足で歩く。'),
+ 'waramo':('丸い体に大きな目が開き、短い巻き尾が生える。','胴と四肢が育ち、長い巻き尾を振って立ち上がる。'),
+ 'donguri':('どんぐり帽の下に、丸い鼻と短い足が生える。','頭と胴が分かれ、前足と帽子の下の縞模様が育つ。'),
+ 'kuruwu':('丸い体に大きな二つの目。短い羽を閉じて座る。','頭と胴が分かれ、短い翼を横へ開いて飛ぶ練習をする。'),
+ 'takenon':('一段のたけのこ頭と、丸い耳を持つ小さな子。','二段の帽子と前足が育ち、笹の尾が伸びる。'),
+ 'wakarun':('短い尾と、ぎざぎざのわかめ襟を持つ丸い子。','頭と胴が分かれ、前足を広げて泳ぎはじめる。'),
+ 'hotape':('小さな扇の貝から顔を出し、短いひれを広げる。','貝を横向きに半分閉じ、長くなった体とひれを外へ伸ばす。'),
+ 'shiochi':('丸い体に白い顔とおなか。一粒の結晶を頭にのせる。','頭と胴が分かれ、角ばった羽と三つの結晶が育つ。'),
+ 'konburuu':('丸い体に一枚の昆布ひれ。短い尾をくるりと巻く。','頭と胴が分かれ、大きな背びれと手足で泳ぎはじめる。'),
+ 'aosaya':('小さな三角の翼と、短く曲がる尾を持つ。','翼を体の前にたたみ、縦長の姿で流れをくぐり抜ける。'),
+ 'kohakani':('丸い殻の下から顔を出し、短い脚でそっと歩く。','胴を起こし、左右のはさみを広げてしっかり立つ。'),
+ 'papriko':('丸い実に小さな葉耳と、巻いたへた尾が生える。','頭と胴が分かれ、前足と後ろ足でリズムをとる。'),
+ 'renpuku':('横に短い花えらを持ち、おなかに二つの穴模様がある。','四枚のえらと手足が育ち、蓮の葉の尾が現れる。'),
+ 'negin':('白い丸い体に、短いねぎ耳と小さな尾が生える。','頭と胴が分かれ、長い葉耳としましまの尾が育つ。'),
+ 'caroron':('小さな三角耳と白い口元、短い葉尾を持つ。','頭と胴が分かれ、立った耳と大きな房葉の尾で走る。'),
+ 'nasumii':('丸いなすの体に、短い葉翼と小さな耳が生える。','頭と胴が分かれ、左右の大きな葉翼を横へ開く。'),
+ 'poncoro':('ころんとした体に、目の周りの黒い模様が現れる。','頭と胴が分かれ、筋のあるおなかと巻きつる尾が育つ。'),
+ 'pururin':('丸い体に小さな耳。頭にはカラメルの模様がある。','胴がプリン形に伸び、二本の角と前足が育つ。'),
+ 'moffuru':('角の丸い格子の体に、小さな耳と足が生える。','頭と胴が分かれ、四角い巻き尾と前足が育つ。'),
+ 'panri':('パンの層を丸く巻いた幼体。殻の隙間から顔だけを出す。','殻をほどいて頭を高く起こし、短い脚と尾で歩きはじめる。'),
+ 'monaro':('丸いもなかにあんこの耳。ほっぺが小さくふくらむ。','頭と胴が分かれ、花色のほっぺと格子の腹が育つ。'),
+ 'mintotto':('二枚の葉翼を体に沿わせて閉じ、静かに座る。','上の葉翼を大きく横へ開き、細い胴で飛びはじめる。'),
+ 'cacaoro':('丸いカカオの体に、短い鼻と小さな尾が生える。','頭と胴が分かれ、鼻先と縦筋のある尾が伸びる。'),
+ 'tsukimo':('丸い耳と短い尾。おなかに小さな月が現れる。','頭と胴が分かれ、長い尾をくるりと立てて歩く。'),
+ 'mitsuru':('丸い黒みつの体に、短い灯りと小さな尾びれが生える。','頭から尾まで長く伸び、灯りを前に出して斜めに泳ぐ。'),
+ 'ankoro':('小豆の丸い頭と、白い口元。飛膜はまだ短い。','頭と胴が分かれ、両手と足をつなぐ白い飛膜が広がる。'),
+ 'ramunon':('丸い傘の下から、二本の短いリボンがのぞく。','傘が細長い瓶形になり、四本のリボンを下へ伸ばす。'),
+ 'yorucha':('短い茶葉耳と、ひと巻きの小さな尾を持つ。','頭と胴が分かれ、大きな尾と胸の葉飾りが育つ。'),
+ 'suirenne':('丸い体に一枚の花芽。水辺で尾を小さく揺らす。','頭と胴が分かれ、三枚の花えりと水かきの手が育つ。'),
+}
+
+
+SIGNATURE_NOTES = {
+ 'komepi':'細い脚で立つ稲穂の鳥へ。両翼が米粒の扇になり、三本の長い尾羽を広げる。',
+ 'kabun':'横に張った大きな根の体と、土を分ける四本の前爪。頭の葉が菜園の屋根になる。',
+ 'nanari':'首の長い四つ足のアルパカへ。背中にも菜の花が咲き、花の襟が一周つながる。',
+ 'ichiri':'細長い体で跳ねる大うさぎへ。二本の葉耳が帆のように伸び、花の尾が大きく開く。',
+ 'soramame':'アーチ形の長いさやを背負う旅のかたつむりへ。四粒の豆と長い触角が目印。',
+ 'himari':'大輪の花を丸ごと広げるハリネズミへ。鼻先が長くなり、葉の四つ足で歩く。',
+ 'kurune':'枝にとまる栗のリスへ。顔より大きないがの扇尾と、実を抱える長い前足を持つ。',
+ 'shiipo':'低い四つ足の大きなバクへ。長い鼻が地面に届き、二層のきのこが背を覆う。',
+ 'waramo':'横向きに歩く長胴のカメレオンへ。二重巻き尾と、枝分かれしたシダの背びれを持つ。',
+ 'donguri':'どっしりした横長のイノシシへ。大きなどんぐり兜と二本の牙で森を案内する。',
+ 'kuruwu':'大きく翼を開くフクロウへ。くるみの割れ目が風切羽にまで続き、足で枝をつかむ。',
+ 'takenon':'長い胴と広い肩のパンダへ。たけのこの冠が高く伸び、笹の腕で食卓を守る。',
+ 'wakarun':'背を水に預ける長いラッコへ。大きな尾で泳ぎ、胸に磨いた貝を大切に抱える。',
+ 'hotape':'翼のように貝を開くアザラシへ。長い胴と左右の大ひれで、海を滑るように泳ぐ。',
+ 'shiochi':'胸を張った背の高いペンギンへ。結晶の冠と階段状の翼が、氷の塔のように育つ。',
+ 'konburuu':'空を泳ぐ長い海竜へ。体が大きくうねり、四枚の昆布ひれと長い尾をなびかせる。',
+ 'aosaya':'空いっぱいに広がる大きなエイへ。幅広い菱形の翼と二股のあおさ尾を持つ。',
+ 'kohakani':'大ばさみで立つヤドカリへ。高い巻き貝と六本の脚、大きさの違う二つのはさみが育つ。',
+ 'papriko':'背筋を伸ばして踊るネコへ。三つ山の長い胴、葉のたてがみ、輪を描くへた尾を持つ。',
+ 'renpuku':'水面を泳ぐ長胴のウーパールーパーへ。六枚の花えらと、大きな蓮の葉の尾が開く。',
+ 'negin':'弓のように体を伸ばすフェレットへ。長い葉耳と四つ足、ねぎの節がある尾で駆ける。',
+ 'caroron':'四つ足で駆ける細身のキツネへ。にんじんの長い鼻と、房葉を束ねた大尾が育つ。',
+ 'nasumii':'左右に大きく葉翼を広げるコウモリへ。翼の先が五つに分かれ、長いなすの体が揺れる。',
+ 'poncoro':'二足で立つ大きなタヌキへ。丸いかぼちゃのおなかと、太い巻きつる尾が育つ。',
+ 'pururin':'すらりと立つ四つ足の鹿へ。枝分かれしたカラメルの角と、細い脚で静かに歩く。',
+ 'moffuru':'胸を張る四つ足の柴犬へ。格子の長い胴と四角い巻き尾、きりっとした耳が育つ。',
+ 'panri':'低い姿勢で歩く大きなアルマジロへ。半月の厚い殻と、節のある長い尾で身を守る。',
+ 'monaro':'花型の大きなもなかへ。頬より広い胴とあんこの前足で、花びら形のお皿を抱える。',
+ 'mintotto':'四枚の大翼を開く蛾へ。ミントの鋸歯と葉脈がはっきりし、長い触角が弧を描く。',
+ 'cacaoro':'長い鼻と太い尾で歩くアリクイへ。カカオの房のような胴と、強い前爪を持つ。',
+ 'tsukimo':'大きな尾にくるまるヤマネへ。丸い耳と月形のおなかを、焼きいも色の尾が囲む。',
+ 'mitsuru':'幅広いひれで浮く深海の魚へ。二本の灯りと透かし模様の大尾が、暗がりを照らす。',
+ 'ankoro':'四肢いっぱいに飛膜を広げるモモンガへ。小豆の尾が二段にふくらみ、空を大きく滑る。',
+ 'ramunon':'高い傘と長い六本のリボンを持つクラゲへ。ラムネ瓶の冠から泡が連なって浮かぶ。',
+ 'yorucha':'長い胴の茶葉ギツネへ。三つ又の大尾を扇に開き、茶葉の胸飾りを揺らす。',
+ 'suirenne':'睡蓮をまとう長い水竜へ。花の襟が大輪になり、葉の尾と四本の水かきで泳ぐ。',
+}
+
+
+def signature_art(slug,b,a):
+    """New adult anatomy and pose per species; never an adult scale transform."""
+    art=''; fx=150; fy=133; anchor=(150,88,.78)
+    foot=lambda x,y=258,col=a:e(x,y,20,10,col)
+    if slug=='komepi':
+        art=p('M125 214 80 260l48-20-7 30 29-37 23 36-5-33 44 28-34-52Z',PAPER)
+        art+=p('M115 176Q48 168 28 81l49 19-2-37 44 39 16 75m34-1q76-22 103-96l-54 19 8-36-54 40Z',PAPER)
+        art+=line('M41 105l79 68M62 131l57 51m138-75-82 67m63-40-61 52',RED,4)
+        art+=e(150,194,39,49,PAPER)+e(150,119,48,45,PAPER)+p('M136 169l14-22 18 24-7 42h-22Z',INK)+p('M143 140h14l-7 10Z',YELLOW)+line('M136 238v30h-18m47-30v30h18',RED,5)
+        fy=119;anchor=(150,76,.6)
+    elif slug=='kabun':
+        art=''.join(leaf(150,113,43,GREEN,angle) for angle in [-65,-33,0,33,65])
+        art+=p('M148 233q-50 42 15 41-13-13 9-29Z',PAPER)+p('M61 156q4-54 90-44 93-8 94 51 3 67-94 89-87-20-90-96Z',PAPER)
+        art+=p('M79 185q-58-6-47 39l15-11 9 15 12-15 15 8 15-25m123-11q58-6 47 39l-15-11-9 15-12-15-15 8-15-25Z',ORANGE)+line('m99 221 20-6m68 4 20 5m-87-49 11-3',ORANGE,3)
+        fy=164;anchor=(150,112,.99)
+    elif slug=='nanari':
+        art=p('M94 207 83 264h24l21-59m66 1 10 58h25l-5-70Z',YELLOW)+e(169,198,74,38,YELLOW)+r(85,112,54,94,YELLOW,23)
+        art+=p('M97 87 75 35l31 17 17 34m5 0 19-46 19 12-25 43Z',YELLOW)+e(116,99,45,39,YELLOW)+e(112,115,29,20,PAPER)
+        art+=''.join(flower(x,y,12,PAPER) for x,y in [(88,150),(111,159),(136,147),(163,174),(189,170),(215,178)])+p('M235 193q36-13 22-33l-27 15Z',YELLOW)
+        fx=114;fy=97;anchor=(116,62,.55)
+    elif slug=='ichiri':
+        art=flower(227,196,25,PAPER)+p('M108 205q-21 24-51 26l-10 23q57 11 91-28m35-20q-11 22 1 51l44 10q9-18-19-27l9-35Z',RED)
+        art+=leaf(121,108,45,GREEN,-13)+leaf(180,110,46,GREEN,15)+p('M115 156q-26 29-12 68 25 31 74 13 57-49 13-79Z',RED)+e(149,131,60,50,RED)
+        art+=p('M112 170q-49 1-39 30l35 4m78-26q35 7 25 32l-33-10Z',RED)+''.join(p(f'M{x} {y}l3-5 4 5-4 6Z',YELLOW,'none') for x,y in [(107,122),(191,120),(124,187),(157,216),(187,193)])
+        fy=132;anchor=(149,84,.73)
+    elif slug=='soramame':
+        art=p('M34 216q-20-53 16-63 36-2 34 50 74-22 169 9l30 32q-137 44-245 2Z',YELLOW)
+        art+=p('M88 198q-17-112 74-118 116-11 109 129-92 39-183-11Z',GREEN)+''.join(c(x,y,23,YELLOW) for x,y in [(117,175),(157,139),(202,139),(242,175)])
+        art+=line('M50 165 29 120m38 46 13-56',INK,5)+c(29,120,7,GREEN)+c(80,110,7,GREEN)+line('M204 97V45',INK,4)+leaf(204,72,18,GREEN,70)
+        fx=55;fy=217;anchor=(55,163,.39)
+    elif slug=='himari':
+        art=''.join(group(p('M-16-56q-28-37 12-65 32 28 13 68Z',YELLOW),f'translate(141 142) rotate({i*30})') for i in range(12))
+        art+=c(141,140,70,ORANGE)+''.join(line(f'M{x} {y}l6 9',INK,3) for x,y in [(110,97),(138,85),(165,99),(89,127),(119,127),(153,125),(181,129)])
+        art+=p('M83 183q15-53 68-22 38 10 65 37 57 9 36 40-46 39-123 18-58-14-46-73Z',PAPER)+c(247,220,9,INK)
+        art+=foot(101,264,GREEN)+foot(178,266,GREEN)+foot(217,256,GREEN)+foot(76,248,GREEN)
+        fx=185;fy=213;anchor=(180,175,.66)
+    elif slug=='kurune':
+        art=p('M184 247 239 251l-8-20 39-6-15-22 22-21-25-16 10-29-27-3-9-34-23 18-31-25-1 31-33-2 10 31-18 17 22 16-14 26 26 7-1 23Z',GREEN)
+        art+=line('M190 229q56-66 21-103',ORANGE,9)+p('M101 181q-37 29-24 66 45 33 101 7 6-60-39-70Z',ORANGE)+p('M71 122 67 57l40 28m42 0 38-30-3 67Z',ORANGE)
+        art+=p('M69 140q-7-45 44-57l15-19 19 19q47 12 46 55l-37 45h-56Z',ORANGE)+p('M72 134q51-22 118 0l-35 45h-53Z',PAPER)
+        art+=p('M97 189q-28 36 11 50l24-19m28-32q29 36-3 51l-24-18Z',ORANGE)+e(135,218,23,28,PAPER)+foot(101)+foot(171)
+        fx=129;fy=133;anchor=(128,85,.75)
+    elif slug=='shiipo':
+        art=p('M98 200v63h27l13-63m66-1 10 65h28v-80Z',PAPER)+e(171,198,88,45,PAPER)
+        art+=p('M45 129q28-75 131-66 84 13 93 81-118 41-224-15Z',RED)+p('M84 154q86-37 179-5l-7 20-168 4Z',YELLOW)
+        art+=e(99,183,55,45,PAPER)+p('M52 183q-36 5-27 49 6 38 39 10-28 5-17-22l20-4Z',PAPER)
+        art+=''.join(e(x,y,15,9,PAPER) for x,y in [(101,109),(158,88),(216,118)])+line('M103 159l7 14m43-12v14m43-13-6 14m35-14-7 13',INK,3)
+        fx=96;fy=185;anchor=(96,141,.64)
+    elif slug=='waramo':
+        art=p('M119 218q-99 44-96-21 0-45 47-39 35 12 17 44-23 16-36-4 25 8 23-10-12-21-30-3-14 27 26 35l38-21Z',GREEN)
+        art+=p('M94 203q22-63 120-47l29 34q-71 70-149 44Z',GREEN)+p('M181 160q-11-64 47-60 56 10 38 67l-33 32Z',GREEN)
+        art+=''.join(p(f'M{x} {y}l3-31 14 12 10-26 14 17-10 33Z',YELLOW) for x,y in [(109,176),(139,156),(169,153)])
+        art+=line('M120 222l-11 37h-21m96-46 13 45h22',GREEN,13)+e(211,135,22,25,PAPER)+e(253,137,16,22,PAPER)+c(213,135,6,INK)+c(254,136,6,INK)+line('M220 165q22 10 35-3')
+        return e(150,276,106,6,INK,'none',opacity='.12')+art,(228,100,.64)
+    elif slug=='donguri':
+        art=p('M88 213v54h26l10-46m83-4 9 50h27v-63Z',ORANGE)+e(167,190,94,57,ORANGE)+p('M90 126 55 104l12 49m52-26 29-32 9 44Z',ORANGE)
+        art+=p('M38 178q0-52 65-52 54 5 52 70-20 44-82 36Z',ORANGE)+p('M34 144q0-75 72-69 60-3 62 67-53 21-134 2Z',GREEN)+line('M104 78q-11-34 15-36',INK,8)
+        art+=e(67,200,33,24,PINK)+e(58,200,3,7,INK)+e(75,200,3,7,INK)+p('M100 223q-15-24-4-38l13 24m19 12q25-18 16-34l-18 20Z',PAPER)+line('M172 143v39m25-37v39m24-31v32',YELLOW,7)
+        fx=97;fy=171;anchor=(101,84,.78)
+    elif slug=='kuruwu':
+        art=p('M111 161Q51 79 17 108l23 31-18 15 26 27-9 17 40 32 33-28m75-41q60-82 94-53l-23 31 18 15-26 27 9 17-40 32-33-28Z',ORANGE)
+        art+=line('M37 126l67 54m-58-23 53 41m-36-3 32 19m168-88-67 54m58-23-53 41m36-3-32 19',PAPER,4)
+        art+=p('M102 106 91 48l44 28m32 0 42-29-5 65Z',ORANGE)+p('M92 112q58-54 119 0v101q-11 49-62 44-60-9-57-55Z',ORANGE)+face(150,135,'owl')+line('M121 201l13 11 17-12 17 12 14-12m-46 38-8 29m38-29 8 29',INK,4)
+        return e(150,276,83,6,INK,'none',opacity='.12')+art,(150,79,.79)
+    elif slug=='takenon':
+        art=foot(109,265,INK)+foot(197,265,INK)+p('M104 151Q65 168 69 222l22 19 27-42m67-48q52 10 52 66l-22 21-31-40Z',INK)+p('M98 177q51-28 103 0l13 59q-55 43-124 0Z',GREEN)
+        art+=c(93,112,21,INK)+c(206,112,21,INK)+e(150,134,74,51,PAPER)+e(117,132,18,25,INK)+e(184,132,18,25,INK)+e(151,220,42,32,PAPER)
+        art+=p('M91 99 150 63l60 36-61 13Zm11-31 48-32 49 32-49 11Zm20-29 28-26 28 26-28 7Z',GREEN)+leaf(93,190,27,YELLOW,-48)+leaf(209,190,27,YELLOW,48)
+        fx=150;fy=136;anchor=(150,89,.87)
+    elif slug=='wakarun':
+        art=p('M198 219q83-20 76 8-18 28-76 24Z',GREEN)+p('M78 196q55-34 113-8 77 38 18 69-87 35-152-20Z',GREEN)
+        art+=c(61,137,16,GREEN)+c(147,130,17,GREEN)+e(105,163,56,49,GREEN)+e(99,184,34,23,PAPER)
+        art+=p('M65 207l23-17 20 12 17-14 26 12 16-6 13 24-23 17-21-12-27 9-19-9-23 7Z',TEAL)+p('M130 220q14-54 45-16 24-14 29 19l-20 31h-41Z',PAPER)+line('M172 210v36m-24-30 14 31m28-28-12 27',RED,3)
+        art+=p('M105 217q-4 31 45 29l3-15m41-13q30 12 9 30l-20-13Z',GREEN)
+        fx=104;fy=163;anchor=(105,116,.67)
+    elif slug=='hotape':
+        art=p('M103 217Q11 185 31 118l22 6-4-26 29 9 7-31 35 15 28-38 32 35 34-17 14 34 28-8-1 29 23-4q25 81-81 95Z',PAPER)
+        art+=line('M150 207 43 125m110 79L83 102m73 102-7-128m9 129 48-107m-48 113 94-81',RED,4)
+        art+=p('M129 153q42-5 62 34l32 33 47 14-17 17-55-5q-37 26-81-7l-34-13-38 5 6-23 45-18Z',PAPER)+e(148,164,51,42,PAPER)+p('M118 198 68 253l35 12 46-50m26-16 33 61 34-11-34-45Z',RED)
+        fx=149;fy=161;anchor=(149,124,.61)
+    elif slug=='shiochi':
+        art=p('M103 146 69 173v24h13v20h20l18-56m70-15 42 27v24h-13v20h-20l-20-56Z',BLUE)+p('M102 108q0-45 49-46 49 0 49 46v106l-24 47h-51l-23-47Z',BLUE)+p('M119 136q32-30 64 0v98q-29 23-64 0Z',PAPER)
+        art+=p('M118 72V44l16-13 13 14v24m4 0V28l15-11 14 13v41m4 1V47l14-9 11 10v34Z',TEAL)+e(151,114,33,31,PAPER)+p('M142 126h18l-9 13Z',YELLOW)+foot(122,267)+foot(181,267)+line('M83 180h17m103 0h18',PAPER,3)
+        fy=111;anchor=(151,64,.59)
+    elif slug=='konburuu':
+        art=p('M82 230q71 55 136-7 18-24 27-54 9 59-32 87-75 46-135 1Z',GREEN)+p('M130 216q-65-21-52-80 6-26 34-26 59 20 31 61-20 15 3 35l-6 29Z',GREEN)
+        art+=p('M81 121q-25-51 23-67l18 14 21-17 14 28q40 19 10 60-42 23-86-18Z',GREEN)+p('M126 143q-27 14-13 56 17 38 46 33l-6 23q-60-7-66-52-4-40 18-66Z',YELLOW)
+        art+=''.join(p(f'M{x} {y}q54-34 29-91-2 38-31 43l-15 36Z',TEAL if i%2 else GREEN) for i,(x,y) in enumerate([(139,166),(176,208),(210,224),(225,202)]))
+        art+=line('M101 161l24 6m-20 13 24 6m-18 11 26 5m-12 11 25 3',GREEN,3)+p('M86 170 44 189l13 19 36-20Z',GREEN)
+        fx=123;fy=104;anchor=(123,68,.57)
+    elif slug=='aosaya':
+        art=line('M150 217q-18 60 28 65',GREEN,8)+leaf(178,278,19,GREEN,81)+leaf(181,278,17,TEAL,135)
+        art+=p('M150 70Q115 117 38 141l-24 66 43-10 16 29 36-14 41 43 42-43 35 14 18-29 43 10-25-66Q188 117 150 70Z',TEAL)
+        art+=p('M41 153 27 190l35-7 20 29 29-14 39 39 40-39 29 14 21-29 33 7-15-37-14 14-29 5-21 19-43-40-42 40-21-19-28-5Z',GREEN)+p('M102 166q45-44 94 0l-45 61Z',PAPER)+c(113,128,6,YELLOW)+c(187,128,6,YELLOW)
+        fy=172;anchor=(150,92,.68)
+    elif slug=='kohakani':
+        art=''.join(line(f'M{x} 231l{dx} 16 {dx} 16',RED,9) for x,dx in [(92,-26),(106,-20),(119,-10),(184,10),(198,20),(211,26)])
+        art+=p('M99 207q-21-49 0-100 20-40 68-62 54 39 52 90l-9 73Z',ORANGE)+line('M174 188q-70-7-42-68 24-35 51-6 25 35-8 38-20-5-8-22',PAPER,6)+e(153,222,62,34,RED)
+        art+=line('M106 210 70 164m128 44 39-68',INK,10)+p('M68 173q-39-9-29-45l20 17 22-17q14 37-13 45Z',RED)+p('M235 149q-58-11-30-84l31 35 33-28q20 61-34 77Z',RED)+star(246,128,12,YELLOW)
+        fx=151;fy=215;anchor=(151,193,.74)
+    elif slug=='papriko':
+        art=p('M113 220 93 266h30l21-43m30 0 8 44h28l-9-50Z',RED)+line('M202 212q79 10 67-69-6-35-36-15-15 19 7 27',GREEN,13)
+        art+=p('M104 169q-27 54 13 71 36 21 70-1 35-23 12-70Z',RED)+p('M105 96 91 42l44 39m32 0 44-41-10 58Z',GREEN)+p('M89 114q-3-51 33-37 28-21 57 0 42-15 37 38l-11 50-110-1Z',RED)
+        art+=p('M96 163l20-15 15 26 21-13 18 12 20-28 21 18-20 30-19-5-22 20-25-22-16 5Z',GREEN)+p('M103 199 63 185l-13 19 46 22m103-27 26-36 23 12-33 47Z',RED)+line('M123 202v28m59-29v29',INK,3)
+        fy=119;anchor=(151,81,.72)
+    elif slug=='renpuku':
+        art=p('M152 207q64-52 96-17 55-22 29 47-24 37-103 10Z',TEAL)+line('M185 225l72-8m-47 7 26-28m-7 25 19 20',PAPER,3)
+        art+=p('M91 188q77-17 125 34-23 49-122 19Z',PAPER)+p('M96 222 63 253l20 15 33-24m53-14 17 36 25-5-17-30Z',PAPER)
+        for side in [-1,1]:
+            for yy,rot in [(119,side*32),(148,0),(177,side*-32)]:art+=e(107+side*67,yy,29,11,PINK,INK,3,transform=f'rotate({rot} {107+side*67} {yy})')
+        art+=e(108,155,65,49,PAPER)+''.join(e(x,y,5,8,INK,'none') for x,y in [(124,218),(146,231),(167,217),(188,233)])
+        fx=108;fy=153;anchor=(108,107,.76)
+    elif slug=='negin':
+        art=p('M112 172q55-35 99 18 15 28 28 42-46 24-91-16Z',PAPER)+p('M193 223q81-4 70-79 30 84-46 109Z',PAPER)
+        art+=p('M72 179 68 231l-24 29h27l32-38 11-31m56 22 3 45h28l-8-54Z',PAPER)+p('M72 99 47 32l19-10 35 70m-4 5 1-75 23-5 1 76m-1 9 33-60 20 10-30 62Z',GREEN)
+        art+=p('M61 125q0-43 55-34 52 10 38 50l-27 46-49-10Z',PAPER)+e(106,162,31,23,YELLOW)+line('M242 183l20 12m-21 7 16 13m-27 5 13 15',GREEN,9)
+        fx=107;fy=131;anchor=(108,95,.63)
+    elif slug=='caroron':
+        art=''.join(leaf(196,212,47,GREEN,angle) for angle in [29,56,81,107])+p('M103 205 89 264h25l23-55m57 0 10 55h27l-19-65Z',ORANGE)
+        art+=p('M96 155q72-9 110 34l-19 40-77-8Z',ORANGE)+p('M64 107 48 30l48 46m12 9 31-56 9 62Z',ORANGE)+p('M53 137q2-62 68-46 62 4 33 58l-50 59-48-45Z',ORANGE)
+        art+=p('M55 135l48 25 51-13-50 60-48-44Z',PAPER)+c(104,196,7,INK)+line('M167 175l13 22m-6-31 21 13',YELLOW,4)
+        fx=103;fy=131;anchor=(104,93,.67)
+    elif slug=='nasumii':
+        art=p('M113 148 40 68 19 177l28-9 5 33 27-13 15 37 23-27m65-51 77-79 23 109-28-9-5 33-27-13-16 37-23-27Z',GREEN)
+        art+=line('M106 157 47 88l3 87m143-18 59-69-3 87m-147-19-25 36m121-36 25 36',PAPER,3)
+        art+=p('M126 103 105 54l34 26 18-25 29 25 16-26-4 52q27 71-2 135-43 43-83-2-24-74 13-136Z',PURPLE)+p('M114 106l10-30 30 20 22-25 23 39-41 13Z',GREEN)+e(155,209,27,40,PAPER)+p('M139 253l-14 18 23-3m19-15 15 18-23-3Z',PURPLE)
+        fy=151;anchor=(155,111,.51)
+    elif slug=='poncoro':
+        art=line('M210 216q72 2 50-56-24-18-35 3 26-10 22 15-10 17-27 10',GREEN,20)+foot(108,264,GREEN)+foot(198,264,GREEN)
+        art+=p('M104 149q-55 24-40 72 9 50 54 39 29 25 59 0 49 12 59-36 10-55-41-75Z',ORANGE)+line('M101 174q-13 53 18 83m36-88v88m46-79q13 43-18 78',INK,3)
+        art+=c(104,80,20,GREEN)+c(197,80,20,GREEN)+e(151,122,68,50,ORANGE)+p('M92 112q25-24 57 13 36-37 63-12l-8 27-52-3-50 3Z',INK)+p('M140 76q-8-42 18-41l11 14q-18-1-11 28Z',GREEN)+p('M88 177 46 166l-5 28 44 12m125-29 44-14 7 26-46 19Z',ORANGE)
+        fy=124;anchor=(151,76,.77)
+    elif slug=='pururin':
+        art=p('M101 199 87 268h21l21-66m69-6 6 72h22l-1-76Z',YELLOW)+p('M88 180q46-53 112-20 48 17 28 58-81 27-136-4Z',YELLOW)+r(90,97,44,102,YELLOW,16)
+        art+=line('M99 87 84 39 62 27m23 16 21-24m12 64 22-47 19-10m-20 14-4-25',ORANGE,8)+p('M88 94 53 68q-13 22 35 45m38-15 31-25q13 20-28 41Z',YELLOW)+e(107,108,43,35,YELLOW)+p('M69 96q18-41 70-10l8 17-18 11-23-11-18 7Z',ORANGE)
+        art+=''.join(c(x,y,6,PAPER,'none') for x,y in [(143,177),(169,168),(195,180),(157,203),(190,204)])+p('M226 177q35-13 22-31l-30 15Z',YELLOW)
+        fx=107;fy=113;anchor=(107,84,.53)
+    elif slug=='moffuru':
+        art=p('M119 203 105 266h25l17-54m55-4 6 58h25l1-63Z',ORANGE)+r(104,149,126,76,YELLOW,25)+p('M218 162h54v55h-36v-20h17v-16h-35Z',ORANGE)
+        art+=line('M134 157v60m29-60v59m29-58v58m-78-34h106m-105 22h105',ORANGE,6)+p('M70 101 60 42l42 33m30 0 41-34-5 65Z',ORANGE)+r(57,88,117,99,YELLOW,31)+p('M78 144q37-24 78 0l-14 31H92Z',PAPER)+c(115,151,6,INK)+p('M75 180h72l-17 22h-35Z',RED)
+        fx=117;fy=124;anchor=(117,91,.66)
+    elif slug=='panri':
+        art=p('M180 214q81 13 102 43l-17 11-77-26Z',ORANGE)+line('M226 231l-5 19m28-7-9 15m25-3-8 9',PAPER,4)+p('M97 224 84 267h25l17-39m63-4 16 43h25l-16-49Z',PAPER)
+        art+=p('M68 202Q42 77 157 65q113 6 92 140l-63 42-97-1Z',ORANGE)+p('M64 191q-40-33-44 13l15 40 65-11 12-27Z',PAPER)
+        art+=line('M110 82q-39 78-11 151m36-161q-23 100 5 168m21-166q22 84 3 163m23-156q38 75 17 145m11-126q25 47 14 107',PAPER,6)
+        fx=64;fy=212;anchor=(65,184,.47)
+    elif slug=='monaro':
+        art=c(93,90,23,RED)+c(211,90,23,RED)+p('M75 140q-19-44 34-53 15-40 49-14 41-29 56 15 52 0 28 50 48 31 11 69 15 49-41 46-36 37-60 1-49 38-73-10-51 7-39-43-28-32 5-61Z',PAPER)
+        art+=line('M101 105q-35 2-17 34m37-42q18-22 35 0m25 0q28-14 37 16m10 76q25 18 0 34m-114-25q-25 17-2 36',ORANGE,4)+foot(103,268,RED)+foot(200,268,RED)
+        art+=p('M93 178q-29 30 5 55l32-27m72-28q34 25 3 55l-33-25Z',RED)+e(153,228,41,25,ORANGE)+line('M122 220h64m-68 13h70m-49-28v42m22-42v42',PAPER,3)
+        fy=149;anchor=(153,92,.93)
+    elif slug=='mintotto':
+        for side in [-1,1]:
+            art+=group(p('M0 0Q-45-129-118-108l9 22-16 17 12 22-12 21 18 11-4 22 35 21 55-8Z',GREEN)+line('M-10-7-98-91m56 52-31 3m14-27-2-26m5 81-33-8',PAPER,3),f'translate(150 164) scale({side} 1)')
+            art+=group(p('M0 0q-76-8-95 77l28-6 16 30 21-20 26 14 16-51Z',TEAL)+line('M-7 10-64 80m33-40-28 6',PAPER,3),f'translate(150 171) scale({side} 1)')
+        art+=e(150,203,21,60,YELLOW)+e(150,142,32,32,PAPER)+line('M135 117Q105 47 76 72m88 44q32-69 60-43',INK,4)+line('M134 190h32m-29 21h27m-22 20h19',INK,3)
+        fy=145;anchor=(150,114,.45)
+    elif slug=='cacaoro':
+        art=p('M190 218q65 34 83-68-52-37-83 18Z',ORANGE)+line('M212 223q30-32 39-65',PAPER,5)+p('M97 200 74 261h27l26-52m72-4 1 60h26l-1-64Z',ORANGE)
+        art+=p('M88 172q24-52 89-30 64 23 43 80-91 36-132-20Z',ORANGE)+line('M132 150q-15 39 8 74m22-75q-9 47 10 76m15-65q15 26 8 57',INK,3)
+        art+=p('M73 104q27-26 61 7 28 30-7 64l-42-12-53 50-15-15 46-59Z',PAPER)+e(99,105,13,19,ORANGE)+p('M110 195q-46 20-18 55l14-16 13 3 4-24m75-8q34 15 13 44l-12-15-13 3Z',BLUE)
+        fx=100;fy=135;anchor=(104,106,.52)
+    elif slug=='tsukimo':
+        art=p('M177 250q114-4 89-119-14-49-62-47 39 23 16 50-35 4-21 41 33 23-9 36Z',PURPLE)+line('M231 103q42 88-14 117',YELLOW,6)
+        art+=p('M76 174q-28 57 5 80 54 30 120-5-11-74-70-86Z',PURPLE)+c(79,107,28,PURPLE)+c(176,99,29,PURPLE)+c(79,107,13,YELLOW)+c(176,99,14,YELLOW)+e(125,145,69,52,PURPLE)
+        art+=p('M155 199q-39 8-15 40-61 15-63-21 7-37 78-19Z',YELLOW)+foot(93,267,PURPLE)+foot(177,267,PURPLE)+star(209,160,10,YELLOW)
+        fx=124;fy=145;anchor=(125,96,.80)
+    elif slug=='mitsuru':
+        art=p('M212 165 281 97l-6 128-57-25Z',TEAL)+p('M102 107 127 52l24 42 34-20 5 47m-59 110-7 48 32-24 24 13 5-41Z',BLUE)
+        art+=p('M43 172q-4-74 99-69 93 5 87 76-8 67-104 68-77-7-82-75Z',INK)+e(133,210,46,21,RED)+line('M115 112q-44-57 5-67m46 58q9-58 47-44',YELLOW,5)+c(125,44,21,YELLOW)+c(220,61,15,YELLOW)+c(124,43,8,PAPER)+c(220,60,5,PAPER)
+        art+=line('M236 167l33-45m-32 56 27 22m-26-30 31-5',PAPER,3)+p('M70 195 39 214l18 20 30-17Z',TEAL)
+        fx=127;fy=170;anchor=(132,107,.87)
+    elif slug=='ankoro':
+        art=p('M109 114 35 44 48 134 20 197l72 27 54 48 58-48 76-27-29-63 13-90-75 70Z',PAPER)+line('M43 63l68 104M34 191l79 9m141-137-66 104m78 23-79 10',RED,4)
+        art+=p('M177 228q67 4 59 30-19 22-52 3-32 15-34-14Z',RED)+e(151,188,49,63,RED)+c(104,87,21,RED)+c(200,87,21,RED)+e(151,131,69,52,RED)+e(151,151,43,28,PAPER)+c(145,107,6,PAPER,'none')
+        art+=p('M108 176 55 98l-13 9 43 88m111-17 48-81 13 8-39 92Z',RED)+foot(113,247,RED)+foot(190,247,RED)
+        fy=130;anchor=(151,81,.80)
+    elif slug=='ramunon':
+        art=''.join(line(f'M{x} 174q{(-1 if i%2 else 1)*25} 32 0 58t{(-1 if i%2 else 1)*11} 44',TEAL if i%2 else BLUE,8) for i,x in enumerate([83,110,137,164,191,218]))
+        art+=p('M46 168q2-113 106-106 98 1 102 106l-25 23-24-17-25 17-28-17-27 18-26-18-26 16Z',BLUE)+r(130,37,44,34,TEAL,5)+e(152,37,28,9,PAPER)+c(174,18,7,PAPER)+c(196,31,4,PAPER)
+        art+=c(86,127,10,PAPER)+c(112,95,6,PAPER)+c(210,131,8,PAPER)+line('M69 154q83 18 161 0',TEAL,4)
+        fy=126;anchor=(151,71,.83)
+    elif slug=='yorucha':
+        art=''.join(p(d,GREEN) for d in ['M182 223Q272 211 264 85q-31 34-58 74Z','M177 228q115 24 105-74-40 11-72 44Z','M177 231q78 67 98 2-47-20-74-5Z'])
+        art+=line('M206 206q30-52 47-92m-36 111 49-50m-52 69 41 3',PAPER,3)+p('M102 208 94 265h25l19-57m44 1 10 56h26l-9-67Z',GREEN)+p('M99 161q80-35 111 40-20 43-105 14Z',GREEN)
+        art+=leaf(73,105,35,GREEN,-24)+leaf(135,97,37,GREEN,12)+p('M49 130q4-51 65-37 65 11 33 63l-38 39-44-26Z',GREEN)+p('M54 138l48 19 47-10-40 47-40-24Z',PAPER)+leaf(131,218,29,PAPER,32)
+        fx=103;fy=132;anchor=(104,95,.64)
+    elif slug=='suirenne':
+        art=p('M133 216q54 50 94-9 11-26 43-19 25 61-46 78-68 16-108-25Z',TEAL)+line('M231 236l23-33m-15 21 24 8',PAPER,3)
+        art+=p('M98 132q-39 79 30 111l29-23q-55-19-36-72Z',TEAL)+p('M100 178 57 195l10 25 32-17m52 24-8 37 27 3 14-33Z',TEAL)
+        art+=''.join(group(p('M-17-35q-25-27 0-57 27 16 25 48Z',PINK),f'translate(114 133) rotate({angle})') for angle in range(0,360,45))
+        art+=p('M70 114q-12-46 28-52 53-15 66 36 12 43-43 62-45-5-51-46Z',TEAL)+e(114,124,37,26,PAPER)+p('M106 153q-21 27 23 65l19-14q-31-30-21-48Z',PAPER)
+        fx=115;fy=107;anchor=(114,65,.61)
+    else:raise ValueError(slug)
+    light=slug in {'nasumii','poncoro','tsukimo','mitsuru','ramunon','yorucha','takenon'}
+    art+=face(fx,fy,light=light)
+    return e(150,276,93,6,INK,'none',opacity='.12')+art,anchor
 
 
 def make_characters():
@@ -472,22 +1036,25 @@ def make_characters():
         slug,name,b,a,shape,description,personality,categories,tags,progress,dialogue=row
         ident='c-'+slug
         stages=[]
-        for stage in range(3):
+        for stage in range(5):
             path=f'/expansion/assets/characters/{ident}-{stage}.svg'
-            stage_name=['こども','わかもの','おとな'][stage]
-            write_svg(path,svg(body_art(slug,stage,b,a),f'{name}・{stage_name}',ident=f'{ident}-{stage}'))
-            hx,hy,hs=HEAD_ANCHORS[n]
-            dx,dy,sx,sy=[(36,63,.76,.76),(15,25,.90,.91),(0,0,1,1)][stage]
-            anchor={'x':round(dx+hx*sx,2),'y':round(dy+hy*sy,2)}
-            transform={'translateX':round(dx+(hx-150*hs)*sx,2),'translateY':round(dy+(hy-76*hs)*sy,2),'scaleX':round(hs*sx,4),'scaleY':round(hs*sy,4)}
-            stages.append({'name':stage_name,'description':progress[stage],'artPath':path,
+            stage_name=STAGE_NAMES[stage]
+            if stage==0: art,(hx,hy,hs)=seed_art(slug,b,a)
+            elif stage in [1,2]: art,(hx,hy,hs)=young_art(slug,stage,b,a)
+            elif stage==3: art=adult_art(slug,2,b,a);hx,hy,hs=HEAD_ANCHORS[n]
+            else: art,(hx,hy,hs)=signature_art(slug,b,a)
+            write_svg(path,svg(art,f'{name}・{stage_name}',ident=f'{ident}-{stage}'))
+            anchor={'x':hx,'y':hy}
+            transform={'translateX':round(hx-150*hs,2),'translateY':round(hy-76*hs,2),'scaleX':hs,'scaleY':hs}
+            note=[SEED_NOTES[slug],*YOUNG_NOTES[slug],progress[2],SIGNATURE_NOTES[slug]][stage]
+            stages.append({'name':stage_name,'description':note,'artPath':path,
                            'renderSpec':{'headAnchor':anchor,'hatTransform':transform}})
         out.append({'id':ident,'name':name,'description':description,'personality':personality,
                     'habitat':COLLECTIONS[n//6],'favoriteCategories':categories.split(),
                     'favoriteTags':tags.split(),'discovery':{'adultCompanions':1+n//5,'uniqueRecipes':3+(n*77//35)},
                     'dialogue':dict(zip(['greeting','fed','newDish','repeatDish'],dialogue)),
                     'stages':stages,'palette':{'body':b,'accent':a,'outline':INK},'silhouette':shape,
-                    'renderSpec':{'viewBox':'0 0 300 300','groundY':276,'adultHeadAnchor':stages[2]['renderSpec']['headAnchor'],'style':'food-field-guide-ink-v1'}})
+                    'renderSpec':{'viewBox':'0 0 300 300','groundY':276,'adultHeadAnchor':stages[3]['renderSpec']['headAnchor'],'style':'food-field-guide-ink-v1'}})
     return out
 
 
@@ -820,7 +1387,9 @@ def make_items():
 
 
 def main():
-    characters=make_characters(); items=make_items()
+    characters=make_characters()
+    only_characters='--characters-only' in sys.argv
+    items=json.loads((ROOT/'content/expansion/items.json').read_text()) if only_characters else make_items()
     assert len(characters)==36 and len(items)==72
     assert len({v['id'] for v in characters+items})==108
     assert len({v['name'] for v in characters+items})==108
@@ -828,14 +1397,15 @@ def main():
     assert sum(i['kind']=='room' for i in items)==36
     base=ROOT/'content'/'expansion'
     base.mkdir(parents=True,exist_ok=True)
-    for filename,data in [('characters.json',characters),('items.json',items)]:
+    outputs=[('characters.json',characters)] if only_characters else [('characters.json',characters),('items.json',items)]
+    for filename,data in outputs:
         (base/filename).write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     paths=[s['artPath'] for v in characters for s in v['stages']]+[i['artPath'] for i in items]
-    assert len(paths)==180 and len(set(paths))==180
+    assert len(paths)==252 and len(set(paths))==252
     for path in paths:
         doc=ET.parse(ROOT/'public'/path.lstrip('/'))
         assert doc.getroot().tag=='{http://www.w3.org/2000/svg}svg'
-    print('Generated and parsed: 36 species / 108 growth illustrations / 36 hats / 36 rooms; 180 SVGs.')
+    print('Generated and parsed: 36 species / 180 growth illustrations / 36 hats / 36 rooms; 252 SVGs.')
 
 
 if __name__=='__main__':

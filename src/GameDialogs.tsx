@@ -11,7 +11,8 @@ import {
   hungerOf,
   initialGame,
   items,
-  levelOf,
+  growthProgress,
+  stageName,
   recipes,
   stageOf,
   purchaseItem,
@@ -20,8 +21,10 @@ import {
   streakOf,
   todayTokyo,
 } from './game'
-import type { GameMeal, GameState, Item, SpeciesId } from './game'
+import type { GameMeal, GameState, GrowthStage, Item, SpeciesId } from './game'
 import { RecipeDetail } from './CollectionScreens'
+import { GrowthTrail } from './GrowthTrail'
+import { companionFormDescription } from './CompanionArt'
 
 export type Dialog =
   | { type: 'recipe'; recipeId: string }
@@ -115,17 +118,15 @@ export function GameDialogs({
   const [local, setLocal] = useState<Dialog>(dialog)
   const [reset, setReset] = useState<'seed' | 'fresh' | null>(null)
   const [returnItem, setReturnItem] = useState<Item | null>(null)
-  const level = levelOf(state)
   const active = state.companions.find((entry) => entry.id === state.activeId)
   const activeStage = stageOf(active?.xp ?? 0)
+  const [previewStage, setPreviewStage] = useState<GrowthStage | null>(null)
+  const shownStage = previewStage ?? activeStage
   const activeSpecies = state.activeId ?? 'komugi'
   const activeFed = state.meals.some(
     (meal) => meal.day === state.today && meal.targetId === state.activeId,
   )
-  const growthProgress =
-    activeStage === 2
-      ? 100
-      : (((active?.xp ?? 0) - (activeStage === 0 ? 0 : 45)) / (activeStage === 0 ? 45 : 75)) * 100
+  const growth = growthProgress(active?.xp ?? 0)
   function close() {
     onClose()
   }
@@ -303,34 +304,38 @@ export function GameDialogs({
         <div className="profile-sheet">
           <Pet
             species={activeSpecies}
-            stage={activeStage}
+            stage={shownStage}
             mood={activeFed ? 'happy' : 'hungry'}
             hat={state.equipped.hat}
           />
           <h3>{state.name}</h3>
           <span className="level-tag">
-            {activeStage === 2 ? 'おとな' : activeStage === 1 ? 'すくすく' : 'ちびっこ'} · Lv.
-            {level.level}
+            {stageName(shownStage)} · {shownStage + 1}/5 の姿
           </span>
-          <p>
-            あなたのごはんが大好き。
-            <br />
-            いっしょに、すこしずつ育っていこう。
+          <p className="profile-form-description" aria-live="polite">
+            {companionFormDescription(activeSpecies, shownStage)}
           </p>
+          <GrowthTrail
+            species={activeSpecies}
+            stage={activeStage}
+            selected={shownStage}
+            onSelect={setPreviewStage}
+          />
+          <p className="growth-discovery-hint">出会った姿をタップして、成長をふりかえろう。</p>
           <div
             className="meter"
             role="progressbar"
             aria-label="次の成長まで"
             aria-valuemin={0}
             aria-valuemax={100}
-            aria-valuenow={Math.round(growthProgress)}
+            aria-valuenow={Math.round(growth.progress)}
           >
-            <span style={{ width: `${growthProgress}%` }} />
+            <span style={{ width: `${growth.progress}%` }} />
           </div>
           <small>
-            {activeStage < 2
-              ? `次の成長まで ${(activeStage === 0 ? 45 : 120) - (active?.xp ?? 0)} XP`
-              : 'すっかり大きくなったね。新しいなかまにも、ごはんを。'}
+            {activeStage < 4
+              ? `今の姿は${stageName(activeStage)}。次の成長まで ${growth.remaining} XP`
+              : '5つの姿に出会えたね。新しいなかまにも、ごはんを。'}
           </small>
           <button className="secondary-button full" onClick={() => leave('shop')}>
             おめかしを選ぶ

@@ -1,9 +1,9 @@
-import { recipeById, stageOf } from './game'
-import type { GameState, SpeciesId } from './game'
+import { growthStages, recipeById, stageOf } from './game'
+import type { GameState, GrowthStage, SpeciesId } from './game'
 
 export type FeastStep =
   | { type: 'eating' | 'joined' | 'satisfied' }
-  | { type: 'growth'; from: 0 | 1 | 2; to: 0 | 1 | 2 }
+  | { type: 'growth'; from: GrowthStage; to: GrowthStage }
   | { type: 'card'; recipeId: string }
   | { type: 'arrivals'; visitors: SpeciesId[] }
   | { type: 'gift'; itemId: 'sprout' }
@@ -18,8 +18,14 @@ export function deriveFeastSteps(before: GameState, after: GameState): FeastStep
   const current = after.companions.find((companion) => companion.id === targetId)
   const steps: FeastStep[] = [{ type: 'eating' }]
 
-  if (previous && current && stageOf(current.xp) > stageOf(previous.xp)) {
-    steps.push({ type: 'growth', from: stageOf(previous.xp), to: stageOf(current.xp) })
+  if (previous && current) {
+    let from = stageOf(previous.xp)
+    for (const { stage: to } of growthStages) {
+      if (to > from && to <= stageOf(current.xp)) {
+        steps.push({ type: 'growth', from, to })
+        from = to
+      }
+    }
   }
   if (!previous && current) steps.push({ type: 'joined' })
 

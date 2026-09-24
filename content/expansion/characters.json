@@ -25,43 +25,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "米粒のような丸いひな。小さな海苔の前掛けが目印。",
+        "name": "うまれたて",
+        "description": "ひと粒のお米に目が開く。羽も足もまだない。",
         "artPath": "/expansion/assets/characters/c-komepi-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 125.32
+            "x": 150,
+            "y": 167
           },
           "hatTransform": {
-            "translateX": 47.4,
-            "translateY": 73.34,
-            "scaleX": 0.684,
-            "scaleY": 0.684
+            "translateX": 78.0,
+            "translateY": 130.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "両翼が伸び、胸の海苔模様が三角に育つ。",
+        "name": "ちびっこ",
+        "description": "丸いひなに短い羽と足が生え、胸には小さな海苔模様。",
         "artPath": "/expansion/assets/characters/c-komepi-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 99.62
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 28.5,
-            "translateY": 37.38,
-            "scaleX": 0.81,
-            "scaleY": 0.819
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭と胴が分かれ、横へ開いた羽で羽ばたく練習をする。",
+        "artPath": "/expansion/assets/characters/c-komepi-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "稲穂の尾羽と三枚の風切羽を広げる。",
-        "artPath": "/expansion/assets/characters/c-komepi-2.svg",
+        "artPath": "/expansion/assets/characters/c-komepi-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -72,6 +89,23 @@
             "translateY": 13.6,
             "scaleX": 0.9,
             "scaleY": 0.9
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "細い脚で立つ稲穂の鳥へ。両翼が米粒の扇になり、三本の長い尾羽を広げる。",
+        "artPath": "/expansion/assets/characters/c-komepi-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 76
+          },
+          "hatTransform": {
+            "translateX": 60.0,
+            "translateY": 30.4,
+            "scaleX": 0.6,
+            "scaleY": 0.6
           }
         }
       }
@@ -118,43 +152,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "双葉と短い根を持つ、手のひらサイズのかぶ。",
+        "name": "うまれたて",
+        "description": "小さなかぶの種から、一本だけ根がのぞく。",
         "artPath": "/expansion/assets/characters/c-kabun-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 137.48
+            "x": 150,
+            "y": 167
           },
           "hatTransform": {
-            "translateX": 47.4,
-            "translateY": 85.5,
-            "scaleX": 0.684,
-            "scaleY": 0.684
+            "translateX": 78.0,
+            "translateY": 130.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "掘るための前足と三枚の葉が育つ。",
+        "name": "ちびっこ",
+        "description": "小さな葉と短い根を持つ、丸いかぶの幼体。",
         "artPath": "/expansion/assets/characters/c-kabun-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 114.18
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 28.5,
-            "translateY": 51.94,
-            "scaleX": 0.81,
-            "scaleY": 0.819
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭の葉が広がり、橙色の前足で土を掘りはじめる。",
+        "artPath": "/expansion/assets/characters/c-kabun-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "葉が扇形に開き、くるりと長い根が伸びる。",
-        "artPath": "/expansion/assets/characters/c-kabun-2.svg",
+        "artPath": "/expansion/assets/characters/c-kabun-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -165,6 +216,23 @@
             "translateY": 29.6,
             "scaleX": 0.9,
             "scaleY": 0.9
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "横に張った大きな根の体と、土を分ける四本の前爪。頭の葉が菜園の屋根になる。",
+        "artPath": "/expansion/assets/characters/c-kabun-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 112
+          },
+          "hatTransform": {
+            "translateX": 1.5,
+            "translateY": 36.76,
+            "scaleX": 0.99,
+            "scaleY": 0.99
           }
         }
       }
@@ -211,43 +279,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "小さな花芽を耳につけた、短い首の子。",
+        "name": "うまれたて",
+        "description": "菜種の粒に、黄いろい芽がひとつ。",
         "artPath": "/expansion/assets/characters/c-nanari-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.76,
-            "y": 126.08
+            "x": 150,
+            "y": 174
           },
           "hatTransform": {
-            "translateX": 62.98,
-            "translateY": 81.6,
-            "scaleX": 0.5852,
-            "scaleY": 0.5852
+            "translateX": 78.0,
+            "translateY": 137.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "首が伸び、二つの花が襟に咲く。",
+        "name": "ちびっこ",
+        "description": "短い首と細い耳の子。胸に一輪の花が咲く。",
         "artPath": "/expansion/assets/characters/c-nanari-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.9,
-            "y": 100.53
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 46.95,
-            "translateY": 47.28,
-            "scaleX": 0.693,
-            "scaleY": 0.7007
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "首と脚が伸び、左右の肩に花が咲く。",
+        "artPath": "/expansion/assets/characters/c-nanari-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 61.5,
+            "translateY": 43.16,
+            "scaleX": 0.59,
+            "scaleY": 0.59
           }
         }
       },
       {
         "name": "おとな",
         "description": "花の襟が一周つながり、長い前髪が波打つ。",
-        "artPath": "/expansion/assets/characters/c-nanari-2.svg",
+        "artPath": "/expansion/assets/characters/c-nanari-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 151,
@@ -258,6 +343,23 @@
             "translateY": 24.48,
             "scaleX": 0.77,
             "scaleY": 0.77
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "首の長い四つ足のアルパカへ。背中にも菜の花が咲き、花の襟が一周つながる。",
+        "artPath": "/expansion/assets/characters/c-nanari-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 116,
+            "y": 62
+          },
+          "hatTransform": {
+            "translateX": 33.5,
+            "translateY": 20.2,
+            "scaleX": 0.55,
+            "scaleY": 0.55
           }
         }
       }
@@ -304,43 +406,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "丸いいちごと一枚の葉耳。種の点は三つだけ。",
+        "name": "うまれたて",
+        "description": "いちごの種から双葉が開き、顔がのぞく。",
         "artPath": "/expansion/assets/characters/c-ichiri-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 142.8
+            "x": 150,
+            "y": 167
           },
           "hatTransform": {
-            "translateX": 55.38,
-            "translateY": 94.86,
-            "scaleX": 0.6308,
-            "scaleY": 0.6308
+            "translateX": 78.0,
+            "translateY": 130.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "二枚の葉耳が立ち、跳ねる後ろ足が伸びる。",
+        "name": "ちびっこ",
+        "description": "ころんとした実に、小さな二枚の葉耳が生える。",
         "artPath": "/expansion/assets/characters/c-ichiri-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 120.55
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 37.95,
-            "translateY": 63.15,
-            "scaleX": 0.747,
-            "scaleY": 0.7553
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭と胴が分かれ、長い葉耳と大きな後ろ足で跳ねる。",
+        "artPath": "/expansion/assets/characters/c-ichiri-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "大きな葉耳と花の尾を揺らして弾む。",
-        "artPath": "/expansion/assets/characters/c-ichiri-2.svg",
+        "artPath": "/expansion/assets/characters/c-ichiri-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -351,6 +470,23 @@
             "translateY": 41.92,
             "scaleX": 0.83,
             "scaleY": 0.83
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "細長い体で跳ねる大うさぎへ。二本の葉耳が帆のように伸び、花の尾が大きく開く。",
+        "artPath": "/expansion/assets/characters/c-ichiri-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 149,
+            "y": 84
+          },
+          "hatTransform": {
+            "translateX": 39.5,
+            "translateY": 28.52,
+            "scaleX": 0.73,
+            "scaleY": 0.73
           }
         }
       }
@@ -397,43 +533,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "一粒だけの丸い殻と短い触角。",
+        "name": "うまれたて",
+        "description": "さやからこぼれた一粒のそら豆。",
         "artPath": "/expansion/assets/characters/c-soramame-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 83.12,
-            "y": 199.8
+            "x": 150,
+            "y": 167
           },
           "hatTransform": {
-            "translateX": 30.68,
-            "translateY": 173.23,
-            "scaleX": 0.3496,
-            "scaleY": 0.3496
+            "translateX": 78.0,
+            "translateY": 130.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "殻が二粒のさやに伸び、触角がくるんと曲がる。",
+        "name": "ちびっこ",
+        "description": "一粒の殻に隠れ、丸い顔だけを入口からのぞかせる。",
         "artPath": "/expansion/assets/characters/c-soramame-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 70.8,
-            "y": 188.8
+            "x": 124,
+            "y": 217
           },
           "hatTransform": {
-            "translateX": 8.7,
-            "translateY": 156.99,
-            "scaleX": 0.414,
-            "scaleY": 0.4186
+            "translateX": 79.0,
+            "translateY": 194.2,
+            "scaleX": 0.3,
+            "scaleY": 0.3
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "二粒の殻を背負い、長い首をまっすぐ上へ伸ばす。",
+        "artPath": "/expansion/assets/characters/c-soramame-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 75,
+            "y": 98
+          },
+          "hatTransform": {
+            "translateX": 15.0,
+            "translateY": 67.6,
+            "scaleX": 0.4,
+            "scaleY": 0.4
           }
         }
       },
       {
         "name": "おとな",
         "description": "三粒の豆が並ぶ殻と、葉の旗を背負う。",
-        "artPath": "/expansion/assets/characters/c-soramame-2.svg",
+        "artPath": "/expansion/assets/characters/c-soramame-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 62,
@@ -444,6 +597,23 @@
             "translateY": 145.04,
             "scaleX": 0.46,
             "scaleY": 0.46
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "アーチ形の長いさやを背負う旅のかたつむりへ。四粒の豆と長い触角が目印。",
+        "artPath": "/expansion/assets/characters/c-soramame-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 55,
+            "y": 163
+          },
+          "hatTransform": {
+            "translateX": -3.5,
+            "translateY": 133.36,
+            "scaleX": 0.39,
+            "scaleY": 0.39
           }
         }
       }
@@ -490,43 +660,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "種の模様の背中に、花びらが三枚。",
+        "name": "うまれたて",
+        "description": "しましまのひまわりの種に、小さな顔。",
         "artPath": "/expansion/assets/characters/c-himari-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.76,
-            "y": 168.64
+            "x": 150,
+            "y": 158
           },
           "hatTransform": {
-            "translateX": 67.54,
-            "translateY": 126.48,
-            "scaleX": 0.5548,
-            "scaleY": 0.5548
+            "translateX": 78.0,
+            "translateY": 121.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "花びらが半円に開き、鼻先が少し伸びる。",
+        "name": "ちびっこ",
+        "description": "低く伏せた丸い幼体。小さな鼻と短い花びらがのぞく。",
         "artPath": "/expansion/assets/characters/c-himari-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.9,
-            "y": 151.49
+            "x": 181,
+            "y": 215
           },
           "hatTransform": {
-            "translateX": 52.35,
-            "translateY": 101.0,
-            "scaleX": 0.657,
-            "scaleY": 0.6643
+            "translateX": 115.0,
+            "translateY": 181.56,
+            "scaleX": 0.44,
+            "scaleY": 0.44
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "細長い胴を起こし、前足で立つ。鼻先と背の花びらが伸びる。",
+        "artPath": "/expansion/assets/characters/c-himari-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 156,
+            "y": 103
+          },
+          "hatTransform": {
+            "translateX": 63.0,
+            "translateY": 55.88,
+            "scaleX": 0.62,
+            "scaleY": 0.62
           }
         }
       },
       {
         "name": "おとな",
         "description": "大輪の花を背負い、葉の足でどっしり立つ。",
-        "artPath": "/expansion/assets/characters/c-himari-2.svg",
+        "artPath": "/expansion/assets/characters/c-himari-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 151,
@@ -537,6 +724,23 @@
             "translateY": 83.52,
             "scaleX": 0.73,
             "scaleY": 0.73
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "大輪の花を丸ごと広げるハリネズミへ。鼻先が長くなり、葉の四つ足で歩く。",
+        "artPath": "/expansion/assets/characters/c-himari-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 180,
+            "y": 175
+          },
+          "hatTransform": {
+            "translateX": 81.0,
+            "translateY": 124.84,
+            "scaleX": 0.66,
+            "scaleY": 0.66
           }
         }
       }
@@ -583,43 +787,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "栗の帽子に短い丸尾を持つ子。",
+        "name": "うまれたて",
+        "description": "割れかけた栗の実。白い栗座がおなかになる。",
         "artPath": "/expansion/assets/characters/c-kurune-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 132.16
+            "x": 150,
+            "y": 167
           },
           "hatTransform": {
-            "translateX": 41.7,
-            "translateY": 77.29,
-            "scaleX": 0.722,
-            "scaleY": 0.722
+            "translateX": 78.0,
+            "translateY": 130.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "耳が立ち、尾に栗のいが模様が現れる。",
+        "name": "ちびっこ",
+        "description": "栗形の頭と短い丸尾を持つ。胸の白い栗座が目印。",
         "artPath": "/expansion/assets/characters/c-kurune-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 107.81
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 21.75,
-            "translateY": 42.11,
-            "scaleX": 0.855,
-            "scaleY": 0.8645
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭と胴が分かれ、抱えこめる大きな尾と前足が育つ。",
+        "artPath": "/expansion/assets/characters/c-kurune-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "扇のような大尾と白い栗座が育つ。",
-        "artPath": "/expansion/assets/characters/c-kurune-2.svg",
+        "artPath": "/expansion/assets/characters/c-kurune-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -630,6 +851,23 @@
             "translateY": 18.8,
             "scaleX": 0.95,
             "scaleY": 0.95
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "枝にとまる栗のリスへ。顔より大きないがの扇尾と、実を抱える長い前足を持つ。",
+        "artPath": "/expansion/assets/characters/c-kurune-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 128,
+            "y": 85
+          },
+          "hatTransform": {
+            "translateX": 15.5,
+            "translateY": 28.0,
+            "scaleX": 0.75,
+            "scaleY": 0.75
           }
         }
       }
@@ -676,43 +914,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "丸い傘からちょこんと顔を出す。",
+        "name": "うまれたて",
+        "description": "きのこの胞子から生まれた、一本足の丸い芽。",
         "artPath": "/expansion/assets/characters/c-shiipo-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 114.68
+            "x": 150,
+            "y": 162
           },
           "hatTransform": {
-            "translateX": 55.38,
-            "translateY": 66.74,
-            "scaleX": 0.6308,
-            "scaleY": 0.6308
+            "translateX": 78.0,
+            "translateY": 125.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "傘のつばが広がり、鼻が曲がる。",
+        "name": "ちびっこ",
+        "description": "小さな傘から、丸い顔と短い鼻を出す。",
         "artPath": "/expansion/assets/characters/c-shiipo-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 86.88
+            "x": 150,
+            "y": 122
           },
           "hatTransform": {
-            "translateX": 37.95,
-            "translateY": 29.48,
-            "scaleX": 0.747,
-            "scaleY": 0.7553
+            "translateX": 48.0,
+            "translateY": 70.32,
+            "scaleX": 0.68,
+            "scaleY": 0.68
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "傘の下で胴が長く伸び、曲がる鼻と足で歩く。",
+        "artPath": "/expansion/assets/characters/c-shiipo-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 78
+          },
+          "hatTransform": {
+            "translateX": 48.0,
+            "translateY": 26.32,
+            "scaleX": 0.68,
+            "scaleY": 0.68
           }
         }
       },
       {
         "name": "おとな",
         "description": "二段の傘と襞模様が育ち、足取りが頼もしくなる。",
-        "artPath": "/expansion/assets/characters/c-shiipo-2.svg",
+        "artPath": "/expansion/assets/characters/c-shiipo-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -723,6 +978,23 @@
             "translateY": 4.92,
             "scaleX": 0.83,
             "scaleY": 0.83
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "低い四つ足の大きなバクへ。長い鼻が地面に届き、二層のきのこが背を覆う。",
+        "artPath": "/expansion/assets/characters/c-shiipo-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 96,
+            "y": 141
+          },
+          "hatTransform": {
+            "translateX": 0.0,
+            "translateY": 92.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
           }
         }
       }
@@ -769,43 +1041,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "ひと巻きの尾と、小さな丸い頭。",
+        "name": "うまれたて",
+        "description": "くるりと巻いたわらびの芽。尾も手もまだない。",
         "artPath": "/expansion/assets/characters/c-waramo-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 132.16
+            "x": 150,
+            "y": 163
           },
           "hatTransform": {
-            "translateX": 58.8,
-            "translateY": 85.95,
-            "scaleX": 0.608,
-            "scaleY": 0.608
+            "translateX": 78.0,
+            "translateY": 126.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "尾が二重に巻き、背びれが三枚になる。",
+        "name": "ちびっこ",
+        "description": "丸い体に大きな目が開き、短い巻き尾が生える。",
         "artPath": "/expansion/assets/characters/c-waramo-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 107.81
+            "x": 150,
+            "y": 134
+          },
+          "hatTransform": {
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "胴と四肢が育ち、長い巻き尾を振って立ち上がる。",
+        "artPath": "/expansion/assets/characters/c-waramo-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
           },
           "hatTransform": {
             "translateX": 42.0,
-            "translateY": 52.48,
+            "translateY": 33.28,
             "scaleX": 0.72,
-            "scaleY": 0.728
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "シダの背びれを広げ、両目で遠くを見渡す。",
-        "artPath": "/expansion/assets/characters/c-waramo-2.svg",
+        "artPath": "/expansion/assets/characters/c-waramo-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -816,6 +1105,23 @@
             "translateY": 30.2,
             "scaleX": 0.8,
             "scaleY": 0.8
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "横向きに歩く長胴のカメレオンへ。二重巻き尾と、枝分かれしたシダの背びれを持つ。",
+        "artPath": "/expansion/assets/characters/c-waramo-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 228,
+            "y": 100
+          },
+          "hatTransform": {
+            "translateX": 132.0,
+            "translateY": 51.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
           }
         }
       }
@@ -862,43 +1168,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "丸いどんぐり帽と短い鼻の子。",
+        "name": "うまれたて",
+        "description": "小さなどんぐり。殻帽の下から目が開く。",
         "artPath": "/expansion/assets/characters/c-donguri-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 109.36
+            "x": 150,
+            "y": 157
           },
           "hatTransform": {
-            "translateX": 67.92,
-            "translateY": 67.77,
-            "scaleX": 0.5472,
-            "scaleY": 0.5472
+            "translateX": 78.0,
+            "translateY": 120.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "帽子の軸が伸び、背に縞が三本現れる。",
+        "name": "ちびっこ",
+        "description": "どんぐり帽の下に、丸い鼻と短い足が生える。",
         "artPath": "/expansion/assets/characters/c-donguri-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 80.51
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 52.8,
-            "translateY": 30.71,
-            "scaleX": 0.648,
-            "scaleY": 0.6552
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭と胴が分かれ、前足と帽子の下の縞模様が育つ。",
+        "artPath": "/expansion/assets/characters/c-donguri-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "大きな襟と小さな牙を持つ森の案内役。",
-        "artPath": "/expansion/assets/characters/c-donguri-2.svg",
+        "artPath": "/expansion/assets/characters/c-donguri-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -909,6 +1232,23 @@
             "translateY": 6.28,
             "scaleX": 0.72,
             "scaleY": 0.72
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "どっしりした横長のイノシシへ。大きなどんぐり兜と二本の牙で森を案内する。",
+        "artPath": "/expansion/assets/characters/c-donguri-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 101,
+            "y": 84
+          },
+          "hatTransform": {
+            "translateX": -16.0,
+            "translateY": 24.72,
+            "scaleX": 0.78,
+            "scaleY": 0.78
           }
         }
       }
@@ -955,43 +1295,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "丸い殻の中に、二つの大きな目。",
+        "name": "うまれたて",
+        "description": "くるみのひとかけら。殻の割れ目が眉になる。",
         "artPath": "/expansion/assets/characters/c-kuruwu-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 133.68
+            "x": 150,
+            "y": 167
           },
           "hatTransform": {
-            "translateX": 47.4,
-            "translateY": 81.7,
-            "scaleX": 0.684,
-            "scaleY": 0.684
+            "translateX": 78.0,
+            "translateY": 130.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "割れ目の眉と小さな翼が育つ。",
+        "name": "ちびっこ",
+        "description": "丸い体に大きな二つの目。短い羽を閉じて座る。",
         "artPath": "/expansion/assets/characters/c-kuruwu-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 109.63
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 28.5,
-            "translateY": 47.39,
-            "scaleX": 0.81,
-            "scaleY": 0.819
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭と胴が分かれ、短い翼を横へ開いて飛ぶ練習をする。",
+        "artPath": "/expansion/assets/characters/c-kuruwu-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "殻模様の大翼と羽角を広げる。",
-        "artPath": "/expansion/assets/characters/c-kuruwu-2.svg",
+        "artPath": "/expansion/assets/characters/c-kuruwu-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -1002,6 +1359,23 @@
             "translateY": 24.6,
             "scaleX": 0.9,
             "scaleY": 0.9
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "大きく翼を開くフクロウへ。くるみの割れ目が風切羽にまで続き、足で枝をつかむ。",
+        "artPath": "/expansion/assets/characters/c-kuruwu-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 79
+          },
+          "hatTransform": {
+            "translateX": 31.5,
+            "translateY": 18.96,
+            "scaleX": 0.79,
+            "scaleY": 0.79
           }
         }
       }
@@ -1048,43 +1422,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "一段のたけのこ頭と、丸い耳。",
+        "name": "うまれたて",
+        "description": "地面から出たばかりの、三角のたけのこ。",
         "artPath": "/expansion/assets/characters/c-takenon-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 94.92
+            "x": 150,
+            "y": 155
           },
           "hatTransform": {
-            "translateX": 94.14,
-            "translateY": 66.62,
-            "scaleX": 0.3724,
-            "scaleY": 0.3724
+            "translateX": 78.0,
+            "translateY": 118.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "帽子が二段になり、笹の尾が伸びる。",
+        "name": "ちびっこ",
+        "description": "一段のたけのこ頭と、丸い耳を持つ小さな子。",
         "artPath": "/expansion/assets/characters/c-takenon-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 63.22
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 83.85,
-            "translateY": 29.33,
-            "scaleX": 0.441,
-            "scaleY": 0.4459
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "二段の帽子と前足が育ち、笹の尾が伸びる。",
+        "artPath": "/expansion/assets/characters/c-takenon-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "三段の帽子と葉の肩掛けを持つ。",
-        "artPath": "/expansion/assets/characters/c-takenon-2.svg",
+        "artPath": "/expansion/assets/characters/c-takenon-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -1095,6 +1486,23 @@
             "translateY": 4.76,
             "scaleX": 0.49,
             "scaleY": 0.49
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "長い胴と広い肩のパンダへ。たけのこの冠が高く伸び、笹の腕で食卓を守る。",
+        "artPath": "/expansion/assets/characters/c-takenon-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 89
+          },
+          "hatTransform": {
+            "translateX": 19.5,
+            "translateY": 22.88,
+            "scaleX": 0.87,
+            "scaleY": 0.87
           }
         }
       }
@@ -1141,43 +1549,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "小さなひれ足と一枚のわかめ襟。",
+        "name": "うまれたて",
+        "description": "しずくを抱いた一枚のわかめ。ひれはまだない。",
         "artPath": "/expansion/assets/characters/c-wakarun-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 133.68
+            "x": 150,
+            "y": 163
           },
           "hatTransform": {
-            "translateX": 51.96,
-            "translateY": 84.01,
-            "scaleX": 0.6536,
-            "scaleY": 0.6536
+            "translateX": 78.0,
+            "translateY": 126.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "長い尾と二枚の襟が育つ。",
+        "name": "ちびっこ",
+        "description": "短い尾と、ぎざぎざのわかめ襟を持つ丸い子。",
         "artPath": "/expansion/assets/characters/c-wakarun-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 109.63
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 33.9,
-            "translateY": 50.15,
-            "scaleX": 0.774,
-            "scaleY": 0.7826
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭と胴が分かれ、前足を広げて泳ぎはじめる。",
+        "artPath": "/expansion/assets/characters/c-wakarun-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "波打つ大きな襟と、磨いた貝の腹飾りを持つ。",
-        "artPath": "/expansion/assets/characters/c-wakarun-2.svg",
+        "artPath": "/expansion/assets/characters/c-wakarun-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -1188,6 +1613,23 @@
             "translateY": 27.64,
             "scaleX": 0.86,
             "scaleY": 0.86
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "背を水に預ける長いラッコへ。大きな尾で泳ぎ、胸に磨いた貝を大切に抱える。",
+        "artPath": "/expansion/assets/characters/c-wakarun-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 105,
+            "y": 116
+          },
+          "hatTransform": {
+            "translateX": 4.5,
+            "translateY": 65.08,
+            "scaleX": 0.67,
+            "scaleY": 0.67
           }
         }
       }
@@ -1234,43 +1676,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "丸い貝から顔と小さなひれが出る。",
+        "name": "うまれたて",
+        "description": "閉じた小さなほたて貝に、二つの目。",
         "artPath": "/expansion/assets/characters/c-hotape-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 162.56
+            "x": 150,
+            "y": 171
           },
           "hatTransform": {
-            "translateX": 61.08,
-            "translateY": 117.51,
-            "scaleX": 0.5928,
-            "scaleY": 0.5928
+            "translateX": 78.0,
+            "translateY": 134.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "貝の筋が増え、左右のひれが伸びる。",
+        "name": "ちびっこ",
+        "description": "小さな扇の貝から顔を出し、短いひれを広げる。",
         "artPath": "/expansion/assets/characters/c-hotape-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 144.21
+            "x": 150,
+            "y": 165
           },
           "hatTransform": {
-            "translateX": 44.7,
-            "translateY": 90.27,
-            "scaleX": 0.702,
-            "scaleY": 0.7098
+            "translateX": 51.0,
+            "translateY": 114.84,
+            "scaleX": 0.66,
+            "scaleY": 0.66
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "貝を横向きに半分閉じ、長くなった体とひれを外へ伸ばす。",
+        "artPath": "/expansion/assets/characters/c-hotape-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 158,
+            "y": 180
+          },
+          "hatTransform": {
+            "translateX": 80.0,
+            "translateY": 140.48,
+            "scaleX": 0.52,
+            "scaleY": 0.52
           }
         }
       },
       {
         "name": "おとな",
         "description": "扇形の貝を大きく開き、尾びれが二つに分かれる。",
-        "artPath": "/expansion/assets/characters/c-hotape-2.svg",
+        "artPath": "/expansion/assets/characters/c-hotape-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -1281,6 +1740,23 @@
             "translateY": 71.72,
             "scaleX": 0.78,
             "scaleY": 0.78
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "翼のように貝を開くアザラシへ。長い胴と左右の大ひれで、海を滑るように泳ぐ。",
+        "artPath": "/expansion/assets/characters/c-hotape-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 149,
+            "y": 124
+          },
+          "hatTransform": {
+            "translateX": 57.5,
+            "translateY": 77.64,
+            "scaleX": 0.61,
+            "scaleY": 0.61
           }
         }
       }
@@ -1327,43 +1803,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "一粒の結晶と短い羽のひな。",
+        "name": "うまれたて",
+        "description": "四角い塩の結晶が、ころんと目を覚ます。",
         "artPath": "/expansion/assets/characters/c-shiochi-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 129.88
+            "x": 150,
+            "y": 177
           },
           "hatTransform": {
-            "translateX": 61.08,
-            "translateY": 84.83,
-            "scaleX": 0.5928,
-            "scaleY": 0.5928
+            "translateX": 78.0,
+            "translateY": 140.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "羽が角ばり、結晶が三つになる。",
+        "name": "ちびっこ",
+        "description": "丸い体に白い顔とおなか。一粒の結晶を頭にのせる。",
         "artPath": "/expansion/assets/characters/c-shiochi-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 105.08
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 44.7,
-            "translateY": 51.14,
-            "scaleX": 0.702,
-            "scaleY": 0.7098
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭と胴が分かれ、角ばった羽と三つの結晶が育つ。",
+        "artPath": "/expansion/assets/characters/c-shiochi-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "大きな結晶冠と階段形の尾羽が育つ。",
-        "artPath": "/expansion/assets/characters/c-shiochi-2.svg",
+        "artPath": "/expansion/assets/characters/c-shiochi-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -1374,6 +1867,23 @@
             "translateY": 28.72,
             "scaleX": 0.78,
             "scaleY": 0.78
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "胸を張った背の高いペンギンへ。結晶の冠と階段状の翼が、氷の塔のように育つ。",
+        "artPath": "/expansion/assets/characters/c-shiochi-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 151,
+            "y": 64
+          },
+          "hatTransform": {
+            "translateX": 62.5,
+            "translateY": 19.16,
+            "scaleX": 0.59,
+            "scaleY": 0.59
           }
         }
       }
@@ -1420,43 +1930,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "一枚のひれと短い渦巻き尾。",
+        "name": "うまれたて",
+        "description": "水を含んでほどけはじめた、ひと巻きの昆布。",
         "artPath": "/expansion/assets/characters/c-konburuu-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 148.48,
-            "y": 135.2
+            "x": 150,
+            "y": 172
           },
           "hatTransform": {
-            "translateX": 62.98,
-            "translateY": 91.88,
-            "scaleX": 0.57,
-            "scaleY": 0.57
+            "translateX": 78.0,
+            "translateY": 135.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "二枚のひれと小さな角が育つ。",
+        "name": "ちびっこ",
+        "description": "丸い体に一枚の昆布ひれ。短い尾をくるりと巻く。",
         "artPath": "/expansion/assets/characters/c-konburuu-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 148.2,
-            "y": 111.45
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 46.95,
-            "translateY": 59.58,
-            "scaleX": 0.675,
-            "scaleY": 0.6825
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭と胴が分かれ、大きな背びれと手足で泳ぎはじめる。",
+        "artPath": "/expansion/assets/characters/c-konburuu-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "三枚の長い昆布ひれを波のように広げる。",
-        "artPath": "/expansion/assets/characters/c-konburuu-2.svg",
+        "artPath": "/expansion/assets/characters/c-konburuu-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 148,
@@ -1467,6 +1994,23 @@
             "translateY": 38.0,
             "scaleX": 0.75,
             "scaleY": 0.75
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "空を泳ぐ長い海竜へ。体が大きくうねり、四枚の昆布ひれと長い尾をなびかせる。",
+        "artPath": "/expansion/assets/characters/c-konburuu-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 123,
+            "y": 68
+          },
+          "hatTransform": {
+            "translateX": 37.5,
+            "translateY": 24.68,
+            "scaleX": 0.57,
+            "scaleY": 0.57
           }
         }
       }
@@ -1513,43 +2057,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "三角の小さな翼と、まっすぐな尾。",
+        "name": "うまれたて",
+        "description": "水面に浮かぶ、小さなあおさのかけら。",
         "artPath": "/expansion/assets/characters/c-aosaya-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 132.16
+            "x": 150,
+            "y": 167
           },
           "hatTransform": {
-            "translateX": 65.64,
-            "translateY": 89.42,
-            "scaleX": 0.5624,
-            "scaleY": 0.5624
+            "translateX": 78.0,
+            "translateY": 130.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "ひらひらした翼端と長い尾が育つ。",
+        "name": "ちびっこ",
+        "description": "小さな三角の翼と、短く曲がる尾を持つ。",
         "artPath": "/expansion/assets/characters/c-aosaya-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 107.81
+            "x": 150,
+            "y": 174
           },
           "hatTransform": {
-            "translateX": 50.1,
-            "translateY": 56.63,
-            "scaleX": 0.666,
-            "scaleY": 0.6734
+            "translateX": 63.0,
+            "translateY": 129.92,
+            "scaleX": 0.58,
+            "scaleY": 0.58
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "翼を体の前にたたみ、縦長の姿で流れをくぐり抜ける。",
+        "artPath": "/expansion/assets/characters/c-aosaya-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 100
+          },
+          "hatTransform": {
+            "translateX": 73.5,
+            "translateY": 61.24,
+            "scaleX": 0.51,
+            "scaleY": 0.51
           }
         }
       },
       {
         "name": "おとな",
         "description": "菱形の大翼を広げ、尾に小さな葉がつく。",
-        "artPath": "/expansion/assets/characters/c-aosaya-2.svg",
+        "artPath": "/expansion/assets/characters/c-aosaya-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -1560,6 +2121,23 @@
             "translateY": 34.76,
             "scaleX": 0.74,
             "scaleY": 0.74
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "空いっぱいに広がる大きなエイへ。幅広い菱形の翼と二股のあおさ尾を持つ。",
+        "artPath": "/expansion/assets/characters/c-aosaya-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 92
+          },
+          "hatTransform": {
+            "translateX": 48.0,
+            "translateY": 40.32,
+            "scaleX": 0.68,
+            "scaleY": 0.68
           }
         }
       }
@@ -1606,43 +2184,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "一巻きの小さな殻から顔を出す。",
+        "name": "うまれたて",
+        "description": "琥珀色の小さな巻き貝。脚はまだない。",
         "artPath": "/expansion/assets/characters/c-kohakani-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 199.8
+            "x": 150,
+            "y": 167
           },
           "hatTransform": {
-            "translateX": 56.52,
-            "translateY": 152.44,
-            "scaleX": 0.6232,
-            "scaleY": 0.6232
+            "translateX": 78.0,
+            "translateY": 130.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "歩脚が増え、右のはさみが大きくなる。",
+        "name": "ちびっこ",
+        "description": "丸い殻の下から顔を出し、短い脚でそっと歩く。",
         "artPath": "/expansion/assets/characters/c-kohakani-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 188.8
+            "x": 150,
+            "y": 214
           },
           "hatTransform": {
-            "translateX": 39.3,
-            "translateY": 132.09,
-            "scaleX": 0.738,
-            "scaleY": 0.7462
+            "translateX": 64.5,
+            "translateY": 170.68,
+            "scaleX": 0.57,
+            "scaleY": 0.57
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "胴を起こし、左右のはさみを広げてしっかり立つ。",
+        "artPath": "/expansion/assets/characters/c-kohakani-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 214
+          },
+          "hatTransform": {
+            "translateX": 64.5,
+            "translateY": 170.68,
+            "scaleX": 0.57,
+            "scaleY": 0.57
           }
         }
       },
       {
         "name": "おとな",
         "description": "二重巻きの殻と看板のような大ばさみを持つ。",
-        "artPath": "/expansion/assets/characters/c-kohakani-2.svg",
+        "artPath": "/expansion/assets/characters/c-kohakani-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -1653,6 +2248,23 @@
             "translateY": 117.68,
             "scaleX": 0.82,
             "scaleY": 0.82
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "大ばさみで立つヤドカリへ。高い巻き貝と六本の脚、大きさの違う二つのはさみが育つ。",
+        "artPath": "/expansion/assets/characters/c-kohakani-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 151,
+            "y": 193
+          },
+          "hatTransform": {
+            "translateX": 40.0,
+            "translateY": 136.76,
+            "scaleX": 0.74,
+            "scaleY": 0.74
           }
         }
       }
@@ -1699,43 +2311,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "丸い実と片方だけ立った葉耳。",
+        "name": "うまれたて",
+        "description": "一粒のパプリカの種から、へたの芽が出る。",
         "artPath": "/expansion/assets/characters/c-papriko-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 134.44
+            "x": 150,
+            "y": 177
           },
           "hatTransform": {
-            "translateX": 49.68,
-            "translateY": 83.61,
-            "scaleX": 0.6688,
-            "scaleY": 0.6688
+            "translateX": 78.0,
+            "translateY": 140.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "体が三つ山になり、曲がったへた尾が伸びる。",
+        "name": "ちびっこ",
+        "description": "丸い実に小さな葉耳と、巻いたへた尾が生える。",
         "artPath": "/expansion/assets/characters/c-papriko-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 110.54
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 31.2,
-            "translateY": 49.68,
-            "scaleX": 0.792,
-            "scaleY": 0.8008
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭と胴が分かれ、前足と後ろ足でリズムをとる。",
+        "artPath": "/expansion/assets/characters/c-papriko-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "大きな葉耳と鮮やかな胸模様で踊る。",
-        "artPath": "/expansion/assets/characters/c-papriko-2.svg",
+        "artPath": "/expansion/assets/characters/c-papriko-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -1746,6 +2375,23 @@
             "translateY": 27.12,
             "scaleX": 0.88,
             "scaleY": 0.88
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "背筋を伸ばして踊るネコへ。三つ山の長い胴、葉のたてがみ、輪を描くへた尾を持つ。",
+        "artPath": "/expansion/assets/characters/c-papriko-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 151,
+            "y": 81
+          },
+          "hatTransform": {
+            "translateX": 43.0,
+            "translateY": 26.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       }
@@ -1792,43 +2438,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "小さな横長の顔と、二枚のえら。",
+        "name": "うまれたて",
+        "description": "薄いれんこんの一節。穴の間に顔がある。",
         "artPath": "/expansion/assets/characters/c-renpuku-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 140.52
+            "x": 150,
+            "y": 177
           },
           "hatTransform": {
-            "translateX": 47.4,
-            "translateY": 88.54,
-            "scaleX": 0.684,
-            "scaleY": 0.684
+            "translateX": 78.0,
+            "translateY": 140.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "えらが四枚になり、腹の穴模様が増える。",
+        "name": "ちびっこ",
+        "description": "横に短い花えらを持ち、おなかに二つの穴模様がある。",
         "artPath": "/expansion/assets/characters/c-renpuku-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 117.82
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 28.5,
-            "translateY": 55.58,
-            "scaleX": 0.81,
-            "scaleY": 0.819
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "四枚のえらと手足が育ち、蓮の葉の尾が現れる。",
+        "artPath": "/expansion/assets/characters/c-renpuku-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "六枚の花えらと、薄い蓮の葉の尾が育つ。",
-        "artPath": "/expansion/assets/characters/c-renpuku-2.svg",
+        "artPath": "/expansion/assets/characters/c-renpuku-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -1839,6 +2502,23 @@
             "translateY": 33.6,
             "scaleX": 0.9,
             "scaleY": 0.9
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "水面を泳ぐ長胴のウーパールーパーへ。六枚の花えらと、大きな蓮の葉の尾が開く。",
+        "artPath": "/expansion/assets/characters/c-renpuku-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 108,
+            "y": 107
+          },
+          "hatTransform": {
+            "translateX": -6.0,
+            "translateY": 49.24,
+            "scaleX": 0.76,
+            "scaleY": 0.76
           }
         }
       }
@@ -1885,43 +2565,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "白い丸顔に短い緑の耳が二つ。",
+        "name": "うまれたて",
+        "description": "ねぎの白い種根から、一本の葉がのぞく。",
         "artPath": "/expansion/assets/characters/c-negin-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 132.16
+            "x": 150,
+            "y": 184
           },
           "hatTransform": {
-            "translateX": 58.8,
-            "translateY": 85.95,
-            "scaleX": 0.608,
-            "scaleY": 0.608
+            "translateX": 78.0,
+            "translateY": 147.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "体と耳が伸び、しましまの尾が現れる。",
+        "name": "ちびっこ",
+        "description": "白い丸い体に、短いねぎ耳と小さな尾が生える。",
         "artPath": "/expansion/assets/characters/c-negin-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 107.81
+            "x": 150,
+            "y": 134
+          },
+          "hatTransform": {
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭と胴が分かれ、長い葉耳としましまの尾が育つ。",
+        "artPath": "/expansion/assets/characters/c-negin-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
           },
           "hatTransform": {
             "translateX": 42.0,
-            "translateY": 52.48,
+            "translateY": 33.28,
             "scaleX": 0.72,
-            "scaleY": 0.728
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "三枚の葉耳と長い尾をなびかせる。",
-        "artPath": "/expansion/assets/characters/c-negin-2.svg",
+        "artPath": "/expansion/assets/characters/c-negin-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -1932,6 +2629,23 @@
             "translateY": 30.2,
             "scaleX": 0.8,
             "scaleY": 0.8
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "弓のように体を伸ばすフェレットへ。長い葉耳と四つ足、ねぎの節がある尾で駆ける。",
+        "artPath": "/expansion/assets/characters/c-negin-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 108,
+            "y": 95
+          },
+          "hatTransform": {
+            "translateX": 13.5,
+            "translateY": 47.12,
+            "scaleX": 0.63,
+            "scaleY": 0.63
           }
         }
       }
@@ -1978,43 +2692,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "三角の小さな顔と、短い葉尾。",
+        "name": "うまれたて",
+        "description": "にんじんの種に、小さな房葉が生える。",
         "artPath": "/expansion/assets/characters/c-caroron-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 142.8
+            "x": 150,
+            "y": 187
           },
           "hatTransform": {
-            "translateX": 53.1,
-            "translateY": 93.7,
-            "scaleX": 0.646,
-            "scaleY": 0.646
+            "translateX": 78.0,
+            "translateY": 150.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "耳が高く立ち、尾の葉が三枚になる。",
+        "name": "ちびっこ",
+        "description": "小さな三角耳と白い口元、短い葉尾を持つ。",
         "artPath": "/expansion/assets/characters/c-caroron-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 120.55
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 35.25,
-            "translateY": 61.76,
-            "scaleX": 0.765,
-            "scaleY": 0.7735
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭と胴が分かれ、立った耳と大きな房葉の尾で走る。",
+        "artPath": "/expansion/assets/characters/c-caroron-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "長い鼻先と房になった尾で道案内する。",
-        "artPath": "/expansion/assets/characters/c-caroron-2.svg",
+        "artPath": "/expansion/assets/characters/c-caroron-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -2025,6 +2756,23 @@
             "translateY": 40.4,
             "scaleX": 0.85,
             "scaleY": 0.85
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "四つ足で駆ける細身のキツネへ。にんじんの長い鼻と、房葉を束ねた大尾が育つ。",
+        "artPath": "/expansion/assets/characters/c-caroron-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 104,
+            "y": 93
+          },
+          "hatTransform": {
+            "translateX": 3.5,
+            "translateY": 42.08,
+            "scaleX": 0.67,
+            "scaleY": 0.67
           }
         }
       }
@@ -2071,43 +2819,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "丸い紫の実と、短い三角耳。",
+        "name": "うまれたて",
+        "description": "なすの種に、紫色の小さな芽がふくらむ。",
         "artPath": "/expansion/assets/characters/c-nasumii-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 143.56
+            "x": 150,
+            "y": 173
           },
           "hatTransform": {
-            "translateX": 66.78,
-            "translateY": 101.4,
-            "scaleX": 0.5548,
-            "scaleY": 0.5548
+            "translateX": 78.0,
+            "translateY": 136.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "緑の翼が二つに開き、体が長くなる。",
+        "name": "ちびっこ",
+        "description": "丸いなすの体に、短い葉翼と小さな耳が生える。",
         "artPath": "/expansion/assets/characters/c-nasumii-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 121.46
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 51.45,
-            "translateY": 70.97,
-            "scaleX": 0.657,
-            "scaleY": 0.6643
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭と胴が分かれ、左右の大きな葉翼を横へ開く。",
+        "artPath": "/expansion/assets/characters/c-nasumii-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "大きな葉の翼を広げ、へたの襟を揺らす。",
-        "artPath": "/expansion/assets/characters/c-nasumii-2.svg",
+        "artPath": "/expansion/assets/characters/c-nasumii-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -2118,6 +2883,23 @@
             "translateY": 50.52,
             "scaleX": 0.73,
             "scaleY": 0.73
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "左右に大きく葉翼を広げるコウモリへ。翼の先が五つに分かれ、長いなすの体が揺れる。",
+        "artPath": "/expansion/assets/characters/c-nasumii-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 155,
+            "y": 111
+          },
+          "hatTransform": {
+            "translateX": 78.5,
+            "translateY": 72.24,
+            "scaleX": 0.51,
+            "scaleY": 0.51
           }
         }
       }
@@ -2164,43 +2946,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "二本の筋と、小さな丸耳を持つ。",
+        "name": "うまれたて",
+        "description": "平たいかぼちゃの種。縁取りの中に顔がある。",
         "artPath": "/expansion/assets/characters/c-poncoro-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 139.0
+            "x": 150,
+            "y": 168
           },
           "hatTransform": {
-            "translateX": 49.68,
-            "translateY": 88.17,
-            "scaleX": 0.6688,
-            "scaleY": 0.6688
+            "translateX": 78.0,
+            "translateY": 131.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "体に筋が増え、目の周りの模様が広がる。",
+        "name": "ちびっこ",
+        "description": "ころんとした体に、目の周りの黒い模様が現れる。",
         "artPath": "/expansion/assets/characters/c-poncoro-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 116.0
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 31.2,
-            "translateY": 55.14,
-            "scaleX": 0.792,
-            "scaleY": 0.8008
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭と胴が分かれ、筋のあるおなかと巻きつる尾が育つ。",
+        "artPath": "/expansion/assets/characters/c-poncoro-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "大きな丸い体と巻きつるの尾が育つ。",
-        "artPath": "/expansion/assets/characters/c-poncoro-2.svg",
+        "artPath": "/expansion/assets/characters/c-poncoro-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -2211,6 +3010,23 @@
             "translateY": 33.12,
             "scaleX": 0.88,
             "scaleY": 0.88
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "二足で立つ大きなタヌキへ。丸いかぼちゃのおなかと、太い巻きつる尾が育つ。",
+        "artPath": "/expansion/assets/characters/c-poncoro-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 151,
+            "y": 76
+          },
+          "hatTransform": {
+            "translateX": 35.5,
+            "translateY": 17.48,
+            "scaleX": 0.77,
+            "scaleY": 0.77
           }
         }
       }
@@ -2257,43 +3073,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "一粒のカラメル飾りと、小さな耳。",
+        "name": "うまれたて",
+        "description": "カラメルを一粒のせた、丸いプリンのしずく。",
         "artPath": "/expansion/assets/characters/c-pururin-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 142.04
+            "x": 150,
+            "y": 175
           },
           "hatTransform": {
-            "translateX": 66.78,
-            "translateY": 99.88,
-            "scaleX": 0.5548,
-            "scaleY": 0.5548
+            "translateX": 78.0,
+            "translateY": 138.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "二つの角と細い前足が育つ。",
+        "name": "ちびっこ",
+        "description": "丸い体に小さな耳。頭にはカラメルの模様がある。",
         "artPath": "/expansion/assets/characters/c-pururin-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 119.64
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 51.45,
-            "translateY": 69.15,
-            "scaleX": 0.657,
-            "scaleY": 0.6643
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "胴がプリン形に伸び、二本の角と前足が育つ。",
+        "artPath": "/expansion/assets/characters/c-pururin-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "枝分かれしたカラメル角と白い斑点を持つ。",
-        "artPath": "/expansion/assets/characters/c-pururin-2.svg",
+        "artPath": "/expansion/assets/characters/c-pururin-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -2304,6 +3137,23 @@
             "translateY": 48.52,
             "scaleX": 0.73,
             "scaleY": 0.73
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "すらりと立つ四つ足の鹿へ。枝分かれしたカラメルの角と、細い脚で静かに歩く。",
+        "artPath": "/expansion/assets/characters/c-pururin-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 107,
+            "y": 84
+          },
+          "hatTransform": {
+            "translateX": 27.5,
+            "translateY": 43.72,
+            "scaleX": 0.53,
+            "scaleY": 0.53
           }
         }
       }
@@ -2350,43 +3200,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "丸い格子の体と、小さな垂れ耳。",
+        "name": "うまれたて",
+        "description": "ぷくっとふくらんだ生地に、初めての格子がつく。",
         "artPath": "/expansion/assets/characters/c-moffuru-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 136.72
+            "x": 150,
+            "y": 183
           },
           "hatTransform": {
-            "translateX": 42.84,
-            "translateY": 82.43,
-            "scaleX": 0.7144,
-            "scaleY": 0.7144
+            "translateX": 78.0,
+            "translateY": 146.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "耳が立ち、格子模様が四角くなる。",
+        "name": "ちびっこ",
+        "description": "角の丸い格子の体に、小さな耳と足が生える。",
         "artPath": "/expansion/assets/characters/c-moffuru-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 113.27
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 23.1,
-            "translateY": 48.26,
-            "scaleX": 0.846,
-            "scaleY": 0.8554
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭と胴が分かれ、四角い巻き尾と前足が育つ。",
+        "artPath": "/expansion/assets/characters/c-moffuru-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "ふっくらした四角い体と、巻き尾が育つ。",
-        "artPath": "/expansion/assets/characters/c-moffuru-2.svg",
+        "artPath": "/expansion/assets/characters/c-moffuru-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -2397,6 +3264,23 @@
             "translateY": 25.56,
             "scaleX": 0.94,
             "scaleY": 0.94
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "胸を張る四つ足の柴犬へ。格子の長い胴と四角い巻き尾、きりっとした耳が育つ。",
+        "artPath": "/expansion/assets/characters/c-moffuru-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 117,
+            "y": 91
+          },
+          "hatTransform": {
+            "translateX": 18.0,
+            "translateY": 40.84,
+            "scaleX": 0.66,
+            "scaleY": 0.66
           }
         }
       }
@@ -2443,43 +3327,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "小さな半月の殻と丸い鼻。",
+        "name": "うまれたて",
+        "description": "一巻きのパン生地。まだ殻にも足にもなっていない。",
         "artPath": "/expansion/assets/characters/c-panri-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 103.64,
-            "y": 170.92
+            "x": 150,
+            "y": 174
           },
           "hatTransform": {
-            "translateX": 40.94,
-            "translateY": 139.15,
-            "scaleX": 0.418,
-            "scaleY": 0.418
+            "translateX": 78.0,
+            "translateY": 137.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "殻が三層に重なり、尾が伸びる。",
+        "name": "ちびっこ",
+        "description": "パンの層を丸く巻いた幼体。殻の隙間から顔だけを出す。",
         "artPath": "/expansion/assets/characters/c-panri-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 95.1,
-            "y": 154.22
+            "x": 140,
+            "y": 212
           },
           "hatTransform": {
-            "translateX": 20.85,
-            "translateY": 116.18,
-            "scaleX": 0.495,
-            "scaleY": 0.5005
+            "translateX": 89.0,
+            "translateY": 186.16,
+            "scaleX": 0.34,
+            "scaleY": 0.34
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "殻をほどいて頭を高く起こし、短い脚と尾で歩きはじめる。",
+        "artPath": "/expansion/assets/characters/c-panri-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 102,
+            "y": 162
+          },
+          "hatTransform": {
+            "translateX": 22.5,
+            "translateY": 121.72,
+            "scaleX": 0.53,
+            "scaleY": 0.53
           }
         }
       },
       {
         "name": "おとな",
         "description": "大きな焼き色の殻と、五本の節が育つ。",
-        "artPath": "/expansion/assets/characters/c-panri-2.svg",
+        "artPath": "/expansion/assets/characters/c-panri-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 89,
@@ -2490,6 +3391,23 @@
             "translateY": 100.2,
             "scaleX": 0.55,
             "scaleY": 0.55
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "低い姿勢で歩く大きなアルマジロへ。半月の厚い殻と、節のある長い尾で身を守る。",
+        "artPath": "/expansion/assets/characters/c-panri-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 65,
+            "y": 184
+          },
+          "hatTransform": {
+            "translateX": -5.5,
+            "translateY": 148.28,
+            "scaleX": 0.47,
+            "scaleY": 0.47
           }
         }
       }
@@ -2536,43 +3454,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "丸いもなかと、小さなあんこの耳。",
+        "name": "うまれたて",
+        "description": "小さなもなかの皮に、あんこの顔がのぞく。",
         "artPath": "/expansion/assets/characters/c-monaro-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 139.0
+            "x": 150,
+            "y": 173
           },
           "hatTransform": {
-            "translateX": 46.26,
-            "translateY": 86.44,
-            "scaleX": 0.6916,
-            "scaleY": 0.6916
+            "translateX": 78.0,
+            "translateY": 136.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "頬が花型にふくらみ、前足が伸びる。",
+        "name": "ちびっこ",
+        "description": "丸いもなかにあんこの耳。ほっぺが小さくふくらむ。",
         "artPath": "/expansion/assets/characters/c-monaro-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 116.0
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 27.15,
-            "translateY": 53.06,
-            "scaleX": 0.819,
-            "scaleY": 0.8281
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭と胴が分かれ、花色のほっぺと格子の腹が育つ。",
+        "artPath": "/expansion/assets/characters/c-monaro-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "六つの花びら型の体と、格子の縁取りが育つ。",
-        "artPath": "/expansion/assets/characters/c-monaro-2.svg",
+        "artPath": "/expansion/assets/characters/c-monaro-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -2583,6 +3518,23 @@
             "translateY": 30.84,
             "scaleX": 0.91,
             "scaleY": 0.91
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "花型の大きなもなかへ。頬より広い胴とあんこの前足で、花びら形のお皿を抱える。",
+        "artPath": "/expansion/assets/characters/c-monaro-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 153,
+            "y": 92
+          },
+          "hatTransform": {
+            "translateX": 13.5,
+            "translateY": 21.32,
+            "scaleX": 0.93,
+            "scaleY": 0.93
           }
         }
       }
@@ -2629,43 +3581,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "二枚の小さな葉を閉じた子。",
+        "name": "うまれたて",
+        "description": "顔のついた一枚のミントの新芽。",
         "artPath": "/expansion/assets/characters/c-mintotto-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 138.24
+            "x": 150,
+            "y": 162
           },
           "hatTransform": {
-            "translateX": 85.02,
-            "translateY": 105.32,
-            "scaleX": 0.4332,
-            "scaleY": 0.4332
+            "translateX": 78.0,
+            "translateY": 125.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "上の翼が開き、触角が曲がる。",
+        "name": "ちびっこ",
+        "description": "二枚の葉翼を体に沿わせて閉じ、静かに座る。",
         "artPath": "/expansion/assets/characters/c-mintotto-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 115.09
+            "x": 150,
+            "y": 162
           },
           "hatTransform": {
-            "translateX": 73.05,
-            "translateY": 75.67,
-            "scaleX": 0.513,
-            "scaleY": 0.5187
+            "translateX": 81.0,
+            "translateY": 127.04,
+            "scaleX": 0.46,
+            "scaleY": 0.46
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "上の葉翼を大きく横へ開き、細い胴で飛びはじめる。",
+        "artPath": "/expansion/assets/characters/c-mintotto-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 137
+          },
+          "hatTransform": {
+            "translateX": 81.0,
+            "translateY": 102.04,
+            "scaleX": 0.46,
+            "scaleY": 0.46
           }
         }
       },
       {
         "name": "おとな",
         "description": "四枚の葉翼と長い触角を広げる。",
-        "artPath": "/expansion/assets/characters/c-mintotto-2.svg",
+        "artPath": "/expansion/assets/characters/c-mintotto-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -2676,6 +3645,23 @@
             "translateY": 55.68,
             "scaleX": 0.57,
             "scaleY": 0.57
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "四枚の大翼を開く蛾へ。ミントの鋸歯と葉脈がはっきりし、長い触角が弧を描く。",
+        "artPath": "/expansion/assets/characters/c-mintotto-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 114
+          },
+          "hatTransform": {
+            "translateX": 82.5,
+            "translateY": 79.8,
+            "scaleX": 0.45,
+            "scaleY": 0.45
           }
         }
       }
@@ -2722,43 +3708,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "丸い実と短い鼻先。",
+        "name": "うまれたて",
+        "description": "割れたカカオの種。殻の中はやわらかな白色。",
         "artPath": "/expansion/assets/characters/c-cacaoro-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 154.56,
-            "y": 145.08
+            "x": 150,
+            "y": 171
           },
           "hatTransform": {
-            "translateX": 81.6,
-            "translateY": 108.11,
-            "scaleX": 0.4864,
-            "scaleY": 0.4864
+            "translateX": 78.0,
+            "translateY": 134.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "鼻が長くなり、縦筋と太い尾が育つ。",
+        "name": "ちびっこ",
+        "description": "丸いカカオの体に、短い鼻と小さな尾が生える。",
         "artPath": "/expansion/assets/characters/c-cacaoro-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 155.4,
-            "y": 123.28
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 69.0,
-            "translateY": 79.02,
-            "scaleX": 0.576,
-            "scaleY": 0.5824
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭と胴が分かれ、鼻先と縦筋のある尾が伸びる。",
+        "artPath": "/expansion/assets/characters/c-cacaoro-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "大きなカカオ尾と長い前足を持つ。",
-        "artPath": "/expansion/assets/characters/c-cacaoro-2.svg",
+        "artPath": "/expansion/assets/characters/c-cacaoro-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 156,
@@ -2769,6 +3772,23 @@
             "translateY": 59.36,
             "scaleX": 0.64,
             "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "長い鼻と太い尾で歩くアリクイへ。カカオの房のような胴と、強い前爪を持つ。",
+        "artPath": "/expansion/assets/characters/c-cacaoro-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 104,
+            "y": 106
+          },
+          "hatTransform": {
+            "translateX": 26.0,
+            "translateY": 66.48,
+            "scaleX": 0.52,
+            "scaleY": 0.52
           }
         }
       }
@@ -2815,43 +3835,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "丸い皮の体に、小さな黄色い点。",
+        "name": "うまれたて",
+        "description": "さつまいもの小さな芽いも。黄色い断面が目印。",
         "artPath": "/expansion/assets/characters/c-tsukimo-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 139.0
+            "x": 150,
+            "y": 176
           },
           "hatTransform": {
-            "translateX": 47.4,
-            "translateY": 87.02,
-            "scaleX": 0.684,
-            "scaleY": 0.684
+            "translateX": 78.0,
+            "translateY": 139.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "耳が開き、月形のおなかと長い尾が育つ。",
+        "name": "ちびっこ",
+        "description": "丸い耳と短い尾。おなかに小さな月が現れる。",
         "artPath": "/expansion/assets/characters/c-tsukimo-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 116.0
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 28.5,
-            "translateY": 53.76,
-            "scaleX": 0.81,
-            "scaleY": 0.819
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭と胴が分かれ、長い尾をくるりと立てて歩く。",
+        "artPath": "/expansion/assets/characters/c-tsukimo-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "大きな月模様と、ふさふさの皮色の尾を持つ。",
-        "artPath": "/expansion/assets/characters/c-tsukimo-2.svg",
+        "artPath": "/expansion/assets/characters/c-tsukimo-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -2862,6 +3899,23 @@
             "translateY": 31.6,
             "scaleX": 0.9,
             "scaleY": 0.9
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "大きな尾にくるまるヤマネへ。丸い耳と月形のおなかを、焼きいも色の尾が囲む。",
+        "artPath": "/expansion/assets/characters/c-tsukimo-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 125,
+            "y": 96
+          },
+          "hatTransform": {
+            "translateX": 5.0,
+            "translateY": 35.2,
+            "scaleX": 0.8,
+            "scaleY": 0.8
           }
         }
       }
@@ -2908,43 +3962,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "短い灯りと、丸い小さなひれ。",
+        "name": "うまれたて",
+        "description": "琥珀を閉じ込めた、一滴の黒みつ。",
         "artPath": "/expansion/assets/characters/c-mitsuru-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 146.2,
-            "y": 147.36
+            "x": 150,
+            "y": 171
           },
           "hatTransform": {
-            "translateX": 41.32,
-            "translateY": 94.22,
-            "scaleX": 0.6992,
-            "scaleY": 0.6992
+            "translateX": 78.0,
+            "translateY": 134.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "灯りの柄が曲がり、尾びれが育つ。",
+        "name": "ちびっこ",
+        "description": "丸い黒みつの体に、短い灯りと小さな尾びれが生える。",
         "artPath": "/expansion/assets/characters/c-mitsuru-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 145.5,
-            "y": 126.01
+            "x": 150,
+            "y": 162
           },
           "hatTransform": {
-            "translateX": 21.3,
-            "translateY": 62.38,
-            "scaleX": 0.828,
-            "scaleY": 0.8372
+            "translateX": 45.0,
+            "translateY": 108.8,
+            "scaleX": 0.7,
+            "scaleY": 0.7
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭から尾まで長く伸び、灯りを前に出して斜めに泳ぐ。",
+        "artPath": "/expansion/assets/characters/c-mitsuru-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 111,
+            "y": 158
+          },
+          "hatTransform": {
+            "translateX": 34.5,
+            "translateY": 119.24,
+            "scaleX": 0.51,
+            "scaleY": 0.51
           }
         }
       },
       {
         "name": "おとな",
         "description": "大きな琥珀の灯りと、透かし模様のひれを持つ。",
-        "artPath": "/expansion/assets/characters/c-mitsuru-2.svg",
+        "artPath": "/expansion/assets/characters/c-mitsuru-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 145,
@@ -2955,6 +4026,23 @@
             "translateY": 41.08,
             "scaleX": 0.92,
             "scaleY": 0.92
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "幅広いひれで浮く深海の魚へ。二本の灯りと透かし模様の大尾が、暗がりを照らす。",
+        "artPath": "/expansion/assets/characters/c-mitsuru-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 132,
+            "y": 107
+          },
+          "hatTransform": {
+            "translateX": 1.5,
+            "translateY": 40.88,
+            "scaleX": 0.87,
+            "scaleY": 0.87
           }
         }
       }
@@ -3001,43 +4089,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "小豆の頭と、たたんだ白い手。",
+        "name": "うまれたて",
+        "description": "小さな白いへそを持つ、一粒の小豆。",
         "artPath": "/expansion/assets/characters/c-ankoro-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 129.88
+            "x": 150,
+            "y": 173
           },
           "hatTransform": {
-            "translateX": 49.68,
-            "translateY": 79.05,
-            "scaleX": 0.6688,
-            "scaleY": 0.6688
+            "translateX": 78.0,
+            "translateY": 136.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "手と足の間に飛膜が広がる。",
+        "name": "ちびっこ",
+        "description": "小豆の丸い頭と、白い口元。飛膜はまだ短い。",
         "artPath": "/expansion/assets/characters/c-ankoro-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 105.08
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 31.2,
-            "translateY": 44.22,
-            "scaleX": 0.792,
-            "scaleY": 0.8008
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭と胴が分かれ、両手と足をつなぐ白い飛膜が広がる。",
+        "artPath": "/expansion/assets/characters/c-ankoro-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "四角い大きな飛膜と、小豆模様の長い尾を持つ。",
-        "artPath": "/expansion/assets/characters/c-ankoro-2.svg",
+        "artPath": "/expansion/assets/characters/c-ankoro-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -3048,6 +4153,23 @@
             "translateY": 21.12,
             "scaleX": 0.88,
             "scaleY": 0.88
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "四肢いっぱいに飛膜を広げるモモンガへ。小豆の尾が二段にふくらみ、空を大きく滑る。",
+        "artPath": "/expansion/assets/characters/c-ankoro-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 151,
+            "y": 81
+          },
+          "hatTransform": {
+            "translateX": 31.0,
+            "translateY": 20.2,
+            "scaleX": 0.8,
+            "scaleY": 0.8
           }
         }
       }
@@ -3094,43 +4216,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "一粒の泡と、二本の短いリボン。",
+        "name": "うまれたて",
+        "description": "ラムネのしずくに、小さな泡がひとつ。",
         "artPath": "/expansion/assets/characters/c-ramunon-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 108.6
+            "x": 150,
+            "y": 174
           },
           "hatTransform": {
-            "translateX": 81.6,
-            "translateY": 73.94,
-            "scaleX": 0.456,
-            "scaleY": 0.456
+            "translateX": 78.0,
+            "translateY": 137.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "傘が広がり、リボンが四本になる。",
+        "name": "ちびっこ",
+        "description": "丸い傘の下から、二本の短いリボンがのぞく。",
         "artPath": "/expansion/assets/characters/c-ramunon-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 79.6
+            "x": 150,
+            "y": 149
           },
           "hatTransform": {
-            "translateX": 69.0,
-            "translateY": 38.1,
-            "scaleX": 0.54,
-            "scaleY": 0.546
+            "translateX": 58.5,
+            "translateY": 102.64,
+            "scaleX": 0.61,
+            "scaleY": 0.61
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "傘が細長い瓶形になり、四本のリボンを下へ伸ばす。",
+        "artPath": "/expansion/assets/characters/c-ramunon-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 104
+          },
+          "hatTransform": {
+            "translateX": 87.0,
+            "translateY": 72.08,
+            "scaleX": 0.42,
+            "scaleY": 0.42
           }
         }
       },
       {
         "name": "おとな",
         "description": "瓶の口のような冠と、六本の長いリボンを持つ。",
-        "artPath": "/expansion/assets/characters/c-ramunon-2.svg",
+        "artPath": "/expansion/assets/characters/c-ramunon-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -3141,6 +4280,23 @@
             "translateY": 14.4,
             "scaleX": 0.6,
             "scaleY": 0.6
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "高い傘と長い六本のリボンを持つクラゲへ。ラムネ瓶の冠から泡が連なって浮かぶ。",
+        "artPath": "/expansion/assets/characters/c-ramunon-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 151,
+            "y": 71
+          },
+          "hatTransform": {
+            "translateX": 26.5,
+            "translateY": 7.92,
+            "scaleX": 0.83,
+            "scaleY": 0.83
           }
         }
       }
@@ -3187,43 +4343,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "短い葉耳と、一巻きの細い尾。",
+        "name": "うまれたて",
+        "description": "くるんと丸まった一枚の茶葉。",
         "artPath": "/expansion/assets/characters/c-yorucha-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 142.8
+            "x": 150,
+            "y": 172
           },
           "hatTransform": {
-            "translateX": 55.38,
-            "translateY": 94.86,
-            "scaleX": 0.6308,
-            "scaleY": 0.6308
+            "translateX": 78.0,
+            "translateY": 135.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "葉耳に葉脈が入り、尾が二股になる。",
+        "name": "ちびっこ",
+        "description": "短い茶葉耳と、ひと巻きの小さな尾を持つ。",
         "artPath": "/expansion/assets/characters/c-yorucha-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 120.55
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 37.95,
-            "translateY": 63.15,
-            "scaleX": 0.747,
-            "scaleY": 0.7553
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭と胴が分かれ、大きな尾と胸の葉飾りが育つ。",
+        "artPath": "/expansion/assets/characters/c-yorucha-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "三つ又の茶葉尾と、大きな胸の葉飾りを持つ。",
-        "artPath": "/expansion/assets/characters/c-yorucha-2.svg",
+        "artPath": "/expansion/assets/characters/c-yorucha-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -3234,6 +4407,23 @@
             "translateY": 41.92,
             "scaleX": 0.83,
             "scaleY": 0.83
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "長い胴の茶葉ギツネへ。三つ又の大尾を扇に開き、茶葉の胸飾りを揺らす。",
+        "artPath": "/expansion/assets/characters/c-yorucha-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 104,
+            "y": 95
+          },
+          "hatTransform": {
+            "translateX": 8.0,
+            "translateY": 46.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
           }
         }
       }
@@ -3280,43 +4470,60 @@
     },
     "stages": [
       {
-        "name": "こども",
-        "description": "小さな花芽の襟と、短い丸尾。",
+        "name": "うまれたて",
+        "description": "水に浮かぶ睡蓮の花芽。花びらはまだ閉じている。",
         "artPath": "/expansion/assets/characters/c-suirenne-0.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 133.68
+            "x": 150,
+            "y": 175
           },
           "hatTransform": {
-            "translateX": 70.2,
-            "translateY": 93.25,
-            "scaleX": 0.532,
-            "scaleY": 0.532
+            "translateX": 78.0,
+            "translateY": 138.52,
+            "scaleX": 0.48,
+            "scaleY": 0.48
           }
         }
       },
       {
-        "name": "わかもの",
-        "description": "襟が三枚に開き、水かきの手が育つ。",
+        "name": "ちびっこ",
+        "description": "丸い体に一枚の花芽。水辺で尾を小さく揺らす。",
         "artPath": "/expansion/assets/characters/c-suirenne-1.svg",
         "renderSpec": {
           "headAnchor": {
-            "x": 150.0,
-            "y": 109.63
+            "x": 150,
+            "y": 134
           },
           "hatTransform": {
-            "translateX": 55.5,
-            "translateY": 61.22,
-            "scaleX": 0.63,
-            "scaleY": 0.637
+            "translateX": 54.0,
+            "translateY": 85.36,
+            "scaleX": 0.64,
+            "scaleY": 0.64
+          }
+        }
+      },
+      {
+        "name": "わんぱく",
+        "description": "頭と胴が分かれ、三枚の花えりと水かきの手が育つ。",
+        "artPath": "/expansion/assets/characters/c-suirenne-2.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 150,
+            "y": 88
+          },
+          "hatTransform": {
+            "translateX": 42.0,
+            "translateY": 33.28,
+            "scaleX": 0.72,
+            "scaleY": 0.72
           }
         }
       },
       {
         "name": "おとな",
         "description": "大きな睡蓮の襟と、蓮の葉の尾びれを広げる。",
-        "artPath": "/expansion/assets/characters/c-suirenne-2.svg",
+        "artPath": "/expansion/assets/characters/c-suirenne-3.svg",
         "renderSpec": {
           "headAnchor": {
             "x": 150,
@@ -3327,6 +4534,23 @@
             "translateY": 39.8,
             "scaleX": 0.7,
             "scaleY": 0.7
+          }
+        }
+      },
+      {
+        "name": "とっておき",
+        "description": "睡蓮をまとう長い水竜へ。花の襟が大輪になり、葉の尾と四本の水かきで泳ぐ。",
+        "artPath": "/expansion/assets/characters/c-suirenne-4.svg",
+        "renderSpec": {
+          "headAnchor": {
+            "x": 114,
+            "y": 65
+          },
+          "hatTransform": {
+            "translateX": 22.5,
+            "translateY": 18.64,
+            "scaleX": 0.61,
+            "scaleY": 0.61
           }
         }
       }
