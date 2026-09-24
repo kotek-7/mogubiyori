@@ -8,18 +8,28 @@
   font-size: 12px;
   margin-bottom: 8px;
 }
-.journey-screen:has(.tutorial-lesson) .journey-subtitle {
-  max-width: 31em;
-  font-size: 14px;
+.journey-screen:has(.tutorial-lesson) .journey-title {
+  font-size: 28px;
+  min-height: 3.1em;
+  display: grid;
+  place-content: center;
 }
 .journey-screen:has(.tutorial-lesson) .journey-content {
   padding: 12px 0;
+}
+.journey-screen:is([data-scene='welcome'], [data-scene='tutorial-growth']):has(.tutorial-lesson)
+  .journey-title {
+  min-height: 1.55em;
 }
 .tutorial-lesson {
   position: relative;
   width: min(100%, 440px);
   margin: auto;
   text-align: center;
+}
+.tutorial-lesson .pet-art:not(.pet-stage-0) .pet-body {
+  filter: brightness(0);
+  opacity: 0.72;
 }
 .tutorial-example {
   display: inline-flex;
@@ -221,103 +231,6 @@
   color: var(--game-muted);
   font-size: 9px;
 }
-.tutorial-streak {
-  position: relative;
-  padding: 22px 22px 16px;
-  border-radius: 32px;
-  background: var(--game-surface);
-  border: 1px solid var(--game-line);
-}
-.tutorial-streak > svg {
-  position: absolute;
-  top: 16px;
-  left: 18px;
-  color: var(--game-coral);
-}
-.tutorial-day-count {
-  font-size: 15px;
-  margin: 0 0 18px;
-  font-weight: 750;
-}
-.tutorial-day-count strong {
-  font-size: 40px;
-  margin-right: 6px;
-}
-.tutorial-calendar {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.tutorial-calendar li {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 9px;
-  font-size: 11px;
-  color: var(--game-muted);
-}
-.tutorial-calendar li > div {
-  width: 100%;
-  height: 70px;
-  background: var(--game-canvas);
-  display: grid;
-  place-items: center;
-  border: 1px dashed var(--game-line);
-  border-radius: 18px;
-}
-.tutorial-calendar .is-recorded > div {
-  border-style: solid;
-  border-color: var(--game-teal);
-  background: var(--game-teal-soft);
-}
-.tutorial-calendar .is-recorded > div svg {
-  width: 70px;
-  height: 60px;
-  animation: tutorial-pop 0.4s both;
-}
-.tutorial-calendar .is-recorded > svg {
-  color: var(--game-teal);
-}
-.tutorial-calendar-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--game-line);
-  margin: 6px;
-}
-.tutorial-streak-prize {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 14px 10px;
-  margin-top: 20px;
-  background: var(--game-canvas);
-  border-radius: 16px;
-  font-size: 14px;
-}
-.tutorial-streak-prize.is-earned {
-  background: var(--game-gold);
-  color: var(--game-ink);
-  animation: tutorial-pop 0.4s both;
-}
-.tutorial-login {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  color: var(--game-muted);
-  font-size: 12px;
-  margin-top: 15px;
-}
-.tutorial-next-goal {
-  font-size: 13px;
-  margin: 14px 0 0;
-  line-height: 1.8;
-}
 .tutorial-resume {
   display: flex;
   align-items: center;
@@ -354,7 +267,7 @@
     line-height: 1.75;
   }
   .tutorial-meal-world {
-    height: 210px;
+    height: 190px;
   }
   .tutorial-meal-pet {
     width: 225px;
@@ -368,13 +281,21 @@
   .tutorial-pet-name {
     right: 60px;
   }
+  .tutorial-evolution {
+    height: 220px;
+  }
 }
 @media (max-height: 700px) {
   .journey-screen:has(.tutorial-lesson) {
     padding-block: 10px;
   }
   .journey-screen:has(.tutorial-lesson) .journey-heading {
-    padding-top: 10px;
+    padding-top: 0;
+    margin-top: 6px;
+  }
+  .journey-screen:is([data-scene='tutorial-friends'], [data-scene='tutorial-cards'])
+    .journey-heading {
+    margin-top: 6px;
   }
   .journey-screen:has(.tutorial-lesson) .journey-title {
     font-size: 21px;
@@ -388,7 +309,7 @@
     margin-bottom: 4px;
   }
   .journey-screen:has(.tutorial-lesson) .journey-content {
-    padding: 6px 0;
+    padding: 4px 0;
   }
   .journey-screen:has(.tutorial-lesson) .journey-footer {
     padding-top: 8px;
@@ -413,23 +334,23 @@
     padding-block: 2px;
   }
   .tutorial-meal-world {
-    height: 160px;
+    height: 110px;
     border-radius: 26px;
   }
   .tutorial-meal-pet {
-    width: 185px;
-    height: 185px;
+    width: 135px;
+    height: 135px;
     bottom: 18px;
     right: 4px;
   }
   .tutorial-photo {
-    width: 90px;
+    width: 78px;
     left: 20px;
     bottom: 27px;
     padding: 7px;
   }
   .tutorial-photo > svg:last-child {
-    height: 65px;
+    height: 48px;
   }
   .tutorial-photo-arrow {
     top: 60px;
@@ -443,22 +364,22 @@
     right: 45px;
   }
   .tutorial-xp-panel {
-    padding: 9px 15px;
+    padding: 6px 12px;
     margin-top: 7px;
   }
   .tutorial-xp-track {
     margin-block: 6px;
   }
   .tutorial-evolution {
-    height: 160px;
+    height: 100px;
   }
   .tutorial-evolution > .pet-art {
-    width: 192px;
-    height: 192px;
+    width: 128px;
+    height: 128px;
   }
   .tutorial-evolution-ring {
-    width: 150px;
-    height: 150px;
+    width: 98px;
+    height: 98px;
     border-width: 6px;
   }
   .tutorial-evolution > strong {
@@ -480,44 +401,6 @@
   }
   .tutorial-form-trail span {
     font-size: 9px;
-  }
-  .tutorial-streak {
-    padding: 10px 15px;
-    border-radius: 22px;
-  }
-  .tutorial-streak > svg {
-    width: 26px;
-    height: 26px;
-  }
-  .tutorial-day-count {
-    margin-bottom: 8px;
-  }
-  .tutorial-day-count strong {
-    font-size: 29px;
-  }
-  .tutorial-calendar {
-    gap: 9px;
-  }
-  .tutorial-calendar li {
-    gap: 5px;
-  }
-  .tutorial-calendar li > div {
-    height: 46px;
-    border-radius: 12px;
-  }
-  .tutorial-calendar .is-recorded > div svg {
-    width: 52px;
-    height: 45px;
-  }
-  .tutorial-streak-prize {
-    margin-top: 8px;
-    padding: 8px;
-    font-size: 12px;
-  }
-  .tutorial-login,
-  .tutorial-next-goal {
-    font-size: 11px;
-    margin-top: 8px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

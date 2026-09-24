@@ -68,6 +68,10 @@ describe('tutorial persistence', () => {
     { version: 1, step: 3, status: 'paused' },
     { version: 1, step: 4, status: 'active' },
     { version: 1, step: 4, status: 'completed' },
+    { version: 1, step: 4, status: 'completed', homeGuide: 'meal' },
+    { version: 1, step: 4, status: 'completed', homeGuide: 'growth' },
+    { version: 1, step: 4, status: 'completed', homeGuide: 'book' },
+    { version: 1, step: 4, status: 'completed', homeGuide: 'done' },
   ])('saves and restores progress at $step with status $status', (tutorial) => {
     const stored = new Map<string, string>()
     vi.stubGlobal('localStorage', {
@@ -116,5 +120,11 @@ describe('tutorial persistence', () => {
     expect(demo.tutorial).toEqual(completed)
     expect(parseGame(JSON.stringify(demo), day)).toEqual(demo)
     expect(initialGame(day, true).tutorial).toEqual(active)
+  })
+
+  it('ignores an invalid in-game guide without losing the game or the completed tutorial', () => {
+    const game = demoGame(day)
+    const raw = JSON.stringify({ ...game, tutorial: { ...completed, homeGuide: 'unknown' } })
+    expect(parseGame(raw, day)).toEqual(game)
   })
 })

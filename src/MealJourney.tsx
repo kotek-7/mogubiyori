@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { ArrowRight, Camera, ImagePlus, Utensils } from 'lucide-react'
 import { DishArt, Pet } from './GameArt'
 import { JourneyFrame } from './JourneyFrame'
+import { PlayGuide } from './PlayGuide'
 import { mealXp, recipes, species, stageOf } from './game'
 import type { FeedInput, GameState, SpeciesId } from './game'
 import { resizePhoto } from './photo'
@@ -13,6 +14,7 @@ type Props = {
   state: GameState
   recipeId?: string
   targetId?: SpeciesId
+  guided?: boolean
   onFeed: (input: FeedInput) => void
   onClose: () => void
 }
@@ -21,6 +23,7 @@ export function MealJourney({
   state,
   recipeId: initialRecipeId,
   targetId,
+  guided = false,
   onFeed,
   onClose,
 }: Props) {
@@ -156,8 +159,16 @@ export function MealJourney({
         progress={{ current: 1, total: 2 }}
         footer={
           <>
+            {guided && (
+              <PlayGuide id="meal-photo-guide" label="ごはんの記録ガイド">
+                {ready
+                  ? '写真を確認して、食卓へ進みましょう。'
+                  : '今日作った料理の写真を選びましょう。'}
+              </PlayGuide>
+            )}
             <button
-              className="journey-primary"
+              className={`journey-primary${guided ? ' is-guide-target' : ''}`}
+              aria-describedby={guided ? 'meal-photo-guide-text' : undefined}
               disabled={loading}
               onClick={() =>
                 ready ? transitionScene(() => setStep('serve')) : input.current?.click()
@@ -260,15 +271,23 @@ export function MealJourney({
       closeLabel="ひろばへ"
       progress={{ current: 2, total: 2 }}
       footer={
-        <button
-          className="journey-primary"
-          type="submit"
-          form="serve-meal"
-          disabled={!ready || loading}
-        >
-          <Utensils size={20} />
-          {name}にごはんをあげる
-        </button>
+        <>
+          {guided && (
+            <PlayGuide id="meal-serve-guide" label="ごはんの記録ガイド">
+              料理名を確認して、{name}にごはんをあげましょう。
+            </PlayGuide>
+          )}
+          <button
+            className={`journey-primary${guided ? ' is-guide-target' : ''}`}
+            aria-describedby={guided ? 'meal-serve-guide-text' : undefined}
+            type="submit"
+            form="serve-meal"
+            disabled={!ready || loading}
+          >
+            <Utensils size={20} />
+            {name}にごはんをあげる
+          </button>
+        </>
       }
     >
       <div className="meal-serving-art" role="img" aria-label={`${name}がごはんを待っています`}>

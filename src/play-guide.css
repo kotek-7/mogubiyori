@@ -1,0 +1,181 @@
+.play-guide {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 11px 13px;
+  border: 2px solid #c49b48;
+  border-radius: 15px;
+  background: #fff7de;
+  color: var(--game-ink, #243b53);
+  text-align: left;
+  box-shadow: 0 3px 0 #e8dcb7;
+}
+.play-guide::after {
+  position: absolute;
+  bottom: -7px;
+  left: calc(50% - 6px);
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #c49b48;
+  border-bottom: 2px solid #c49b48;
+  background: #fff7de;
+  transform: rotate(45deg);
+  content: '';
+}
+.play-guide-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #795719;
+  font-size: 10px;
+  font-weight: 800;
+}
+.play-guide:has(.play-guide-close) .play-guide-label {
+  padding-right: 23px;
+}
+.play-guide p {
+  margin: 6px 0 0;
+  color: var(--game-ink, #243b53);
+  font-size: 12px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.play-guide-close {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 10px;
+  color: #795719;
+}
+.play-guide-close:hover {
+  background: #f6e6b9;
+}
+.play-guide-close:focus-visible {
+  outline: 3px solid var(--game-blue, #326ab0);
+  outline-offset: 2px;
+}
+.play-care-growth,
+.play-care-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  width: 100%;
+}
+.play-care-growth > .play-growth {
+  width: 100%;
+}
+.play-care-growth:has(.play-guide),
+.play-care-feed:has(.play-guide),
+.play-app .is-guide-target {
+  scroll-margin-block: 16px 100px;
+}
+.play-app .is-guide-target,
+.journey-screen .is-guide-target {
+  outline: 3px solid #c9972e;
+  outline-offset: 4px;
+  animation: play-guide-target-pulse 1.8s ease-in-out infinite;
+}
+.play-app .is-guide-target:focus-visible,
+.journey-screen .is-guide-target:focus-visible {
+  outline-color: var(--game-blue, #326ab0);
+  animation: none;
+}
+.play-growth.is-guide-target {
+  border-radius: 8px;
+}
+.play-guide-nav {
+  width: min(360px, calc(100% - 32px));
+  margin: 2px auto 20px;
+  display: grid;
+  gap: 14px;
+}
+.play-guide-nav > .play-nav {
+  position: static;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  transform: none;
+}
+.play-app:has(.play-guide-nav) {
+  padding-bottom: env(safe-area-inset-bottom, 12px);
+}
+.journey-footer > .play-guide {
+  margin-bottom: 5px;
+}
+.journey-screen[data-scene='photo']:has(.play-guide) .meal-photo-scene {
+  width: min(100%, 300px);
+}
+@keyframes play-guide-target-pulse {
+  0%,
+  100% {
+    outline-color: #c9972e;
+    outline-offset: 4px;
+  }
+  50% {
+    outline-color: #e8b340;
+    outline-offset: 6px;
+  }
+}
+@media (max-width: 360px), (max-height: 700px) {
+  .play-guide {
+    padding: 9px 11px;
+    border-radius: 12px;
+  }
+  .play-guide-label {
+    font-size: 9px;
+  }
+  .play-guide p {
+    margin-top: 4px;
+    font-size: 11px;
+    line-height: 1.65;
+  }
+  .journey-screen[data-scene='photo']:has(.play-guide) .meal-photo-scene {
+    width: min(100%, 235px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .play-app .is-guide-target,
+  .journey-screen .is-guide-target {
+    animation: none;
+  }
+}
+@media (max-height: 700px) {
+  .journey-screen[data-scene='serve']:has(.play-guide) .meal-serving-art {
+    height: 130px;
+  }
+  .journey-screen[data-scene='serve']:has(.play-guide) .meal-serving-pet {
+    width: 130px;
+    height: 130px;
+    top: -35px;
+  }
+  .journey-screen[data-scene='serve']:has(.play-guide) .meal-tablecloth {
+    height: 50px;
+  }
+  .journey-screen[data-scene='serve']:has(.play-guide) .meal-serving-dish {
+    width: 96px;
+    height: 68px;
+    margin-left: -48px;
+    bottom: 4px;
+  }
+  .journey-screen[data-scene='serve']:has(.play-guide) .meal-serving-cutlery {
+    bottom: 20px;
+  }
+}
+@media (max-width: 360px) {
+  .play-care-growth .play-name {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 3px;
+  }
+  .play-care-growth .play-name strong,
+  .play-care-growth .play-name small {
+    white-space: nowrap;
+  }
+}

@@ -11,6 +11,26 @@ const scenes = [
   'tutorial-cards',
   'tutorial-streak',
 ] as const
+const chapters = [
+  'ごはんをあげる',
+  '姿を育てる',
+  'なかまをふやす',
+  '料理カードを集める',
+  '自炊を続ける',
+]
+
+const internalActions = (page: Page) =>
+  journey(page).locator('button.tutorial-step-action, button.tutorial-recipe-target')
+
+async function expectChapterLocked(page: Page) {
+  await expect(journey(page).locator('button.tutorial-chapter-next')).toHaveCount(0)
+  await expect(internalActions(page)).toHaveCount(1)
+}
+
+async function expectChapterReady(page: Page) {
+  await expect(internalActions(page)).toHaveCount(0)
+  await expect(journey(page).locator('button.tutorial-chapter-next')).toHaveCount(1)
+}
 
 function gameProgress(state: GameState) {
   return Object.fromEntries(Object.entries(state).filter(([key]) => key !== 'tutorial'))
@@ -24,11 +44,20 @@ async function action(page: Page, name: string, checkLayout = false) {
   const button = journey(page).getByRole('button', { name, exact: true })
   await expect(button).toBeVisible()
   await expect(button).toBeEnabled()
+  const kind = await button.evaluate((element) =>
+    element.matches('.tutorial-chapter-next')
+      ? 'chapter'
+      : element.matches('.tutorial-step-action, .tutorial-recipe-target')
+        ? 'internal'
+        : 'secondary',
+  )
+  if (kind === 'chapter') await expectChapterReady(page)
+  if (kind === 'internal') await expectChapterLocked(page)
   if (checkLayout) {
     await waitForSceneMotion(page)
     await expect(
       journey(page).locator(
-        'button.journey-primary, button.tutorial-collection-action, button.tutorial-discovery-card',
+        'button.tutorial-step-action, button.tutorial-chapter-next, button.tutorial-recipe-target',
       ),
     ).toHaveCount(1)
     const box = await button.boundingBox()
@@ -38,50 +67,183 @@ async function action(page: Page, name: string, checkLayout = false) {
     expect(box!.y + box!.height, name).toBeLessThanOrEqual(viewport.height)
     expect(box!.x, name).toBeGreaterThanOrEqual(0)
     expect(box!.x + box!.width, name).toBeLessThanOrEqual(viewport.width)
+    const secondary = journey(page).locator('button.journey-secondary')
+    const isFinalAction =
+      kind === 'chapter' && (await journey(page).getAttribute('data-scene')) === 'tutorial-streak'
+    if (isFinalAction) await expect(secondary).toHaveCount(0)
+    else {
+      const secondaryBox = await secondary.boundingBox()
+      expect(secondaryBox, `${name}: secondary action`).not.toBeNull()
+      expect(
+        secondaryBox!.y + secondaryBox!.height,
+        `${name}: secondary action`,
+      ).toBeLessThanOrEqual(viewport.height)
+    }
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
       `${name}: no horizontal overflow`,
     ).toBe(true)
+    if (
+      ['tutorial-friends', 'tutorial-cards'].includes(
+        (await journey(page).getAttribute('data-scene'))!,
+      )
+    ) {
+      expect(
+        await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight),
+        `${name}: the entire lesson fits in the viewport`,
+      ).toBe(true)
+    }
   }
   await button.click()
 }
 
-async function practice(page: Page, step: number, checkLayout = false) {
+async function practice(
+  page: Page,
+  step: number,
+  checkLayout = false,
+  onCheckpoint?: (name: string) => Promise<void>,
+) {
   const screen = journey(page, scenes[step])
   await expect(screen).toBeVisible()
   if (step === 0) {
     await action(page, 'ごはんをあげてみる', checkLayout)
+    await expect(internalActions(page)).toBeDisabled()
+    await expect(journey(page).locator('button.tutorial-chapter-next')).toHaveCount(0)
     await expect(screen.locator('.tutorial-xp-panel')).toContainText('+45 XP')
     await expect(screen.getByRole('progressbar', { name: '最初の成長まで' })).toHaveAttribute(
       'aria-valuenow',
       '45',
     )
+    await expectChapterReady(page)
   } else if (step === 1) {
     await action(page, '育った姿を見る', checkLayout)
     await expect(screen.locator('.tutorial-evolution .pet-art')).toHaveClass(/pet-stage-1/)
+    await expect(screen.locator('.tutorial-evolution .pet-body')).toHaveCSS(
+      'filter',
+      'brightness(0)',
+    )
+    await expect(screen.locator('.tutorial-evolution .pet-body')).toHaveCSS('opacity', '0.72')
     await action(page, 'もっと育った姿を見る', checkLayout)
     await expect(screen.locator('.tutorial-evolution .pet-art')).toHaveClass(/pet-stage-2/)
+    const silhouettes = screen.locator('.tutorial-lesson .pet-art:not(.pet-stage-0) .pet-body')
+    expect(await silhouettes.count()).toBeGreaterThan(0)
+    for (const body of await silhouettes.all()) {
+      await expect(body).toHaveCSS('filter', 'brightness(0)')
+      await expect(body).toHaveCSS('opacity', '0.72')
+    }
+    await expectChapterReady(page)
   } else if (step === 2) {
-    await action(page, 'まめを選ぶ', checkLayout)
+    const lesson = screen.locator('.tutorial-friends-lesson')
+    await expect(lesson).toHaveAttribute('data-phase', 'waiting')
+    await expectChapterLocked(page)
+    await expect(screen.locator('.tutorial-arriving-guest')).toHaveCount(0)
+    await onCheckpoint?.('tutorial-friends-waiting')
+    await action(page, 'こむぎにごはんをあげる', checkLayout)
+    await expect(lesson).toHaveAttribute('data-phase', 'aroma')
+    await expect(screen.locator('.tutorial-food-aroma')).toBeVisible()
+    await expect(screen.locator('.tutorial-arriving-guest')).toHaveCount(0)
+    await expect(screen.getByRole('region', { name: 'あそびかたガイド' })).toContainText(
+      'おいしそうな匂いが広がっています。',
+    )
+    await onCheckpoint?.('tutorial-friends-aroma')
+    await action(page, '匂いの先を見る', checkLayout)
+    await expect(lesson).toHaveAttribute('data-phase', 'noticed')
+    await expect(screen.locator('.tutorial-visitor-character')).toHaveClass(/is-distant/)
+    await expect(screen.locator('.tutorial-visitor-reaction')).toBeVisible()
+    await onCheckpoint?.('tutorial-friends-noticed')
+    await action(page, '近くに呼ぶ', checkLayout)
+    await expect(lesson).toHaveAttribute('data-phase', 'visiting')
+    await expect(screen.locator('.tutorial-visitor-character')).toHaveClass(/is-near/)
+    await expect(screen.locator('.tutorial-visitor-badge')).toContainText('お客さん')
+    await expect(screen.getByRole('button', { name: /を選ぶ$/ })).toHaveCount(0)
+    await onCheckpoint?.('tutorial-friends-visiting')
     await action(page, 'まめにごはんをあげる', checkLayout)
+    await expect(internalActions(page)).toBeDisabled()
+    await expect(screen.locator('button.tutorial-chapter-next')).toHaveCount(0)
+    await expect(lesson).toHaveAttribute('data-phase', 'joined')
     await expect(screen.locator('.tutorial-collection-result')).toHaveText('まめが仲間になりました')
-    await expect(screen.getByRole('button', { name: 'まめを選ぶ', exact: true })).toHaveClass(
-      /is-joined/,
+    const roster = screen.getByRole('region', { name: 'なかま 2匹', exact: true })
+    await expect(roster.getByRole('listitem')).toHaveCount(2)
+    await expect(roster).toContainText('こむぎ')
+    await expect(roster).toContainText('まめ')
+    await expectChapterLocked(page)
+    await onCheckpoint?.('tutorial-friends-joined')
+    await action(page, 'まめをひろばに呼ぶ', checkLayout)
+    await expect(lesson).toHaveAttribute('data-phase', 'home')
+    await expect(screen.locator('.tutorial-friend-growth')).toContainText('まめ')
+    await expect(screen.locator('.tutorial-friend-growth')).toContainText('うまれたて')
+    await expect(screen.locator('.tutorial-friend-growth')).toContainText('+45 XP')
+    await expect(screen.getByRole('progressbar', { name: 'まめの次の成長まで' })).toHaveAttribute(
+      'aria-valuenow',
+      '45',
     )
+    await expectChapterReady(page)
+    await onCheckpoint?.('tutorial-friends-home')
   } else if (step === 3) {
-    await action(page, 'カレーのカードを見る', checkLayout)
-    await expect(screen).toContainText('材料')
-    await action(page, 'カードの獲得を見る', checkLayout)
-    await expect(screen.locator('.tutorial-collected-card')).toHaveText('カレー')
-    await expect(screen.locator('.tutorial-card-reward')).toHaveText('+70コイン')
+    const lesson = screen.locator('.tutorial-recipe-lab')
+    await expect(lesson).toHaveAttribute('data-phase', 'cooking')
+    await expectChapterLocked(page)
+    await onCheckpoint?.('tutorial-cards-cooking')
+    await action(page, 'カレーの写真を撮る', checkLayout)
+    await expect(lesson).toHaveAttribute('data-phase', 'photo')
+    await expectChapterLocked(page)
+    await onCheckpoint?.('tutorial-cards-photo')
+    await action(page, 'この写真を記録する', checkLayout)
+    await expect(lesson).toHaveAttribute('data-phase', 'earned')
+    const reward = screen.getByRole('status', { name: '初回ボーナス 70コイン', exact: true })
+    await expect(reward).toBeVisible()
+    await expect(reward).toContainText('+70')
+    await expectChapterLocked(page)
+    await onCheckpoint?.('tutorial-cards-earned')
+    await action(page, 'ずかんを見る', checkLayout)
+    await expect(lesson).toHaveAttribute('data-phase', 'board')
+    const board = screen.locator('.tutorial-recipe-board')
+    await expect(board.locator('.is-filled')).toContainText('カレー')
+    await expect(
+      screen.getByRole('group', { name: 'レシピカード 1/10', exact: true }),
+    ).toBeVisible()
+    const wallet = screen.getByRole('group', { name: '70コイン', exact: true })
+    await expect(wallet).toBeVisible()
+    await expect(wallet.locator('strong')).toHaveText('70')
+    await expectChapterLocked(page)
+    await onCheckpoint?.('tutorial-cards-board')
+    await action(page, 'おにぎりのレシピを見る', checkLayout)
+    await expect(lesson).toHaveAttribute('data-phase', 'recipe')
+    await expect(screen.getByRole('heading', { name: /おかかのおにぎり/ })).toBeVisible()
+    await expect(screen.getByRole('list', { name: '材料', exact: true })).toBeVisible()
+    await expectChapterReady(page)
+    await onCheckpoint?.('tutorial-cards-recipe')
   } else {
-    await action(page, '翌日のごはんを記録する', checkLayout)
-    await expect(screen.locator('.tutorial-day-count')).toHaveText('2日連続')
-    await action(page, '翌日のごはんを記録する', checkLayout)
-    await expect(screen.locator('.tutorial-day-count')).toHaveText('3日連続')
-    await expect(screen.locator('.tutorial-streak-prize.is-earned')).toHaveText(
-      '3日連続ボーナス +30',
+    const celebration = screen.getByRole('group', { name: '自炊の連続記録', exact: true })
+    const reducedMotion = await page.evaluate(
+      () => matchMedia('(prefers-reduced-motion: reduce)').matches,
     )
+    await expect(celebration.locator('.streak-celebration-number strong')).toHaveText('0')
+    await expect(celebration.getByRole('listitem', { name: /記録済み$/ })).toHaveCount(0)
+    await onCheckpoint?.('tutorial-streak-empty')
+    for (let day = 1; day <= 3; day += 1) {
+      await action(page, `${day}日目のごはんを記録する`, checkLayout)
+      if (!reducedMotion) {
+        if (day < 3) await expect(internalActions(page)).toBeDisabled()
+        else await expect(internalActions(page)).toHaveCount(0)
+        await expect(screen.locator('button.tutorial-chapter-next')).toHaveCount(0)
+      }
+      await expect(
+        celebration.getByRole('listitem', { name: `${day}日目 記録済み`, exact: true }),
+      ).toBeVisible()
+      await expect(celebration).toHaveAttribute('data-phase', 'complete')
+      await expect(celebration.getByRole('listitem', { name: /記録済み$/ })).toHaveCount(day)
+      await expect(celebration.locator('.streak-celebration-number strong')).toHaveText(String(day))
+      if (day < 3) await expectChapterLocked(page)
+      else await expectChapterReady(page)
+      await onCheckpoint?.(`tutorial-streak-day-${day}`)
+    }
+    await expect(celebration.locator('.streak-celebration-prize')).toHaveAttribute(
+      'aria-hidden',
+      'false',
+    )
+    await expect(celebration.locator('.streak-celebration-prize')).toContainText('3日連続ボーナス')
+    await expect(celebration.locator('.streak-celebration-prize strong')).toContainText('+30')
   }
 }
 
@@ -90,11 +252,11 @@ async function nextLesson(
   step: number,
   { checkLayout = false, replay = false }: { checkLayout?: boolean; replay?: boolean } = {},
 ) {
-  await action(page, 'つづける', checkLayout)
+  await action(page, `次の章へ：${chapters[step + 1]}`, checkLayout)
   await expect(journey(page, scenes[step + 1])).toBeVisible()
   await expect
     .poll(async () => (await storedGame(page)).tutorial)
-    .toEqual({
+    .toMatchObject({
       version: 1,
       step: replay ? 4 : step + 1,
       status: replay ? 'completed' : 'active',
@@ -120,16 +282,31 @@ test('five hands-on lessons resume after reload and never award real game progre
     await expectPracticeOnly(page, before)
     if (step < scenes.length - 1) await nextLesson(page, step)
   }
-  await action(page, 'はじめてのごはんへ')
-  await expect(journey(page, 'photo')).toBeVisible()
-  expect((await storedGame(page)).tutorial).toEqual({ version: 1, step: 4, status: 'completed' })
+  await action(page, 'ひろばへ')
+  await expect(journey(page)).toHaveCount(0)
+  await expect(page.getByRole('heading', { name: 'ごはんのひろば' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'ひろばのガイド', exact: true })).toBeVisible()
+  const completed = await storedGame(page)
+  expect(completed.tutorial).toEqual({
+    version: 1,
+    step: 4,
+    status: 'completed',
+    homeGuide: 'meal',
+  })
+  expect(completed.xp).toBe(0)
+  expect(completed.meals).toHaveLength(0)
   await expectPracticeOnly(page, before)
-  await page.getByRole('button', { name: 'ひろばへ', exact: true }).click()
   await page.reload()
+  await expect(journey(page)).toHaveCount(0)
+  await expect(page.getByRole('region', { name: 'ひろばのガイド', exact: true })).toBeVisible()
   await expect(page.locator('.play-pet .pet-art')).toHaveClass(/pet-stage-0/)
   await expect(
     page.getByRole('button', { name: 'チュートリアルを続ける', exact: true }),
   ).toHaveCount(0)
+  await expect(page.locator('.play-feed')).toHaveAccessibleName('ごはんをあげる')
+  await page.locator('.play-feed').click()
+  await expect(journey(page, 'photo')).toBeVisible()
+  await expectPracticeOnly(page, before)
 })
 
 test('a paused lesson can resume and completed guidance can replay without changing the save', async ({
@@ -153,7 +330,7 @@ test('a paused lesson can resume and completed guidance can replay without chang
     await practice(page, step)
     if (step < scenes.length - 1) await nextLesson(page, step)
   }
-  await action(page, 'あとで記録する')
+  await action(page, 'ひろばへ')
   await expect(journey(page)).toHaveCount(0)
   expect((await storedGame(page)).tutorial.status).toBe('completed')
   await expectPracticeOnly(page, before)
@@ -165,6 +342,7 @@ test('a paused lesson can resume and completed guidance can replay without chang
   await expect(page.getByRole('dialog')).toHaveCount(0)
   for (let step = 0; step < scenes.length; step += 1) {
     await practice(page, step)
+    expect(await storedGame(page)).toEqual(completed)
     if (step < scenes.length - 1) await nextLesson(page, step, { replay: true })
   }
   await action(page, 'ひろばへ')
@@ -183,22 +361,25 @@ for (const viewport of [
     await page.setViewportSize(viewport)
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await chooseStarter(page)
+    const capture = async (name: string) => {
+      await waitForSceneMotion(page)
+      const path = testInfo.outputPath(`${name}-${viewport.width}.png`)
+      await page.screenshot({ path, fullPage: false })
+      await testInfo.attach(name, { path, contentType: 'image/png' })
+    }
     for (let step = 0; step < scenes.length; step += 1) {
-      await practice(page, step, true)
+      await practice(page, step, true, capture)
       if (step < scenes.length - 1) await nextLesson(page, step, { checkLayout: true })
     }
-    const laterButton = await page
-      .getByRole('button', { name: 'あとで記録する', exact: true })
-      .boundingBox()
-    expect(laterButton).not.toBeNull()
-    expect(laterButton!.y + laterButton!.height).toBeLessThanOrEqual(viewport.height)
-    await page.screenshot({ path: testInfo.outputPath(`tutorial-streak-${viewport.width}.png`) })
-    await action(page, 'はじめてのごはんへ', true)
-    await expect(journey(page, 'photo')).toBeVisible()
+    await expect(journey(page).locator('button.journey-secondary')).toHaveCount(0)
+    await action(page, 'ひろばへ', true)
+    await expect(journey(page)).toHaveCount(0)
+    await expect(page.getByRole('region', { name: 'ひろばのガイド', exact: true })).toBeVisible()
+    await capture('tutorial-home-guide')
   })
 }
 
-test('visitor choices, the recipe lesson and the streak reward are accessible', async ({
+test('visitor recruitment, the recipe lesson and the streak reward are accessible', async ({
   page,
 }) => {
   test.setTimeout(90000)
@@ -215,14 +396,9 @@ test('visitor choices, the recipe lesson and the streak reward are accessible', 
     await practice(page, step)
     await nextLesson(page, step)
   }
-  await check('visitor choices')
-  await practice(page, 2)
+  await practice(page, 2, false, check)
   await nextLesson(page, 2)
-  await action(page, 'カレーのカードを見る')
-  await expect(journey(page)).toContainText('材料')
-  await check('recipe lesson')
-  await action(page, 'カードの獲得を見る')
+  await practice(page, 3, false, check)
   await nextLesson(page, 3)
-  await practice(page, 4)
-  await check('streak reward')
+  await practice(page, 4, false, check)
 })

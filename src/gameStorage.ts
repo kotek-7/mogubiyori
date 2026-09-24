@@ -40,7 +40,14 @@ function normalizeTutorial(value: unknown, hasCompanion: boolean): TutorialState
       value.step === 4) &&
     (value.status === 'active' || value.status === 'paused' || value.status === 'completed')
   )
-    return { version: 1, step: value.step, status: value.status }
+    return {
+      version: 1,
+      step: value.step,
+      status: value.status,
+      ...(['meal', 'growth', 'book', 'done'].includes(value.homeGuide as string)
+        ? { homeGuide: value.homeGuide as TutorialState['homeGuide'] }
+        : {}),
+    }
 
   // Missing or invalid guidance must not discard an existing player's progress.
   return hasCompanion

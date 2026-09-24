@@ -227,6 +227,7 @@ export type TutorialState = {
   version: 1
   step: TutorialStep
   status: 'active' | 'paused' | 'completed'
+  homeGuide?: 'meal' | 'growth' | 'book' | 'done'
 }
 
 export type GameState = {

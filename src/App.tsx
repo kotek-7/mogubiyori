@@ -19,6 +19,7 @@ import { StarterSelection, RecipeBoard, FriendsBoard } from './CollectionScreens
 import { TutorialJourney } from './TutorialJourney'
 import { MealJourney } from './MealJourney'
 import { FeastJourney } from './FeastJourney'
+import { PlayGuide } from './PlayGuide'
 import { transitionScene } from './journeyTransition'
 import {
   chooseStarter,
@@ -66,6 +67,9 @@ function App() {
   const [dialog, setDialog] = useState<Dialog | null>(null)
   const [journey, setJourney] = useState<Journey | null>(null)
   const feedButton = useRef<HTMLButtonElement>(null)
+  const growthButton = useRef<HTMLButtonElement>(null)
+  const bookButton = useRef<HTMLButtonElement>(null)
+  const bookGuide = useRef<HTMLDivElement>(null)
   const restoreFeedFocus = useRef(false)
   const submitted = useRef(false)
   const [storageError, setStorageError] = useState(false)
@@ -73,6 +77,10 @@ function App() {
   const [petting, setPetting] = useState(false)
   const [bookKind, setBookKind] = useState<'recipes' | 'friends'>('recipes')
   const [shopKind, setShopKind] = useState<'hat' | 'room'>('hat')
+  const homeGuide = state.tutorial.status === 'completed' ? state.tutorial.homeGuide : undefined
+  const showMealGuide = homeGuide === 'meal' && !dialog
+  const showGrowthGuide = homeGuide === 'growth' && !dialog
+  const showBookGuide = homeGuide === 'book' && page === 'room' && !dialog
   const hunger = hungerOf(state),
     stage = stageOf(state.xp),
     streak = streakOf(state),
@@ -120,9 +128,24 @@ function App() {
   useEffect(() => {
     if (!journey && restoreFeedFocus.current) {
       restoreFeedFocus.current = false
-      feedButton.current?.focus({ preventScroll: true })
+      const target = homeGuide === 'growth' ? growthButton.current : feedButton.current
+      target?.focus({ preventScroll: true })
+      if (homeGuide === 'meal' || homeGuide === 'growth')
+        target?.scrollIntoView({ block: 'nearest', behavior: 'instant' })
     }
-  }, [journey, state.tutorial.status])
+  }, [journey, state.tutorial.status, homeGuide])
+  useEffect(() => {
+    if (journey || dialog || page !== 'room') return
+    const target =
+      homeGuide === 'meal'
+        ? feedButton.current?.parentElement
+        : homeGuide === 'growth'
+          ? growthButton.current?.parentElement
+          : homeGuide === 'book'
+            ? bookGuide.current
+            : null
+    target?.scrollIntoView({ block: 'nearest', behavior: 'instant' })
+  }, [homeGuide, journey, dialog, page])
   function navigate(next: Page) {
     setPage(next)
     window.location.hash = next
@@ -131,8 +154,12 @@ function App() {
   function submit(data: FeedInput) {
     if (submitted.current || journey?.type !== 'meal') return
     const before = { ...state, today: shiftDay(todayTokyo(), state.dayOffset) }
-    const after = feed(before, data)
-    if (after === before) return
+    const result = feed(before, data)
+    if (result === before) return
+    const after: GameState =
+      result.tutorial.homeGuide === 'meal'
+        ? { ...result, tutorial: { ...result.tutorial, homeGuide: 'growth' } }
+        : result
     submitted.current = true
     transitionScene(() => {
       setState(after)
@@ -163,6 +190,27 @@ function App() {
   function showFriends() {
     setBookKind('friends')
     navigate('book')
+  }
+  function dismissHomeGuide() {
+    setState((current) => ({
+      ...current,
+      tutorial: { ...current.tutorial, homeGuide: 'done' },
+    }))
+    const target =
+      homeGuide === 'growth'
+        ? growthButton.current
+        : homeGuide === 'book'
+          ? bookButton.current
+          : feedButton.current
+    target?.focus({ preventScroll: true })
+  }
+  function openProfile() {
+    if (homeGuide === 'growth')
+      setState((current) => ({
+        ...current,
+        tutorial: { ...current.tutorial, homeGuide: 'book' },
+      }))
+    setDialog({ type: 'profile' })
   }
   function startTutorial() {
     transitionScene(() => {
@@ -224,22 +272,22 @@ function App() {
             })
           }
           onPause={pauseTutorial}
-          onComplete={(recordMeal) => {
+          onComplete={() => {
             transitionScene(() => {
               if (journey?.type !== 'tutorial')
                 setState((current) => ({
                   ...current,
-                  tutorial: { version: 1, step: 4, status: 'completed' },
+                  tutorial: {
+                    version: 1,
+                    step: 4,
+                    status: 'completed',
+                    homeGuide: current.meals.length === 0 ? 'meal' : 'done',
+                  },
                 }))
               setToast('')
-              if (recordMeal) {
-                submitted.current = false
-                setJourney({ type: 'meal' })
-              } else {
-                setJourney(null)
-                navigate('room')
-                restoreFeedFocus.current = true
-              }
+              setJourney(null)
+              navigate('room')
+              restoreFeedFocus.current = true
             })
           }}
         />
@@ -258,6 +306,7 @@ function App() {
             state={state}
             recipeId={journey.recipeId}
             targetId={journey.targetId}
+            guided={homeGuide === 'meal'}
             onFeed={submit}
             onClose={finishJourney}
           />
@@ -272,7 +321,7 @@ function App() {
       </>
     )
   return (
-    <div className="play-app">
+    <div className="play-app" data-home-guide={homeGuide}>
       <a className="skip-link" href="#main">
         本文へ
       </a>
@@ -384,36 +433,56 @@ function App() {
               </button>
             </section>
             <section className="play-care" aria-label="今日のごはん">
-              <button className="play-growth" onClick={() => setDialog({ type: 'profile' })}>
-                <span className="play-name">
-                  <strong>{state.name}</strong>
-                  <small>
-                    {stageName(stage)} · {stage + 1}/5
-                  </small>
-                  <ChevronRight size={14} />
-                </span>
-                <span
-                  className="play-growth-track"
-                  role="progressbar"
-                  aria-label="成長"
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                  aria-valuenow={Math.round(growth)}
+              <div className="play-care-growth">
+                {showGrowthGuide && (
+                  <PlayGuide id="home-growth-guide" onDismiss={dismissHomeGuide}>
+                    ごはんで経験値が増えました。ここで{state.name}の成長を確認できます。
+                  </PlayGuide>
+                )}
+                <button
+                  ref={growthButton}
+                  className={`play-growth${showGrowthGuide ? ' is-guide-target' : ''}`}
+                  aria-describedby={showGrowthGuide ? 'home-growth-guide-text' : undefined}
+                  onClick={openProfile}
                 >
-                  <i style={{ width: `${growth}%` }} />
-                </span>
-                <span className="play-next">
-                  {stage === 4 ? 'すべての姿を発見' : `次の成長まで ${nextGrowth} XP`}
-                </span>
-              </button>
-              <button
-                ref={feedButton}
-                className="primary-button play-feed"
-                onClick={() => openMeal()}
-              >
-                <Utensils size={21} />
-                {fed ? 'もう一度あげる' : 'ごはんをあげる'}
-              </button>
+                  <span className="play-name">
+                    <strong>{state.name}</strong>
+                    <small>
+                      {stageName(stage)} · {stage + 1}/5
+                    </small>
+                    <ChevronRight size={14} />
+                  </span>
+                  <span
+                    className="play-growth-track"
+                    role="progressbar"
+                    aria-label="成長"
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-valuenow={Math.round(growth)}
+                  >
+                    <i style={{ width: `${growth}%` }} />
+                  </span>
+                  <span className="play-next">
+                    {stage === 4 ? 'すべての姿を発見' : `次の成長まで ${nextGrowth} XP`}
+                  </span>
+                </button>
+              </div>
+              <div className="play-care-feed">
+                {showMealGuide && (
+                  <PlayGuide id="home-meal-guide" onDismiss={dismissHomeGuide}>
+                    {state.name}がごはんを待っています。自分で作った料理をここから記録しましょう。
+                  </PlayGuide>
+                )}
+                <button
+                  ref={feedButton}
+                  className={`primary-button play-feed${showMealGuide ? ' is-guide-target' : ''}`}
+                  aria-describedby={showMealGuide ? 'home-meal-guide-text' : undefined}
+                  onClick={() => openMeal()}
+                >
+                  <Utensils size={21} />
+                  {fed ? 'もう一度あげる' : 'ごはんをあげる'}
+                </button>
+              </div>
               <div className="play-today">
                 <span>
                   {dailyFed ? (
@@ -578,22 +647,41 @@ function App() {
           </>
         )}
       </main>
-      <nav className="play-nav" aria-label="メインナビゲーション">
-        {[
-          { id: 'room' as const, name: 'ひろば', Icon: Utensils },
-          { id: 'book' as const, name: 'ずかん', Icon: BookOpen },
-          { id: 'shop' as const, name: 'おみせ', Icon: ShoppingBag },
-        ].map(({ id, name, Icon }) => (
-          <button
-            key={id}
-            aria-current={page === id || (id === 'book' && page === 'album') ? 'page' : undefined}
-            onClick={() => navigate(id)}
-          >
-            <Icon size={23} />
-            <span>{name}</span>
-          </button>
-        ))}
-      </nav>
+      <div className={showBookGuide ? 'play-guide-nav' : undefined} ref={bookGuide}>
+        {showBookGuide && (
+          <PlayGuide id="home-book-guide" onDismiss={dismissHomeGuide}>
+            料理のカードはずかんに集まります。カードを見てみましょう。
+          </PlayGuide>
+        )}
+        <nav className="play-nav" aria-label="メインナビゲーション">
+          {[
+            { id: 'room' as const, name: 'ひろば', Icon: Utensils },
+            { id: 'book' as const, name: 'ずかん', Icon: BookOpen },
+            { id: 'shop' as const, name: 'おみせ', Icon: ShoppingBag },
+          ].map(({ id, name, Icon }) => (
+            <button
+              key={id}
+              ref={id === 'book' ? bookButton : undefined}
+              className={id === 'book' && showBookGuide ? 'is-guide-target' : undefined}
+              aria-describedby={id === 'book' && showBookGuide ? 'home-book-guide-text' : undefined}
+              aria-current={page === id || (id === 'book' && page === 'album') ? 'page' : undefined}
+              onClick={() => {
+                if (id === 'book' && homeGuide === 'book') {
+                  setBookKind('recipes')
+                  setState((current) => ({
+                    ...current,
+                    tutorial: { ...current.tutorial, homeGuide: 'done' },
+                  }))
+                }
+                navigate(id)
+              }}
+            >
+              <Icon size={23} />
+              <span>{name}</span>
+            </button>
+          ))}
+        </nav>
+      </div>
       {dialog && (
         <GameDialogs
           key={dialog.type}

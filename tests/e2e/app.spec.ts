@@ -400,7 +400,9 @@ for (const viewport of [
     for (const scene of ['choose', 'welcome']) {
       await expect(journey(page, scene)).toBeVisible()
       await waitForSceneMotion(page)
-      const bounds = await journey(page, scene).locator('.journey-primary').boundingBox()
+      const bounds = await journey(page, scene)
+        .locator(scene === 'welcome' ? '.tutorial-step-action' : '.journey-primary')
+        .boundingBox()
       expect(bounds).not.toBeNull()
       expect(bounds!.y).toBeGreaterThanOrEqual(0)
       expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(viewport.height)

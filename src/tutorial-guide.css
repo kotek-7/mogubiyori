@@ -1,0 +1,132 @@
+.tutorial-guide {
+  position: relative;
+  width: 100%;
+  margin-top: 12px;
+  padding: 14px 16px;
+  border: 2px solid #a5c9bf;
+  border-radius: 18px;
+  background: var(--game-surface);
+  color: var(--game-ink);
+  box-shadow: 0 3px 0 #cfdfd7;
+  text-align: left;
+}
+.tutorial-guide-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--game-teal-dark);
+  font-size: 10px;
+  font-weight: 750;
+}
+.tutorial-guide p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+.tutorial-step-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  min-height: 46px;
+  margin-top: 12px;
+  padding: 8px 10px;
+  border: 1px solid #c79235;
+  border-radius: 12px;
+  background: var(--game-gold);
+  box-shadow: 0 3px 0 #c79235;
+  color: var(--game-ink);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.tutorial-step-action:hover:not(:disabled) {
+  background: #ffd376;
+}
+.tutorial-step-action:disabled {
+  opacity: 0.6;
+  cursor: default;
+  box-shadow: none;
+}
+.tutorial-step-action:focus-visible,
+.tutorial-chapter-next:focus-visible {
+  outline: 3px solid var(--game-teal);
+  outline-offset: 4px;
+}
+.tutorial-chapter-next {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  min-height: 67px;
+  padding: 10px 18px;
+  border: 2px solid var(--game-teal);
+  border-radius: 18px;
+  background: var(--game-teal);
+  color: white;
+  text-align: left;
+  cursor: pointer;
+  animation: tutorial-chapter-appear 250ms ease-out both;
+}
+.tutorial-chapter-next > span {
+  display: grid;
+  gap: 3px;
+}
+.tutorial-chapter-next small {
+  font-size: 10px;
+  font-weight: 500;
+}
+.tutorial-chapter-next strong {
+  font-size: 16px;
+  font-weight: 800;
+}
+.tutorial-chapter-next:hover {
+  background: var(--game-teal-dark);
+}
+@keyframes tutorial-chapter-appear {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-height: 700px), (max-width: 350px) {
+  .tutorial-guide {
+    padding: 9px 11px;
+    margin-top: 8px;
+    border-radius: 14px;
+  }
+  .tutorial-guide-label {
+    font-size: 9px;
+  }
+  .tutorial-guide p {
+    font-size: 12px;
+    line-height: 1.65;
+    margin-top: 4px;
+  }
+  .tutorial-step-action {
+    min-height: 42px;
+    margin-top: 8px;
+    font-size: 12px;
+    padding-block: 6px;
+  }
+  .tutorial-chapter-next {
+    min-height: 58px;
+    padding: 7px 14px;
+    border-radius: 14px;
+  }
+  .tutorial-chapter-next strong {
+    font-size: 14px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tutorial-chapter-next {
+    animation: none;
+  }
+}

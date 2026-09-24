@@ -1,18 +1,11 @@
 import { useEffect, useState } from 'react'
-import {
-  ArrowRight,
-  Camera,
-  Check,
-  Coins,
-  Flame,
-  Heart,
-  LockKeyhole,
-  Sparkles,
-  Utensils,
-} from 'lucide-react'
+import { ArrowRight, Camera, Heart, LockKeyhole, Sparkles } from 'lucide-react'
 import { DishArt, GatheringScene, Pet } from './GameArt'
 import { JourneyFrame } from './JourneyFrame'
-import { TutorialCards, TutorialFriends } from './TutorialCollectionLessons'
+import { TutorialFriends } from './TutorialCollectionLessons'
+import { TutorialCards } from './TutorialRecipeLesson'
+import { TutorialGuide } from './TutorialGuide'
+import { StreakCelebration } from './StreakCelebration'
 import { growthStages, LOGIN_BONUS, species } from './game'
 import type { GrowthStage, SpeciesId, TutorialStep } from './game'
 import './tutorial.css'
@@ -23,7 +16,7 @@ type Props = {
   replay?: boolean
   onStep: (step: TutorialStep) => void
   onPause: () => void
-  onComplete: (recordMeal: boolean) => void
+  onComplete: () => void
 }
 
 const scenes = [
@@ -36,16 +29,16 @@ const scenes = [
 const titles = [
   '自炊でなかまを育てよう',
   '育つと姿が変わる',
-  'お客さんをなかまにしよう',
-  '料理を集めて図鑑を埋めよう',
+  '育った子にごはんをあげよう',
+  '作った料理を記録しよう',
   'まずは3日続けてみよう',
 ]
-const descriptions = [
-  '料理の写真を記録して、なかまにごはんをあげます。',
-  '食事で経験値をためて、5つの姿を見つけましょう。',
-  '育つとお客さんが来ます。ごはんをあげると仲間になります。',
-  '初めての料理を記録すると、カードとコインを獲得できます。',
-  '自炊を記録した日が連続記録になります。',
+const chapters = [
+  'ごはんをあげる',
+  '姿を育てる',
+  'なかまをふやす',
+  '料理カードを集める',
+  '自炊を続ける',
 ]
 
 export function TutorialJourney(props: Props) {
@@ -57,7 +50,14 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
   const [meal, setMeal] = useState<'hungry' | 'eating' | 'full'>('hungry')
   const [form, setForm] = useState<GrowthStage>(0)
   const [ready, setReady] = useState(false)
-  const [days, setDays] = useState(1)
+  const [friendPhase, setFriendPhase] = useState<
+    'waiting' | 'aroma' | 'noticed' | 'visiting' | 'joined' | 'home'
+  >('waiting')
+  const [cardPhase, setCardPhase] = useState<'cooking' | 'photo' | 'earned' | 'board' | 'recipe'>(
+    'cooking',
+  )
+  const [days, setDays] = useState(0)
+  const [streakReady, setStreakReady] = useState(true)
   useEffect(() => {
     if (meal !== 'eating') return
     const timer = window.setTimeout(() => setMeal('full'), 850)
@@ -74,27 +74,61 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
     return () => window.removeEventListener('keydown', cancel)
   }, [onPause])
   const done =
-    step === 0 ? meal === 'full' : step === 1 ? form === 2 : step === 4 ? days === 3 : ready
+    step === 0
+      ? meal === 'full'
+      : step === 1
+        ? form === 2
+        : step === 4
+          ? days === 3 && streakReady
+          : ready
+  let title = titles[step]
+  if (step === 2 && friendPhase !== 'waiting') {
+    title = {
+      aroma: 'ごはんの匂いが広がる',
+      noticed: '匂いに気づいた子がいる',
+      visiting: 'お客さんが来ました',
+      joined: '新しいなかまが増えました',
+      home: '新しいなかまも育てよう',
+    }[friendPhase]
+  }
+  if (step === 3 && cardPhase !== 'cooking') {
+    title = {
+      photo: '料理の写真を記録する',
+      earned: 'はじめてのカードを獲得',
+      board: '料理の記録がずかんに残る',
+      recipe: '次に作る料理を見つけよう',
+    }[cardPhase]
+  }
   let action = 'つづける'
   if (step === 0 && !done) action = meal === 'eating' ? '食事中' : 'ごはんをあげてみる'
   if (step === 1 && !done) action = form === 0 ? '育った姿を見る' : 'もっと育った姿を見る'
-  if (step === 4)
-    action = done ? (replay ? 'ひろばへ' : 'はじめてのごはんへ') : '翌日のごはんを記録する'
+  if (step === 4) {
+    action = done ? 'ひろばへ' : !streakReady ? '記録中' : `${days + 1}日目のごはんを記録する`
+    if (days > 0)
+      title = !streakReady
+        ? `${days}日目のごはんを記録`
+        : days === 1
+          ? '1日目を記録しました'
+          : `${days}日連続を達成`
+  }
   function advance() {
     if (step === 0 && meal === 'hungry') return setMeal('eating')
     if (step === 0 && meal === 'eating') return
     if (step === 1 && form < 2) return setForm((form + 1) as GrowthStage)
-    if (step === 4 && days < 3) return setDays(days + 1)
+    if (step === 4 && days < 3 && streakReady) {
+      setStreakReady(false)
+      setDays(days + 1)
+      return
+    }
     if (!done) return
-    if (step === 4) return onComplete(!replay)
+    if (step === 4) return onComplete()
     onStep((step + 1) as TutorialStep)
   }
   return (
     <JourneyFrame
       scene={scenes[step]}
-      eyebrow={`あそびかた ${step + 1}/5`}
-      title={titles[step]}
-      subtitle={descriptions[step]}
+      eyebrow={`あそびかた ${step + 1}/5 · ${chapters[step]}`}
+      title={title}
       progress={{ current: step + 1, total: 5, label: 'あそびかたの進み具合' }}
       onBack={step > 0 ? () => onStep((step - 1) as TutorialStep) : undefined}
       backLabel="前の練習に戻る"
@@ -102,18 +136,26 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
       closeLabel="チュートリアルを中断"
       footer={
         <>
-          {((step !== 2 && step !== 3) || ready) && (
-            <button className="journey-primary" onClick={advance} disabled={meal === 'eating'}>
-              {step === 0 && !done ? <Utensils size={20} /> : <ArrowRight size={20} />}
-              {action}
+          {done && (
+            <button
+              className="tutorial-chapter-next"
+              aria-label={step < 4 ? `次の章へ：${chapters[step + 1]}` : action}
+              onClick={advance}
+            >
+              <span>
+                <small>
+                  {step < 4 ? '次の章へ' : replay ? 'あそびかたを閉じる' : '自炊をはじめよう'}
+                </small>
+                <strong>{step < 4 ? chapters[step + 1] : action}</strong>
+              </span>
+              <ArrowRight size={23} aria-hidden="true" />
             </button>
           )}
-          <button
-            className="journey-secondary"
-            onClick={step === 4 && done ? () => onComplete(false) : onPause}
-          >
-            {step === 4 && done ? (replay ? '終了する' : 'あとで記録する') : 'ひろばを見てみる'}
-          </button>
+          {!(step === 4 && done) && (
+            <button className="journey-secondary" onClick={onPause}>
+              ひろばを見てみる
+            </button>
+          )}
         </>
       }
     >
@@ -157,6 +199,15 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
               </div>
               <span>次の姿まで {meal === 'full' ? 75 : 120} XP</span>
             </div>
+            <TutorialGuide
+              action={
+                !done ? { label: action, onClick: advance, disabled: meal === 'eating' } : undefined
+              }
+            >
+              {done
+                ? 'ごはんを食べると経験値がたまります。毎日の自炊で育てていきましょう。'
+                : '料理の写真を記録すると、なかまにごはんをあげられます。まずはこの料理で試しましょう。'}
+            </TutorialGuide>
           </>
         )}
         {step === 1 && (
@@ -186,40 +237,49 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
                 </li>
               ))}
             </ol>
+            <TutorialGuide action={!done ? { label: action, onClick: advance } : undefined}>
+              {form === 0
+                ? `経験値がたまると姿が変わります。${name}の成長を少し見てみましょう。`
+                : form === 1
+                  ? 'ちびっこになりました。さらに育つと、違う姿になります。'
+                  : '全部で5つの姿に成長します。自炊を続けて見つけましょう。'}
+            </TutorialGuide>
           </>
         )}
-        {step === 2 && <TutorialFriends speciesId={speciesId} onReady={() => setReady(true)} />}
-        {step === 3 && <TutorialCards onReady={() => setReady(true)} />}
+        {step === 2 && (
+          <TutorialFriends
+            speciesId={speciesId}
+            onReady={() => setReady(true)}
+            onPhaseChange={setFriendPhase}
+          />
+        )}
+        {step === 3 && (
+          <TutorialCards onReady={() => setReady(true)} onPhaseChange={setCardPhase} />
+        )}
         {step === 4 && (
           <>
-            <div className={`tutorial-streak is-day-${days}`}>
-              <Flame size={44} fill="currentColor" aria-hidden="true" />
-              <div className="tutorial-day-count" role="status">
-                <strong>{days}</strong>日連続
-              </div>
-              <ol className="tutorial-calendar" aria-label="3日間の自炊">
-                {['rice', 'soup', 'curry'].map((dish, index) => (
-                  <li key={dish} className={index < days ? 'is-recorded' : ''}>
-                    <span>{index + 1}日目</span>
-                    <div>{index < days ? <DishArt kind={dish} /> : <Utensils size={22} />}</div>
-                    {index < days ? (
-                      <Check size={18} />
-                    ) : (
-                      <span className="tutorial-calendar-dot" />
-                    )}
-                  </li>
-                ))}
-              </ol>
-              <div className={`tutorial-streak-prize ${done ? 'is-earned' : ''}`} role="status">
-                <Coins size={24} />
-                <strong>{done ? '3日連続ボーナス +30' : '3日連続で +30'}</strong>
-              </div>
-            </div>
-            <div className="tutorial-login">
-              <Coins size={16} />
-              ログインでも毎日 +{LOGIN_BONUS}コイン
-            </div>
-            {done && <p className="tutorial-next-goal">次は自分で作ったごはんを記録しましょう。</p>}
+            <StreakCelebration
+              beforeDays={Math.max(0, days - 1)}
+              afterDays={days}
+              reward={days === 3 ? 30 : 0}
+              compact
+              onComplete={() => setStreakReady(true)}
+            />
+            <TutorialGuide
+              action={
+                days < 3 ? { label: action, onClick: advance, disabled: !streakReady } : undefined
+              }
+            >
+              {days === 0
+                ? '毎日ごはんを記録すると、連続記録が伸びていきます。まずは1日目から試しましょう。'
+                : !streakReady
+                  ? `${days}日目のごはんを記録しています。`
+                  : days === 1
+                    ? '1日目の記録がつきました。次は翌日も自炊してみましょう。'
+                    : days === 2
+                      ? '2日連続になりました。もう1日続けるとボーナスがもらえます。'
+                      : `3日連続のボーナスを獲得しました。毎日のログインでも${LOGIN_BONUS}コインもらえます。`}
+            </TutorialGuide>
           </>
         )}
       </div>
