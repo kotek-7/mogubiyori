@@ -1,7 +1,10 @@
-type GroveSceneryProps = { className?: string }
+import { SceneryFrame } from './SceneryFrame'
+import type { SceneryPresentation } from './SceneryFrame'
+
+type GroveSceneryProps = { className?: string; presentation?: SceneryPresentation }
 
 /** A sunlit clearing beneath the old trees above Kaya village. */
-export function GroveScenery({ className = '' }: GroveSceneryProps) {
+export function GroveScenery({ className = '', presentation = 'preview' }: GroveSceneryProps) {
   const ink = '#665442'
   const bark = '#8A7858'
   const barkLight = '#B4A17B'
@@ -9,16 +12,28 @@ export function GroveScenery({ className = '' }: GroveSceneryProps) {
   const leafDark = '#637653'
   const leafLight = '#A3AF7D'
   const cream = '#F3EBD0'
+  const groundDepth = presentation === 'field' ? 94 : 92
 
   return (
-    <svg
+    <SceneryFrame
       className={`gathering-scene gathering-garden ${className}`}
-      viewBox="0 0 800 580"
-      preserveAspectRatio="xMidYMid slice"
-      fill="none"
-      aria-hidden="true"
+      presentation={presentation}
+      palette={{
+        kind: 'grove',
+        sky: '#E5E5C8',
+        ground: '#DAD0AC',
+        groundStart: 488,
+        horizon: 234,
+        light: '#F3EBD0',
+        shade: '#B7AE88',
+        leaf: '#637653',
+        distant: [
+          { y: 234, color: '#A5B180' },
+          { y: 282, color: '#97A574' },
+        ],
+      }}
     >
-      <path d="M0 0h800v580H0Z" fill="#E5E5C8" />
+      {presentation === 'preview' && <path d="M0 0h800v580H0Z" fill="#E5E5C8" />}
       {/* Distant trunks and crowns leave a warm opening in the middle. */}
       <path
         d="M0 123c24-38 67-42 93-19 14-40 57-49 86-25 25-33 61-26 78 0 28-16 50-3 57 26-20 25-23 49-3 77-39 19-58 48-52 81H0Zm800-31c-37-35-75-27-94 2-16-31-47-30-66-3-33-22-68-5-71 27-39-5-66 20-57 49 28 16 41 40 35 72l253 31Z"
@@ -37,7 +52,7 @@ export function GroveScenery({ className = '' }: GroveSceneryProps) {
         fill="#97A574"
       />
       <path
-        d="M357 259c-16 28-55 36-87 58-24 17-5 28 29 34-103-6-171 21-201 64C70 454 36 474 0 488v92h800v-92c-87 10-109-29-145-73-37-45-130-45-192-60-53-13-60-33-37-52 13-11 26-24 25-40-28-6-59-8-94-4Z"
+        d={`M357 259c-16 28-55 36-87 58-24 17-5 28 29 34-103-6-171 21-201 64C70 454 36 474 0 488v${groundDepth}h800v-${groundDepth}c-87 10-109-29-145-73-37-45-130-45-192-60-53-13-60-33-37-52 13-11 26-24 25-40-28-6-59-8-94-4Z`}
         fill="#DAD0AC"
       />
       <path
@@ -101,7 +116,11 @@ export function GroveScenery({ className = '' }: GroveSceneryProps) {
         fill={leaf}
       />
       <path
-        d="M70 0h203c14 8 14 24 1 31-16 11-38 4-44-10-22 18-50 13-59-4-18 17-44 17-57 2C95 30 76 23 70 0Zm491 0h185c-12 16-30 21-45 12-15 22-44 25-62 8-24 15-55 14-78-20Z"
+        d={
+          presentation === 'field'
+            ? 'M70 0C85-22 110-31 134-22c21-21 54-12 66 1 29-20 57-9 73 21c14 8 14 24 1 31-16 11-38 4-44-10-22 18-50 13-59-4-18 17-44 17-57 2C95 30 76 23 70 0Zm491 0c11-26 38-29 57-16 20-24 47-23 61-7 29-16 55-6 67 23-12 16-30 21-45 12-15 22-44 25-62 8-24 15-55 14-78-20Z'
+            : 'M70 0h203c14 8 14 24 1 31-16 11-38 4-44-10-22 18-50 13-59-4-18 17-44 17-57 2C95 30 76 23 70 0Zm491 0h185c-12 16-30 21-45 12-15 22-44 25-62 8-24 15-55 14-78-20Z'
+        }
         fill={leafLight}
       />
       {/* Hanging boughs remain visible when the scene is cropped on a phone. */}
@@ -145,16 +164,18 @@ export function GroveScenery({ className = '' }: GroveSceneryProps) {
         <path d="M189 434c-12 0-14-11-5-14-3-10 8-15 12-5 12-3 15 9 5 13-2 8-10 11-12 6Zm402 5c-12-4-10-15-2-15 1-11 13-12 14-1 12 3 9 14-1 14-4 7-10 8-11 2Zm31 14c-11-1-12-10-4-14-1-9 9-11 12-3 10 1 11 11 1 13-2 7-8 10-9 4Z" />
       </g>
       <path d="m24 531 53-5 15 14-56 9Zm648 18 44-12 28 8-11 13-49 2Z" fill="#BAC095" />
-      <path
-        d="M0 569c22-17 41-21 61-18l-6-22c17 9 27 19 34 31l27-14-6 20 43-8 11 22H0Zm800-27-30 14-4-25-19 28-29-10 10 19-56-1-15 13h143Z"
-        fill={leaf}
-      />
+      {presentation === 'preview' && (
+        <path
+          d="M0 569c22-17 41-21 61-18l-6-22c17 9 27 19 34 31l27-14-6 20 43-8 11 22H0Zm800-27-30 14-4-25-19 28-29-10 10 19-56-1-15 13h143Z"
+          fill={leaf}
+        />
+      )}
       <path
         d="m113 498 14-7m28 39 10-5m522-40 14 4m-60 39 12 1"
         stroke={leafDark}
         strokeWidth="2.5"
         strokeLinecap="round"
       />
-    </svg>
+    </SceneryFrame>
   )
 }

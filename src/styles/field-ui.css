@@ -1,0 +1,624 @@
+/* In-world HUD: one neutral acrylic material, with opaque type and pictograms.
+   Color comes through from the village, never from a tinted white/black surface. */
+:root {
+  --hud-glass: #ffffffb3;
+  --hud-highlight: #ffffffd9;
+  --hud-shadow: 0 8px 28px #00000014, 0 2px 6px #0000000a;
+  --hud-blur: blur(18px);
+}
+.play-wallet,
+.play-nav,
+.play-page-room :is(.play-growth, .play-friend-count, .companion-actions, .play-guests),
+.play-page-room .play-world-top > :is(span, button) {
+  background: var(--game-surface);
+  border: 1px solid var(--hud-highlight);
+  box-shadow: var(--hud-shadow);
+  color: var(--game-ink);
+}
+@supports (backdrop-filter: blur(1px)) {
+  .play-wallet,
+  .play-nav,
+  .play-page-room :is(.play-growth, .play-friend-count, .companion-actions, .play-guests),
+  .play-page-room .play-world-top > :is(span, button) {
+    background: var(--hud-glass);
+    backdrop-filter: var(--hud-blur);
+    -webkit-backdrop-filter: var(--hud-blur);
+  }
+}
+.play-wallet {
+  padding: 2px 4px;
+  border-radius: 28px;
+  gap: 0;
+}
+.play-wallet > button,
+.play-wallet > button:nth-child(2) {
+  padding-inline: 10px;
+}
+.play-wallet > .icon-button {
+  width: 44px;
+}
+.play-nav {
+  width: 360px;
+  border-image: none;
+  border-radius: 26px;
+  background-clip: border-box;
+  padding: 10px 16px 13px;
+  filter: none;
+}
+.play-nav > button {
+  color: var(--game-ink);
+  min-height: 55px;
+}
+.play-nav > button > svg {
+  width: 38px;
+  height: 38px;
+}
+.play-nav > button[aria-current='page'],
+.play-nav > button:hover {
+  color: var(--game-ink);
+}
+.play-nav > button[aria-current='page'] > svg,
+.play-nav > button:hover > svg {
+  color: var(--game-action-dark);
+}
+.play-nav > button > .play-nav-indicator {
+  background: var(--game-action-dark);
+  bottom: -4px;
+}
+
+/* The field owns the viewport. UI clusters float above it; empty space stays playable. */
+.play-app[data-page='room'] {
+  --field-edge: clamp(16px, 3vw, 48px);
+  --field-bottom: max(14px, env(safe-area-inset-bottom));
+  min-height: 100svh;
+  padding: 0;
+  overflow: clip;
+}
+.play-app[data-page='room'] > .village-backdrop {
+  display: none;
+}
+.play-app[data-page='room'] .play-header {
+  position: absolute;
+  inset: 18px var(--field-edge) auto;
+  z-index: 8;
+  height: 52px;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+.play-app[data-page='room'] .play-brand {
+  background: #ffffffed;
+  padding: 3px 16px 3px 8px;
+  border-radius: 28px;
+  font-size: 22px;
+  gap: 6px;
+}
+.play-app[data-page='room'] .play-brand > svg {
+  width: 36px;
+  height: 36px;
+  display: block;
+}
+.play-app[data-page='room'] .play-page-room {
+  position: relative;
+  max-width: none;
+  width: 100%;
+  min-height: 568px;
+  height: 100svh;
+  margin: 0;
+  padding: 0;
+}
+.play-page-room .play-world[class] {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: hidden;
+  filter: none;
+  isolation: auto;
+}
+.play-page-room .play-scenery {
+  z-index: 0;
+  pointer-events: none;
+}
+.play-page-room .play-greeting {
+  position: absolute;
+  top: 94px;
+  left: var(--field-edge);
+  z-index: 4;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin: 0;
+  padding: 10px 16px;
+  border-radius: 20px;
+  background: #ffffffed;
+  color: var(--game-ink);
+}
+.play-page-room .play-location {
+  color: var(--game-muted);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+.play-page-room .play-greeting h1 {
+  margin: 2px 0 0;
+  font-size: 22px;
+  letter-spacing: -0.04em;
+  line-height: 1.3;
+}
+.play-page-room .play-streak {
+  color: var(--game-ink);
+  padding: 4px 0 4px 16px;
+  border-left: 1px solid var(--game-line);
+}
+.play-page-room .play-world-top {
+  top: 174px;
+  left: var(--field-edge);
+  right: var(--field-edge);
+  justify-content: flex-start;
+  gap: 10px;
+  pointer-events: none;
+}
+.play-page-room .play-world-top > * {
+  pointer-events: auto;
+}
+.play-page-room .play-world-top > span {
+  border-radius: 24px;
+  min-height: 38px;
+  font-size: 11px;
+}
+.play-page-room .play-world-top > button {
+  width: 44px;
+  height: 44px;
+  color: var(--game-ink);
+}
+.play-page-room .play-world .play-pet {
+  width: clamp(300px, 43svh, 440px);
+  height: clamp(300px, 43svh, 440px);
+  left: 50%;
+  bottom: 24%;
+  z-index: 2;
+}
+.play-page-room
+  .play-world[class]:is([data-growth-stage='2'], [data-growth-stage='3'], [data-growth-stage='4'])
+  .play-pet {
+  width: clamp(260px, 34svh, 350px);
+  height: clamp(260px, 34svh, 350px);
+}
+.play-page-room .play-world.with-visitors .play-pet {
+  left: 44%;
+}
+.play-page-room .companion-reaction-status {
+  top: 33%;
+  left: 20%;
+  right: 20%;
+}
+.play-page-room .play-friend-count {
+  left: var(--field-edge);
+  bottom: calc(var(--field-bottom) + 226px);
+  border-radius: 25px;
+  padding: 4px 12px 4px 6px;
+  min-height: 46px;
+  font-size: 11px;
+}
+.play-page-room .companion-actions {
+  right: var(--field-edge);
+  bottom: calc(var(--field-bottom) + 226px);
+  border-radius: 26px;
+  padding: 2px 4px;
+  gap: 0;
+}
+.play-page-room .companion-actions > button {
+  background: transparent;
+  color: var(--game-ink);
+  box-shadow: none;
+  border-radius: 22px;
+}
+.play-page-room .play-guests {
+  right: var(--field-edge);
+  bottom: 43%;
+  border-radius: 22px;
+}
+.play-page-room .play-care {
+  --play-guide-outline: var(--game-ink);
+  --play-guide-outline-pulse: var(--game-action);
+  position: absolute;
+  inset: auto var(--field-edge) calc(var(--field-bottom) + 120px);
+  display: grid;
+  grid-template-columns: minmax(0, 260px) minmax(0, 260px);
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--game-ink);
+  pointer-events: none;
+}
+.play-page-room .play-care > * {
+  pointer-events: auto;
+}
+.play-page-room .play-care button:focus-visible {
+  outline-color: var(--game-ink);
+}
+.play-page-room .play-growth {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 102px;
+  padding: 14px;
+  border-radius: 25px;
+  color: var(--game-ink);
+}
+.field-companion-portrait {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 auto;
+}
+.field-companion-portrait > svg {
+  width: 100%;
+  height: 100%;
+}
+.field-growth-copy {
+  flex: 1;
+  min-width: 0;
+}
+.play-page-room .play-name {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  gap: 0 6px;
+}
+.play-page-room .play-name strong {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--game-ink);
+  font-size: 19px;
+}
+.play-page-room .play-name small {
+  color: var(--game-ink);
+  font-size: 9px;
+  padding: 0;
+  background: transparent;
+}
+.play-page-room .play-name > svg {
+  color: var(--game-ink);
+  width: 12px;
+}
+.play-page-room .play-growth-track {
+  display: block;
+  height: 6px;
+  margin: 7px 0 5px;
+  border: 0;
+  background: #20202024;
+  border-radius: 4px;
+}
+.play-page-room .play-growth-track i {
+  background: var(--game-ink);
+  border-radius: inherit;
+}
+.play-page-room .play-next {
+  color: var(--game-ink);
+  font-size: 10px;
+}
+.play-page-room .primary-button.play-feed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 102px;
+  padding: 14px;
+  border: 1px solid #ffffff80;
+  border-image: none;
+  border-radius: 25px;
+  background: var(--game-action);
+  color: var(--game-surface);
+  box-shadow: 0 8px 24px #00000021;
+  filter: none;
+}
+.play-page-room .play-feed > .mogu-mark {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+}
+.field-feed-copy {
+  display: grid;
+  text-align: left;
+  gap: 5px;
+}
+.field-feed-copy strong {
+  font-size: 15px;
+  white-space: nowrap;
+}
+.field-feed-copy small {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 9px;
+  font-weight: 600;
+}
+.play-page-room .play-rewards {
+  position: absolute;
+  left: var(--field-edge);
+  bottom: calc(var(--field-bottom) + 86px);
+  z-index: 3;
+  width: auto;
+  margin: 0;
+  padding: 1px 10px;
+  gap: 10px;
+  border-radius: 16px;
+  background: #ffffffed;
+  color: var(--game-ink);
+  font-size: 9px;
+}
+.play-page-room .play-rewards > button {
+  min-height: 28px;
+  color: var(--game-ink);
+  font-size: 9px;
+}
+.play-page-room .play-rewards svg {
+  color: var(--game-ink);
+}
+.play-page-room .tutorial-resume {
+  position: absolute;
+  z-index: 3;
+  top: 230px;
+  left: var(--field-edge);
+  width: auto;
+  min-height: 38px;
+  margin: 0;
+  padding: 6px 12px;
+  gap: 7px;
+  border: 0;
+  border-radius: 20px;
+  background: #ffffffed;
+  color: var(--game-ink);
+  font-size: 10px;
+}
+/* Guidance temporarily floats above its real action, keeping their DOM/focus relationship. */
+.play-page-room :is(.play-care-growth, .play-care-feed) {
+  position: relative;
+}
+.play-page-room .play-care .play-guide {
+  position: absolute;
+  bottom: calc(100% + 16px);
+  width: max(100%, 260px);
+  box-shadow: var(--hud-shadow);
+}
+.play-page-room .play-care-feed > .play-guide {
+  right: 0;
+}
+.play-app[data-page='room'] .play-guide-nav {
+  position: absolute;
+  z-index: 9;
+  left: 50%;
+  bottom: var(--field-bottom);
+  transform: translateX(-50%);
+  margin: 0;
+}
+@media (max-width: 600px) {
+  .play-app[data-page='room'] {
+    --field-edge: 16px;
+    --field-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+  .play-app[data-page='room'] .play-header {
+    top: 12px;
+    height: 48px;
+  }
+  .play-app[data-page='room'] .play-brand {
+    padding: 4px;
+    width: 48px;
+    height: 48px;
+    justify-content: center;
+  }
+  .play-app[data-page='room'] .play-brand > span {
+    display: none;
+  }
+  .play-wallet > button,
+  .play-wallet > button:nth-child(2) {
+    padding-inline: 8px;
+  }
+  .play-page-room .play-greeting {
+    top: 78px;
+    padding: 9px 13px;
+    gap: 15px;
+  }
+  .play-page-room .play-greeting h1 {
+    font-size: 20px;
+  }
+  .play-page-room .play-location {
+    font-size: 9px;
+  }
+  .play-page-room .play-streak {
+    min-height: 36px;
+    font-size: 9px;
+    padding-left: 12px;
+  }
+  .play-page-room .play-world-top {
+    top: 148px;
+  }
+  .play-page-room .tutorial-resume {
+    top: 202px;
+  }
+  .play-page-room .play-world .play-pet {
+    width: min(390px, 98vw);
+    height: min(390px, 98vw);
+    bottom: 28%;
+  }
+  .play-page-room
+    .play-world[class]:is([data-growth-stage='2'], [data-growth-stage='3'], [data-growth-stage='4'])
+    .play-pet {
+    width: 260px;
+    height: 260px;
+  }
+  .play-page-room .play-world.with-visitors .play-pet {
+    width: 245px;
+    height: 245px;
+    left: 35%;
+  }
+  .play-page-room .play-care {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    bottom: calc(var(--field-bottom) + 118px);
+  }
+  .play-page-room .play-growth {
+    min-height: 104px;
+    padding: 11px;
+    gap: 5px;
+    border-radius: 22px;
+  }
+  .field-companion-portrait {
+    display: none;
+  }
+  .play-page-room .play-name strong {
+    font-size: 18px;
+    width: 100%;
+  }
+  .play-page-room .play-name small {
+    font-size: 9px;
+    margin-top: 3px;
+  }
+  .play-page-room .play-next {
+    font-size: 9px;
+  }
+  .play-page-room .primary-button.play-feed {
+    min-height: 104px;
+    padding: 10px 8px;
+    gap: 4px;
+    flex-direction: column;
+    border-radius: 22px;
+  }
+  .play-page-room .play-feed > .mogu-mark {
+    width: 38px;
+    height: 38px;
+  }
+  .field-feed-copy {
+    text-align: center;
+    gap: 3px;
+  }
+  .field-feed-copy strong {
+    font-size: 13px;
+  }
+  .field-feed-copy small {
+    font-size: 8px;
+    justify-content: center;
+  }
+  .play-page-room .play-friend-count,
+  .play-page-room .companion-actions {
+    bottom: calc(var(--field-bottom) + 240px);
+  }
+  .play-page-room .play-friend-count {
+    font-size: 10px;
+  }
+  .play-page-room .companion-actions > button {
+    min-width: 48px;
+    font-size: 9px;
+  }
+  .play-nav {
+    width: 330px;
+    padding: 8px 14px 11px;
+    border-radius: 24px;
+  }
+  .play-nav > button {
+    min-height: 55px;
+  }
+  .play-page-room .play-care .play-guide {
+    width: calc(100vw - 32px);
+  }
+}
+@media (max-width: 600px) and (max-height: 700px) {
+  .play-app[data-page='room'] {
+    --field-edge: 12px;
+    --field-bottom: max(8px, env(safe-area-inset-bottom));
+  }
+  .play-app[data-page='room'] .play-header {
+    top: 8px;
+    height: 44px;
+  }
+  .play-page-room .play-greeting {
+    top: 62px;
+    padding: 6px 10px;
+    gap: 12px;
+  }
+  .play-page-room .play-greeting h1 {
+    font-size: 17px;
+  }
+  .play-page-room .play-world-top {
+    top: 122px;
+  }
+  .play-page-room .tutorial-resume {
+    top: 175px;
+    min-height: 32px;
+    font-size: 9px;
+  }
+  .play-page-room .play-world .play-pet,
+  .play-page-room .play-world.with-visitors .play-pet {
+    width: 210px;
+    height: 210px;
+    bottom: 34%;
+  }
+  .play-page-room
+    .play-world[class]:is([data-growth-stage='2'], [data-growth-stage='3'], [data-growth-stage='4'])
+    .play-pet {
+    width: 190px;
+    height: 190px;
+  }
+  .play-page-room .play-care {
+    bottom: calc(var(--field-bottom) + 94px);
+    gap: 10px;
+  }
+  .play-page-room .play-growth,
+  .play-page-room .primary-button.play-feed {
+    min-height: 88px;
+    padding: 8px 10px;
+  }
+  .play-page-room .play-feed > .mogu-mark {
+    width: 28px;
+    height: 28px;
+  }
+  .play-page-room .play-friend-count,
+  .play-page-room .companion-actions {
+    bottom: calc(var(--field-bottom) + 198px);
+  }
+  .play-page-room .play-guests {
+    bottom: calc(var(--field-bottom) + 260px);
+  }
+  .play-page-room .play-rewards {
+    bottom: calc(var(--field-bottom) + 67px);
+    padding-block: 0;
+  }
+  .play-page-room .play-rewards > button {
+    min-height: 24px;
+  }
+  .play-app[data-page='room'] .play-nav {
+    bottom: var(--field-bottom);
+    padding-block: 5px 9px;
+  }
+  .play-app[data-page='room'] .play-nav > button {
+    min-height: 46px;
+  }
+  .play-app[data-page='room'] .play-nav > button > svg {
+    width: 30px;
+    height: 30px;
+  }
+  .play-page-room .play-care .play-guide {
+    width: calc(100vw - 24px);
+  }
+}
+@media (prefers-reduced-transparency: reduce), (forced-colors: active) {
+  .play-wallet,
+  .play-nav,
+  .play-page-room :is(.play-growth, .play-friend-count, .companion-actions, .play-guests),
+  .play-page-room .play-world-top > :is(span, button) {
+    background: var(--game-surface);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}

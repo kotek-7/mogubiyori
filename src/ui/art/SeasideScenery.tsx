@@ -1,21 +1,37 @@
-type SeasideSceneryProps = { className?: string }
+import { SceneryFrame } from './SceneryFrame'
+import type { SceneryPresentation } from './SceneryFrame'
+
+type SeasideSceneryProps = { className?: string; presentation?: SceneryPresentation }
 
 /** The quiet beach below Kaya, with the evening sun over the open water. */
-export function SeasideScenery({ className = '' }: SeasideSceneryProps) {
+export function SeasideScenery({ className = '', presentation = 'preview' }: SeasideSceneryProps) {
   const cream = '#F9F1DB'
   const sand = '#E5D1AC'
   const line = '#846C55'
   const water = '#809E9E'
 
   return (
-    <svg
+    <SceneryFrame
       className={`gathering-scene gathering-seaside ${className}`}
-      viewBox="0 0 800 580"
-      preserveAspectRatio="xMidYMid slice"
-      fill="none"
-      aria-hidden="true"
+      presentation={presentation}
+      palette={{
+        kind: 'seaside',
+        sky: '#E8D2BF',
+        ground: '#DDC6A0',
+        groundStart: 410,
+        horizon: 186,
+        stageGround: 365,
+        light: '#F9F1DB',
+        shade: '#CDB58F',
+        leaf: '#87916B',
+        distant: [
+          { y: 186, color: '#809E9E' },
+          { y: 322, color: '#91ACAA' },
+          { y: 393, color: '#C3BB9F' },
+        ],
+      }}
     >
-      <path d="M0 0h800v580H0Z" fill="#E8D2BF" />
+      {presentation === 'preview' && <path d="M0 0h800v580H0Z" fill="#E8D2BF" />}
       <path d="M0 114c124-8 211 13 355 5 174-11 323-5 445 7v88H0Z" fill="#EBDABF" />
       <path
         d="M384 159c0-31 24-55 54-55 31 0 56 23 56 54 0 33-23 57-55 57-31 0-55-24-55-56Z"
@@ -165,6 +181,6 @@ export function SeasideScenery({ className = '' }: SeasideSceneryProps) {
         strokeWidth="2.5"
         strokeLinecap="round"
       />
-    </svg>
+    </SceneryFrame>
   )
 }

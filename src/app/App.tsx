@@ -289,7 +289,7 @@ function App() {
         setShopKind,
       }}
     >
-      <div className="play-app" data-home-guide={homeGuide}>
+      <div className="play-app" data-page={page} data-home-guide={homeGuide}>
         <VillageBackdrop />
         <a className="skip-link" href="#main">
           本文へ

@@ -536,6 +536,7 @@ export function ItemArt({ id, className = '' }: ArtProps & { id: string }) {
 export function GatheringScene({
   className = '',
   variant = 'plain',
-}: ArtProps & { variant?: string }) {
-  return <KayaScenery variant={variant} className={className} />
+  presentation = 'preview',
+}: ArtProps & { variant?: string; presentation?: 'preview' | 'field' }) {
+  return <KayaScenery variant={variant} className={className} presentation={presentation} />
 }

@@ -1,5 +1,14 @@
+import { SceneryFrame } from './SceneryFrame'
+import type { SceneryPresentation } from './SceneryFrame'
+
 /** A glass house at the edge of Kaya, with a clear tiled space for the companion. */
-export function GreenhouseScenery({ className = '' }: { className?: string }) {
+export function GreenhouseScenery({
+  className = '',
+  presentation = 'preview',
+}: {
+  className?: string
+  presentation?: SceneryPresentation
+}) {
   const frame = '#607B70'
   const frameLight = '#A9B9A0'
   const leaf = '#637E57'
@@ -9,14 +18,26 @@ export function GreenhouseScenery({ className = '' }: { className?: string }) {
   const pot = '#BD8061'
 
   return (
-    <svg
+    <SceneryFrame
       className={`gathering-scene gathering-greenhouse ${className}`}
-      viewBox="0 0 800 580"
-      preserveAspectRatio="xMidYMid slice"
-      fill="none"
-      aria-hidden="true"
+      presentation={presentation}
+      palette={{
+        kind: 'greenhouse',
+        sky: '#DCE7D9',
+        ground: '#E5D8BA',
+        groundStart: 377,
+        horizon: 243,
+        stageGround: 377,
+        light: '#F9F6ED',
+        shade: '#C5B99F',
+        leaf: '#637E57',
+        distant: [
+          { y: 158, color: '#C5D8CB' },
+          { y: 330, color: '#C4BA99' },
+        ],
+      }}
     >
-      <path d="M0 0h800v580H0Z" fill="#DCE7D9" />
+      {presentation === 'preview' && <path d="M0 0h800v580H0Z" fill="#DCE7D9" />}
       {/* The entire roof, rather than an edge ornament, identifies this scene when cropped. */}
       <path d="M0 158 400-22l400 180v183H0Z" fill="#C5D8CB" />
       <path d="m400-22-160 180H0Zm0 0 160 180h240Z" fill="#E6EAD9" />
@@ -153,6 +174,6 @@ export function GreenhouseScenery({ className = '' }: { className?: string }) {
         <path d="m68-3 10 9" stroke={frame} strokeWidth="5" strokeLinecap="round" />
         <path d="M9 14v20m6-26h23" stroke="#B4C9BD" strokeWidth="3" strokeLinecap="round" />
       </g>
-    </svg>
+    </SceneryFrame>
   )
 }

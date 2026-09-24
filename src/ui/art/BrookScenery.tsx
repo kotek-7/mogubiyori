@@ -1,20 +1,34 @@
-type BrookSceneryProps = { className?: string }
+import { SceneryFrame } from './SceneryFrame'
+import type { SceneryPresentation } from './SceneryFrame'
+
+type BrookSceneryProps = { className?: string; presentation?: SceneryPresentation }
 
 /** A low wooden footbridge crosses the brook beyond a quiet grassy bank. */
-export function BrookScenery({ className = '' }: BrookSceneryProps) {
+export function BrookScenery({ className = '', presentation = 'preview' }: BrookSceneryProps) {
   const cream = '#F3EEDA'
   const wood = '#AF9067'
   const line = '#6D654C'
 
   return (
-    <svg
+    <SceneryFrame
       className={`gathering-scene gathering-brook ${className}`}
-      viewBox="0 0 800 580"
-      preserveAspectRatio="xMidYMid slice"
-      fill="none"
-      aria-hidden="true"
+      presentation={presentation}
+      palette={{
+        kind: 'brook',
+        sky: '#DEE5D7',
+        ground: '#AABD8D',
+        groundStart: 223,
+        horizon: 181,
+        light: '#D7E1CE',
+        shade: '#94A77A',
+        leaf: '#738D62',
+        distant: [
+          { y: 133, color: '#B6C7AC' },
+          { y: 178, color: '#92A985' },
+        ],
+      }}
     >
-      <path d="M0 0h800v580H0Z" fill="#DEE5D7" />
+      {presentation === 'preview' && <path d="M0 0h800v580H0Z" fill="#DEE5D7" />}
       <path
         d="M275 67c14-8 29-4 39-10 10-7 25-9 37 0 23-2 37 4 51 14-39 7-89 3-127 1Zm251 29c15-5 23-14 38-12 13 1 20 7 25 12 18-1 31 3 42 11-31 3-79 2-111-1Z"
         fill={cream}
@@ -205,6 +219,6 @@ export function BrookScenery({ className = '' }: BrookSceneryProps) {
         strokeWidth="3"
         strokeLinecap="round"
       />
-    </svg>
+    </SceneryFrame>
   )
 }

@@ -1,18 +1,27 @@
 import { useId } from 'react'
+import { SceneryFrame } from './SceneryFrame'
+import type { SceneryPresentation } from './SceneryFrame'
 import { GroveScenery } from './GroveScenery'
 import { SeasideScenery } from './SeasideScenery'
 import { BrookScenery } from './BrookScenery'
 import { GreenhouseScenery } from './GreenhouseScenery'
 
-type KayaSceneryProps = { className?: string; variant?: string }
+type KayaSceneryProps = { className?: string; variant?: string; presentation?: SceneryPresentation }
 
 /** The open yard of Kaya's lower hearth, looking out toward the eastern bay. */
-export function KayaScenery({ className = '', variant = 'plain' }: KayaSceneryProps) {
+export function KayaScenery({
+  className = '',
+  variant = 'plain',
+  presentation = 'preview',
+}: KayaSceneryProps) {
   const id = useId()
-  if (variant === 'garden') return <GroveScenery className={className} />
-  if (variant === 'seaside') return <SeasideScenery className={className} />
-  if (variant === 'brook') return <BrookScenery className={className} />
-  if (variant === 'greenhouse') return <GreenhouseScenery className={className} />
+  if (variant === 'garden')
+    return <GroveScenery className={className} presentation={presentation} />
+  if (variant === 'seaside')
+    return <SeasideScenery className={className} presentation={presentation} />
+  if (variant === 'brook') return <BrookScenery className={className} presentation={presentation} />
+  if (variant === 'greenhouse')
+    return <GreenhouseScenery className={className} presentation={presentation} />
   const night = variant === 'night'
   const ink = '#372822'
   const cream = '#F9F6ED'
@@ -26,12 +35,20 @@ export function KayaScenery({ className = '', variant = 'plain' }: KayaSceneryPr
   const stone = night ? '#A4A193' : '#C8C4B8'
 
   return (
-    <svg
+    <SceneryFrame
       className={`gathering-scene gathering-${variant} ${className}`}
-      viewBox="0 0 800 580"
-      preserveAspectRatio="xMidYMid slice"
-      fill="none"
-      aria-hidden="true"
+      presentation={presentation}
+      palette={{
+        kind: 'yard',
+        sky: night ? '#344956' : '#E9E7E1',
+        ground: sand,
+        groundStart: 375,
+        horizon: 191,
+        light: night ? '#BDB9AA' : '#F0E6D0',
+        shade: night ? '#8D9384' : '#BCAF94',
+        leaf: olive,
+        distant: [{ y: 191, color: night ? '#4D7389' : '#7F9BA9' }],
+      }}
     >
       <defs>
         <clipPath id={`${id}-house-roof`}>
@@ -47,7 +64,9 @@ export function KayaScenery({ className = '', variant = 'plain' }: KayaSceneryPr
         </pattern>
       </defs>
       {/* Broad flat planes keep the companion separate from the distant village. */}
-      <path d="M0 0h800v580H0z" fill={night ? '#344956' : '#E9E7E1'} />
+      {presentation === 'preview' && (
+        <path d="M0 0h800v580H0z" fill={night ? '#344956' : '#E9E7E1'} />
+      )}
       {night ? (
         <g fill={cream}>
           <path d="M429 29a38 38 0 1 0 39 52 36 36 0 0 1-39-52Z" />
@@ -429,6 +448,6 @@ export function KayaScenery({ className = '', variant = 'plain' }: KayaSceneryPr
           <path d="m594 272-32 54h87l-32-54Z" fill="#DAC095" opacity=".14" />
         </g>
       )}
-    </svg>
+    </SceneryFrame>
   )
 }

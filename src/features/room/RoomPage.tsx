@@ -54,7 +54,11 @@ export function RoomPage() {
         className={`play-world ${state.visitors.length ? 'with-visitors' : ''} theme-${state.equipped.room}`}
         aria-label={`${state.name}のひろば。${fed ? 'おなかいっぱい' : 'ごはんを待っています'}`}
       >
-        <GatheringScene className="play-scenery" variant={state.equipped.room} />
+        <GatheringScene
+          className="play-scenery"
+          variant={state.equipped.room}
+          presentation="field"
+        />
         <div className="play-world-top">
           <span className="play-condition">
             <Utensils size={13} />
@@ -124,25 +128,30 @@ export function RoomPage() {
             aria-describedby={showGrowthGuide ? 'home-growth-guide-text' : undefined}
             onClick={openProfile}
           >
-            <span className="play-name">
-              <strong>{state.name}</strong>
-              <small>
-                {stageName(stage)} · {stage + 1}/5
-              </small>
-              <ChevronRight size={14} />
+            <span className="field-companion-portrait" aria-hidden="true">
+              <Pet species={state.activeId!} stage={stage} mood="happy" portrait />
             </span>
-            <span
-              className="play-growth-track"
-              role="progressbar"
-              aria-label="成長"
-              aria-valuemin={0}
-              aria-valuemax={100}
-              aria-valuenow={Math.round(growth)}
-            >
-              <i style={{ width: `${growth}%` }} />
-            </span>
-            <span className="play-next">
-              {stage === 4 ? 'すべての姿を発見' : `次の成長まで ${nextGrowth} XP`}
+            <span className="field-growth-copy">
+              <span className="play-name">
+                <strong>{state.name}</strong>
+                <small>
+                  {stageName(stage)} · {stage + 1}/5
+                </small>
+                <ChevronRight size={14} />
+              </span>
+              <span
+                className="play-growth-track"
+                role="progressbar"
+                aria-label="成長"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={Math.round(growth)}
+              >
+                <i style={{ width: `${growth}%` }} />
+              </span>
+              <span className="play-next">
+                {stage === 4 ? 'すべての姿を発見' : `次の成長まで ${nextGrowth} XP`}
+              </span>
             </span>
           </button>
         </div>
@@ -155,24 +164,24 @@ export function RoomPage() {
           <button
             ref={feedButton}
             className={`primary-button play-feed${showMealGuide ? ' is-guide-target' : ''}`}
-            aria-describedby={showMealGuide ? 'home-meal-guide-text' : undefined}
+            aria-describedby={showMealGuide ? 'home-meal-guide-text' : 'field-meal-status'}
             onClick={() => openMeal()}
           >
             <MoguMark />
-            {fed ? 'もう一度あげる' : 'ごはんをあげる'}
+            <span className="field-feed-copy">
+              <strong>{fed ? 'もう一度あげる' : 'ごはんをあげる'}</strong>
+              <small id="field-meal-status" aria-hidden="true">
+                {dailyFed ? (
+                  <>
+                    <Check size={12} />
+                    今日のごはん 記録済み
+                  </>
+                ) : (
+                  '今日のごはん 未記録'
+                )}
+              </small>
+            </span>
           </button>
-        </div>
-        <div className="play-today">
-          <span>
-            {dailyFed ? (
-              <>
-                <Check size={13} />
-                今日のごはん 記録済み
-              </>
-            ) : (
-              <>今日のごはん 未記録</>
-            )}
-          </span>
         </div>
       </section>
       <div className="play-rewards">
