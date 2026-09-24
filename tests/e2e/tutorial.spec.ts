@@ -24,6 +24,7 @@ const internalActions = (page: Page) =>
 
 type StreakSample = {
   phase: string
+  guide: string
   days: number
   recorded: number
   bonus: boolean
@@ -47,6 +48,7 @@ async function observeTutorialStreak(page: Page) {
       active = true
       const sample = {
         phase,
+        guide: screen!.querySelector('.tutorial-guide > p')?.textContent ?? '',
         days: Number(root.querySelector('.streak-celebration-number strong')?.textContent),
         recorded: root.querySelectorAll('.streak-celebration-days .is-recorded').length,
         bonus:
@@ -134,9 +136,9 @@ async function action(page: Page, name: string, checkLayout = false) {
       )
     ) {
       expect(
-        await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight),
+        await page.evaluate(() => document.documentElement.scrollHeight),
         `${name}: the entire lesson fits in the viewport`,
-      ).toBe(true)
+      ).toBeLessThanOrEqual(viewport.height)
     }
   }
   await button.click()
@@ -179,6 +181,9 @@ async function practice(
     await expectChapterReady(page)
   } else if (step === 2) {
     const lesson = screen.locator('.tutorial-friends-lesson')
+    const reducedMotion = await page.evaluate(
+      () => matchMedia('(prefers-reduced-motion: reduce)').matches,
+    )
     await expect(lesson).toHaveAttribute('data-phase', 'waiting')
     await expectChapterLocked(page)
     await expect(screen.locator('.tutorial-arriving-guest')).toHaveCount(0)
@@ -195,11 +200,33 @@ async function practice(
     await expect(lesson).toHaveAttribute('data-phase', 'noticed')
     await expect(screen.locator('.tutorial-visitor-character')).toHaveClass(/is-distant/)
     await expect(screen.locator('.tutorial-visitor-reaction')).toBeVisible()
+    if (!reducedMotion) {
+      await expect(screen.getByRole('button', { name: '近くに呼ぶ', exact: true })).toBeDisabled()
+      await expect(screen.locator('.tutorial-visitor-character')).toHaveClass(/is-walking/)
+      await expect(screen.locator('.tutorial-visitor-character')).toHaveCSS(
+        'animation-name',
+        'tutorial-visitor-walk-in',
+      )
+      await expect(screen.locator('.tutorial-visitor-character .pet-art')).toHaveCSS(
+        'animation-name',
+        'tutorial-visitor-steps',
+      )
+    }
     await onCheckpoint?.('tutorial-friends-noticed')
     await action(page, '近くに呼ぶ', checkLayout)
     await expect(lesson).toHaveAttribute('data-phase', 'visiting')
     await expect(screen.locator('.tutorial-visitor-character')).toHaveClass(/is-near/)
     await expect(screen.locator('.tutorial-visitor-badge')).toContainText('お客さん')
+    if (!reducedMotion) {
+      await expect(
+        screen.getByRole('button', { name: 'まめにごはんをあげる', exact: true }),
+      ).toBeDisabled()
+      await expect(screen.locator('.tutorial-visitor-character')).toHaveClass(/is-walking/)
+      await expect(screen.locator('.tutorial-visitor-character')).toHaveCSS(
+        'animation-name',
+        'tutorial-visitor-walk-closer',
+      )
+    }
     await expect(screen.getByRole('button', { name: /を選ぶ$/ })).toHaveCount(0)
     await onCheckpoint?.('tutorial-friends-visiting')
     await action(page, 'まめにごはんをあげる', checkLayout)
@@ -222,14 +249,30 @@ async function practice(
       'aria-valuenow',
       '45',
     )
+    const recap = screen.getByRole('region', { name: 'あそびかたガイド' })
+    await expect(recap).toContainText('わんぱくまで育つと')
+    await expect(recap).toContainText('別のもぐがやってきます')
     await expectChapterReady(page)
     await onCheckpoint?.('tutorial-friends-home')
   } else if (step === 3) {
     const lesson = screen.locator('.tutorial-recipe-lab')
     await expect(lesson).toHaveAttribute('data-phase', 'cooking')
     await expectChapterLocked(page)
+    await expect(screen.getByRole('region', { name: 'あそびかたガイド' })).toContainText(
+      'カレーのイラスト',
+    )
     await onCheckpoint?.('tutorial-cards-cooking')
-    await action(page, 'カレーの写真を撮る', checkLayout)
+    await action(page, 'この例で撮影を試す', checkLayout)
+    const reducedMotion = await page.evaluate(
+      () => matchMedia('(prefers-reduced-motion: reduce)').matches,
+    )
+    if (!reducedMotion) {
+      await expect(lesson).toHaveAttribute('data-phase', 'capturing')
+      await expect(screen.getByRole('button', { name: '撮影中', exact: true })).toBeDisabled()
+      await expect(screen.locator('.tutorial-recipe-camera-cut')).toBeVisible()
+      await expect(screen.locator('.tutorial-recipe-camera-device')).toBeVisible()
+      await expect(screen.locator('button.tutorial-chapter-next')).toHaveCount(0)
+    }
     await expect(lesson).toHaveAttribute('data-phase', 'photo')
     await expectChapterLocked(page)
     await onCheckpoint?.('tutorial-cards-photo')
@@ -250,8 +293,16 @@ async function practice(
     const wallet = screen.getByRole('group', { name: '70コイン', exact: true })
     await expect(wallet).toBeVisible()
     await expect(wallet.locator('strong')).toHaveText('70')
+    await expect(
+      screen.getByRole('button', { name: 'おにぎりのレシピを見る', exact: true }),
+    ).toHaveCount(0)
     await expectChapterLocked(page)
     await onCheckpoint?.('tutorial-cards-board')
+    await action(page, '追加されたカレーを確認する', checkLayout)
+    await expect(lesson).toHaveAttribute('data-phase', 'browse')
+    await expect(board.locator('.is-filled')).toContainText('カレー')
+    await expectChapterLocked(page)
+    await onCheckpoint?.('tutorial-cards-browse')
     await action(page, 'おにぎりのレシピを見る', checkLayout)
     await expect(lesson).toHaveAttribute('data-phase', 'recipe')
     await expect(screen.getByRole('heading', { name: /おかかのおにぎり/ })).toBeVisible()
@@ -273,6 +324,9 @@ async function practice(
     expect([...new Set(completed.map(({ days }) => days))]).toEqual([0, 1, 2, 3])
     expect(completed.every(({ days, recorded }) => days === recorded)).toBe(true)
     expect(samples.every(({ actions }) => actions === 0)).toBe(true)
+    const guideTexts = [...new Set(samples.map(({ guide }) => guide))]
+    expect(guideTexts).toHaveLength(1)
+    expect(guideTexts[0]).toContain('3日続けると30コイン')
     expect(samples.filter(({ days }) => days < 3).every(({ next, bonus }) => !next && !bonus)).toBe(
       true,
     )

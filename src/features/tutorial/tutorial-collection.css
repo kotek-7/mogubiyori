@@ -11,6 +11,10 @@
   width: 100%;
 }
 
+.journey-screen:has(.tutorial-friends-lesson[data-phase='home']) .journey-title {
+  min-height: 1.55em;
+}
+
 .tutorial-collection-result {
   margin: 0;
   color: var(--game-success);
@@ -183,15 +187,16 @@
   position: absolute;
   inset: 0 0 17px;
   transform-origin: 50% 85%;
-  transition: transform 700ms cubic-bezier(0.2, 0.7, 0.25, 1);
 }
 
 .tutorial-visitor-character.is-distant {
   transform: translate(20px, -22px) scale(0.62);
+  animation: tutorial-visitor-walk-in 1800ms ease-out both;
 }
 
 .tutorial-visitor-character.is-near {
   transform: translate(0, 0) scale(1);
+  animation: tutorial-visitor-walk-closer 1800ms ease-in-out both;
 }
 
 .tutorial-visitor-character .tutorial-friend-portrait {
@@ -202,6 +207,11 @@
   width: 236px;
   height: 236px;
   bottom: -12px;
+}
+
+.tutorial-visitor-character.is-walking .pet-art {
+  transform-origin: 50% 85%;
+  animation: tutorial-visitor-steps 300ms ease-in-out infinite;
 }
 
 .tutorial-visitor-reaction {
@@ -472,6 +482,38 @@
   }
 }
 
+@keyframes tutorial-visitor-walk-in {
+  from {
+    transform: translate(calc(100% + 24px), -30px) scale(0.52);
+  }
+  to {
+    transform: translate(20px, -22px) scale(0.62);
+  }
+}
+
+@keyframes tutorial-visitor-walk-closer {
+  from {
+    transform: translate(20px, -22px) scale(0.62);
+  }
+  to {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes tutorial-visitor-steps {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+  25%,
+  75% {
+    transform: translateY(-5px) rotate(0);
+  }
+  50% {
+    transform: translateY(0) rotate(3deg);
+  }
+}
+
 @keyframes tutorial-aroma-flow {
   to {
     stroke-dashoffset: -93;
@@ -560,7 +602,7 @@
     top: 7px;
   }
   .tutorial-friend-home {
-    height: 112px;
+    height: 104px;
   }
   .tutorial-friend-home-pet {
     width: 180px;
@@ -575,6 +617,9 @@
 @media (prefers-reduced-motion: reduce) {
   .tutorial-friend-heart,
   .tutorial-visitor-character,
+  .tutorial-visitor-character.is-distant,
+  .tutorial-visitor-character.is-near,
+  .tutorial-visitor-character.is-walking .pet-art,
   .tutorial-food-aroma > path,
   .tutorial-friends-plaza.is-eating .tutorial-visitor-character .pet-art,
   .tutorial-friends-plaza.is-host-fed .tutorial-friends-host .pet-art,
@@ -583,8 +628,5 @@
   .tutorial-friend-home-pet > .pet-art,
   .tutorial-collection-lesson .pet-art {
     animation: none;
-  }
-  .tutorial-visitor-character {
-    transition: none;
   }
 }

@@ -4,6 +4,7 @@ import { DishArt, GatheringScene, Pet } from '../../ui/art/GameArt'
 import { JourneyFrame } from '../../ui/journey/JourneyFrame'
 import { TutorialFriends } from './TutorialCollectionLessons'
 import { TutorialCards } from './TutorialRecipeLesson'
+import type { TutorialCardPhase } from './TutorialRecipeLesson'
 import { TutorialGuide } from './TutorialGuide'
 import { StreakCelebration } from '../streak/StreakCelebration'
 import { growthStages, LOGIN_BONUS, species } from '../../app/game/browserGame'
@@ -52,9 +53,7 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
   const [friendPhase, setFriendPhase] = useState<
     'waiting' | 'aroma' | 'noticed' | 'visiting' | 'joined' | 'home'
   >('waiting')
-  const [cardPhase, setCardPhase] = useState<'cooking' | 'photo' | 'earned' | 'board' | 'recipe'>(
-    'cooking',
-  )
+  const [cardPhase, setCardPhase] = useState<TutorialCardPhase>('cooking')
   const [days, setDays] = useState(0)
   const [streakReady, setStreakReady] = useState(true)
   useEffect(() => {
@@ -93,16 +92,18 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
     title = {
       aroma: 'ごはんの匂いが広がる',
       noticed: '匂いに気づいた子がいる',
-      visiting: 'お客さんが来ました',
+      visiting: '匂いに誘われて近づいてくる',
       joined: '新しいなかまが増えました',
       home: '新しいなかまも育てよう',
     }[friendPhase]
   }
   if (step === 3 && cardPhase !== 'cooking') {
     title = {
+      capturing: 'カレーの例を撮影中',
       photo: '料理の写真を記録する',
       earned: 'はじめてのカードを獲得',
-      board: '料理の記録がずかんに残る',
+      board: 'カレーがずかんに加わりました',
+      browse: 'ずかんで次の料理を探そう',
       recipe: '次に作る料理を見つけよう',
     }[cardPhase]
   }
@@ -268,15 +269,8 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
               onComplete={() => setStreakReady(true)}
             />
             <TutorialGuide>
-              {days === 0
-                ? '毎日ごはんを記録すると、連続記録が伸びていきます。3日間の様子を見てみましょう。'
-                : !streakReady
-                  ? `${days}日目のごはんを記録しています。`
-                  : days === 1
-                    ? '1日目の記録がつきました。翌日も自炊すると…'
-                    : days === 2
-                      ? '2日連続になりました。もう1日続けるとボーナスがもらえます。'
-                      : `3日連続のボーナスを獲得しました。毎日のログインでも${LOGIN_BONUS}コインもらえます。`}
+              毎日ごはんを記録すると連続記録が伸び、3日続けると30コインもらえます。
+              毎日のログインでも{LOGIN_BONUS}コインもらえます。
             </TutorialGuide>
           </>
         )}

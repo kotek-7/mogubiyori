@@ -71,6 +71,67 @@
   color: var(--game-muted);
   font-size: 12px;
 }
+.tutorial-recipe-camera-cut {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--game-line-strong, var(--game-line));
+  border-radius: var(--game-radius-scene);
+  background: var(--game-clay) url('/art/ui/table-linen.svg') center / cover;
+}
+.tutorial-recipe-camera-device {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 36px;
+  align-items: center;
+  gap: 10px;
+  width: min(280px, calc(100% - 30px));
+  height: calc(100% - 24px);
+  padding: 9px;
+  border: 3px solid var(--game-ink);
+  border-radius: 19px;
+  background: var(--game-ink);
+  box-shadow: 0 5px 0 color-mix(in srgb, var(--game-ink) 25%, transparent);
+  animation: tutorial-camera-lift 480ms cubic-bezier(0.2, 0.7, 0.25, 1) both;
+}
+.tutorial-recipe-camera-preview {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 9px;
+  background: var(--game-surface);
+}
+.tutorial-recipe-camera-preview > .dish-art {
+  width: 130px;
+  height: 130px;
+}
+.tutorial-recipe-viewfinder {
+  position: absolute;
+  inset: 8px 22px;
+  animation: tutorial-camera-focus 500ms 200ms ease-out both;
+}
+.tutorial-recipe-camera-preview::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: white;
+  opacity: 0;
+  animation: tutorial-camera-flash 440ms 760ms ease-out both;
+}
+.tutorial-recipe-shutter {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 3px double var(--game-ink);
+  border-radius: 50%;
+  background: var(--game-surface);
+  color: var(--game-ink);
+  animation: tutorial-camera-press 240ms 700ms ease-in-out both;
+}
 .tutorial-recipe-camera-view {
   display: flex;
   align-items: center;
@@ -334,7 +395,8 @@
 .tutorial-recipe-empty {
   font-size: 9px;
 }
-.tutorial-recipe-target {
+.tutorial-recipe-target,
+.tutorial-recipe-slot.is-filled.tutorial-recipe-target {
   color: var(--game-ink);
   cursor: pointer;
   animation: tutorial-recipe-beacon 1.8s ease-in-out infinite;
@@ -473,6 +535,40 @@
     transform: translateY(0) scale(1);
   }
 }
+@keyframes tutorial-camera-lift {
+  from {
+    opacity: 0;
+    transform: translateY(35px) rotate(-7deg) scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes tutorial-camera-focus {
+  from {
+    opacity: 0.3;
+    transform: scale(1.2);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes tutorial-camera-flash {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+  }
+}
+@keyframes tutorial-camera-press {
+  50% {
+    transform: scale(0.8);
+  }
+}
 @keyframes tutorial-recipe-card-earned {
   0% {
     opacity: 0;
@@ -555,6 +651,16 @@
   .tutorial-recipe-camera-view {
     gap: 11px;
     padding: 7px;
+  }
+  .tutorial-recipe-camera-device {
+    width: min(235px, calc(100% - 24px));
+    height: calc(100% - 16px);
+    padding: 6px;
+    gap: 7px;
+  }
+  .tutorial-recipe-camera-preview > .dish-art {
+    width: 104px;
+    height: 104px;
   }
   .tutorial-recipe-snapshot {
     width: 122px;

@@ -4,14 +4,18 @@ import { DishArt } from '../../ui/art/GameArt'
 import { TutorialGuide } from './TutorialGuide'
 import { recipes } from '../../app/game/browserGame'
 
-type Phase = 'cooking' | 'photo' | 'earned' | 'board' | 'recipe'
+export type TutorialCardPhase =
+  'cooking' | 'capturing' | 'photo' | 'earned' | 'board' | 'browse' | 'recipe'
+type Phase = TutorialCardPhase
 type NextPhase = Exclude<Phase, 'cooking'>
 
 const sceneLabels: Record<Phase, string> = {
-  cooking: '作ったカレー',
-  photo: '撮ったカレーの写真',
+  cooking: '撮影に使うカレーの例',
+  capturing: 'カレーの例を撮影中',
+  photo: '撮影した写真の例',
   earned: 'カレーのカードを獲得',
   board: 'ずかんのレシピカード',
+  browse: 'ずかんで次の料理を探す',
   recipe: 'おにぎりのレシピ',
 }
 
@@ -34,6 +38,17 @@ export function TutorialCards({
   useEffect(() => {
     if (phase !== 'cooking') scene.current?.focus({ preventScroll: true })
   }, [phase])
+
+  useEffect(() => {
+    if (phase !== 'capturing') return
+    const delay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1600
+    const timer = window.setTimeout(() => {
+      currentPhase.current = 'photo'
+      setPhase('photo')
+      onPhaseChange?.('photo')
+    }, delay)
+    return () => window.clearTimeout(timer)
+  }, [phase, onPhaseChange])
 
   useEffect(() => {
     if (phase !== 'earned' || reducedMotion.current) return
@@ -78,7 +93,7 @@ export function TutorialCards({
           <div className="tutorial-recipe-table">
             <span className="tutorial-recipe-place-label">
               <Utensils size={13} aria-hidden="true" />
-              できた料理
+              練習用のイラスト
             </span>
             <div className="tutorial-recipe-placemat" aria-hidden="true">
               <DishArt kind={curry.sample} />
@@ -86,12 +101,30 @@ export function TutorialCards({
             <strong className="tutorial-recipe-dish-name">{curry.name}</strong>
           </div>
         )}
+        {phase === 'capturing' && (
+          <div className="tutorial-recipe-camera-cut" aria-hidden="true">
+            <div className="tutorial-recipe-camera-device">
+              <div className="tutorial-recipe-camera-preview">
+                <DishArt kind={curry.sample} />
+                <div className="tutorial-recipe-viewfinder">
+                  <i className="tutorial-recipe-focus-corner is-top-left" />
+                  <i className="tutorial-recipe-focus-corner is-top-right" />
+                  <i className="tutorial-recipe-focus-corner is-bottom-left" />
+                  <i className="tutorial-recipe-focus-corner is-bottom-right" />
+                </div>
+              </div>
+              <span className="tutorial-recipe-shutter">
+                <Camera size={20} />
+              </span>
+            </div>
+          </div>
+        )}
         {phase === 'photo' && (
           <div className="tutorial-recipe-camera-view">
             <div
               className="tutorial-recipe-snapshot"
               role="img"
-              aria-label="撮ったカレーの写真の例"
+              aria-label="カレーのイラストを使った写真の例"
             >
               <DishArt kind={curry.sample} />
               <i className="tutorial-recipe-focus-corner is-top-left" />
@@ -104,7 +137,7 @@ export function TutorialCards({
             </div>
             <span className="tutorial-recipe-snapshot-label">
               <Camera size={14} aria-hidden="true" />
-              撮った写真
+              撮影した写真の例
             </span>
           </div>
         )}
@@ -132,7 +165,7 @@ export function TutorialCards({
             </span>
           </div>
         )}
-        {phase === 'board' && (
+        {(phase === 'board' || phase === 'browse') && (
           <div className="tutorial-recipe-catalog">
             <div className="tutorial-recipe-hud">
               <div
@@ -158,31 +191,58 @@ export function TutorialCards({
               </div>
             </div>
             <div className="tutorial-recipe-board">
-              <div
-                className="tutorial-recipe-slot is-filled"
-                aria-label="カレーのカード 獲得済み"
-                role="group"
-              >
-                <DishArt kind={curry.sample} />
-                <strong>{curry.name}</strong>
-                <span className="tutorial-recipe-owned">
-                  <Check size={10} aria-hidden="true" />
-                  獲得済み
-                </span>
-              </div>
-              <button
-                type="button"
-                className="tutorial-recipe-slot tutorial-recipe-target"
-                aria-label="おにぎりのレシピを見る"
-                onClick={() => advance('board', 'recipe')}
-              >
-                <span className="tutorial-recipe-unknown" aria-hidden="true">
-                  ?
-                </span>
-                <strong>おにぎり</strong>
-                <span className="tutorial-recipe-open-label">レシピを見る</span>
-                <Hand className="tutorial-recipe-pointer" size={25} aria-hidden="true" />
-              </button>
+              {phase === 'board' ? (
+                <button
+                  type="button"
+                  className="tutorial-recipe-slot is-filled tutorial-recipe-target"
+                  aria-label="追加されたカレーを確認する"
+                  onClick={() => advance('board', 'browse')}
+                >
+                  <DishArt kind={curry.sample} />
+                  <strong>{curry.name}</strong>
+                  <span className="tutorial-recipe-owned">
+                    <Check size={10} aria-hidden="true" />
+                    追加済み
+                  </span>
+                  <Hand className="tutorial-recipe-pointer" size={25} aria-hidden="true" />
+                </button>
+              ) : (
+                <div
+                  className="tutorial-recipe-slot is-filled"
+                  aria-label="カレーのカード 獲得済み"
+                  role="group"
+                >
+                  <DishArt kind={curry.sample} />
+                  <strong>{curry.name}</strong>
+                  <span className="tutorial-recipe-owned">
+                    <Check size={10} aria-hidden="true" />
+                    獲得済み
+                  </span>
+                </div>
+              )}
+              {phase === 'browse' ? (
+                <button
+                  type="button"
+                  className="tutorial-recipe-slot tutorial-recipe-target"
+                  aria-label="おにぎりのレシピを見る"
+                  onClick={() => advance('browse', 'recipe')}
+                >
+                  <span className="tutorial-recipe-unknown" aria-hidden="true">
+                    ?
+                  </span>
+                  <strong>おにぎり</strong>
+                  <span className="tutorial-recipe-open-label">レシピを見る</span>
+                  <Hand className="tutorial-recipe-pointer" size={25} aria-hidden="true" />
+                </button>
+              ) : (
+                <div className="tutorial-recipe-slot tutorial-recipe-unavailable">
+                  <span className="tutorial-recipe-unknown" aria-hidden="true">
+                    ?
+                  </span>
+                  <strong>おにぎり</strong>
+                  <span className="tutorial-recipe-empty">未獲得</span>
+                </div>
+              )}
               <div className="tutorial-recipe-slot tutorial-recipe-unavailable">
                 <span className="tutorial-recipe-unknown" aria-hidden="true">
                   ?
@@ -231,18 +291,22 @@ export function TutorialCards({
           </section>
         )}
       </div>
-      {phase === 'cooking' && (
+      {(phase === 'cooking' || phase === 'capturing') && (
         <TutorialGuide
-          action={{ label: 'カレーの写真を撮る', onClick: () => advance('cooking', 'photo') }}
+          action={{
+            label: phase === 'capturing' ? '撮影中' : 'この例で撮影を試す',
+            onClick: () => advance('cooking', 'capturing'),
+            disabled: phase === 'capturing',
+          }}
         >
-          作った料理の写真を記録すると、料理に合ったカードが手に入ります。ここではカレーで試しましょう。
+          ここではカレーのイラストで撮影を練習します。本番では、自分で撮った料理の写真を使います。
         </TutorialGuide>
       )}
       {phase === 'photo' && (
         <TutorialGuide
           action={{ label: 'この写真を記録する', onClick: () => advance('photo', 'earned') }}
         >
-          実際の写真ではAIが料理の候補を見つけます。候補は自分でも選び直せます。今回はカレーの例で試しましょう。
+          カレーの写真の例ができました。本番ではAIが料理の候補を見つけ、自分でも選び直せます。
         </TutorialGuide>
       )}
       {phase === 'earned' && (
@@ -257,6 +321,11 @@ export function TutorialCards({
         </TutorialGuide>
       )}
       {phase === 'board' && (
+        <TutorialGuide>
+          カレーがずかんに追加されました。光っているカレーのカードを押して、確認しましょう。
+        </TutorialGuide>
+      )}
+      {phase === 'browse' && (
         <TutorialGuide>まだ持っていないカードから、次に作る料理のレシピを探せます。</TutorialGuide>
       )}
       {phase === 'recipe' && (
