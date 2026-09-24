@@ -338,18 +338,6 @@ summary:focus-visible {
   border-radius: 50%;
   background: var(--game-canvas);
 }
-.play-guests {
-  background: var(--game-surface);
-  border: 0;
-  border-radius: var(--game-radius-card);
-  padding: 10px 8px;
-  bottom: 15%;
-  box-shadow: none;
-}
-.play-guests > span,
-.play-guests button span {
-  color: var(--game-muted);
-}
 .play-care {
   --play-guide-outline: var(--game-surface);
   --play-guide-outline-pulse: var(--game-inverse-muted);
@@ -1072,15 +1060,6 @@ summary:focus-visible {
     min-height: 44px;
     left: 10px;
     bottom: 11px;
-  }
-  .play-guests {
-    right: 7px;
-    padding: 8px 4px;
-    bottom: 18%;
-    border-radius: var(--game-radius-card);
-  }
-  .play-guests button {
-    width: 44px;
   }
   .play-care {
     margin: 0;

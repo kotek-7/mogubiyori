@@ -187,38 +187,6 @@
   height: 30px;
   margin-left: -4px;
 }
-.play-guests {
-  position: absolute;
-  bottom: 19%;
-  right: 14px;
-  z-index: 3;
-  background: #fff8e5df;
-  border: 1px solid #d3c89c;
-  border-radius: 19px;
-  padding: 9px 8px 7px;
-}
-.play-guests > span {
-  display: block;
-  text-align: center;
-  font-size: 10px;
-  color: #69543a;
-  margin-bottom: 2px;
-}
-.play-guests > div {
-  display: flex;
-}
-.play-guests button {
-  padding: 0;
-  width: 57px;
-}
-.play-guests button svg {
-  width: 100%;
-  height: 68px;
-}
-.play-guests button span {
-  font-size: 9px;
-  color: #785337;
-}
 .with-visitors .play-pet {
   left: 36%;
 }
@@ -493,24 +461,6 @@
     font-size: 9px;
     left: 11px;
     bottom: 11px;
-  }
-  .play-guests {
-    right: 7px;
-    bottom: 15%;
-    padding: 6px 3px;
-    border-radius: 13px;
-  }
-  .play-guests > span {
-    font-size: 8px;
-  }
-  .play-guests button {
-    width: 34px;
-  }
-  .play-guests button svg {
-    height: 49px;
-  }
-  .play-guests button span {
-    font-size: 7px;
   }
   .with-visitors .play-pet {
     left: 33%;

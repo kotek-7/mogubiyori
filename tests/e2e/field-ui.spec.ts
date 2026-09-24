@@ -191,7 +191,7 @@ test('long companion names and visiting friends stay usable on a small field', a
       page,
       page.getByRole('button', { name: `${name}をなでる`, exact: true }),
     )
-    for (const guest of await page.locator('.play-guests button').all()) {
+    for (const guest of await page.locator('.field-visitor').all()) {
       await expectUsableAtCenter(page, guest)
       expect(
         await guest.evaluate((element) => {
