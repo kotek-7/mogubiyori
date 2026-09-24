@@ -208,7 +208,7 @@ test('a late suggestion preserves a manually selected recipe and custom meal tit
       '料理の候補が見つかりました。',
     )
     await expect(selectedMealRecipe(page)).toHaveText(
-      edit === 'recipe' ? 'おかかのおにぎり' : 'いつものごはん',
+      edit === 'recipe' ? 'おかかのおにぎり' : '今日のごはん',
     )
     if (edit === 'title')
       await expect(page.getByRole('textbox', { name: '料理名（任意）', exact: true })).toHaveValue(
@@ -300,7 +300,7 @@ test('failed, unknown and empty recognition responses still allow manually recor
     await expect(journey(page).locator('.meal-recognition-status')).toContainText(
       '手動で選べます。',
     )
-    await expect(selectedMealRecipe(page)).toHaveText('いつものごはん')
+    await expect(selectedMealRecipe(page)).toHaveText('今日のごはん')
     await selectMealRecipe(page, 'curry')
     await giveMeal(page)
     const saved = await storedGame(page)
@@ -326,7 +326,7 @@ test('photo-free play skips recognition and ignores a response for a discarded p
   await page.getByRole('button', { name: '写真なしで体験する', exact: true }).click()
   await expect(journey(page, 'serve')).toBeVisible()
   await api.reply(0, ['curry'])
-  await expect(selectedMealRecipe(page)).toHaveText('いつものごはん')
+  await expect(selectedMealRecipe(page)).toHaveText('今日のごはん')
   expect(await storedGame(page)).toEqual(before)
   await giveMeal(page)
   const saved = await storedGame(page)
@@ -351,7 +351,7 @@ test('cancelling a pending recognition keeps the save and the next meal unchange
   await page.locator('.play-feed').click()
   await page.getByRole('button', { name: '写真なしで体験する', exact: true }).click()
   await api.reply(0, ['curry'])
-  await expect(selectedMealRecipe(page)).toHaveText('いつものごはん')
+  await expect(selectedMealRecipe(page)).toHaveText('今日のごはん')
   expect(await storedGame(page)).toEqual(before)
   await page.getByRole('button', { name: 'ひろばへ', exact: true }).click()
   expect(await storedGame(page)).toEqual(before)

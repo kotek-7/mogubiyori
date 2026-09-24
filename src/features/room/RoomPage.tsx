@@ -41,7 +41,7 @@ export function RoomPage() {
       <div className="play-greeting">
         <div>
           <span className="play-location">カヤ村・下のかまど</span>
-          <h1>ごはんのひろば</h1>
+          <h1>ひろば</h1>
         </div>
         <button className="play-streak" onClick={() => setDialog({ type: 'streak' })}>
           <Flame size={17} fill="currentColor" />

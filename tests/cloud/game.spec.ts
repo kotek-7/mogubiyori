@@ -134,7 +134,7 @@ async function mockCloud(page: Page) {
 async function begin(page: Page) {
   await page.goto('/')
   await page.getByRole('button', { name: 'はじめる', exact: true }).click()
-  await expect(page.getByRole('heading', { name: 'ごはんのひろば' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'ひろば' })).toBeVisible()
 }
 
 async function prepareMeal(page: Page) {
@@ -159,7 +159,7 @@ test('cloud starts explicitly and a failed load never falls back to a local star
   expect(await page.evaluate(() => localStorage.getItem('mogubiyori-v1'))).toBeNull()
   cloud.failLoad(false)
   await page.getByRole('button', { name: 'もう一度読み込む' }).click()
-  await expect(page.getByRole('heading', { name: 'ごはんのひろば' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'ひろば' })).toBeVisible()
   expect(cloud.blockedExternal).toEqual([])
 })
 

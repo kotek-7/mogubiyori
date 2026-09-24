@@ -15,7 +15,7 @@ export function RecipeBoard({
     <div className="collection-screen">
       <div className="collection-heading">
         <div>
-          <h2>レシピカード</h2>
+          <h2>料理カード</h2>
         </div>
         <span className="collection-count">
           <BookOpen size={17} />

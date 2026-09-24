@@ -28,7 +28,7 @@ export function SettingsPanel({
   return (
     <div className="settings-sheet">
       <fieldset className="reminder-setting" disabled={busy}>
-        <legend>ごはんのリマインダー</legend>
+        <legend>ごはんのお知らせ</legend>
         <div className="segmented">
           <button
             type="button"

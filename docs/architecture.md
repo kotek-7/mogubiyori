@@ -23,11 +23,11 @@ flowchart TD
 | `src/app/`                                    | アプリの構成、route、dialogの切り替え、CSSの読込順                                 |
 | `src/app/game/`                               | 保存セッション、Query cache、local/cloud gateway、ブラウザの時刻・IDとlocalStorage |
 | `src/features/room/`、`companions/`           | ひろば、最初のなかま選び、なかま一覧、成長の表示                                   |
-| `src/features/collection/`、`album/`、`shop/` | 図鑑と料理詳細、食事記録、買い物と各機能のpanel                                    |
+| `src/features/collection/`、`album/`、`shop/` | ずかんと料理詳細、ごはんの記録、おみせと各機能のpanel                              |
 | `src/features/meal/`                          | 食事の下書き、写真処理、料理選択、確定までの進行                                   |
-| `src/features/feast/`、`streak/`、`tutorial/` | 食後と継続のお祝い、初回案内                                                       |
+| `src/features/feast/`、`streak/`、`tutorial/` | 食後と連続記録のお祝い、初回案内                                                   |
 | `src/features/auth/`                          | ログイン、匿名ユーザー、Google連携、認証セッション                                 |
-| `src/features/settings/`                      | 設定とヘルプのpanel                                                                |
+| `src/features/settings/`                      | 設定とあそびかたのpanel                                                            |
 | `src/ui/`                                     | 複数機能で使う描画、`Sheet`、`JourneyFrame`などの表示部品                          |
 | `src/styles/`                                 | 全体の基礎スタイル、共通テーマ                                                     |
 | `shared/game/`                                | ゲーム状態・型、ルール、command、契約・schema、receipt、保存移行                   |
@@ -51,7 +51,7 @@ CSSは機能の近くに置くが、読み込みは`src/app/styles.ts`へ集め�
 
 保存済みゲームは`GameSession`のQuery cacheで保持する。キーには保存先のidentityを含め、localとアカウントごとの状態を分ける。操作成功時は返されたsnapshotを反映し、既に取得したrevisionより古い応答で状態を巻き戻さない。定期取得と画面再フォーカスで他端末の変更を取り込む。
 
-dialogの開閉、図鑑のタブ、表示中の演出などはReactの状態に置く。食事の写真・入力・選択・処理中状態はXStateに置く。永続化する`GameState`を別のグローバルstoreへ複製しない。
+dialogの開閉、ずかんのタブ、表示中の演出などはReactの状態に置く。食事の写真・入力・選択・処理中状態はXStateに置く。永続化する`GameState`を別のグローバルstoreへ複製しない。
 
 TanStack Routerは`/`、`/book`、`/album`、`/shop`、`/auth/callback`を扱う。画面URLと保存済みゲームは別の責務とする。旧URLの`#book`等は対応するpathへ移す。
 
@@ -67,10 +67,10 @@ TanStack Routerは`/`、`/book`、`/album`、`/shop`、`/auth/callback`を扱う
 | `feed`                             | タイトル、料理・対象のID、写真参照、表示用sample |
 | `purchase`, `equip`                | アイテムの`id`                                   |
 | `rest`, `claimLogin`               | 追加の入力なし                                   |
-| `updateSettings`                   | 名前・リマインダー設定                           |
+| `updateSettings`                   | 名前・ごはんのお知らせの設定                     |
 | `tutorial`                         | step、status、homeGuide                          |
 
-ブラウザは獲得XP・コイン増分・価格・報酬日を指定しない。給餌による成長、カード、来客、通貨、おやすみ券の返却は、`feed`が一括で計算する。
+ブラウザは獲得XP・コイン増分・価格・報酬日を指定しない。給餌による成長、カード、来客、通貨、おやすみチケットの返却は、`feed`が一括で計算する。
 
 日付送り・試用ジェム追加・リセットは別の`DemoCommand`であり、local gatewayだけが提供する。cloudのコマンドschemaには含めない。
 
@@ -82,7 +82,7 @@ cloudではWorkerが現在の状態を読み、固定した日付・食事IDで�
 
 local gatewayは同じ画面向けAPIを提供するが、再送記録とrevisionはgatewayインスタンス内のメモリにある。複数ブラウザや再読み込みをまたぐcloud同等のトランザクション保証は持たない。localStorageの保存に失敗した場合は成功結果を返さず、画面の入力を維持する。
 
-`FeedReceipt`は、食事ID・獲得量・対象の成長前後XP・新しいカードや来客・ストリークなど、その給餌だけを表す。写真本体、全食事履歴、before/afterの全snapshotは含めない。別端末の更新を食後の演出へ混ぜないため、演出はreceiptを入力にする。演出の再生や早送りで報酬を付与しない。
+`FeedReceipt`は、食事ID・獲得量・対象の成長前後XP・新しいカードや来客・連続記録など、その給餌だけを表す。写真本体、全食事履歴、before/afterの全snapshotは含めない。別端末の更新を食後の演出へ混ぜないため、演出はreceiptを入力にする。演出の再生や早送りで報酬を付与しない。
 
 ## 食事フローと演出
 
@@ -98,9 +98,9 @@ MotionはXP表示、カテゴリの選択表示、通知、dialogの開閉と内
 
 localの写真は従来どおり縮小したData URLをセーブに含める。cloud gatewayは写真を先にWorkerへ送信し、給餌コマンドには`photoId`だけを渡す。写真と食事の紐付けはDBの確定処理内で行う。表示時は所有者を確認して発行した短期間のURLを使い、URLを永続的な写真IDとして保存しない。
 
-採用レシピは`shared/content/recipes.ts`で既存10件と追加300件を合成する。UI、保存時のカード検証、ゲームルール、写真認識は同じregistryを参照する。既存レシピIDと`rice` / `pasta` / `soup` / `curry`のsample値は維持する。追加レシピの画像は`artPath`で表示する。追加キャラクター・着せ替えの採用はレシピの採用と別に扱う。
+採用レシピは`shared/content/recipes.ts`で既存10件と追加300件を合成する。UI、保存時のカード検証、ゲームルール、写真認識は同じregistryを参照する。既存レシピIDと`rice` / `pasta` / `soup` / `curry`のsample値は維持する。追加レシピの画像は`artPath`で表示する。追加のなかま・きせかえの採用はレシピの採用と別に扱う。
 
-具体的なレシピを特定しない料理は、`shared/content/dishes.ts`の種類を任意の`dishId`として食事に保存する。写真認識と食事の選択肢は`mealChoices.ts`でレシピと種類を合わせて参照する。`recipeId`は引き続きレシピカードの対象を示し、種類だけの記録でカードやカード報酬を付与しない。種類の記録は未分類の食事と同じ45 XPと通常の日次・継続報酬を得る。既存セーブでは`dishId`の追加は不要で、読込・API・receiptのschemaはいずれも任意項目として扱う。
+具体的なレシピを特定しない料理は、`shared/content/dishes.ts`の種類を任意の`dishId`として食事に保存する。写真認識と食事の選択肢は`mealChoices.ts`でレシピと種類を合わせて参照する。`recipeId`は引き続き料理カードの対象を示し、種類だけの記録でカードやカード報酬を付与しない。種類の記録は未分類の食事と同じ45 XPと通常の日次・継続報酬を得る。既存セーブでは`dishId`の追加は不要で、読込・API・receiptのschemaはいずれも任意項目として扱う。
 
 local保存の`mogubiyori-v1`は既存セーブを移行して読み込む。単体のチュートリアル設定が不正でも、写真・成長・通貨を捨てない。共有codecは不正なセーブで例外を返す。localの互換窓口だけが欠損・破損を初期状態へ置き換える。cloudでは読込失敗や未対応データをエラーとして扱い、空のゲームで上書きしない。
 

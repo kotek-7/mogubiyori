@@ -13,7 +13,7 @@ export function BookPage() {
   return (
     <>
       <div className="play-page-heading">
-        <h1>図鑑</h1>
+        <h1>ずかん</h1>
         <VillageSign kind="book" />
       </div>
       <CategoryTabs
@@ -21,7 +21,7 @@ export function BookPage() {
         value={bookKind}
         onChange={setBookKind}
         options={[
-          { value: 'recipes', label: 'レシピカード' },
+          { value: 'recipes', label: '料理カード' },
           { value: 'friends', label: 'なかま' },
         ]}
       />

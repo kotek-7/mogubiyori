@@ -10,7 +10,7 @@
     <script type="module" src="./catalog.js"></script>
   </head>
   <body>
-    <a class="skip" href="#catalog">図鑑へ進む</a>
+    <a class="skip" href="#catalog">ずかんへ進む</a>
     <header class="catalog-header">
       <div class="header-inner">
         <a class="back" href="/">
@@ -29,8 +29,8 @@
     </header>
     <main>
       <section class="library" id="catalog" aria-labelledby="catalog-heading">
-        <h2 class="sr-only" id="catalog-heading">図鑑一覧</h2>
-        <nav class="tabs" aria-label="図鑑の種類">
+        <h2 class="sr-only" id="catalog-heading">ずかん一覧</h2>
+        <nav class="tabs" aria-label="ずかんのカテゴリ">
           <a href="/#book">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="13" cy="13" r="7" />
@@ -44,7 +44,7 @@
               <path d="M4 10Q1 2 7 4l3 3h4l3-3q6-2 3 6c4 10-3 12-8 12S0 20 4 10Z" />
               <path d="M8 12v1m8-1v1m-7 4q3 3 6 0" />
             </svg>
-            <span class="tab-label">なかまたち</span
+            <span class="tab-label">なかま</span
             ><span class="tab-count" id="character-count"></span>
           </button>
           <button type="button" data-tab="items" aria-pressed="false">
@@ -66,17 +66,17 @@
             <input id="query" type="search" placeholder="名前・特徴で検索" autocomplete="off" />
           </label>
           <label class="filter-control"
-            >分類<select id="category">
+            >種類<select id="category">
               <option value="">すべて</option>
             </select></label
           >
           <label class="filter-control"
             >並び順<select id="sort">
-              <option value="default">図鑑順</option>
+              <option value="default">ずかん順</option>
               <option value="name">名前順</option>
             </select></label
           >
-          <button type="reset" class="reset">条件を戻す</button>
+          <button type="reset" class="reset">条件をリセット</button>
         </form>
         <div class="results-line">
           <p id="result-count" role="status">読み込み中</p>
@@ -91,14 +91,14 @@
           <p>検索語や条件を変更してください。</p>
         </div>
         <nav class="pagination" aria-label="ページ送り">
-          <button type="button" id="prev">← 前へ</button><span id="page-number"></span
-          ><button type="button" id="next">次へ →</button>
+          <button type="button" id="prev">前のページ</button><span id="page-number"></span
+          ><button type="button" id="next">次のページ</button>
         </nav>
       </section>
     </main>
     <footer>
       <details>
-        <summary>この図鑑について</summary>
+        <summary>このずかんについて</summary>
         <p>なかま・きせかえのプレビューです。獲得・購入は本体への接続前です。</p>
         <a href="./manifest.json">コンテンツ情報</a>
       </details>

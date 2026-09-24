@@ -200,12 +200,12 @@ test('combined clothing fits all thirty forms and all new items render', async (
   expect(errors).toEqual([])
   await page.setViewportSize({ width: 1250, height: 1000 })
   await page.setContent(`<!doctype html><html lang="ja"><meta charset="utf-8">
-    <title>着せ替えと成長</title><style>
+    <title>きせかえと成長</title><style>
     *{box-sizing:border-box}body{margin:0;padding:24px;background:#f3f1e8;color:#25273e;font:15px sans-serif}
     h1{font-size:24px}main{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
     figure{margin:0;padding:10px;background:white;border-radius:16px}
     img{display:block;width:100%;aspect-ratio:1;object-fit:contain}figcaption{text-align:center}
-    </style><h1>着せ替えと成長</h1><main>${portraits
+    </style><h1>きせかえと成長</h1><main>${portraits
       .map(
         (p) =>
           `<figure><img src="data:image/png;base64,${p.image}" alt="${p.name} ${p.form}"><figcaption>${p.name} · ${p.form}</figcaption></figure>`,

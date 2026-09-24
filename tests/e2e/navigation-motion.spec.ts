@@ -41,7 +41,7 @@ test('browser back and forward keep the page and active navigation consistent', 
 }) => {
   await page.goto('/')
   await navigate(page, 'ずかん')
-  await expectRoute(page, '/book', '図鑑', 'ずかん')
+  await expectRoute(page, '/book', 'ずかん', 'ずかん')
   await page.getByRole('button', { name: 'ごはんの記録', exact: true }).click()
   await expectRoute(page, '/album', 'ごはんの記録', 'ずかん')
   await navigate(page, 'おみせ')
@@ -50,11 +50,11 @@ test('browser back and forward keep the page and active navigation consistent', 
   await page.goBack()
   await expectRoute(page, '/album', 'ごはんの記録', 'ずかん')
   await page.goBack()
-  await expectRoute(page, '/book', '図鑑', 'ずかん')
+  await expectRoute(page, '/book', 'ずかん', 'ずかん')
   await page.goBack()
-  await expectRoute(page, '/', 'ごはんのひろば', 'ひろば')
+  await expectRoute(page, '/', 'ひろば', 'ひろば')
   await page.goForward()
-  await expectRoute(page, '/book', '図鑑', 'ずかん')
+  await expectRoute(page, '/book', 'ずかん', 'ずかん')
   await page.goForward()
   await expectRoute(page, '/album', 'ごはんの記録', 'ずかん')
   await page.goForward()
@@ -65,7 +65,7 @@ test('browser back and forward keep the page and active navigation consistent', 
 
 test('rapid navigation settles on the last destination and remains usable', async ({ page }) => {
   await page.goto('/')
-  await expectRoute(page, '/', 'ごはんのひろば', 'ひろば')
+  await expectRoute(page, '/', 'ひろば', 'ひろば')
   // Dispatch across rendering frames while earlier navigation may still be animating.
   await page.getByRole('navigation', { name: 'メインナビゲーション' }).evaluate(async (nav) => {
     for (const name of ['ずかん', 'おみせ', 'ひろば', 'ずかん', 'ひろば', 'おみせ']) {
@@ -84,7 +84,7 @@ test('rapid navigation settles on the last destination and remains usable', asyn
   await page.keyboard.press('Escape')
   await expect(page.getByRole('dialog')).toHaveCount(0)
   await navigate(page, 'ずかん')
-  await expectRoute(page, '/book', '図鑑', 'ずかん')
+  await expectRoute(page, '/book', 'ずかん', 'ずかん')
 })
 
 test('rapid category changes leave one current panel with usable controls', async ({ page }) => {
@@ -92,7 +92,7 @@ test('rapid category changes leave one current panel with usable controls', asyn
   const book = page.getByRole('group', { name: 'ずかんのカテゴリ' })
   const bookPanelCounts = await book.evaluate(async (group) => {
     const counts: number[] = []
-    for (const name of ['なかま', 'レシピカード', 'なかま', 'レシピカード', 'なかま']) {
+    for (const name of ['なかま', '料理カード', 'なかま', '料理カード', 'なかま']) {
       const button = [...group.querySelectorAll('button')].find(
         (entry) => entry.textContent?.trim() === name,
       )!
@@ -105,10 +105,10 @@ test('rapid category changes leave one current panel with usable controls', asyn
   expect(bookPanelCounts).toEqual([1, 1, 1, 1, 1])
   await expect(book.getByRole('button', { pressed: true })).toHaveText('なかま')
   await expect(page.locator('.motion-category-panel')).toHaveCount(1)
-  await expect(page.getByRole('heading', { name: 'なかまたち', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'なかま', exact: true })).toBeVisible()
   await expect(page.locator('.recipe-collection-card')).toHaveCount(0)
   await page.getByRole('button', { name: 'こむぎと暮らす', exact: true }).click()
-  await expectRoute(page, '/', 'ごはんのひろば', 'ひろば')
+  await expectRoute(page, '/', 'ひろば', 'ひろば')
 
   await navigate(page, 'おみせ')
   const shop = page.getByRole('group', { name: 'おみせのカテゴリ' })
@@ -143,7 +143,7 @@ test('cancelling a meal opened from the book returns to the plaza and its action
   await page.getByRole('button', { name: 'この料理を記録する', exact: true }).click()
   await expectFocusedScene(page, 'photo')
   await page.getByRole('button', { name: 'ひろばへ', exact: true }).click()
-  await expectRoute(page, '/', 'ごはんのひろば', 'ひろば')
+  await expectRoute(page, '/', 'ひろば', 'ひろば')
   await expect(page.locator('.play-feed')).toBeFocused()
   await expect(page.getByRole('dialog')).toHaveCount(0)
 })
@@ -162,11 +162,11 @@ for (const fallback of ['reduced motion', 'View Transition API unavailable'] as 
     }
     await page.goto('/')
     await navigate(page, 'ずかん')
-    await expectRoute(page, '/book', '図鑑', 'ずかん')
+    await expectRoute(page, '/book', 'ずかん', 'ずかん')
     const book = page.getByRole('group', { name: 'ずかんのカテゴリ' })
     await book.getByRole('button', { name: 'なかま', exact: true }).click()
     await expect(page.locator('.motion-category-panel')).toHaveCount(1)
-    await expect(page.getByRole('heading', { name: 'なかまたち', exact: true })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'なかま', exact: true })).toBeVisible()
     await navigate(page, 'おみせ')
     await expectRoute(page, '/shop', 'おみせ', 'おみせ')
     await page
@@ -175,7 +175,7 @@ for (const fallback of ['reduced motion', 'View Transition API unavailable'] as 
       .click()
     await expect(page.getByRole('button', { name: /木もれびのひろば/ })).toBeVisible()
     await page.goBack()
-    await expectRoute(page, '/book', '図鑑', 'ずかん')
+    await expectRoute(page, '/book', 'ずかん', 'ずかん')
     await expect(book.getByRole('button', { pressed: true })).toHaveText('なかま')
     await page.goForward()
     await expectRoute(page, '/shop', 'おみせ', 'おみせ')

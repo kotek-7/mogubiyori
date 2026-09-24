@@ -141,9 +141,9 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
   return (
     <JourneyFrame
       scene={scenes[step]}
-      eyebrow={`あそびかた ${step + 1}/5 · ${chapters[step]}`}
+      eyebrow={`チュートリアル ${step + 1}/5 · ${chapters[step]}`}
       title={title}
-      progress={{ current: step + 1, total: 5, label: 'あそびかたの進み具合' }}
+      progress={{ current: step + 1, total: 5, label: 'チュートリアルの進み具合' }}
       onBack={step > 0 ? () => onStep((step - 1) as TutorialStep) : undefined}
       backLabel="前の練習に戻る"
       onClose={onPause}
@@ -158,7 +158,7 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
             >
               <span>
                 <small>
-                  {step < 4 ? '次の章へ' : replay ? 'あそびかたを閉じる' : '自炊をはじめよう'}
+                  {step < 4 ? '次の章へ' : replay ? 'チュートリアルを閉じる' : '自炊をはじめよう'}
                 </small>
                 <strong>{step < 4 ? chapters[step + 1] : action}</strong>
               </span>
@@ -214,7 +214,7 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
               >
                 <i style={{ width: meal === 'full' ? '37.5%' : '0%' }} />
               </div>
-              <span>次の姿まで {meal === 'full' ? 75 : 120} XP</span>
+              <span>次の成長まで {meal === 'full' ? 75 : 120} XP</span>
             </div>
             <TutorialGuide
               action={
@@ -222,7 +222,7 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
               }
             >
               {done
-                ? 'ごはんを食べると経験値がたまります。毎日の自炊で育てていきましょう。'
+                ? 'ごはんを食べると経験値（XP）がたまります。毎日の自炊で育てていきましょう。'
                 : meal === 'hungry'
                   ? `写真を記録できました。ごはんをあげて、${name}に食べてもらいましょう。`
                   : `${name}がごはんを食べています。`}

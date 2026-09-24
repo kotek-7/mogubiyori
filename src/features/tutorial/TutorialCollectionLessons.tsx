@@ -97,8 +97,8 @@ export function TutorialFriends({
     visiting: visitorReady
       ? 'ごはんの匂いに誘われて来たお客さんにもごちそうしましょう。'
       : '匂いをたどって、近くまで歩いてきます。',
-    joined: `${guest.name}が仲間になりました。`,
-    home: 'わんぱくまで育つと、ごはんの匂いで別のもぐがやってきます。ごはんをあげて仲間にしたら、一匹ずつ育てましょう。',
+    joined: `${guest.name}がなかまになりました。`,
+    home: 'わんぱくまで育つと、ごはんの匂いで別のもぐがやってきます。ごはんをあげてなかまにしたら、一匹ずつ育てましょう。',
   }
   const action =
     phase === 'waiting'
@@ -181,7 +181,7 @@ export function TutorialFriends({
             ref={status}
             tabIndex={-1}
           >
-            {newFriend.name}が仲間になりました
+            {newFriend.name}がなかまになりました
           </p>
           <section className="tutorial-friend-roster" aria-label="なかま 2匹">
             <h2>

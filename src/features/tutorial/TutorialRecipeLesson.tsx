@@ -12,7 +12,7 @@ type NextPhase = Exclude<Phase, 'cooking'>
 
 const sceneLabels: Record<Exclude<Phase, TutorialPhotoPhase>, string> = {
   earned: 'カレーのカードを獲得',
-  board: 'ずかんのレシピカード',
+  board: 'ずかんの料理カード',
   browse: 'ずかんで次の料理を探す',
   recipe: 'おにぎりのレシピ',
 }
@@ -123,11 +123,11 @@ export function TutorialCards({
               <div
                 className="tutorial-recipe-total"
                 role="group"
-                aria-label={`レシピカード 1/${recipes.length}`}
+                aria-label={`料理カード 1/${recipes.length}`}
               >
                 <BookOpen size={15} aria-hidden="true" />
                 <span>
-                  ずかん<small>レシピカード</small>
+                  ずかん<small>料理カード</small>
                 </span>
                 <strong>
                   1<small>/{recipes.length}</small>

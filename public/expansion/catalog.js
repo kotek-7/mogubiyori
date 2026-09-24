@@ -168,6 +168,6 @@ try {
   options()
   render()
 } catch {
-  $('#result-count').textContent = '図鑑を読み込めませんでした。ページを再読み込みしてください。'
+  $('#result-count').textContent = 'ずかんを読み込めませんでした。ページを再読み込みしてください。'
   $('#cards').innerHTML = '<a href="./index.html">再読み込み</a>'
 }

@@ -145,7 +145,7 @@ test('the shared meal picker is accessible on mobile and cancellation preserves 
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])
   await page.keyboard.press('Escape')
   await expect(journey(page, 'serve')).toBeVisible()
-  await expect(selectedMealRecipe(page)).toHaveText('いつものごはん')
+  await expect(selectedMealRecipe(page)).toHaveText('今日のごはん')
   await page.getByText('料理名をつける', { exact: true }).click()
   await expect(page.getByRole('textbox', { name: '料理名（任意）', exact: true })).toHaveValue(
     '今日の手作り',
@@ -156,7 +156,7 @@ test('the shared meal picker is accessible on mobile and cancellation preserves 
 test('character growth, cosmetic preview and mobile layout remain usable', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/expansion/index.html')
-  await page.getByRole('button', { name: 'なかまたち' }).click()
+  await page.getByRole('button', { name: 'なかま' }).click()
   await expect(page.locator('#result-count')).toContainText('36 種類')
   await page.locator('.card').first().click()
   await expect(page.getByRole('dialog').locator('.detail-facts')).toContainText('特徴')
@@ -183,7 +183,7 @@ test('character growth, cosmetic preview and mobile layout remain usable', async
   await page.getByRole('button', { name: '閉じる', exact: true }).click()
   await page.getByRole('button', { name: 'きせかえとひろば' }).click()
   await expect(page.locator('#result-count')).toContainText('72 種類')
-  await page.getByRole('combobox', { name: '分類', exact: true }).selectOption('hat')
+  await page.getByRole('combobox', { name: '種類', exact: true }).selectOption('hat')
   await page.locator('.card').first().click()
   await expect(page.locator('.tryon .hat')).toBeVisible()
   await page.getByLabel('表示するなかま').selectOption({ index: 1 })

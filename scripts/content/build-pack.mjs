@@ -53,7 +53,7 @@ const collections = {
 const data = {
   schemaVersion: 1,
   id: 'shokudo-vol-1',
-  name: '町の食堂と料理図鑑',
+  name: '町の食堂と料理ずかん',
   categories,
   collections,
   recipes,

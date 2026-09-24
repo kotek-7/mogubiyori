@@ -64,10 +64,10 @@ export function FeastJourney({
   const titles = {
     eating: '食事中',
     growth: '新しい姿になりました',
-    joined: `${name}が仲間になりました`,
-    card: 'レシピカード獲得',
+    joined: `${name}がなかまになりました`,
+    card: '料理カード獲得',
     arrivals: '新しいお客さん',
-    streak: '自炊の連続記録',
+    streak: '連続記録',
     gift: '7日のおくりもの',
     xp: 'XP獲得',
   }
@@ -196,7 +196,7 @@ export function FeastJourney({
             <div
               className={`feast-recipe-flip rarity-${recipe.rarity}`}
               role="group"
-              aria-label={`${recipe.name}のレシピカードを獲得`}
+              aria-label={`${recipe.name}の料理カードを獲得`}
             >
               <div className="feast-recipe-flip-inner">
                 <div className="feast-recipe-back" aria-hidden="true">
@@ -254,7 +254,7 @@ export function FeastJourney({
           />
         )}
         {step.type === 'arrivals' && (
-          <p className="journey-note">ごはんをあげると仲間になります。</p>
+          <p className="journey-note">ごはんをあげるとなかまになります。</p>
         )}
         {last && rewardSummary}
       </div>

@@ -297,7 +297,7 @@ function App() {
         <header className="play-header">
           <button
             className="play-brand"
-            aria-label="もぐ日和 ホーム"
+            aria-label="もぐ日和 ひろば"
             onClick={() => navigate('room')}
           >
             <MoguMark />
@@ -333,7 +333,7 @@ function App() {
         <div className={showBookGuide ? 'play-guide-nav' : undefined} ref={bookGuide}>
           {showBookGuide && (
             <PlayGuide id="home-book-guide" onDismiss={dismissHomeGuide}>
-              料理のカードはずかんに集まります。カードを見てみましょう。
+              料理カードはずかんに集まります。カードを見てみましょう。
             </PlayGuide>
           )}
           <nav className="play-nav" aria-label="メインナビゲーション">

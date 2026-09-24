@@ -44,7 +44,7 @@ export async function chooseStarter(page: Page, name = 'こむぎ') {
 export async function start(page: Page, name = 'こむぎ') {
   await chooseStarter(page, name)
   await page.getByRole('button', { name: 'ひろばを見てみる' }).click()
-  await expect(page.getByRole('heading', { name: 'ごはんのひろば' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'ひろば' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'コイン 140枚、おみせへ' })).toBeVisible()
 }
 
@@ -65,7 +65,7 @@ export async function sampleToTable(page: Page, recipeId = '') {
 export const selectedMealRecipe = (page: Page) => page.getByLabel('つくった料理', { exact: true })
 
 export async function selectMealRecipe(page: Page, recipeId: string) {
-  if (!recipeId && (await selectedMealRecipe(page).textContent()) === 'いつものごはん') return
+  if (!recipeId && (await selectedMealRecipe(page).textContent()) === '今日のごはん') return
   await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
   await expect(journey(page, 'recipe-pick')).toBeVisible()
   if (recipeId) {
@@ -73,7 +73,7 @@ export async function selectMealRecipe(page: Page, recipeId: string) {
     await page.getByRole('searchbox', { name: '名前・材料で検索' }).fill(recipe.name)
     await page.getByRole('button', { name: `${recipe.name}を選ぶ`, exact: true }).click()
   } else {
-    await page.getByRole('button', { name: 'いつものごはんにする', exact: true }).click()
+    await page.getByRole('button', { name: '今日のごはんにする', exact: true }).click()
   }
   await expect(journey(page, 'serve')).toBeVisible()
 }
@@ -119,7 +119,7 @@ export async function returnToPlaza(page: Page): Promise<string[]> {
     await expect(screen).toHaveCount(0)
   }
   await expect(journey(page)).toHaveCount(0)
-  await expect(page.getByRole('heading', { name: 'ごはんのひろば' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'ひろば' })).toBeVisible()
   return scenes
 }
 

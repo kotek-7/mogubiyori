@@ -132,7 +132,7 @@ export function GameDialogs({
       break
     }
     case 'gems':
-      title = isLocal ? 'ジェムのお店' : 'ジェム'
+      title = isLocal ? 'ジェムのおみせ' : 'ジェム'
       content = (
         <GemShop
           gems={state.gems}

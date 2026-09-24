@@ -122,7 +122,7 @@ test('the real meal, growth and recipe guide resumes from each saved step', asyn
   await expectHomeGuide(page, 'book')
   await target.click()
   await expect(target).toHaveAttribute('aria-current', 'page')
-  await expect(page.getByRole('heading', { name: 'レシピカード', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: '料理カード', exact: true })).toBeVisible()
   await expect(page.locator('.play-app')).toHaveAttribute('data-home-guide', 'done')
   await expectNoGuide(page)
   await page.reload()

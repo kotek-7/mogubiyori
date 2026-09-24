@@ -24,7 +24,7 @@ export function FriendsBoard({
     <div className="collection-screen">
       <div className="collection-heading">
         <div>
-          <h2>なかまたち</h2>
+          <h2>なかま</h2>
         </div>
         <span className="collection-count">
           <Heart size={17} />
@@ -33,7 +33,7 @@ export function FriendsBoard({
         </span>
       </div>
       {visitors.length > 0 && (
-        <section className="friend-visitors" aria-label="遊びにきたなかま">
+        <section className="friend-visitors" aria-label="お客さん">
           <div className="friend-section-heading">
             <span>
               <Sparkles size={17} />
@@ -57,7 +57,7 @@ export function FriendsBoard({
               )
             })}
           </div>
-          <p className="friend-discovery-note">ごはんをあげると仲間になります。</p>
+          <p className="friend-discovery-note">ごはんをあげるとなかまになります。</p>
         </section>
       )}
       <div className="friend-board">

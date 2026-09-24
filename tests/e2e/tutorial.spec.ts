@@ -267,7 +267,9 @@ async function practice(
     await expect(internalActions(page)).toBeDisabled()
     await expect(screen.locator('button.tutorial-chapter-next')).toHaveCount(0)
     await expect(lesson).toHaveAttribute('data-phase', 'joined')
-    await expect(screen.locator('.tutorial-collection-result')).toHaveText('まめが仲間になりました')
+    await expect(screen.locator('.tutorial-collection-result')).toHaveText(
+      'まめがなかまになりました',
+    )
     const roster = screen.getByRole('region', { name: 'なかま 2匹', exact: true })
     await expect(roster.getByRole('listitem')).toHaveCount(2)
     await expect(roster).toContainText('こむぎ')
@@ -321,9 +323,7 @@ async function practice(
     await expect(lesson).toHaveAttribute('data-phase', 'board')
     const board = screen.locator('.tutorial-recipe-board')
     await expect(board.locator('.is-filled')).toContainText('カレー')
-    await expect(
-      screen.getByRole('group', { name: 'レシピカード 1/310', exact: true }),
-    ).toBeVisible()
+    await expect(screen.getByRole('group', { name: '料理カード 1/310', exact: true })).toBeVisible()
     const wallet = screen.getByRole('group', { name: '70コイン', exact: true })
     await expect(wallet).toBeVisible()
     await expect(wallet.locator('strong')).toHaveText('70')
@@ -344,7 +344,7 @@ async function practice(
     await expectChapterReady(page)
     await onCheckpoint?.('tutorial-cards-recipe')
   } else {
-    const celebration = screen.getByRole('group', { name: '自炊の連続記録', exact: true })
+    const celebration = screen.getByRole('group', { name: '連続記録', exact: true })
     await expect(internalActions(page)).toHaveCount(0)
     await expect(screen.locator('button.tutorial-chapter-next')).toBeVisible({ timeout: 15000 })
     await expectChapterReady(page)
@@ -410,7 +410,7 @@ test('five lessons resume after reload and never award real game progress', asyn
   }
   await action(page, 'ひろばへ')
   await expect(journey(page)).toHaveCount(0)
-  await expect(page.getByRole('heading', { name: 'ごはんのひろば' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'ひろば' })).toBeVisible()
   await expect(page.getByRole('region', { name: 'ひろばのガイド', exact: true })).toBeVisible()
   const completed = await storedGame(page)
   expect(completed.tutorial).toEqual({

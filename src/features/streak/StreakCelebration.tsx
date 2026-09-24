@@ -79,7 +79,7 @@ function StreakAnimation({
       className={`streak-celebration${compact ? ' is-compact' : ''}${counted ? ' is-counted' : ''}${rewarded && reward > 0 ? ' is-rewarded' : ''}`}
       data-phase={phase}
       role="group"
-      aria-label="自炊の連続記録"
+      aria-label="連続記録"
     >
       <div className="streak-celebration-count">
         <div className="streak-celebration-flame" aria-hidden="true">
@@ -87,7 +87,7 @@ function StreakAnimation({
           {reward > 0 && <Sparkles className="streak-celebration-spark" />}
         </div>
         <div className="streak-celebration-number" role="status" aria-atomic="true">
-          <span>自炊の連続記録</span>
+          <span>連続記録</span>
           <div>
             <strong>{shownDays}</strong>
             <span>日</span>

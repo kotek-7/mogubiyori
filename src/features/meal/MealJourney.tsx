@@ -144,7 +144,7 @@ export function MealJourney({
         progress={{ current: 2, total: 2 }}
         footer={
           <button type="button" className="journey-secondary" onClick={() => chooseRecipe('')}>
-            いつものごはんにする
+            今日のごはんにする
           </button>
         }
       >
@@ -342,7 +342,7 @@ export function MealJourney({
             <span className="meal-selected-recipe-art" aria-hidden="true">
               <RecipeArt recipe={recipe} />
             </span>
-            <output aria-label="つくった料理">{recipe?.name ?? 'いつものごはん'}</output>
+            <output aria-label="つくった料理">{recipe?.name ?? '今日のごはん'}</output>
             <button
               type="button"
               disabled={submitting}
