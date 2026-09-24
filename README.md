@@ -2,7 +2,6 @@
 >
 > 最新のコード・Issue・Pull Requestは [kotek-7/mogubiyori](https://github.com/kotek-7/mogubiyori) を参照してください。
 > 今後の開発は移行先で行います。このリポジトリには移行時点の履歴を残しています。
-> 移行先は非公開のため、アクセス権が必要です。
 
 # もぐ日和
 
