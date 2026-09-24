@@ -85,13 +85,15 @@ button.growth-trail-step {
   margin: 12px 0 20px;
   text-align: left;
 }
-.profile-sheet .profile-form h3 {
+.profile-sheet .profile-form h3,
+.profile-sheet .profile-personality h3 {
   margin: 0 0 8px;
   color: var(--game-ink);
   font-size: 14px;
 }
 .profile-sheet .profile-form-description,
-.profile-sheet .profile-description p {
+.profile-sheet .profile-description p,
+.profile-sheet .profile-personality p {
   margin: 0;
   color: var(--game-ink);
   font-size: 14px;
@@ -111,9 +113,12 @@ button.growth-trail-step {
   font-weight: 700;
   cursor: pointer;
 }
-.profile-sheet .profile-description summary + p,
-.profile-sheet .profile-description p + p {
+.profile-sheet .profile-description summary + p {
   margin-top: 12px;
+}
+.profile-sheet .profile-personality {
+  margin: 16px 0 0;
+  text-align: left;
 }
 .profile-sheet .growth-discovery-hint {
   font-size: 12px;

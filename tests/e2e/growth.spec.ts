@@ -55,7 +55,7 @@ test('five forms unlock in order and collected forms can be revisited without ch
 })
 
 for (const entry of species) {
-  test(`${entry.name} keeps its shared story while browsing all five growth descriptions`, async ({
+  test(`${entry.name} keeps ecology and personality separate while browsing all five growth descriptions`, async ({
     page,
   }) => {
     await page.setViewportSize({ width: 390, height: 844 })
@@ -76,9 +76,11 @@ for (const entry of species) {
     const dialog = page.getByRole('dialog')
     const profile = companionProfiles[entry.id]
     const common = dialog.locator('.profile-description')
-    await expect(common.locator('summary')).toHaveText(`${entry.name}について`)
-    await expect(common.locator('p').first()).toHaveText(profile.ecology)
-    await expect(common.locator('p').last()).toHaveText(profile.habit)
+    await expect(common.locator('summary')).toHaveText('生態')
+    await expect(common.locator('p')).toHaveText(profile.ecology)
+    const personality = dialog.locator('.profile-personality')
+    await expect(personality.getByRole('heading')).toHaveText(`${entry.name}の性格`)
+    await expect(personality.locator('p')).toHaveText(profile.personality)
     const commonText = await common.textContent()
     const descriptions = new Set<string>()
     for (const { stage, name } of growthStages) {
@@ -88,10 +90,12 @@ for (const entry of species) {
       await expect(description).toHaveText(profile.stages[stage])
       descriptions.add((await description.textContent())!)
       expect(await common.textContent()).toBe(commonText)
+      await expect(personality.locator('p')).toHaveText(profile.personality)
     }
     expect(descriptions.size).toBe(5)
     await common.locator('summary').click()
     await expect(common.locator('p').first()).not.toBeVisible()
+    await expect(personality.locator('p')).toBeVisible()
     await expect(dialog.locator('.profile-form-description')).toBeVisible()
     await dialog.getByRole('button', { name: 'きせかえ' }).scrollIntoViewIfNeeded()
     await expect(dialog.getByRole('button', { name: 'きせかえ' })).toBeInViewport()

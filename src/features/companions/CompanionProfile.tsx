@@ -60,10 +60,13 @@ export function CompanionProfile({
       </div>
       <small>{activeStage < 4 ? `次の成長まで ${growth.remaining} XP` : 'すべての姿を発見'}</small>
       <details className="profile-description" open>
-        <summary>{companionName}について</summary>
+        <summary>生態</summary>
         <p>{profile.ecology}</p>
-        <p>{profile.habit}</p>
       </details>
+      <section className="profile-personality">
+        <h3>{companionName}の性格</h3>
+        <p>{profile.personality}</p>
+      </section>
       <button className="secondary-button full" onClick={onShop}>
         きせかえ
       </button>
