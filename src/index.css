@@ -1480,7 +1480,7 @@ body:has(dialog[open]) {
   line-height: 1.9;
   margin-top: 19px;
 }
-.settings-sheet > .field {
+.settings-sheet > :is(.field, fieldset) {
   margin: 4px 0 26px;
 }
 .reminder-setting legend {

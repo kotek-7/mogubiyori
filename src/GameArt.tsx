@@ -81,14 +81,22 @@ export function Pet({
   stage = 0,
   mood = 'hungry',
   hat = 'none',
+  portrait = false,
   className = '',
-}: ArtProps & { species?: SpeciesId; stage?: GrowthStage; mood?: PetMood; hat?: string }) {
+}: ArtProps & {
+  species?: SpeciesId
+  stage?: GrowthStage
+  mood?: PetMood
+  hat?: string
+  portrait?: boolean
+}) {
   return (
     <CompanionArt
       species={species}
       stage={stage}
       mood={mood}
       hat={<Hat kind={hat} />}
+      portrait={portrait}
       className={className}
     />
   )

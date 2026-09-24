@@ -102,7 +102,13 @@ export function RoomPage() {
         <button className="play-friend-count" onClick={showFriends}>
           <span>
             {state.companions.slice(0, 3).map((friend) => (
-              <Pet key={friend.id} species={friend.id} stage={stageOf(friend.xp)} mood="happy" />
+              <Pet
+                key={friend.id}
+                species={friend.id}
+                stage={stageOf(friend.xp)}
+                mood="happy"
+                portrait
+              />
             ))}
           </span>
           なかま {state.companions.length}/{species.length}
