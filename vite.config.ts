@@ -12,7 +12,10 @@ export default defineConfig(({ mode }) => ({
       ? []
       : [
           cloudflare({
-            remoteBindings: process.env.CLOUDFLARE_REMOTE_BINDINGS !== 'false',
+            remoteBindings:
+              process.env.CLOUDFLARE_REMOTE_BINDINGS === 'false'
+                ? false
+                : mode === 'cloudflare' || process.env.CLOUDFLARE_REMOTE_BINDINGS === 'true',
             inspectorPort: false,
           }),
         ]),

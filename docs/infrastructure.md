@@ -39,7 +39,7 @@ Node.jsとpnpmの条件は`package.json`にある。依存をインストール�
 
 ブラウザ用設定は`.env.example`を参考に`.env.local`へ、Worker用設定は`.dev.vars.example`を参考に`.dev.vars`へ置く。秘密値をGitへ追加しない。
 
-`AI` bindingは`remote: true`なので、通常の開発サーバーから実モデルを使うとCloudflareアカウント側で推論が行われる。これは完全なオフライン開発ではない。`CLOUDFLARE_REMOTE_BINDINGS=false pnpm dev`でリモートbindingを無効化でき、その場合は実モデルによる認識を利用できない。E2E用のVite test modeはCloudflare pluginを外し、認識APIをmockにする。
+`AI` bindingは`remote: true`を指定しているが、通常の`pnpm dev`ではpluginのリモートbindingを無効にする。`pnpm dev:cloudflare`または`CLOUDFLARE_REMOTE_BINDINGS=true pnpm dev`で実モデルへ接続したときは、Cloudflareアカウント側で推論が行われる。E2E用のVite test modeはCloudflare pluginを外し、認識APIをmockにする。
 
 ## Supabaseの準備
 

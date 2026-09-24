@@ -26,7 +26,7 @@ pnpm exec wrangler login
 pnpm dev:cloudflare
 ```
 
-8787番で画面・APIを起動します。クラウドへ接続せずにUIを作業する場合は、`CLOUDFLARE_REMOTE_BINDINGS=false pnpm dev`でリモートbindingを無効にできます。判定できないときも料理の手動選択と写真なしの体験は使えます。
+8787番で画面・APIを起動し、リモートのWorkers AIへ接続します。通常の`pnpm dev`ではリモートbindingを無効にしているため、Cloudflareへログインせずに起動できます。判定できないときも料理の手動選択と写真なしの体験は使えます。
 
 ## 認証・クラウド保存
 
