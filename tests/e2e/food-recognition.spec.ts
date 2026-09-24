@@ -59,18 +59,21 @@ test('loading follows the photo to the table and a generic suggestion persists w
   page,
 }, testInfo) => {
   await page.setViewportSize({ width: 390, height: 844 })
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
   const api = await mockRecognition(page)
   await page.locator('.play-feed').click()
   await uploadPhoto(page)
   await api.waitFor(1)
-  await expect(page.getByRole('progressbar', { name: '料理を検出中' })).toBeVisible()
-  await expect(page.getByRole('status')).toContainText('料理を見ています。')
+  await waitForSceneMotion(page)
+  await expect(page.locator('.meal-recognition-dots')).toBeVisible()
+  await expect(page.getByRole('status')).toContainText('料理を見ています')
   await page.screenshot({ path: testInfo.outputPath('recognition-loading-photo.png') })
   await toTable(page)
-  await expect(page.getByRole('progressbar', { name: '料理を検出中' })).toBeVisible()
+  await waitForSceneMotion(page)
+  await expect(page.locator('.meal-recognition-dots')).toBeVisible()
   await page.screenshot({ path: testInfo.outputPath('recognition-loading-table.png') })
   await api.reply(0, ['generic-pasta'])
-  await expect(page.getByRole('progressbar', { name: '料理を検出中' })).toHaveCount(0)
+  await expect(page.locator('.meal-recognition-dots')).toHaveCount(0)
   await expect(selectedMealRecipe(page)).toHaveText('パスタ')
   await giveMeal(page)
   const saved = await storedGame(page)
@@ -99,7 +102,7 @@ test('generic dishes can be selected manually when recognition fails', async ({
   await uploadPhoto(page)
   await api.waitFor(1)
   await api.reply(0, [], 503)
-  await expect(page.getByRole('progressbar', { name: '料理を検出中' })).toHaveCount(0)
+  await expect(page.locator('.meal-recognition-dots')).toHaveCount(0)
   await toTable(page)
   await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
   const choices = page.getByRole('group', { name: '料理の種類で選ぶ' })
@@ -139,9 +142,7 @@ test('a mocked photo suggestion grants its card and XP only after feeding is con
 
   // Recognition must not block continuing to the table or save a meal itself.
   await toTable(page)
-  await expect(journey(page).locator('.meal-recognition-status')).toContainText(
-    '料理を見ています。',
-  )
+  await expect(journey(page).locator('.meal-recognition-status')).toContainText('料理を見ています')
   expect(await storedGame(page)).toEqual(before)
   await api.reply(0, ['curry', 'onigiri'])
   await expect(selectedMealRecipe(page)).toHaveText('カレー')

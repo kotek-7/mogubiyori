@@ -53,7 +53,7 @@ Cloudflare Workers AIの`@cf/google/gemma-4-26b-a4b-it`で料理候補を最大3
 
 認識対象は`shared/content/recipes.ts`の310種のレシピと、`shared/content/dishes.ts`の16種の料理です。具体的なレシピを特定できなくても、パスタ・カレー・チャーハン・ハンバーグなどの種類で記録できます。「料理を選ぶ」から手動でも選べます。種類での記録は通常の経験値と毎日の報酬を獲得し、料理カードは具体的なレシピを選んだ場合に獲得します。
 
-写真の検出中はスピナーと状況を表示し、食卓へ進んでも表示を続けます。通信失敗や判定待ちでも手動で進められ、手動で選んだ料理・入力した名前を遅い判定で上書きしません。写真は端末で縮小してからWorkerへ送信します。
+写真の検出中は文章の横で三点リーダが控えめに明滅し、食卓へ進んでも表示を続けます。動きを減らす設定では点を静止させます。通信失敗や判定待ちでも手動で進められ、手動で選んだ料理・入力した名前を遅い判定で上書きしません。写真は端末で縮小してからWorkerへ送信します。
 
 [Gemma 4のモデル仕様](https://developers.cloudflare.com/workers-ai/models/gemma-4-26b-a4b-it/)、[Workers AIの料金](https://developers.cloudflare.com/workers-ai/platform/pricing/)
 
