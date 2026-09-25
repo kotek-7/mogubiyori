@@ -31,6 +31,8 @@ flowchart TD
 | `src/ui/`                                     | 複数機能で使う描画、`Sheet`、`JourneyFrame`などの表示部品                          |
 | `src/styles/`                                 | 全体の基礎スタイル、共通テーマ                                                     |
 | `shared/game/`                                | ゲーム状態・型、ルール、command、契約・schema、receipt、保存移行                   |
+| `shared/meals/`                               | 実食記録の型・schema、材料からの食品群提案、日次・7日間の集計                      |
+| `src/features/nutrition/`                     | 今日のスコア、7日間のグラフ、食品群の推移                                          |
 | `shared/content/`                             | 採用catalogとレシピ、追加コンテンツの型と変換                                      |
 | `worker/`                                     | HTTPの入口、共通エラー、環境binding                                                |
 | `worker/game/`                                | 操作再送・確定、repository契約、Supabase Auth・DB・Storage接続                     |
@@ -63,14 +65,15 @@ TanStack Routerは`/`、`/book`、`/album`、`/shop`、`/auth/callback`を扱う
 
 画面はstate全体を自由に書き換えず、`execute(command, operationId)`を呼ぶ。
 
-| 操作                               | 入力                                             |
-| ---------------------------------- | ------------------------------------------------ |
-| `chooseStarter`, `selectCompanion` | なかまの`id`                                     |
-| `feed`                             | タイトル、料理・対象のID、写真参照、表示用sample |
-| `purchase`, `equip`                | アイテムの`id`                                   |
-| `rest`, `claimLogin`               | 追加の入力なし                                   |
-| `updateSettings`                   | 名前・ごはんのお知らせの設定                     |
-| `tutorial`                         | step、status、homeGuide                          |
+| 操作                               | 入力                                                                           |
+| ---------------------------------- | ------------------------------------------------------------------------------ |
+| `chooseStarter`, `selectCompanion` | なかまの`id`                                                                   |
+| `feed`                             | タイトル、料理・対象のID、写真参照、表示用sample、食事内容または共有する記録ID |
+| `updateMealRecord`                 | 記録ID、食べた日、タイトル、食事時間、用意のしかた、料理と食品群               |
+| `purchase`, `equip`                | アイテムの`id`                                                                 |
+| `rest`, `claimLogin`               | 追加の入力なし                                                                 |
+| `updateSettings`                   | 名前・ごはんのお知らせの設定                                                   |
+| `tutorial`                         | step、status、homeGuide                                                        |
 
 ブラウザは獲得XP・コイン増分・価格・報酬日を指定しない。給餌による成長、カード、来客、通貨、おやすみチケットの返却は、`feed`が一括で計算する。
 
@@ -85,6 +88,8 @@ cloudではWorkerが現在の状態を読み、固定した日付・食事IDで�
 local gatewayは同じ画面向けAPIを提供するが、再送記録とrevisionはgatewayインスタンス内のメモリにある。複数ブラウザや再読み込みをまたぐcloud同等のトランザクション保証は持たない。localStorageの保存に失敗した場合は成功結果を返さず、画面の入力を維持する。
 
 `FeedReceipt`は、食事ID・獲得量・対象の成長前後XP・新しいカードや来客・連続記録など、その給餌だけを表す。写真本体、全食事履歴、before/afterの全snapshotは含めない。別端末の更新を食後の演出へ混ぜないため、演出はreceiptを入力にする。演出の再生や早送りで報酬を付与しない。
+
+人が食べた1回は`GameState.mealRecords`、もぐへの給餌は既存の`meals`に保存し、`mealRecordId`で参照する。共有では既存の食事記録と写真を使い、新しい給餌だけを追加する。食品群とスコアは実食を集計し、記録の編集で報酬を再計算しない。`FeedReceipt.mealReport`には確定時点の今日と7日間の要約を入れ、食後の画面はこの値を使う。履歴画面は現在の記録を同じ純粋関数で集計する。旧セーブに実食記録がない場合はそのまま読み込み、食品群を作り出さない。[食事レポートの仕様](meal-reports.md)
 
 ## 食事フローと演出
 
