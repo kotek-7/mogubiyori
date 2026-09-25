@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Camera, ImagePlus } from 'lucide-react'
 import { resizePhoto } from '../meal/photo'
 import { TutorialGuide } from './TutorialGuide'
+import { CameraCapture } from '../meal/CameraCapture'
 
 export type TutorialFirstPhotoPhase = 'cooking' | 'loading' | 'photo'
 
@@ -15,7 +16,7 @@ export function TutorialFirstPhoto({
   const [phase, setPhase] = useState<TutorialFirstPhotoPhase>('cooking')
   const [photo, setPhoto] = useState<{ src: string; sample: boolean } | null>(null)
   const [error, setError] = useState('')
-  const camera = useRef<HTMLInputElement>(null)
+  const [cameraOpen, setCameraOpen] = useState(false)
   const library = useRef<HTMLInputElement>(null)
   const preview = useRef<HTMLDivElement>(null)
   const request = useRef(0)
@@ -69,21 +70,6 @@ export function TutorialFirstPhoto({
   return (
     <div className="tutorial-recipe-lab tutorial-first-photo" data-phase={phase}>
       <input
-        ref={camera}
-        type="file"
-        className="sr-only"
-        tabIndex={-1}
-        accept="image/jpeg,image/png,image/webp"
-        capture="environment"
-        aria-label="料理を撮影"
-        disabled={loading}
-        onChange={(event) => {
-          const file = event.target.files?.[0]
-          event.target.value = ''
-          if (file) void selectPhoto(file)
-        }}
-      />
-      <input
         ref={library}
         type="file"
         className="sr-only"
@@ -126,7 +112,7 @@ export function TutorialFirstPhoto({
             type="button"
             className="tutorial-first-photo-retake"
             aria-label="料理の写真を撮り直す"
-            onClick={() => camera.current?.click()}
+            onClick={() => setCameraOpen(true)}
           >
             <Camera size={16} aria-hidden="true" />
             撮り直す
@@ -136,7 +122,7 @@ export function TutorialFirstPhoto({
       <TutorialGuide
         action={{
           label: loading ? '読み込み中' : photo ? 'この写真を使う' : '料理の写真を撮る',
-          onClick: photo ? submit : () => camera.current?.click(),
+          onClick: photo ? submit : () => setCameraOpen(true),
           disabled: loading,
         }}
       >
@@ -157,6 +143,19 @@ export function TutorialFirstPhoto({
         <p className="error-message tutorial-first-photo-error" role="alert">
           {error}
         </p>
+      )}
+      {cameraOpen && (
+        <CameraCapture
+          onCapture={(file) => {
+            setCameraOpen(false)
+            void selectPhoto(file)
+          }}
+          onClose={() => setCameraOpen(false)}
+          onChoosePhoto={() => {
+            setCameraOpen(false)
+            library.current?.click()
+          }}
+        />
       )}
     </div>
   )

@@ -5,6 +5,40 @@ import { chooseStarter, journey, storedGame } from './helpers'
 
 const samplePath = '/art/tutorial/sample-curry.jpg'
 
+type CameraWindow = Window & { tutorialCameraTracks: MediaStreamTrack[] }
+
+async function installCamera(page: Page) {
+  await page.addInitScript(() => {
+    const tracks: MediaStreamTrack[] = []
+    ;(window as CameraWindow).tutorialCameraTracks = tracks
+    Object.defineProperty(navigator.mediaDevices, 'getUserMedia', {
+      configurable: true,
+      value: async () => {
+        const canvas = document.createElement('canvas')
+        canvas.width = 1200
+        canvas.height = 600
+        const stream = canvas.captureStream(30)
+        const context = canvas.getContext('2d')!
+        context.fillStyle = '#dfc992'
+        context.fillRect(0, 0, canvas.width, canvas.height)
+        tracks.push(...stream.getTracks())
+        return stream
+      },
+    })
+  })
+}
+
+async function expectCameraStopped(page: Page) {
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const tracks = (window as CameraWindow).tutorialCameraTracks
+        return tracks.length > 0 && tracks.every((track) => track.readyState === 'ended')
+      }),
+    )
+    .toBe(true)
+}
+
 async function mealPhoto(page: Page) {
   const fixture = await page.evaluate(() => {
     const canvas = document.createElement('canvas')
@@ -19,24 +53,24 @@ async function mealPhoto(page: Page) {
 }
 
 test.beforeEach(async ({ page }) => {
+  await installCamera(page)
   await page.clock.setFixedTime(new Date('2026-09-24T03:00:00Z'))
   await page.goto('/')
   await chooseStarter(page)
 })
 
-test('the first photo opens separate camera and library inputs and tolerates cancellation', async ({
+test('the first photo opens an in-page camera and separate library and tolerates cancellation', async ({
   page,
 }) => {
   const screen = journey(page, 'welcome')
   const lesson = screen.locator('.tutorial-first-photo')
   const before = await storedGame(page)
-  const cameraOpened = page.waitForEvent('filechooser')
   await screen.getByRole('button', { name: '料理の写真を撮る', exact: true }).click()
-  const camera = await cameraOpened
-  expect(await camera.element().getAttribute('aria-label')).toBe('料理を撮影')
-  expect(await camera.element().getAttribute('capture')).toBe('environment')
-  expect(await camera.element().getAttribute('accept')).toBe('image/jpeg,image/png,image/webp')
-  await camera.setFiles([])
+  const camera = page.getByRole('dialog', { name: '料理の写真を撮る' })
+  await expect(camera.getByRole('button', { name: '撮影する', exact: true })).toBeEnabled()
+  await camera.getByRole('button', { name: 'カメラを閉じる', exact: true }).click()
+  await expect(camera).toHaveCount(0)
+  await expectCameraStopped(page)
   await expect(lesson).toHaveAttribute('data-phase', 'cooking')
 
   const libraryOpened = page.waitForEvent('filechooser')
@@ -49,6 +83,37 @@ test('the first photo opens separate camera and library inputs and tolerates can
   await expect(lesson).toHaveAttribute('data-phase', 'cooking')
   await expect(lesson.getByRole('alert')).toHaveCount(0)
   await expect(screen.locator('.tutorial-xp-panel')).toHaveCount(0)
+  expect(await storedGame(page)).toEqual(before)
+})
+
+test('the first photo can be captured inside the page and used without changing the saved game', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  const screen = journey(page, 'welcome')
+  const before = await storedGame(page)
+  let chooserCount = 0
+  page.on('filechooser', () => {
+    chooserCount += 1
+  })
+  await screen.getByRole('button', { name: '料理の写真を撮る', exact: true }).click()
+  const camera = page.getByRole('dialog', { name: '料理の写真を撮る' })
+  await expect(camera.getByRole('button', { name: '撮影する', exact: true })).toBeEnabled()
+  await camera.getByRole('button', { name: '撮影する', exact: true }).click()
+  await expect(camera).toHaveCount(0)
+  await expectCameraStopped(page)
+  const preview = screen.getByRole('img', { name: '選んだ料理の写真', exact: true })
+  await expect(preview).toHaveAttribute('src', /^data:image\/jpeg;base64,/)
+  await expect
+    .poll(() =>
+      preview.evaluate((image: HTMLImageElement) => [image.naturalWidth, image.naturalHeight]),
+    )
+    .toEqual([800, 400])
+  const capturedSource = await preview.getAttribute('src')
+  await screen.getByRole('button', { name: 'この写真を使う', exact: true }).click()
+  await expect(screen.locator('.tutorial-meal-world')).toHaveClass(/is-hungry/)
+  await expect(screen.locator('.tutorial-photo img')).toHaveAttribute('src', capturedSource!)
+  expect(chooserCount).toBe(0)
   expect(await storedGame(page)).toEqual(before)
 })
 
@@ -75,12 +140,12 @@ test('a selected photo is resized, can be selected again and stays through feedi
   const selectedSource = await preview.getAttribute('src')
   await expect(screen.getByLabel('撮影済みの料理写真', { exact: true })).toHaveValue('')
 
-  const retakeOpened = page.waitForEvent('filechooser')
   await screen.getByRole('button', { name: '料理の写真を撮り直す', exact: true }).click()
-  const retake = await retakeOpened
-  expect(await retake.element().getAttribute('aria-label')).toBe('料理を撮影')
-  expect(await retake.element().getAttribute('capture')).toBe('environment')
-  await retake.setFiles([])
+  const retake = page.getByRole('dialog', { name: '料理の写真を撮る' })
+  await expect(retake.getByRole('button', { name: '撮影する', exact: true })).toBeEnabled()
+  await retake.getByRole('button', { name: 'カメラを閉じる', exact: true }).click()
+  await expect(retake).toHaveCount(0)
+  await expectCameraStopped(page)
   await expect(preview).toHaveAttribute('src', selectedSource!)
 
   const cancelled = page.waitForEvent('filechooser')
