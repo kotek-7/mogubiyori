@@ -18,7 +18,7 @@ filters.forEach((button) =>
       if (!card.hidden) count++
     })
     const status = document.querySelector('[data-filter-status]')
-    if (status) status.textContent = `${count}篇のものがたり`
+    if (status) status.textContent = `${count}篇`
   }),
 )
 

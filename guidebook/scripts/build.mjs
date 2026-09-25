@@ -20,9 +20,9 @@ export async function build() {
     path.join(output, '404.html'),
     renderPage({
       path: '404',
-      title: '道に迷ったら',
-      description: '総目次から、もう一度。',
-      body: '<section class="wrap section"><p class="eyebrow">道しるべ</p><h1>この道の先には、<br>まだページがありません。</h1><p>いったん目次をひらいて、行き先を選びましょう。</p><a class="button" href="/contents/">総目次へ →</a></section>',
+      title: 'ページが見つかりません',
+      description: '指定されたページはありません。',
+      body: '<section class="wrap section"><h1>ページが見つかりません</h1><a class="text-link" href="/contents/">総目次 →</a></section>',
     }),
   )
   await writeFile(

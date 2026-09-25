@@ -26,7 +26,7 @@ pnpm dev
 - `SITE_MAP.md`：章とページの役割。
 - `src/chapters.mjs`：章立て・扉の紹介。
 - `src/world-data.ts`：既存世界設定をもとにした地誌・生態・人物・食文化。
-- `src/stories.mjs`：新作短編8篇、新しい寄り道先6件、巻頭の手紙。
+- `src/stories.mjs`：新作短編8篇、新しい寄り道先6件、世界の概要。
 - `src/details.mjs`：人物と料理の追加原稿、新たな日常の挿話。
 - `src/book.mjs`：静的ページの組み立て、総目次、章内の前後移動、関連リンク。
 - `src/style.css`：誌面、レスポンシブ表示、印刷、動きを減らす設定。
