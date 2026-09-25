@@ -36,7 +36,8 @@ export const items: Item[] = [
   {
     id: 'beret',
     name: 'どんぐりベレー',
-    description: 'どんぐりをかたどったベレー帽。',
+    description:
+      'どんぐりをかたどったベレー帽。トヌの森で木の実を拾う人が、帰りを待つもぐへのおみやげに選ぶ。',
     kind: 'hat',
     currency: 'coins',
     price: 180,
@@ -44,7 +45,8 @@ export const items: Item[] = [
   {
     id: 'sprout',
     name: 'ふたばのかんむり',
-    description: '双葉をかたどったかんむり。',
+    description:
+      '双葉をかたどったかんむり。カヤ村では、畑に芽が出ると子どもにも幼いもぐにも、同じ形の飾りを作る。',
     kind: 'hat',
     currency: 'coins',
     price: 120,
@@ -60,7 +62,8 @@ export const items: Item[] = [
   {
     id: 'i-picnic-straw',
     name: 'ピクニックの麦わら',
-    description: '平たいつばに赤いリボン。遠足の集合写真によく映える。',
+    description:
+      '平たいつばに赤いリボン。畑へおべんとうを運ぶ日には、この赤が草むらを歩くもぐの目印になる。',
     kind: 'hat',
     currency: 'coins',
     price: 80,
@@ -69,7 +72,8 @@ export const items: Item[] = [
   {
     id: 'i-wildflower-crown',
     name: '野の花のかんむり',
-    description: '白い花と黄いろい花を交互に編んだ、小さな輪。',
+    description:
+      '白い花と黄いろい花を交互に編んだ、小さな輪。畑の帰り道に子どもが作り、食事の前にはかまどの棚へそっと置く。',
     kind: 'hat',
     currency: 'coins',
     price: 135,
@@ -96,7 +100,8 @@ export const items: Item[] = [
   {
     id: 'i-sailor-knot',
     name: '水兵さんの帽子',
-    description: '青い帯と錨のワッペンがついた、折り返しのある水兵帽。',
+    description:
+      '青い帯と錨のワッペンがついた水兵帽。ニカの港では、荷運びを手伝うもぐに、船乗りの古い服から小さな帽子を仕立てる。',
     kind: 'hat',
     currency: 'coins',
     price: 150,
@@ -105,7 +110,8 @@ export const items: Item[] = [
   {
     id: 'i-moon-wizard',
     name: '三日月のとんがり帽',
-    description: '折れた先に三日月がぶら下がる、夜空色の帽子。',
+    description:
+      '折れた先に三日月がぶら下がる、夜空色の帽子。ヨルバの夕方の食卓では、揺れる月を幼いもぐが目で追っている。',
     kind: 'hat',
     currency: 'coins',
     price: 255,
@@ -139,7 +145,8 @@ export const items: Item[] = [
   {
     id: 'neck-scarf',
     name: 'しましまマフラー',
-    description: 'ふんわり巻ける、しま模様のマフラー。',
+    description:
+      'ふんわり巻ける、しま模様のマフラー。霧の深いウネでは、茶畑へ向かうもぐの首にも一巻きする。',
     kind: 'neck',
     currency: 'coins',
     price: 240,
@@ -181,7 +188,8 @@ export const items: Item[] = [
   {
     id: 'bag-acorn',
     name: 'どんぐりポーチ',
-    description: 'ころんと丸い、どんぐり形のポーチ。',
+    description:
+      'ころんと丸い、どんぐり形のポーチ。中には木の実だけでなく、もぐが取っておいたきれいな殻も入っている。',
     kind: 'bag',
     currency: 'coins',
     price: 180,
@@ -189,7 +197,8 @@ export const items: Item[] = [
   {
     id: 'bag-star',
     name: '星くずバッグ',
-    description: 'きらりと星を飾った、夜空色のバッグ。',
+    description:
+      'きらりと星を飾った、夜空色のバッグ。ニカの夜の市では、小さな器を包む布や、ひもに通した小銭を入れて歩く。',
     kind: 'bag',
     currency: 'gems',
     price: 90,
@@ -197,7 +206,8 @@ export const items: Item[] = [
   {
     id: 'plain',
     name: 'いつものひろば',
-    description: '最初のひろば。',
+    description:
+      'カヤ村のかまどに続く、いつものひろば。食事ができるころには、大きなもぐのガロと、そばで待っていた子たちが集まる。',
     kind: 'room',
     currency: 'coins',
     price: 0,
@@ -221,7 +231,8 @@ export const items: Item[] = [
   {
     id: 'seaside',
     name: '夕なぎの浜辺',
-    description: '夕焼けの海と、波が寄せる砂浜。',
+    description:
+      '夕焼けの海と、波が寄せる砂浜。カヤの入り江では舟を陸へ引き上げたあと、人ともぐが浜の端でひと休みする。',
     kind: 'room',
     currency: 'coins',
     price: 320,
@@ -229,7 +240,8 @@ export const items: Item[] = [
   {
     id: 'brook',
     name: '小川のほとり',
-    description: 'せせらぎに木の橋がかかる、緑のほとり。',
+    description:
+      'せせらぎに木の橋がかかる、緑のほとり。畑から戻る人が足を休めると、水辺のもぐも流れを渡って様子を見に来る。',
     kind: 'room',
     currency: 'coins',
     price: 280,
@@ -237,7 +249,8 @@ export const items: Item[] = [
   {
     id: 'greenhouse',
     name: '温室のひろば',
-    description: 'ガラス屋根の下で、草花に囲まれるひろば。',
+    description:
+      'ガラス屋根の下で、草花に囲まれるひろば。欠けた料理の器が小さな植木鉢になり、次の春に植える苗が並んでいる。',
     kind: 'room',
     currency: 'gems',
     price: 140,

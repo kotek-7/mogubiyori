@@ -7,16 +7,16 @@
     "content/expansion/recipes/staples.json": "ced516b64c81e259c81652a231b18477bffbb12c9072504092460b8dffd84501",
     "content/expansion/recipes/mains-sides.json": "4f3b24cbb0f8d129303371afdd791d3ea875fd6c23bf8f682d64b6ac4c9af739",
     "content/expansion/characters.json": "cf5aaff5e91411e57be79faf2c40b08488ec91e7449d95d100edf53fcff46db4",
-    "content/expansion/items.json": "4c1458a4ff55f246655710016d953035362c3dfdebfb815a607548c8db35150f",
+    "content/expansion/items.json": "f2bc8be46abd49cb4f3f6b50b1461c9cdf51f7d2aee3f0903e9dbd93f4aaf48d",
     "scripts/content/recipe-art.mjs": "81416d6bf48dfc9d0f841506e41ef29c5b6b388501b3519349435c603ec74d00",
     "scripts/content/recipe-silhouette.mjs": "24e7e24fd20524cc86b86d76922394edf6184ea4a13271076e329c22d41d6805",
     "scripts/content/dessert-art.mjs": "d818be726df3f3fde987703367b4dbabb505ce9a4eaa7b9bfdca39fcc7dbcc0c",
     "scripts/content/savory-art.mjs": "21dc950f7944ccf0f737e7e137d3e6d2b60cca30e9834b8a3a480fe8cbe37851",
     "scripts/content/build-pack.mjs": "ebb3df5dc2f0148759cb4f13bb97765d50e4ee2d79e21dc0e7ad359005ffa1c6",
-    "scripts/content/generate-companions-items.py": "83cdd07407898c3998c53f46f50bb461752210c5548ad18ef1dd5394ea232436"
+    "scripts/content/generate-companions-items.py": "740100d42af7696575aef3680e29f8094936d41c8d60dbf7f04f8ce424969a35"
   },
   "catalog": "catalog.json",
-  "sha256": "c357e8eb402df7aec8469904f244ebb378c52500c036f3ff5dec2f57ecad5269",
+  "sha256": "ef0d1cbd871f5ea31f8d861789d171f15b340547fd9ec5bae8e5f6189cfa6f21",
   "counts": {
     "recipes": 300,
     "characters": 36,

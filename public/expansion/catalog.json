@@ -28729,7 +28729,7 @@
     {
       "id": "i-picnic-straw",
       "name": "ピクニックの麦わら",
-      "description": "平たいつばに赤いリボン。遠足の集合写真によく映える。",
+      "description": "平たいつばに赤いリボン。畑へおべんとうを運ぶ日には、この赤が草むらを歩くもぐの目印になる。",
       "kind": "hat",
       "currency": "coins",
       "price": 80,
@@ -28760,7 +28760,7 @@
     {
       "id": "i-wildflower-crown",
       "name": "野の花のかんむり",
-      "description": "白い花と黄いろい花を交互に編んだ、小さな輪。",
+      "description": "白い花と黄いろい花を交互に編んだ、小さな輪。畑の帰り道に子どもが作り、食事の前にはかまどの棚へそっと置く。",
       "kind": "hat",
       "currency": "coins",
       "price": 135,
@@ -29101,7 +29101,7 @@
     {
       "id": "i-sailor-knot",
       "name": "水兵さんの帽子",
-      "description": "青い帯と錨のワッペンがついた、折り返しのある水兵帽。",
+      "description": "青い帯と錨のワッペンがついた水兵帽。ニカの港では、荷運びを手伝うもぐに、船乗りの古い服から小さな帽子を仕立てる。",
       "kind": "hat",
       "currency": "coins",
       "price": 150,
@@ -29659,7 +29659,7 @@
     {
       "id": "i-moon-wizard",
       "name": "三日月のとんがり帽",
-      "description": "折れた先に三日月がぶら下がる、夜空色の帽子。",
+      "description": "折れた先に三日月がぶら下がる、夜空色の帽子。ヨルバの夕方の食卓では、揺れる月を幼いもぐが目で追っている。",
       "kind": "hat",
       "currency": "coins",
       "price": 255,

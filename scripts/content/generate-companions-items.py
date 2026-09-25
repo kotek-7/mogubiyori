@@ -1068,8 +1068,8 @@ def write_svg(path,text):
 # All headwear uses the original pet's 300-square overlay coordinates. Each
 # item has its own functional outline, rather than a shared hat recolored.
 HATS = [
-('picnic-straw','ピクニックの麦わら','平たいつばに赤いリボン。遠足の集合写真によく映える。','meadow'),
-('wildflower-crown','野の花のかんむり','白い花と黄いろい花を交互に編んだ、小さな輪。','meadow'),
+('picnic-straw','ピクニックの麦わら','平たいつばに赤いリボン。畑へおべんとうを運ぶ日には、この赤が草むらを歩くもぐの目印になる。','meadow'),
+('wildflower-crown','野の花のかんむり','白い花と黄いろい花を交互に編んだ、小さな輪。畑の帰り道に子どもが作り、食事の前にはかまどの棚へそっと置く。','meadow'),
 ('ladybird-cap','てんとう虫キャップ','丸い羽の継ぎ目まで描いた、赤いてんとう虫の帽子。','meadow'),
 ('butterfly-ribbon','ちょうちょのリボン','葉脈みたいな線が入った、左右に広がるちょうちょ結び。','meadow'),
 ('watering-hat','じょうろのぼうし','長い注ぎ口と取っ手が楽しい、空っぽの小さなじょうろ。','meadow'),
@@ -1080,7 +1080,7 @@ HATS = [
 ('pinecone-crown','まつぼっくり冠','重なるうろこを立体的に並べた、木の実のかんむり。','forest'),
 ('woodpecker-feather','きつつきの羽根帽','一枚の赤い羽根を差した、細いつばのフェルト帽。','forest'),
 ('forest-lantern','探検ランタン','明かりの形をした飾りを正面につけた、探検用ヘアバンド。','forest'),
-('sailor-knot','水兵さんの帽子','青い帯と錨のワッペンがついた、折り返しのある水兵帽。','seaside'),
+('sailor-knot','水兵さんの帽子','青い帯と錨のワッペンがついた水兵帽。ニカの港では、荷運びを手伝うもぐに、船乗りの古い服から小さな帽子を仕立てる。','seaside'),
 ('shell-tiara','貝がらティアラ','扇形の貝と小さな真珠を並べた、海辺の冠。','seaside'),
 ('fish-vane','おさかな風見帽','横向きの魚がちょこんと乗る、港の風見帽子。','seaside'),
 ('lifebuoy-halo','うきわのヘアリング','赤白の区切りがくっきりした、軽い飾りの浮き輪。','seaside'),
@@ -1098,7 +1098,7 @@ HATS = [
 ('toast-crown','トースト王冠','こんがりした食パンの山が三つ並ぶ、朝ごはんの冠。','cafe'),
 ('parfait-ribbon','パフェのリボン','アイスといちごを小さく飾った、喫茶店のリボン。','cafe'),
 ('teapot-bonnet','ティーポットのボンネット','注ぎ口と丸いふたが左右に飛び出す、お茶会の帽子。','cafe'),
-('moon-wizard','三日月のとんがり帽','折れた先に三日月がぶら下がる、夜空色の帽子。','night'),
+('moon-wizard','三日月のとんがり帽','折れた先に三日月がぶら下がる、夜空色の帽子。ヨルバの夕方の食卓では、揺れる月を幼いもぐが目で追っている。','night'),
 ('constellation-cap','星図キャップ','三つの星を線で結んだ、天体観測のキャップ。','night'),
 ('cloud-nightcap','雲のナイトキャップ','長いしっぽの先に雲をつけた、しま模様の寝帽子。','night'),
 ('paper-lantern','提灯のかぶりもの','骨組みの線と赤い房をつけた、小さな提灯の帽子。','night'),
