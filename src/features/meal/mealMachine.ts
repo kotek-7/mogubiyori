@@ -150,7 +150,7 @@ export function createMealMachine(services: MealServices) {
             source: input.sharedMeal.source,
             items: input.sharedMeal.items,
           }
-        : { slot: 'unknown', source: 'unknown', items: [suggestMealItem(input.recipeId)] },
+        : { slot: 'unknown', source: 'home', items: [suggestMealItem(input.recipeId)] },
       sample: Boolean(input.sharedMeal),
       candidates: [],
       recipeChosen: Boolean(input.recipeId),

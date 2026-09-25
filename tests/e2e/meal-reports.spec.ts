@@ -80,7 +80,7 @@ test('a meal can be reviewed with a keyboard and its daily report fits a 320px p
   const mealTime = page.getByRole('combobox', { name: '食事の時間', exact: true })
   await expect(mealTime).toBeVisible()
   await mealTime.selectOption('dinner')
-  await page.getByRole('combobox', { name: '用意のしかた', exact: true }).selectOption('home')
+  await expect(page.getByRole('combobox', { name: '用意のしかた', exact: true })).toHaveCount(0)
   await page.getByRole('combobox', { name: '量', exact: true }).selectOption('regular')
   await page.getByRole('button', { name: '一品追加', exact: true }).click()
   const salad = page.getByRole('group', { name: '料理 2', exact: true })
@@ -98,6 +98,7 @@ test('a meal can be reviewed with a keyboard and its daily report fits a 320px p
   await expect(report.locator('.meal-report-score strong')).toHaveText('70')
   await expect(report).toContainText('記録 1食')
   await expect(report).toContainText('判定 1食')
+  await expect(report).toContainText('自炊 1食')
   const saved = await storedGame(page)
   expect(saved.mealRecords).toHaveLength(1)
   expect(saved.mealRecords![0]).toMatchObject({

@@ -61,7 +61,7 @@ describe('meal draft workflow', () => {
         recipeId: undefined,
         mealRecord: {
           slot: 'unknown',
-          source: 'unknown',
+          source: 'home',
           items: [suggestMealItem('generic-pasta')],
         },
         dishId: 'generic-pasta',
@@ -139,7 +139,7 @@ describe('meal draft workflow', () => {
         photo: 'photo:meal.jpg',
         sample: 'rice',
         recipeId: undefined,
-        mealRecord: { slot: 'unknown', source: 'unknown', items: [suggestMealItem()] },
+        mealRecord: { slot: 'unknown', source: 'home', items: [suggestMealItem()] },
       },
       'operation-1',
     )
@@ -392,13 +392,13 @@ describe('meal draft workflow', () => {
     actor.send({ type: 'SUBMIT' })
     await waitFor(actor, (state) => state.matches({ editing: { navigation: 'serve' } }))
     expect(actor.getSnapshot().context.mealRecord).toEqual(value)
-    actor.send({ type: 'RECORD_CHANGED', value: { ...value, source: 'prepared' } })
+    actor.send({ type: 'RECORD_CHANGED', value: { ...value, slot: 'dinner' } })
     actor.send({ type: 'SUBMIT' })
     await waitFor(actor, (state) => state.matches('committed'))
     expect(submit.mock.calls.map((call) => call[1])).toEqual(['operation-1', 'operation-2'])
     expect(submit.mock.calls[1][0]).toMatchObject({
       title: '豆のごはん',
-      mealRecord: { ...value, source: 'prepared' },
+      mealRecord: { ...value, slot: 'dinner' },
     })
   })
 

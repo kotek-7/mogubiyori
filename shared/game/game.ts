@@ -199,7 +199,7 @@ export function feed(
       ? parsedRecord.data
       : {
           slot: 'unknown' as const,
-          source: 'unknown' as const,
+          source: 'home' as const,
           items: [suggestMealItem(recipe?.id ?? dish?.id, title)],
         }),
   }

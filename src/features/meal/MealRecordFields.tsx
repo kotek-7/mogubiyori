@@ -1,9 +1,4 @@
-import {
-  foodGroupLabels,
-  mealPortionLabels,
-  mealSlotLabels,
-  mealSourceLabels,
-} from '../../../shared/meals/types'
+import { foodGroupLabels, mealPortionLabels, mealSlotLabels } from '../../../shared/meals/types'
 import type { FoodGroup, MealItem, MealRecordInput } from '../../../shared/meals/types'
 
 export function MealRecordFields({
@@ -26,42 +21,24 @@ export function MealRecordFields({
   }
   return (
     <div className="meal-record-fields">
-      <div className="meal-record-selects">
-        <label>
-          食事の時間
-          <select
-            value={value.slot}
-            disabled={disabled}
-            onChange={(event) =>
-              onChange({ ...value, slot: event.target.value as MealRecordInput['slot'] })
-            }
-          >
-            {Object.entries(mealSlotLabels).map(([key, label]) => (
-              <option key={key} value={key}>
-                {label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          用意のしかた
-          <select
-            value={value.source}
-            disabled={disabled}
-            onChange={(event) =>
-              onChange({ ...value, source: event.target.value as MealRecordInput['source'] })
-            }
-          >
-            {Object.entries(mealSourceLabels).map(([key, label]) => (
-              <option key={key} value={key}>
-                {label}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
+      <label>
+        食事の時間
+        <select
+          value={value.slot}
+          disabled={disabled}
+          onChange={(event) =>
+            onChange({ ...value, slot: event.target.value as MealRecordInput['slot'] })
+          }
+        >
+          {Object.entries(mealSlotLabels).map(([key, label]) => (
+            <option key={key} value={key}>
+              {label}
+            </option>
+          ))}
+        </select>
+      </label>
       <p className="meal-record-help">
-        料理に入っていたものを確認できます。わからない項目は未設定のままで大丈夫です。
+        自分で作った料理に入っていたものを確認できます。わからない項目は未設定のままで大丈夫です。
       </p>
       {value.items.map((item, index) => (
         <fieldset className="meal-record-item" key={index} disabled={disabled}>

@@ -69,7 +69,7 @@ TanStack Routerは`/`、`/book`、`/album`、`/shop`、`/auth/callback`を扱う
 | ---------------------------------- | ------------------------------------------------------------------------------ |
 | `chooseStarter`, `selectCompanion` | なかまの`id`                                                                   |
 | `feed`                             | タイトル、料理・対象のID、写真参照、表示用sample、食事内容または共有する記録ID |
-| `updateMealRecord`                 | 記録ID、食べた日、タイトル、食事時間、用意のしかた、料理と食品群               |
+| `updateMealRecord`                 | 記録ID、食べた日、タイトル、食事時間、料理と食品群                             |
 | `purchase`, `equip`                | アイテムの`id`                                                                 |
 | `rest`, `claimLogin`               | 追加の入力なし                                                                 |
 | `updateSettings`                   | 名前・ごはんのお知らせの設定                                                   |

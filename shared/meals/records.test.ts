@@ -57,10 +57,12 @@ describe('real meals and companion feeding', () => {
     expect(feed(shared, { ...input, mealRecordId: 'missing' }, { mealId: 'missing' })).toBe(shared)
   })
 
-  it('allows another distinct meal for the same companion without changing legacy rewards', () => {
-    const first = feed(starter(), input, { mealId: 'dinner' })
+  it('counts new meals from legacy callers as home cooking without changing their rewards', () => {
+    const first = feed(starter(), { ...input, mealRecord: undefined }, { mealId: 'dinner' })
+    expect(first.mealRecords?.[0]).toMatchObject({ source: 'home', slot: 'unknown' })
     const second = feed(first, input, { mealId: 'second' })
     expect(second.mealRecords).toHaveLength(2)
+    expect(dailyMealReport(second.mealRecords!, today).homeMealCount).toBe(2)
     expect(second.companions[0].xp).toBe(75)
     expect(second.meals[0].coins).toBe(0)
   })
