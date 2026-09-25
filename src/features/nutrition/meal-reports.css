@@ -1,0 +1,375 @@
+.meal-report,
+.meal-week {
+  width: 100%;
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--paper);
+  text-align: left;
+}
+.meal-report-heading,
+.meal-week-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.meal-report-heading h2,
+.meal-week h2,
+.meal-history-day h2 {
+  font-size: 19px;
+  line-height: 1.6;
+}
+.meal-report-heading > div > span,
+.meal-week-heading > span {
+  color: var(--muted);
+  font-size: 12px;
+}
+.meal-report-score {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  flex-shrink: 0;
+  color: var(--green);
+}
+.meal-report-score strong {
+  font-size: 48px;
+  line-height: 1.1;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+}
+.meal-report-score span {
+  font-size: 12px;
+}
+.meal-report-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: 18px;
+  font-size: 13px;
+}
+.meal-report-groups {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  padding: 0;
+  margin: 18px 0;
+  list-style: none;
+}
+.meal-report-groups li {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 11px 8px;
+  background: #f5f1e9;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.meal-report-groups li.is-recorded {
+  background: #eef3e8;
+  border-color: #c9d6bf;
+}
+.meal-report-groups strong {
+  font-size: 16px;
+}
+.meal-report-feedback {
+  font-size: 14px;
+}
+.meal-report-note {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+  text-align: left;
+}
+.meal-report-link {
+  min-height: 44px;
+  padding: 10px 0;
+  color: var(--green);
+  font-size: 14px;
+  font-weight: 750;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  line-height: 1.7;
+}
+.meal-report-method {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.meal-report-method summary {
+  cursor: pointer;
+  padding-block: 7px;
+}
+.meal-report-method p {
+  margin-top: 6px;
+}
+.meal-week-foods table {
+  table-layout: fixed;
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+  font-size: 12px;
+  text-align: center;
+}
+.meal-week-foods caption {
+  padding-bottom: 10px;
+  text-align: left;
+}
+.meal-week-foods th,
+.meal-week-foods td {
+  padding: 10px 2px;
+  border-bottom: 1px solid var(--line);
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+.meal-week-foods th:first-child {
+  width: 24%;
+  text-align: left;
+}
+.meal-week-foods tbody th {
+  font-weight: 600;
+}
+.meal-week-heading {
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.meal-week-chart {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 20px;
+}
+.meal-week-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  padding: 9px 3px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+}
+.meal-week-day[aria-pressed='true'] {
+  border-color: var(--green);
+  background: #eff3e9;
+  box-shadow: inset 0 0 0 1px var(--green);
+}
+.meal-week-value {
+  font-size: 15px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.meal-week-track {
+  width: 65%;
+  height: 94px;
+  display: flex;
+  align-items: flex-end;
+  margin: 9px 0;
+  border-bottom: 1px solid #c5baaa;
+}
+.meal-week-bar {
+  width: 100%;
+  border-radius: 5px 5px 0 0;
+  background: #819b70;
+}
+.meal-week-date {
+  font-size: 12px;
+  white-space: nowrap;
+}
+.meal-week-status {
+  margin-top: 3px;
+  font-size: 10px;
+  white-space: nowrap;
+  color: var(--muted);
+}
+.meal-history {
+  display: grid;
+  gap: 20px;
+}
+.meal-history .play-page-heading {
+  margin-bottom: 0;
+}
+.meal-history-period {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 14px;
+}
+.meal-history-period button {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+.meal-history-date {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 14px;
+}
+.meal-history-date label,
+.meal-record-editor > label {
+  display: grid;
+  gap: 7px;
+  font-size: 13px;
+  text-align: left;
+}
+.meal-history-date input,
+.meal-record-editor > label input {
+  max-width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #c7bba8;
+  border-radius: 10px;
+  background: var(--paper);
+}
+.meal-history-date button {
+  min-height: 44px;
+  color: var(--green);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.meal-history-day > h2 {
+  margin: 6px 0 16px;
+}
+.meal-history .memory-card > strong {
+  font-size: 14px;
+}
+.meal-history .memory-card > small {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+.meal-history .empty-state > svg {
+  margin: 0 auto 20px;
+}
+.meal-history .empty-state > h3 {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+.meal-record-editor {
+  display: grid;
+  gap: 20px;
+}
+.meal-record-meta {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 13px;
+}
+.meal-record-meta > span {
+  padding: 5px 12px;
+  border-radius: 30px;
+  background: #f1ecdf;
+}
+.meal-record-items,
+.meal-share-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  text-align: left;
+}
+.meal-record-items li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 7px 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.meal-record-items li > span,
+.meal-record-items small {
+  color: var(--muted);
+  font-size: 12px;
+}
+.meal-record-items small {
+  grid-column: 1 / -1;
+  line-height: 1.8;
+}
+.meal-share-list li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 14px;
+  padding: 7px 0;
+  font-size: 13px;
+}
+.meal-record-actions {
+  display: grid;
+  justify-items: stretch;
+  gap: 8px;
+  margin-top: 20px;
+}
+.feast-scene-mealReport {
+  max-width: 620px;
+  margin: 0 auto;
+}
+.meal-record-editor select:focus-visible,
+.meal-week-day:focus-visible {
+  outline: 3px solid #527157;
+  outline-offset: 3px;
+}
+@media (max-width: 600px) {
+  .meal-report,
+  .meal-week {
+    padding: 17px;
+    border-radius: 16px;
+  }
+  .meal-report-heading h2,
+  .meal-week h2,
+  .meal-history-day h2 {
+    font-size: 17px;
+  }
+  .meal-report-score strong {
+    font-size: 38px;
+  }
+  .meal-report-groups {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .meal-week-chart {
+    gap: 2px;
+  }
+  .meal-week-day {
+    padding-inline: 0;
+  }
+  .meal-history .album-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .meal-history .memory-photo {
+    height: 155px;
+  }
+}
+@media (max-width: 380px) {
+  .meal-week {
+    padding-inline: 10px;
+  }
+  .meal-week-date {
+    font-size: 11px;
+  }
+  .meal-week-status {
+    font-size: 9px;
+  }
+  .meal-history .album-grid {
+    grid-template-columns: 1fr;
+  }
+  .meal-history .memory-photo {
+    height: 190px;
+  }
+  .meal-report-heading {
+    gap: 8px;
+  }
+}

@@ -21,7 +21,7 @@ import { Currency } from '../ui/Currency'
 import { Toast } from '../ui/Toast'
 import { AccountMenu } from '../features/auth/AccountMenu'
 
-type MealOptions = { recipeId?: string; targetId?: SpeciesId }
+type MealOptions = { recipeId?: string; targetId?: SpeciesId; mealRecordId?: string }
 type Journey =
   | { type: 'tutorial'; step: TutorialStep }
   | ({ type: 'meal' } & MealOptions)
@@ -136,14 +136,14 @@ function App() {
       setJourney({ type: 'meal', ...options })
     })
   }
-  function finishJourney() {
+  function finishJourney(destination: Page = 'room') {
     dismissError()
     if (journey?.type === 'feast' && journey.receipt.newItems.includes('sprout'))
       run({ type: 'equip', id: 'sprout' })
     transitionScene(() => {
-      restoreFeedFocus.current = true
+      restoreFeedFocus.current = destination === 'room'
       setJourney(null)
-      navigate('room')
+      navigate(destination)
     })
   }
   function showFriends() {
@@ -261,15 +261,21 @@ function App() {
             state={state}
             recipeId={journey.recipeId}
             targetId={journey.targetId}
+            mealRecordId={journey.mealRecordId}
             guided={homeGuide === 'meal'}
             onFeed={submit}
             onCommitted={(receipt, photo) =>
               transitionScene(() => setJourney({ type: 'feast', receipt, photo }))
             }
-            onClose={finishJourney}
+            onClose={() => finishJourney()}
           />
         ) : journey.type === 'feast' ? (
-          <FeastJourney receipt={journey.receipt} photo={journey.photo} onDone={finishJourney} />
+          <FeastJourney
+            receipt={journey.receipt}
+            photo={journey.photo}
+            onDone={() => finishJourney()}
+            onViewRecords={() => finishJourney('album')}
+          />
         ) : null}
         {journey.type !== 'meal' && feedback}
       </>

@@ -1,0 +1,126 @@
+.meal-record-fields {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+  text-align: left;
+}
+.meal-record-fields label,
+.meal-share-target {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 650;
+}
+.meal-record-fields input:not([type='checkbox']),
+.meal-record-fields select,
+.meal-share-target select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 1px solid #d6d6bb;
+  border-radius: 10px;
+  background: #fffefa;
+  color: #344b38;
+  font: inherit;
+}
+.meal-record-selects {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.meal-record-item {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 12px;
+  min-width: 0;
+  border: 1px solid #dedec7;
+  border-radius: 14px;
+}
+.meal-record-item legend {
+  padding: 0 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.meal-record-groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+}
+.meal-record-groups label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 40px;
+  cursor: pointer;
+}
+.meal-record-groups input {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  accent-color: #476c45;
+}
+.meal-record-help {
+  margin: 0;
+  color: #59634d;
+  font-size: 12px;
+  line-height: 1.7;
+  font-weight: 400;
+}
+.meal-record-add {
+  justify-self: start;
+  min-height: 44px;
+}
+.meal-record-disclosure {
+  margin-top: 12px;
+}
+.meal-record-disclosure summary {
+  padding: 10px 0;
+  cursor: pointer;
+  font-weight: 700;
+}
+.meal-share-note {
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* Leave room for both the first-meal guide and its action on short phones. */
+@media (max-width: 600px) and (max-height: 640px) {
+  .journey-screen[data-scene='serve']:has(.play-guide) .journey-heading {
+    margin-top: 8px;
+  }
+  .journey-screen[data-scene='serve']:has(.play-guide) .journey-content {
+    padding-block: 8px;
+  }
+  .journey-screen[data-scene='serve']:has(.play-guide) .meal-serving-art {
+    height: 90px;
+  }
+  .journey-screen[data-scene='serve']:has(.play-guide) .meal-serving-pet {
+    width: 105px;
+    height: 105px;
+    top: -25px;
+  }
+  .journey-screen[data-scene='serve']:has(.play-guide) .meal-tablecloth {
+    height: 36px;
+  }
+  .journey-screen[data-scene='serve']:has(.play-guide) .meal-serving-dish {
+    width: 80px;
+    height: 54px;
+    margin-left: -40px;
+  }
+  .journey-screen[data-scene='serve']:has(.play-guide) .meal-serving-cutlery {
+    bottom: 12px;
+  }
+  .journey-screen[data-scene='serve']:has(.play-guide) .meal-serve-form {
+    margin-top: 6px;
+  }
+  .journey-screen[data-scene='serve']:has(.play-guide) .meal-record-disclosure {
+    margin-top: 4px;
+  }
+  .journey-screen[data-scene='serve']:has(.play-guide) .meal-record-disclosure > summary {
+    font-size: 13px;
+    padding-block: 8px;
+  }
+}

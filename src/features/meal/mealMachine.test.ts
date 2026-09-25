@@ -6,6 +6,8 @@ import type { MealMachineInput, MealServices } from './mealMachine'
 import { chooseStarter, feed, initialGame } from '../../app/game/browserGame'
 import { createFeedReceipt } from '../../../shared/game/receipt'
 import type { FeedReceipt } from '../../../shared/game/receipt'
+import { suggestMealItem } from '../../../shared/meals/analysis'
+import type { MealRecordInput } from '../../../shared/meals/types'
 
 const before = chooseStarter(initialGame('2026-09-25'), 'komugi')
 const receipt = createFeedReceipt(before, feed(before, { title: '今日のごはん', sample: 'rice' }))!
@@ -57,6 +59,11 @@ describe('meal draft workflow', () => {
         title: 'パスタ',
         sample: 'pasta',
         recipeId: undefined,
+        mealRecord: {
+          slot: 'unknown',
+          source: 'unknown',
+          items: [suggestMealItem('generic-pasta')],
+        },
         dishId: 'generic-pasta',
       }),
       'operation-1',
@@ -132,6 +139,7 @@ describe('meal draft workflow', () => {
         photo: 'photo:meal.jpg',
         sample: 'rice',
         recipeId: undefined,
+        mealRecord: { slot: 'unknown', source: 'unknown', items: [suggestMealItem()] },
       },
       'operation-1',
     )
@@ -352,5 +360,69 @@ describe('meal draft workflow', () => {
     expect(submit.mock.calls.map((call) => call[1])).toEqual(['operation-1', 'operation-2'])
     expect(submit.mock.calls[1][0].photo).toBe('photo:meal.jpg')
     expect(submit.mock.calls[1][0].title).toBe('手で選んだごはん')
+  })
+
+  it('retains side dishes and manual groups after late recognition and an edited retry', async () => {
+    const recognition = pending<string[]>()
+    const submit = vi
+      .fn()
+      .mockRejectedValueOnce(new Error('保存できませんでした'))
+      .mockResolvedValueOnce(receipt)
+    const { actor } = start({ submit, recognizeFood: () => recognition.promise })
+    actor.send({ type: 'PHOTO_SELECTED', file: photo() })
+    await waitFor(actor, (state) => state.matches({ editing: { media: 'recognizing' } }))
+    actor.send({ type: 'NEXT' })
+    const value: MealRecordInput = {
+      slot: 'lunch',
+      source: 'home',
+      items: [
+        {
+          name: '豆のごはん',
+          groups: ['staple', 'protein'],
+          groupsConfirmed: true,
+          portion: 'regular',
+        },
+        { name: 'サラダ', groups: ['vegetable'], groupsConfirmed: true, portion: 'small' },
+      ],
+    }
+    actor.send({ type: 'RECORD_CHANGED', value })
+    recognition.resolve(['curry'])
+    await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
+    expect(actor.getSnapshot().context.mealRecord).toEqual(value)
+    actor.send({ type: 'SUBMIT' })
+    await waitFor(actor, (state) => state.matches({ editing: { navigation: 'serve' } }))
+    expect(actor.getSnapshot().context.mealRecord).toEqual(value)
+    actor.send({ type: 'RECORD_CHANGED', value: { ...value, source: 'prepared' } })
+    actor.send({ type: 'SUBMIT' })
+    await waitFor(actor, (state) => state.matches('committed'))
+    expect(submit.mock.calls.map((call) => call[1])).toEqual(['operation-1', 'operation-2'])
+    expect(submit.mock.calls[1][0]).toMatchObject({
+      title: '豆のごはん',
+      mealRecord: { ...value, source: 'prepared' },
+    })
+  })
+
+  it('shares a saved meal directly at the table without creating another record or photo upload', async () => {
+    const { actor, services } = start(
+      {},
+      {
+        targetId: 'mame',
+        sharedMeal: {
+          id: 'existing-meal',
+          title: 'お昼のカレー',
+          day: '2026-09-25',
+          slot: 'lunch',
+          source: 'home',
+          items: [suggestMealItem('curry')],
+        },
+      },
+    )
+    expect(actor.getSnapshot().matches({ editing: { navigation: 'serve' } })).toBe(true)
+    actor.send({ type: 'SUBMIT' })
+    await waitFor(actor, (state) => state.matches('committed'))
+    expect(services.submit).toHaveBeenCalledExactlyOnceWith(
+      { targetId: 'mame', title: 'お昼のカレー', sample: 'curry', mealRecordId: 'existing-meal' },
+      'operation-1',
+    )
   })
 })

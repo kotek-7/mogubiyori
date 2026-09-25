@@ -10,6 +10,7 @@ export type FeastStep =
   | { type: 'arrivals'; visitors: SpeciesId[] }
   | { type: 'streak'; beforeDays: number; afterDays: number; reward: number }
   | { type: 'gift'; itemId: 'sprout' }
+  | { type: 'mealReport' }
 
 /** Presentation only: this receipt describes one operation already committed. */
 export function feastStepsFromReceipt(receipt: FeedReceipt): FeastStep[] {
@@ -39,6 +40,7 @@ export function feastStepsFromReceipt(receipt: FeedReceipt): FeastStep[] {
     })
   }
   if (receipt.newItems.includes('sprout')) steps.push({ type: 'gift', itemId: 'sprout' })
+  if (receipt.mealReport) steps.push({ type: 'mealReport' })
   return steps
 }
 

@@ -10,6 +10,7 @@ import { mealChoiceById } from '../../../shared/content/mealChoices'
 import type { FeedReceipt } from '../../../shared/game/receipt'
 import { feastStepsFromReceipt } from './feastSteps'
 import { transitionScene } from '../../ui/journey/journeyTransition'
+import { TodayMealReport } from '../nutrition/MealReports'
 
 export const EATING_DURATION = 3600
 
@@ -17,10 +18,12 @@ export function FeastJourney({
   receipt,
   photo,
   onDone,
+  onViewRecords,
 }: {
   receipt: FeedReceipt
   photo?: string
   onDone: () => void
+  onViewRecords?: () => void
 }) {
   const steps = useMemo(() => feastStepsFromReceipt(receipt), [receipt])
   const [index, setIndex] = useState(0)
@@ -70,6 +73,7 @@ export function FeastJourney({
     streak: '連続記録',
     gift: '7日のおくりもの',
     xp: 'XP獲得',
+    mealReport: '今日のごはんを振り返ろう',
   }
   const rewardSummary = (
     <div
@@ -115,6 +119,9 @@ export function FeastJourney({
       }
     >
       <div className={`feast-scene feast-scene-${step.type}`}>
+        {step.type === 'mealReport' && receipt.mealReport && (
+          <TodayMealReport report={receipt.mealReport.today} onViewRecords={onViewRecords} />
+        )}
         {step.type === 'xp' && (
           <FeastXpReward
             species={targetId}
@@ -256,7 +263,9 @@ export function FeastJourney({
         {step.type === 'arrivals' && (
           <p className="journey-note">ごはんをあげるとなかまになります。</p>
         )}
-        {last && rewardSummary}
+        {step.type !== 'mealReport' &&
+          (last || steps[index + 1]?.type === 'mealReport') &&
+          rewardSummary}
       </div>
     </JourneyFrame>
   )

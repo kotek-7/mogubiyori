@@ -21,6 +21,7 @@ import { StreakPanel } from '../../features/streak/StreakPanel'
 export type Dialog =
   | { type: 'recipe'; recipeId: string }
   | { type: 'meal'; meal: GameMeal }
+  | { type: 'mealRecord'; recordId: string }
   | { type: 'item'; item: Item }
   | { type: 'profile'; speciesId?: SpeciesId }
   | { type: 'settings' | 'streak' | 'gems' | 'rest' | 'letters' | 'help' }
@@ -31,7 +32,7 @@ type Props = {
   onClose: () => void
   onNavigate: (page: 'room' | 'album' | 'shop') => void
   onToast: (text: string) => void
-  onRecord: (options?: { recipeId?: string; targetId?: SpeciesId }) => void
+  onRecord: (options?: { recipeId?: string; targetId?: SpeciesId; mealRecordId?: string }) => void
   onTutorial: () => void
 }
 
@@ -103,9 +104,44 @@ export function GameDialogs({
       )
       break
     case 'meal':
-      title = local.meal.title
-      content = <MealDetail meal={local.meal} />
+    case 'mealRecord': {
+      const meal =
+        local.type === 'meal'
+          ? state.meals.find((entry) => entry.id === local.meal.id)
+          : state.meals.find((entry) => entry.mealRecordId === local.recordId)
+      const recordId = local.type === 'mealRecord' ? local.recordId : meal?.mealRecordId
+      const record = state.mealRecords?.find((entry) => entry.id === recordId)
+      const sharedMeals = record
+        ? state.meals.filter((entry) => entry.mealRecordId === record.id)
+        : []
+      const sharedWith = new Set(sharedMeals.map((entry) => entry.targetId))
+      const canShare =
+        record?.day === state.today &&
+        [...state.companions.map((entry) => entry.id), ...state.visitors].some(
+          (id) => !sharedWith.has(id),
+        )
+      title = record?.title ?? meal?.title ?? 'ごはんの記録'
+      content = (
+        <MealDetail
+          meal={meal}
+          record={record}
+          sharedMeals={sharedMeals}
+          today={state.today}
+          busy={busy}
+          onSave={
+            record
+              ? (input, onSuccess) =>
+                  runCommand({ type: 'updateMealRecord', id: record.id, input }, () => {
+                    onToast('食事の記録を更新しました')
+                    onSuccess()
+                  })
+              : undefined
+          }
+          onShare={record && canShare ? () => onRecord({ mealRecordId: record.id }) : undefined}
+        />
+      )
       break
+    }
     case 'item': {
       const item = local.item
       title = item.name

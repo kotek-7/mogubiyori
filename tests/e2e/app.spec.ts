@@ -83,6 +83,8 @@ test('the first meal rewards cooking while keeping the initial form recognizable
   await expectFocusedScene(page, 'streak')
   await expect(journey(page, 'streak').locator('.streak-celebration-number strong')).toHaveText('1')
   await expect(journey(page, 'streak').locator('.streak-celebration-prize')).toHaveCount(0)
+  await page.getByRole('button', { name: 'つづける', exact: true }).click()
+  await expectFocusedScene(page, 'mealReport')
   await page.getByRole('button', { name: 'ひろばへ', exact: true }).click()
   await expect(page.locator('.play-name')).toContainText('うまれたて')
   await expect(page.locator('.play-pet .pet-art')).toHaveClass(/pet-stage-0/)
@@ -283,10 +285,14 @@ test('an ordinary meal keeps XP visible until the user returns to the plaza', as
   await expect(journey(page, 'xp')).toBeVisible({ timeout: 5000 })
   await expect(journey(page, 'xp').getByRole('progressbar', { name: '次の成長まで' })).toBeVisible()
   await expect(
-    journey(page, 'xp').getByRole('button', { name: 'ひろばへ', exact: true }),
+    journey(page, 'xp').getByRole('button', { name: 'つづける', exact: true }),
   ).toBeVisible()
-  await expect(journey(page).getByRole('button', { name: 'つづける' })).toHaveCount(0)
-  await journey(page, 'xp').getByRole('button', { name: 'ひろばへ', exact: true }).click()
+  await expect(journey(page).getByRole('button', { name: 'ひろばへ' })).toHaveCount(0)
+  const saved = await storedGame(page)
+  await journey(page, 'xp').getByRole('button', { name: 'つづける', exact: true }).click()
+  await expectFocusedScene(page, 'mealReport')
+  expect(await storedGame(page)).toEqual(saved)
+  await journey(page, 'mealReport').getByRole('button', { name: 'ひろばへ', exact: true }).click()
   await expect(journey(page)).toHaveCount(0)
   expect((await storedGame(page)).meals).toHaveLength(2)
   await expect(page.locator('.play-feed')).toHaveAccessibleName('もう一度あげる')

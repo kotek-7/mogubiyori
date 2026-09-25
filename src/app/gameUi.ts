@@ -8,7 +8,7 @@ export type Page = 'room' | 'book' | 'album' | 'shop'
 type Setter<T> = Dispatch<SetStateAction<T>>
 type GameUi = {
   setDialog: Setter<Dialog | null>
-  openMeal: (options?: { recipeId?: string; targetId?: SpeciesId }) => void
+  openMeal: (options?: { recipeId?: string; targetId?: SpeciesId; mealRecordId?: string }) => void
   showFriends: () => void
   showGrowthGuide: boolean
   dismissHomeGuide: () => void

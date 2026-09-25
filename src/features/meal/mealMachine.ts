@@ -4,14 +4,18 @@ import { genericDishById } from '../../../shared/content/dishes'
 import type { FeedInput, SpeciesId } from '../../../shared/game/types'
 import type { FeedReceipt } from '../../../shared/game/receipt'
 import { createOperationId } from '../../lib/operationId'
+import { suggestMealItem } from '../../../shared/meals/analysis'
+import type { MealRecord, MealRecordInput } from '../../../shared/meals/types'
 
-export type MealMachineInput = { targetId: SpeciesId; recipeId?: string }
+export type MealMachineInput = { targetId: SpeciesId; recipeId?: string; sharedMeal?: MealRecord }
 
 type MealContext = {
   targetId: SpeciesId
   recipeId: string
   dishId?: string
   title: string
+  mealRecord: MealRecordInput
+  mealRecordId?: string
   photo?: string
   sample: boolean
   file?: File
@@ -29,6 +33,8 @@ type MealEvent =
   | { type: 'RECIPE_CHANGED'; recipeId: string }
   | { type: 'RECIPE_SELECTED'; recipeId: string }
   | { type: 'TITLE_CHANGED'; title: string }
+  | { type: 'RECORD_CHANGED'; value: MealRecordInput }
+  | { type: 'TARGET_CHANGED'; targetId: SpeciesId }
   | { type: 'NEXT' | 'BACK' | 'OPEN_RECIPES' | 'USE_SAMPLE' | 'SUBMIT' | 'CANCEL' }
 
 export type MealServices = {
@@ -42,13 +48,25 @@ function feedInput(context: MealContext): FeedInput {
   const recipe = recipeById(context.recipeId)
   const dish = genericDishById(context.dishId)
   const choice = recipe ?? dish
+  if (context.mealRecordId)
+    return {
+      targetId: context.targetId,
+      title: context.title,
+      sample: choice?.sample ?? 'rice',
+      mealRecordId: context.mealRecordId,
+    }
   return {
     targetId: context.targetId,
-    title: context.title.trim() || choice?.name || '今日のごはん',
+    title:
+      context.title.trim() ||
+      context.mealRecord.items[0]?.name.trim() ||
+      choice?.name ||
+      '今日のごはん',
     photo: context.photo,
     sample: choice?.sample ?? 'rice',
     recipeId: context.recipeId || undefined,
     ...(dish ? { dishId: dish.id } : {}),
+    mealRecord: context.mealRecord,
   }
 }
 
@@ -60,13 +78,28 @@ function sameMeal(previous: FeedInput | undefined, next: FeedInput) {
     previous.photo === next.photo &&
     previous.sample === next.sample &&
     previous.recipeId === next.recipeId &&
-    previous.dishId === next.dishId
+    previous.dishId === next.dishId &&
+    previous.mealRecordId === next.mealRecordId &&
+    JSON.stringify(previous.mealRecord) === JSON.stringify(next.mealRecord)
   )
 }
 
 function selection(id: string) {
   const dish = genericDishById(id)
   return { recipeId: dish ? '' : id, dishId: dish?.id }
+}
+
+function selectForRecord(context: MealContext, id: string) {
+  return {
+    ...selection(id),
+    mealRecord: {
+      ...context.mealRecord,
+      items: [
+        { ...suggestMealItem(id), portion: context.mealRecord.items[0]?.portion ?? 'unknown' },
+        ...context.mealRecord.items.slice(1),
+      ],
+    },
+  }
 }
 
 /** Owns the draft and its work, never the saved game or its query cache. */
@@ -88,6 +121,7 @@ export function createMealMachine(services: MealServices) {
     },
     guards: {
       hasMeal: ({ context }) => Boolean(context.photo || context.sample),
+      isSharedMeal: ({ context }) => Boolean(context.mealRecordId),
     },
     actions: {
       prepareSubmission: assign(({ context }) => {
@@ -106,9 +140,18 @@ export function createMealMachine(services: MealServices) {
     id: 'meal',
     context: ({ input }) => ({
       targetId: input.targetId,
-      recipeId: input.recipeId ?? '',
-      title: '',
-      sample: false,
+      recipeId: input.sharedMeal?.items[0]?.recipeId ?? input.recipeId ?? '',
+      dishId: input.sharedMeal?.items[0]?.dishId,
+      title: input.sharedMeal?.title ?? '',
+      mealRecordId: input.sharedMeal?.id,
+      mealRecord: input.sharedMeal
+        ? {
+            slot: input.sharedMeal.slot,
+            source: input.sharedMeal.source,
+            items: input.sharedMeal.items,
+          }
+        : { slot: 'unknown', source: 'unknown', items: [suggestMealItem(input.recipeId)] },
+      sample: Boolean(input.sharedMeal),
       candidates: [],
       recipeChosen: Boolean(input.recipeId),
       titleEdited: false,
@@ -120,10 +163,22 @@ export function createMealMachine(services: MealServices) {
         type: 'parallel',
         on: {
           RECIPE_CHANGED: {
-            actions: assign(({ event }) => ({
-              ...selection(event.recipeId),
+            actions: assign(({ context, event }) => ({
+              ...selectForRecord(context, event.recipeId),
               recipeChosen: true,
             })),
+          },
+          RECORD_CHANGED: {
+            actions: assign(({ context, event }) => ({
+              mealRecord: event.value,
+              recipeChosen:
+                context.recipeChosen ||
+                JSON.stringify(context.mealRecord.items[0]) !==
+                  JSON.stringify(event.value.items[0]),
+            })),
+          },
+          TARGET_CHANGED: {
+            actions: assign({ targetId: ({ event }) => event.targetId }),
           },
           TITLE_CHANGED: {
             actions: assign({ title: ({ event }) => event.title, titleEdited: true }),
@@ -141,9 +196,10 @@ export function createMealMachine(services: MealServices) {
         },
         states: {
           navigation: {
-            initial: 'photo',
+            initial: 'start',
             on: { USE_SAMPLE: '.serve' },
             states: {
+              start: { always: [{ guard: 'isSharedMeal', target: 'serve' }, { target: 'photo' }] },
               photo: {
                 on: {
                   NEXT: {
@@ -158,8 +214,8 @@ export function createMealMachine(services: MealServices) {
                   BACK: 'serve',
                   RECIPE_SELECTED: {
                     target: 'serve',
-                    actions: assign(({ event }) => ({
-                      ...selection(event.recipeId),
+                    actions: assign(({ context, event }) => ({
+                      ...selectForRecord(context, event.recipeId),
                       recipeChosen: true,
                     })),
                   },
@@ -180,6 +236,7 @@ export function createMealMachine(services: MealServices) {
                   error: '',
                   recipeId: context.recipeChosen ? context.recipeId : '',
                   dishId: context.recipeChosen ? context.dishId : undefined,
+                  ...(!context.recipeChosen ? selectForRecord(context, '') : {}),
                 })),
               },
               USE_SAMPLE: {
@@ -192,6 +249,7 @@ export function createMealMachine(services: MealServices) {
                   error: '',
                   recipeId: context.recipeChosen ? context.recipeId : '',
                   dishId: context.recipeChosen ? context.dishId : undefined,
+                  ...(!context.recipeChosen ? selectForRecord(context, '') : {}),
                 })),
               },
             },
@@ -230,7 +288,7 @@ export function createMealMachine(services: MealServices) {
                     actions: assign(({ context, event }) => ({
                       candidates: event.output,
                       ...(event.output[0] && !context.recipeChosen && !context.titleEdited
-                        ? selection(event.output[0])
+                        ? selectForRecord(context, event.output[0])
                         : {}),
                     })),
                   },

@@ -18,11 +18,14 @@ import { transitionScene } from '../../ui/journey/journeyTransition'
 import { createMealMachine } from './mealMachine'
 import { GenericDishPicker } from './GenericDishPicker'
 import { RecognitionStatus } from './RecognitionStatus'
+import { MealRecordFields } from './MealRecordFields'
+import { MealArtwork } from '../album/MealArtwork'
 
 export type MealJourneyProps = {
   state: GameState
   recipeId?: string
   targetId?: SpeciesId
+  mealRecordId?: string
   guided?: boolean
   onFeed: (input: FeedInput, operationId: string) => Promise<FeedReceipt>
   onCommitted: (receipt: FeedReceipt, photo?: string) => void
@@ -33,11 +36,30 @@ export function MealJourney({
   state,
   recipeId: initialRecipeId,
   targetId,
+  mealRecordId,
   guided = false,
   onFeed,
   onCommitted,
   onClose,
 }: MealJourneyProps) {
+  const sharedMeal = state.mealRecords?.find((record) => record.id === mealRecordId)
+  const eligibleTargets = [
+    ...state.companions,
+    ...state.visitors
+      .filter((id) => !state.companions.some((companion) => companion.id === id))
+      .map((id) => ({ id })),
+  ].filter(
+    (companion) =>
+      !mealRecordId ||
+      !state.meals.some(
+        (meal) => meal.mealRecordId === mealRecordId && meal.targetId === companion.id,
+      ),
+  )
+  const firstTarget =
+    eligibleTargets.find((entry) => entry.id === (targetId ?? state.activeId))?.id ??
+    eligibleTargets[0]?.id ??
+    state.activeId ??
+    'komugi'
   const [machine] = useState(() =>
     createMealMachine({
       resizePhoto,
@@ -53,7 +75,13 @@ export function MealJourney({
         ),
       },
     }),
-    { input: { targetId: targetId ?? state.activeId ?? 'komugi', recipeId: initialRecipeId } },
+    {
+      input: {
+        targetId: mealRecordId ? firstTarget : (targetId ?? state.activeId ?? 'komugi'),
+        recipeId: initialRecipeId,
+        sharedMeal,
+      },
+    },
   )
   const {
     photo,
@@ -61,6 +89,7 @@ export function MealJourney({
     recipeId,
     dishId,
     title,
+    mealRecord,
     candidates,
     error,
     targetId: target,
@@ -95,7 +124,10 @@ export function MealJourney({
     target === state.activeId ? state.name : species.find((entry) => entry.id === target)!.name
   const selectedId = dishId ?? recipeId
   const recipe = mealChoiceById(selectedId)
-  const ready = Boolean(photo || sample)
+  const sharing = Boolean(mealRecordId)
+  const ready =
+    Boolean(photo || sample) &&
+    (!sharing || Boolean(sharedMeal && eligibleTargets.length && sharedMeal.day === state.today))
   const xp = mealXp(state, recipeId || undefined, target)
   const recognitionMessage =
     recognition === 'recognizing'
@@ -121,18 +153,28 @@ export function MealJourney({
       // Let native select menus handle their own dismissal.
       if (event.target instanceof HTMLSelectElement) return
       event.preventDefault()
-      if (step !== 'photo') transitionScene(() => send({ type: 'BACK' }))
+      if (sharing) close()
+      else if (step !== 'photo') transitionScene(() => send({ type: 'BACK' }))
       else close()
     }
     window.addEventListener('keydown', escape)
     return () => window.removeEventListener('keydown', escape)
-  }, [step, submitting, close, send])
+  }, [step, submitting, close, send, sharing])
 
   function chooseRecipe(recipeId: string) {
     transitionScene(() => send({ type: 'RECIPE_SELECTED', recipeId }))
   }
 
-  const dish = photo ? <img src={photo} alt="今日の料理" /> : <RecipeArt recipe={recipe} />
+  const previousFeed = sharing
+    ? state.meals.find((meal) => meal.mealRecordId === mealRecordId)
+    : undefined
+  const dish = previousFeed ? (
+    <MealArtwork meal={previousFeed} />
+  ) : photo ? (
+    <img src={photo} alt="今日の料理" />
+  ) : (
+    <RecipeArt recipe={recipe} />
+  )
 
   if (step === 'recipe-pick')
     return (
@@ -264,11 +306,13 @@ export function MealJourney({
     <JourneyFrame
       scene="serve"
       title="ごはんをあげる"
-      onBack={submitting ? undefined : () => transitionScene(() => send({ type: 'BACK' }))}
+      onBack={
+        submitting || sharing ? undefined : () => transitionScene(() => send({ type: 'BACK' }))
+      }
       backLabel="写真にもどる"
       onClose={submitting ? undefined : close}
       closeLabel="ひろばへ"
-      progress={{ current: 2, total: 2 }}
+      progress={sharing ? undefined : { current: 2, total: 2 }}
       footer={
         <>
           {guided && (
@@ -309,64 +353,122 @@ export function MealJourney({
       <form
         id="serve-meal"
         className="meal-serve-form"
+        onInvalidCapture={(event) => {
+          ;(event.target as HTMLElement).closest('details')?.setAttribute('open', '')
+        }}
         onSubmit={(event) => {
           event.preventDefault()
           send({ type: 'SUBMIT' })
         }}
       >
-        <RecognitionStatus pending={recognition === 'recognizing'} message={recognitionMessage} />
-        {error && (
-          <p className="error-message meal-photo-error" role="alert">
+        {sharing && (
+          <>
+            <p className="meal-share-note">
+              「{sharedMeal?.title}」をほかのもぐにもおすそわけします。食事の記録は1回のままです。
+            </p>
+            <label className="meal-share-target">
+              ごはんをあげるもぐ
+              <select
+                value={target}
+                disabled={submitting || !eligibleTargets.length}
+                onChange={(event) =>
+                  send({ type: 'TARGET_CHANGED', targetId: event.target.value as SpeciesId })
+                }
+              >
+                {eligibleTargets.map((entry) => (
+                  <option key={entry.id} value={entry.id}>
+                    {entry.id === state.activeId
+                      ? state.name
+                      : species.find((pet) => pet.id === entry.id)!.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            {!eligibleTargets.length && (
+              <p className="meal-share-note">この食事は、なかま全員におすそわけ済みです。</p>
+            )}
+          </>
+        )}
+        {!sharing && (
+          <>
+            <RecognitionStatus
+              pending={recognition === 'recognizing'}
+              message={recognitionMessage}
+            />
+            {error && (
+              <p className="error-message meal-photo-error" role="alert">
+                {error}
+              </p>
+            )}
+            {submitting && <p role="status">ごはんを保存しています。</p>}
+            {candidates.length > 0 && (
+              <div
+                className="meal-recipe-candidates"
+                role="group"
+                aria-label="写真から見つかった料理"
+              >
+                {candidates.map((id) => (
+                  <button
+                    key={id}
+                    type="button"
+                    aria-pressed={selectedId === id}
+                    disabled={submitting}
+                    onClick={() => send({ type: 'RECIPE_CHANGED', recipeId: id })}
+                  >
+                    {mealChoiceById(id)?.name}
+                  </button>
+                ))}
+              </div>
+            )}
+            <div className="meal-recipe-field">
+              <span>つくった料理</span>
+              <div className="meal-selected-recipe">
+                <span className="meal-selected-recipe-art" aria-hidden="true">
+                  <RecipeArt recipe={recipe} />
+                </span>
+                <output aria-label="つくった料理">{recipe?.name ?? '今日のごはん'}</output>
+                <button
+                  type="button"
+                  disabled={submitting}
+                  onClick={() => transitionScene(() => send({ type: 'OPEN_RECIPES' }))}
+                >
+                  <Search size={15} aria-hidden="true" />
+                  料理を選ぶ
+                </button>
+              </div>
+            </div>
+            <details className="meal-record-disclosure">
+              <summary>食事の内容を確認</summary>
+              <MealRecordFields
+                value={mealRecord}
+                disabled={submitting}
+                primaryChoiceId={selectedId}
+                onChange={(value) => send({ type: 'RECORD_CHANGED', value })}
+              />
+            </details>
+            {xp < 45 && (
+              <p className="repeat-hint">同じ料理が続いているため、今回は +{xp} XPです。</p>
+            )}
+            <details className="meal-title-details">
+              <summary>料理名をつける</summary>
+              <label className="meal-recipe-field">
+                <span>料理名（任意）</span>
+                <input
+                  value={title}
+                  maxLength={40}
+                  placeholder={recipe?.name ?? '今日のごはん'}
+                  disabled={submitting}
+                  onChange={(event) => send({ type: 'TITLE_CHANGED', title: event.target.value })}
+                />
+              </label>
+            </details>
+          </>
+        )}
+        {sharing && error && (
+          <p className="error-message" role="alert">
             {error}
           </p>
         )}
-        {submitting && <p role="status">ごはんを保存しています。</p>}
-        {candidates.length > 0 && (
-          <div className="meal-recipe-candidates" role="group" aria-label="写真から見つかった料理">
-            {candidates.map((id) => (
-              <button
-                key={id}
-                type="button"
-                aria-pressed={selectedId === id}
-                disabled={submitting}
-                onClick={() => send({ type: 'RECIPE_CHANGED', recipeId: id })}
-              >
-                {mealChoiceById(id)?.name}
-              </button>
-            ))}
-          </div>
-        )}
-        <div className="meal-recipe-field">
-          <span>つくった料理</span>
-          <div className="meal-selected-recipe">
-            <span className="meal-selected-recipe-art" aria-hidden="true">
-              <RecipeArt recipe={recipe} />
-            </span>
-            <output aria-label="つくった料理">{recipe?.name ?? '今日のごはん'}</output>
-            <button
-              type="button"
-              disabled={submitting}
-              onClick={() => transitionScene(() => send({ type: 'OPEN_RECIPES' }))}
-            >
-              <Search size={15} aria-hidden="true" />
-              料理を選ぶ
-            </button>
-          </div>
-        </div>
-        {xp < 45 && <p className="repeat-hint">同じ料理が続いているため、今回は +{xp} XPです。</p>}
-        <details className="meal-title-details">
-          <summary>料理名をつける</summary>
-          <label className="meal-recipe-field">
-            <span>料理名（任意）</span>
-            <input
-              value={title}
-              maxLength={40}
-              placeholder={recipe?.name ?? '今日のごはん'}
-              disabled={submitting}
-              onChange={(event) => send({ type: 'TITLE_CHANGED', title: event.target.value })}
-            />
-          </label>
-        </details>
       </form>
     </JourneyFrame>
   )

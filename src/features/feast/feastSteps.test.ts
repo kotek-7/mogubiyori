@@ -20,7 +20,7 @@ describe('feast journey events', () => {
   it('shows XP after eating even when no discovery occurred', () => {
     const before = feed(demoGame(day), plainMeal)
     const after = feed(before, plainMeal)
-    expect(types(before, after)).toEqual(['eating', 'xp'])
+    expect(types(before, after)).toEqual(['eating', 'xp', 'mealReport'])
   })
 
   it('keeps the first two meals newborn and celebrates the third meal growth', () => {
@@ -28,12 +28,13 @@ describe('feast journey events', () => {
     const first = feed(start, plainMeal)
     const second = feed(first, plainMeal)
     const third = feed(second, plainMeal)
-    expect(types(start, first)).toEqual(['eating', 'xp', 'streak'])
-    expect(types(first, second)).toEqual(['eating', 'xp'])
+    expect(types(start, first)).toEqual(['eating', 'xp', 'streak', 'mealReport'])
+    expect(types(first, second)).toEqual(['eating', 'xp', 'mealReport'])
     expect(deriveFeastSteps(second, third)).toEqual([
       { type: 'eating' },
       { type: 'xp' },
       { type: 'growth', from: 0, to: 1 },
+      { type: 'mealReport' },
     ])
   })
 
@@ -53,6 +54,7 @@ describe('feast journey events', () => {
       { type: 'growth', from: 2, to: 3 },
       { type: 'growth', from: 3, to: 4 },
       { type: 'streak', beforeDays: 0, afterDays: 1, reward: 0 },
+      { type: 'mealReport' },
     ])
     const next = feed(after, plainMeal)
     expect(deriveFeastSteps(after, next).filter((step) => step.type === 'growth')).toEqual([])
@@ -70,6 +72,7 @@ describe('feast journey events', () => {
       'arrivals',
       'streak',
       'gift',
+      'mealReport',
     ])
     expect(steps[2]).toEqual({ type: 'growth', from: 1, to: 2 })
     expect(steps[3]).toEqual({ type: 'card', recipeId: 'curry' })
@@ -80,23 +83,38 @@ describe('feast journey events', () => {
   it('celebrates a visitor joining without claiming that an unowned baby evolved', () => {
     const before = feed(demoGame(day), plainMeal)
     const after = feed(before, { ...plainMeal, targetId: 'mame', recipeId: 'egg-rice' })
-    expect(types(before, after)).toEqual(['eating', 'xp', 'joined', 'card', 'arrivals'])
-    expect(deriveFeastSteps(before, after).at(-1)).toEqual({ type: 'arrivals', visitors: ['momo'] })
+    expect(types(before, after)).toEqual([
+      'eating',
+      'xp',
+      'joined',
+      'card',
+      'arrivals',
+      'mealReport',
+    ])
+    expect(deriveFeastSteps(before, after).at(-2)).toEqual({ type: 'arrivals', visitors: ['momo'] })
   })
 
   it('does not replay collected cards, already seen visitors or a purchased gift', () => {
     const initial = { ...demoGame(day), owned: ['none', 'plain', 'sprout'] }
     const grown = feed(initial, { ...plainMeal, recipeId: 'curry' })
-    expect(types(initial, grown)).toEqual(['eating', 'xp', 'growth', 'card', 'arrivals', 'streak'])
+    expect(types(initial, grown)).toEqual([
+      'eating',
+      'xp',
+      'growth',
+      'card',
+      'arrivals',
+      'streak',
+      'mealReport',
+    ])
     const repeated = feed(grown, { ...plainMeal, recipeId: 'curry' })
-    expect(types(grown, repeated)).toEqual(['eating', 'xp'])
+    expect(types(grown, repeated)).toEqual(['eating', 'xp', 'mealReport'])
   })
 
   it('uses the recipient growth rather than the previously active companion', () => {
     const house = feed(demoGame(day), plainMeal)
     const joined = feed(house, { ...plainMeal, targetId: 'mame' })
     const backToAdult = feed(joined, { ...plainMeal, targetId: 'komugi' })
-    expect(types(joined, backToAdult)).toEqual(['eating', 'xp'])
+    expect(types(joined, backToAdult)).toEqual(['eating', 'xp', 'mealReport'])
   })
 
   it('does not create a journey without a new meal and never changes game state', () => {
@@ -105,7 +123,7 @@ describe('feast journey events', () => {
     const beforeJson = JSON.stringify(before),
       afterJson = JSON.stringify(after)
     expect(deriveFeastSteps(before, before)).toEqual([])
-    expect(types(before, after)).toEqual(['eating', 'xp', 'streak'])
+    expect(types(before, after)).toEqual(['eating', 'xp', 'streak', 'mealReport'])
     deriveFeastSteps(before, after)
     expect(JSON.stringify(before)).toBe(beforeJson)
     expect(JSON.stringify(after)).toBe(afterJson)
@@ -125,6 +143,7 @@ describe('feast journey events', () => {
       { type: 'eating' },
       { type: 'xp' },
       { type: 'streak', beforeDays: 0, afterDays: 1, reward: 0 },
+      { type: 'mealReport' },
     ])
   })
 
@@ -192,6 +211,21 @@ describe('feast journey events', () => {
 })
 
 describe('committed meal receipts', () => {
+  it('keeps receipts saved before food reports on their original journey', () => {
+    const before = demoGame(day)
+    const after = feed(before, { ...plainMeal, recipeId: 'curry' })
+    const receipt = JSON.parse(JSON.stringify(createFeedReceipt(before, after))) as FeedReceipt
+    const { mealReport: _report, ...legacyReceipt } = receipt
+    expect(feastStepsFromReceipt(legacyReceipt).map((step) => step.type)).toEqual([
+      'eating',
+      'xp',
+      'growth',
+      'card',
+      'arrivals',
+      'streak',
+      'gift',
+    ])
+  })
   it('presents a serialized receipt without depending on later saved state', () => {
     const before = demoGame(day)
     const after = feed(before, { ...plainMeal, recipeId: 'curry' })

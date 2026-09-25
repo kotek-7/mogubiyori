@@ -76,6 +76,18 @@ async function expectGainUnobstructed(page: Page) {
   )
 }
 
+async function finishMealReport(page: Page, saved: GameState) {
+  await expect(scene(page, 'mealReport')).toBeVisible()
+  await expect(
+    scene(page, 'mealReport').getByRole('heading', {
+      name: '今日のごはんを振り返ろう',
+      exact: true,
+    }),
+  ).toBeVisible()
+  expect(await stored(page)).toEqual(saved)
+  await scene(page, 'mealReport').getByRole('button', { name: 'ひろばへ', exact: true }).click()
+}
+
 test.use({ viewport: { width: 390, height: 844 } })
 
 test('the first meal lingers while eating and keeps XP and streak rewards until continued', async ({
@@ -121,7 +133,8 @@ test('the first meal lingers while eating and keeps XP and streak rewards until 
   await page.clock.fastForward(30000)
   await expect(scene(page, 'streak')).toBeVisible()
   expect(await stored(page)).toEqual(saved)
-  await scene(page, 'streak').getByRole('button', { name: 'ひろばへ', exact: true }).click()
+  await scene(page, 'streak').getByRole('button', { name: 'つづける', exact: true }).click()
+  await finishMealReport(page, saved)
   await expect(page.locator('.play-pet .pet-art')).toHaveClass(/pet-stage-0/)
   expect(saved.xp).toBe(45)
   expect(await stored(page)).toEqual(saved)
@@ -174,7 +187,8 @@ test('repeated recipes show the actual 30 and 15 XP even when daily coins are ex
     await expect.poll(() => displayedTotal(page)).toBe(total)
     expect(saved.meals[0].coins).toBe(0)
     expect(saved.coins).toBe(state.coins)
-    await scene(page, 'xp').getByRole('button', { name: 'ひろばへ', exact: true }).click()
+    await scene(page, 'xp').getByRole('button', { name: 'つづける', exact: true }).click()
+    await finishMealReport(page, saved)
     await expect(page.locator('.play-feed')).toBeVisible()
     expect(await stored(page)).toEqual(saved)
     state = saved
@@ -222,7 +236,8 @@ test('the final form still earns XP without promising a sixth form or resetting 
     await meterPercent(scene(page, 'xp').getByRole('progressbar', { name: '次の成長まで' })),
   ).toBe(100)
   await expect(scene(page, 'xp')).not.toContainText('あと 0 XP')
-  await scene(page, 'xp').getByRole('button', { name: 'ひろばへ', exact: true }).click()
+  await scene(page, 'xp').getByRole('button', { name: 'つづける', exact: true }).click()
+  await finishMealReport(page, saved)
   await expect(page.locator('.play-pet .pet-art')).toHaveClass(/pet-stage-4/)
   expect(await stored(page)).toEqual(saved)
 })
@@ -254,7 +269,8 @@ test('reduced motion presents the settled reward and fast-forward cannot grant i
   expect(await stored(page)).toEqual(saved)
   await scene(page, 'card').getByRole('button', { name: 'つづける', exact: true }).click()
   await expect(scene(page, 'streak')).toBeVisible()
-  await scene(page, 'streak').getByRole('button', { name: 'ひろばへ', exact: true }).click()
+  await scene(page, 'streak').getByRole('button', { name: 'つづける', exact: true }).click()
+  await finishMealReport(page, saved)
   await expect(page.locator('.play-feed')).toBeVisible()
   await page.reload()
   expect(await stored(page)).toEqual(saved)
@@ -273,7 +289,7 @@ test('a short mobile additional meal keeps its summary and finish button inside 
   await expect(scene(page, 'xp').locator('.feast-scene-rewards')).toContainText('+0')
   expect(saved.coins).toBe(before.coins)
   const buttonBox = await scene(page, 'xp')
-    .getByRole('button', { name: 'ひろばへ', exact: true })
+    .getByRole('button', { name: 'つづける', exact: true })
     .boundingBox()
   await page.screenshot({ path: testInfo.outputPath('xp-ordinary-320.png') })
   await expectGainUnobstructed(page)
@@ -281,7 +297,19 @@ test('a short mobile additional meal keeps its summary and finish button inside 
   expect(buttonBox!.y).toBeGreaterThanOrEqual(0)
   expect(buttonBox!.y + buttonBox!.height).toBeLessThanOrEqual(568)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
-  await scene(page, 'xp').getByRole('button', { name: 'ひろばへ', exact: true }).click()
+  await scene(page, 'xp').getByRole('button', { name: 'つづける', exact: true }).click()
+  await expect(scene(page, 'mealReport')).toBeVisible()
+  const finishButton = scene(page, 'mealReport').getByRole('button', {
+    name: 'ひろばへ',
+    exact: true,
+  })
+  // The reading report scrolls; the preceding XP action still fits without scrolling.
+  await finishButton.scrollIntoViewIfNeeded()
+  const finishBox = await finishButton.boundingBox()
+  expect(finishBox).not.toBeNull()
+  expect(finishBox!.y).toBeGreaterThanOrEqual(0)
+  expect(finishBox!.y + finishBox!.height).toBeLessThanOrEqual(568)
+  await finishMealReport(page, saved)
   await expect(page.locator('.play-feed')).toBeVisible()
   expect(await stored(page)).toEqual(saved)
 })
