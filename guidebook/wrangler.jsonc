@@ -1,0 +1,23 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "mogubiyori-guide",
+  "account_id": "769b391d51df077598b7d91579605fe2",
+  "compatibility_date": "2026-09-25",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    {
+      "pattern": "guide.mogubiyori.kotek7.com",
+      "custom_domain": true,
+    },
+  ],
+  "build": {
+    "command": "node scripts/build.mjs && node scripts/check.mjs",
+    "cwd": ".",
+  },
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page",
+  },
+}

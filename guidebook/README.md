@@ -19,7 +19,7 @@ pnpm dev
 
 ## 独立性
 
-ゲームの起動、認証、保存データ、Supabase、Cloudflare Worker、ゲームの CSS や実行時モジュールを参照しない。既存素材はこのディレクトリへ複製し、書体もローカル配信する。フォルダ全体を単独でコピーしてビルド・配信できる。ゲーム本体への導線や登録・購入操作は置いていない。
+ゲームの起動、認証、保存データ、Supabase、ゲーム本体の Worker、CSS や実行時モジュールを参照しない。既存素材はこのディレクトリへ複製し、書体もローカル配信する。フォルダ全体を単独でコピーしてビルド・配信できる。ゲーム本体への導線や登録・購入操作は置いていない。
 
 ## 構造と編集
 
@@ -43,8 +43,14 @@ Noto Sans JP Variable のライセンスは `public/fonts/OFL.txt`。外部の�
 
 ## 公開
 
-配信先は `https://guide.mogubiyori.kotek7.com/`。Sites の既定URLは `https://mogubiyori-world-guide.kotek7.chatgpt.site/`。閲覧範囲は Sites のアクセス設定で管理する。
+配信先は `https://guide.mogubiyori.kotek7.com/`。Cloudflare Workers の静的アセット配信を使い、ログインなしで閲覧できる。専用 Worker は `mogubiyori-guide`、設定は `wrangler.jsonc`。
 
-Sites の静的サイトとして配信する。識別子と出力先のみ `.openai/hosting.json` に記録し、認証情報は保存しない。開発時のチェックは `pnpm build && pnpm check`。公開時はこのフォルダのみを独立したソースとして送り、検証済み `dist/` をパッケージする。
+リポジトリのルートから、固定済みの Wrangler と既存の CLI 認証を使ってデプロイする。
 
-独自ドメインは Cloudflare の `kotek7.com` ゾーンで管理する。`guide.mogubiyori` の CNAME は `custom-domains.chatgpt.site` を参照し、プロキシは「DNS のみ」。`_openai-site-verification.guide.mogubiyori` の TXT には Sites が返した所有確認の値を設定する。DNS とドメインの関連付けは再デプロイ時も維持する。
+```sh
+pnpm exec wrangler deploy --cwd guidebook --config wrangler.jsonc
+```
+
+Wrangler がこのフォルダでビルドと全ページの検証を実行し、`dist/` のみをアップロードする。HTML は末尾スラッシュ付きで配信し、存在しないパスには `404.html` と HTTP 404 を返す。ドメインと証明書は Workers の Custom Domain として管理する。
+
+フォルダを単独でコピーした場合も、`pnpm dlx wrangler@4.137.0 deploy --config wrangler.jsonc` で同じ手順を実行できる。

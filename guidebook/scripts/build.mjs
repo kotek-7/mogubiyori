@@ -1,4 +1,4 @@
-import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { cp, mkdir, rm, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { pages, renderPage } from '../src/book.mjs'
@@ -37,9 +37,6 @@ export async function build() {
       2,
     ),
   )
-  const metadata = JSON.parse(await readFile(path.join(root, '.openai/hosting.json'), 'utf8'))
-  await mkdir(path.join(output, '.openai'), { recursive: true })
-  await writeFile(path.join(output, '.openai/hosting.json'), JSON.stringify(metadata))
   console.log(`Built ${pages.length} complete pages in guidebook/dist`)
 }
 
