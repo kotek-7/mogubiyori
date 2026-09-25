@@ -8,6 +8,11 @@ import { waitForSceneMotion } from '../../tests/e2e/helpers'
 const output = resolve('artifacts/presentation-kit/02-videos')
 const raw = resolve('test-results/presentation-video-originals')
 const sourceCommit = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim()
+const orientationFilter = process.env.PRESENTATION_VIDEO_ORIENTATION
+if (orientationFilter && !['portrait', 'landscape'].includes(orientationFilter)) {
+  throw new Error('PRESENTATION_VIDEO_ORIENTATION must be portrait or landscape')
+}
+const onlyMissing = process.env.PRESENTATION_VIDEO_ONLY_MISSING === '1'
 const pause = (page: Page, ms = 1600) => page.waitForTimeout(ms)
 const posters = new WeakMap<Page, Buffer>()
 
@@ -282,6 +287,19 @@ scenes.push({
   format: 'portrait',
 })
 
+// Preserve the first twelve exports and add the missing orientation of every operation.
+for (const [index, original] of scenes.slice(0, 10).entries()) {
+  const format = original.format === 'portrait' ? undefined : 'portrait'
+  const orientation = format === 'portrait' ? 'portrait' : 'landscape'
+  const number = String(index + 13).padStart(2, '0')
+  scenes.push({
+    ...original,
+    id: `${number}-${original.id.slice(3)}-${orientation}`,
+    title: `${original.title}（${format === 'portrait' ? '縦' : '横'}）`,
+    format,
+  })
+}
+
 async function capture(browser: Browser, baseURL: string, scene: Scene) {
   mkdirSync(output, { recursive: true })
   mkdirSync(raw, { recursive: true })
@@ -373,6 +391,7 @@ async function capture(browser: Browser, baseURL: string, scene: Scene) {
     durationSeconds: Number(metadata.format.duration),
     width: stream.width,
     height: stream.height,
+    orientation: scene.format === 'portrait' ? 'portrait' : 'landscape',
     codec: stream.codec_name,
     pixelFormat: stream.pix_fmt,
     sourceCommit,
@@ -406,6 +425,18 @@ async function capture(browser: Browser, baseURL: string, scene: Scene) {
 
 for (const scene of scenes) {
   test(scene.id, async ({ browser, baseURL }) => {
+    test.skip(
+      Boolean(orientationFilter) &&
+        orientationFilter !== (scene.format === 'portrait' ? 'portrait' : 'landscape'),
+      '指定した向き以外は撮影しない',
+    )
+    test.skip(
+      onlyMissing &&
+        ['.mp4', '-poster.png', '.json'].every((suffix) =>
+          existsSync(resolve(output, `${scene.id}${suffix}`)),
+        ),
+      '完成済みの動画・ポスター・記録を保持する',
+    )
     test.skip(
       scene.photo &&
         !existsSync(resolve('artifacts/presentation-kit/05-demo-input/meal-curry.png')),
