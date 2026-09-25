@@ -20,6 +20,7 @@ import { GenericDishPicker } from './GenericDishPicker'
 import { RecognitionStatus } from './RecognitionStatus'
 import { MealRecordFields } from './MealRecordFields'
 import { MealArtwork } from '../album/MealArtwork'
+import { CameraCapture } from './CameraCapture'
 
 export type MealJourneyProps = {
   state: GameState
@@ -113,6 +114,7 @@ export function MealJourney({
         ? 'failed'
         : 'idle'
   const input = useRef<HTMLInputElement>(null)
+  const [cameraOpen, setCameraOpen] = useState(false)
   const delivered = useRef(false)
   useEffect(() => {
     if (delivered.current) return
@@ -222,11 +224,19 @@ export function MealJourney({
               aria-describedby={guided ? 'meal-photo-guide-text' : undefined}
               disabled={loading}
               onClick={() =>
-                ready ? transitionScene(() => send({ type: 'NEXT' })) : input.current?.click()
+                ready ? transitionScene(() => send({ type: 'NEXT' })) : setCameraOpen(true)
               }
             >
               {ready ? <ArrowRight size={20} /> : <Camera size={20} />}
-              {loading ? '読み込み中' : ready ? '食卓へ' : '料理の写真を選ぶ'}
+              {loading ? '読み込み中' : ready ? '食卓へ' : '料理の写真を撮る'}
+            </button>
+            <button
+              type="button"
+              className="journey-secondary"
+              disabled={loading}
+              onClick={() => input.current?.click()}
+            >
+              <ImagePlus size={20} /> 撮った写真を選ぶ
             </button>
             <button
               className="journey-secondary"
@@ -246,7 +256,6 @@ export function MealJourney({
               ref={input}
               type="file"
               accept="image/jpeg,image/png,image/webp"
-              capture="environment"
               aria-label="料理の写真"
               disabled={loading}
               onChange={(event) => {
@@ -260,7 +269,7 @@ export function MealJourney({
               className="meal-photo-picker photo-picker"
               aria-label={ready ? '写真を変える' : '料理の写真を撮る・選ぶ'}
               disabled={loading}
-              onClick={() => input.current?.click()}
+              onClick={() => setCameraOpen(true)}
             >
               {ready ? (
                 dish
@@ -300,6 +309,19 @@ export function MealJourney({
           <p className="error-message meal-photo-error" role="alert">
             {error}
           </p>
+        )}
+        {cameraOpen && (
+          <CameraCapture
+            onCapture={(file) => {
+              setCameraOpen(false)
+              send({ type: 'PHOTO_SELECTED', file })
+            }}
+            onClose={() => setCameraOpen(false)}
+            onChoosePhoto={() => {
+              setCameraOpen(false)
+              input.current?.click()
+            }}
+          />
         )}
       </JourneyFrame>
     )
