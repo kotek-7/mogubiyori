@@ -1,0 +1,52 @@
+.debug-panel {
+  display: grid;
+  gap: 18px;
+}
+.debug-status {
+  margin: 0;
+  display: grid;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+.debug-status > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.debug-status dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.debug-panel fieldset {
+  min-width: 0;
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+}
+.debug-panel legend {
+  padding-inline: 6px;
+  font-weight: 700;
+}
+.debug-panel label {
+  display: grid;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+.debug-panel select {
+  width: 100%;
+  min-width: 0;
+  padding: 10px;
+  color: inherit;
+  font: inherit;
+  background: #fff;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+}
+.debug-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}

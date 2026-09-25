@@ -13,6 +13,7 @@ import { MealDetail } from '../../features/album/MealDetail'
 import { ItemDetail } from '../../features/shop/ItemDetail'
 import { SettingsPanel } from '../../features/settings/SettingsPanel'
 import { HelpPanel } from '../../features/settings/HelpPanel'
+import { DebugPanel } from '../../features/settings/DebugPanel'
 import { RestPanel } from '../../features/room/RestPanel'
 import { MealReminder } from '../../features/room/MealReminder'
 import { StreakPanel } from '../../features/streak/StreakPanel'
@@ -26,7 +27,7 @@ export type Dialog =
   | { type: 'item'; item: Item }
   | { type: 'profile'; speciesId?: SpeciesId }
   | { type: 'subscription'; reason?: 'daily-meal-limit' }
-  | { type: 'settings' | 'streak' | 'rest' | 'letters' | 'help' }
+  | { type: 'settings' | 'streak' | 'rest' | 'letters' | 'help' | 'debug' }
 
 type Props = {
   dialog: Dialog
@@ -94,6 +95,19 @@ export function GameDialogs({
   let title = ''
   let content: ReactNode
   switch (local.type) {
+    case 'debug':
+      title = 'デバッグ設定'
+      content = (
+        <DebugPanel
+          onCommand={(command, onSuccess) =>
+            runCommand(command, () => {
+              onSuccess?.()
+              if (command.type === 'debugReset' && command.preset === 'fresh') leave('room')
+            })
+          }
+        />
+      )
+      break
     case 'subscription':
       title = local.reason === 'daily-meal-limit' ? 'ごはんをもっと記録する' : '会員プラン'
       content = (

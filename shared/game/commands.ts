@@ -14,8 +14,11 @@ import { createFeedReceipt } from './receipt'
 import type { FeedReceipt } from './receipt'
 import type { FeedInput, GameState, SpeciesId, TutorialState } from './types'
 import type { SubscriptionPlan } from './subscription'
+import { advanceDebugDays, resetDebugProgress, setDebugGrowth } from './debug'
+import type { DebugGameCommand } from './debug'
 
 export type GameCommand =
+  | DebugGameCommand
   | { type: 'chooseStarter'; id: SpeciesId }
   | { type: 'selectCompanion'; id: SpeciesId }
   | { type: 'feed'; input: FeedInput }
@@ -29,7 +32,7 @@ export type GameCommand =
   | { type: 'updateSettings'; input: { name?: string; reminder?: GameState['reminder'] } }
   | { type: 'tutorial'; input: Partial<Pick<TutorialState, 'step' | 'status' | 'homeGuide'>> }
 
-export type CommandEnvironment = { today: string; mealId: string }
+export type CommandEnvironment = { today: string; realToday?: string; mealId: string }
 export type GameCommandResult = { state: GameState; receipt: FeedReceipt | null; changed: boolean }
 
 /** Clock, IDs, persistence and network retries belong to the calling adapter. */
@@ -68,7 +71,19 @@ export function applyGameCommand(
       next = claimLogin(current)
       break
     case 'resetProgress':
-      next = { ...initialGame(environment.today), subscriptionPlan: current.subscriptionPlan }
+      next = {
+        ...initialGame(environment.realToday ?? environment.today),
+        subscriptionPlan: current.subscriptionPlan,
+      }
+      break
+    case 'debugAdvanceDays':
+      next = advanceDebugDays(current, command.days)
+      break
+    case 'debugSetGrowth':
+      next = setDebugGrowth(current, command.id, command.stage)
+      break
+    case 'debugReset':
+      next = resetDebugProgress(current, command.preset, environment.realToday ?? environment.today)
       break
     case 'setSubscriptionPlan':
       // Billing is mocked: the selected membership is persisted with the game.

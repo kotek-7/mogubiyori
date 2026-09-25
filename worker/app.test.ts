@@ -5,9 +5,9 @@ import type { CommitInput, CommitResult, GameRepository, StoredOperation } from 
 import type { GameSnapshot } from '../shared/game/contracts'
 import type { GameState } from '../shared/game/types'
 import type { GameCommand } from '../shared/game/commands'
-import { chooseStarter, initialGame } from '../shared/game/game'
+import { chooseStarter, initialGame, shiftDay } from '../shared/game/game'
 import { demoGame } from '../shared/game/demo'
-import { executeCommand } from './game/gameService'
+import { executeCommand, loadGame } from './game/gameService'
 
 const userA = '00000000-0000-4000-8000-000000000001'
 const userB = '00000000-0000-4000-8000-000000000002'
@@ -84,7 +84,7 @@ class MemoryRepository implements GameRepository {
   }
 }
 
-function setup() {
+function setup(debugToolsEnabled?: string) {
   const repository = new MemoryRepository()
   repository.games.set(userA, {
     state: chooseStarter(initialGame('2026-09-25'), 'komugi'),
@@ -110,11 +110,228 @@ function setup() {
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
         ...(body === undefined ? {} : { body: JSON.stringify(body) }),
       },
-      env,
+      { ...env, DEBUG_TOOLS_ENABLED: debugToolsEnabled },
     )
   }
   return { repository, app, request }
 }
+
+describe('authorized debug game commands', () => {
+  it.each([undefined, 'false', 'TRUE', '1'])(
+    'disables debug operations unless the flag is exactly true (%s)',
+    async (flag) => {
+      const { request, repository } = setup(flag)
+      const before = structuredClone(repository.games.get(userA))
+      for (const command of [
+        { type: 'debugAdvanceDays', days: 1 },
+        { type: 'debugSetGrowth', id: 'komugi', stage: 4 },
+        { type: 'debugReset', preset: 'seed' },
+      ]) {
+        const response = await request('/api/game/commands', { operationId: opA, command })
+        expect(response.status).toBe(403)
+        expect(await response.json()).toEqual({ error: 'debug_disabled' })
+      }
+      expect((await (await request('/api/game')).json()).debugEnabled).toBeUndefined()
+      expect(repository.games.get(userA)).toEqual(before)
+      expect(repository.operations.size).toBe(0)
+    },
+  )
+
+  it('keeps bearer authentication and strict self-only commands when debug is enabled', async () => {
+    const { request, app, repository } = setup('true')
+    const body = { operationId: opA, command: { type: 'debugAdvanceDays', days: 1 } }
+    const unauthorized = await app.request(
+      'https://game.example/api/game/commands',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      },
+      { ...env, DEBUG_TOOLS_ENABLED: 'true' },
+    )
+    expect(unauthorized.status).toBe(401)
+    expect((await request('/api/game/commands', body, 'untrusted')).status).toBe(401)
+    for (const invalid of [
+      { ...body, userId: userB },
+      { ...body, command: { ...body.command, userId: userB } },
+      { ...body, command: { ...body.command, state: initialGame(day) } },
+      { ...body, command: { type: 'debugAdvanceDays', days: 31 } },
+      { ...body, command: { type: 'debugSetGrowth', id: 'komugi', stage: 5 } },
+    ])
+      expect((await request('/api/game/commands', invalid)).status).toBe(400)
+    await request('/api/game', undefined, 'user-b')
+    const other = structuredClone(repository.games.get(userB))
+    const result = await request('/api/game/commands', body)
+    expect(result.status).toBe(200)
+    expect((await result.json()).snapshot).toMatchObject({
+      debugEnabled: true,
+      state: { today: shiftDay(day, 1), dayOffset: 1 },
+    })
+    expect(repository.games.get(userB)).toEqual(other)
+  })
+
+  it('retries a debug command against concurrent state and never advances twice on replay', async () => {
+    const { request, repository } = setup('true')
+    repository.conflicts = 1
+    const body = { operationId: opA, command: { type: 'debugAdvanceDays', days: 7 } }
+    const first = await (await request('/api/game/commands', body)).json()
+    expect(first.snapshot).toMatchObject({
+      revision: 2,
+      debugEnabled: true,
+      state: { today: shiftDay(day, 7), dayOffset: 7, coins: 127 },
+    })
+    expect(first.receipt).toBeNull()
+    expect(await (await request('/api/game/commands', body)).json()).toEqual(first)
+    expect(repository.operations.size).toBe(1)
+    const mismatch = await request('/api/game/commands', {
+      operationId: opA,
+      command: { type: 'debugAdvanceDays', days: 1 },
+    })
+    expect(mismatch.status).toBe(409)
+    await expect(
+      executeCommand(
+        repository,
+        userA,
+        opA,
+        { type: 'debugAdvanceDays', days: 7 },
+        { today: day, mealId },
+      ),
+    ).rejects.toThrow('debug_disabled')
+  })
+
+  it('retains offset through reload, ordinary feeding and diary edits, including after debug is disabled', async () => {
+    const { request, repository } = setup('true')
+    await request('/api/game/commands', {
+      operationId: opA,
+      command: { type: 'debugAdvanceDays', days: 7 },
+    })
+    const future = shiftDay(day, 7)
+    expect((await (await request('/api/game')).json()).state).toMatchObject({
+      today: future,
+      dayOffset: 7,
+    })
+    const ordinary = await executeCommand(repository, userA, opB, feed, { today: day, mealId })
+    expect(ordinary.snapshot.debugEnabled).toBeUndefined()
+    expect(ordinary.receipt!.meal.day).toBe(future)
+    const { id, ...input } = ordinary.snapshot.state.mealRecords![0]
+    const edited = await executeCommand(
+      repository,
+      userA,
+      opC,
+      { type: 'updateMealRecord', id, input: { ...input, title: 'デバッグ日の昼ごはん' } },
+      { today: day, mealId },
+    )
+    expect(edited.snapshot.state.mealRecords![0].day).toBe(future)
+    expect(edited.snapshot.state.dayOffset).toBe(7)
+    await expect(
+      executeCommand(
+        repository,
+        userA,
+        'future-edit',
+        {
+          type: 'updateMealRecord',
+          id,
+          input: { ...input, day: shiftDay(future, 1) },
+        },
+        { today: day, mealId },
+      ),
+    ).rejects.toThrow('invalid_meal_record')
+    const tomorrow = await loadGame(repository, userA, shiftDay(day, 1))
+    expect(tomorrow.state.today).toBe(shiftDay(future, 1))
+    expect(tomorrow.state.dayOffset).toBe(7)
+    expect(tomorrow.revision).toBe(3)
+    const nextMeal = await executeCommand(repository, userA, 'next-day-meal', feed, {
+      today: shiftDay(day, 1),
+      mealId: 'another-meal',
+    })
+    expect(nextMeal.receipt!.meal.day).toBe(shiftDay(future, 1))
+    expect(nextMeal.snapshot.state.meals).toHaveLength(2)
+  })
+
+  it('changes only joined companion growth without synthesizing feeds or rewards', async () => {
+    const { request, repository } = setup('true')
+    repository.games.get(userA)!.state.visitors = ['mame']
+    const before = structuredClone(repository.games.get(userA)!.state)
+    const invalid = await request('/api/game/commands', {
+      operationId: opA,
+      command: { type: 'debugSetGrowth', id: 'mame', stage: 4 },
+    })
+    expect(invalid.status).toBe(422)
+    expect(await invalid.json()).toEqual({ error: 'invalid_debug_target' })
+    expect(repository.games.get(userA)!.state).toEqual(before)
+    const first = await request('/api/game/commands', {
+      operationId: opA,
+      command: { type: 'debugSetGrowth', id: 'komugi', stage: 4 },
+    })
+    expect(first.status).toBe(200)
+    const result = await first.json()
+    expect(result.snapshot.state.xp).toBe(1050)
+    expect(result.snapshot.state.companions[0].xp).toBe(1050)
+    expect(result.snapshot.state.coins).toBe(before.coins)
+    expect(result.snapshot.state.meals).toEqual(before.meals)
+    expect(result.snapshot.state.visitors).toEqual(before.visitors)
+    expect(result.receipt).toBeNull()
+  })
+
+  it('replays a concurrent growth operation even if a later reset removed its companion', async () => {
+    const { repository } = setup('true')
+    const command: GameCommand = { type: 'debugSetGrowth', id: 'komugi', stage: 4 }
+    const context = { today: day, mealId, debugEnabled: true }
+    const find = repository.findOperation.bind(repository)
+    let firstLookup = true
+    repository.findOperation = async (userId, operationId) => {
+      if (firstLookup) {
+        firstLookup = false
+        await executeCommand(repository, userA, opA, command, context)
+        await executeCommand(
+          repository,
+          userA,
+          opB,
+          { type: 'debugReset', preset: 'fresh' },
+          context,
+        )
+        return null
+      }
+      return find(userId, operationId)
+    }
+    const replay = await executeCommand(repository, userA, opA, command, context)
+    expect(replay).toEqual({
+      snapshot: { state: initialGame(day), revision: 2, debugEnabled: true },
+      receipt: null,
+    })
+    expect(repository.operations.size).toBe(2)
+  })
+
+  it.each(['seed', 'fresh'] as const)(
+    'resets to the %s preset at the real date and replay preserves newer progress',
+    async (preset) => {
+      const { request, repository } = setup('true')
+      repository.games.get(userA)!.state = {
+        ...demoGame(shiftDay(day, 7)),
+        dayOffset: 7,
+        subscriptionPlan: 'premium',
+      }
+      const body = { operationId: opA, command: { type: 'debugReset', preset } }
+      const reset = await (await request('/api/game/commands', body)).json()
+      expect(reset.snapshot).toEqual({
+        state: {
+          ...(preset === 'seed' ? demoGame(day) : initialGame(day)),
+          subscriptionPlan: 'premium',
+        },
+        revision: 1,
+        debugEnabled: true,
+      })
+      await request('/api/game/commands', {
+        operationId: opB,
+        command: { type: 'updateSettings', input: { reminder: 'gentle' } },
+      })
+      const replay = await (await request('/api/game/commands', body)).json()
+      expect(replay.snapshot.state.reminder).toBe('gentle')
+      expect(replay.snapshot.revision).toBe(2)
+      expect(repository.operations.size).toBe(2)
+    },
+  )
+})
 
 describe('server-authoritative game API', () => {
   it('persists the mock plan and enforces daily limits against the latest server state', async () => {

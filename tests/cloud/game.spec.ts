@@ -2,7 +2,8 @@ import { test, expect } from '@playwright/test'
 import type { Page } from '@playwright/test'
 import { applyGameCommand } from '../../shared/game/commands'
 import type { CommandRequest, CommandResponse, GameSnapshot } from '../../shared/game/contracts'
-import { chooseStarter, initialGame } from '../../shared/game/game'
+import { isDebugGameCommand } from '../../shared/game/debug'
+import { chooseStarter, initialGame, shiftDay } from '../../shared/game/game'
 import { canRecordMeal } from '../../shared/game/subscription'
 import { confirmUnclassifiedMeal } from '../e2e/helpers'
 
@@ -16,12 +17,12 @@ const freshUserId = '00000000-0000-4000-8000-000000000003'
 
 type OAuthRequest = { path: string; params: URLSearchParams; authorization?: string }
 
-async function mockCloud(page: Page) {
+async function mockCloud(page: Page, debugEnabled = false) {
   function initialSnapshot(): GameSnapshot {
     const state = chooseStarter(initialGame(day), 'komugi')
     state.tutorial = { version: 1, status: 'completed', step: 4, homeGuide: 'done' }
     state.claimedLoginDays = [day]
-    return { state, revision: 0 }
+    return { state, revision: 0, debugEnabled }
   }
   const snapshots = new Map([
     [userId, initialSnapshot()],
@@ -31,6 +32,7 @@ async function mockCloud(page: Page) {
   const operations = new Map<string, CommandResponse>()
   const feedRequests: CommandRequest[] = []
   const resetRequests: CommandRequest[] = []
+  const debugRequests: CommandRequest[] = []
   const authRequests: string[] = []
   const oauthRequests: OAuthRequest[] = []
   const exchanges: { auth_code: string; code_verifier: string }[] = []
@@ -44,6 +46,8 @@ async function mockCloud(page: Page) {
   let loseFeedResponse = false
   let resetFails = false
   let loseResetResponse = false
+  let debugFails = false
+  let loseDebugResponse = false
   let release: (() => void) | undefined
   let hold: Promise<void> | undefined
   function makeSession(id: string, anonymous: boolean) {
@@ -166,6 +170,12 @@ async function mockCloud(page: Page) {
     if (path === '/api/game/commands') {
       const body = request.postDataJSON() as CommandRequest
       if (body.command.type === 'feed') feedRequests.push(body)
+      if (isDebugGameCommand(body.command)) {
+        debugRequests.push(body)
+        if (!debugEnabled) return route.fulfill({ status: 403, json: { error: 'debug_disabled' } })
+        if (debugFails)
+          return route.fulfill({ status: 503, json: { error: 'storage_unavailable' } })
+      }
       if (body.command.type === 'resetProgress') {
         resetRequests.push(body)
         if (resetFails)
@@ -175,7 +185,8 @@ async function mockCloud(page: Page) {
       let response = operations.get(key)
       if (!response) {
         const result = applyGameCommand(snapshot.state, body.command, {
-          today: day,
+          today: shiftDay(day, snapshot.state.dayOffset),
+          realToday: day,
           mealId: `meal-${body.operationId}`,
         })
         if (body.command.type === 'feed' && !result.receipt)
@@ -188,7 +199,7 @@ async function mockCloud(page: Page) {
                   : 'command_not_applied',
             },
           })
-        const updated = { state: result.state, revision: snapshot.revision + 1 }
+        const updated = { state: result.state, revision: snapshot.revision + 1, debugEnabled }
         snapshots.set(id, updated)
         response = { snapshot: updated, receipt: result.receipt }
         operations.set(key, response)
@@ -204,6 +215,10 @@ async function mockCloud(page: Page) {
         loseResetResponse = false
         return route.fulfill({ status: 503, json: { error: 'response_lost_after_commit' } })
       }
+      if (isDebugGameCommand(body.command) && loseDebugResponse) {
+        loseDebugResponse = false
+        return route.fulfill({ status: 503, json: { error: 'response_lost_after_commit' } })
+      }
       return route.fulfill({ json: { snapshot: snapshots.get(id), receipt: response.receipt } })
     }
     return route.fulfill({ status: 404, json: { error: 'unexpected_test_api_request' } })
@@ -215,6 +230,7 @@ async function mockCloud(page: Page) {
     loadUsers,
     feedRequests,
     resetRequests,
+    debugRequests,
     blockedExternal,
     snapshot: (id = userId) => snapshots.get(id)!,
     freshGame: () => {
@@ -238,6 +254,12 @@ async function mockCloud(page: Page) {
     loseResetResponse: () => {
       loseResetResponse = true
     },
+    failDebug: (value: boolean) => {
+      debugFails = value
+    },
+    loseDebugResponse: () => {
+      loseDebugResponse = true
+    },
     holdFeed: () => {
       hold = new Promise<void>((resolve) => {
         release = resolve
@@ -260,6 +282,122 @@ async function openSettings(page: Page) {
   await page.getByRole('button', { name: '設定', exact: true }).click()
   await expect(page.getByRole('heading', { name: '設定', exact: true })).toBeVisible()
 }
+
+async function openDebug(page: Page) {
+  await page.keyboard.press('Control+Alt+d')
+  const dialog = page.getByRole('dialog', { name: 'デバッグ設定', exact: true })
+  await expect(dialog).toBeVisible()
+  return dialog
+}
+
+test('cloud debug changes use authenticated commands and survive reload without local saves', async ({
+  page,
+}) => {
+  const cloud = await mockCloud(page, true)
+  await begin(page)
+  const dialog = await openDebug(page)
+  await expect(dialog.getByText('クラウド', { exact: true })).toBeVisible()
+  await dialog.getByRole('button', { name: '翌日に進む', exact: true }).click()
+  await expect.poll(() => cloud.snapshot().state.dayOffset).toBe(1)
+  await dialog.getByRole('button', { name: '7日進める', exact: true }).click()
+  await expect.poll(() => cloud.snapshot().state.dayOffset).toBe(8)
+  await dialog.getByRole('combobox', { name: 'なかま', exact: true }).selectOption('komugi')
+  await dialog.getByRole('combobox', { name: '成長段階', exact: true }).selectOption('3')
+  await dialog.getByRole('button', { name: '成長段階を変更', exact: true }).click()
+  await expect.poll(() => cloud.snapshot().state.companions[0].xp).toBe(600)
+  expect(cloud.debugRequests.map((request) => request.command)).toEqual([
+    { type: 'debugAdvanceDays', days: 1 },
+    { type: 'debugAdvanceDays', days: 7 },
+    { type: 'debugSetGrowth', id: 'komugi', stage: 3 },
+  ])
+  await page.reload()
+  await expect(page.getByRole('heading', { name: 'ひろば', exact: true })).toBeVisible()
+  const reloaded = await openDebug(page)
+  await expect(reloaded).toContainText(shiftDay(day, 8))
+  await expect(reloaded.getByRole('combobox', { name: '成長段階', exact: true })).toHaveValue('3')
+  expect(cloud.snapshot().state.today).toBe(shiftDay(day, 8))
+  expect(await page.evaluate(() => localStorage.getItem('mogubiyori-v1'))).toBeNull()
+  expect(cloud.blockedExternal).toEqual([])
+})
+
+test('cloud debug controls stay unavailable when the server flag is off', async ({ page }) => {
+  const cloud = await mockCloud(page)
+  await begin(page)
+  const dialog = await openDebug(page)
+  await expect(
+    dialog.getByText('この環境ではデバッグ操作が無効です。', { exact: true }),
+  ).toBeVisible()
+  await expect(dialog.getByRole('button', { name: '翌日に進む', exact: true })).toHaveCount(0)
+  await expect(dialog.getByRole('button', { name: '成長段階を変更', exact: true })).toHaveCount(0)
+  await expect(dialog.getByRole('button', { name: '初期状態に戻す', exact: true })).toHaveCount(0)
+  const beforeLoads = cloud.loadUsers.length
+  await dialog.getByRole('button', { name: '保存データを読み直す', exact: true }).click()
+  await expect.poll(() => cloud.loadUsers.length).toBeGreaterThan(beforeLoads)
+  expect(cloud.debugRequests).toEqual([])
+  expect(await page.evaluate(() => localStorage.getItem('mogubiyori-v1'))).toBeNull()
+  expect(cloud.blockedExternal).toEqual([])
+})
+
+test('cloud debug errors retry one operation after rejection and a lost confirmation', async ({
+  page,
+}) => {
+  const cloud = await mockCloud(page, true)
+  await begin(page)
+  const dialog = await openDebug(page)
+  cloud.failDebug(true)
+  await dialog.getByRole('button', { name: '翌日に進む', exact: true }).click()
+  await expect(dialog.getByRole('alert')).toContainText('保存サービスに接続できませんでした')
+  expect(cloud.snapshot().state.dayOffset).toBe(0)
+  cloud.failDebug(false)
+  cloud.loseDebugResponse()
+  await dialog.getByRole('button', { name: '翌日に進む', exact: true }).click()
+  await expect.poll(() => cloud.debugRequests.length).toBe(2)
+  await expect(dialog.getByRole('alert')).toContainText('保存サービスに接続できませんでした')
+  expect(cloud.snapshot().state.dayOffset).toBe(1)
+  await dialog.getByRole('button', { name: '翌日に進む', exact: true }).click()
+  await expect(dialog.getByRole('alert')).toHaveCount(0)
+  expect(cloud.debugRequests).toHaveLength(3)
+  expect(cloud.debugRequests[1]).toEqual(cloud.debugRequests[0])
+  expect(cloud.debugRequests[2]).toEqual(cloud.debugRequests[0])
+  expect(cloud.snapshot().state.dayOffset).toBe(1)
+  expect(await page.evaluate(() => localStorage.getItem('mogubiyori-v1'))).toBeNull()
+  expect(cloud.blockedExternal).toEqual([])
+})
+
+test('cloud debug replacement can be canceled and fresh reset restores the real date', async ({
+  page,
+}) => {
+  const cloud = await mockCloud(page, true)
+  await begin(page)
+  const dialog = await openDebug(page)
+  const before = structuredClone(cloud.snapshot())
+  await dialog.getByRole('button', { name: '体験用データに置き換える', exact: true }).click()
+  await expect(
+    dialog.getByRole('button', { name: '記録を消して置き換える', exact: true }),
+  ).toBeVisible()
+  await dialog.getByRole('button', { name: 'やめる', exact: true }).click()
+  expect(cloud.snapshot()).toEqual(before)
+  expect(cloud.debugRequests).toEqual([])
+  await dialog.getByRole('button', { name: '体験用データに置き換える', exact: true }).click()
+  await dialog.getByRole('button', { name: '記録を消して置き換える', exact: true }).click()
+  await expect.poll(() => cloud.snapshot().state.meals.length).toBe(6)
+  await expect(dialog).toBeVisible()
+  await dialog.getByRole('button', { name: '7日進める', exact: true }).click()
+  await expect.poll(() => cloud.snapshot().state.dayOffset).toBe(7)
+  await dialog.getByRole('button', { name: '初期状態に戻す', exact: true }).click()
+  await dialog.getByRole('button', { name: '記録を消して置き換える', exact: true }).click()
+  await expect(page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true })).toBeVisible()
+  expect(cloud.snapshot().state).toEqual(initialGame(day))
+  expect(cloud.debugRequests.map((request) => request.command)).toEqual([
+    { type: 'debugReset', preset: 'seed' },
+    { type: 'debugAdvanceDays', days: 7 },
+    { type: 'debugReset', preset: 'fresh' },
+  ])
+  await page.reload()
+  await expect(page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true })).toBeVisible()
+  expect(await page.evaluate(() => localStorage.getItem('mogubiyori-v1'))).toBeNull()
+  expect(cloud.blockedExternal).toEqual([])
+})
 
 async function prepareMeal(page: Page) {
   await page.locator('.play-feed').click()

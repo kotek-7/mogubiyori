@@ -32,6 +32,13 @@ const feedInputSchema = z
   })
   .refine((input) => !(input.mealRecord && input.mealRecordId))
 export const gameCommandSchema: z.ZodType<GameCommand> = z.discriminatedUnion('type', [
+  z.strictObject({ type: z.literal('debugAdvanceDays'), days: z.number().int().min(1).max(30) }),
+  z.strictObject({
+    type: z.literal('debugSetGrowth'),
+    id: speciesIdSchema,
+    stage: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3), z.literal(4)]),
+  }),
+  z.strictObject({ type: z.literal('debugReset'), preset: z.enum(['seed', 'fresh']) }),
   z.strictObject({ type: z.literal('chooseStarter'), id: speciesIdSchema }),
   z.strictObject({ type: z.literal('selectCompanion'), id: speciesIdSchema }),
   z.strictObject({ type: z.literal('feed'), input: feedInputSchema }),
@@ -68,10 +75,11 @@ export const commandRequestSchema = z.strictObject({
   command: gameCommandSchema,
 })
 export type CommandRequest = z.infer<typeof commandRequestSchema>
-export type GameSnapshot = { state: GameState; revision: number }
+export type GameSnapshot = { state: GameState; revision: number; debugEnabled?: boolean }
 export const gameSnapshotSchema: z.ZodType<GameSnapshot> = z.object({
   state: gameStateSchema,
   revision: nonnegativeIntegerSchema,
+  debugEnabled: z.boolean().optional(),
 })
 
 export const feedReceiptSchema: z.ZodType<FeedReceipt> = z.strictObject({

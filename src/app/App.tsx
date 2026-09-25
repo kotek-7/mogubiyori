@@ -54,6 +54,27 @@ function App() {
   }
   const [dialog, setDialog] = useState<Dialog | null>(null)
   const [journey, setJourney] = useState<Journey | null>(null)
+  const debugTaps = useRef({ count: 0, startedAt: 0 })
+  const canOpenDebug = !!state.activeId && state.tutorial.status !== 'active' && !journey && !dialog
+  useEffect(() => {
+    if (!canOpenDebug) return
+    const openDebug = (event: KeyboardEvent) => {
+      const target = event.target
+      if (
+        event.repeat ||
+        event.isComposing ||
+        (target instanceof HTMLElement &&
+          (target.isContentEditable || target.closest('input, textarea, select')))
+      )
+        return
+      if (event.ctrlKey && event.altKey && event.code === 'KeyD') {
+        event.preventDefault()
+        setDialog({ type: 'debug' })
+      }
+    }
+    window.addEventListener('keydown', openDebug)
+    return () => window.removeEventListener('keydown', openDebug)
+  }, [canOpenDebug])
   const feedButton = useRef<HTMLButtonElement>(null)
   const growthButton = useRef<HTMLButtonElement>(null)
   const bookButton = useRef<HTMLButtonElement>(null)
@@ -348,7 +369,19 @@ function App() {
           <button
             className="play-brand"
             aria-label="もぐ日和 ひろば"
-            onClick={() => navigate('room')}
+            onClick={() => {
+              const now = performance.now()
+              const taps = debugTaps.current
+              if (now - taps.startedAt > 5000 || taps.count === 0) {
+                taps.startedAt = now
+                taps.count = 0
+              }
+              taps.count += 1
+              if (canOpenDebug && taps.count >= 7) {
+                taps.count = 0
+                setDialog({ type: 'debug' })
+              } else if (page !== 'room') navigate('room')
+            }}
           >
             <MoguMark />
             <span>もぐ日和</span>

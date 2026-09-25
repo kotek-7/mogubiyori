@@ -79,7 +79,14 @@ export function createApp(overrides: Partial<Dependencies> = {}) {
         context.req.raw,
         dependencies.services(context.env),
       )
-      return context.json(await loadGame(repository, userId, tokyoDay(dependencies.now())))
+      return context.json(
+        await loadGame(
+          repository,
+          userId,
+          tokyoDay(dependencies.now()),
+          context.env.DEBUG_TOOLS_ENABLED === 'true',
+        ),
+      )
     })
     .post(
       '/api/game/commands',
@@ -97,6 +104,7 @@ export function createApp(overrides: Partial<Dependencies> = {}) {
           await executeCommand(repository, userId, operationId, command, {
             today: tokyoDay(dependencies.now()),
             mealId: dependencies.uuid(),
+            debugEnabled: context.env.DEBUG_TOOLS_ENABLED === 'true',
           }),
         )
       },

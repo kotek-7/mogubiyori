@@ -31,6 +31,12 @@ export function createCloudGameGateway(auth: SupabaseClient, userId: string): Ga
     })
     if (!response.ok) {
       if (response.status === 401) throw new Error('ログインし直してください。')
+      if (response.status === 403) {
+        const body: unknown = await response.json().catch(() => null)
+        if (body && typeof body === 'object' && 'error' in body && body.error === 'debug_disabled')
+          throw new Error('この環境ではデバッグ操作が無効です。')
+        throw new Error('この操作は許可されていません。')
+      }
       if (response.status === 409)
         throw new Error('記録が更新されています。もう一度お試しください。')
       if (response.status === 413)

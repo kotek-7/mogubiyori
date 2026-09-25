@@ -66,6 +66,7 @@ export function createLocalGameGateway(
           throw new Error('食事の日付や記録を確認してください。')
         const result = applyGameCommand(state, command, {
           today: command.type === 'resetProgress' ? today() : state.today,
+          realToday: today(),
           mealId: `meal-${operationId}`,
         })
         if (command.type === 'feed' && !result.receipt) {

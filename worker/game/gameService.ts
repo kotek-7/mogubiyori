@@ -1,7 +1,8 @@
 import { applyGameCommand } from '../../shared/game/commands'
 import type { GameCommand } from '../../shared/game/commands'
 import type { CommandResponse, GameSnapshot } from '../../shared/game/contracts'
-import { initialGame } from '../../shared/game/game'
+import { initialGame, shiftDay } from '../../shared/game/game'
+import { isDebugGameCommand } from '../../shared/game/debug'
 import { canRecordMeal } from '../../shared/game/subscription'
 import type { GameRepository } from './repository'
 import { ApiError } from '../errors'
@@ -26,8 +27,12 @@ export async function commandHash(command: GameCommand): Promise<string> {
   return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('')
 }
 
-function dated(snapshot: GameSnapshot, today: string): GameSnapshot {
-  return { ...snapshot, state: { ...snapshot.state, today, dayOffset: 0 } }
+function dated(snapshot: GameSnapshot, today: string, debugEnabled = false): GameSnapshot {
+  return {
+    state: { ...snapshot.state, today: shiftDay(today, snapshot.state.dayOffset) },
+    revision: snapshot.revision,
+    ...(debugEnabled ? { debugEnabled: true } : {}),
+  }
 }
 
 function responseWithCurrentReceipt(
@@ -47,8 +52,9 @@ export async function loadGame(
   repository: GameRepository,
   userId: string,
   today: string,
+  debugEnabled = false,
 ): Promise<GameSnapshot> {
-  return dated(await repository.load(userId, initialGame(today)), today)
+  return dated(await repository.load(userId, initialGame(today)), today, debugEnabled)
 }
 
 export async function readGamePhotoUrls(
@@ -70,29 +76,39 @@ export async function executeCommand(
   userId: string,
   operationId: string,
   command: GameCommand,
-  context: { today: string; mealId: string },
+  context: { today: string; mealId: string; debugEnabled?: boolean },
 ): Promise<CommandResponse> {
+  if (isDebugGameCommand(command) && context.debugEnabled !== true)
+    throw new ApiError(403, 'debug_disabled')
   const requestHash = await commandHash(command)
   const previous = await repository.findOperation(userId, operationId)
   if (previous) {
     if (previous.requestHash !== requestHash) throw new ApiError(409, 'operation_mismatch')
     return responseWithCurrentReceipt(
-      await loadGame(repository, userId, context.today),
+      await loadGame(repository, userId, context.today, context.debugEnabled),
       previous.receipt,
     )
   }
   // Each retry re-evaluates the operation against the latest persisted state.
   // The server date and meal ID stay fixed across attempts for this request.
   for (let attempt = 0; attempt < 3; attempt += 1) {
-    const snapshot = await loadGame(repository, userId, context.today)
+    const snapshot = await loadGame(repository, userId, context.today, context.debugEnabled)
     if (
       command.type === 'updateMealRecord' &&
-      (command.input.day > context.today ||
+      (command.input.day > snapshot.state.today ||
         !snapshot.state.mealRecords?.some((record) => record.id === command.id))
     )
       throw new ApiError(422, 'invalid_meal_record')
-    const result = applyGameCommand(snapshot.state, command, context)
+    const invalidDebugTarget =
+      command.type === 'debugSetGrowth' &&
+      !snapshot.state.companions.some((companion) => companion.id === command.id)
+    const result = applyGameCommand(snapshot.state, command, {
+      today: snapshot.state.today,
+      realToday: context.today,
+      mealId: context.mealId,
+    })
     if (
+      invalidDebugTarget ||
       (command.type === 'feed' && !result.receipt) ||
       (!result.changed && ['purchase', 'rest', 'chooseStarter'].includes(command.type))
     ) {
@@ -102,12 +118,13 @@ export async function executeCommand(
       if (concurrent) {
         if (concurrent.requestHash !== requestHash) throw new ApiError(409, 'operation_mismatch')
         return responseWithCurrentReceipt(
-          await loadGame(repository, userId, context.today),
+          await loadGame(repository, userId, context.today, context.debugEnabled),
           concurrent.receipt,
         )
       }
       if (command.type === 'feed' && !command.input.mealRecordId && !canRecordMeal(snapshot.state))
         throw new ApiError(422, 'daily_meal_limit_reached')
+      if (invalidDebugTarget) throw new ApiError(422, 'invalid_debug_target')
       throw new ApiError(422, 'command_not_applied')
     }
     const photoId =
@@ -125,7 +142,10 @@ export async function executeCommand(
     if (committed.status === 'conflict') continue
     if (committed.status === 'operation_mismatch') throw new ApiError(409, 'operation_mismatch')
     if (committed.status === 'invalid_photo') throw new ApiError(422, 'invalid_photo')
-    return responseWithCurrentReceipt(dated(committed.snapshot, context.today), committed.receipt)
+    return responseWithCurrentReceipt(
+      dated(committed.snapshot, context.today, context.debugEnabled),
+      committed.receipt,
+    )
   }
   throw new ApiError(409, 'revision_conflict')
 }
