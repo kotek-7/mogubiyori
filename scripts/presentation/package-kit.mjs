@@ -186,15 +186,33 @@ if (!entries.length) throw new Error('No completed manifests found')
 
 // Editorial defaults keep the first screen useful; the full library remains one click away.
 const preferred = [
-  ...entries.filter((e) => e.kind === 'visual' && e.group !== 'demo').slice(0, 5),
+  ...[
+    'keyvisual-picnic',
+    'keyvisual-seaside-left',
+    'keyvisual-evening',
+    'spot-komugi-mealtime',
+    'keyvisual-portrait',
+  ]
+    .map((id) => entries.find((entry) => entry.kind === 'visual' && entry.id === id))
+    .filter(Boolean),
   ...entries.filter((e) => e.kind === 'layout').slice(0, 5),
-  ...entries.filter((e) => e.kind === 'video').slice(0, 4),
-  ...entries
-    .filter(
-      (e) =>
-        e.kind === 'screen' && /10-plaza-plain|20-recipe|21-recipe|meal|photo|profile/.test(e.id),
-    )
-    .slice(0, 5),
+  ...[
+    '11-photo-to-meal-and-card',
+    '12-photo-to-meal-portrait',
+    '07-growth-after-meal',
+    '02-book-and-description',
+  ]
+    .map((id) => entries.find((entry) => entry.kind === 'video' && entry.id === id))
+    .filter(Boolean),
+  ...[
+    'mobile-10-plaza-plain',
+    'mobile-74-photo-table',
+    'mobile-90-weekly-report',
+    'mobile-30-recipe-collection',
+    'mobile-20-companion-profile',
+  ]
+    .map((id) => entries.find((entry) => entry.kind === 'screen' && entry.id === id))
+    .filter(Boolean),
   ...entries.filter((e) => e.category === 'companions-core' && e.stage === 2),
   ...entries.filter((e) => e.id === 'wordmark-navy' || e.id === 'komugi-picnic'),
 ]
@@ -271,7 +289,7 @@ const html = `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta n
   )
   .join('')}</div></section>
 <div class="results-head"><h2 id="results-title">まずはこちらから</h2><p id="results-count" role="status" aria-live="polite"></p></div><section id="grid" class="grid" aria-label="素材一覧"></section><div id="empty" class="empty" hidden>条件に合う素材がありません。検索語や絞り込みを変更してください。</div><div class="more"><button id="more" hidden>さらに36件表示</button><a class="jump" href="#search">検索・絞り込みへ戻る ↑</a></div>
-<section class="notes" id="notes"><div><h2>スライドへの取り込み</h2><p>透過PNGは、そのまま置いて背景になじませられます。SVGは拡大や編集に、MP4はスライド内の操作デモに。画像を押すと大きく確認できます。白いロゴは濃い背景に合わせてください。オフラインでもすべての操作が使えます。</p></div><div><h2>素材の由来</h2><p>画面と動画は実アプリを使ったデモデータの撮影です。育成状況・所持品・食事記録・料理判定は撮影用です。生成イラストは発表向けの表現で、実際のUIとは区別しています。「拡張カタログの原画」は素材カタログ内のデータで、ゲームで利用できる機能・キャラクター数を示すものではありません。詳細は<a href="README.md">使い方と収録内容</a>にまとめています。</p></div></section></main>
+<section class="notes" id="notes"><div><h2>スライドへの取り込み</h2><p>透過PNGは、そのまま置いて背景になじませられます。SVGは拡大や編集に、MP4はスライド内の操作デモに。画像を押すと大きく確認できます。白いロゴは濃い背景に合わせてください。オフラインでもすべての操作が使えます。</p></div><div><h2>素材の由来</h2><p>画面と動画は実アプリを使ったデモデータの撮影です。育成状況・所持品・食事記録・料理判定は撮影用です。生成イラストは発表向けの表現で、実際のUIとは区別しています。「ゲームの原画」は現在のゲーム一覧に登録された素材です。「拡張カタログの原画」は素材カタログには存在しますが、現在のゲーム一覧には未登録の素材です。詳細は<a href="README.md">使い方と収録内容</a>にまとめています。</p></div></section></main>
 <footer><div class="wrap">もぐ日和 発表素材ライブラリ · ローカル閲覧用 · <a href="catalog.json">JSON</a> · <a href="contact-sheets/01-overview.png">素材見本</a></div></footer>
 <dialog id="viewer"><div class="dialog-head"><h2 id="viewer-title"></h2><button id="close-viewer">閉じる</button></div><img class="dialog-image" id="viewer-image" alt=""><div class="dialog-foot"><p id="viewer-note"></p><div class="formats" id="viewer-formats"></div></div></dialog>
 <script type="application/json" id="catalog-data">${JSON.stringify(entries).replaceAll('<', '\\u003c')}</script>
@@ -280,7 +298,7 @@ const entries=JSON.parse(document.getElementById('catalog-data').textContent);co
 const $=id=>document.getElementById(id);const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function links(e){return ['png','svg','mp4','webm'].filter(f=>e[f]).map(f=>'<a href="'+esc(e[f])+'" download>'+f.toUpperCase()+'</a>').join('')}
 function card(e){const duration=e.durationSeconds?' · '+Math.round(e.durationSeconds)+'秒':'';const media=e.mp4||e.webm?'<video class="preview" controls preload="none" poster="'+esc(e.poster??'')+'" aria-label="'+esc(e.title)+'"><source src="'+esc(e.mp4??e.webm)+'" type="'+(e.mp4?'video/mp4':'video/webm')+'"></video>':'<button class="preview '+(e.id.includes('wordmark-white')?'dark':'')+'" data-view="'+esc(e.uid)+'" aria-label="'+esc(e.title)+'を拡大"><img src="'+esc(e.png??e.svg)+'" alt="'+esc(e.title)+'" loading="lazy" decoding="async"></button>';return '<article class="card">'+media+'<div class="info"><div class="kicker"><span>'+esc(e.groupLabel)+'</span><span>'+esc(e.ratio)+'</span></div><h3>'+esc(e.title)+'</h3><p class="meta">'+esc(e.originLabel)+'<br>'+e.width+' × '+e.height+(e.transparent?' · 透過':'')+duration+'</p><div class="formats">'+links(e)+'</div></div></article>'}
-function render(){const query=$('search').value.trim().toLocaleLowerCase();const use=$('use').value,ratio=$('ratio').value,origin=$('origin').value;filtered=entries.filter(e=>(active==='all'||active==='recommended'&&e.recommended||e.group===active)&&(!use||e.use===use)&&(!ratio||e.ratio===ratio)&&(!origin||e.availability===origin)&&(!query||[e.title,e.id,e.category,e.groupLabel,e.originLabel,e.note,e.ratio,e.use].join(' ').toLocaleLowerCase().includes(query)));if(active==='recommended')filtered.sort((a,b)=>a.recommendationRank-b.recommendationRank);$('grid').innerHTML=filtered.slice(0,limit).map(card).join('');$('empty').hidden=!!filtered.length;$('more').hidden=filtered.length<=limit;$('results-title').textContent=active==='recommended'?'まずはこちらから':active==='all'?'すべての素材':groups[active];$('results-count').textContent=filtered.length+'件'+(filtered.length>limit?' / '+limit+'件を表示中':'');document.querySelectorAll('[data-group]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.group===active));}
+function render(){const query=$('search').value.trim().toLocaleLowerCase();const use=$('use').value,ratio=$('ratio').value,origin=$('origin').value;filtered=entries.filter(e=>(active==='all'||active==='recommended'&&e.recommended||e.group===active)&&(!use||e.use===use)&&(!ratio||e.ratio===ratio)&&(!origin||e.availability===origin)&&(!query||[e.title,e.id,e.category,e.groupLabel,e.originLabel,e.note,e.ratio,e.use].join(' ').toLocaleLowerCase().includes(query)));if(active==='recommended')filtered.sort((a,b)=>a.recommendationRank-b.recommendationRank);if(active==='screen')filtered.sort((a,b)=>Number(a.ratio!=='縦長')-Number(b.ratio!=='縦長'));$('grid').innerHTML=filtered.slice(0,limit).map(card).join('');$('empty').hidden=!!filtered.length;$('more').hidden=filtered.length<=limit;$('results-title').textContent=active==='recommended'?'まずはこちらから':active==='all'?'すべての素材':groups[active];$('results-count').textContent=filtered.length+'件'+(filtered.length>limit?' / '+limit+'件を表示中':'');document.querySelectorAll('[data-group]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.group===active));}
 $('tabs').addEventListener('click',event=>{const b=event.target.closest('[data-group]');if(!b)return;active=b.dataset.group;limit=36;render()});for(const id of ['search','use','ratio','origin'])$(id).addEventListener(id==='search'?'input':'change',()=>{active=active==='recommended'?'all':active;limit=36;render()});$('more').addEventListener('click',()=>{limit+=36;render()});$('grid').addEventListener('click',event=>{const button=event.target.closest('[data-view]');if(!button)return;const e=entries.find(e=>e.uid===button.dataset.view);$('viewer-title').textContent=e.title;$('viewer-image').src=e.png??e.svg;$('viewer-image').alt=e.title;$('viewer-image').style.background=e.id.includes('wordmark-white')?'#373849':'';$('viewer-note').textContent=e.originLabel+' / '+e.width+' × '+e.height+(e.note?' — '+e.note:'');$('viewer-formats').innerHTML=links(e);$('viewer').showModal()});$('close-viewer').addEventListener('click',()=>$('viewer').close());$('viewer').addEventListener('click',e=>{if(e.target===$('viewer'))$('viewer').close()});render();
 </script></body></html>`
 await fs.writeFile(path.join(kit, 'index.html'), html)
@@ -298,7 +316,7 @@ const sheetDefinitions = [
     '実際のゲーム画面',
     entries
       .filter((e) => e.kind === 'screen')
-      .filter((e) => !e.id.includes('mobile'))
+      .filter((e) => e.id.includes('mobile'))
       .slice(0, 16),
   ],
   [
@@ -317,6 +335,12 @@ const sheetDefinitions = [
       ...entries.filter((e) => e.kind === 'layout').slice(0, 12),
     ],
   ],
+  [
+    '06-keyvisuals-illustrations',
+    'キービジュアル・挿絵 全点',
+    entries.filter((e) => e.kind === 'visual' && e.group !== 'demo'),
+  ],
+  ['07-operation-videos', '操作動画 全点', entries.filter((e) => e.kind === 'video')],
 ]
 await fs.mkdir(path.join(kit, 'contact-sheets'), { recursive: true })
 const browser = await chromium.launch({ headless: true })
@@ -411,7 +435,7 @@ ${Object.entries(groups)
 
 画面と動画は実アプリを撮影しています。育成状況・所持品・所持金・食事記録などは発表用の架空データで、料理判定の応答も撮影用に固定しています。実際の利用者データやサービスの実績を示すものではありません。料理写真は生成したデモ素材です。
 
-「ゲームの原画」は実装のReact SVGや配布SVGから書き出しています。「拡張カタログの原画」はカタログに含まれる素材で、ゲーム内に実装済みの種類数や到達可能な状態を意味しません。「旧版の原画」は現行のひろばとは別の室内イラストです。
+「ゲームの原画」は現在のゲームの種族・アイテム・料理一覧に登録された素材を、実装のReact SVGや配布SVGから書き出しています。拡張カタログ由来でもゲームに登録済みの料理・アイテムは、この区分に含みます。「拡張カタログの原画」は素材カタログには存在しますが、現在のゲーム一覧には未登録の素材です。出典とゲームへの登録状況は、各素材のsourceとavailabilityで別々に記録しています。「旧版の原画」は現行のひろばとは別の室内イラストです。
 
 「発表用の生成イラスト」は、既存のもぐを参考に発表向けに描いたビジュアルです。実画面とは区別して、表紙や機能紹介の挿絵として利用してください。「原画・実画面のレイアウト」はそれらを配置した構成素材です。
 
