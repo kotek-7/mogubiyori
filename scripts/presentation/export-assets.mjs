@@ -163,9 +163,12 @@ try {
   const { MoguMark, VillageSign, VillageBackdrop } = await server.ssrLoadModule(
     '/src/ui/art/GameMotifs.tsx',
   )
-  const { species, growthStages, items, legacyRecipes } = await server.ssrLoadModule(
+  const { species, growthStages, items, recipes, legacyRecipes } = await server.ssrLoadModule(
     '/shared/content/catalog.ts',
   )
+  const gameSpeciesIds = new Set(species.map(({ id }) => id))
+  const gameItemIds = new Set(items.map(({ id }) => id))
+  const gameRecipeIds = new Set(recipes.map(({ id }) => id))
   const render = (Component, props = {}) =>
     renderToStaticMarkup(React.createElement(Component, props))
 
@@ -331,6 +334,8 @@ try {
     }
     for (const [kind, label] of [
       ['room', 'ひろば'],
+      ['album', '記録'],
+      ['reports', 'レポート'],
       ['book', 'ずかん'],
       ['shop', 'おみせ'],
     ]) {
@@ -406,7 +411,7 @@ try {
           raw: await fs.readFile(path.join(root, 'public', growth.artPath), 'utf8'),
           speciesId: companion.id,
           stage,
-          availability: 'expansion-catalog',
+          availability: gameSpeciesIds.has(companion.id) ? 'game' : 'expansion-catalog',
         })
       }
     }
@@ -422,7 +427,7 @@ try {
         width: item.kind === 'room' ? 1920 : 1024,
         transparent: item.kind !== 'room',
         itemKind: item.kind,
-        availability: 'expansion-catalog',
+        availability: gameItemIds.has(item.id) ? 'game' : 'expansion-catalog',
         ...(item.renderSpec.previewCrop
           ? { note: '原画のpreviewCropに従って帽子部分を切り出し' }
           : {}),
@@ -439,7 +444,7 @@ try {
         width: 768,
         transparent: false,
         recipeCategory: recipe.category,
-        availability: 'expansion-catalog',
+        availability: gameRecipeIds.has(recipe.id) ? 'game' : 'expansion-catalog',
       })
       // The first rect and margin rule are the recipe-card paper, separate from the authored dish.
       const cutout = raw
@@ -455,7 +460,7 @@ try {
         width: 768,
         recipeCategory: recipe.category,
         note: 'SVGの用紙背景と余白の罫線・クロスのみを除去。料理の描画は原画のまま。',
-        availability: 'expansion-catalog',
+        availability: gameRecipeIds.has(recipe.id) ? 'game' : 'expansion-catalog',
       })
     }
   }
