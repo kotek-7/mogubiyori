@@ -23,7 +23,7 @@ export function initialGame(day: string): GameState {
     name: 'こむぎ',
     xp: 0,
     coins: 120,
-    gems: 60,
+    gems: 0,
     meals: [],
     mealRecords: [],
     rests: [],
@@ -300,10 +300,10 @@ export function restGame(state: GameState): GameState {
 
 export function purchaseItem(state: GameState, id: string): GameState {
   const item = items.find((candidate) => candidate.id === id)
-  if (!item || state.owned.includes(id) || state[item.currency] < item.price) return state
+  if (!item || state.owned.includes(id) || state.coins < item.price) return state
   return {
     ...state,
-    [item.currency]: state[item.currency] - item.price,
+    coins: state.coins - item.price,
     owned: [...state.owned, id],
     equipped: { ...state.equipped, [item.kind]: id },
   }

@@ -148,13 +148,6 @@ summary:focus-visible {
   fill: var(--game-gold);
   stroke: var(--game-gold-dark);
 }
-.currency.gems {
-  color: var(--game-purple);
-}
-.currency.gems svg {
-  fill: var(--game-surface);
-  stroke: var(--game-purple);
-}
 .meter,
 .play-growth-track {
   height: 9px;
@@ -852,9 +845,6 @@ summary:focus-visible {
 .profile-sheet p,
 .profile-sheet > small,
 .settings-note,
-.gem-sheet p,
-.gem-sheet > small,
-.gem-price small,
 .playground summary,
 .playground > p {
   color: var(--game-muted);

@@ -1,8 +1,7 @@
 import type { GameCommand } from '../../../shared/game/commands'
 import type { CommandResponse, GameSnapshot } from '../../../shared/game/contracts'
 
-export type DemoCommand =
-  { type: 'advanceDay' } | { type: 'addGems' } | { type: 'reset'; preset: 'fresh' | 'seed' }
+export type DemoCommand = { type: 'advanceDay' } | { type: 'reset'; preset: 'fresh' | 'seed' }
 
 /** UI uses the same operation boundary for local play and the cloud service. */
 export interface GameGateway {

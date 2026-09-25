@@ -5,6 +5,25 @@ import { getSubscriptionPlan } from '../../../shared/game/subscription'
 import type { SubscriptionPlan } from '../../../shared/game/subscription'
 import { recipes } from '../../../shared/content/recipes'
 
+export function SubscriptionButton({ onClick }: { onClick: () => void }) {
+  const { state } = useGameSession()
+  const premium = getSubscriptionPlan(state) === 'premium'
+  return (
+    <button
+      type="button"
+      className={`subscription-cta${premium ? ' is-premium' : ''}`}
+      aria-label={
+        premium ? 'プラス会員：会員プランを確認' : 'プラスに加入：もぐ日和プラスの特典を見る'
+      }
+      aria-haspopup="dialog"
+      onClick={onClick}
+    >
+      <Crown size={17} aria-hidden="true" />
+      <span>{premium ? 'プラス会員' : 'プラスに加入'}</span>
+    </button>
+  )
+}
+
 export function SubscriptionSettings() {
   const { state, execute, busy } = useGameSession()
   const plan = getSubscriptionPlan(state)

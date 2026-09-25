@@ -51,6 +51,7 @@ export type GameState = {
   name: string
   xp: number
   coins: number
+  /** Compatibility field for older saves; restored balances are converted to coins. */
   gems: number
   meals: GameMeal[]
   mealRecords?: MealRecord[]
@@ -71,7 +72,7 @@ export type Item = {
   name: string
   description: string
   kind: ItemKind
-  currency: 'coins' | 'gems'
+  currency: 'coins'
   price: number
   artPath?: string
 }

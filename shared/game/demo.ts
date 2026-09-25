@@ -30,7 +30,3 @@ export function advanceGame(state: GameState, days = 1): GameState {
   if (!Number.isSafeInteger(days) || days <= 0) return state
   return { ...state, today: shiftDay(state.today, days), dayOffset: state.dayOffset + days }
 }
-
-export function addDemoGems(state: GameState): GameState {
-  return { ...state, gems: state.gems + 150 }
-}

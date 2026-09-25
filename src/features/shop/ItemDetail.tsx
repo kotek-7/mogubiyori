@@ -7,16 +7,12 @@ export function ItemDetail({
   state,
   item,
   busy,
-  isLocal,
   onUse,
-  onMoreGems,
 }: {
   state: GameState
   item: Item
   busy: boolean
-  isLocal: boolean
   onUse: () => void
-  onMoreGems: () => void
 }) {
   const active = state.companions.find((entry) => entry.id === state.activeId)
   const activeStage = stageOf(active?.xp ?? 0)
@@ -46,29 +42,14 @@ export function ItemDetail({
       )}
       <button
         className="primary-button full"
-        disabled={
-          busy || equipped || (!owned && !enough && (item.currency === 'coins' || !isLocal))
-        }
-        onClick={() => {
-          if (!owned && !enough) onMoreGems()
-          else onUse()
-        }}
+        disabled={busy || equipped || (!owned && !enough)}
+        onClick={onUse}
       >
-        {equipped
-          ? '使用中'
-          : owned
-            ? '使う'
-            : enough
-              ? '購入して使う'
-              : item.currency === 'gems'
-                ? isLocal
-                  ? 'ジェムを追加する'
-                  : 'ジェムが足りません'
-                : 'コインが足りません'}
+        {equipped ? '使用中' : owned ? '使う' : enough ? '購入して使う' : 'コインが足りません'}
       </button>
       {!owned && !enough && (
         <small className="purchase-hint">
-          あと {item.price - state[item.currency]} {item.currency === 'coins' ? 'コイン' : 'ジェム'}
+          あと {item.price - state.coins} コイン。ごはんの記録や毎日のログインで貯められます。
         </small>
       )}
     </div>

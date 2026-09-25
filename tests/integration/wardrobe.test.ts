@@ -23,7 +23,7 @@ const hatIds = [
   'i-sailor-knot',
   'i-moon-wizard',
 ]
-const starter = () => ({ ...chooseStarter(initialGame(day), 'komugi'), coins: 2000, gems: 1000 })
+const starter = () => ({ ...chooseStarter(initialGame(day), 'komugi'), coins: 2000 })
 const dressed = () =>
   ['i-picnic-straw', 'neck-bandana', 'bag-satchel', 'garden'].reduce(
     (state, id) => purchaseItem(state, id),
@@ -71,8 +71,8 @@ describe('wardrobe catalogs and independent equipment', () => {
       bag: 'bag-satchel',
       room: 'garden',
     })
-    expect(state.coins).toBe(1620)
-    expect(state.gems).toBe(900)
+    expect(state.coins).toBe(1520)
+    expect(state.gems).toBe(0)
     expect(state.xp).toBe(0)
     expect(state.meals).toEqual([])
     expect(decodeGame(JSON.parse(JSON.stringify(state)), day)).toEqual(state)

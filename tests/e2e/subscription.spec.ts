@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import type { Page } from '@playwright/test'
+import AxeBuilder from '@axe-core/playwright'
 import {
   chooseStarter,
   claimLogin,
@@ -18,6 +19,7 @@ import {
   sampleToTable,
   start,
   storedGame,
+  waitForSceneMotion,
 } from './helpers'
 
 const today = '2026-09-25'
@@ -59,6 +61,70 @@ async function switchPlan(page: Page, plan: 'free' | 'premium') {
 test.beforeEach(async ({ page }) => {
   await page.clock.setFixedTime(new Date(`${today}T03:00:00Z`))
   await page.emulateMedia({ reducedMotion: 'reduce' })
+})
+
+test('the 320px header opens membership, stays usable and reflects the persisted plan', async ({
+  page,
+}) => {
+  test.setTimeout(60_000)
+  await page.setViewportSize({ width: 320, height: 700 })
+  await seed(page, freshState())
+  const header = page.locator('.play-header')
+  const freeCta = header.getByRole('button', {
+    name: 'プラスに加入：もぐ日和プラスの特典を見る',
+    exact: true,
+  })
+  const premiumCta = header.getByRole('button', {
+    name: 'プラス会員：会員プランを確認',
+    exact: true,
+  })
+  await expect(freeCta).toContainText('プラスに加入')
+  await expect(header.getByRole('button', { name: /ジェム/ })).toHaveCount(0)
+
+  async function checkHeaderControls() {
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+    for (const button of await header.getByRole('button').all()) {
+      await expect(button).toBeInViewport()
+      await button.click({ trial: true })
+    }
+  }
+  await checkHeaderControls()
+  await waitForSceneMotion(page)
+  const headerAccessibility = await new AxeBuilder({ page })
+    .include('.play-header')
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+    .analyze()
+  expect(headerAccessibility.violations).toEqual([])
+  await freeCta.click()
+  const dialog = page.getByRole('dialog', { name: '会員プラン', exact: true })
+  await expect(dialog).toBeVisible()
+  await expect(dialog.getByRole('heading', { name: 'もぐ日和プラス', exact: true })).toBeVisible()
+  await waitForSceneMotion(page)
+  const accessibility = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+    .analyze()
+  expect(accessibility.violations).toEqual([])
+  await dialog.getByRole('button', { name: '有料プランに切り替える', exact: true }).click()
+  await expect.poll(async () => (await storedGame(page)).subscriptionPlan).toBe('premium')
+  await dialog.getByRole('button', { name: '閉じる', exact: true }).click()
+  await expect(dialog).toHaveCount(0)
+  await expect(premiumCta).toContainText('プラス会員')
+  await page.reload()
+  await expect(premiumCta).toContainText('プラス会員')
+  await checkHeaderControls()
+  await premiumCta.click()
+  await expect(dialog).toBeVisible()
+  await dialog.getByRole('button', { name: '無料プランに切り替える', exact: true }).click()
+  await expect.poll(async () => (await storedGame(page)).subscriptionPlan).toBe('free')
+  await dialog.getByRole('button', { name: '閉じる', exact: true }).click()
+  await expect(dialog).toHaveCount(0)
+  await page.reload()
+  await expect(freeCta).toContainText('プラスに加入')
+  await checkHeaderControls()
+  await header.getByRole('button', { name: 'コイン 140枚、おみせへ', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'おみせ', exact: true })).toBeVisible()
+  await header.getByRole('button', { name: '設定', exact: true }).click()
+  await expect(page.getByRole('dialog', { name: '設定', exact: true })).toBeVisible()
 })
 
 test('a new free member sees 30 recipes and ads, and the mock premium choice survives reload', async ({

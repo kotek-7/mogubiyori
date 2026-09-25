@@ -75,7 +75,7 @@ export const saveBaseSchema = z.object({
   name: z.string().refine((value) => value.trim().length > 0),
   xp: nonnegativeIntegerSchema,
   coins: nonnegativeIntegerSchema,
-  gems: nonnegativeIntegerSchema,
+  gems: nonnegativeIntegerSchema.default(0),
   meals: z
     .array(mealSchema)
     .refine((meals) => new Set(meals.map((meal) => meal.id)).size === meals.length),
@@ -129,3 +129,16 @@ export const gameStateSchema: z.ZodType<GameState> = saveBaseSchema
       ),
     'Inconsistent game references',
   )
+  .transform((state, context) => {
+    // Shared by local saves and cloud snapshots. Clearing the retired balance
+    // makes the conversion idempotent across repeated reads and command replies.
+    const coins = state.coins + state.gems
+    if (!Number.isSafeInteger(coins)) {
+      context.addIssue({
+        code: 'custom',
+        message: 'Combined legacy balance exceeds safe integer range',
+      })
+      return z.NEVER
+    }
+    return { ...state, coins, gems: 0 }
+  })

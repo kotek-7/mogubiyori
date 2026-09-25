@@ -2,7 +2,7 @@
 export * from '../../../shared/game/types'
 export * from '../../../shared/content/catalog'
 export * from '../../../shared/game/game'
-export { advanceGame, addDemoGems } from '../../../shared/game/demo'
+export { advanceGame } from '../../../shared/game/demo'
 
 import { feed as applyFeed, initialGame as createGame } from '../../../shared/game/game'
 import { demoGame as createDemo } from '../../../shared/game/demo'

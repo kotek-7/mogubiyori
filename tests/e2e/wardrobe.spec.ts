@@ -42,7 +42,6 @@ test('hat, neckwear and bag can be tried on, bought and removed independently on
       ...initial,
       tutorial: { version: 1, step: 4, status: 'completed', homeGuide: 'done' },
       coins: 5000,
-      gems: 1000,
     },
   )
   await page.goto('/')

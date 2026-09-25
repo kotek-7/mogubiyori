@@ -3,14 +3,7 @@ import type { GameCommand } from '../../../shared/game/commands'
 import type { CommandResponse, GameSnapshot } from '../../../shared/game/contracts'
 import { canRecordMeal, DAILY_MEAL_LIMIT_MESSAGE } from '../../../shared/game/subscription'
 import { mealRecordUpdateSchema } from '../../../shared/meals/schemas'
-import {
-  addDemoGems,
-  advanceGame,
-  demoGame,
-  initialGame,
-  shiftDay,
-  todayTokyo,
-} from './browserGame'
+import { advanceGame, demoGame, initialGame, shiftDay, todayTokyo } from './browserGame'
 import { loadGame, saveGame } from './gameStorage'
 import type { GameState } from './browserGame'
 import type { DemoCommand, GameGateway } from './gameGateway'
@@ -90,14 +83,11 @@ export function createLocalGameGateway(
     demo: (command: DemoCommand) =>
       serial(() => {
         const current = currentState()
-        const state =
-          command.type === 'advanceDay'
-            ? advanceGame(current)
-            : command.type === 'addGems'
-              ? addDemoGems(current)
-              : command.preset === 'fresh'
-                ? initialGame(today())
-                : demoGame(today())
+        let state: GameState
+        if (command.type === 'advanceDay') state = advanceGame(current)
+        else if (command.type === 'reset')
+          state = command.preset === 'fresh' ? initialGame(today()) : demoGame(today())
+        else throw new Error('このおためし操作は利用できません。')
         const snapshot = save({ ...state, subscriptionPlan: current.subscriptionPlan })
         completed.clear()
         return snapshot

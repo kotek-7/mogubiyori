@@ -29,6 +29,14 @@ function memoryStorage(initial: GameState) {
 }
 
 describe('local game gateway', () => {
+  it('rejects the removed gem top-up without changing the saved game', async () => {
+    const storage = memoryStorage(starter())
+    const gateway = createLocalGameGateway(storage, () => day)
+    await expect(gateway.demo!({ type: 'addGems' } as never)).rejects.toThrow('利用できません')
+    expect(storage.saved()).toEqual(starter())
+    expect(storage.write).not.toHaveBeenCalled()
+  })
+
   it('persists mock plan changes and enforces the free daily limit without blocking replay', async () => {
     const storage = memoryStorage(starter())
     const gateway = createLocalGameGateway(storage, () => day)

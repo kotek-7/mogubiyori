@@ -48,8 +48,7 @@ for (const [layout, viewport] of [
         {
           ...initial,
           tutorial: { version: 1, step: 4, status: 'completed', homeGuide: 'done' },
-          coins: 1000,
-          gems: 1000,
+          coins: 2000,
         },
       )
       await page.goto('/')

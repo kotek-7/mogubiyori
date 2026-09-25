@@ -1,11 +1,11 @@
-import { Coins, Gem } from 'lucide-react'
+import { Coins } from 'lucide-react'
 
-export function ShopCurrency({ kind, amount }: { kind: 'coins' | 'gems'; amount: number }) {
+export function ShopCurrency({ kind, amount }: { kind: 'coins'; amount: number }) {
   return (
     <span className={`currency ${kind}`}>
-      {kind === 'coins' ? <Coins size={18} /> : <Gem size={18} />}
+      <Coins size={18} />
       <strong>{amount.toLocaleString()}</strong>
-      <span className="sr-only">{kind === 'coins' ? 'コイン' : 'ジェム'}</span>
+      <span className="sr-only">コイン</span>
     </span>
   )
 }

@@ -8,9 +8,9 @@ import { parseGame } from '../../src/app/game/gameStorage'
 
 const day = '2026-09-25'
 const rooms = [
-  { id: 'seaside', currency: 'coins', price: 320, coins: 680, gems: 500 },
-  { id: 'brook', currency: 'coins', price: 280, coins: 720, gems: 500 },
-  { id: 'greenhouse', currency: 'gems', price: 140, coins: 1000, gems: 360 },
+  { id: 'seaside', currency: 'coins', price: 320, coins: 680 },
+  { id: 'brook', currency: 'coins', price: 280, coins: 720 },
+  { id: 'greenhouse', currency: 'coins', price: 140, coins: 860 },
 ] as const
 
 function execute(state: GameState, command: GameCommand) {
@@ -24,15 +24,14 @@ function execute(state: GameState, command: GameCommand) {
 describe('new room purchases and saved ownership', () => {
   it.each(rooms)(
     '$id charges the listed currency once and remains usable after reloading',
-    ({ id, coins, gems }) => {
-      const start = { ...chooseStarter(initialGame(day), 'mame'), coins: 1000, gems: 500 }
+    ({ id, coins }) => {
+      const start = { ...chooseStarter(initialGame(day), 'mame'), coins: 1000 }
       const purchased = execute(start, { type: 'purchase', id })
       expect(purchased.changed).toBe(true)
       expect(purchased.receipt).toBeNull()
       expect(purchased.state).toEqual({
         ...start,
         coins,
-        gems,
         owned: [...start.owned, id],
         equipped: { ...start.equipped, room: id },
       })
@@ -66,7 +65,6 @@ describe('new room purchases and saved ownership', () => {
       const start = {
         ...chooseStarter(initialGame(day), 'mame'),
         coins: 1000,
-        gems: 500,
         [currency]: price - 1,
       }
       expect(execute(start, { type: 'equip', id }).state).toBe(start)

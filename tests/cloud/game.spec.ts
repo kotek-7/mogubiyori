@@ -492,7 +492,12 @@ test('cloud membership survives reload, unlocks extra meals and preserves record
   test.setTimeout(60_000)
   const cloud = await mockCloud(page)
   await begin(page)
+  await expect(
+    page.getByRole('button', { name: 'プラスに加入：もぐ日和プラスの特典を見る', exact: true }),
+  ).toBeVisible()
+  await page.goto('/book')
   await expect(page.getByRole('complementary', { name: '広告', exact: true })).toBeVisible()
+  await page.goto('/')
   await saveMeal(page, '無料プランのごはん')
   await page.locator('.play-feed').click()
   await expect(
@@ -505,7 +510,13 @@ test('cloud membership survives reload, unlocks extra meals and preserves record
   expect(cloud.snapshot().state.subscriptionPlan).toBe('premium')
   await page.reload()
   await expect(page.getByRole('heading', { name: 'ひろば' })).toBeVisible()
+  await expect(
+    page.getByRole('button', { name: 'プラス会員：会員プランを確認', exact: true }),
+  ).toBeVisible()
+  await page.goto('/book')
+  await expect(page.locator('.recipe-collection-card').first()).toBeVisible()
   await expect(page.getByRole('complementary', { name: '広告', exact: true })).toHaveCount(0)
+  await page.goto('/')
   await saveMeal(page, '有料プランの追加ごはん')
   expect(cloud.snapshot().state.mealRecords).toHaveLength(2)
   expect(cloud.snapshot().state.meals).toHaveLength(2)
@@ -516,7 +527,9 @@ test('cloud membership survives reload, unlocks extra meals and preserves record
   expect(cloud.snapshot().state.mealRecords).toHaveLength(2)
   await page.reload()
   await expect(page.getByRole('heading', { name: 'ひろば' })).toBeVisible()
-  await expect(page.getByRole('complementary', { name: '広告', exact: true })).toBeVisible()
+  await expect(
+    page.getByRole('button', { name: 'プラスに加入：もぐ日和プラスの特典を見る', exact: true }),
+  ).toBeVisible()
   await page.locator('.play-feed').click()
   await expect(
     page.getByRole('heading', { name: 'ごはんをもっと記録する', exact: true }),
@@ -525,6 +538,8 @@ test('cloud membership survives reload, unlocks extra meals and preserves record
   await page.goto('/album')
   await expect(page.getByText('無料プランのごはん', { exact: true })).toBeVisible()
   await expect(page.getByText('有料プランの追加ごはん', { exact: true })).toBeVisible()
+  await page.goto('/book')
+  await expect(page.getByRole('complementary', { name: '広告', exact: true })).toBeVisible()
   expect(cloud.blockedExternal).toEqual([])
 })
 
@@ -541,7 +556,12 @@ test('switching accounts loads that user’s plan without carrying over paid mem
   await page.getByRole('button', { name: 'Googleの記録を開く', exact: true }).click()
   await expect(page.getByRole('heading', { name: 'ひろば' })).toBeVisible()
   await expect.poll(() => cloud.loadUsers.at(-1)).toBe(googleUserId)
+  await expect(
+    page.getByRole('button', { name: 'プラスに加入：もぐ日和プラスの特典を見る', exact: true }),
+  ).toBeVisible()
+  await page.goto('/book')
   await expect(page.getByRole('complementary', { name: '広告', exact: true })).toBeVisible()
+  await page.goto('/')
   await openSettings(page)
   await expect(page.getByRole('button', { name: '無料プランを利用中', exact: true })).toBeDisabled()
   expect(cloud.snapshot(googleUserId).state.subscriptionPlan).toBe('free')

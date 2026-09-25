@@ -175,16 +175,9 @@ p {
 .currency.coins {
   color: #916221;
 }
-.currency.gems {
-  color: #726087;
-}
 .currency.coins svg {
   fill: #ead7a0;
   stroke: #a27528;
-}
-.currency.gems svg {
-  fill: #e7daf0;
-  stroke: #86709d;
 }
 .meter {
   height: 7px;
@@ -1434,51 +1427,6 @@ body:has(dialog[open]) {
   line-height: 1.9;
   color: #75634e;
   margin-top: 17px;
-}
-.gem-sheet {
-  text-align: center;
-}
-.gem-pile {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 27px 0;
-  color: #88709d;
-}
-.gem-pile > svg:first-child {
-  fill: #e3d4ee;
-}
-.gem-pile > svg:last-child {
-  color: #bfaa71;
-  align-self: flex-start;
-}
-.gem-sheet h3 {
-  font-size: 22px;
-  margin: 14px 0 8px;
-}
-.gem-sheet p {
-  font-size: 12px;
-  color: #81715b;
-}
-.gem-price {
-  font-size: 27px;
-  font-weight: 800;
-  margin: 28px 0;
-}
-.gem-price small {
-  display: block;
-  font-size: 10px;
-  color: #75634e;
-  font-weight: 400;
-  margin-top: 7px;
-}
-.gem-sheet > small {
-  display: block;
-  font-size: 10px;
-  color: #75634e;
-  line-height: 1.9;
-  margin-top: 19px;
 }
 .settings-sheet > :is(.field, fieldset) {
   margin: 4px 0 26px;

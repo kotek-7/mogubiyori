@@ -94,7 +94,7 @@ export function SettingsPanel({
         <section id={resetConfirmationId} className="reset-confirm" aria-label="進捗リセットの確認">
           <p>
             {isLocal ? 'このブラウザー' : 'このアカウント'}
-            のもぐの成長・なかま・持ちもの・コイン・ジェム・料理カード・食事の記録をリセットして、
+            のもぐの成長・なかま・持ちもの・コイン・料理カード・食事の記録をリセットして、
             {reset === 'fresh' ? '最初から育てます。' : '成長・出会いを体験します。'}
             元には戻せません。
             {!isLocal && 'アカウントとログイン状態はそのままです。'}

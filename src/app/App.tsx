@@ -21,7 +21,7 @@ import { Currency } from '../ui/Currency'
 import { Toast } from '../ui/Toast'
 import { AccountMenu } from '../features/auth/AccountMenu'
 import { canRecordMeal } from '../../shared/game/subscription'
-import { PlanAdvertisement } from '../features/subscription/Subscription'
+import { PlanAdvertisement, SubscriptionButton } from '../features/subscription/Subscription'
 
 type MealOptions = { recipeId?: string; targetId?: SpeciesId; mealRecordId?: string }
 type Journey =
@@ -149,7 +149,7 @@ function App() {
   function openMeal(options: MealOptions = {}) {
     dismissError()
     if (!options.mealRecordId && !canRecordMeal(state)) {
-      setDialog({ type: 'subscription' })
+      setDialog({ type: 'subscription', reason: 'daily-meal-limit' })
       return
     }
     transitionScene(() => {
@@ -360,13 +360,7 @@ function App() {
             >
               <Currency kind="coins" amount={state.coins} />
             </button>
-            <button
-              aria-label={`ジェム ${state.gems}個`}
-              onClick={() => setDialog({ type: 'gems' })}
-            >
-              <Currency kind="gems" amount={state.gems} />
-              <span>+</span>
-            </button>
+            <SubscriptionButton onClick={() => setDialog({ type: 'subscription' })} />
             <button
               className="icon-button"
               aria-label="設定"

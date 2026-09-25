@@ -56,7 +56,7 @@ export const items: Item[] = [
     name: 'コックさんの帽子',
     description: '白いコック帽。かまどの棚にしまっても、煮た豆と薪の匂いが少し残る。',
     kind: 'hat',
-    currency: 'gems',
+    currency: 'coins',
     price: 80,
   },
   {
@@ -156,7 +156,7 @@ export const items: Item[] = [
     name: '貝がらペンダント',
     description: '浜辺で見つけた貝がらのペンダント。穴にひもを通したのは、帰りの舟を待つあいだ。',
     kind: 'neck',
-    currency: 'gems',
+    currency: 'coins',
     price: 60,
   },
   {
@@ -200,7 +200,7 @@ export const items: Item[] = [
     description:
       'きらりと星を飾った、夜空色のバッグ。ニカの夜の市では、小さな器を包む布や、ひもに通した小銭を入れて歩く。',
     kind: 'bag',
-    currency: 'gems',
+    currency: 'coins',
     price: 90,
   },
   {
@@ -217,7 +217,7 @@ export const items: Item[] = [
     name: '木もれびのひろば',
     description: '大きな木の枝葉から、やわらかな光が差すひろば。',
     kind: 'room',
-    currency: 'gems',
+    currency: 'coins',
     price: 100,
   },
   {
@@ -225,7 +225,7 @@ export const items: Item[] = [
     name: '星あかりのひろば',
     description: '星空が見える夜のひろば。遠くのかまどでは、夜に起きるもぐのために火がともる。',
     kind: 'room',
-    currency: 'gems',
+    currency: 'coins',
     price: 120,
   },
   {
@@ -252,7 +252,7 @@ export const items: Item[] = [
     description:
       'ガラス屋根の下で、草花に囲まれるひろば。欠けた料理の器が小さな植木鉢になり、次の春に植える苗が並んでいる。',
     kind: 'room',
-    currency: 'gems',
+    currency: 'coins',
     price: 140,
   },
 ]

@@ -127,3 +127,27 @@
   color: inherit;
   background: white;
 }
+.play-wallet > button.subscription-cta {
+  gap: 5px;
+  padding: 8px 10px;
+  border: 1px solid var(--game-action-dark);
+  border-radius: 22px;
+  background: var(--game-action-dark);
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.play-wallet > button.subscription-cta.is-premium {
+  background: white;
+  color: var(--game-action-dark);
+}
+@media (max-width: 420px) {
+  .play-header .play-brand > span {
+    display: none;
+  }
+  .play-header .play-brand > svg {
+    width: 32px;
+    height: 32px;
+  }
+}

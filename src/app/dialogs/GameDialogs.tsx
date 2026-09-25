@@ -11,7 +11,6 @@ import type { DemoCommand } from '../game/gameGateway'
 import { CompanionProfile } from '../../features/companions/CompanionProfile'
 import { MealDetail } from '../../features/album/MealDetail'
 import { ItemDetail } from '../../features/shop/ItemDetail'
-import { GemShop } from '../../features/shop/GemShop'
 import { SettingsPanel } from '../../features/settings/SettingsPanel'
 import { HelpPanel } from '../../features/settings/HelpPanel'
 import { RestPanel } from '../../features/room/RestPanel'
@@ -26,7 +25,8 @@ export type Dialog =
   | { type: 'mealRecord'; recordId: string }
   | { type: 'item'; item: Item }
   | { type: 'profile'; speciesId?: SpeciesId }
-  | { type: 'settings' | 'streak' | 'gems' | 'rest' | 'letters' | 'help' | 'subscription' }
+  | { type: 'subscription'; reason?: 'daily-meal-limit' }
+  | { type: 'settings' | 'streak' | 'rest' | 'letters' | 'help' }
 
 type Props = {
   dialog: Dialog
@@ -82,7 +82,6 @@ export function GameDialogs({
   }
   const [local, setLocal] = useState<Dialog>(dialog)
   const [reset, setReset] = useState<'seed' | 'fresh' | null>(null)
-  const [returnItem, setReturnItem] = useState<Item | null>(null)
   const [previewStage, setPreviewStage] = useState<GrowthStage | null>(null)
   function close() {
     onClose()
@@ -96,10 +95,12 @@ export function GameDialogs({
   let content: ReactNode
   switch (local.type) {
     case 'subscription':
-      title = 'ごはんをもっと記録する'
+      title = local.reason === 'daily-meal-limit' ? 'ごはんをもっと記録する' : '会員プラン'
       content = (
         <>
-          <p>無料プランのごはん記録は1日1回です。有料プランなら、1日に何回でも記録できます。</p>
+          {local.reason === 'daily-meal-limit' && (
+            <p>無料プランのごはん記録は1日1回です。有料プランなら、1日に何回でも記録できます。</p>
+          )}
           <SubscriptionSettings />
         </>
       )
@@ -161,11 +162,6 @@ export function GameDialogs({
           state={state}
           item={item}
           busy={busy}
-          isLocal={isLocal}
-          onMoreGems={() => {
-            setReturnItem(item)
-            setLocal({ type: 'gems' })
-          }}
           onUse={() =>
             runCommand(
               { type: state.owned.includes(item.id) ? 'equip' : 'purchase', id: item.id },
@@ -179,23 +175,6 @@ export function GameDialogs({
       )
       break
     }
-    case 'gems':
-      title = isLocal ? 'ジェムのおみせ' : 'ジェム'
-      content = (
-        <GemShop
-          gems={state.gems}
-          busy={busy}
-          isLocal={isLocal}
-          onPurchase={() =>
-            runDemo({ type: 'addGems' }, () => {
-              onToast('150ジェムを受け取りました')
-              if (returnItem) setLocal({ type: 'item', item: returnItem })
-              else close()
-            })
-          }
-        />
-      )
-      break
     case 'profile': {
       const speciesId = local.speciesId ?? state.activeId ?? 'komugi'
       title =

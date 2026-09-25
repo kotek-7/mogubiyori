@@ -325,9 +325,7 @@ test('fast-forward advances once and never grants rewards twice', async ({ page 
   expect((await storedGame(page)).meals).toHaveLength(1)
 })
 
-test('cosmetics use earned coins or trial gems without granting growth or meals', async ({
-  page,
-}) => {
+test('cosmetics use only coins and cannot be bought without enough coins', async ({ page }) => {
   await start(page)
   await navigate(page, 'おみせ')
   await page.getByRole('button', { name: /ふたばのかんむり/ }).click()
@@ -339,10 +337,25 @@ test('cosmetics use earned coins or trial gems without granting growth or meals'
   await navigate(page, 'おみせ')
   await page.getByRole('button', { name: /ふたばのかんむり/ }).click()
   await page.getByRole('button', { name: '使う', exact: true }).click()
-  await page.getByRole('button', { name: 'ジェム 60個' }).click()
-  await expect(page.getByRole('dialog')).toContainText('請求はありません')
-  await page.getByRole('button', { name: '購入を体験する' }).click()
+  await expect(page.getByRole('button', { name: /ジェム/ })).toHaveCount(0)
   await navigate(page, 'おみせ')
+  const before = await storedGame(page)
+  await page.getByRole('button', { name: /コックさんの帽子/ }).click()
+  const detail = page.getByRole('dialog')
+  await expect(
+    detail.getByRole('button', { name: 'コインが足りません', exact: true }),
+  ).toBeDisabled()
+  await expect(detail).toContainText('あと 60 コイン')
+  await expect(detail.getByRole('button', { name: /追加|購入を体験/ })).toHaveCount(0)
+  expect(await storedGame(page)).toEqual(before)
+  await detail.getByRole('button', { name: '閉じる', exact: true }).click()
+
+  // Supply an earned-coin balance to exercise both formerly gem-priced purchases.
+  await page.evaluate(
+    (state) => localStorage.setItem('mogubiyori-v1', JSON.stringify({ ...state, coins: 200 })),
+    before,
+  )
+  await page.reload()
   await page.getByRole('button', { name: /コックさんの帽子/ }).click()
   await page.getByRole('button', { name: '購入して使う' }).click()
   await navigate(page, 'おみせ')
@@ -355,7 +368,7 @@ test('cosmetics use earned coins or trial gems without granting growth or meals'
   await expect(page.locator('.play-world')).toHaveClass(/theme-garden/)
   const state = await storedGame(page)
   expect(state.coins).toBe(20)
-  expect(state.gems).toBe(30)
+  expect(state.gems).toBe(0)
   expect(state.equipped).toEqual({
     hat: 'chef',
     neck: 'neck-none',

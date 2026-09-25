@@ -1,7 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
   activeCompanion,
-  addDemoGems,
   claimLogin,
   chooseStarter,
   demoGame,
@@ -388,7 +387,7 @@ describe('cosmetic shop', () => {
   })
 
   it('rejects unknown, unowned and unaffordable items', () => {
-    const state = demoGame(date)
+    const state = { ...demoGame(date), coins: 0 }
     expect(purchaseItem(state, 'missing')).toBe(state)
     expect(purchaseItem(state, 'beret')).toBe(state)
     expect(purchaseItem(state, 'chef')).toBe(state)
@@ -396,14 +395,13 @@ describe('cosmetic shop', () => {
     expect(equipItem(state, 'missing')).toBe(state)
   })
 
-  it('uses gems only for premium cosmetics and never feeds the pet', () => {
+  it('uses earned coins for cosmetics without feeding the pet', () => {
     const state = demoGame(date)
-    const topped = addDemoGems(state)
-    const bought = purchaseItem(topped, 'garden')
-    expect(topped.gems).toBe(210)
-    expect(state.gems).toBe(60)
-    expect(bought.gems).toBe(110)
-    expect(bought.coins).toBe(120)
+    const bought = purchaseItem(state, 'garden')
+    expect(state.coins).toBe(120)
+    expect(state.gems).toBe(0)
+    expect(bought.gems).toBe(0)
+    expect(bought.coins).toBe(20)
     expect(bought.equipped.room).toBe('garden')
     expect(hungerOf(bought)).toBe(28)
     expect(streakOf(bought)).toBe(6)
@@ -441,8 +439,8 @@ describe('calendar and persistence', () => {
     expect(migrated.xp).toBe(785)
     expect(migrated.companions).toEqual([{ id: 'komugi', xp: 785, joinedDay: shiftDay(date, -6) }])
     expect(migrated.visitors).toEqual(['mame', 'shizuku', 'yuzu'])
-    expect(migrated.coins).toBe(987)
-    expect(migrated.gems).toBe(234)
+    expect(migrated.coins).toBe(1221)
+    expect(migrated.gems).toBe(0)
     expect(migrated.equipped.hat).toBe('beret')
     expect(migrated.meals[0].photo).toBe(oldMeals[0].photo)
     expect(migrated.meals.every((meal) => meal.targetId === 'komugi')).toBe(true)
@@ -508,8 +506,8 @@ describe('calendar and persistence', () => {
     ])
     expect(migrated.xp).toBe(480)
     expect(migrated.activeId).toBe('mame')
-    expect(migrated.coins).toBe(987)
-    expect(migrated.gems).toBe(234)
+    expect(migrated.coins).toBe(1221)
+    expect(migrated.gems).toBe(0)
     expect(migrated.meals).toEqual(source.meals)
     expect(migrated.visitors).toEqual(['yuzu', 'momo', 'goma'])
     expect(migrated.companions.map(({ joinedDay }) => joinedDay)).toEqual(
