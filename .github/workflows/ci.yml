@@ -84,12 +84,8 @@ jobs:
       - name: Verify public guidebook
         if: steps.revision.outputs.current == 'true'
         run: |
-          curl --fail --silent --show-error --retry 5 --retry-all-errors --retry-delay 3 \
-            --max-time 30 https://guide.mogubiyori.kotek7.com/ --output "$RUNNER_TEMP/guidebook.html"
-          cmp guidebook/dist/index.html "$RUNNER_TEMP/guidebook.html"
-          curl --fail --silent --show-error --retry 5 --retry-all-errors --retry-delay 3 \
-            --max-time 30 https://guide.mogubiyori.kotek7.com/islands/ --output "$RUNNER_TEMP/guidebook-islands.html"
-          cmp guidebook/dist/islands/index.html "$RUNNER_TEMP/guidebook-islands.html"
+          bash scripts/ci/verify-published-file.sh https://guide.mogubiyori.kotek7.com/ guidebook/dist/index.html
+          bash scripts/ci/verify-published-file.sh https://guide.mogubiyori.kotek7.com/islands/ guidebook/dist/islands/index.html
           status=$(curl --silent --show-error --retry 5 --retry-all-errors --retry-delay 3 \
             --max-time 30 --output "$RUNNER_TEMP/guidebook-404.html" --write-out '%{http_code}' \
             https://guide.mogubiyori.kotek7.com/missing-guidebook-ci-page/)
@@ -232,9 +228,7 @@ jobs:
       - name: Verify production response
         if: steps.revision.outputs.current == 'true'
         run: |
-          curl --fail --silent --show-error --retry 5 --retry-all-errors --retry-delay 3 \
-            --max-time 30 https://mogubiyori.kotek7.com/ --output "$RUNNER_TEMP/production.html"
-          cmp dist/client/index.html "$RUNNER_TEMP/production.html"
+          bash scripts/ci/verify-published-file.sh https://mogubiyori.kotek7.com/ dist/client/index.html
           status=$(curl --silent --show-error --retry 5 --retry-all-errors --retry-delay 3 \
             --max-time 30 --output "$RUNNER_TEMP/recognition.json" --write-out '%{http_code}' \
             https://mogubiyori.kotek7.com/api/recognize-food)
