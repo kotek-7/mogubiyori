@@ -39,3 +39,7 @@ playwright-report/
 # Supabase CLI local project state
 supabase/.temp/
 supabase/.branches/
+
+# Reproducible presentation media exports (screens, video, and asset bundles)
+artifacts/presentation-kit/
+artifacts/mogubiyori-presentation-kit.zip
