@@ -7,7 +7,11 @@ import { waitForSceneMotion } from '../../tests/e2e/helpers'
 
 const output = resolve('artifacts/presentation-kit/02-videos')
 const raw = resolve('test-results/presentation-video-originals')
-const sourceCommit = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim()
+const sourceCommit = execFileSync(
+  'git',
+  ['rev-parse', process.env.PRESENTATION_SOURCE_COMMIT ?? 'HEAD'],
+  { encoding: 'utf8' },
+).trim()
 const orientationFilter = process.env.PRESENTATION_VIDEO_ORIENTATION
 if (orientationFilter && !['portrait', 'landscape'].includes(orientationFilter)) {
   throw new Error('PRESENTATION_VIDEO_ORIENTATION must be portrait or landscape')
@@ -25,11 +29,11 @@ const mainNav = (page: Page, name: string) =>
     .getByRole('navigation', { name: 'メインナビゲーション' })
     .getByRole('button', { name, exact: true })
 
-async function click(page: Page, target: Locator, wait = 1700) {
+async function click(page: Page, target: Locator, wait = 1350) {
   await target.scrollIntoViewIfNeeded()
   const box = await target.boundingBox()
   if (box) await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2, { steps: 12 })
-  await pause(page, 350)
+  await pause(page, 250)
   await target.click()
   await pause(page, wait)
 }
@@ -49,7 +53,14 @@ async function rewards(page: Page, holdGrowth = 3200) {
       .getAttribute('data-scene')
       .catch(() => null)
     if (!current) break
-    await pause(page, current === 'growth' || current === 'card' ? holdGrowth : 2100)
+    await pause(
+      page,
+      current === 'growth' || current === 'card'
+        ? holdGrowth
+        : current === 'mealReport'
+          ? 3500
+          : 1900,
+    )
     if (current === 'growth' || current === 'card') await rememberPoster(page)
     const button = page
       .locator('main.journey-screen')
@@ -244,13 +255,16 @@ const scenes: Scene[] = [
   {
     id: '10-meal-album',
     title: 'ごはんの記録を振り返る',
-    description: 'ずかんからごはんの記録へ進み、料理ごとの日付と食事の詳細を振り返る。',
+    description: '記録タブで今日と前日の料理を選び、食事の時間や食品の内訳を振り返る。',
     run: async (page) => {
-      await click(page, mainNav(page, 'ずかん'))
-      await click(page, page.getByRole('button', { name: 'ごはんの記録', exact: true }), 2400)
+      await click(page, mainNav(page, '記録'), 2000)
       await click(page, page.locator('.memory-card').first(), 3400)
       await click(page, page.getByRole('button', { name: '閉じる', exact: true }))
-      await click(page, page.locator('.memory-card').nth(2), 3200)
+      await click(
+        page,
+        page.getByRole('group', { name: '7日間の記録', exact: true }).getByRole('button').nth(5),
+      )
+      await click(page, page.locator('.memory-card').nth(1), 3200)
       await rememberPoster(page)
       await click(page, page.getByRole('button', { name: '閉じる', exact: true }))
     },
@@ -261,7 +275,7 @@ const scenes: Scene[] = [
     fixture: 'meal',
     photo: true,
     description:
-      'カレーの写真を提出し、料理の候補を確認して食卓へ。食事、XP獲得、料理カード獲得を経てひろばへ戻る。',
+      'カレーの写真を提出し、料理の候補を確認して食卓へ。食事、XP獲得、料理カード獲得、食後のレポートを経てひろばへ戻る。',
     run: async (page) => {
       await click(page, page.locator('.play-feed'))
       await page
@@ -299,6 +313,55 @@ for (const [index, original] of scenes.slice(0, 10).entries()) {
     format,
   })
 }
+
+const reportEdit: Scene = {
+  id: '23-report-and-edit-landscape',
+  title: '7日間のレポートを見て食事の記録を直す（横）',
+  description:
+    '7日間のグラフから日付を選び、今日の記録を開く。朝ごはんの内容を編集し、レポートへの反映を確認する。',
+  run: async (page) => {
+    await click(page, mainNav(page, 'レポート'), 2000)
+    const days = page
+      .getByRole('region', { name: '7日間のごはんバランス', exact: true })
+      .locator('.meal-week-day')
+    await click(page, days.nth(4), 1100)
+    await click(page, days.last(), 1100)
+    await click(page, page.getByRole('button', { name: 'この日の記録を見る', exact: true }), 1600)
+    await click(page, page.locator('.memory-card').filter({ hasText: '朝のおにぎり' }), 1600)
+    const dialog = page.getByRole('dialog')
+    await click(page, dialog.getByRole('button', { name: '記録を編集', exact: true }), 1200)
+    await dialog
+      .getByRole('textbox', { name: '食事の名前', exact: true })
+      .fill('おにぎりと卵と野菜')
+    await dialog
+      .getByRole('textbox', { name: '料理 1 の名前', exact: true })
+      .fill('おにぎり・ゆで卵・サラダ')
+    await click(page, dialog.getByRole('checkbox', { name: '肉・魚・卵・豆', exact: true }), 700)
+    await click(
+      page,
+      dialog.getByRole('checkbox', { name: '野菜・きのこ・海藻', exact: true }),
+      1500,
+    )
+    await click(page, dialog.getByRole('button', { name: '変更を保存', exact: true }), 1800)
+    await expect(dialog.getByRole('button', { name: '記録を編集', exact: true })).toBeVisible()
+    await click(page, dialog.getByRole('button', { name: '閉じる', exact: true }), 1100)
+    await click(
+      page,
+      page.getByRole('button', { name: 'この日のレポートを見る', exact: true }),
+      1800,
+    )
+    await page.locator('.meal-report-score').scrollIntoViewIfNeeded()
+    await pause(page, 2200)
+    await expect(page.locator('.meal-report-score strong')).toHaveText('100')
+    await rememberPoster(page)
+  },
+}
+scenes.push(reportEdit, {
+  ...reportEdit,
+  id: '24-report-and-edit-portrait',
+  title: '7日間のレポートを見て食事の記録を直す（縦）',
+  format: 'portrait',
+})
 
 async function capture(browser: Browser, baseURL: string, scene: Scene) {
   mkdirSync(output, { recursive: true })
@@ -362,6 +425,8 @@ async function capture(browser: Browser, baseURL: string, scene: Scene) {
       'libx264',
       '-preset',
       'medium',
+      '-threads',
+      '2',
       '-crf',
       '18',
       '-pix_fmt',
@@ -409,6 +474,8 @@ async function capture(browser: Browser, baseURL: string, scene: Scene) {
     },
   }
   writeFileSync(resolve(output, `${scene.id}.json`), `${JSON.stringify(record, null, 2)}\n`)
+  // Parallel capture batches merge these independent records after all workers finish.
+  if (process.env.PRESENTATION_VIDEO_DEFER_MANIFEST === '1') return
   const manifestPath = resolve(output, 'videos-manifest.json')
   const previous = existsSync(manifestPath) ? JSON.parse(readFileSync(manifestPath, 'utf8')) : []
   writeFileSync(
