@@ -3,6 +3,7 @@ import type { Page, Route } from '@playwright/test'
 import { Buffer } from 'node:buffer'
 import { recipes } from '../../src/app/game/browserGame'
 import {
+  enablePremium,
   journey,
   navigate,
   returnToPlaza,
@@ -191,6 +192,7 @@ test('photo recognition accepts an added recipe from the shared catalog', async 
 test('a late suggestion preserves a manually selected recipe and custom meal title', async ({
   page,
 }) => {
+  await enablePremium(page)
   const api = await mockRecognition(page)
   // Each edit must protect the user's choice on its own.
   for (const [index, edit] of ['title', 'recipe'].entries()) {
@@ -287,6 +289,7 @@ test('replacing a photo prevents an older response from replacing the latest rec
 test('failed, unknown and empty recognition responses still allow manually recording the meal', async ({
   page,
 }) => {
+  await enablePremium(page)
   const api = await mockRecognition(page)
   for (const [index, result] of [
     { candidates: [], status: 503 },
