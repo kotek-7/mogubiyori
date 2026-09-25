@@ -379,12 +379,14 @@ function App() {
         <main id="main" className={`play-main play-page-${page}`} tabIndex={-1}>
           {feedback}
           <Outlet />
-          <PlanAdvertisement
-            onOpenRecipes={() => {
-              setBookKind('recipes')
-              navigate('book')
-            }}
-          />
+          {page !== 'room' && (
+            <PlanAdvertisement
+              onOpenRecipes={() => {
+                setBookKind('recipes')
+                navigate('book')
+              }}
+            />
+          )}
         </main>
         <div className={showBookGuide ? 'play-guide-nav' : undefined} ref={bookGuide}>
           {showBookGuide && (
