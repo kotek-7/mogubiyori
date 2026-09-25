@@ -2,7 +2,7 @@
 
 この構成は、スマートフォン・PCのブラウザで利用するWebアプリを対象とする。画面はReact/ViteのSPA、HTTP APIはCloudflare Workers、認証・ゲーム保存・非公開写真はSupabaseを使う。初期利用はハッカソンや限定体験の数十人を想定する。
 
-Supabaseは無料プランの`mogubiyori`（project ref: `haocdgtvhhyrbavntrym`、Tokyo）を使用する。2026-09-25に匿名認証とDB・private Storageを設定し、公開サイトもcloud保存へ切り替えた。Google OAuth clientは未設定で、公開画面のGoogle操作は非表示。実際の利用枠は接続先ごとに確認する。
+Supabaseは無料プランの`mogubiyori`（project ref: `haocdgtvhhyrbavntrym`、Tokyo）を使用する。2026-09-25に匿名認証とDB・private Storageを設定し、公開サイトもcloud保存へ切り替えた。Google OAuth clientも設定済みで、設定画面から任意に連携できる。実際の利用枠は接続先ごとに確認する。
 
 実装前の費用試算・運用案は[2026-09-24の設計記録](./decisions/infrastructure-2026-09-24.md)に保存している。現在の実装範囲と接続手順は本書を参照する。
 
@@ -58,7 +58,7 @@ pnpm exec supabase config push --project-ref haocdgtvhhyrbavntrym
 
 [migration](../supabase/migrations/20260925000000_game.sql)は上記projectへ適用済み。以後の変更は新しいmigrationを追加し、dry-runで対象を確認してから適用する。初期SQLをSQL Editorで繰り返し実行しない。
 
-[config.toml](../supabase/config.toml)は公開origin、callback、匿名認証、identity linking、匿名登録の上限だけを宣言する。固定したCLIでは未宣言のリモート設定を維持するため、`supabase init`の全既定値で既存設定を上書きしない。push前にdiffの`update`を確認する。同じ会場Wi-Fiで数十人が開始できるよう、匿名登録の上限は100回/IP/時にしている。
+[config.toml](../supabase/config.toml)は公開origin、callback、匿名認証、identity linking、匿名登録の上限、Google providerを宣言する。Google Client Secretは`SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_SECRET`環境変数から渡す。configのdiff・pushはこの変数を設定したシェルで実行し、秘密値をコマンド出力やGitへ含めない。固定したCLIでは未宣言のリモート設定を維持するため、`supabase init`の全既定値で既存設定を上書きしない。push前にdiffの`update`を確認する。同じ会場Wi-Fiで数十人が開始できるよう、匿名登録の上限は100回/IP/時にしている。
 
 migrationは次を作成する。
 
@@ -100,6 +100,10 @@ Googleでの引き継ぎを使う場合は、次を設定する。匿名認証�
 3. Supabaseの[redirect allowlist](https://supabase.com/docs/guides/auth/redirect-urls)には、ゲームへ戻る`https://mogubiyori.kotek7.com/auth/callback`と、使用する開発originの`/auth/callback`を登録する。Google側のcallbackと、ゲームへ戻るURLは別々に設定する。
 4. Google providerの接続を確認してから、`VITE_GOOGLE_AUTH_ENABLED=true`で再ビルドする。公開環境はGitHubの同名リポジトリ変数も変更する。
 
+現在のGoogle Cloud projectは`mogubiyori-kotek7`、Web OAuth clientは`mogubiyori-web`。JavaScript originは`https://mogubiyori.kotek7.com`、Google側callbackは`https://haocdgtvhhyrbavntrym.supabase.co/auth/v1/callback`に限定している。クライアントの作成はGoogle Auth Platform Consoleで行い、Supabaseへの接続は上記CLI設定で管理する。
+
+Google側の対象はExternal、公開ステータスはTesting。登録スコープは`openid`・`userinfo.email`・`userinfo.profile`のみで、機密・制限付きスコープは追加していない。[Googleの公開対象の説明](https://support.google.com/cloud/answer/15549945?hl=en)では、この基本スコープだけを使うアプリはTestingのテストユーザー指定と7日失効の対象外になる。追加のGoogle API権限を要求する場合は、この例外に依存せず公開ステータス・審査要件を見直す。
+
 ブラウザ側はSupabase SDKのPKCE、callbackのセッション復元、トークン更新を使う。別端末などで既存のGoogleアカウントの記録を開く場合は、設定画面の「Googleで続きから」で`signInWithOAuth`を使う。Google identityが既に別ユーザーへ紐付いている場合も、匿名ユーザーとそのアカウントの記録を自動で合算しない。Google連携済みユーザーがログアウトすると、新しい匿名ユーザーで始まる。
 
 匿名ユーザーにはブラウザ外から復帰する認証手段がないため、引き継ぐときにGoogleを連携する。Turnstileの画面・captcha token送信は未実装なので、Bot対策を必須にする設定はその対応と合わせて行う。
@@ -132,9 +136,11 @@ GitHub Actionsの[CI/CD](../.github/workflows/ci.yml)はNode.js 24、`packageMan
 
 Cloudflare Vite pluginによるビルド結果は、静的ファイルが`dist/client/`、Worker本体と生成したWrangler設定が`dist/mogubiyori/`へ出力される。生成した設定はビルドごとに更新されるため、手で編集しない。リモート接続を使わずビルドする場合は`CLOUDFLARE_REMOTE_BINDINGS=false pnpm build`を使う。
 
-ビルド・公開手順は [README](../README.md) と`package.json`のscriptsを正本とする。現在の公開は`cloud`モードを使い、Google連携は無効にしている。GitHubの公開用変数とWorker Secretも設定済み。開発環境は引き続きSupabase設定がなければlocalになる。
+ビルド・公開手順は [README](../README.md) と`package.json`のscriptsを正本とする。現在の公開は`cloud`モードを使い、`VITE_GOOGLE_AUTH_ENABLED=true`でGoogle連携を有効にしている。GitHubの公開用変数とWorker Secretも設定済み。開発環境は引き続きSupabase設定がなければlocalになる。
 
 導入時は実環境で匿名登録、セッション更新後の食事再取得、同じ操作IDの再送、private写真の表示、別ユーザーからの写真取得拒否、ブラウザからのテーブル直接アクセス拒否を確認した。検証用ユーザーと写真は削除済み。公開HTMLとcloudビルドの一致、実ブラウザで認証画面を挟まない開始も確認した。Google認証と既存localセーブの取込はこの確認に含まれない。
+
+Google有効化時は、設定とSupabaseリモート設定の一致、正しいclient ID・callbackでの認可リダイレクト、公開画面の「Googleと連携する」からGoogleログイン画面への遷移を確認した。匿名記録を維持した連携・既存Google記録への切替・キャンセル・ログアウトの往復はmock E2Eで検証している。実Googleアカウントを選んだ後の同意・callback完了は未検証。
 
 ### GitHub Actionsの自動公開
 
