@@ -340,6 +340,27 @@ test('anonymous startup runs once under StrictMode and reuses the saved session 
   expect(cloud.blockedExternal).toEqual([])
 })
 
+test('Google availability follows deployment settings while anonymous saves still work', async ({
+  page,
+}) => {
+  const cloud = await mockCloud(page)
+  await begin(page)
+  await saveMeal(page, '自動保存のごはん')
+  await openSettings(page)
+  await expect(page.getByText('記録は自動で保存されています。', { exact: true })).toBeVisible()
+  if (process.env.E2E_GOOGLE_AUTH_ENABLED === 'false') {
+    await expect(page.getByRole('button', { name: /Google/ })).toHaveCount(0)
+    await expect(page.getByText('Googleと連携すると、ほかの端末でも続けられます。')).toHaveCount(0)
+  } else {
+    await expect(page.getByRole('button', { name: 'Googleと連携する', exact: true })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Googleで続きから', exact: true })).toBeVisible()
+  }
+  expect(cloud.oauthRequests).toEqual([])
+  expect(cloud.authRequests.filter((path) => path === '/auth/v1/signup')).toHaveLength(1)
+  expect(cloud.snapshot().state.meals[0].title).toBe('自動保存のごはん')
+  expect(cloud.blockedExternal).toEqual([])
+})
+
 test('failed anonymous authentication offers retry without entering a local game', async ({
   page,
 }) => {

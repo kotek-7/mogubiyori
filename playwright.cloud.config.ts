@@ -25,6 +25,7 @@ export default defineConfig({
       VITE_GAME_MODE: 'cloud',
       VITE_SUPABASE_URL: 'https://cloud-test.invalid',
       VITE_SUPABASE_PUBLISHABLE_KEY: 'test-publishable-key',
+      VITE_GOOGLE_AUTH_ENABLED: process.env.E2E_GOOGLE_AUTH_ENABLED ?? 'true',
     },
   },
 })

@@ -82,6 +82,7 @@ Workerのservice-role keyはRLSを迂回できるため、WorkerとRPCの所有�
 | `VITE_GAME_MODE`                | ブラウザのビルド環境                | `local`または`cloud`        |
 | `VITE_SUPABASE_URL`             | ブラウザのビルド環境                | cloudのSupabase project URL |
 | `VITE_SUPABASE_PUBLISHABLE_KEY` | ブラウザのビルド環境                | 公開可能なキー              |
+| `VITE_GOOGLE_AUTH_ENABLED`      | ブラウザのビルド環境                | Google設定後だけ`true`      |
 | `SUPABASE_URL`                  | Worker環境                          | 同じSupabase projectのURL   |
 | `SUPABASE_SERVICE_ROLE_KEY`     | Worker Secret / ローカル`.dev.vars` | サーバー専用キー            |
 | `SUPABASE_PHOTO_BUCKET`         | Worker環境                          | 既定`meal-photos`           |
@@ -92,11 +93,12 @@ Workerのservice-role keyはRLSを迂回できるため、WorkerとRPCの所有�
 
 Supabaseで[匿名サインイン](https://supabase.com/docs/guides/auth/auth-anonymous)を有効にする。cloudの起動時には保存済みセッションを復元し、セッションがなければ自動で匿名ユーザーを作成する。初回の認証方法選択やGoogleログインは通常のプレイ動線に置かない。匿名ユーザーも`auth.users`に登録され、同じユーザーIDでDBの記録を読み書きする。SQLの`anon`ロールによる未認証アクセスとは異なる。
 
-Googleでの引き継ぎを使う場合は、次を設定する。匿名認証とDB保存はGoogle未設定でも利用できる。
+Googleでの引き継ぎを使う場合は、次を設定する。匿名認証とDB保存はGoogle未設定でも利用できる。`VITE_GOOGLE_AUTH_ENABLED`は未指定・空・`false`でGoogleの説明と操作を非表示にし、`true`で表示する。それ以外の値はビルド時にエラーになる。
 
 1. [Google providerの公式手順](https://supabase.com/docs/guides/auth/social-login/auth-google)に従い、Google CloudでWeb applicationのOAuth clientを作成し、Client IDとClient SecretをSupabaseのGoogle providerへ登録する。GoogleのAuthorized redirect URIsには、Supabaseが表示する`https://<project-ref>.supabase.co/auth/v1/callback`を設定する。
 2. SupabaseのAuth設定で[manual identity linking](https://supabase.com/docs/guides/auth/auth-identity-linking#manual-linking-beta)を有効にする。設定画面の「Googleと連携する」は`linkIdentity`でGoogleを現在のユーザーに追加するため、匿名で育てた記録のユーザーIDは変わらない。
 3. Supabaseの[redirect allowlist](https://supabase.com/docs/guides/auth/redirect-urls)には、ゲームへ戻る`https://mogubiyori.kotek7.com/auth/callback`と、使用する開発originの`/auth/callback`を登録する。Google側のcallbackと、ゲームへ戻るURLは別々に設定する。
+4. Google providerの接続を確認してから、`VITE_GOOGLE_AUTH_ENABLED=true`で再ビルドする。公開環境はGitHubの同名リポジトリ変数も変更する。
 
 ブラウザ側はSupabase SDKのPKCE、callbackのセッション復元、トークン更新を使う。別端末などで既存のGoogleアカウントの記録を開く場合は、設定画面の「Googleで続きから」で`signInWithOAuth`を使う。Google identityが既に別ユーザーへ紐付いている場合も、匿名ユーザーとそのアカウントの記録を自動で合算しない。Google連携済みユーザーがログアウトすると、新しい匿名ユーザーで始まる。
 
@@ -149,6 +151,7 @@ GitHubのリポジトリ設定「Secrets and variables → Actions」に以下�
 | Variable | `VITE_GAME_MODE`                | `cloud`でDB保存へ切替。未設定は`local`     |
 | Variable | `VITE_SUPABASE_URL`             | cloudで使うSupabase project URL            |
 | Variable | `VITE_SUPABASE_PUBLISHABLE_KEY` | cloudで使う公開可能なキー                  |
+| Variable | `VITE_GOOGLE_AUTH_ENABLED`      | Google provider設定後だけ`true`にする      |
 
 この表のVariableはリポジトリ変数として登録する。本番用ビルドは`production`環境の公開jobより前に実行するため、environment変数だけでは参照できない。Workerの`SUPABASE_URL`と`SUPABASE_SERVICE_ROLE_KEY`は別途CloudflareのWorker Secretへ登録する。service-role keyやGoogle Client SecretをGitHubの`VITE_*`変数へ入れない。cloudへの切替は、DB migration・匿名サインイン・Worker接続を準備してから行う。Google providerとidentity linkingは任意の引き継ぎ機能用に設定する。
 

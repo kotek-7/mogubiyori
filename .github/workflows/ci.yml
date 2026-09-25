@@ -54,13 +54,16 @@ jobs:
       - name: Test local browser flows
         run: pnpm test:e2e --workers=2
       - name: Test cloud browser flows with mocked services
-        run: pnpm test:cloud
+        run: |
+          pnpm test:cloud
+          E2E_GOOGLE_AUTH_ENABLED=false pnpm test:cloud --grep 'Google availability follows deployment settings'
       - name: Build production bundles with deployment settings
         if: github.repository == 'kotek-7/mogubiyori' && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         env:
           VITE_GAME_MODE: ${{ vars.VITE_GAME_MODE || 'local' }}
           VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_GOOGLE_AUTH_ENABLED: ${{ vars.VITE_GOOGLE_AUTH_ENABLED || 'false' }}
         run: |
           case "$VITE_GAME_MODE" in
             local) ;;

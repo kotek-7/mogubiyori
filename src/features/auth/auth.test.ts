@@ -19,6 +19,7 @@ describe('runtime storage mode', () => {
       mode: 'cloud',
       url: cloud.VITE_SUPABASE_URL,
       publishableKey: cloud.VITE_SUPABASE_PUBLISHABLE_KEY,
+      googleAuthEnabled: false,
     })
     expect(readRuntimeConfig({ ...connection, VITE_GAME_MODE: 'local' })).toEqual({ mode: 'local' })
   })
@@ -37,6 +38,7 @@ describe('runtime storage mode', () => {
       mode: 'cloud',
       url: cloud.VITE_SUPABASE_URL,
       publishableKey: cloud.VITE_SUPABASE_PUBLISHABLE_KEY,
+      googleAuthEnabled: false,
     })
     expect(
       readRuntimeConfig({ ...cloud, VITE_SUPABASE_URL: 'http://127.0.0.1:54321' }),
@@ -65,5 +67,28 @@ describe('runtime storage mode', () => {
 
   it.each(['', 'auto', 'cluod', false])('rejects an unknown mode %s', (mode) => {
     expect(() => readRuntimeConfig({ ...cloud, VITE_GAME_MODE: mode })).toThrow('VITE_GAME_MODE')
+  })
+
+  it.each([undefined, '', 'false'])(
+    'leaves Google disabled unless explicitly enabled: %s',
+    (flag) => {
+      expect(readRuntimeConfig({ ...cloud, VITE_GOOGLE_AUTH_ENABLED: flag })).toMatchObject({
+        mode: 'cloud',
+        googleAuthEnabled: false,
+      })
+    },
+  )
+
+  it('enables optional Google actions only with true', () => {
+    expect(readRuntimeConfig({ ...cloud, VITE_GOOGLE_AUTH_ENABLED: 'true' })).toMatchObject({
+      mode: 'cloud',
+      googleAuthEnabled: true,
+    })
+  })
+
+  it.each(['yes', 'TRUE', '0', true, false])('rejects an invalid Google setting %s', (flag) => {
+    expect(() => readRuntimeConfig({ ...cloud, VITE_GOOGLE_AUTH_ENABLED: flag })).toThrow(
+      'VITE_GOOGLE_AUTH_ENABLED',
+    )
   })
 })

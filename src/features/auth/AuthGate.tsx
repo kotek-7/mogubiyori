@@ -8,7 +8,7 @@ import { createCloudGameGateway } from '../../app/game/cloudGameGateway'
 import type { GameGateway } from '../../app/game/gameGateway'
 import { ensureAnonymousSession } from './anonymousSession'
 
-type AuthContextValue = { client: SupabaseClient; session: Session }
+type AuthContextValue = { client: SupabaseClient; session: Session; googleAuthEnabled: boolean }
 const AuthContext = createContext<AuthContextValue | null>(null)
 const useCloudAuth = () => useContext(AuthContext)
 // Supabase owns listeners and refresh timers: use one client per browser tab,
@@ -92,7 +92,11 @@ function CloudGate({
       </main>
     )
   if (session && gateway)
-    return <AuthContext value={{ client, session }}>{children(gateway)}</AuthContext>
+    return (
+      <AuthContext value={{ client, session, googleAuthEnabled: config.googleAuthEnabled }}>
+        {children(gateway)}
+      </AuthContext>
+    )
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col items-center justify-center gap-5 p-6 text-center">
       <h1>{oauthReturn ? 'Googleとの連携を完了できませんでした' : '接続できませんでした'}</h1>
@@ -148,37 +152,49 @@ export function AccountSettings() {
   }
   return (
     <section className="my-5 flex flex-col gap-3" aria-label="アカウント">
-      <h3>記録の引き継ぎ</h3>
+      <h3>{auth.googleAuthEnabled ? '記録の引き継ぎ' : '記録の保存'}</h3>
       {auth.session.user.is_anonymous ? (
         <>
-          <p>記録は自動で保存されています。Googleと連携すると、ほかの端末でも続けられます。</p>
-          <p>連携せずにブラウザーのデータを消すと、この記録には戻れなくなります。</p>
-          <button
-            className="secondary-button full"
-            disabled={busy}
-            onClick={() => void accountAction('link')}
-          >
-            Googleと連携する
-          </button>
-          <button className="quiet-button" disabled={busy} onClick={() => setRestore(true)}>
-            Googleで続きから
-          </button>
-          {restore && (
-            <div className="flex flex-col gap-3">
-              <p>
-                以前Googleと連携した記録を開きます。今の記録は合算されません。今の記録を残したい場合は、先に「Googleと連携する」を選んでください。
-              </p>
+          <p>記録は自動で保存されています。</p>
+          <p>
+            {auth.googleAuthEnabled ? '連携せずに' : ''}
+            ブラウザーのデータを消すと、この記録には戻れなくなります。
+          </p>
+          {auth.googleAuthEnabled && (
+            <>
+              <p>Googleと連携すると、ほかの端末でも続けられます。</p>
               <button
                 className="secondary-button full"
                 disabled={busy}
-                onClick={() => void accountAction('restore')}
+                onClick={() => void accountAction('link')}
               >
-                Googleの記録を開く
+                Googleと連携する
               </button>
-              <button className="quiet-button" disabled={busy} onClick={() => setRestore(false)}>
-                やめる
+              <button className="quiet-button" disabled={busy} onClick={() => setRestore(true)}>
+                Googleで続きから
               </button>
-            </div>
+              {restore && (
+                <div className="flex flex-col gap-3">
+                  <p>
+                    以前Googleと連携した記録を開きます。今の記録は合算されません。今の記録を残したい場合は、先に「Googleと連携する」を選んでください。
+                  </p>
+                  <button
+                    className="secondary-button full"
+                    disabled={busy}
+                    onClick={() => void accountAction('restore')}
+                  >
+                    Googleの記録を開く
+                  </button>
+                  <button
+                    className="quiet-button"
+                    disabled={busy}
+                    onClick={() => setRestore(false)}
+                  >
+                    やめる
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </>
       ) : (

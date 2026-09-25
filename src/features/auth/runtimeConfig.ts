@@ -1,5 +1,6 @@
 export type RuntimeConfig =
-  { mode: 'local' } | { mode: 'cloud'; url: string; publishableKey: string }
+  | { mode: 'local' }
+  | { mode: 'cloud'; url: string; publishableKey: string; googleAuthEnabled: boolean }
 
 export function readRuntimeConfig(env: Record<string, unknown>): RuntimeConfig {
   const configured =
@@ -28,5 +29,8 @@ export function readRuntimeConfig(env: Record<string, unknown>): RuntimeConfig {
     !publishableKey.trim()
   )
     throw new Error('Cloud mode requires VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY')
-  return { mode, url, publishableKey }
+  const googleFlag = env.VITE_GOOGLE_AUTH_ENABLED ?? 'false'
+  if (googleFlag !== '' && googleFlag !== 'true' && googleFlag !== 'false')
+    throw new Error('VITE_GOOGLE_AUTH_ENABLED must be true or false')
+  return { mode, url, publishableKey, googleAuthEnabled: googleFlag === 'true' }
 }
