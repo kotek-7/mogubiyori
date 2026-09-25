@@ -2,7 +2,7 @@ import { expect, test, type Page } from '@playwright/test'
 import { execFileSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { initialGame, todayTokyo, type GameState } from '../../src/app/game/browserGame'
+import { initialGame, shiftDay, todayTokyo, type GameState } from '../../src/app/game/browserGame'
 import { navigate, waitForSceneMotion } from '../../tests/e2e/helpers'
 import { presentationSave } from './screens-fixture'
 
@@ -86,7 +86,7 @@ function captureFor(page: Page, layout: Layout, entries: Capture[] = []) {
         {
           title: 'もぐ日和 発表用スクリーンショット',
           captureMode: 'Vite test / VITE_GAME_MODE=local / isolated fictional save',
-          note: '実アプリの画面をそのまま撮影。収集数・育成状況・所持金・記録は発表用デモデータ。カレー写真は AI 生成素材。写真判定候補は撮影用の固定応答。',
+          note: '実アプリの画面をそのまま撮影。収集数・育成状況・所持金・7日分の食事と食品グループは発表用デモデータ。レポートの点数は実装の集計結果で、栄養量やカロリーの実測値ではない。カレー写真は AI 生成素材。写真判定候補は撮影用の固定応答。',
           screenshots: [...preserved, entries.at(-1)],
         },
         null,
@@ -247,7 +247,8 @@ for (const layout of [
       await shot('42-hat-preview', '帽子を試着する', 'item-detail')
       await close()
 
-      await seed(page, state, '/album')
+      const latestDay = shiftDay(state.today, -1)
+      await seed(page, state, `/album?day=${latestDay}&end=${latestDay}`)
       await shot('50-meal-album', 'これまでのごはんの記録', 'album')
       await page.locator('.memory-card').first().click()
       await shot('51-meal-detail', 'ごはんの記録の詳細', 'album-detail')
@@ -306,7 +307,12 @@ for (const layout of [
       const state = presentationSave()
       state.xp = 270
       state.companions = [{ id: 'komugi', xp: 270, joinedDay: state.companions[0].joinedDay }]
-      state.meals = state.meals.slice(0, 6)
+      state.meals = [...new Map(state.meals.map((meal) => [meal.day, meal])).values()]
+        .slice(0, 6)
+        .map((meal) => ({ ...meal, targetId: 'komugi' as const }))
+      state.mealRecords = state.mealRecords?.filter((record) =>
+        state.meals.some((meal) => meal.mealRecordId === record.id),
+      )
       state.cards = []
       state.owned = ['none', 'neck-none', 'bag-none', 'plain']
       await seed(page, state)
@@ -325,12 +331,14 @@ for (const layout of [
         arrivals: '新しいお客さんが来る',
         streak: '7日連続の自炊を達成',
         gift: '7日のおくりものを受け取る',
+        mealReport: '食後に今日のごはんを振り返る',
       }
       const eating = page.locator('[data-scene="eating"]')
       if (await eating.count())
         await eating.getByRole('button', { name: '早送り', exact: true }).click()
-      for (let step = 0; step < 8; step += 1) {
+      for (let step = 0; step < 10; step += 1) {
         await waitForSceneMotion(page)
+        if (!(await page.locator('main.journey-screen').count())) break
         const scene = await page
           .locator('main.journey-screen')
           .getAttribute('data-scene')
@@ -342,7 +350,6 @@ for (const layout of [
           .getByRole('button', { name: /^(つづける|ひろばへ)$/ })
         await expect(next).toBeEnabled()
         await next.click()
-        if (scene === 'gift') break
       }
       await seed(page, presentationSave(), '/book')
       await page
@@ -354,6 +361,54 @@ for (const layout of [
         .locator('.friend-board')
         .evaluate((element) => element.scrollIntoView({ block: 'start' }))
       await shot('37-companions-focus', 'なかまのカード一覧', 'book-companions')
+    })
+    test('capture report and record flows', async ({ page }) => {
+      const shot = captureFor(page, layout)
+      const state = presentationSave()
+      const latestDay = shiftDay(state.today, -1)
+      await seed(page, state, `/reports?day=${latestDay}&end=${latestDay}`)
+      await expect(page.getByRole('heading', { name: '自炊レポート', exact: true })).toBeVisible()
+      await expect(page.locator('.meal-week-day')).toHaveCount(7)
+      await shot('90-weekly-report', '7日間の自炊レポート', 'reports-week')
+      await page
+        .getByRole('region', { name: 'ごはんのバランス', exact: true })
+        .scrollIntoViewIfNeeded()
+      await shot('91-daily-report', '選んだ日のごはんのバランス', 'reports-day')
+      await page.getByRole('button', { name: 'この日の記録を見る', exact: true }).click()
+      await page.locator('.memory-card').first().click()
+      await page
+        .getByRole('dialog')
+        .getByRole('button', { name: '記録を編集', exact: true })
+        .click()
+      await shot('92-record-editor', '食事の記録を編集する', 'record-editor')
+      await page
+        .getByRole('dialog')
+        .getByRole('button', { name: '編集をやめる', exact: true })
+        .click()
+      await page.getByRole('dialog').getByRole('button', { name: '閉じる', exact: true }).click()
+      await page.getByLabel('表示する日', { exact: true }).fill(shiftDay(state.today, -3))
+      await expect(page.locator('.memory-card')).toHaveCount(3)
+      await shot('93-record-date-selection', '日付を選んで食事を振り返る', 'records-date')
+      await page.getByRole('button', { name: '自炊を記録する', exact: true }).click()
+      await page.getByRole('button', { name: '写真なしで体験する', exact: true }).click()
+      await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
+      await page.getByRole('searchbox', { name: '名前・材料で検索' }).fill('カレー')
+      await page.getByRole('button', { name: 'カレーを選ぶ', exact: true }).click()
+      await page.locator('summary').filter({ hasText: '食事の内容を確認' }).click()
+      await page.getByRole('combobox', { name: '食事の時間', exact: true }).selectOption('dinner')
+      await page.getByRole('checkbox', { name: '肉・魚・卵・豆', exact: true }).check()
+      await page.getByRole('combobox', { name: '量', exact: true }).selectOption('regular')
+      await page.locator('.meal-record-fields').scrollIntoViewIfNeeded()
+      await shot('94-meal-content-fields', '作った料理の内容を確認する', 'meal-content')
+      await page.getByRole('button', { name: '一品追加', exact: true }).click()
+      const salad = page.getByRole('group', { name: '料理 2', exact: true })
+      await salad
+        .getByRole('textbox', { name: '料理 2 の名前', exact: true })
+        .fill('トマトのサラダ')
+      await salad.getByRole('checkbox', { name: '野菜・きのこ・海藻', exact: true }).check()
+      await salad.getByRole('combobox', { name: '量', exact: true }).selectOption('regular')
+      await salad.scrollIntoViewIfNeeded()
+      await shot('95-meal-add-side-dish', '食事の記録に一品追加する', 'meal-add-item')
     })
   })
 }
