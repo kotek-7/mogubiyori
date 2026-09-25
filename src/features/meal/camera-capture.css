@@ -1,0 +1,65 @@
+.meal-camera-dialog {
+  width: min(100% - 24px, 480px);
+  max-height: calc(100dvh - 24px);
+  margin: auto;
+  padding: 16px;
+  overflow: auto;
+  border: 1px solid var(--game-line-strong);
+  border-radius: var(--game-radius-card);
+  background: var(--game-surface);
+  color: var(--game-ink);
+}
+.meal-camera-dialog::backdrop {
+  background: #232b24b3;
+}
+.meal-camera-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.meal-camera-header h2 {
+  margin: 0;
+  font-size: 18px;
+}
+.meal-camera-preview {
+  position: relative;
+  display: grid;
+  min-height: 150px;
+  aspect-ratio: 1;
+  max-height: 55dvh;
+  overflow: hidden;
+  border-radius: var(--game-radius-card);
+  background: #242a24;
+  color: #fff;
+}
+.meal-camera-preview video {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+}
+.meal-camera-preview p {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 16px;
+  text-align: center;
+  font-size: 14px;
+}
+.meal-camera-dialog > [role='alert'] {
+  margin: 12px 0 0;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.meal-camera-actions {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+.meal-camera-actions > button {
+  width: 100%;
+}
