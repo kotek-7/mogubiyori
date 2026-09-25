@@ -121,7 +121,7 @@ export function TutorialFirstPhoto({
       </div>
       <TutorialGuide
         action={{
-          label: loading ? '読み込み中' : photo ? 'この写真を使う' : '料理の写真を撮る',
+          label: loading ? '読み込み中' : photo ? 'この写真でごはんをあげる' : '料理の写真を撮る',
           onClick: photo ? submit : () => setCameraOpen(true),
           disabled: loading,
         }}

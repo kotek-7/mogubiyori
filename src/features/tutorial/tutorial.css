@@ -39,6 +39,43 @@
   background: none;
   padding-inline: 0;
 }
+.tutorial-playback {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-size: 11px;
+  color: var(--game-muted);
+}
+.tutorial-playback > div {
+  display: flex;
+  gap: 4px;
+}
+.tutorial-playback button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 36px;
+  padding: 4px 8px;
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-control);
+  background: var(--game-surface);
+  color: var(--game-ink);
+  font: inherit;
+  cursor: pointer;
+}
+.tutorial-playback button:focus-visible {
+  outline: 3px solid var(--game-action);
+  outline-offset: 2px;
+}
+.tutorial-lesson[data-playing='false'] *,
+.tutorial-lesson[data-playing='false'] *::before,
+.tutorial-lesson[data-playing='false'] *::after {
+  animation-play-state: paused !important;
+}
 .tutorial-meal-world {
   position: relative;
   height: 235px;
@@ -303,7 +340,15 @@
     border-radius: var(--game-radius-card);
   }
   .tutorial-evolution {
-    height: 220px;
+    height: 185px;
+  }
+  .tutorial-evolution > .pet-art {
+    width: 235px;
+    height: 235px;
+  }
+  .tutorial-evolution-ring {
+    width: 180px;
+    height: 180px;
   }
 }
 @media (max-height: 700px) {
@@ -348,6 +393,20 @@
   }
   .tutorial-lesson {
     max-width: 360px;
+  }
+  .tutorial-playback {
+    margin-bottom: 4px;
+  }
+  .tutorial-playback button {
+    min-height: 32px;
+  }
+  .journey-screen:has(.tutorial-playback) .journey-title {
+    font-size: 20px;
+    min-height: 2.6em;
+    line-height: 1.3;
+  }
+  .tutorial-friend-guide > .tutorial-guide {
+    margin-top: 0;
   }
   .tutorial-example {
     margin-bottom: 6px;
@@ -398,7 +457,7 @@
     margin-block: 6px;
   }
   .tutorial-evolution {
-    height: 100px;
+    height: 90px;
   }
   .tutorial-evolution > .pet-art {
     width: 128px;
@@ -418,7 +477,7 @@
     gap: 5px;
   }
   .tutorial-form-trail li > div {
-    height: 48px;
+    height: 40px;
   }
   .tutorial-form-trail li > span {
     font-size: 9px;

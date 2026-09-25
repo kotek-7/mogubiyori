@@ -391,7 +391,6 @@
 .tutorial-recipe-target,
 .tutorial-recipe-slot.is-filled.tutorial-recipe-target {
   color: var(--game-ink);
-  cursor: pointer;
   animation: tutorial-recipe-beacon 1.8s ease-in-out infinite;
   border: 2px solid var(--game-action);
   background: var(--game-action-soft);

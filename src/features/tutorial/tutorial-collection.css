@@ -602,11 +602,22 @@
     top: 7px;
   }
   .tutorial-friend-home {
-    height: 104px;
+    height: 90px;
   }
   .tutorial-friend-home-pet {
-    width: 180px;
-    height: 180px;
+    width: 165px;
+    height: 165px;
+  }
+  .tutorial-friend-roster .tutorial-friend-portrait {
+    height: 55px;
+  }
+  .tutorial-friend-roster li:not(.is-new) .pet-art {
+    width: 80px;
+    height: 80px;
+  }
+  .tutorial-friend-roster li.is-new .pet-art {
+    width: 120px;
+    height: 120px;
   }
   .tutorial-friend-growth {
     padding: 6px 10px;

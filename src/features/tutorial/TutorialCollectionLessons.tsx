@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { BookOpen, Heart, Utensils } from 'lucide-react'
 import { DishArt, GatheringScene, Pet } from '../../ui/art/GameArt'
 import { TutorialGuide } from './TutorialGuide'
+import { useTutorialPlayback } from './useTutorialPlayback'
 import { species } from '../../app/game/browserGame'
 import type { SpeciesId } from '../../app/game/browserGame'
 
@@ -9,113 +10,73 @@ type FriendPhase = 'waiting' | 'aroma' | 'noticed' | 'visiting' | 'joined' | 'ho
 
 export function TutorialFriends({
   speciesId,
+  playing,
   onReady,
   onPhaseChange,
 }: {
   speciesId: SpeciesId
+  playing: boolean
   onReady: () => void
   onPhaseChange?: (phase: Exclude<FriendPhase, 'waiting'>) => void
 }) {
   const guest = species.find((friend) => friend.id !== speciesId)!
   const host = species.find((friend) => friend.id === speciesId)!
   const [phase, setPhase] = useState<FriendPhase>('waiting')
-  const currentPhase = useRef(phase)
-  const [visitorReadyPhase, setVisitorReadyPhase] = useState<FriendPhase | null>(null)
-  const visitorReady = visitorReadyPhase === phase
+  const [reducedMotion] = useState(
+    () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  )
   const [isEating, setIsEating] = useState(false)
-  const feeding = useRef(false)
   const [joined, setJoined] = useState<SpeciesId | null>(null)
   const completed = useRef(false)
-  const guide = useRef<HTMLDivElement>(null)
-  const status = useRef<HTMLParagraphElement>(null)
-  const homeStatus = useRef<HTMLDivElement>(null)
   const newFriend = joined ? guest : undefined
 
-  useEffect(() => {
-    if (phase === 'aroma' || ((phase === 'noticed' || phase === 'visiting') && visitorReady))
-      guide.current?.querySelector('button')?.focus({ preventScroll: true })
-    if (phase === 'joined') status.current?.focus({ preventScroll: true })
-    if (phase === 'home') homeStatus.current?.focus({ preventScroll: true })
-  }, [phase, visitorReady])
-
-  useEffect(() => {
-    if (phase !== 'noticed' && phase !== 'visiting') return
-    const delay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 1800
-    const timer = window.setTimeout(() => setVisitorReadyPhase(phase), delay)
-    return () => window.clearTimeout(timer)
-  }, [phase])
-
-  useEffect(() => {
-    if (!isEating || phase !== 'visiting') return
-    const timer = window.setTimeout(() => {
-      setJoined(guest.id)
-      currentPhase.current = 'joined'
-      setPhase('joined')
-      onPhaseChange?.('joined')
-    }, 1700)
-    return () => window.clearTimeout(timer)
-  }, [isEating, phase, guest.id, onPhaseChange])
-
   function changePhase(next: Exclude<FriendPhase, 'waiting'>) {
-    currentPhase.current = next
     setPhase(next)
     onPhaseChange?.(next)
   }
 
-  function inviteVisitors() {
-    if (currentPhase.current !== 'waiting') return
-    changePhase('aroma')
+  const delay: Record<FriendPhase, number | null> = {
+    waiting: 1400,
+    aroma: 1600,
+    noticed: reducedMotion ? 1200 : 1800,
+    visiting: isEating ? 1700 : reducedMotion ? 1200 : 1800,
+    joined: 1600,
+    home: null,
   }
 
-  function lookForGuest() {
-    if (currentPhase.current !== 'aroma') return
-    changePhase('noticed')
-  }
-
-  function inviteGuestCloser() {
-    if (currentPhase.current !== 'noticed' || !visitorReady) return
-    changePhase('visiting')
-  }
-
-  function giveMeal() {
-    if (currentPhase.current !== 'visiting' || !visitorReady || feeding.current) return
-    feeding.current = true
-    setIsEating(true)
-  }
-
-  function callFriend() {
-    if (!joined || currentPhase.current !== 'joined' || completed.current) return
-    completed.current = true
-    changePhase('home')
-    onReady()
-  }
-
-  const guidance: Record<FriendPhase, string> = {
-    waiting: 'わんぱくまで育った子にごはんをあげてみましょう。',
-    aroma: 'おいしそうな匂いが広がっています。',
-    noticed: 'ごはんの匂いにつられて、もぐが歩いてきます。',
-    visiting: visitorReady
-      ? 'ごはんの匂いに誘われて来たお客さんにもごちそうしましょう。'
-      : '匂いをたどって、近くまで歩いてきます。',
-    joined: `${guest.name}がなかまになりました。`,
-    home: 'わんぱくまで育つと、ごはんの匂いで別のもぐがやってきます。ごはんをあげてなかまにしたら、一匹ずつ育てましょう。',
-  }
-  const action =
-    phase === 'waiting'
-      ? { label: `${host.name}にごはんをあげる`, onClick: inviteVisitors }
-      : phase === 'aroma'
-        ? { label: '匂いの先を見る', onClick: lookForGuest }
-        : phase === 'noticed'
-          ? { label: '近くに呼ぶ', onClick: inviteGuestCloser, disabled: !visitorReady }
-          : phase === 'visiting'
-            ? {
-                label: isEating ? '食事中' : `${guest.name}にごはんをあげる`,
-                onClick: giveMeal,
-                disabled: isEating || !visitorReady,
-              }
-            : phase === 'joined'
-              ? { label: `${guest.name}をひろばに呼ぶ`, onClick: callFriend }
-              : undefined
+  useTutorialPlayback(
+    `${phase}-${isEating}`,
+    () => {
+      switch (phase) {
+        case 'waiting':
+          changePhase('aroma')
+          break
+        case 'aroma':
+          changePhase('noticed')
+          break
+        case 'noticed':
+          changePhase('visiting')
+          break
+        case 'visiting':
+          if (!isEating) setIsEating(true)
+          else {
+            setJoined(guest.id)
+            changePhase('joined')
+          }
+          break
+        case 'joined':
+          if (completed.current) return
+          completed.current = true
+          changePhase('home')
+          onReady()
+          break
+        case 'home':
+          break
+      }
+    },
+    delay[phase],
+    playing,
+  )
 
   return (
     <div className="tutorial-collection-lesson tutorial-friends-lesson" data-phase={phase}>
@@ -148,7 +109,7 @@ export function TutorialFriends({
           {(phase === 'noticed' || phase === 'visiting') && (
             <div className="tutorial-arriving-guest">
               <div
-                className={`tutorial-visitor-character ${phase === 'noticed' ? 'is-distant' : 'is-near'}${!visitorReady ? ' is-walking' : ''}`}
+                className={`tutorial-visitor-character ${phase === 'noticed' ? 'is-distant' : 'is-near'}${!isEating ? ' is-walking' : ''}`}
               >
                 <div className="tutorial-friend-portrait" aria-hidden="true">
                   <Pet species={guest.id} stage={0} mood={isEating ? 'eating' : 'hungry'} />
@@ -174,13 +135,7 @@ export function TutorialFriends({
       )}
       {phase === 'joined' && newFriend && (
         <>
-          <p
-            className="tutorial-collection-result sr-only"
-            role="status"
-            aria-atomic="true"
-            ref={status}
-            tabIndex={-1}
-          >
+          <p className="tutorial-collection-result sr-only" role="status" aria-atomic="true">
             {newFriend.name}がなかまになりました
           </p>
           <section className="tutorial-friend-roster" aria-label="なかま 2匹">
@@ -212,13 +167,7 @@ export function TutorialFriends({
               <Pet species={newFriend.id} stage={0} mood="happy" />
             </div>
           </div>
-          <div
-            className="tutorial-friend-growth"
-            role="status"
-            aria-atomic="true"
-            ref={homeStatus}
-            tabIndex={-1}
-          >
+          <div className="tutorial-friend-growth" role="status" aria-atomic="true">
             <div className="tutorial-friend-growth-heading">
               <strong>{newFriend.name}</strong>
               <span>うまれたて</span>
@@ -238,8 +187,10 @@ export function TutorialFriends({
           </div>
         </>
       )}
-      <div className="tutorial-friend-guide" ref={guide}>
-        <TutorialGuide action={action}>{guidance[phase]}</TutorialGuide>
+      <div className="tutorial-friend-guide">
+        <TutorialGuide>
+          わんぱくまで育った子にごはんをあげると、匂いで別のもぐがやってきます。お客さんにもごはんをあげるとなかまに。一匹ずつ育てましょう。
+        </TutorialGuide>
       </div>
     </div>
   )

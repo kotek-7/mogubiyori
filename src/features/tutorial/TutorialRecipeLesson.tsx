@@ -1,9 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { BookOpen, Check, Clock3, Coins, Hand, Sparkles } from 'lucide-react'
+import { BookOpen, Check, Clock3, Coins, Sparkles } from 'lucide-react'
 import { DishArt } from '../../ui/art/GameArt'
 import { RecipeArt } from '../../ui/art/RecipeArt'
 import { TutorialGuide } from './TutorialGuide'
-import { TutorialPhotoExample, type TutorialPhotoPhase } from './TutorialPhotoExample'
+import {
+  TutorialPhotoExample,
+  tutorialCardsGuide,
+  type TutorialPhotoPhase,
+} from './TutorialPhotoExample'
+import { useTutorialPlayback } from './useTutorialPlayback'
 import { recipes } from '../../app/game/browserGame'
 
 export type TutorialCardPhase = TutorialPhotoPhase | 'earned' | 'board' | 'browse' | 'recipe'
@@ -20,9 +25,11 @@ const sceneLabels: Record<Exclude<Phase, TutorialPhotoPhase>, string> = {
 export function TutorialCards({
   onReady,
   onPhaseChange,
+  playing,
 }: {
   onReady: () => void
   onPhaseChange?: (phase: NextPhase) => void
+  playing: boolean
 }) {
   const curry = recipes.find((recipe) => recipe.id === 'curry')!
   const onigiri = recipes.find((recipe) => recipe.id === 'onigiri')!
@@ -31,7 +38,7 @@ export function TutorialCards({
   const currentPhase = useRef<Phase>('cooking')
   const completed = useRef(false)
   const reducedMotion = useRef(false)
-  const scene = useRef<HTMLDivElement>(null)
+  const coinElapsed = useRef(0)
   const changePhotoPhase = useCallback(
     (next: TutorialPhotoPhase) => {
       currentPhase.current = next
@@ -42,26 +49,29 @@ export function TutorialCards({
   )
 
   useEffect(() => {
-    if (phase !== 'cooking') scene.current?.focus({ preventScroll: true })
-  }, [phase])
-
-  useEffect(() => {
-    if (phase !== 'earned' || reducedMotion.current) return
+    if (phase !== 'earned' || !playing || reducedMotion.current) return
     let frame = 0
-    let start: number | undefined
+    let previous: number | undefined
+    function resetClock() {
+      previous = undefined
+    }
     function countCoins(time: number) {
-      start ??= time
-      const progress = Math.min((time - start) / 800, 1)
+      if (previous !== undefined && !document.hidden) coinElapsed.current += time - previous
+      previous = time
+      const progress = Math.min(coinElapsed.current / 800, 1)
       setCoins(Math.round(curry.reward * (1 - (1 - progress) ** 3)))
       if (progress < 1) frame = requestAnimationFrame(countCoins)
     }
+    document.addEventListener('visibilitychange', resetClock)
     frame = requestAnimationFrame(countCoins)
-    return () => cancelAnimationFrame(frame)
-  }, [phase, curry.reward])
+    return () => {
+      cancelAnimationFrame(frame)
+      document.removeEventListener('visibilitychange', resetClock)
+    }
+  }, [phase, curry.reward, playing])
 
   function advance(from: Phase, to: NextPhase) {
     if (currentPhase.current !== from) return
-    if (from === 'earned' && coins < curry.reward) return
     currentPhase.current = to
     if (to === 'earned') {
       reducedMotion.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -75,11 +85,23 @@ export function TutorialCards({
     }
   }
 
+  useTutorialPlayback(
+    phase,
+    () => {
+      if (phase === 'earned') advance('earned', 'board')
+      if (phase === 'board') advance('board', 'browse')
+      if (phase === 'browse') advance('browse', 'recipe')
+    },
+    phase === 'earned' ? 1800 : phase === 'board' || phase === 'browse' ? 1600 : null,
+    playing,
+  )
+
   if (phase === 'cooking' || phase === 'capturing' || phase === 'photo') {
     return (
       <TutorialPhotoExample
         onSubmit={() => advance('photo', 'earned')}
         onPhaseChange={changePhotoPhase}
+        playing={playing}
       />
     )
   }
@@ -90,8 +112,6 @@ export function TutorialCards({
         className={`tutorial-recipe-scene tutorial-recipe-scene-${phase}`}
         role="group"
         aria-label={sceneLabels[phase]}
-        ref={scene}
-        tabIndex={-1}
       >
         {phase === 'earned' && (
           <div className="tutorial-recipe-earned-stage">
@@ -144,11 +164,10 @@ export function TutorialCards({
             </div>
             <div className="tutorial-recipe-board">
               {phase === 'board' ? (
-                <button
-                  type="button"
+                <div
                   className="tutorial-recipe-slot is-filled tutorial-recipe-target"
-                  aria-label="追加されたカレーを確認する"
-                  onClick={() => advance('board', 'browse')}
+                  aria-label="カレーのカード ずかんに追加済み"
+                  role="group"
                 >
                   <DishArt kind={curry.sample} />
                   <strong>{curry.name}</strong>
@@ -156,8 +175,7 @@ export function TutorialCards({
                     <Check size={10} aria-hidden="true" />
                     追加済み
                   </span>
-                  <Hand className="tutorial-recipe-pointer" size={25} aria-hidden="true" />
-                </button>
+                </div>
               ) : (
                 <div
                   className="tutorial-recipe-slot is-filled"
@@ -173,17 +191,15 @@ export function TutorialCards({
                 </div>
               )}
               {phase === 'browse' ? (
-                <button
-                  type="button"
+                <div
                   className="tutorial-recipe-slot tutorial-recipe-target"
-                  aria-label="おにぎりのレシピを見る"
-                  onClick={() => advance('browse', 'recipe')}
+                  aria-label="おにぎりのカード 未獲得でもレシピを見られます"
+                  role="group"
                 >
                   <RecipeArt recipe={onigiri} silhouette />
                   <strong>おにぎり</strong>
                   <span className="tutorial-recipe-open-label">レシピを見る</span>
-                  <Hand className="tutorial-recipe-pointer" size={25} aria-hidden="true" />
-                </button>
+                </div>
               ) : (
                 <div className="tutorial-recipe-slot tutorial-recipe-unavailable">
                   <RecipeArt recipe={onigiri} silhouette />
@@ -225,7 +241,7 @@ export function TutorialCards({
                   <li key={ingredient}>{ingredient}</li>
                 ))}
               </ul>
-              <details className="tutorial-recipe-method">
+              <details className="tutorial-recipe-method" open>
                 <summary>作り方</summary>
                 <ol>
                   {onigiri.steps.map((step) => (
@@ -237,30 +253,7 @@ export function TutorialCards({
           </section>
         )}
       </div>
-      {phase === 'earned' && (
-        <TutorialGuide
-          action={{
-            label: 'ずかんを見る',
-            onClick: () => advance('earned', 'board'),
-            disabled: coins < curry.reward,
-          }}
-        >
-          初めて作った料理はカードになり、ずかんに残ります。
-        </TutorialGuide>
-      )}
-      {phase === 'board' && (
-        <TutorialGuide>
-          カレーがずかんに追加されました。光っているカレーのカードを押して、確認しましょう。
-        </TutorialGuide>
-      )}
-      {phase === 'browse' && (
-        <TutorialGuide>まだ持っていないカードから、次に作る料理のレシピを探せます。</TutorialGuide>
-      )}
-      {phase === 'recipe' && (
-        <TutorialGuide>
-          次に作りたい料理が見つかったら、自分の台所で作ってみましょう。
-        </TutorialGuide>
-      )}
+      <TutorialGuide>{tutorialCardsGuide}</TutorialGuide>
     </div>
   )
 }
