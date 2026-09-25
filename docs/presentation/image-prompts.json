@@ -1,0 +1,107 @@
+[
+  {
+    "id": "meal-curry",
+    "file": "05-demo-input/meal-curry.png",
+    "method": "built-in image_gen",
+    "role": "撮影デモで提出する料理写真。実際に撮影した料理ではありません。",
+    "prompt": "Use case: photorealistic food photograph for a fictional cooking-game presentation demo input. Create one natural smartphone-like photograph of a freshly home-cooked Japanese chicken curry rice on a matte ivory round plate, steamed white rice to the left, warm medium-brown curry with visible carrot, potato and chicken pieces to the right. A stainless spoon and simple linen napkin on a warm pale wooden dining table. Soft indirect morning window light. Appetizing everyday homemade meal, believable rather than restaurant advertising. No human, no writing, no logo, no watermark, no collage. Landscape 4:3 composition, plate fully in frame with comfortable margin, food in clear focus. High-resolution. This is the photograph that the demo user uploads to the game."
+  },
+  {
+    "id": "food-corner-background",
+    "file": "04-visuals/food-corner-background.png",
+    "method": "built-in image_gen",
+    "role": "章扉・本文スライド用の料理モチーフ背景。",
+    "prompt": "Use case: editorial illustration. Asset: a 16:9 1920x1080-style presentation section background for the Japanese cozy cooking and virtual companion game もぐ日和. No text at all. Flat hand-drawn storybook illustration, muted warm ivory paper (#fffaf0), mustard yellow, brick-red accent, sage green, dark desaturated brown-green outlines with slightly imperfect rounded strokes. Very light paper grain, crisp clean shapes, not watercolor, not 3D. Composition: leave the entire center and left 75 percent nearly empty ivory for slide text. Only along the lower right corner, an inviting small grouping of an ivory plate of curry rice, wooden spoon, tiny soup bowl, a tomato and sprig of greenery. The grouping occupies about 25 percent of image width and is fully in frame with margins. A few tiny soft dots and two small leaves in the opposite lower left corner, otherwise extremely spacious. No characters, no lettering, no border, no watermark. This is a reusable quiet title/content slide background with a warm handmade cooking mood."
+  },
+  {
+    "id": "keyvisual-picnic",
+    "file": "04-visuals/keyvisual-picnic.png",
+    "method": "built-in image_gen",
+    "role": "表紙向け。左側にタイトルを置ける、6体のピクニック。",
+    "references": ["05-demo-input/characters-reference.png"],
+    "prompt": "Create one polished wide 16:9 key visual for the existing Japanese cozy cooking companion game もぐ日和, no text. Use the six characters in the single attached reference sheet strictly as character design references, not as a collage: top-left Komugi golden-yellow round-eared little tiger/cat with two forehead marks, cream muzzle and belly; top-middle Mame sage-green long-eared rabbit; top-right Shizuku sky-blue little bird with two-feather crest and pale belly; bottom-left Yuzu orange pointy-eared fox with large white-tipped tail; bottom-middle Momo coral pink cat with curled tail; bottom-right Goma slate-gray owl with cream heart-shaped face. Preserve their exact recognizable silhouettes, colors, facial markings and small rounded proportions; each appears exactly once. Style: faithful flat storybook game art, clean rounded dark desaturated teal outlines, warm gently textured gouache fills, restrained paper grain, no photorealism, no 3D rendering. Scene: the six friends gathered around a low picnic table with a simple curry-rice plate, little soup bowls and vegetables in a sunlit grassy grove. Komugi nearest the camera at right smiling at the food, the others naturally arranged around the table, welcoming and lively but uncluttered. Composition for a presentation COVER: the entire LEFT 45 percent and upper center are quiet pale warm ivory sky with only very faint distant hill silhouettes for adding title later; all characters and main food occupy the right half and lower third. Gentle rounded trees at outer right and bottom grass, small flowers, golden afternoon light. Characters fully visible and inside canvas safe margins, food on the table, anatomically coherent separate bodies, no humans, no lettering, no logos, no watermark. Landscape 16:9, high resolution, professionally composed."
+  },
+  {
+    "id": "keyvisual-kitchen",
+    "file": "04-visuals/keyvisual-kitchen.png",
+    "role": "表紙・サービス紹介向け。左に文字を置くキッチン。",
+    "references": ["03-assets/companions-core/komugi-stage-2.png"],
+    "prompt": "Use the provided original game character reference. Preserve recognizable silhouette, facial markings, proportions, and colors. Flat Japanese storybook game illustration with warm soft gouache texture, crisp rounded dark desaturated teal outlines, restrained paper grain, no 3D, no lettering or watermark. Create one 16:9 wide key visual, no text, for a Japanese cooking-and-companion game presentation. Reference image is Komugi: a small golden yellow tiger-like cat, two triangular forehead markings, round ears, cream muzzle and belly, curled tail ending in a leaf-shaped tuft. Scene: a cosy simple cottage kitchen, Komugi at the RIGHT gently watching a pot of vegetable soup on a low wooden table, one carrot, tomato, wooden spoon, and folded kitchen cloth nearby. Komugi is not human-sized; very small and rounded. Soft sunlight through a right-side window, minimal sage green cabinets and pale warm ivory wall. Leave LEFT HALF completely quiet and pale with a large blank area for presentation text; objects and character occupy lower right half. A single character, coherent paws, no chefs or humans, no complex appliances, no written labels. Landscape 16:9, illustration reaches canvas edge without border.",
+    "method": "built-in image_gen"
+  },
+  {
+    "id": "keyvisual-evening",
+    "file": "04-visuals/keyvisual-evening.png",
+    "role": "締めのスライド向け。上部に余白を取った夕暮れ。",
+    "references": ["05-demo-input/characters-reference.png"],
+    "prompt": "Use the provided original game character reference. Preserve recognizable silhouette, facial markings, proportions, and colors. Flat Japanese storybook game illustration with warm soft gouache texture, crisp rounded dark desaturated teal outlines, restrained paper grain, no 3D, no lettering or watermark. Create one 16:9 wide ending-slide illustration, no text, using the six characters in the attached reference sheet: top row yellow Komugi round-eared tiger, green Mame rabbit, blue Shizuku bird; bottom row orange Yuzu fox, pink Momo cat, gray Goma owl with heart-shaped cream face. Each character exactly once. Scene: all six sit together in the LOWER THIRD on a grassy hill after dinner, relaxed, a small empty picnic basket and folded red gingham cloth nearby, warm pale sky with a delicate crescent moon and a handful of small stars. Goma awake looking up; Komugi contentedly sits in the group. Muted navy, lilac, sage green and warm ivory, evening mood still bright enough for slide text. Keep UPPER TWO THIRDS and leftmost area nearly empty light ivory-lavender sky, no dark vignette or background clutter. Portrait designs stay true to reference but poses can vary naturally. Small cozy closing image for slides, not a collage, no UI, no humans. Landscape16:9.",
+    "method": "built-in image_gen"
+  },
+  {
+    "id": "spot-komugi-mealtime",
+    "file": "04-visuals/spot-komugi-mealtime.png",
+    "role": "ごはん・育成の説明に添える透過挿絵。",
+    "references": ["03-assets/companions-core/komugi-stage-2.png"],
+    "prompt": "Asset: one isolated editorial spot illustration for a Japanese cozy cooking-and-companion game presentation. TRANSPARENT background with real alpha, no opaque rectangle, no checkerboard drawn into art. All artwork completely inside frame with generous safe margin. No text or lettering, no watermark. Warm soft gouache texture, clean rounded dark desaturated teal outlines, flat storybook game art, not 3D. Preserve attached game-character references exactly: silhouette, face markings, color and proportions, but pose may change naturally. Reference is golden-yellow round-eared tiger Komugi, two triangular forehead markings, cream muzzle and tummy, rounded paws, leaf tuft at tail tip. Draw Komugi sitting contentedly beside a little plate of curry rice and a wooden spoon, looking toward the meal with happy closed crescent eyes, a tiny curl of steam and two mustard-yellow sparkle accents. Compact composition, head and ears fully visible, no hat or clothing. One character, no new markings, clearly separated paws and food. Square canvas.",
+    "method": "built-in image_gen"
+  },
+  {
+    "id": "spot-yuzu-recipe-book",
+    "file": "04-visuals/spot-yuzu-recipe-book.png",
+    "role": "ずかん・料理カードの説明に添える透過挿絵。",
+    "references": ["03-assets/companions-core/yuzu-stage-2.png"],
+    "prompt": "Asset: one isolated editorial spot illustration for a Japanese cozy cooking-and-companion game presentation. TRANSPARENT background with real alpha, no opaque rectangle, no checkerboard drawn into art. All artwork completely inside frame with generous safe margin. No text or lettering, no watermark. Warm soft gouache texture, clean rounded dark desaturated teal outlines, flat storybook game art, not 3D. Preserve attached game-character references exactly: silhouette, face markings, color and proportions, but pose may change naturally. Reference is orange pointy-eared fox Yuzu with cream V-shaped muzzle, cream chest and large white-tipped tail. Draw Yuzu eagerly leaning beside an open cream recipe scrapbook with two large simple food drawings on its pages (one curry plate and one soup bowl), holding one blank recipe card with a small simple rice drawing. No readable words or faux text at all. Tiny sage leaves and two sparkle accents, compact square composition. Tail and both ears fully in frame. One character. The book is a whimsical thematic illustration, not UI screenshot.",
+    "method": "built-in image_gen"
+  },
+  {
+    "id": "keyvisual-seaside-left",
+    "file": "04-visuals/keyvisual-seaside-left.png",
+    "role": "右側に文字を置ける浜辺の表紙。",
+    "references": ["05-demo-input/characters-reference.png"],
+    "prompt": "Create one illustration for a cozy Japanese cooking-and-companion game's presentation. Use the supplied character design sheet strictly: top-left Komugi yellow round-eared tiger, top-middle Mame green rabbit, top-right Shizuku blue bird, bottom-left Yuzu orange fox, bottom-middle Momo pink cat, bottom-right Goma slate owl with cream heart face. Preserve their distinctive shapes and exact colors. Polished flat storybook character art, dark rounded teal outlines, soft warm gouache background texture. No words, lettering, UI, logos or watermark. Landscape16:9. Only Shizuku the blue bird, Yuzu the orange fox, and Komugi the yellow tiger appear; the other characters are not in this scene. All three sit around a small picnic basket with rice balls and a soup thermos at the LOWER LEFT on a quiet seaside grassy verge. Big friendly shapes, small pastel shells, distant simple shore. RIGHT 60 percent is nearly blank pale warm ivory sky and very faint sea line, suitable for large presentation text. Keep all characters fully in frame on the LEFT THIRD, safe edges, generous negative space. Fresh morning light, sage coastal plants, muted blue sea, clean airy composition.",
+    "method": "built-in image_gen"
+  },
+  {
+    "id": "keyvisual-community-bottom",
+    "file": "04-visuals/keyvisual-community-bottom.png",
+    "role": "中央・上部に広く文字を置く6体集合の表紙。",
+    "references": ["05-demo-input/characters-reference.png"],
+    "prompt": "Create one illustration for a cozy Japanese cooking-and-companion game's presentation. Use the supplied character design sheet strictly: top-left Komugi yellow round-eared tiger, top-middle Mame green rabbit, top-right Shizuku blue bird, bottom-left Yuzu orange fox, bottom-middle Momo pink cat, bottom-right Goma slate owl with cream heart face. Preserve their distinctive shapes and exact colors. Polished flat storybook character art, dark rounded teal outlines, soft warm gouache background texture. No words, lettering, UI, logos or watermark. Landscape16:9. All six characters appear exactly once in a cheerful loose row along the BOTTOM QUARTER of the frame, small rice bowls and a cream cooking pot among them, Mame waves, Shizuku stretches wings, Komugi smiles. They sit on a narrow strip of sage grass with tiny flowers. UPPER 70 percent of the image is completely quiet pale warm ivory with just two tiny very pale cloud shapes at outer corners for title and subtitle placement. Much simpler and flatter background than a landscape scene, clean minimal editorial composition. No central tree, no central clutter. Characters spaced apart, no overlap of faces, safe margins, original face markings maintained.",
+    "method": "built-in image_gen"
+  },
+  {
+    "id": "spot-mame-growth",
+    "file": "04-visuals/spot-mame-growth.png",
+    "role": "成長・継続の話題に添える、まめと芽の透過挿絵。",
+    "references": ["03-assets/companions-core/mame-stage-2.png"],
+    "prompt": "Create ONE isolated editorial spot illustration for a cozy Japanese cooking-companion game presentation. Real transparent alpha background, no solid rectangle or checkerboard. Warm handmade gouache texture within clean flat shapes, thick rounded dark desaturated teal outlines. Faithful to the exact attached character designs, no 3D. No lettering, no watermark, all body parts and accents within generous safe margins. Reference is Mame green long-eared rabbit with cream-yellow ear insides and belly, dark green triangular forehead marking. Mame sits beside a small terracotta pot with a tiny two-leaf sprout, curious happy expression, one paw gently raised toward the sprout, a tiny wooden watering can nearby. The sprout is a growth metaphor, not a screenshot of gameplay. Compact square composition. No new ears, no clothing, no extra limbs. Original green color and forehead mark essential.",
+    "method": "built-in image_gen"
+  },
+  {
+    "id": "spot-shizuku-soup",
+    "file": "04-visuals/spot-shizuku-soup.png",
+    "role": "温かいごはん・習慣の話題に添える透過挿絵。",
+    "references": ["03-assets/companions-core/shizuku-stage-2.png"],
+    "prompt": "Create ONE isolated editorial spot illustration for a cozy Japanese cooking-companion game presentation. Real transparent alpha background, no solid rectangle or checkerboard. Warm handmade gouache texture within clean flat shapes, thick rounded dark desaturated teal outlines. Faithful to the exact attached character designs, no 3D. No lettering, no watermark, all body parts and accents within generous safe margins. Reference is Shizuku small sky-blue bird with two-feather head crest, yellow diamond beak, pale cream-blue cheek and tummy. Draw Shizuku contentedly sitting next to an ochre soup bowl, eyes gently closed, one wing near the bowl, small three curls of steam and a little sage leaf nearby. Soft cozy mood, compact square composition, full feet and crest visible. Preserve original proportions; wings not human arms.",
+    "method": "built-in image_gen"
+  },
+  {
+    "id": "spot-momo-goma-rest",
+    "file": "04-visuals/spot-momo-goma-rest.png",
+    "role": "日常・やすらぎに添える、ももとごまの透過挿絵。",
+    "references": [
+      "03-assets/companions-core/momo-stage-2.png",
+      "03-assets/companions-core/goma-stage-2.png"
+    ],
+    "prompt": "Create ONE isolated editorial spot illustration for a cozy Japanese cooking-companion game presentation. Real transparent alpha background, no solid rectangle or checkerboard. Warm handmade gouache texture within clean flat shapes, thick rounded dark desaturated teal outlines. Faithful to the exact attached character designs, no 3D. No lettering, no watermark, all body parts and accents within generous safe margins. Two characters from the references: Momo coral-pink cat with curled tail and cream muzzle, and Goma slate gray owl with a cream heart-shaped face and cream belly. Momo sleeps curled beside Goma, Goma sits contentedly awake with relaxed eyes. A small folded sage blanket beneath them, one tiny crescent-moon accent floating above. Keep distinct separate bodies and original facial markings, cozy friendship without human clothing. Horizontal compact composition fitting square canvas, no landscape background.",
+    "method": "built-in image_gen"
+  },
+  {
+    "id": "spot-photo-and-komugi",
+    "file": "04-visuals/spot-photo-and-komugi.png",
+    "role": "写真提出の説明に添える、スマホとこむぎの透過挿絵。",
+    "references": ["03-assets/companions-core/komugi-stage-2.png"],
+    "prompt": "Create ONE isolated editorial spot illustration for a cozy Japanese cooking-companion game presentation. Real transparent alpha background, no solid rectangle or checkerboard. Warm handmade gouache texture within clean flat shapes, thick rounded dark desaturated teal outlines. Faithful to the exact attached character designs, no 3D. No lettering, no watermark, all body parts and accents within generous safe margins. Reference is Komugi round-eared golden-yellow tiger, exactly TWO small ochre downward-pointing triangular forehead markings, cream muzzle and tummy, curled tail with leaf-shaped tuft. Draw Komugi at right excitedly looking at a small upright smartphone on the left; the phone screen shows ONLY a simple large illustration of a curry-rice plate, no text or controls. A real small curry plate lies in front. This is a conceptual spot illustration about submitting a meal photo, not a reproduction of app UI. Compact square composition, original forehead markings mandatory, no hands holding phone, no humans.",
+    "method": "built-in image_gen"
+  }
+]

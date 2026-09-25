@@ -1,0 +1,43 @@
+{
+  "mode": "built-in image_gen",
+  "intent": "new illustrations with canonical identity and art-style references",
+  "prompts": [
+    {
+      "id": "keyvisual-portrait",
+      "title": "こむぎとごはん・縦長キービジュアル",
+      "category": "keyvisuals",
+      "references": [
+        "artifacts/presentation-kit/05-demo-input/characters-reference.png",
+        "artifacts/presentation-kit/04-visuals/keyvisual-picnic.png"
+      ],
+      "prompt": "Use case: illustration-story. Create a new polished portrait key visual for the Japanese cooking-and-pet game Mogubiyori, STRICT vertical 9:16 canvas (1080x1920 or equivalent). Image 1 is the authoritative six-character identity sheet; use ONLY the yellow round-eared character at its top left, Komugi, with the exact recognizable yellow body, cream muzzle and tummy, two amber forehead triangles, dark forest-green contour, small paws, pink cheeks, and its distinctive tuft-tipped tail. Image 2 is a style reference only: warmly lit paper-textured gouache landscape, painted foliage, friendly graphic characters with clean dark-green contours. New composition: one smiling Komugi beside a low rustic picnic table holding a lovely home-cooked Japanese curry and rice, a small soup cup, and a wooden spoon, with a few tiny daisies near the ground. Place the whole character-and-food scene in the LOWER 42% of the tall canvas. The UPPER 58% must be a very spacious, quiet warm ivory sky with only extremely faint paper texture, free of objects, branches, text or clouds with high contrast, so a presentation title can be placed there later. Soft sunny meadow colors along the bottom, no dense scenery. This is an original marketing illustration, not a UI screenshot. Preserve character identity and proportions; no additional characters, no human anatomy. No lettering, no logo, no watermark, no border. Opaque background."
+    },
+    {
+      "id": "keyvisual-square",
+      "title": "6種類のもぐと食卓・正方形キービジュアル",
+      "category": "keyvisuals",
+      "references": [
+        "artifacts/presentation-kit/05-demo-input/characters-reference.png",
+        "artifacts/presentation-kit/04-visuals/keyvisual-picnic.png"
+      ],
+      "prompt": "Use case: illustration-story. Create a new square 1:1 key visual, suitable for a friendly game announcement. Image 1 is an authoritative character identity sheet: EXACTLY SIX distinct characters, each ONCE: yellow round-eared Komugi with amber forehead triangles and tufted tail; green long-eared rabbit Mame with cream tummy; blue bird Shizuku with a two-feather crest and cream tummy; orange fox Yuzu with cream muzzle/chest and white-tipped bushy tail; pink cat Momo with cream muzzle and curled tail; slate-gray owl Goma with cream heart-shaped face, cream belly and tiny gold beak. Preserve these six designs, original colors, silhouettes, facial markings, and dark forest-green outlines; do not blend species or add a seventh character. Image 2 is only the warm gouache/paper-texture scene and soft afternoon lighting style reference. Compose the six friends together around one small round picnic table in a cozy sunny meadow, the full cast clearly visible with no hidden or cropped face. On the table are simple home-cooked curry and rice, vegetable soup and a small salad, rendered as appetizing storybook food. Fresh small flowers, a woven picnic basket, a little leafy branch at the edge. Balanced compact square composition with a modest breathing margin around every character, not a text-heavy poster. Character forms remain flat graphic, the environment delicately painted. Warm ivory, yellow, sage, sky blue, orange and pink palette. No letters, no names, no logos, no watermark. Opaque background."
+    },
+    {
+      "id": "background-night-corner",
+      "title": "ごまと月あかり・夜の余白背景",
+      "category": "slide-backgrounds",
+      "references": [
+        "artifacts/presentation-kit/05-demo-input/characters-reference.png",
+        "artifacts/presentation-kit/04-visuals/keyvisual-picnic.png"
+      ],
+      "prompt": "Use case: productivity-visual. Create one quiet 16:9 landscape presentation background in the same illustrated cooking-and-pet game world. Image 1 is the authoritative character identity sheet: use ONLY Goma, the slate-gray owl at the BOTTOM RIGHT, with the same small owl silhouette, pointed ear-like feather tufts, cream heart-shaped face, cream oval belly with little dark feather dashes, tiny golden diamond-shaped beak, dark forest-green outline and pink cheeks. Image 2 is a style reference for paper-textured gouache and a painted environment around a clean graphic character. New scene: night has fallen. A SMALL sleepy Goma sits in the LOWER LEFT CORNER on a little patch of grass beside one tiny warm lantern. A slim ivory crescent moon and three or four restrained tiny gold stars sit close to that corner vignette, rather than spread all over the canvas. Keep the character scene confined to the leftmost 23% and bottom 33%; it should feel like a discreet slide corner decoration, not a central hero. The CENTRAL and UPPER RIGHT 75% is mostly uniform softly textured midnight blue-green, open and calm for white text. Do not add scenery or large bright highlights in this reserved area. Gentle hand-painted grain, muted sage grass, warm cream moonlight. Character remains recognizable as the canonical owl, not a cat or generic realistic owl. No text, lettering, icons, logo, watermark or hard border. Opaque background."
+    },
+    {
+      "id": "background-botanical-frame",
+      "title": "草花と食器・本文用の余白背景",
+      "category": "slide-backgrounds",
+      "references": ["artifacts/presentation-kit/04-visuals/food-corner-background.png"],
+      "prompt": "Use case: productivity-visual. Create a very understated 16:9 landscape background for presentation body slides, coordinated with the reference's warm ivory paper, subtle gouache grain, sage-green plants and simple hand-painted ceramic dishes. The reference is a palette and painting-style guide only; DO NOT reproduce its large curry plate. Leave at least the CENTRAL 80% of the canvas empty and quiet warm ivory. Place very small faint botanical and kitchen motifs in the four far corners: a little sage leaf twig at upper left, two tiny pale daisies at upper right, a simple small empty cream ceramic saucer and wooden spoon at lower right, and two leaves with a tiny cream soup cup at lower left. Everything stays within narrow outer corner zones, no individual motif extending beyond about 12% of the width or 18% of the height. Keep details low contrast and delicate, with muted ochre dots only if unobtrusive. No large dish, no food centerpiece, no character, no animals, no visible grid or literal rectangular frame. It should be usable behind dense explanatory text without competing with it. No lettering, logo, watermark, symbols or annotations. Opaque warm paper background."
+    }
+  ]
+}
