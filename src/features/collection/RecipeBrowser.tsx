@@ -42,7 +42,7 @@ export function RecipeBrowser({
   const cards = useMemo(() => new Set(state.cards), [state.cards])
   const matching = useMemo(() => {
     const terms = normalizeSearch(query).trim().split(/\s+/).filter(Boolean)
-    return searchableRecipes
+    const matchingRecipes = searchableRecipes
       .filter(({ recipe, searchText }) => {
         if (category !== 'all' && recipe.category !== category) return false
         if (minutes !== 'all' && recipe.minutes > Number(minutes)) return false
@@ -52,7 +52,12 @@ export function RecipeBrowser({
         return terms.every((term) => searchText.includes(term))
       })
       .map(({ recipe }) => recipe)
-  }, [query, category, minutes, difficulty, acquired, cards])
+    return mode === 'browse'
+      ? matchingRecipes.sort(
+          (left, right) => Number(cards.has(right.id)) - Number(cards.has(left.id)),
+        )
+      : matchingRecipes
+  }, [query, category, minutes, difficulty, acquired, cards, mode])
   const pageCount = Math.max(1, Math.ceil(matching.length / pageSize))
   const currentPage = Math.min(page, pageCount)
   const firstIndex = (currentPage - 1) * pageSize
