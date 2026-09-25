@@ -1,13 +1,10 @@
 @import url('/fonts/noto-sans-jp.css');
 :root {
-  --paper: #faf6ec;
-  --ink: #283b37;
-  --muted: #666d5f;
-  --red: #a43328;
-  --line: #d9d6c9;
-  --blue: #194e72;
-  --green: #385d3f;
-  --ochre: #8e612b;
+  --paper: #ffffff;
+  --ink: #242424;
+  --muted: #666666;
+  --accent: #444444;
+  --line: #dddddd;
   --serif: 'Noto Serif JP', 'Yu Mincho', 'Hiragino Mincho ProN', serif;
   --sans: 'Noto Sans JP Variable', 'Noto Sans JP', sans-serif;
   color: var(--ink);
@@ -78,12 +75,12 @@ summary {
 a:focus-visible,
 button:focus-visible,
 summary:focus-visible {
-  outline: 3px solid var(--red);
+  outline: 3px solid var(--accent);
   outline-offset: 5px;
 }
 ::selection {
-  background: #e3c68b;
-  color: #263d35;
+  background: #dedede;
+  color: #242424;
 }
 [hidden] {
   display: none !important;
@@ -118,8 +115,8 @@ summary:focus-visible {
   padding: 9px 0;
 }
 .text-link:hover {
-  color: var(--red);
-  border-color: var(--red);
+  color: var(--accent);
+  border-color: var(--accent);
 }
 .button {
   background: var(--ink);
@@ -132,8 +129,8 @@ summary:focus-visible {
   border: 1px solid var(--ink);
 }
 .button:hover {
-  background: var(--red);
-  border-color: var(--red);
+  background: var(--accent);
+  border-color: var(--accent);
 }
 .skip {
   position: fixed;
@@ -149,7 +146,7 @@ summary:focus-visible {
 }
 .topline {
   height: 5px;
-  background: var(--red);
+  background: var(--accent);
 }
 .masthead {
   position: relative;
@@ -202,7 +199,7 @@ summary:focus-visible {
 .desktop-nav a:hover:after {
   content: '';
   height: 2px;
-  background: var(--red);
+  background: var(--accent);
   position: absolute;
   bottom: 23px;
   left: 0;
@@ -293,7 +290,7 @@ summary:focus-visible {
 .chapter-card figure {
   height: 180px;
   overflow: hidden;
-  background: #e8e6d8;
+  background: #eeeeee;
   margin-bottom: 16px;
 }
 .chapter-card figure img {
@@ -323,7 +320,7 @@ summary:focus-visible {
   max-height: none;
 }
 .feature-band {
-  background: #e7ebde;
+  background: #f4f4f4;
   padding: 64px 0;
 }
 .feature-split {
@@ -399,24 +396,12 @@ summary:focus-visible {
   line-height: 1.8;
 }
 .breadcrumbs a:hover {
-  color: var(--red);
+  color: var(--accent);
 }
 .chapter-rule {
   height: 8px;
-  background: var(--red);
+  background: var(--accent);
   margin-bottom: 10px;
-}
-.tone-blue {
-  --accent: var(--blue);
-}
-.tone-green {
-  --accent: var(--green);
-}
-.tone-ochre {
-  --accent: var(--ochre);
-}
-.tone-red {
-  --accent: var(--red);
 }
 .chapter-intro {
   padding: 22px 0 34px;
@@ -429,7 +414,7 @@ summary:focus-visible {
 .map {
   position: relative;
   border: 9px solid white;
-  box-shadow: 0 2px 18px #243d3720;
+  box-shadow: 0 2px 18px #00000020;
 }
 .map > img {
   aspect-ratio: 1.5;
@@ -440,25 +425,25 @@ summary:focus-visible {
   left: var(--x);
   top: var(--y);
   transform: translate(-50%, -50%);
-  background: #faf6ecf2;
-  border: 1px solid #faf6ec;
+  background: #fffffff2;
+  border: 1px solid #ffffff;
   padding: 7px 14px;
   color: var(--ink);
   font-size: 0.85rem;
   font-weight: 650;
-  box-shadow: 0 2px 8px #0a253a45;
+  box-shadow: 0 2px 8px #00000045;
   white-space: nowrap;
   transition: background 0.15s;
 }
 .map-pin:before {
   content: '●';
   font-size: 0.55rem;
-  color: var(--red);
+  color: var(--accent);
   margin-right: 7px;
   vertical-align: middle;
 }
 .map-pin:hover {
-  background: var(--red);
+  background: var(--accent);
   color: white;
 }
 .map-pin:hover:before {
@@ -533,7 +518,7 @@ summary:focus-visible {
   object-fit: cover;
 }
 .article-figure.specimen {
-  background: #eeeddf;
+  background: #f4f4f4;
 }
 .article-figure.specimen img {
   max-height: 360px;
@@ -566,7 +551,7 @@ summary:focus-visible {
   float: left;
   line-height: 1.2;
   padding: 8px 8px 0 0;
-  color: var(--red);
+  color: var(--accent);
 }
 .notebook {
   border-block: 1px solid var(--line);
@@ -577,7 +562,7 @@ summary:focus-visible {
 .notebook h3 {
   font-family: var(--sans);
   font-size: 0.85rem;
-  color: var(--red);
+  color: var(--accent);
   letter-spacing: 0.1em;
   margin: 0 0 10px;
 }
@@ -595,7 +580,7 @@ summary:focus-visible {
 .aside-title {
   font-size: 0.78rem;
   font-family: var(--sans);
-  color: var(--red);
+  color: var(--accent);
   border-bottom: 1px solid var(--line);
   padding-bottom: 15px;
   margin-bottom: 4px;
@@ -608,12 +593,12 @@ summary:focus-visible {
   line-height: 1.8;
 }
 .aside-links a[aria-current='page'] {
-  color: var(--red);
+  color: var(--accent);
   font-weight: 700;
 }
 .aside-illustration {
   margin-top: 28px;
-  background: #eeedde;
+  background: #f4f4f4;
   padding: 16px;
 }
 .aside-illustration img {
@@ -626,7 +611,7 @@ summary:focus-visible {
   line-height: 1.8;
 }
 .related {
-  background: #eeede2;
+  background: #f4f4f4;
   padding: 28px;
   margin-top: 42px;
 }
@@ -678,7 +663,7 @@ summary:focus-visible {
 }
 .specimen-card figure {
   height: 230px;
-  background: #edeedf;
+  background: #f4f4f4;
   position: relative;
 }
 .specimen-card img {
@@ -708,7 +693,7 @@ summary:focus-visible {
 }
 .species-detail dt {
   font-size: 0.78rem;
-  color: var(--red);
+  color: var(--accent);
   font-weight: 650;
   margin-bottom: 10px;
 }
@@ -769,7 +754,7 @@ summary:focus-visible {
 .moment time {
   display: inline-block;
   font-family: var(--serif);
-  color: var(--red);
+  color: var(--accent);
   font-size: 1.4rem;
   margin-bottom: 12px;
 }
@@ -811,8 +796,8 @@ summary:focus-visible {
   margin: 32px 0;
 }
 .process > div {
-  border-top: 3px solid var(--red);
-  background: #f0ede1;
+  border-top: 3px solid var(--accent);
+  background: #f4f4f4;
   padding: 22px 18px;
 }
 .process b {
@@ -841,8 +826,8 @@ summary:focus-visible {
   writing-mode: vertical-rl;
   font-family: var(--serif);
   letter-spacing: 0.22em;
-  border: 1px solid var(--red);
-  color: var(--red);
+  border: 1px solid var(--accent);
+  color: var(--accent);
   width: 64px;
   min-height: 100px;
   padding: 16px;
@@ -878,7 +863,7 @@ summary:focus-visible {
   content: '';
   position: absolute;
   inset: 0;
-  background: #132d5c5c;
+  background: #2222225c;
   mix-blend-mode: multiply;
 }
 .story-card h3 {
@@ -909,7 +894,7 @@ summary:focus-visible {
   content: '';
   position: absolute;
   inset: 0;
-  background: #132d5c80;
+  background: #22222280;
   mix-blend-mode: multiply;
 }
 .reading {
@@ -939,7 +924,7 @@ summary:focus-visible {
 }
 .story-end {
   text-align: center;
-  color: var(--red);
+  color: var(--accent);
   font-family: var(--serif);
   font-size: 1.4rem;
   letter-spacing: 0.4em;
@@ -951,7 +936,7 @@ summary:focus-visible {
   left: 0;
   right: 0;
   height: 4px;
-  background: var(--red);
+  background: var(--accent);
   transform-origin: left;
   transform: scaleX(0);
   z-index: 80;
@@ -1018,7 +1003,7 @@ summary:focus-visible {
 }
 .contents-chapter h2 span {
   font-size: 0.78rem;
-  color: var(--red);
+  color: var(--accent);
   font-family: var(--sans);
   margin-right: 16px;
 }
@@ -1039,7 +1024,7 @@ summary:focus-visible {
   line-height: 1.8;
 }
 .contents-chapter a:hover {
-  color: var(--red);
+  color: var(--accent);
 }
 .footer {
   background: var(--ink);
@@ -1060,7 +1045,7 @@ summary:focus-visible {
   font-size: 0.83rem;
   line-height: 2;
   margin-top: 12px;
-  color: #d7dbcc;
+  color: #d7d7d7;
 }
 .footer-links {
   display: flex;
@@ -1079,7 +1064,7 @@ summary:focus-visible {
   padding: 32px 40px;
 }
 .contents-dialog::backdrop {
-  background: #152b28a6;
+  background: #242424a6;
 }
 .dialog-heading {
   display: flex;
@@ -1110,7 +1095,7 @@ summary:focus-visible {
 }
 .dialog-chapters span {
   font-size: 0.76rem;
-  color: var(--red);
+  color: var(--accent);
   margin-right: 12px;
 }
 .dialog-footer {
@@ -1129,13 +1114,13 @@ summary:focus-visible {
 }
 .book-opening .signature {
   text-align: right;
-  color: var(--red);
+  color: var(--accent);
   font-size: 0.9rem;
 }
 .walking-note {
   padding: 24px 30px;
-  border-left: 3px solid var(--red);
-  background: #efede1;
+  border-left: 3px solid var(--accent);
+  background: #f4f4f4;
   margin: 30px 0;
 }
 .walking-note p {
@@ -1147,7 +1132,7 @@ summary:focus-visible {
   line-height: 1.9;
   margin: 38px 0;
   padding-left: 25px;
-  border-left: 2px solid var(--red);
+  border-left: 2px solid var(--accent);
 }
 @media (min-width: 1500px) {
   .hero {
