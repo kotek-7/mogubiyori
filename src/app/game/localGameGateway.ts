@@ -1,6 +1,7 @@
 import { applyGameCommand } from '../../../shared/game/commands'
 import type { GameCommand } from '../../../shared/game/commands'
 import type { CommandResponse, GameSnapshot } from '../../../shared/game/contracts'
+import { mealRecordUpdateSchema } from '../../../shared/meals/schemas'
 import {
   addDemoGems,
   advanceGame,
@@ -57,6 +58,13 @@ export function createLocalGameGateway(
           return { snapshot: { state: currentState(), revision }, receipt: previous.receipt }
         }
         const state = currentState()
+        if (
+          command.type === 'updateMealRecord' &&
+          (!mealRecordUpdateSchema.safeParse(command.input).success ||
+            command.input.day > state.today ||
+            !state.mealRecords?.some((record) => record.id === command.id))
+        )
+          throw new Error('食事の日付や記録を確認してください。')
         const result = applyGameCommand(state, command, {
           today: state.today,
           mealId: `meal-${operationId}`,

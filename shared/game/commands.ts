@@ -6,7 +6,9 @@ import {
   purchaseItem,
   restGame,
   selectCompanion,
+  updateMealRecord,
 } from './game'
+import type { MealRecordUpdate } from '../meals/types'
 import { createFeedReceipt } from './receipt'
 import type { FeedReceipt } from './receipt'
 import type { FeedInput, GameState, SpeciesId, TutorialState } from './types'
@@ -15,6 +17,7 @@ export type GameCommand =
   | { type: 'chooseStarter'; id: SpeciesId }
   | { type: 'selectCompanion'; id: SpeciesId }
   | { type: 'feed'; input: FeedInput }
+  | { type: 'updateMealRecord'; id: string; input: MealRecordUpdate }
   | { type: 'purchase'; id: string }
   | { type: 'equip'; id: string }
   | { type: 'rest' }
@@ -47,6 +50,9 @@ export function applyGameCommand(
       break
     case 'purchase':
       next = purchaseItem(current, command.id)
+      break
+    case 'updateMealRecord':
+      next = updateMealRecord(current, command.id, command.input)
       break
     case 'equip':
       next = equipItem(current, command.id)

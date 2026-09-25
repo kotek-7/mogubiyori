@@ -168,6 +168,75 @@ describe('server-authoritative game API', () => {
     expect(replay.snapshot.revision).toBe(2)
   })
 
+  it('saves diary edits without replaying rewards and rejects future or missing records', async () => {
+    const { request, repository } = setup()
+    const first = await (
+      await request('/api/game/commands', { operationId: opA, command: feed })
+    ).json()
+    const record = first.snapshot.state.mealRecords[0]
+    const { id, ...input } = record
+    const invalid = await request('/api/game/commands', {
+      operationId: opB,
+      command: { type: 'updateMealRecord', id, input: { ...input, day: '2099-01-01' } },
+    })
+    expect(invalid.status).toBe(422)
+    expect(repository.games.get(userA)!.revision).toBe(1)
+    const missing = await request('/api/game/commands', {
+      operationId: opB,
+      command: { type: 'updateMealRecord', id: 'missing', input },
+    })
+    expect(missing.status).toBe(422)
+    const edited = await request('/api/game/commands', {
+      operationId: opB,
+      command: {
+        type: 'updateMealRecord',
+        id,
+        input: { ...input, title: '昼のカレー', source: 'home' },
+      },
+    })
+    expect(edited.status).toBe(200)
+    const after = await edited.json()
+    expect(after.snapshot.state.mealRecords[0].title).toBe('昼のカレー')
+    expect(after.snapshot.state.meals).toEqual(first.snapshot.state.meals)
+    expect(after.snapshot.state.coins).toBe(first.snapshot.state.coins)
+    expect(after.receipt).toBeNull()
+  })
+
+  it('shares a saved meal and photo without attaching the already-used photo twice', async () => {
+    const { repository } = setup()
+    const state = repository.games.get(userA)!
+    state.state.visitors = ['mame']
+    repository.photos.set(opA, { userId: userA, bytes: new Uint8Array([1]), mime: 'image/png' })
+    const first = await executeCommand(
+      repository,
+      userA,
+      opA,
+      { type: 'feed', input: { ...feed.input, photoId: opA } },
+      { today: day, mealId },
+    )
+    const shared = await executeCommand(
+      repository,
+      userA,
+      opB,
+      {
+        type: 'feed',
+        input: {
+          title: 'ignored',
+          sample: 'rice',
+          targetId: 'mame',
+          mealRecordId: mealId,
+          photoId: opA,
+        },
+      },
+      { today: day, mealId: 'shared-meal' },
+    )
+    expect(shared.snapshot.state.mealRecords).toHaveLength(1)
+    expect(shared.snapshot.state.meals).toHaveLength(2)
+    expect(shared.snapshot.state.meals[0].photoId).toBe(opA)
+    expect(shared.receipt!.mealReport!.today).toEqual(first.receipt!.mealReport!.today)
+    expect(repository.photos.get(opA)!.mealId).toBe(mealId)
+  })
+
   it('rejects reuse of an operation ID for a different intent', async () => {
     const { request } = setup()
     await request('/api/game/commands', { operationId: opA, command: feed })

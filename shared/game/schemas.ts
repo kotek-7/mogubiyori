@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { items, recipeById, species } from '../content/catalog'
 import type { GameState, SpeciesId } from './types'
+import { mealRecordSchema } from '../meals/schemas'
 
 export const daySchema = z
   .string()
@@ -61,6 +62,7 @@ export const mealSchema = z.object({
   targetId: speciesIdSchema.optional(),
   cardBonus: nonnegativeIntegerSchema.optional(),
   streakBonus: nonnegativeIntegerSchema.optional(),
+  mealRecordId: z.string().min(1).max(200).optional(),
 })
 
 /** Fields shared by the initial single-companion save and the current save. */
@@ -76,6 +78,10 @@ export const saveBaseSchema = z.object({
   meals: z
     .array(mealSchema)
     .refine((meals) => new Set(meals.map((meal) => meal.id)).size === meals.length),
+  mealRecords: z
+    .array(mealRecordSchema)
+    .refine((records) => new Set(records.map((record) => record.id)).size === records.length)
+    .optional(),
   rests: uniqueStrings.refine((days) => days.every((day) => daySchema.safeParse(day).success)),
   tickets: nonnegativeIntegerSchema,
   owned: uniqueStrings

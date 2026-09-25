@@ -11,6 +11,8 @@ export type FeedInput = {
   recipeId?: string
   dishId?: string
   targetId?: SpeciesId
+  mealRecord?: MealRecordInput
+  mealRecordId?: string
 }
 export type GameMeal = {
   id: string
@@ -26,6 +28,7 @@ export type GameMeal = {
   targetId?: SpeciesId
   cardBonus?: number
   streakBonus?: number
+  mealRecordId?: string
 }
 
 export type TutorialStep = 0 | 1 | 2 | 3 | 4
@@ -47,6 +50,7 @@ export type GameState = {
   coins: number
   gems: number
   meals: GameMeal[]
+  mealRecords?: MealRecord[]
   rests: string[]
   tickets: number
   owned: string[]
@@ -68,3 +72,4 @@ export type Item = {
   price: number
   artPath?: string
 }
+import type { MealRecord, MealRecordInput } from '../meals/types'

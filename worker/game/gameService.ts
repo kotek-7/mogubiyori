@@ -57,6 +57,12 @@ export async function executeCommand(
   // The server date and meal ID stay fixed across attempts for this request.
   for (let attempt = 0; attempt < 3; attempt += 1) {
     const snapshot = await loadGame(repository, userId, context.today)
+    if (
+      command.type === 'updateMealRecord' &&
+      (command.input.day > context.today ||
+        !snapshot.state.mealRecords?.some((record) => record.id === command.id))
+    )
+      throw new ApiError(422, 'invalid_meal_record')
     const result = applyGameCommand(snapshot.state, command, context)
     if (
       (command.type === 'feed' && !result.receipt) ||
@@ -74,7 +80,8 @@ export async function executeCommand(
       }
       throw new ApiError(422, 'command_not_applied')
     }
-    const photoId = command.type === 'feed' ? command.input.photoId : undefined
+    const photoId =
+      command.type === 'feed' && !command.input.mealRecordId ? command.input.photoId : undefined
     const committed = await repository.commit({
       userId,
       operationId,

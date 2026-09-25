@@ -146,7 +146,8 @@ describe('committed feed receipts', () => {
     expect(Object.isFrozen(receipt)).toBe(true)
     expect(Object.isFrozen(receipt.target)).toBe(true)
     expect(Object.isFrozen(receipt.newVisitors)).toBe(true)
-    expect(JSON.stringify(receipt).length).toBeLessThan(1000)
+    // A bounded seven-day aggregate is included, never the full diary or photos.
+    expect(JSON.stringify(receipt).length).toBeLessThan(3000)
   })
 
   it('reports the fed visitor rather than the previously active companion', () => {

@@ -1,5 +1,8 @@
 import { species, growthStages, recipeById, items } from '../content/catalog'
 import { genericDishById } from '../content/dishes'
+import { suggestMealItem } from '../meals/analysis'
+import { mealRecordInputSchema, mealRecordUpdateSchema } from '../meals/schemas'
+import type { MealRecord, MealRecordUpdate } from '../meals/types'
 import type { Companion, FeedInput, GameState, GrowthStage, SpeciesId } from './types'
 
 export function shiftDay(day: string, days: number): string {
@@ -20,6 +23,7 @@ export function initialGame(day: string): GameState {
     coins: 120,
     gems: 60,
     meals: [],
+    mealRecords: [],
     rests: [],
     tickets: 2,
     owned: ['none', 'plain', 'neck-none', 'bag-none'],
@@ -155,9 +159,50 @@ export function feed(
       !state.visitors.includes(targetId))
   )
     return state
+  const records = state.mealRecords ?? []
+  const sharedRecord = input.mealRecordId
+    ? records.find((record) => record.id === input.mealRecordId)
+    : undefined
+  if (
+    input.mealRecordId &&
+    (!sharedRecord ||
+      sharedRecord.day !== state.today ||
+      input.mealRecord ||
+      state.meals.some(
+        (meal) => meal.mealRecordId === sharedRecord.id && meal.targetId === targetId,
+      ))
+  )
+    return state
+  const parsedRecord = input.mealRecord && mealRecordInputSchema.safeParse(input.mealRecord)
+  if (parsedRecord && !parsedRecord.success) return state
+  if (sharedRecord) {
+    const previousFeed = state.meals.find((meal) => meal.mealRecordId === sharedRecord.id)
+    input = {
+      targetId,
+      title: sharedRecord.title,
+      sample: previousFeed?.sample ?? 'rice',
+      recipeId: sharedRecord.items[0]?.recipeId,
+      dishId: sharedRecord.items[0]?.dishId,
+      ...(previousFeed?.photo ? { photo: previousFeed.photo } : {}),
+      ...(previousFeed?.photoId ? { photoId: previousFeed.photoId } : {}),
+    }
+  }
   const first = !fedToday(state)
   const recipe = recipeById(input.recipeId)
   const dish = recipe ? undefined : genericDishById(input.dishId)
+  const title = input.title.trim() || dish?.name || '今日のごはん'
+  const mealRecord: MealRecord = sharedRecord ?? {
+    id: environment.mealId,
+    day: state.today,
+    title,
+    ...(parsedRecord?.success
+      ? parsedRecord.data
+      : {
+          slot: 'unknown' as const,
+          source: 'unknown' as const,
+          items: [suggestMealItem(recipe?.id ?? dish?.id, title)],
+        }),
+  }
   const xp = mealXp(state, recipe?.id, targetId)
   const cardBonus = recipe && !state.cards.includes(recipe.id) ? recipe.reward : 0
   const coins = (first ? 30 : 0) + cardBonus
@@ -196,7 +241,8 @@ export function feed(
       {
         id: environment.mealId,
         day: state.today,
-        title: input.title.trim() || dish?.name || '今日のごはん',
+        title,
+        mealRecordId: mealRecord.id,
         ...(input.photo ? { photo: input.photo } : {}),
         ...(input.photoId ? { photoId: input.photoId } : {}),
         sample: dish?.sample ?? input.sample,
@@ -210,6 +256,7 @@ export function feed(
       },
       ...state.meals,
     ],
+    mealRecords: sharedRecord ? records : [mealRecord, ...records],
     rests: hadRest ? state.rests.filter((day) => day !== state.today) : state.rests,
     tickets: state.tickets + (hadRest ? 1 : 0),
   }
@@ -222,6 +269,25 @@ export function feed(
     next.owned = [...state.owned, 'sprout']
   }
   return next
+}
+
+/** Editing the diary does not replay any companion reward or change streak history. */
+export function updateMealRecord(state: GameState, id: string, input: MealRecordUpdate): GameState {
+  const parsed = mealRecordUpdateSchema.safeParse(input)
+  if (!parsed.success || parsed.data.day > state.today) return state
+  const records = state.mealRecords ?? []
+  const previous = records.find((record) => record.id === id)
+  if (!previous) return state
+  const next = { ...parsed.data, id }
+  if (
+    previous.title === next.title &&
+    previous.day === next.day &&
+    previous.slot === next.slot &&
+    previous.source === next.source &&
+    JSON.stringify(previous.items) === JSON.stringify(next.items)
+  )
+    return state
+  return { ...state, mealRecords: records.map((record) => (record.id === id ? next : record)) }
 }
 
 export function restGame(state: GameState): GameState {

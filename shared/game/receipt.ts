@@ -1,6 +1,8 @@
 import { species } from '../content/catalog'
 import { streakOf } from './game'
 import type { GameMeal, GameState, SpeciesId } from './types'
+import { dailyMealReport, weekMealReports } from '../meals/analysis'
+import type { MealReportReceipt } from '../meals/types'
 
 /** A committed operation's result, independent of later changes on another device. */
 export type FeedReceipt = Readonly<{
@@ -18,7 +20,17 @@ export type FeedReceipt = Readonly<{
   newVisitors: readonly SpeciesId[]
   newItems: readonly string[]
   streak: Readonly<{ beforeDays: number; afterDays: number; bonus: number }>
+  mealReport?: MealReportReceipt
 }>
+
+function freezeReport(report: MealReportReceipt): MealReportReceipt {
+  for (const day of [report.today, ...report.week]) {
+    Object.freeze(day.groupCounts)
+    Object.freeze(day)
+  }
+  Object.freeze(report.week)
+  return Object.freeze(report)
+}
 
 export function createFeedReceipt(before: GameState, after: GameState): FeedReceipt | null {
   const previousIds = new Set(before.meals.map((meal) => meal.id))
@@ -51,5 +63,14 @@ export function createFeedReceipt(before: GameState, after: GameState): FeedRece
       afterDays: streakOf({ ...after, today: meal.day }),
       bonus: meal.streakBonus ?? 0,
     }),
+    ...(meal.mealRecordId
+      ? {
+          mealReport: freezeReport({
+            recordId: meal.mealRecordId,
+            today: dailyMealReport(after.mealRecords ?? [], meal.day),
+            week: weekMealReports(after.mealRecords ?? [], meal.day),
+          }),
+        }
+      : {}),
   })
 }
