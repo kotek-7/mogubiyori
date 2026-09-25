@@ -83,7 +83,9 @@ test('mobile welcome, photo, serving, eating, XP, growth, card and daily streak 
   await page.goto('/')
   await chooseStarter(page)
   await check(page, 'welcome')
-  await page.getByRole('button', { name: 'ひろばを見てみる', exact: true }).click()
+  await page
+    .getByRole('button', { name: 'チュートリアルをスキップしてひろばへ', exact: true })
+    .click()
   await page.getByRole('button', { name: 'ごはんをあげる', exact: true }).click()
   await expect(journey(page, 'photo')).toBeVisible()
   await check(page, 'photo')

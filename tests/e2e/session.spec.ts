@@ -40,7 +40,7 @@ test('a failed automatic login claim retries after a later successful command', 
   await expect(page.getByRole('alert')).toContainText('保存できませんでした')
   expect((await storedGame(page)).coins).toBe(120)
   expect((await storedGame(page)).claimedLoginDays).toEqual([])
-  await page.getByRole('button', { name: 'ひろばを見てみる' }).click()
+  await page.getByRole('button', { name: 'チュートリアルをスキップしてひろばへ' }).click()
   await expect(page.getByRole('button', { name: 'コイン 140枚、おみせへ' })).toBeVisible()
   const state = await storedGame(page)
   expect(state.claimedLoginDays).toEqual([state.today])

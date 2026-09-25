@@ -1,7 +1,8 @@
 import { expect, test } from '@playwright/test'
 import type { Page } from '@playwright/test'
 import { Buffer } from 'node:buffer'
-import { chooseStarter, journey, storedGame } from './helpers'
+import AxeBuilder from '@axe-core/playwright'
+import { chooseStarter, journey, openTutorialPhotoChoices, storedGame } from './helpers'
 
 const samplePath = '/art/tutorial/sample-curry.jpg'
 
@@ -59,13 +60,108 @@ test.beforeEach(async ({ page }) => {
   await chooseStarter(page)
 })
 
+for (const viewport of [
+  { width: 320, height: 568 },
+  { width: 390, height: 844 },
+]) {
+  test(`${viewport.width}×${viewport.height} starts with one photo entry and separates skipping from progress`, async ({
+    page,
+  }, testInfo) => {
+    await page.setViewportSize(viewport)
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    const screen = journey(page, 'welcome')
+    const lesson = screen.locator('.tutorial-first-photo')
+    const entry = screen.getByRole('button', { name: '今日の料理を一枚', exact: true })
+    const skip = screen.getByRole('button', {
+      name: 'チュートリアルをスキップしてひろばへ',
+      exact: true,
+    })
+    const before = await storedGame(page)
+    await expect(lesson.getByRole('button')).toHaveCount(1)
+    await expect(entry).toBeEnabled()
+    await expect(skip).toHaveText('スキップ')
+    await expect(screen.locator('.journey-header').getByRole('button')).toHaveCount(1)
+    await expect(screen.locator('.journey-header')).toContainText('スキップ')
+    await expect(screen.locator('.journey-footer').getByRole('button')).toHaveCount(0)
+    await expect(screen.getByRole('button', { name: 'ひろばを見てみる' })).toHaveCount(0)
+    const entryBox = await entry.boundingBox()
+    const skipBox = await skip.boundingBox()
+    expect(entryBox).not.toBeNull()
+    expect(skipBox).not.toBeNull()
+    expect(skipBox!.y + skipBox!.height).toBeLessThan(entryBox!.y)
+    for (const box of [entryBox!, skipBox!]) {
+      expect(box.x).toBeGreaterThanOrEqual(0)
+      expect(box.y).toBeGreaterThanOrEqual(0)
+      expect(box.x + box.width).toBeLessThanOrEqual(viewport.width)
+      expect(box.y + box.height).toBeLessThanOrEqual(viewport.height)
+    }
+    const entryPath = testInfo.outputPath(`first-photo-entry-${viewport.width}.png`)
+    await page.screenshot({ path: entryPath })
+    await testInfo.attach('first photo entry', { path: entryPath, contentType: 'image/png' })
+
+    const choices = await openTutorialPhotoChoices(page)
+    for (const name of ['料理の写真を撮る', '撮った写真を選ぶ', 'サンプル写真を使う']) {
+      const choice = choices.getByRole('button', { name, exact: true })
+      await expect(choice).toBeEnabled()
+      const box = await choice.boundingBox()
+      expect(box).not.toBeNull()
+      expect(box!.x).toBeGreaterThanOrEqual(0)
+      expect(box!.y).toBeGreaterThanOrEqual(0)
+      expect(box!.x + box!.width).toBeLessThanOrEqual(viewport.width)
+      expect(box!.y + box!.height).toBeLessThanOrEqual(viewport.height)
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+    const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()
+    expect(axe.violations).toEqual([])
+    const choicesPath = testInfo.outputPath(`first-photo-choices-${viewport.width}.png`)
+    await page.screenshot({ path: choicesPath })
+    await testInfo.attach('photo choices', { path: choicesPath, contentType: 'image/png' })
+
+    await page.keyboard.press('Escape')
+    await expect(choices).toHaveCount(0)
+    await expect(entry).toBeFocused()
+    await expect(lesson).toHaveAttribute('data-phase', 'cooking')
+    expect(await storedGame(page)).toEqual(before)
+    await (
+      await openTutorialPhotoChoices(page)
+    )
+      .getByRole('button', { name: '閉じる', exact: true })
+      .click()
+    await expect(choices).toHaveCount(0)
+    await expect(entry).toBeFocused()
+
+    await (
+      await openTutorialPhotoChoices(page)
+    )
+      .getByRole('button', { name: 'サンプル写真を使う', exact: true })
+      .click()
+    await expect(choices).toHaveCount(0)
+    await expect(screen.getByRole('button', { name: 'この写真でごはんをあげる' })).toBeEnabled()
+    await expect(entry).toHaveCount(0)
+    await openTutorialPhotoChoices(page)
+    await page.keyboard.press('Escape')
+    await expect(choices).toHaveCount(0)
+    await expect(screen.getByRole('button', { name: '写真を変更', exact: true })).toBeFocused()
+    await expect(screen.getByRole('img', { name: 'サンプルのカレー写真' })).toHaveAttribute(
+      'src',
+      samplePath,
+    )
+    await expect(lesson).toHaveAttribute('data-phase', 'photo')
+    expect(await storedGame(page)).toEqual(before)
+  })
+}
+
 test('the first photo opens an in-page camera and separate library and tolerates cancellation', async ({
   page,
 }) => {
   const screen = journey(page, 'welcome')
   const lesson = screen.locator('.tutorial-first-photo')
   const before = await storedGame(page)
-  await screen.getByRole('button', { name: '料理の写真を撮る', exact: true }).click()
+  await (
+    await openTutorialPhotoChoices(page)
+  )
+    .getByRole('button', { name: '料理の写真を撮る', exact: true })
+    .click()
   const camera = page.getByRole('dialog', { name: '料理の写真を撮る' })
   await expect(camera.getByRole('button', { name: '撮影する', exact: true })).toBeEnabled()
   await camera.getByRole('button', { name: 'カメラを閉じる', exact: true }).click()
@@ -73,13 +169,29 @@ test('the first photo opens an in-page camera and separate library and tolerates
   await expectCameraStopped(page)
   await expect(lesson).toHaveAttribute('data-phase', 'cooking')
 
+  await (
+    await openTutorialPhotoChoices(page)
+  )
+    .getByRole('button', { name: '料理の写真を撮る', exact: true })
+    .click()
+  await expect(camera.getByRole('button', { name: '撮影する', exact: true })).toBeEnabled()
+  await page.keyboard.press('Escape')
+  await expect(camera).toHaveCount(0)
+  await expectCameraStopped(page)
+  await expect(lesson).toHaveAttribute('data-phase', 'cooking')
+
   const libraryOpened = page.waitForEvent('filechooser')
-  await screen.getByRole('button', { name: '撮った写真を選ぶ', exact: true }).click()
+  const choices = await openTutorialPhotoChoices(page)
+  await choices.getByRole('button', { name: '撮った写真を選ぶ', exact: true }).click()
   const library = await libraryOpened
   expect(await library.element().getAttribute('aria-label')).toBe('撮影済みの料理写真')
   expect(await library.element().getAttribute('capture')).toBeNull()
   expect(await library.element().getAttribute('accept')).toBe('image/jpeg,image/png,image/webp')
   await library.setFiles([])
+  await expect(choices).toBeVisible()
+  await expect(choices.getByRole('button', { name: 'サンプル写真を使う' })).toBeEnabled()
+  await choices.getByRole('button', { name: '閉じる', exact: true }).click()
+  await expect(choices).toHaveCount(0)
   await expect(lesson).toHaveAttribute('data-phase', 'cooking')
   await expect(lesson.getByRole('alert')).toHaveCount(0)
   await expect(screen.locator('.tutorial-xp-panel')).toHaveCount(0)
@@ -96,7 +208,11 @@ test('the first photo can be captured inside the page and used without changing 
   page.on('filechooser', () => {
     chooserCount += 1
   })
-  await screen.getByRole('button', { name: '料理の写真を撮る', exact: true }).click()
+  await (
+    await openTutorialPhotoChoices(page)
+  )
+    .getByRole('button', { name: '料理の写真を撮る', exact: true })
+    .click()
   const camera = page.getByRole('dialog', { name: '料理の写真を撮る' })
   await expect(camera.getByRole('button', { name: '撮影する', exact: true })).toBeEnabled()
   await camera.getByRole('button', { name: '撮影する', exact: true }).click()
@@ -126,7 +242,11 @@ test('a selected photo is resized, can be selected again and stays through feedi
   const before = await storedGame(page)
   const photo = await mealPhoto(page)
   const opened = page.waitForEvent('filechooser')
-  await screen.getByRole('button', { name: '撮った写真を選ぶ', exact: true }).click()
+  await (
+    await openTutorialPhotoChoices(page)
+  )
+    .getByRole('button', { name: '撮った写真を選ぶ', exact: true })
+    .click()
   await (await opened).setFiles(photo)
   await expect(lesson).toHaveAttribute('data-phase', 'photo')
   const preview = screen.getByRole('img', { name: '選んだ料理の写真', exact: true })
@@ -138,9 +258,9 @@ test('a selected photo is resized, can be selected again and stays through feedi
     )
     .toEqual([800, 400])
   const selectedSource = await preview.getAttribute('src')
-  await expect(screen.getByLabel('撮影済みの料理写真', { exact: true })).toHaveValue('')
-
-  await screen.getByRole('button', { name: '料理の写真を撮り直す', exact: true }).click()
+  const choices = await openTutorialPhotoChoices(page)
+  await expect(choices.getByLabel('撮影済みの料理写真', { exact: true })).toHaveValue('')
+  await choices.getByRole('button', { name: '料理の写真を撮る', exact: true }).click()
   const retake = page.getByRole('dialog', { name: '料理の写真を撮る' })
   await expect(retake.getByRole('button', { name: '撮影する', exact: true })).toBeEnabled()
   await retake.getByRole('button', { name: 'カメラを閉じる', exact: true }).click()
@@ -149,14 +269,29 @@ test('a selected photo is resized, can be selected again and stays through feedi
   await expect(preview).toHaveAttribute('src', selectedSource!)
 
   const cancelled = page.waitForEvent('filechooser')
-  await screen.getByRole('button', { name: '写真を選び直す', exact: true }).click()
+  await (
+    await openTutorialPhotoChoices(page)
+  )
+    .getByRole('button', { name: '撮った写真を選ぶ', exact: true })
+    .click()
   await (await cancelled).setFiles([])
+  await expect(choices).toBeVisible()
+  await choices.getByRole('button', { name: '閉じる', exact: true }).click()
+  await expect(choices).toHaveCount(0)
   await expect(preview).toHaveAttribute('src', selectedSource!)
   await expect(lesson).toHaveAttribute('data-phase', 'photo')
 
-  await screen.getByRole('button', { name: 'サンプル写真を使う', exact: true }).click()
+  await (
+    await openTutorialPhotoChoices(page)
+  )
+    .getByRole('button', { name: 'サンプル写真を使う', exact: true })
+    .click()
   const reopened = page.waitForEvent('filechooser')
-  await screen.getByRole('button', { name: '写真を選び直す', exact: true }).click()
+  await (
+    await openTutorialPhotoChoices(page)
+  )
+    .getByRole('button', { name: '撮った写真を選ぶ', exact: true })
+    .click()
   const replacement = await reopened
   expect(await replacement.element().getAttribute('aria-label')).toBe('撮影済みの料理写真')
   await replacement.setFiles(photo)
@@ -180,14 +315,18 @@ test('a selected photo is resized, can be selected again and stays through feedi
   await expect(screen.getByRole('img', { name: '選んだ料理の写真', exact: true })).toHaveCount(0)
 })
 
-test('the supplied sample photo is usable without opening a photo chooser', async ({ page }) => {
+test('the supplied sample photo is usable without opening the device library', async ({ page }) => {
   const screen = journey(page, 'welcome')
   const before = await storedGame(page)
   let chooserCount = 0
   page.on('filechooser', () => {
     chooserCount += 1
   })
-  await screen.getByRole('button', { name: 'サンプル写真を使う', exact: true }).click()
+  await (
+    await openTutorialPhotoChoices(page)
+  )
+    .getByRole('button', { name: 'サンプル写真を使う', exact: true })
+    .click()
   const preview = screen.getByRole('img', { name: 'サンプルのカレー写真', exact: true })
   await expect(preview).toHaveAttribute('src', samplePath)
   await expect
@@ -223,10 +362,17 @@ test('choosing the sample while a photo loads prevents a late decode from replac
       },
     })
   })
-  await screen.getByLabel('撮影済みの料理写真', { exact: true }).setInputFiles(photo)
+  await (
+    await openTutorialPhotoChoices(page)
+  )
+    .getByLabel('撮影済みの料理写真', { exact: true })
+    .setInputFiles(photo)
   await expect(lesson).toHaveAttribute('data-phase', 'loading')
   await expect(screen.getByRole('button', { name: '読み込み中', exact: true })).toBeDisabled()
-  await screen.getByRole('button', { name: 'サンプル写真を使う', exact: true }).click()
+  const choices = await openTutorialPhotoChoices(page)
+  await expect(choices.getByRole('button', { name: '料理の写真を撮る' })).toBeDisabled()
+  await expect(choices.getByRole('button', { name: '撮った写真を選ぶ' })).toBeDisabled()
+  await choices.getByRole('button', { name: 'サンプル写真を使う', exact: true }).click()
   await expect(lesson).toHaveAttribute('data-phase', 'photo')
   await page.evaluate(() => window.dispatchEvent(new Event('release-tutorial-photo')))
   await expect
@@ -255,18 +401,26 @@ for (const invalid of [
     const screen = journey(page, 'welcome')
     const lesson = screen.locator('.tutorial-first-photo')
     const before = await storedGame(page)
-    await screen.getByLabel('撮影済みの料理写真', { exact: true }).setInputFiles({
-      name: invalid.name,
-      mimeType: invalid.mimeType,
-      buffer: Buffer.from('This is not an image'),
-    })
+    await (
+      await openTutorialPhotoChoices(page)
+    )
+      .getByLabel('撮影済みの料理写真', { exact: true })
+      .setInputFiles({
+        name: invalid.name,
+        mimeType: invalid.mimeType,
+        buffer: Buffer.from('This is not an image'),
+      })
     await expect(lesson.getByRole('alert')).toHaveText(invalid.error)
     await expect(lesson).toHaveAttribute('data-phase', 'cooking')
     await expect(
-      screen.getByRole('button', { name: '料理の写真を撮る', exact: true }),
-    ).toBeEnabled()
+      screen.getByRole('button', { name: '今日の料理を一枚', exact: true }),
+    ).toBeFocused()
     expect(await storedGame(page)).toEqual(before)
-    await screen.getByRole('button', { name: 'サンプル写真を使う', exact: true }).click()
+    await (
+      await openTutorialPhotoChoices(page)
+    )
+      .getByRole('button', { name: 'サンプル写真を使う', exact: true })
+      .click()
     await expect(lesson.getByRole('alert')).toHaveCount(0)
     await expect(lesson).toHaveAttribute('data-phase', 'photo')
     await expect(

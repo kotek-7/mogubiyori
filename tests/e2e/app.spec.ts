@@ -10,6 +10,7 @@ import {
   journey,
   navigate,
   nextDay,
+  openTutorialPhotoChoices,
   returnToPlaza,
   sampleToTable,
   selectMealRecipe,
@@ -44,11 +45,12 @@ test('each starter appears in meal practice and its choice survives reload', asy
     await chooseStarter(page, name)
     await expectFocusedScene(page, 'welcome')
     const welcome = journey(page, 'welcome')
-    await welcome.getByRole('button', { name: 'サンプル写真を使う', exact: true }).click()
+    const choices = await openTutorialPhotoChoices(page)
+    await choices.getByRole('button', { name: 'サンプル写真を使う', exact: true }).click()
     await welcome.getByRole('button', { name: 'この写真でごはんをあげる', exact: true }).click()
     await expect(welcome.locator('.tutorial-meal-world')).toHaveClass(/is-eating/)
     await expect(welcome.locator('.tutorial-pet-name')).toHaveText(name)
-    await page.getByRole('button', { name: 'ひろばを見てみる' }).click()
+    await page.getByRole('button', { name: 'チュートリアルをスキップしてひろばへ' }).click()
     await waitForSceneMotion(page)
     await page.reload()
     await expect(page.locator('.play-name')).toContainText(name)

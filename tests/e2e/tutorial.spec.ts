@@ -2,7 +2,13 @@ import { expect, test } from '@playwright/test'
 import type { Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import type { GameState } from '../../src/app/game/browserGame'
-import { chooseStarter, journey, storedGame, waitForSceneMotion } from './helpers'
+import {
+  chooseStarter,
+  journey,
+  openTutorialPhotoChoices,
+  storedGame,
+  waitForSceneMotion,
+} from './helpers'
 
 const scenes = [
   'welcome',
@@ -29,7 +35,11 @@ async function expectPracticeOnly(page: Page, before: GameState) {
 
 async function firstMeal(page: Page) {
   const screen = journey(page, 'welcome')
-  await screen.getByRole('button', { name: 'サンプル写真を使う', exact: true }).click()
+  await (
+    await openTutorialPhotoChoices(page)
+  )
+    .getByRole('button', { name: 'サンプル写真を使う', exact: true })
+    .click()
   await expect(screen.getByRole('img', { name: 'サンプルのカレー写真' })).toBeVisible()
   await screen.getByRole('button', { name: 'この写真でごはんをあげる', exact: true }).click()
   await expect(screen.locator('.tutorial-meal-world')).toHaveClass(/is-eating/)
@@ -156,7 +166,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/')
 })
 
-test('seven taps reach the plaza without waiting for chapter demonstrations', async ({ page }) => {
+test('eight taps reach the plaza without waiting for chapter demonstrations', async ({ page }) => {
   await chooseStarter(page)
   const before = await storedGame(page)
   await page.evaluate(() => {
@@ -177,7 +187,7 @@ test('seven taps reach the plaza without waiting for chapter demonstrations', as
   await expect(journey(page)).toHaveCount(0)
   await expect(page.getByRole('heading', { name: 'ひろば', exact: true })).toBeVisible()
   await expect(page.getByRole('region', { name: 'ひろばのガイド', exact: true })).toBeVisible()
-  await expect(page.locator('html')).toHaveAttribute('data-tutorial-taps', '7')
+  await expect(page.locator('html')).toHaveAttribute('data-tutorial-taps', '8')
   expect((await storedGame(page)).tutorial).toEqual({
     version: 1,
     step: 4,
@@ -251,7 +261,9 @@ test('a paused chapter restarts and completed guidance replays without changing 
   const before = await storedGame(page)
   await skipToChapter(page, 2)
   await expect(demoPhase(page, 2)).toHaveAttribute('data-phase', 'aroma')
-  await journey(page).getByRole('button', { name: 'ひろばを見てみる', exact: true }).click()
+  await journey(page)
+    .getByRole('button', { name: 'チュートリアルをスキップしてひろばへ', exact: true })
+    .click()
   await expect(journey(page)).toHaveCount(0)
   expect((await storedGame(page)).tutorial).toEqual({ version: 1, step: 2, status: 'paused' })
   await page.reload()
@@ -278,7 +290,11 @@ test('photo confirmation stays until feeding and interrupted photos reset', asyn
   const before = await storedGame(page)
   const screen = journey(page, 'welcome')
   const lesson = screen.locator('.tutorial-first-photo')
-  await screen.getByRole('button', { name: 'サンプル写真を使う', exact: true }).click()
+  await (
+    await openTutorialPhotoChoices(page)
+  )
+    .getByRole('button', { name: 'サンプル写真を使う', exact: true })
+    .click()
   await page.waitForTimeout(2000)
   await expect(lesson).toHaveAttribute('data-phase', 'photo')
   await expect(screen.locator('.tutorial-xp-panel')).toHaveCount(0)
@@ -287,7 +303,11 @@ test('photo confirmation stays until feeding and interrupted photos reset', asyn
   await expect(journey(page)).toHaveCount(0)
   await page.getByRole('button', { name: 'チュートリアルを続ける', exact: true }).click()
   await expect(lesson).toHaveAttribute('data-phase', 'cooking')
-  await screen.getByRole('button', { name: 'サンプル写真を使う', exact: true }).click()
+  await (
+    await openTutorialPhotoChoices(page)
+  )
+    .getByRole('button', { name: 'サンプル写真を使う', exact: true })
+    .click()
   await page.reload()
   await expect(lesson).toHaveAttribute('data-phase', 'cooking')
   await expect(screen.locator('.tutorial-photo img')).toHaveCount(0)
@@ -313,7 +333,7 @@ for (const viewport of [
         await screen.getByRole('button', { name: 'デモを一時停止', exact: true }).click()
       await waitForSceneMotion(page)
       for (const control of await screen
-        .locator('.tutorial-chapter-next, .journey-secondary')
+        .locator('.tutorial-chapter-next, [aria-label="チュートリアルをスキップしてひろばへ"]')
         .all()) {
         const box = await control.boundingBox()
         expect(box).not.toBeNull()

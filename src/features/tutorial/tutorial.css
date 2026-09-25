@@ -1,3 +1,25 @@
+.journey-screen:has(.tutorial-lesson) .journey-header {
+  grid-template-columns: 72px minmax(0, 1fr) 72px;
+}
+.tutorial-skip {
+  min-height: 44px;
+  padding: 8px;
+  border: 0;
+  border-radius: var(--game-radius-control);
+  background: none;
+  color: var(--game-muted);
+  font: inherit;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.tutorial-skip:hover {
+  background: var(--game-neutral-soft);
+  color: var(--game-ink);
+}
+.tutorial-skip:focus-visible {
+  outline: 3px solid var(--game-action);
+  outline-offset: 2px;
+}
 .journey-screen:has(.tutorial-lesson) .journey-heading {
   margin-bottom: 8px;
 }

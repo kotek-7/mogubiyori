@@ -554,7 +554,9 @@ for (const account of ['anonymous', 'Google-linked'] as const) {
     await page.getByRole('button', { name: 'こむぎを選ぶ', exact: true }).click()
     await page.getByRole('button', { name: 'この子とはじめる', exact: true }).click()
     await expect(scene(page, 'welcome')).toBeVisible()
-    await page.getByRole('button', { name: 'ひろばを見てみる', exact: true }).click()
+    await page
+      .getByRole('button', { name: 'チュートリアルをスキップしてひろばへ', exact: true })
+      .click()
     await expect(
       page.getByRole('button', { name: 'コイン 140枚、おみせへ', exact: true }),
     ).toBeVisible()

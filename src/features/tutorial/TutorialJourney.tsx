@@ -31,7 +31,7 @@ const scenes = [
   'tutorial-streak',
 ]
 const titles = [
-  '最初の料理写真を撮ろう',
+  '写真でごはんをあげよう',
   '育つと姿が変わる',
   '育った子にごはんをあげよう',
   '作った料理を記録しよう',
@@ -98,7 +98,11 @@ function TutorialLesson({
   )
   useEffect(() => {
     function cancel(event: KeyboardEvent) {
-      if (event.key === 'Escape' && !event.defaultPrevented) {
+      if (
+        event.key === 'Escape' &&
+        !event.defaultPrevented &&
+        !document.querySelector('dialog[open]')
+      ) {
         event.preventDefault()
         onPause()
       }
@@ -162,31 +166,32 @@ function TutorialLesson({
       progress={{ current: step + 1, total: 5, label: 'チュートリアルの進み具合' }}
       onBack={step > 0 ? () => onStep((step - 1) as TutorialStep) : undefined}
       backLabel="前の練習に戻る"
-      onClose={onPause}
-      closeLabel="チュートリアルを中断"
+      headerAction={
+        <button
+          type="button"
+          className="tutorial-skip"
+          aria-label="チュートリアルをスキップしてひろばへ"
+          onClick={onPause}
+        >
+          スキップ
+        </button>
+      }
       footer={
-        <>
-          {(step > 0 || done) && (
-            <button
-              className="tutorial-chapter-next"
-              aria-label={step < 4 ? `次の章へ：${chapters[step + 1]}` : 'ひろばへ'}
-              onClick={advance}
-            >
-              <span>
-                <small>
-                  {step < 4 ? '次の章へ' : replay ? 'チュートリアルを閉じる' : '自炊をはじめよう'}
-                </small>
-                <strong>{step < 4 ? chapters[step + 1] : 'ひろばへ'}</strong>
-              </span>
-              <ArrowRight size={23} aria-hidden="true" />
-            </button>
-          )}
-          {step !== 4 && (
-            <button className="journey-secondary" onClick={onPause}>
-              ひろばを見てみる
-            </button>
-          )}
-        </>
+        step > 0 || done ? (
+          <button
+            className="tutorial-chapter-next"
+            aria-label={step < 4 ? `次の章へ：${chapters[step + 1]}` : 'ひろばへ'}
+            onClick={advance}
+          >
+            <span>
+              <small>
+                {step < 4 ? '次の章へ' : replay ? 'チュートリアルを閉じる' : '自炊をはじめよう'}
+              </small>
+              <strong>{step < 4 ? chapters[step + 1] : 'ひろばへ'}</strong>
+            </span>
+            <ArrowRight size={23} aria-hidden="true" />
+          </button>
+        ) : undefined
       }
     >
       <div className={`tutorial-lesson tutorial-step-${step}`} data-playing={playing}>

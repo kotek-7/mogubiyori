@@ -14,6 +14,35 @@
   min-height: 0;
   object-fit: contain;
 }
+.tutorial-first-photo-entry {
+  width: 100%;
+  align-content: center;
+  gap: 10px;
+  border: 2px dashed var(--game-action);
+  background: var(--game-surface);
+  color: var(--game-ink);
+  font: inherit;
+  cursor: pointer;
+}
+.tutorial-first-photo-entry > svg {
+  color: var(--game-action);
+}
+.tutorial-first-photo-entry > strong {
+  font-size: 18px;
+}
+.tutorial-first-photo-entry > span {
+  color: var(--game-muted);
+  font-size: 12px;
+}
+.tutorial-first-photo-entry:hover {
+  background: var(--game-neutral-soft);
+}
+.tutorial-first-photo-entry:focus-visible,
+.tutorial-first-photo-sources > button:focus-visible,
+.tutorial-first-photo-retake:focus-visible {
+  outline: 3px solid var(--game-action);
+  outline-offset: 3px;
+}
 .tutorial-first-photo-placeholder {
   display: grid;
   justify-items: center;
@@ -31,24 +60,22 @@
   color: var(--game-ink);
   font-size: 12px;
 }
-.tutorial-first-photo-options {
+.tutorial-first-photo-sources {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+  gap: 12px;
 }
-.tutorial-first-photo-options > button {
+.tutorial-first-photo-sources > button {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 5px;
-  min-height: 44px;
-  padding: 7px 4px;
+  gap: 12px;
+  min-height: 56px;
+  padding: 12px;
   border: 1px solid var(--game-line);
   border-radius: var(--game-radius-control);
   background: var(--game-surface);
   color: var(--game-ink);
   font: inherit;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.5;
 }
 .tutorial-first-photo-retake {
@@ -83,9 +110,6 @@
   }
   .tutorial-first-photo-preview {
     height: 125px;
-  }
-  .tutorial-first-photo-options > button {
-    font-size: 11px;
   }
   .tutorial-photo > img {
     height: 48px;
