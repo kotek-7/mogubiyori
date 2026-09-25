@@ -52,7 +52,7 @@ export const items: Item[] = [
   {
     id: 'chef',
     name: 'コックさんの帽子',
-    description: '白いコック帽。',
+    description: '白いコック帽。かまどの棚にしまっても、煮た豆と薪の匂いが少し残る。',
     kind: 'hat',
     currency: 'gems',
     price: 80,
@@ -130,7 +130,8 @@ export const items: Item[] = [
   {
     id: 'neck-bow',
     name: 'おめかしリボン',
-    description: 'くびもとで結んだ、晴れの日のリボン。',
+    description:
+      'くびもとで結ぶ、晴れの日のリボン。市の日に贈られ、寝床まで大事に運ばれることもある。',
     kind: 'neck',
     currency: 'coins',
     price: 160,
@@ -146,7 +147,7 @@ export const items: Item[] = [
   {
     id: 'neck-shell',
     name: '貝がらペンダント',
-    description: '浜辺で見つけた貝がらのペンダント。',
+    description: '浜辺で見つけた貝がらのペンダント。穴にひもを通したのは、帰りの舟を待つあいだ。',
     kind: 'neck',
     currency: 'gems',
     price: 60,
@@ -162,7 +163,8 @@ export const items: Item[] = [
   {
     id: 'bag-satchel',
     name: 'おさんぽポシェット',
-    description: '小さなたからものをしまえるポシェット。',
+    description:
+      '小さなたからものをしまえるポシェット。市場へ行くもぐの中には、コインの代わりに光る石を詰めるものもいる。',
     kind: 'bag',
     currency: 'coins',
     price: 200,
@@ -170,7 +172,8 @@ export const items: Item[] = [
   {
     id: 'bag-basket',
     name: 'ピクニックかご',
-    description: 'おべんとうを詰めた、編み目のかご。',
+    description:
+      'おべんとうを詰めた、編み目のかご。帰り道には空いた場所に、もぐが拾った木の実が入っている。',
     kind: 'bag',
     currency: 'coins',
     price: 280,
@@ -210,7 +213,7 @@ export const items: Item[] = [
   {
     id: 'night',
     name: '星あかりのひろば',
-    description: '星空が見える夜のひろば。',
+    description: '星空が見える夜のひろば。遠くのかまどでは、夜に起きるもぐのために火がともる。',
     kind: 'room',
     currency: 'gems',
     price: 120,
