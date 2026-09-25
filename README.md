@@ -5,7 +5,6 @@
 > 最新のコード・Issue・Pull Requestは [kotek-7/mogubiyori](https://github.com/kotek-7/mogubiyori) を参照してください。
 > 今後の開発は移行先で行います。このリポジトリには移行時点の履歴を残しています。
 
-
 # もぐ日和
 
 **きみのごはんで、なかまが育つ。**
