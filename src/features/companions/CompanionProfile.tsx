@@ -47,6 +47,10 @@ export function CompanionProfile({
       <section className="profile-form" aria-live="polite" aria-atomic="true">
         <h3>{stageName(shownStage)}のころ</h3>
         <p className="profile-form-description">{profile.stages[shownStage]}</p>
+        <div className="profile-habit">
+          <h4>しぐさ</h4>
+          <p>{profile.habits[shownStage]}</p>
+        </div>
       </section>
       {companion && (
         <>

@@ -55,7 +55,7 @@ test('five forms unlock in order and collected forms can be revisited without ch
 })
 
 for (const entry of species) {
-  test(`${entry.name} keeps ecology and personality separate while browsing all five growth descriptions`, async ({
+  test(`${entry.name} keeps ecology and personality separate while browsing all five growth descriptions and habits`, async ({
     page,
   }) => {
     await page.setViewportSize({ width: 390, height: 844 })
@@ -83,20 +83,27 @@ for (const entry of species) {
     await expect(personality.locator('p')).toHaveText(profile.personality)
     const commonText = await common.textContent()
     const descriptions = new Set<string>()
+    const habits = new Set<string>()
+    const habit = dialog.locator('.profile-habit')
+    await expect(habit.getByRole('heading')).toHaveText('しぐさ')
     for (const { stage, name } of growthStages) {
       await dialog.getByRole('button', { name: `${name}の姿を見る` }).click()
       await expect(dialog.getByRole('heading', { name: `${name}のころ` })).toBeVisible()
       const description = dialog.locator('.profile-form-description')
       await expect(description).toHaveText(profile.stages[stage])
       descriptions.add((await description.textContent())!)
+      await expect(habit.locator('p')).toHaveText(profile.habits[stage])
+      habits.add((await habit.locator('p').textContent())!)
       expect(await common.textContent()).toBe(commonText)
       await expect(personality.locator('p')).toHaveText(profile.personality)
     }
     expect(descriptions.size).toBe(5)
+    expect(habits.size).toBe(5)
     await common.locator('summary').click()
     await expect(common.locator('p').first()).not.toBeVisible()
     await expect(personality.locator('p')).toBeVisible()
     await expect(dialog.locator('.profile-form-description')).toBeVisible()
+    await expect(habit.locator('p')).toBeVisible()
     await dialog.getByRole('button', { name: 'きせかえ' }).scrollIntoViewIfNeeded()
     await expect(dialog.getByRole('button', { name: 'きせかえ' })).toBeInViewport()
     expect(await dialog.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(

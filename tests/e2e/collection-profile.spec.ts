@@ -44,6 +44,7 @@ test('reading another companion from the collection preserves progress and retur
     companionProfiles.mame.personality,
   )
   await expect(dialog.locator('.profile-sheet > .pet-art')).toHaveClass(/pet-stage-2/)
+  await expect(dialog.locator('.profile-habit p')).toHaveText(companionProfiles.mame.habits[2])
   await expect(dialog.locator('.growth-trail-step:enabled')).toHaveCount(3)
   await expect(dialog.locator('.growth-trail-step:disabled')).toHaveCount(2)
   await expect(dialog.getByRole('progressbar', { name: '次の成長まで' })).toBeVisible()
@@ -54,6 +55,7 @@ test('reading another companion from the collection preserves progress and retur
   await expect(dialog.locator('.profile-form-description')).toHaveText(
     companionProfiles.mame.stages[0],
   )
+  await expect(dialog.locator('.profile-habit p')).toHaveText(companionProfiles.mame.habits[0])
   await expect(dialog.locator('.profile-sheet > .pet-art')).toHaveClass(/pet-stage-0/)
   await page.keyboard.press('Escape')
   await expect(dialog).toHaveCount(0)
@@ -70,6 +72,7 @@ test('reading another companion from the collection preserves progress and retur
   await expect(dialog.locator('.profile-form-description')).toHaveText(
     companionProfiles.mame.stages[2],
   )
+  await expect(dialog.locator('.profile-habit p')).toHaveText(companionProfiles.mame.habits[2])
   await dialog.getByRole('button', { name: '閉じる', exact: true }).click()
   await expect(openProfile).toBeFocused()
   expect(await storedGame(page)).toEqual(before)
@@ -94,6 +97,7 @@ test('visitors have readable descriptions without owned progress and unknown com
   await expect(dialog.locator('.profile-form-description')).toHaveText(
     companionProfiles.shizuku.stages[0],
   )
+  await expect(dialog.locator('.profile-habit p')).toHaveText(companionProfiles.shizuku.habits[0])
   await expect(dialog.locator('.profile-sheet > .pet-art')).toHaveClass(/pet-stage-0/)
   await expect(dialog.locator('.growth-trail-step:enabled')).toHaveCount(1)
   await expect(dialog.locator('.growth-trail-step:disabled')).toHaveCount(4)

@@ -86,12 +86,14 @@ button.growth-trail-step {
   text-align: left;
 }
 .profile-sheet .profile-form h3,
+.profile-sheet .profile-habit h4,
 .profile-sheet .profile-personality h3 {
   margin: 0 0 8px;
   color: var(--game-ink);
   font-size: 14px;
 }
 .profile-sheet .profile-form-description,
+.profile-sheet .profile-habit p,
 .profile-sheet .profile-description p,
 .profile-sheet .profile-personality p {
   margin: 0;
@@ -99,6 +101,9 @@ button.growth-trail-step {
   font-size: 14px;
   line-height: 1.9;
   overflow-wrap: anywhere;
+}
+.profile-sheet .profile-habit {
+  margin-top: 16px;
 }
 .profile-sheet .profile-description {
   margin: 20px 0 0;
