@@ -329,11 +329,13 @@ function TutorialLesson({
               beforeDays={Math.max(0, days - 1)}
               afterDays={days}
               reward={days === 3 ? 30 : 0}
+              ticketReward={days === 3 ? 1 : 0}
               compact
               onComplete={() => setStreakReady(true)}
             />
             <TutorialGuide>
-              自炊の記録を3日続けると30コイン、毎日のログインで{LOGIN_BONUS}コインもらえます。
+              自炊の記録を3日続けると30コイン。3日ごとにおやすみチケット1枚、毎日のログインで
+              {LOGIN_BONUS}コインもらえます。
               作った料理は「記録」、7日間の振り返りは「レポート」で見られます。
             </TutorialGuide>
           </>

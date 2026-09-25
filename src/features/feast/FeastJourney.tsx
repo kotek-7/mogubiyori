@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowRight, Coins, Flame, Heart, Sparkles, Utensils } from 'lucide-react'
+import { ArrowRight, Coins, Flame, Heart, Moon, Sparkles, Utensils } from 'lucide-react'
 import { GatheringScene, ItemArt, Pet } from '../../ui/art/GameArt'
 import { RecipeArt } from '../../ui/art/RecipeArt'
 import { JourneyFrame } from '../../ui/journey/JourneyFrame'
@@ -98,6 +98,12 @@ export function FeastJourney({
         <Flame size={15} />
         <strong>{streak.afterDays}日連続</strong>
       </span>
+      {!!streak.ticketBonus && (
+        <span>
+          <Moon size={15} />
+          おやすみチケット <strong>+{streak.ticketBonus}枚</strong>
+        </span>
+      )}
       {!!meal.streakBonus && <small>継続ボーナス +{meal.streakBonus} コインを含む</small>}
     </div>
   )
@@ -273,6 +279,7 @@ export function FeastJourney({
             beforeDays={step.beforeDays}
             afterDays={step.afterDays}
             reward={step.reward}
+            ticketReward={step.ticketReward}
             onComplete={() => setCompletedStreak(index)}
           />
         )}

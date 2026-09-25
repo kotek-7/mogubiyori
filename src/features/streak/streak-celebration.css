@@ -152,6 +152,21 @@
   font-size: 12px;
   font-weight: 750;
 }
+.streak-celebration-rewards {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 12px;
+}
+.streak-celebration-rewards > strong {
+  white-space: nowrap;
+}
+.streak-celebration.has-ticket-reward .streak-celebration-prize {
+  width: min(330px, 100%);
+}
+.streak-celebration-prize .streak-celebration-ticket {
+  font-size: 20px;
+}
 .streak-celebration.is-counted .streak-celebration-number strong {
   display: inline-block;
   animation: streak-count-in 450ms ease-out both;
@@ -242,6 +257,11 @@
 .streak-celebration.is-compact .streak-celebration-prize small {
   font-size: 10px;
 }
+.streak-celebration.is-compact.has-ticket-reward {
+  height: auto;
+  min-height: 170px;
+  grid-template-rows: 55px 53px auto;
+}
 @keyframes streak-stamp-in {
   from {
     transform: scale(1.35) rotate(-10deg);
@@ -298,6 +318,13 @@
   }
   .streak-celebration:not(.is-compact) .streak-celebration-stamp {
     height: 37px;
+  }
+  .streak-celebration.has-ticket-reward:not(.is-compact) {
+    gap: 8px;
+    padding-block: 4px;
+  }
+  .streak-celebration.has-ticket-reward:not(.is-compact) .streak-celebration-prize {
+    padding: 8px 12px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

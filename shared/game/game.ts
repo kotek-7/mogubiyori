@@ -6,6 +6,8 @@ import type { MealRecord, MealRecordUpdate } from '../meals/types'
 import type { Companion, FeedInput, GameState, GrowthStage, SpeciesId } from './types'
 import { canRecordMeal } from './subscription'
 
+export const REST_TICKET_STREAK_INTERVAL = 3
+
 export function shiftDay(day: string, days: number): string {
   const date = new Date(`${day}T12:00:00Z`)
   date.setUTCDate(date.getUTCDate() + days)
@@ -265,8 +267,11 @@ export function feed(
   }
   const streak = streakOf(next)
   const streakBonus = first ? (streak > 0 && streak % 7 === 0 ? 100 : streak === 3 ? 30 : 0) : 0
+  const ticketBonus = first && streak > 0 && streak % REST_TICKET_STREAK_INTERVAL === 0 ? 1 : 0
   next.coins += streakBonus
+  next.tickets += ticketBonus
   next.meals[0].streakBonus = streakBonus
+  next.meals[0].ticketBonus = ticketBonus
   next.meals[0].coins += streakBonus
   if (first && streakOf(next) >= 7 && !state.owned.includes('sprout')) {
     next.owned = [...state.owned, 'sprout']

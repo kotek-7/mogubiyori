@@ -40,6 +40,26 @@ describe('streak celebration timeline', () => {
     expect(onComplete).toHaveBeenCalledTimes(1)
   })
 
+  it('reveals a ticket-only reward before completing the celebration', () => {
+    vi.useFakeTimers()
+    const onPhase = vi.fn()
+    const onComplete = vi.fn()
+    playStreakAnimation({
+      changed: true,
+      reward: 0,
+      ticketReward: 1,
+      reducedMotion: false,
+      onPhase,
+      onComplete,
+    })
+    vi.advanceTimersByTime(STREAK_TIMING.reward)
+    expect(onPhase.mock.calls.flat()).toEqual(['waiting', 'recorded', 'counted', 'rewarded'])
+    expect(onComplete).not.toHaveBeenCalled()
+    vi.advanceTimersByTime(STREAK_TIMING.complete - STREAK_TIMING.reward)
+    expect(onPhase).toHaveBeenLastCalledWith('complete')
+    expect(onComplete).toHaveBeenCalledTimes(1)
+  })
+
   it('cancels all pending work when leaving or replacing the scene', () => {
     vi.useFakeTimers()
     const onPhase = vi.fn()
@@ -61,6 +81,7 @@ describe('streak celebration timeline', () => {
 
   it.each([
     { changed: true, reward: 100, reducedMotion: true },
+    { changed: true, reward: 0, ticketReward: 1, reducedMotion: true },
     { changed: false, reward: 0, reducedMotion: false },
   ])('immediately settles without timers when animation is unnecessary: %j', (options) => {
     vi.useFakeTimers()

@@ -346,6 +346,72 @@ describe('daily cooking and growth', () => {
 })
 
 describe('rest tickets', () => {
+  it('earns a ticket every third cooking day and cannot repeat the reward after reload', () => {
+    let state = { ...chooseStarter(premium(initialGame(date)), 'komugi'), tickets: 0 }
+    for (let count = 1; count <= 9; count += 1) {
+      const after = feed(state, meal)
+      expect(streakOf(after)).toBe(count)
+      expect(after.meals[0].ticketBonus).toBe(count % 3 === 0 ? 1 : 0)
+      expect(after.tickets).toBe(Math.floor(count / 3))
+
+      const loaded = parseGame(JSON.stringify(after), date)
+      expect(loaded).toEqual(after)
+      const repeated = feed(loaded, meal)
+      expect(repeated.meals).toHaveLength(loaded.meals.length + 1)
+      expect(repeated.meals[0].ticketBonus).toBe(0)
+      expect(repeated.tickets).toBe(after.tickets)
+      state = advanceGame(repeated)
+    }
+  })
+
+  it('preserves progress across a rest day and rewards only the next cooking day', () => {
+    const first = feed(chooseStarter(initialGame(date), 'komugi'), meal)
+    const second = feed(advanceGame(first), meal)
+    const beforeRest = advanceGame(second)
+    const rested = restGame(beforeRest)
+    expect(streakOf(rested)).toBe(2)
+    expect(rested.tickets).toBe(beforeRest.tickets - 1)
+    expect(restGame(rested)).toBe(rested)
+
+    const third = feed(advanceGame(rested), meal)
+    expect(streakOf(third)).toBe(3)
+    expect(third.meals[0].ticketBonus).toBe(1)
+    expect(third.tickets).toBe(rested.tickets + 1)
+    expect(third.rests).toEqual([rested.today])
+  })
+
+  it('refunds a same-day rest and awards the milestone ticket separately', () => {
+    const first = feed(chooseStarter(premium(initialGame(date)), 'komugi'), meal)
+    const second = feed(advanceGame(first), meal)
+    const rested = restGame(advanceGame(second))
+    const third = feed(rested, meal)
+    expect(third.meals[0].ticketBonus).toBe(1)
+    expect(third.tickets).toBe(rested.tickets + 2)
+    expect(third.rests).toEqual([])
+    const repeated = feed(third, meal)
+    expect(repeated.meals).toHaveLength(third.meals.length + 1)
+    expect(repeated.meals[0].ticketBonus).toBe(0)
+    expect(repeated.tickets).toBe(third.tickets)
+  })
+
+  it('earns another ticket after rebuilding a broken three-day streak', () => {
+    let state = chooseStarter(initialGame(date), 'komugi')
+    for (let count = 1; count <= 3; count += 1) {
+      state = feed(state, meal)
+      if (count < 3) state = advanceGame(state)
+    }
+    expect(state.tickets).toBe(3)
+    state = advanceGame(state, 2)
+    expect(streakOf(state)).toBe(0)
+    for (let count = 1; count <= 3; count += 1) {
+      state = feed(state, meal)
+      expect(streakOf(state)).toBe(count)
+      expect(state.meals[0].ticketBonus).toBe(count === 3 ? 1 : 0)
+      expect(state.tickets).toBe(count === 3 ? 4 : 3)
+      if (count < 3) state = advanceGame(state)
+    }
+  })
+
   it('protects a streak without feeding or earning a cooking day', () => {
     const initial = demoGame(date)
     const rested = restGame(initial)

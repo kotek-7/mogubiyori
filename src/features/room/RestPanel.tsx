@@ -1,5 +1,5 @@
 import { Pet } from '../../ui/art/GameArt'
-import { fedToday, stageOf } from '../../app/game/browserGame'
+import { fedToday, REST_TICKET_STREAK_INTERVAL, stageOf } from '../../app/game/browserGame'
 import type { GameState } from '../../app/game/browserGame'
 
 export function RestPanel({
@@ -27,6 +27,7 @@ export function RestPanel({
       />
       <p>1枚使うと今日の連続記録を維持できます。</p>
       <span className="rest-tickets">おやすみチケット　あと {state.tickets} 枚</span>
+      <p>ごはんの連続記録が{REST_TICKET_STREAK_INTERVAL}日増えるごとに、1枚もらえます。</p>
       <button
         className="primary-button full"
         disabled={busy || already || state.tickets === 0 || fedToday(state)}

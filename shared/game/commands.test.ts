@@ -194,12 +194,47 @@ describe('committed feed receipts', () => {
   it('records non-bonus cooking progress and excludes protected rest days', () => {
     const starter = chooseStarter(initialGame(today), 'komugi')
     const first = applyGameCommand(starter, command, environment)
-    expect(first.receipt?.streak).toEqual({ beforeDays: 0, afterDays: 1, bonus: 0 })
+    expect(first.receipt?.streak).toEqual({ beforeDays: 0, afterDays: 1, bonus: 0, ticketBonus: 0 })
     const tomorrow = shiftDay(today, 1)
     const rested = restGame({ ...first.state, today: tomorrow })
     const dayAfter = shiftDay(tomorrow, 1)
     const next = applyGameCommand(rested, command, { today: dayAfter, mealId: 'meal-after-rest' })
-    expect(next.receipt?.streak).toEqual({ beforeDays: 1, afterDays: 2, bonus: 0 })
+    expect(next.receipt?.streak).toEqual({ beforeDays: 1, afterDays: 2, bonus: 0, ticketBonus: 0 })
+  })
+
+  it('records the committed ticket reward and preserves current and legacy receipts', () => {
+    let state = chooseStarter(initialGame(shiftDay(today, -2)), 'komugi')
+    for (const offset of [-2, -1]) {
+      state = applyGameCommand(state, command, {
+        today: shiftDay(today, offset),
+        mealId: `meal-${offset}`,
+      }).state
+    }
+    const result = applyGameCommand(state, command, environment)
+    expect(result.receipt?.streak).toEqual({
+      beforeDays: 2,
+      afterDays: 3,
+      bonus: 30,
+      ticketBonus: 1,
+    })
+    expect(result.receipt?.meal.ticketBonus).toBe(1)
+    expect(result.state.tickets).toBe(state.tickets + 1)
+    const response = { snapshot: { state: result.state, revision: 3 }, receipt: result.receipt }
+    expect(commandResponseSchema.parse(JSON.parse(JSON.stringify(response)))).toEqual(response)
+    expect(decodeGame(JSON.parse(JSON.stringify(result.state)), today)).toEqual(result.state)
+
+    const legacy = JSON.parse(JSON.stringify(response)) as typeof response
+    delete legacy.receipt!.streak.ticketBonus
+    delete legacy.receipt!.meal.ticketBonus
+    for (const meal of legacy.snapshot.state.meals) delete meal.ticketBonus
+    expect(commandResponseSchema.parse(legacy)).toEqual(legacy)
+    expect(decodeGame(legacy.snapshot.state, today)).toEqual(legacy.snapshot.state)
+
+    expect(applyGameCommand(result.state, command, environment)).toEqual({
+      state: result.state,
+      receipt: null,
+      changed: false,
+    })
   })
 })
 
@@ -216,6 +251,7 @@ describe('transport and saved-data boundaries', () => {
     for (const input of [
       { ...command.input, xp: 999 },
       { ...command.input, coins: 999 },
+      { ...command.input, ticketBonus: 999 },
       { ...command.input, photo: 'data:image/jpeg;base64,YWJjZA==' },
       { ...command.input, photoId: 'not-a-photo-id' },
     ])

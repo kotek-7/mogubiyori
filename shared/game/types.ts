@@ -30,6 +30,7 @@ export type GameMeal = {
   targetId?: SpeciesId
   cardBonus?: number
   streakBonus?: number
+  ticketBonus?: number
   mealRecordId?: string
 }
 

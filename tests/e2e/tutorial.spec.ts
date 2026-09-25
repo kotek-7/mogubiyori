@@ -137,7 +137,8 @@ async function watchDemo(page: Page, step: number) {
       'aria-hidden',
       'false',
     )
-    await expect(celebration.locator('.streak-celebration-prize strong')).toContainText('+30')
+    await expect(celebration.locator('.streak-celebration-prize')).toContainText('+30')
+    await expect(celebration.locator('.streak-celebration-prize')).toContainText('おやすみチケット')
     await expect(guide).toContainText('3日続けると30コイン')
     await expect(guide).toContainText('レポート')
   }

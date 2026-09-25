@@ -19,7 +19,7 @@ export type FeedReceipt = Readonly<{
   newCards: readonly string[]
   newVisitors: readonly SpeciesId[]
   newItems: readonly string[]
-  streak: Readonly<{ beforeDays: number; afterDays: number; bonus: number }>
+  streak: Readonly<{ beforeDays: number; afterDays: number; bonus: number; ticketBonus?: number }>
   mealReport?: MealReportReceipt
 }>
 
@@ -62,6 +62,7 @@ export function createFeedReceipt(before: GameState, after: GameState): FeedRece
       beforeDays: streakOf({ ...before, today: meal.day }),
       afterDays: streakOf({ ...after, today: meal.day }),
       bonus: meal.streakBonus ?? 0,
+      ticketBonus: meal.ticketBonus ?? 0,
     }),
     ...(meal.mealRecordId
       ? {

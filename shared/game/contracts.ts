@@ -92,6 +92,7 @@ export const feedReceiptSchema: z.ZodType<FeedReceipt> = z.strictObject({
     beforeDays: nonnegativeIntegerSchema,
     afterDays: nonnegativeIntegerSchema,
     bonus: nonnegativeIntegerSchema,
+    ticketBonus: nonnegativeIntegerSchema.optional(),
   }),
   mealReport: mealReportReceiptSchema.optional(),
 })

@@ -9,7 +9,14 @@ import {
   todayTokyo,
 } from '../../src/app/game/browserGame'
 import type { GameState } from '../../src/app/game/browserGame'
-import { enablePremium, feedSample, journey, returnToPlaza, storedGame } from './helpers'
+import {
+  enablePremium,
+  feedSample,
+  journey,
+  returnToPlaza,
+  storedGame,
+  waitForSceneMotion,
+} from './helpers'
 
 const plainMeal = { title: '今日のごはん', sample: 'rice' }
 
@@ -119,7 +126,7 @@ test('a second cooking day fills its record and counts up without inventing a bo
   expect((await storedGame(page)).coins).toBe(saved.coins)
 })
 
-test('a cooking milestone fills the day, increments the streak and reveals coins in order', async ({
+test('a cooking milestone reveals coins and a rest ticket without awarding them twice', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 })
@@ -145,10 +152,23 @@ test('a cooking milestone fills the day, increments the streak and reveals coins
   expect(samples[2]).toMatchObject({ days: 3, recorded: true, bonus: false, locked: true })
   expect(samples[3]).toMatchObject({ days: 3, recorded: true, bonus: true, locked: true })
   await expect(screen.locator('.streak-celebration-prize')).toContainText('+30')
+  await expect(screen.locator('.streak-celebration-prize')).toContainText('おやすみチケット')
+  await expect(screen.locator('.streak-celebration-prize')).toContainText('+1')
   expect(saved.coins - before.coins).toBe(60)
+  expect(saved.tickets - before.tickets).toBe(1)
   expect(saved.meals[0].streakBonus).toBe(30)
+  expect(saved.meals[0].ticketBonus).toBe(1)
   expect(await storedGame(page)).toEqual(saved)
   await page.screenshot({ path: test.info().outputPath('streak-three-days-390.png') })
+  await page.setViewportSize({ width: 320, height: 568 })
+  await waitForSceneMotion(page)
+  const nextBounds = await screen
+    .getByRole('button', { name: 'つづける', exact: true })
+    .boundingBox()
+  expect(nextBounds!.y).toBeGreaterThanOrEqual(0)
+  expect(nextBounds!.y + nextBounds!.height).toBeLessThanOrEqual(568)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  await page.screenshot({ path: test.info().outputPath('streak-three-days-320.png') })
   await screen
     .getByRole('button', { name: 'つづける', exact: true })
     .evaluate((button: HTMLButtonElement) => {
@@ -165,7 +185,11 @@ test('a cooking milestone fills the day, increments the streak and reveals coins
   expect(await returnToPlaza(page)).not.toContain('streak')
   const repeated = await storedGame(page)
   expect(repeated.coins).toBe(saved.coins)
+  expect(repeated.tickets).toBe(saved.tickets)
   expect(repeated.meals[0].streakBonus).toBe(0)
+  expect(repeated.meals[0].ticketBonus).toBe(0)
+  await page.reload()
+  expect(await storedGame(page)).toEqual(repeated)
 })
 
 test('the seven-day bonus settles immediately with reduced motion and fits a short phone', async ({
@@ -203,4 +227,44 @@ test('the seven-day bonus settles immediately with reduced motion and fits a sho
   expect(completed.coins).toBe(saved.coins)
   await page.reload()
   expect(await storedGame(page)).toEqual(completed)
+})
+
+test('a sixth cooking day replenishes a rest ticket and shows the next reward on a short phone', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  const before = await seedStreak(page, 5)
+  await page.locator('.play-streak').click()
+  let dialog = page.getByRole('dialog')
+  await expect(dialog).toContainText(/次の1枚まで あと\s*1\s*日/)
+  await dialog.getByRole('button', { name: /おやすみチケット/ }).click()
+  await expect(dialog).toContainText('ごはんの連続記録が3日増えるごとに、1枚もらえます。')
+  await dialog.getByRole('button', { name: '閉じる', exact: true }).click()
+  await expect(dialog).toHaveCount(0)
+
+  const saved = await reachStreak(page)
+  const screen = journey(page, 'streak')
+  const prize = screen.locator('.streak-celebration-prize')
+  await expect(prize).toContainText('おやすみチケット')
+  await expect(prize).toContainText('+1')
+  await expect(prize).not.toContainText('コイン')
+  expect(saved.tickets).toBe(before.tickets + 1)
+  expect(saved.meals[0].ticketBonus).toBe(1)
+  expect(saved.meals[0].streakBonus).toBe(0)
+  const next = screen.getByRole('button', { name: 'つづける', exact: true })
+  const bounds = await next.boundingBox()
+  expect(bounds!.y).toBeGreaterThanOrEqual(0)
+  expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(568)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  await page.screenshot({ path: test.info().outputPath('streak-ticket-six-days-320.png') })
+  await returnToPlaza(page)
+  await page.reload()
+  expect(await storedGame(page)).toEqual(saved)
+
+  await page.locator('.play-streak').click()
+  dialog = page.getByRole('dialog')
+  await expect(dialog).toContainText(/次の1枚まで あと\s*3\s*日/)
+  await expect(dialog).toContainText(`おやすみチケット ${saved.tickets} 枚`)
+  await page.screenshot({ path: test.info().outputPath('streak-ticket-progress-320.png') })
 })

@@ -60,7 +60,7 @@ describe('feast journey events', () => {
       { type: 'growth', from: 1, to: 2 },
       { type: 'growth', from: 2, to: 3 },
       { type: 'growth', from: 3, to: 4 },
-      { type: 'streak', beforeDays: 0, afterDays: 1, reward: 0 },
+      { type: 'streak', beforeDays: 0, afterDays: 1, reward: 0, ticketReward: 0 },
       { type: 'mealReport' },
     ])
     const next = feed(after, plainMeal)
@@ -84,7 +84,13 @@ describe('feast journey events', () => {
     expect(steps[2]).toEqual({ type: 'growth', from: 1, to: 2 })
     expect(steps[3]).toEqual({ type: 'card', recipeId: 'curry' })
     expect(steps[4]).toEqual({ type: 'arrivals', visitors: ['mame', 'shizuku', 'yuzu'] })
-    expect(steps[5]).toEqual({ type: 'streak', beforeDays: 6, afterDays: 7, reward: 100 })
+    expect(steps[5]).toEqual({
+      type: 'streak',
+      beforeDays: 6,
+      afterDays: 7,
+      reward: 100,
+      ticketReward: 0,
+    })
   })
 
   it('celebrates a visitor joining without claiming that an unowned baby evolved', () => {
@@ -149,7 +155,7 @@ describe('feast journey events', () => {
     expect(deriveFeastSteps(before, after)).toEqual([
       { type: 'eating' },
       { type: 'xp' },
-      { type: 'streak', beforeDays: 0, afterDays: 1, reward: 0 },
+      { type: 'streak', beforeDays: 0, afterDays: 1, reward: 0, ticketReward: 0 },
       { type: 'mealReport' },
     ])
   })
@@ -162,7 +168,13 @@ describe('feast journey events', () => {
       const streakSteps = deriveFeastSteps(before, after).filter((step) => step.type === 'streak')
       const bonus = count === 3 ? 30 : count % 7 === 0 ? 100 : 0
       expect(streakSteps).toEqual([
-        { type: 'streak', beforeDays: count - 1, afterDays: count, reward: bonus },
+        {
+          type: 'streak',
+          beforeDays: count - 1,
+          afterDays: count,
+          reward: bonus,
+          ticketReward: count % 3 === 0 ? 1 : 0,
+        },
       ])
       expect(after.meals[0].streakBonus).toBe(bonus)
       expect(after.coins - before.coins).toBe(30 + bonus)
@@ -185,6 +197,7 @@ describe('feast journey events', () => {
       beforeDays: 6,
       afterDays: 7,
       reward: 100,
+      ticketReward: 0,
     })
   })
 
@@ -213,11 +226,36 @@ describe('feast journey events', () => {
       beforeDays: 0,
       afterDays: 1,
       reward: 0,
+      ticketReward: 0,
     })
   })
 })
 
 describe('committed meal receipts', () => {
+  it('does not infer a ticket reward from legacy receipts at a three-day milestone', () => {
+    const first = feed(chooseStarter(initialGame(day), 'komugi'), plainMeal)
+    const second = feed(advanceGame(first), plainMeal)
+    const before = advanceGame(second)
+    const after = feed(before, plainMeal)
+    const receipt = JSON.parse(JSON.stringify(createFeedReceipt(before, after))) as FeedReceipt
+    expect(feastStepsFromReceipt(receipt)).toContainEqual({
+      type: 'streak',
+      beforeDays: 2,
+      afterDays: 3,
+      reward: 30,
+      ticketReward: 1,
+    })
+    delete receipt.streak.ticketBonus
+    delete receipt.meal.ticketBonus
+    expect(feastStepsFromReceipt(receipt)).toContainEqual({
+      type: 'streak',
+      beforeDays: 2,
+      afterDays: 3,
+      reward: 30,
+      ticketReward: 0,
+    })
+  })
+
   it('keeps receipts saved before food reports on their original journey', () => {
     const before = demoGame(day)
     const after = feed(before, { ...plainMeal, recipeId: 'curry' })

@@ -1334,6 +1334,17 @@ body:has(dialog[open]) {
   font-size: 10px;
   color: #837358;
 }
+.streak-ticket-gift {
+  margin-block: 20px 12px;
+}
+.streak-ticket-gift + .streak-gift {
+  margin-top: 12px;
+}
+.streak-ticket-gift > svg {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
 .rest-sheet,
 .letter-sheet {
   text-align: center;

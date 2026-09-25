@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Check, Coins, Flame, Sparkles, Utensils } from 'lucide-react'
+import { Check, Coins, Flame, Moon, Sparkles, Utensils } from 'lucide-react'
 import { playStreakAnimation } from './streakAnimation'
 import type { StreakPhase } from './streakAnimation'
 
@@ -7,6 +7,7 @@ export type StreakCelebrationProps = {
   beforeDays: number
   afterDays: number
   reward: number
+  ticketReward?: number
   compact?: boolean
   onComplete?: () => void
 }
@@ -18,13 +19,15 @@ export function StreakCelebration(props: StreakCelebrationProps) {
   const afterDays = whole(props.afterDays)
   const beforeDays = Math.min(whole(props.beforeDays), afterDays)
   const reward = whole(props.reward)
+  const ticketReward = whole(props.ticketReward ?? 0)
   return (
     <StreakAnimation
-      key={`${beforeDays}-${afterDays}-${reward}`}
+      key={`${beforeDays}-${afterDays}-${reward}-${ticketReward}`}
       {...props}
       beforeDays={beforeDays}
       afterDays={afterDays}
       reward={reward}
+      ticketReward={ticketReward}
     />
   )
 }
@@ -33,6 +36,7 @@ function StreakAnimation({
   beforeDays,
   afterDays,
   reward,
+  ticketReward = 0,
   compact = false,
   onComplete,
 }: StreakCelebrationProps) {
@@ -55,6 +59,7 @@ function StreakAnimation({
       playStreakAnimation({
         changed,
         reward,
+        ticketReward,
         reducedMotion,
         onPhase: setPhase,
         onComplete: () => {
@@ -63,7 +68,7 @@ function StreakAnimation({
           completeCallback.current?.()
         },
       }),
-    [changed, reward, reducedMotion],
+    [changed, reward, ticketReward, reducedMotion],
   )
 
   const recorded = phase !== 'waiting'
@@ -73,10 +78,11 @@ function StreakAnimation({
   const startDay = Math.max(1, afterDays - 6)
   const length = afterDays <= 3 ? 3 : 7
   const days = Array.from({ length }, (_, index) => startDay + index)
+  const hasReward = reward > 0 || ticketReward > 0
 
   return (
     <div
-      className={`streak-celebration${compact ? ' is-compact' : ''}${counted ? ' is-counted' : ''}${rewarded && reward > 0 ? ' is-rewarded' : ''}`}
+      className={`streak-celebration${compact ? ' is-compact' : ''}${ticketReward > 0 ? ' has-ticket-reward' : ''}${counted ? ' is-counted' : ''}${rewarded && hasReward ? ' is-rewarded' : ''}`}
       data-phase={phase}
       role="group"
       aria-label="連続記録"
@@ -84,7 +90,7 @@ function StreakAnimation({
       <div className="streak-celebration-count">
         <div className="streak-celebration-flame" aria-hidden="true">
           <Flame fill="currentColor" />
-          {reward > 0 && <Sparkles className="streak-celebration-spark" />}
+          {hasReward && <Sparkles className="streak-celebration-spark" />}
         </div>
         <div className="streak-celebration-number" role="status" aria-atomic="true">
           <span>連続記録</span>
@@ -117,15 +123,24 @@ function StreakAnimation({
         })}
       </ol>
       <div className="streak-celebration-prize-slot">
-        {reward > 0 && (
+        {hasReward && (
           <div className="streak-celebration-prize" role="status" aria-hidden={!rewarded}>
-            <Coins aria-hidden="true" />
+            {reward > 0 ? <Coins aria-hidden="true" /> : <Moon aria-hidden="true" />}
             <div>
               <span>{afterDays}日連続ボーナス</span>
-              <strong>
-                +{reward}
-                <small> コイン</small>
-              </strong>
+              <div className="streak-celebration-rewards">
+                {reward > 0 && (
+                  <strong>
+                    +{reward}
+                    <small> コイン</small>
+                  </strong>
+                )}
+                {ticketReward > 0 && (
+                  <strong className="streak-celebration-ticket">
+                    +{ticketReward}枚<small> おやすみチケット</small>
+                  </strong>
+                )}
+              </div>
             </div>
           </div>
         )}

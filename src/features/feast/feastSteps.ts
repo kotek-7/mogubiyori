@@ -8,7 +8,13 @@ export type FeastStep =
   | { type: 'growth'; from: GrowthStage; to: GrowthStage }
   | { type: 'card'; recipeId: string }
   | { type: 'arrivals'; visitors: SpeciesId[] }
-  | { type: 'streak'; beforeDays: number; afterDays: number; reward: number }
+  | {
+      type: 'streak'
+      beforeDays: number
+      afterDays: number
+      reward: number
+      ticketReward: number
+    }
   | { type: 'gift'; itemId: 'sprout' }
   | { type: 'mealReport' }
 
@@ -37,6 +43,7 @@ export function feastStepsFromReceipt(receipt: FeedReceipt): FeastStep[] {
       beforeDays: streak.beforeDays,
       afterDays: streak.afterDays,
       reward: streak.bonus,
+      ticketReward: streak.ticketBonus ?? 0,
     })
   }
   if (receipt.newItems.includes('sprout')) steps.push({ type: 'gift', itemId: 'sprout' })
