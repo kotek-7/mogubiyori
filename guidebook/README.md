@@ -43,4 +43,8 @@ Noto Sans JP Variable のライセンスは `public/fonts/OFL.txt`。外部の�
 
 ## 公開
 
+配信先は `https://guide.mogubiyori.kotek7.com/`。Sites の既定URLは `https://mogubiyori-world-guide.kotek7.chatgpt.site/`。閲覧範囲は Sites のアクセス設定で管理する。
+
 Sites の静的サイトとして配信する。識別子と出力先のみ `.openai/hosting.json` に記録し、認証情報は保存しない。開発時のチェックは `pnpm build && pnpm check`。公開時はこのフォルダのみを独立したソースとして送り、検証済み `dist/` をパッケージする。
+
+独自ドメインは Cloudflare の `kotek7.com` ゾーンで管理する。`guide.mogubiyori` の CNAME は `custom-domains.chatgpt.site` を参照し、プロキシは「DNS のみ」。`_openai-site-verification.guide.mogubiyori` の TXT には Sites が返した所有確認の値を設定する。DNS とドメインの関連付けは再デプロイ時も維持する。
