@@ -2,7 +2,7 @@
 
 この構成は、スマートフォン・PCのブラウザで利用するWebアプリを対象とする。画面はReact/ViteのSPA、HTTP APIはCloudflare Workers、認証・ゲーム保存・非公開写真はSupabaseを使う。初期利用はハッカソンや限定体験の数十人を想定する。
 
-Supabaseは無料プランの`mogubiyori`（project ref: `haocdgtvhhyrbavntrym`、Tokyo）を使用する。匿名認証とDB・private Storageは設定済み。Google OAuth clientは別途設定する。公開フロントエンドのcloud切替と実際の利用枠は接続先ごとに確認する。
+Supabaseは無料プランの`mogubiyori`（project ref: `haocdgtvhhyrbavntrym`、Tokyo）を使用する。2026-09-25に匿名認証とDB・private Storageを設定し、公開サイトもcloud保存へ切り替えた。Google OAuth clientは未設定で、公開画面のGoogle操作は非表示。実際の利用枠は接続先ごとに確認する。
 
 実装前の費用試算・運用案は[2026-09-24の設計記録](./decisions/infrastructure-2026-09-24.md)に保存している。現在の実装範囲と接続手順は本書を参照する。
 
@@ -132,7 +132,9 @@ GitHub Actionsの[CI/CD](../.github/workflows/ci.yml)はNode.js 24、`packageMan
 
 Cloudflare Vite pluginによるビルド結果は、静的ファイルが`dist/client/`、Worker本体と生成したWrangler設定が`dist/mogubiyori/`へ出力される。生成した設定はビルドごとに更新されるため、手で編集しない。リモート接続を使わずビルドする場合は`CLOUDFLARE_REMOTE_BINDINGS=false pnpm build`を使う。
 
-ビルド・公開手順は [README](../README.md) と`package.json`のscriptsを正本とする。現在の公開は端末内保存の`local`モードを使う。`cloud`へ切り替える場合は、ビルド時の環境変数とWorker Secret、DB migration、Auth redirectを準備する。
+ビルド・公開手順は [README](../README.md) と`package.json`のscriptsを正本とする。現在の公開は`cloud`モードを使い、Google連携は無効にしている。GitHubの公開用変数とWorker Secretも設定済み。開発環境は引き続きSupabase設定がなければlocalになる。
+
+導入時は実環境で匿名登録、セッション更新後の食事再取得、同じ操作IDの再送、private写真の表示、別ユーザーからの写真取得拒否、ブラウザからのテーブル直接アクセス拒否を確認した。検証用ユーザーと写真は削除済み。公開HTMLとcloudビルドの一致、実ブラウザで認証画面を挟まない開始も確認した。Google認証と既存localセーブの取込はこの確認に含まれない。
 
 ### GitHub Actionsの自動公開
 
