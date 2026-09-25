@@ -2320,3 +2320,13 @@ body:has(dialog[open]) {
   white-space: nowrap;
   border: 0;
 }
+.help-record-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 20px;
+  margin: 12px 0 24px;
+}
+.help-record-links > button {
+  min-height: 44px;
+}

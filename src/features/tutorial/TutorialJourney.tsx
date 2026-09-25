@@ -287,8 +287,8 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
               onComplete={() => setStreakReady(true)}
             />
             <TutorialGuide>
-              毎日ごはんを記録すると連続記録が伸び、3日続けると30コインもらえます。
-              毎日のログインでも{LOGIN_BONUS}コインもらえます。
+              自炊の記録を3日続けると30コイン、毎日のログインで{LOGIN_BONUS}コインもらえます。
+              作った料理は「記録」、7日間の振り返りは「レポート」で見られます。
             </TutorialGuide>
           </>
         )}

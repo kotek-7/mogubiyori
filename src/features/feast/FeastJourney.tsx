@@ -19,11 +19,13 @@ export function FeastJourney({
   photo,
   onDone,
   onViewRecords,
+  onViewReports,
 }: {
   receipt: FeedReceipt
   photo?: string
   onDone: () => void
   onViewRecords?: () => void
+  onViewReports?: () => void
 }) {
   const steps = useMemo(() => feastStepsFromReceipt(receipt), [receipt])
   const [index, setIndex] = useState(0)
@@ -120,7 +122,21 @@ export function FeastJourney({
     >
       <div className={`feast-scene feast-scene-${step.type}`}>
         {step.type === 'mealReport' && receipt.mealReport && (
-          <TodayMealReport report={receipt.mealReport.today} onViewRecords={onViewRecords} />
+          <>
+            <TodayMealReport report={receipt.mealReport.today} onViewRecords={onViewRecords} />
+            {onViewReports && (
+              <button
+                type="button"
+                className="meal-report-link feast-report-link"
+                onClick={onViewReports}
+              >
+                7日間のレポートを見る
+              </button>
+            )}
+            <p className="meal-report-note feast-records-hint">
+              記録とレポートは、下のメニューからいつでも見返せます。
+            </p>
+          </>
         )}
         {step.type === 'xp' && (
           <FeastXpReward

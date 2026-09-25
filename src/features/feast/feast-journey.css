@@ -595,3 +595,11 @@
     transform: rotateY(180deg);
   }
 }
+.feast-report-link {
+  width: 100%;
+  margin-top: 12px;
+}
+.feast-records-hint {
+  margin: 12px 0 0;
+  text-align: center;
+}

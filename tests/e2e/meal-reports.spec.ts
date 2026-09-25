@@ -10,14 +10,7 @@ import {
   todayTokyo,
 } from '../../src/app/game/browserGame'
 import type { GameState } from '../../src/app/game/browserGame'
-import {
-  journey,
-  returnToPlaza,
-  sampleToTable,
-  start,
-  storedGame,
-  waitForSceneMotion,
-} from './helpers'
+import { journey, sampleToTable, start, storedGame, waitForSceneMotion } from './helpers'
 
 async function openSavedGame(page: Page, state: unknown, path = '/') {
   await page.goto('/')
@@ -26,8 +19,17 @@ async function openSavedGame(page: Page, state: unknown, path = '/') {
     JSON.stringify(state),
   )
   await page.goto(path)
+  const pathname = new URL(page.url()).pathname
   await expect(
-    page.getByRole('heading', { name: path === '/album' ? 'ごはんの記録' : 'ひろば', exact: true }),
+    page.getByRole('heading', {
+      name:
+        pathname === '/album'
+          ? 'ごはんの記録'
+          : pathname === '/reports'
+            ? '自炊レポート'
+            : 'ひろば',
+      exact: true,
+    }),
   ).toBeVisible()
 }
 
@@ -117,8 +119,14 @@ test('a meal can be reviewed with a keyboard and its daily report fits a 320px p
   expect(accessibility.violations).toEqual([])
   await page.screenshot({ path: test.info().outputPath('meal-report-320.png') })
   await report.getByRole('button', { name: 'ごはんの記録を見る', exact: true }).click()
-  await expect(page).toHaveURL(/\/album$/)
+  await expect(page).toHaveURL(/\/album(?:\?.*)?$/)
   await expect(page.getByRole('heading', { name: 'ごはんの記録', exact: true })).toBeVisible()
+  await expect(page.locator('.meal-report-score')).toHaveCount(0)
+  await expect(page.locator('.memory-card')).toHaveCount(1)
+  await expect(page.getByRole('button', { name: '自炊を記録する', exact: true })).toBeVisible()
+  await page.getByRole('button', { name: 'この日のレポートを見る', exact: true }).click()
+  await expect(page).toHaveURL(/\/reports(?:\?.*)?$/)
+  await expect(page.getByRole('heading', { name: '自炊レポート', exact: true })).toBeVisible()
   await expect(page.locator('.meal-report-score strong')).toHaveText('70')
   const week = page.getByRole('region', { name: '7日間のごはんバランス', exact: true })
   const days = week.locator('.meal-week-day')
@@ -130,9 +138,6 @@ test('a meal can be reviewed with a keyboard and its daily report fits a 320px p
   await page.keyboard.press('Enter')
   await expect(days.last()).toHaveAttribute('aria-pressed', 'true')
   await expect(page.locator('.meal-report-score strong')).toHaveText('70')
-  const foodHistory = week.locator('summary').filter({ hasText: '食べたものの推移' })
-  await foodHistory.focus()
-  await page.keyboard.press('Enter')
   const foods = week.getByRole('table', { name: '食品を含む食事の数（食）', exact: true })
   const vegetables = foods.getByRole('row').filter({
     has: page.getByRole('rowheader', { name: '野菜・きのこ・海藻', exact: true }),
@@ -175,13 +180,14 @@ test('editing a meal updates its graph and survives reload without awarding game
     ...state,
     tutorial: { version: 1, step: 4, status: 'completed', homeGuide: 'done' },
   })
-  await openSavedGame(page, state, '/album')
+  await openSavedGame(page, state, '/reports')
   const before = await storedGame(page)
   const week = page.getByRole('region', { name: '7日間のごはんバランス', exact: true })
   await expect(week.locator('.meal-week-day[aria-pressed="true"]')).toHaveAttribute(
     'aria-label',
     /30点/,
   )
+  await page.getByRole('button', { name: 'この日の記録を見る', exact: true }).click()
   await page.locator('.memory-card').filter({ hasText: '朝のおにぎり' }).click()
   const dialog = page.getByRole('dialog')
   await dialog.getByRole('button', { name: '記録を編集', exact: true }).click()
@@ -204,6 +210,8 @@ test('editing a meal updates its graph and survives reload without awarding game
     items: [{ groups: ['staple', 'protein', 'vegetable'], groupsConfirmed: true }],
   })
   await dialog.getByRole('button', { name: '閉じる', exact: true }).click()
+  await expect(page.locator('.memory-card')).toContainText('おにぎりと卵と野菜')
+  await page.getByRole('button', { name: 'この日のレポートを見る', exact: true }).click()
   await expect(week.locator('.meal-week-day[aria-pressed="true"]')).toHaveAttribute(
     'aria-label',
     /100点/,
@@ -213,7 +221,6 @@ test('editing a meal updates its graph and survives reload without awarding game
     'aria-label',
     /100点/,
   )
-  await expect(page.locator('.memory-card')).toContainText('おにぎりと卵と野菜')
   expect(gameRewards(await storedGame(page))).toEqual(gameRewards(before))
 })
 
@@ -233,12 +240,13 @@ test('legacy meals remain visible and missing days never become zero-score days'
   const legacy = JSON.parse(JSON.stringify(state))
   delete legacy.mealRecords
   for (const meal of legacy.meals) delete meal.mealRecordId
-  await openSavedGame(page, legacy, '/album')
+  await openSavedGame(page, legacy, '/reports')
   const week = page.getByRole('region', { name: '7日間のごはんバランス', exact: true })
   await expect(week.locator('.meal-week-day')).toHaveCount(7)
   await expect(week.locator('.meal-week-day[aria-label*="0点"]')).toHaveCount(0)
   await expect(week.locator('.meal-week-day[aria-label*="未記録"]')).toHaveCount(6)
   await week.locator('.meal-week-day[aria-label*="以前の記録・未判定"]').click()
+  await page.getByRole('button', { name: 'この日の記録を見る', exact: true }).click()
   await expect(page.locator('.memory-card').filter({ hasText: '以前のカレー' })).toContainText(
     '以前の記録・未判定',
   )
@@ -275,16 +283,17 @@ test('the weekly average counts a meal once when two companions shared it', asyn
   )
   expect(state.meals).toHaveLength(3)
   expect(state.mealRecords).toHaveLength(2)
-  await openSavedGame(page, state, '/album')
+  await openSavedGame(page, state, '/reports')
   const week = page.getByRole('region', { name: '7日間のごはんバランス', exact: true })
   await expect(week.locator('.meal-week-day[aria-pressed="true"]')).toHaveAttribute(
     'aria-label',
     /50点/,
   )
   await expect(page.locator('.meal-report-score strong')).toHaveText('50')
+  await expect(week.locator('.meal-week-day[aria-label*="未記録"]')).toHaveCount(6)
+  await page.getByRole('button', { name: 'この日の記録を見る', exact: true }).click()
   await expect(page.locator('.memory-card')).toHaveCount(2)
   await expect(page.locator('.memory-card').filter({ hasText: '分けたおにぎり' })).toHaveCount(1)
-  await expect(week.locator('.meal-week-day[aria-label*="未記録"]')).toHaveCount(6)
   expect(await storedGame(page)).toEqual(state)
 })
 
@@ -329,10 +338,11 @@ test('sharing a saved meal from the album recruits a visitor without another hum
   const report = await reachMealReport(page)
   await expect(report.locator('.meal-report-score strong')).toHaveText('70')
   await expect(report).toContainText('記録 1食')
-  await returnToPlaza(page)
-  await page.goto('/album')
-  await expect(page.locator('.memory-card')).toHaveCount(1)
+  await report.getByRole('button', { name: '7日間のレポートを見る', exact: true }).click()
+  await expect(page.getByRole('heading', { name: '自炊レポート', exact: true })).toBeVisible()
   await expect(page.locator('.meal-report-score strong')).toHaveText('70')
+  await page.getByRole('button', { name: 'この日の記録を見る', exact: true }).click()
+  await expect(page.locator('.memory-card')).toHaveCount(1)
   await page.reload()
   expect((await storedGame(page)).mealRecords).toEqual(before.mealRecords)
 })

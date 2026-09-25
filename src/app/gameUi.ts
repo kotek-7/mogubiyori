@@ -4,7 +4,8 @@ import type { GameCommand } from '../../shared/game/commands'
 import type { ItemKind, SpeciesId } from '../../shared/game/types'
 import type { Dialog } from './dialogs/GameDialogs'
 
-export type Page = 'room' | 'book' | 'album' | 'shop'
+export type Page = 'room' | 'album' | 'reports' | 'book' | 'shop'
+export type MealHistorySearch = { day?: string; end?: string }
 type Setter<T> = Dispatch<SetStateAction<T>>
 type GameUi = {
   setDialog: Setter<Dialog | null>
@@ -19,7 +20,7 @@ type GameUi = {
   startTutorial: () => void
   bookKind: 'recipes' | 'friends'
   setBookKind: Setter<'recipes' | 'friends'>
-  navigate: (page: Page) => void
+  navigate: (page: Page, search?: MealHistorySearch) => void
   run: (command: GameCommand, onSuccess?: () => void) => void
   shopKind: ItemKind
   setShopKind: Setter<ItemKind>

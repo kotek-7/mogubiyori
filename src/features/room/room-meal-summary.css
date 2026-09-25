@@ -1,0 +1,27 @@
+.play-page-room .play-world-top > .room-meal-summary {
+  width: auto;
+  min-width: 0;
+  min-height: 44px;
+  height: auto;
+  margin-left: auto;
+  padding: 6px 10px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border-radius: 16px;
+  text-align: left;
+}
+.room-meal-summary > span {
+  display: grid;
+  gap: 2px;
+}
+.room-meal-summary strong {
+  font-size: 12px;
+}
+.room-meal-summary small {
+  font-size: 11px;
+  color: var(--game-muted);
+}
+.room-meal-summary > svg {
+  flex: none;
+}

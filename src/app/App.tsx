@@ -16,7 +16,7 @@ import type { GameCommand } from '../../shared/game/commands'
 import { Outlet, useNavigate, useRouter, useRouterState } from '@tanstack/react-router'
 import { useGameSession } from './game/useGameSession'
 import { GameUiProvider } from './gameUi'
-import type { Page } from './gameUi'
+import type { MealHistorySearch, Page } from './gameUi'
 import { Currency } from '../ui/Currency'
 import { Toast } from '../ui/Toast'
 import { AccountMenu } from '../features/auth/AccountMenu'
@@ -24,7 +24,7 @@ import { AccountMenu } from '../features/auth/AccountMenu'
 type MealOptions = { recipeId?: string; targetId?: SpeciesId; mealRecordId?: string }
 type Journey =
   | { type: 'tutorial'; step: TutorialStep }
-  | ({ type: 'meal' } & MealOptions)
+  | ({ type: 'meal'; origin: { page: Page; search: MealHistorySearch } } & MealOptions)
   | { type: 'feast'; receipt: FeedReceipt; photo?: string }
 function App() {
   const { state, execute, error, busy, retry, dismissError, gateway } = useGameSession()
@@ -40,9 +40,11 @@ function App() {
       ? 'book'
       : pathname === '/album'
         ? 'album'
-        : pathname === '/shop'
-          ? 'shop'
-          : 'room'
+        : pathname === '/reports'
+          ? 'reports'
+          : pathname === '/shop'
+            ? 'shop'
+            : 'room'
   function run(command: GameCommand, onSuccess?: () => void) {
     void execute(command)
       .then(() => onSuccess?.())
@@ -55,6 +57,7 @@ function App() {
   const bookButton = useRef<HTMLButtonElement>(null)
   const bookGuide = useRef<HTMLDivElement>(null)
   const restoreFeedFocus = useRef(false)
+  const restorePageFocus = useRef<Page | null>(null)
   const [toast, setToast] = useState('')
   const [bookKind, setBookKind] = useState<'recipes' | 'friends'>('recipes')
   const [shopKind, setShopKind] = useState<ItemKind>('hat')
@@ -86,6 +89,18 @@ function App() {
     }
   }, [journey, state.tutorial.status, homeGuide, page, router])
   useEffect(() => {
+    if (journey || restorePageFocus.current !== page) return
+    const restoreFocus = () => {
+      if (restorePageFocus.current !== page) return
+      const main = document.getElementById('main')
+      if (!main) return
+      main.focus({ preventScroll: true })
+      restorePageFocus.current = null
+    }
+    restoreFocus()
+    return router.subscribe('onRendered', restoreFocus)
+  }, [journey, page, router])
+  useEffect(() => {
     if (journey || dialog || page !== 'room') return
     let active = true
     const scrollGuide = () => {
@@ -110,9 +125,10 @@ function App() {
       unsubscribe()
     }
   }, [homeGuide, journey, dialog, page, router])
-  function navigate(next: Page) {
+  function navigate(next: Page, search: MealHistorySearch = {}) {
     void routerNavigate({
       to: next === 'room' ? '/' : `/${next}`,
+      search,
       // Scene returns already have a transition; the router may commit after
       // that scene has unmounted, so decide here rather than from its later DOM.
       viewTransition:
@@ -133,17 +149,25 @@ function App() {
     transitionScene(() => {
       setToast('')
       setDialog(null)
-      setJourney({ type: 'meal', ...options })
+      setJourney({
+        type: 'meal',
+        ...options,
+        origin:
+          page === 'album' || page === 'reports'
+            ? { page, search: router.state.location.search }
+            : { page: 'room', search: {} },
+      })
     })
   }
-  function finishJourney(destination: Page = 'room') {
+  function finishJourney(destination: Page = 'room', search: MealHistorySearch = {}) {
     dismissError()
     if (journey?.type === 'feast' && journey.receipt.newItems.includes('sprout'))
       run({ type: 'equip', id: 'sprout' })
     transitionScene(() => {
       restoreFeedFocus.current = destination === 'room'
+      restorePageFocus.current = destination === 'room' ? null : destination
       setJourney(null)
-      navigate(destination)
+      navigate(destination, search)
     })
   }
   function showFriends() {
@@ -262,19 +286,27 @@ function App() {
             recipeId={journey.recipeId}
             targetId={journey.targetId}
             mealRecordId={journey.mealRecordId}
+            closeLabel={
+              journey.origin.page === 'album'
+                ? '記録へ戻る'
+                : journey.origin.page === 'reports'
+                  ? 'レポートへ戻る'
+                  : 'ひろばへ'
+            }
             guided={homeGuide === 'meal'}
             onFeed={submit}
             onCommitted={(receipt, photo) =>
               transitionScene(() => setJourney({ type: 'feast', receipt, photo }))
             }
-            onClose={() => finishJourney()}
+            onClose={() => finishJourney(journey.origin.page, journey.origin.search)}
           />
         ) : journey.type === 'feast' ? (
           <FeastJourney
             receipt={journey.receipt}
             photo={journey.photo}
             onDone={() => finishJourney()}
-            onViewRecords={() => finishJourney('album')}
+            onViewRecords={() => finishJourney('album', { day: journey.receipt.meal.day })}
+            onViewReports={() => finishJourney('reports', { day: journey.receipt.meal.day })}
           />
         ) : null}
         {journey.type !== 'meal' && feedback}
@@ -338,7 +370,7 @@ function App() {
             </button>
           </div>
         </header>
-        <main id="main" className={`play-main play-page-${page}`}>
+        <main id="main" className={`play-main play-page-${page}`} tabIndex={-1}>
           {feedback}
           <Outlet />
         </main>
@@ -351,6 +383,8 @@ function App() {
           <nav className="play-nav" aria-label="メインナビゲーション">
             {[
               { id: 'room' as const, name: 'ひろば' },
+              { id: 'album' as const, name: '記録' },
+              { id: 'reports' as const, name: 'レポート' },
               { id: 'book' as const, name: 'ずかん' },
               { id: 'shop' as const, name: 'おみせ' },
             ].map(({ id, name }) => (
@@ -361,9 +395,7 @@ function App() {
                 aria-describedby={
                   id === 'book' && showBookGuide ? 'home-book-guide-text' : undefined
                 }
-                aria-current={
-                  page === id || (id === 'book' && page === 'album') ? 'page' : undefined
-                }
+                aria-current={page === id ? 'page' : undefined}
                 onClick={() => {
                   if (id === 'book' && homeGuide === 'book') {
                     setBookKind('recipes')
@@ -374,9 +406,7 @@ function App() {
               >
                 <VillageSign kind={id} />
                 <span>{name}</span>
-                {(page === id || (id === 'book' && page === 'album')) && (
-                  <i className="play-nav-indicator" aria-hidden="true" />
-                )}
+                {page === id && <i className="play-nav-indicator" aria-hidden="true" />}
               </button>
             ))}
           </nav>

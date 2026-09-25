@@ -1,52 +1,40 @@
-import { useState } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Plus } from 'lucide-react'
 import { DishArt } from '../../ui/art/GameArt'
 import { MealArtwork } from './MealArtwork'
 import { species } from '../../app/game/browserGame'
-import { useGameSession } from '../../app/game/useGameSession'
 import { useGameUi } from '../../app/gameUi'
-import { dailyMealReport, weekMealReports } from '../../../shared/meals/analysis'
 import { mealSlotLabels, mealSourceLabels } from '../../../shared/meals/types'
-import { TodayMealReport, WeekMealReport } from '../nutrition/MealReports'
 import { mealDayLabel } from '../nutrition/mealReportLabels'
-
-function shiftDay(day: string, amount: number) {
-  const date = new Date(`${day}T12:00:00Z`)
-  date.setUTCDate(date.getUTCDate() + amount)
-  return date.toISOString().slice(0, 10)
-}
+import { useMealHistory } from './useMealHistory'
 
 export function AlbumPage() {
-  const { state } = useGameSession()
-  const { setDialog, openMeal } = useGameUi()
-  const [selectedDay, setSelectedDay] = useState(state.today)
-  const [weekEnd, setWeekEnd] = useState(state.today)
-  const records = state.mealRecords ?? []
-  const recordIds = new Set(records.map((record) => record.id))
-  const legacyMeals = state.meals.filter(
-    (meal) => !meal.mealRecordId || !recordIds.has(meal.mealRecordId),
-  )
-  const dayRecords = records.filter((record) => record.day === selectedDay)
-  const dayLegacyMeals = legacyMeals.filter((meal) => meal.day === selectedDay)
-  const reports = weekMealReports(records, weekEnd)
-  const report = dailyMealReport(records, selectedDay)
-  function selectDate(day: string) {
-    if (!day || day > state.today) return
-    setSelectedDay(day)
-    if (day < reports[0].day || day > weekEnd) setWeekEnd(day)
-  }
-  function moveWeek(amount: number) {
-    const day = shiftDay(weekEnd, amount)
-    const end = day > state.today ? state.today : day
-    setWeekEnd(end)
-    setSelectedDay(end)
-  }
+  const { setDialog, openMeal, navigate } = useGameUi()
+  const {
+    state,
+    records,
+    legacyMeals,
+    selectedDay,
+    weekEnd,
+    dayRecords,
+    dayLegacyMeals,
+    reports,
+    selectDate,
+    moveWeek,
+    showToday,
+  } = useMealHistory('album')
 
   return (
     <div className="meal-history">
       <div className="play-page-heading">
         <h1>ごはんの記録</h1>
         <span>{records.length + legacyMeals.length}件</span>
+      </div>
+      <div className="meal-page-intro">
+        <p>作った料理を、写真といっしょに。日付を選んで、いつもの自炊を振り返れます。</p>
+        <button type="button" className="primary-button" onClick={() => openMeal()}>
+          <Plus size={18} />
+          自炊を記録する
+        </button>
       </div>
       <div className="meal-history-period">
         <button type="button" aria-label="前の7日間" onClick={() => moveWeek(-7)}>
@@ -64,12 +52,30 @@ export function AlbumPage() {
           <ChevronRight size={20} />
         </button>
       </div>
-      <WeekMealReport
-        reports={reports}
-        selectedDay={selectedDay}
-        onSelectDay={setSelectedDay}
-        legacyDays={legacyMeals.map((meal) => meal.day)}
-      />
+      <div className="meal-history-strip" role="group" aria-label="7日間の記録">
+        {reports.map((report) => {
+          const legacyCount = legacyMeals.filter((meal) => meal.day === report.day).length
+          return (
+            <button
+              key={report.day}
+              type="button"
+              aria-pressed={selectedDay === report.day}
+              aria-label={`${mealDayLabel(report.day)}、記録 ${report.mealCount}食${legacyCount ? `、以前の記録 ${legacyCount}件` : ''}`}
+              onClick={() => selectDate(report.day)}
+            >
+              <span>{report.day.slice(5).replace('-', '/')}</span>
+              <strong>
+                {report.mealCount
+                  ? `${report.mealCount}食`
+                  : legacyCount
+                    ? '以前の記録'
+                    : '記録なし'}
+              </strong>
+              {!!legacyCount && <small>{legacyCount}件</small>}
+            </button>
+          )
+        })}
+      </div>
       <div className="meal-history-date">
         <label>
           表示する日
@@ -80,15 +86,25 @@ export function AlbumPage() {
             onChange={(event) => selectDate(event.target.value)}
           />
         </label>
-        {selectedDay !== state.today && (
-          <button type="button" onClick={() => selectDate(state.today)}>
-            今日へ
-          </button>
-        )}
+        <button
+          type="button"
+          disabled={selectedDay === state.today && weekEnd === state.today}
+          onClick={showToday}
+        >
+          今日へ
+        </button>
       </div>
-      <TodayMealReport report={report} />
       <section className="meal-history-day" aria-label={`${mealDayLabel(selectedDay)}の食事`}>
-        <h2>{mealDayLabel(selectedDay)}の食事</h2>
+        <div className="meal-history-day-heading">
+          <h2>{mealDayLabel(selectedDay)}の食事</h2>
+          <button
+            type="button"
+            className="meal-report-link"
+            onClick={() => navigate('reports', { day: selectedDay, end: weekEnd })}
+          >
+            この日のレポートを見る
+          </button>
+        </div>
         <div className="album-grid">
           {dayRecords.map((record) => {
             const meals = state.meals.filter((meal) => meal.mealRecordId === record.id)
@@ -145,11 +161,11 @@ export function AlbumPage() {
           <div className="empty-state">
             <DishArt kind="rice" />
             <h3>この日の記録はまだありません</h3>
-            {selectedDay === state.today && (
-              <button className="primary-button" onClick={() => openMeal()}>
-                ごはんを記録する
-              </button>
-            )}
+            <p>
+              {selectedDay === state.today
+                ? '今日作った料理を、上の「自炊を記録する」から残しましょう。'
+                : '日付を選ぶと、その日に作った料理を見られます。'}
+            </p>
           </div>
         )}
       </section>

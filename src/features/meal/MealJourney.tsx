@@ -30,6 +30,7 @@ export type MealJourneyProps = {
   onFeed: (input: FeedInput, operationId: string) => Promise<FeedReceipt>
   onCommitted: (receipt: FeedReceipt, photo?: string) => void
   onClose: () => void
+  closeLabel?: string
 }
 
 export function MealJourney({
@@ -41,6 +42,7 @@ export function MealJourney({
   onFeed,
   onCommitted,
   onClose,
+  closeLabel = 'ひろばへ',
 }: MealJourneyProps) {
   const sharedMeal = state.mealRecords?.find((record) => record.id === mealRecordId)
   const eligibleTargets = [
@@ -204,7 +206,7 @@ export function MealJourney({
         scene="photo"
         title="料理の写真"
         onClose={submitting ? undefined : close}
-        closeLabel="ひろばへ"
+        closeLabel={closeLabel}
         progress={{ current: 1, total: 2 }}
         footer={
           <>
@@ -311,7 +313,7 @@ export function MealJourney({
       }
       backLabel="写真にもどる"
       onClose={submitting ? undefined : close}
-      closeLabel="ひろばへ"
+      closeLabel={closeLabel}
       progress={sharing ? undefined : { current: 2, total: 2 }}
       footer={
         <>

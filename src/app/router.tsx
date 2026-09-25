@@ -8,6 +8,17 @@ import {
 import App from './App'
 import { RoomPage } from '../features/room/RoomPage'
 import { transitionView } from '../ui/journey/journeyTransition'
+import { mealDaySchema } from '../../shared/meals/schemas'
+import type { MealHistorySearch } from './gameUi'
+
+function mealHistorySearch(search: Record<string, unknown>): MealHistorySearch {
+  const day = mealDaySchema.safeParse(search.day)
+  const end = mealDaySchema.safeParse(search.end)
+  return {
+    ...(day.success ? { day: day.data } : {}),
+    ...(end.success ? { end: end.data } : {}),
+  }
+}
 
 const rootRoute = createRootRoute({
   component: App,
@@ -33,7 +44,14 @@ const book = createRoute({
 const album = createRoute({
   getParentRoute: () => rootRoute,
   path: '/album',
+  validateSearch: mealHistorySearch,
   component: lazyRouteComponent(() => import('../features/album/AlbumPage'), 'AlbumPage'),
+})
+const reports = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/reports',
+  validateSearch: mealHistorySearch,
+  component: lazyRouteComponent(() => import('../features/nutrition/ReportsPage'), 'ReportsPage'),
 })
 const shop = createRoute({
   getParentRoute: () => rootRoute,
@@ -57,7 +75,7 @@ export function migrateLegacyLocation() {
 
 migrateLegacyLocation()
 export const router = createRouter({
-  routeTree: rootRoute.addChildren([room, book, album, shop, callback]),
+  routeTree: rootRoute.addChildren([room, album, reports, book, shop, callback]),
   defaultPreload: 'intent',
 })
 
@@ -76,7 +94,7 @@ router.startViewTransition = (update) => {
     document.querySelector('.journey-screen, dialog[open]')
   )
     return update()
-  const pages = ['/', '/book', '/album', '/shop']
+  const pages = ['/', '/album', '/reports', '/book', '/shop']
   const direction =
     pages.indexOf(to.pathname) > pages.indexOf(from.pathname) ? 'forward' : 'backward'
   return transitionView(update, ['page', direction])

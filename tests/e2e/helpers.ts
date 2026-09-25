@@ -48,7 +48,10 @@ export async function start(page: Page, name = 'こむぎ') {
   await expect(page.getByRole('button', { name: 'コイン 140枚、おみせへ' })).toBeVisible()
 }
 
-export async function navigate(page: Page, name: 'ひろば' | 'ずかん' | 'おみせ') {
+export async function navigate(
+  page: Page,
+  name: 'ひろば' | '記録' | 'レポート' | 'ずかん' | 'おみせ',
+) {
   await page
     .getByRole('navigation', { name: 'メインナビゲーション' })
     .getByRole('button', { name, exact: true })

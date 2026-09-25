@@ -15,7 +15,7 @@ export function MoguMark({ className = '' }: { className?: string }) {
   )
 }
 
-export function VillageSign({ kind }: { kind: 'room' | 'book' | 'shop' }) {
+export function VillageSign({ kind }: { kind: 'room' | 'album' | 'reports' | 'book' | 'shop' }) {
   return (
     <svg viewBox="0 0 48 48" fill="none" aria-hidden="true" className="village-sign">
       {kind === 'room' ? (
@@ -34,6 +34,44 @@ export function VillageSign({ kind }: { kind: 'room' | 'book' | 'shop' }) {
             strokeWidth="2.4"
             strokeLinecap="round"
           />
+        </>
+      ) : kind === 'album' ? (
+        <>
+          <rect
+            x="8"
+            y="9"
+            width="32"
+            height="33"
+            rx="5"
+            fill="var(--game-surface)"
+            stroke="currentColor"
+            strokeWidth="2.4"
+          />
+          <path
+            d="M16 6v8m16-8v8M9 19h30"
+            stroke="currentColor"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+          />
+          <path d="M15 27h18c-1 6-4 9-9 9s-8-3-9-9Z" fill="currentColor" />
+          <path d="M21 24h6" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+        </>
+      ) : kind === 'reports' ? (
+        <>
+          <rect
+            x="8"
+            y="7"
+            width="32"
+            height="35"
+            rx="5"
+            fill="var(--game-surface)"
+            stroke="currentColor"
+            strokeWidth="2.4"
+          />
+          <path d="M15 15h18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+          <rect x="14" y="28" width="5" height="8" rx="1.5" fill="currentColor" />
+          <rect x="22" y="23" width="5" height="13" rx="1.5" fill="currentColor" />
+          <rect x="30" y="19" width="5" height="17" rx="1.5" fill="currentColor" />
         </>
       ) : kind === 'book' ? (
         <>

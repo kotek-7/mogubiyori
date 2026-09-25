@@ -134,8 +134,8 @@ export function WeekMealReport({
       <p className="meal-report-note">
         日付を選ぶと、その日の食事が見られます。未記録の日には点数を付けません。
       </p>
-      <details className="meal-report-method meal-week-foods">
-        <summary>食べたものの推移</summary>
+      <section className="meal-week-foods" aria-label="食べたものの推移">
+        <h3>食べたものの推移</h3>
         <table>
           <caption>食品を含む食事の数（食）</caption>
           <thead>
@@ -164,7 +164,7 @@ export function WeekMealReport({
           </tbody>
         </table>
         <p>間食も含めた一覧です。未記録の日や、食品の内訳がまだない日は「—」で表示します。</p>
-      </details>
+      </section>
     </section>
   )
 }

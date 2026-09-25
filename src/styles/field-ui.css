@@ -38,7 +38,8 @@
   width: 44px;
 }
 .play-nav {
-  width: 360px;
+  width: 440px;
+  gap: 4px;
   border-image: none;
   border-radius: 26px;
   background-clip: border-box;
@@ -48,6 +49,9 @@
 .play-nav > button {
   color: var(--game-ink);
   min-height: 55px;
+  min-width: 0;
+  padding-inline: 2px;
+  white-space: nowrap;
 }
 .play-nav > button > svg {
   width: 38px;
@@ -517,8 +521,8 @@
     font-size: 9px;
   }
   .play-nav {
-    width: 330px;
-    padding: 8px 14px 11px;
+    width: 380px;
+    padding: 8px 10px 11px;
     border-radius: 24px;
   }
   .play-nav > button {

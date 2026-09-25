@@ -87,8 +87,8 @@ async function expectFieldUsable(page: Page) {
     page,
     page.getByRole('button', { name: 'こむぎをなでる', exact: true }),
   )
-  await expect(navigation.getByRole('button')).toHaveCount(3)
-  for (const name of ['ひろば', 'ずかん', 'おみせ']) {
+  await expect(navigation.getByRole('button')).toHaveCount(5)
+  for (const name of ['ひろば', '記録', 'レポート', 'ずかん', 'おみせ']) {
     await expectUsableAtCenter(page, navigation.getByRole('button', { name, exact: true }))
   }
 }

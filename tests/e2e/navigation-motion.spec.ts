@@ -21,11 +21,11 @@ test.afterEach(async ({ page }) => {
 
 async function expectRoute(
   page: Page,
-  path: '/' | '/book' | '/album' | '/shop',
+  path: '/' | '/book' | '/album' | '/reports' | '/shop',
   heading: string,
-  navigation: 'ひろば' | 'ずかん' | 'おみせ',
+  navigation: 'ひろば' | '記録' | 'レポート' | 'ずかん' | 'おみせ',
 ) {
-  await expect(page).toHaveURL(new RegExp(`${path}$`))
+  await expect.poll(() => new URL(page.url()).pathname).toBe(path)
   await expect(page.getByRole('main')).toHaveCount(1)
   await expect(page.getByRole('main').getByRole('heading', { level: 1 })).toHaveText(heading)
   const nav = page.getByRole('navigation', { name: 'メインナビゲーション' })
@@ -94,12 +94,24 @@ for (const viewport of [
     await expectRoute(page, '/book', 'ずかん', 'ずかん')
     await waitForSceneMotion(page)
     const book = await page.evaluate(() => (window as Window & TransitionProbe).readRouteSnapshot())
+    await navigate(page, '記録')
+    await expectRoute(page, '/album', 'ごはんの記録', '記録')
+    await waitForSceneMotion(page)
+    const records = await page.evaluate(() =>
+      (window as Window & TransitionProbe).readRouteSnapshot(),
+    )
+    await navigate(page, 'レポート')
+    await expectRoute(page, '/reports', '自炊レポート', 'レポート')
+    await waitForSceneMotion(page)
+    const reports = await page.evaluate(() =>
+      (window as Window & TransitionProbe).readRouteSnapshot(),
+    )
     await navigate(page, 'ひろば')
     await expectRoute(page, '/', 'ひろば', 'ひろば')
     await waitForSceneMotion(page)
 
     const snapshots = await page.evaluate(() => (window as Window & TransitionProbe).routeSnapshots)
-    expect(snapshots).toEqual([room, book])
+    expect(snapshots).toEqual([room, book, records, reports])
   })
 }
 
@@ -109,13 +121,17 @@ test('browser back and forward keep the page and active navigation consistent', 
   await page.goto('/')
   await navigate(page, 'ずかん')
   await expectRoute(page, '/book', 'ずかん', 'ずかん')
-  await page.getByRole('button', { name: 'ごはんの記録', exact: true }).click()
-  await expectRoute(page, '/album', 'ごはんの記録', 'ずかん')
+  await navigate(page, '記録')
+  await expectRoute(page, '/album', 'ごはんの記録', '記録')
+  await navigate(page, 'レポート')
+  await expectRoute(page, '/reports', '自炊レポート', 'レポート')
   await navigate(page, 'おみせ')
   await expectRoute(page, '/shop', 'おみせ', 'おみせ')
 
   await page.goBack()
-  await expectRoute(page, '/album', 'ごはんの記録', 'ずかん')
+  await expectRoute(page, '/reports', '自炊レポート', 'レポート')
+  await page.goBack()
+  await expectRoute(page, '/album', 'ごはんの記録', '記録')
   await page.goBack()
   await expectRoute(page, '/book', 'ずかん', 'ずかん')
   await page.goBack()
@@ -123,7 +139,9 @@ test('browser back and forward keep the page and active navigation consistent', 
   await page.goForward()
   await expectRoute(page, '/book', 'ずかん', 'ずかん')
   await page.goForward()
-  await expectRoute(page, '/album', 'ごはんの記録', 'ずかん')
+  await expectRoute(page, '/album', 'ごはんの記録', '記録')
+  await page.goForward()
+  await expectRoute(page, '/reports', '自炊レポート', 'レポート')
   await page.goForward()
   await expectRoute(page, '/shop', 'おみせ', 'おみせ')
   await waitForSceneMotion(page)
@@ -135,7 +153,16 @@ test('rapid navigation settles on the last destination and remains usable', asyn
   await expectRoute(page, '/', 'ひろば', 'ひろば')
   // Dispatch across rendering frames while earlier navigation may still be animating.
   await page.getByRole('navigation', { name: 'メインナビゲーション' }).evaluate(async (nav) => {
-    for (const name of ['ずかん', 'おみせ', 'ひろば', 'ずかん', 'ひろば', 'おみせ']) {
+    for (const name of [
+      'ずかん',
+      '記録',
+      'レポート',
+      'おみせ',
+      'ひろば',
+      'レポート',
+      '記録',
+      'おみせ',
+    ]) {
       const button = [...nav.querySelectorAll('button')].find(
         (entry) => entry.textContent?.trim() === name,
       )!

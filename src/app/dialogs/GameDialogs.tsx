@@ -17,6 +17,7 @@ import { HelpPanel } from '../../features/settings/HelpPanel'
 import { RestPanel } from '../../features/room/RestPanel'
 import { MealReminder } from '../../features/room/MealReminder'
 import { StreakPanel } from '../../features/streak/StreakPanel'
+import type { Page } from '../gameUi'
 
 export type Dialog =
   | { type: 'recipe'; recipeId: string }
@@ -30,7 +31,7 @@ type Props = {
   dialog: Dialog
   state: GameState
   onClose: () => void
-  onNavigate: (page: 'room' | 'album' | 'shop') => void
+  onNavigate: (page: Page) => void
   onToast: (text: string) => void
   onRecord: (options?: { recipeId?: string; targetId?: SpeciesId; mealRecordId?: string }) => void
   onTutorial: () => void
@@ -86,7 +87,7 @@ export function GameDialogs({
     onClose()
   }
 
-  function leave(page: 'room' | 'album' | 'shop') {
+  function leave(page: Page) {
     onNavigate(page)
     close()
   }
@@ -257,7 +258,7 @@ export function GameDialogs({
       break
     case 'help':
       title = 'あそびかた'
-      content = <HelpPanel state={state} />
+      content = <HelpPanel state={state} onNavigate={leave} />
       break
   }
   const contentKey =

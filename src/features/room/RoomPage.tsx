@@ -14,6 +14,7 @@ import {
 import { useGameSession } from '../../app/game/useGameSession'
 import { useGameUi } from '../../app/gameUi'
 import { CompanionInteraction } from './CompanionInteraction'
+import { dailyMealReport } from '../../../shared/meals/analysis'
 
 export function RoomPage() {
   const { state } = useGameSession()
@@ -28,7 +29,9 @@ export function RoomPage() {
     showMealGuide,
     feedButton,
     startTutorial,
+    navigate,
   } = useGameUi()
+  const todayReport = dailyMealReport(state.mealRecords ?? [], state.today)
   const hunger = hungerOf(state),
     stage = stageOf(state.xp),
     streak = streakOf(state),
@@ -71,6 +74,23 @@ export function RoomPage() {
           >
             <Bell size={19} />
             {!dailyFed && <i />}
+          </button>
+          <button
+            className="room-meal-summary"
+            aria-label="今日の自炊レポートを見る"
+            onClick={() => navigate('reports', { day: state.today })}
+          >
+            <span>
+              <strong>
+                今日の自炊 {todayReport.homeMealCount ? `${todayReport.homeMealCount}食` : '未記録'}
+              </strong>
+              <small>
+                {todayReport.score === null
+                  ? 'レポートを見る'
+                  : `${todayReport.score}点 · レポート`}
+              </small>
+            </span>
+            <ChevronRight size={14} aria-hidden="true" />
           </button>
         </div>
         <CompanionInteraction
