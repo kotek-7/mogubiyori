@@ -35,3 +35,7 @@ playwright-report/
 .env.*
 !.env.example
 !.dev.vars.example
+
+# Supabase CLI local project state
+supabase/.temp/
+supabase/.branches/
