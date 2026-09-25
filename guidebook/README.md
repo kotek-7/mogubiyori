@@ -54,3 +54,5 @@ pnpm exec wrangler deploy --cwd guidebook --config wrangler.jsonc
 Wrangler がこのフォルダでビルドと全ページの検証を実行し、`dist/` のみをアップロードする。HTML は末尾スラッシュ付きで配信し、存在しないパスには `404.html` と HTTP 404 を返す。ドメインと証明書は Workers の Custom Domain として管理する。
 
 フォルダを単独でコピーした場合も、`pnpm dlx wrangler@4.137.0 deploy --config wrangler.jsonc` で同じ手順を実行できる。
+
+GitHub Actions の `Validate guidebook` がソース・全ページ・配信設定を検証し、`main` では `Deploy guidebook` が Workers へ公開する。ゲーム本体の検証・デプロイとは独立したジョブで、既存の `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID` を利用する。公開後にトップ・島一覧の HTML と404応答を確認する。
