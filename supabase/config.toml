@@ -1,0 +1,17 @@
+project_id = "mogubiyori"
+
+# Only declared settings are pushed to the hosted project.
+[auth]
+site_url = "https://mogubiyori.kotek7.com"
+additional_redirect_urls = [
+  "https://mogubiyori.kotek7.com/auth/callback",
+  "http://localhost:5173/auth/callback",
+  "http://127.0.0.1:8787/auth/callback",
+]
+enable_signup = true
+enable_anonymous_sign_ins = true
+enable_manual_linking = true
+
+[auth.rate_limit]
+# Allow a small event audience to start on the same Wi-Fi network.
+anonymous_users = 100

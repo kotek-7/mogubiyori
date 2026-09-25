@@ -2,7 +2,7 @@
 
 この構成は、スマートフォン・PCのブラウザで利用するWebアプリを対象とする。画面はReact/ViteのSPA、HTTP APIはCloudflare Workers、認証・ゲーム保存・非公開写真はSupabaseを使う。初期利用はハッカソンや限定体験の数十人を想定する。
 
-このリポジトリにある設定・実装・migrationは、外部アカウントの作成や公開デプロイの完了を意味しない。公開URL、Supabase project、OAuth設定、実際の利用枠は接続先ごとに確認する。
+Supabaseは無料プランの`mogubiyori`（project ref: `haocdgtvhhyrbavntrym`、Tokyo）を使用する。匿名認証とDB・private Storageは設定済み。Google OAuth clientは別途設定する。公開フロントエンドのcloud切替と実際の利用枠は接続先ごとに確認する。
 
 実装前の費用試算・運用案は[2026-09-24の設計記録](./decisions/infrastructure-2026-09-24.md)に保存している。現在の実装範囲と接続手順は本書を参照する。
 
@@ -45,7 +45,20 @@ Node.jsとpnpmの条件は`package.json`にある。依存をインストール�
 
 ## Supabaseの準備
 
-このリポジトリにはSupabase CLIのproject linkや`config.toml`を含めていない。Supabase projectを用意し、[migration](../supabase/migrations/20260925000000_game.sql)をSQL Editor、または別途設定したCLI環境から適用する。このmigrationは新規環境向けなので、適用済みSQLをそのまま繰り返して実行しない。
+Supabase CLIはdevDependencyにバージョンを固定している。原則CLIで管理し、`pnpm exec supabase`を使う。認証は`pnpm exec supabase login`で行い、アクセストークンやDBパスワードをGitに追加しない。project linkは作業ディレクトリごとの`supabase/.temp/`に保存され、Gitの対象外になる。
+
+```sh
+pnpm exec supabase login
+pnpm exec supabase link --project-ref haocdgtvhhyrbavntrym
+pnpm exec supabase db push --linked --dry-run
+pnpm exec supabase db push --linked
+pnpm exec supabase config diff --project-ref haocdgtvhhyrbavntrym
+pnpm exec supabase config push --project-ref haocdgtvhhyrbavntrym
+```
+
+[migration](../supabase/migrations/20260925000000_game.sql)は上記projectへ適用済み。以後の変更は新しいmigrationを追加し、dry-runで対象を確認してから適用する。初期SQLをSQL Editorで繰り返し実行しない。
+
+[config.toml](../supabase/config.toml)は公開origin、callback、匿名認証、identity linking、匿名登録の上限だけを宣言する。固定したCLIでは未宣言のリモート設定を維持するため、`supabase init`の全既定値で既存設定を上書きしない。push前にdiffの`update`を確認する。同じ会場Wi-Fiで数十人が開始できるよう、匿名登録の上限は100回/IP/時にしている。
 
 migrationは次を作成する。
 
