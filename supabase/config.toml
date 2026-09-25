@@ -15,3 +15,9 @@ enable_manual_linking = true
 [auth.rate_limit]
 # Allow a small event audience to start on the same Wi-Fi network.
 anonymous_users = 100
+
+[auth.external.google]
+enabled = true
+client_id = "261873553454-tdooid57c46mgj5for8q29u6mt6vs08f.apps.googleusercontent.com"
+secret = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_SECRET)"
+skip_nonce_check = false
