@@ -28,6 +28,7 @@ async function mockCloud(page: Page) {
   ])
   const operations = new Map<string, CommandResponse>()
   const feedRequests: CommandRequest[] = []
+  const resetRequests: CommandRequest[] = []
   const authRequests: string[] = []
   const oauthRequests: OAuthRequest[] = []
   const exchanges: { auth_code: string; code_verifier: string }[] = []
@@ -39,6 +40,8 @@ async function mockCloud(page: Page) {
   let signedOut = false
   let pendingOAuth: 'link' | 'signin' = 'link'
   let loseFeedResponse = false
+  let resetFails = false
+  let loseResetResponse = false
   let release: (() => void) | undefined
   let hold: Promise<void> | undefined
   function makeSession(id: string, anonymous: boolean) {
@@ -161,6 +164,11 @@ async function mockCloud(page: Page) {
     if (path === '/api/game/commands') {
       const body = request.postDataJSON() as CommandRequest
       if (body.command.type === 'feed') feedRequests.push(body)
+      if (body.command.type === 'resetProgress') {
+        resetRequests.push(body)
+        if (resetFails)
+          return route.fulfill({ status: 503, json: { error: 'storage_unavailable' } })
+      }
       const key = `${id}:${body.operationId}`
       let response = operations.get(key)
       if (!response) {
@@ -180,6 +188,10 @@ async function mockCloud(page: Page) {
           return route.fulfill({ status: 503, json: { error: 'response_lost_after_commit' } })
         }
       }
+      if (body.command.type === 'resetProgress' && loseResetResponse) {
+        loseResetResponse = false
+        return route.fulfill({ status: 503, json: { error: 'response_lost_after_commit' } })
+      }
       return route.fulfill({ json: { snapshot: snapshots.get(id), receipt: response.receipt } })
     }
     return route.fulfill({ status: 404, json: { error: 'unexpected_test_api_request' } })
@@ -190,6 +202,7 @@ async function mockCloud(page: Page) {
     exchanges,
     loadUsers,
     feedRequests,
+    resetRequests,
     blockedExternal,
     snapshot: (id = userId) => snapshots.get(id)!,
     freshGame: () => {
@@ -206,6 +219,12 @@ async function mockCloud(page: Page) {
     },
     loseFeedResponse: () => {
       loseFeedResponse = true
+    },
+    failReset: (value: boolean) => {
+      resetFails = value
+    },
+    loseResetResponse: () => {
+      loseResetResponse = true
     },
     holdFeed: () => {
       hold = new Promise<void>((resolve) => {
@@ -311,6 +330,143 @@ async function saveMeal(page: Page, title: string) {
   await page.reload()
   await expect(page.getByRole('heading', { name: 'ひろば' })).toBeVisible()
 }
+
+for (const account of ['anonymous', 'Google-linked'] as const) {
+  test(`${account} players can cancel a progress reset or start over while keeping their account`, async ({
+    page,
+  }) => {
+    test.skip(account === 'Google-linked' && process.env.E2E_GOOGLE_AUTH_ENABLED === 'false')
+    if (account === 'anonymous') await page.setViewportSize({ width: 390, height: 844 })
+    const cloud = await mockCloud(page)
+    await begin(page)
+    await saveMeal(page, 'リセット前のごはん')
+    if (account === 'Google-linked') {
+      await openSettings(page)
+      await page.getByRole('button', { name: 'Googleと連携する', exact: true }).click()
+      await expect.poll(() => cloud.exchanges.length).toBe(1)
+      await expect(page.getByRole('heading', { name: 'ひろば' })).toBeVisible()
+    }
+    const before = structuredClone(cloud.snapshot())
+    const otherAccount = structuredClone(cloud.snapshot(googleUserId))
+    await openSettings(page)
+    if (account === 'Google-linked')
+      await expect(
+        page.getByText('Googleアカウントに連携済みです。', { exact: true }),
+      ).toBeVisible()
+    const authBefore = [...cloud.authRequests]
+    await expect(page.getByText('おためし設定', { exact: true })).toHaveCount(0)
+    await page.getByRole('button', { name: '進捗をリセット', exact: true }).click()
+    await expect(
+      page.getByRole('button', { name: '記録を消して始める', exact: true }),
+    ).toBeVisible()
+    expect(cloud.resetRequests).toEqual([])
+    if (account === 'anonymous') {
+      await page.getByRole('region', { name: '進捗リセットの確認' }).scrollIntoViewIfNeeded()
+      await page.screenshot({ path: test.info().outputPath('reset-confirmation-mobile.png') })
+    }
+    await page.getByRole('button', { name: 'やめる', exact: true }).click()
+    await expect(page.getByRole('button', { name: '記録を消して始める', exact: true })).toHaveCount(
+      0,
+    )
+    expect(cloud.snapshot()).toEqual(before)
+    expect(cloud.resetRequests).toEqual([])
+
+    await page.getByRole('button', { name: '進捗をリセット', exact: true }).click()
+    await page.getByRole('button', { name: '記録を消して始める', exact: true }).click()
+    await expect(
+      page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true }),
+    ).toBeVisible()
+    expect(cloud.resetRequests).toHaveLength(1)
+    expect(cloud.resetRequests[0].command).toEqual({ type: 'resetProgress' })
+    expect(cloud.snapshot().state).toEqual(initialGame(day))
+    expect(cloud.snapshot().revision).toBe(before.revision + 1)
+    expect(cloud.snapshot(googleUserId)).toEqual(otherAccount)
+    expect(cloud.authRequests).toEqual(authBefore)
+    await page.reload()
+    await expect(
+      page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true }),
+    ).toBeVisible()
+    expect(cloud.snapshot().state).toEqual(initialGame(day))
+    expect(cloud.loadUsers.every((id) => id === userId)).toBe(true)
+    expect(cloud.authRequests.filter((path) => path === '/auth/v1/signup')).toHaveLength(1)
+    expect(cloud.authRequests).not.toContain('/auth/v1/logout')
+    await page.getByRole('button', { name: 'こむぎを選ぶ', exact: true }).click()
+    await page.getByRole('button', { name: 'この子とはじめる', exact: true }).click()
+    await expect(scene(page, 'welcome')).toBeVisible()
+    await page.getByRole('button', { name: 'ひろばを見てみる', exact: true }).click()
+    await expect(
+      page.getByRole('button', { name: 'コイン 140枚、おみせへ', exact: true }),
+    ).toBeVisible()
+    expect(cloud.snapshot().state.meals).toEqual([])
+    expect(cloud.snapshot().state.claimedLoginDays).toEqual([day])
+    if (account === 'Google-linked') {
+      await openSettings(page)
+      await expect(
+        page.getByText('Googleアカウントに連携済みです。', { exact: true }),
+      ).toBeVisible()
+    }
+    expect(await page.evaluate(() => localStorage.getItem('mogubiyori-v1'))).toBeNull()
+    expect(cloud.blockedExternal).toEqual([])
+  })
+}
+
+test('a failed reset keeps the existing progress and confirmation until saving succeeds', async ({
+  page,
+}) => {
+  const cloud = await mockCloud(page)
+  await begin(page)
+  await saveMeal(page, '保存しておくごはん')
+  const before = structuredClone(cloud.snapshot())
+  await openSettings(page)
+  await page.getByRole('button', { name: '進捗をリセット', exact: true }).click()
+  cloud.failReset(true)
+  await page.getByRole('button', { name: '記録を消して始める', exact: true }).click()
+  await expect(
+    page.getByRole('region', { name: '進捗リセットの確認' }).getByRole('alert'),
+  ).toContainText('保存サービスに接続できませんでした')
+  await expect(page.getByRole('heading', { name: '設定', exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: '記録を消して始める', exact: true })).toBeEnabled()
+  await expect(page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true })).toHaveCount(
+    0,
+  )
+  expect(cloud.snapshot()).toEqual(before)
+  cloud.failReset(false)
+  await page.getByRole('button', { name: '記録を消して始める', exact: true }).click()
+  await expect(page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true })).toBeVisible()
+  expect(cloud.resetRequests).toHaveLength(2)
+  expect(cloud.resetRequests[0]).toEqual(cloud.resetRequests[1])
+  expect(cloud.snapshot().state).toEqual(initialGame(day))
+  expect(cloud.snapshot().revision).toBe(before.revision + 1)
+  expect(cloud.blockedExternal).toEqual([])
+})
+
+test('a lost reset response keeps the current screen and retries the same operation only once', async ({
+  page,
+}) => {
+  const cloud = await mockCloud(page)
+  await begin(page)
+  await saveMeal(page, '応答を待つごはん')
+  const revision = cloud.snapshot().revision
+  await openSettings(page)
+  await page.getByRole('button', { name: '進捗をリセット', exact: true }).click()
+  cloud.loseResetResponse()
+  await page.getByRole('button', { name: '記録を消して始める', exact: true }).click()
+  await expect(
+    page.getByRole('region', { name: '進捗リセットの確認' }).getByRole('alert'),
+  ).toContainText('保存サービスに接続できませんでした')
+  await expect(page.getByRole('heading', { name: '設定', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true })).toHaveCount(
+    0,
+  )
+  expect(cloud.snapshot().state).toEqual(initialGame(day))
+  await page.getByRole('button', { name: '記録を消して始める', exact: true }).click()
+  await expect(page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true })).toBeVisible()
+  expect(cloud.resetRequests).toHaveLength(2)
+  expect(cloud.resetRequests[0]).toEqual(cloud.resetRequests[1])
+  expect(cloud.snapshot().revision).toBe(revision + 1)
+  expect(cloud.authRequests.filter((path) => path === '/auth/v1/signup')).toHaveLength(1)
+  expect(cloud.blockedExternal).toEqual([])
+})
 
 function expectPkce(cloud: Awaited<ReturnType<typeof mockCloud>>, path: string) {
   expect(cloud.oauthRequests).toHaveLength(1)

@@ -18,6 +18,17 @@ afterEach(() => {
 })
 
 describe('explicit game commands', () => {
+  it('resets all progress to the supplied day and restarts companion selection without mutating the old save', () => {
+    const before = demoGame('2026-09-24')
+    const original = structuredClone(before)
+    const result = applyGameCommand(before, { type: 'resetProgress' }, environment)
+    expect(result).toEqual({ state: initialGame(today), receipt: null, changed: true })
+    expect(before).toEqual(original)
+    expect(gameCommandSchema.parse({ type: 'resetProgress' })).toEqual({ type: 'resetProgress' })
+    for (const extra of [{ preset: 'seed' }, { userId: 'another-user' }, { today: '2099-01-01' }])
+      expect(gameCommandSchema.safeParse({ type: 'resetProgress', ...extra }).success).toBe(false)
+  })
+
   it('uses only the provided day and meal ID, without browser clock or randomness', () => {
     const before = demoGame(today)
     const original = JSON.stringify(before)

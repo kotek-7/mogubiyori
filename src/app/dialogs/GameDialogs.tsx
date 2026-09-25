@@ -46,7 +46,7 @@ export function GameDialogs({
   onRecord,
   onTutorial,
 }: Props) {
-  const { execute, demo, gateway, busy } = useGameSession()
+  const { execute, demo, gateway, busy, error, dismissError } = useGameSession()
   const inFlight = useRef(false)
   const retryCommand = useRef<{ encoded: string; operationId: string } | null>(null)
   const isLocal = gateway.mode === 'local'
@@ -234,7 +234,11 @@ export function GameDialogs({
           busy={busy}
           isLocal={isLocal}
           reset={reset}
-          onResetChange={setReset}
+          error={error?.message}
+          onResetChange={(preset) => {
+            dismissError()
+            setReset(preset)
+          }}
           onReminderChange={(reminder) =>
             runCommand({ type: 'updateSettings', input: { reminder } })
           }
@@ -246,13 +250,15 @@ export function GameDialogs({
               leave('room')
             })
           }
-          onReset={(preset) =>
-            runDemo({ type: 'reset', preset }, () => {
-              onToast('育成記録を初期化しました')
+          onReset={(preset) => {
+            const finishReset = () => {
+              onToast('進捗をリセットしました')
               onNavigate('room')
               onClose()
-            })
-          }
+            }
+            if (preset === 'fresh') runCommand({ type: 'resetProgress' }, finishReset)
+            else runDemo({ type: 'reset', preset }, finishReset)
+          }}
         />
       )
       break

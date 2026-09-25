@@ -55,7 +55,12 @@ export function createLocalGameGateway(
         if (previous) {
           if (previous.command !== encoded)
             throw new Error('同じ操作IDに別の入力は使用できません。')
-          return { snapshot: { state: currentState(), revision }, receipt: previous.receipt }
+          const state = currentState()
+          // A completed meal must not reappear as a reward after progress was reset.
+          const receipt = state.meals.some((meal) => meal.id === previous.receipt?.meal.id)
+            ? previous.receipt
+            : null
+          return { snapshot: { state, revision }, receipt }
         }
         const state = currentState()
         if (
@@ -66,7 +71,7 @@ export function createLocalGameGateway(
         )
           throw new Error('食事の日付や記録を確認してください。')
         const result = applyGameCommand(state, command, {
-          today: state.today,
+          today: command.type === 'resetProgress' ? today() : state.today,
           mealId: `meal-${operationId}`,
         })
         if (command.type === 'feed' && !result.receipt)

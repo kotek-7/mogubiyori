@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 import { createLocalGameGateway } from './localGameGateway'
-import { chooseStarter, initialGame, LOGIN_BONUS, shiftDay } from './browserGame'
+import { chooseStarter, demoGame, initialGame, LOGIN_BONUS, shiftDay } from './browserGame'
 import type { GameState } from './browserGame'
 import type { GameCommand } from '../../../shared/game/commands'
 
@@ -125,6 +125,45 @@ describe('local game gateway', () => {
     expect(replay).toEqual(committed)
     expect(storage.saved()).toEqual(committed.snapshot.state)
     expect(storage.write).toHaveBeenCalledTimes(2)
+  })
+
+  it('resets progress and the demo date while keeping the local save revision increasing', async () => {
+    const storage = memoryStorage({ ...demoGame(day), dayOffset: 5 })
+    const gateway = createLocalGameGateway(storage, () => day)
+    await gateway.execute({ type: 'updateSettings', input: { name: '育てたこむぎ' } }, 'name')
+    const result = await gateway.execute({ type: 'resetProgress' }, 'reset')
+    expect(result).toEqual({ snapshot: { state: initialGame(day), revision: 2 }, receipt: null })
+    expect(storage.saved()).toEqual(initialGame(day))
+    expect(await createLocalGameGateway(storage, () => day).load()).toMatchObject({
+      state: initialGame(day),
+    })
+  })
+
+  it('retains progress when a reset cannot be saved and allows retrying the same operation', async () => {
+    const storage = memoryStorage(demoGame(day))
+    const gateway = createLocalGameGateway(storage, () => day)
+    const before = await gateway.load()
+    storage.failNextWrite()
+    await expect(gateway.execute({ type: 'resetProgress' }, 'reset')).rejects.toThrow(
+      '保存できませんでした',
+    )
+    expect(await gateway.load()).toEqual(before)
+    const result = await gateway.execute({ type: 'resetProgress' }, 'reset')
+    expect(result.snapshot).toEqual({ state: initialGame(day), revision: 1 })
+  })
+
+  it('does not erase new progress or revive old meals when completed operations are retried', async () => {
+    const storage = memoryStorage(starter())
+    const gateway = createLocalGameGateway(storage, () => day)
+    await gateway.execute(meal, 'old-meal')
+    await gateway.execute({ type: 'resetProgress' }, 'reset')
+    await gateway.execute({ type: 'chooseStarter', id: 'komugi' }, 'new-starter')
+    const fresh = await gateway.execute({ type: 'claimLogin' }, 'new-login')
+    expect(fresh.snapshot.state.coins).toBe(initialGame(day).coins + LOGIN_BONUS)
+    expect(await gateway.execute({ type: 'resetProgress' }, 'reset')).toEqual(fresh)
+    expect(await gateway.execute(meal, 'old-meal')).toEqual(fresh)
+    expect(storage.saved().meals).toEqual([])
+    expect(storage.write).toHaveBeenCalledTimes(4)
   })
 
   it.each([

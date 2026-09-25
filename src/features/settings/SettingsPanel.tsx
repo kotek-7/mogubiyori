@@ -1,4 +1,5 @@
-import { ChevronRight, HelpCircle, Sparkles } from 'lucide-react'
+import { useId } from 'react'
+import { ChevronRight, HelpCircle, RotateCcw, Sparkles } from 'lucide-react'
 import { AccountSettings } from '../auth/AuthGate'
 import type { GameState } from '../../app/game/browserGame'
 
@@ -7,6 +8,7 @@ export function SettingsPanel({
   busy,
   isLocal,
   reset,
+  error,
   onResetChange,
   onReset,
   onReminderChange,
@@ -18,6 +20,7 @@ export function SettingsPanel({
   busy: boolean
   isLocal: boolean
   reset: 'seed' | 'fresh' | null
+  error?: string
   onResetChange: (preset: 'seed' | 'fresh' | null) => void
   onReset: (preset: 'seed' | 'fresh') => void
   onReminderChange: (reminder: GameState['reminder']) => void
@@ -25,6 +28,7 @@ export function SettingsPanel({
   onHelp: () => void
   onAdvanceDay: () => void
 }) {
+  const resetConfirmationId = useId()
   return (
     <div className="settings-sheet">
       <fieldset className="reminder-setting" disabled={busy}>
@@ -69,25 +73,40 @@ export function SettingsPanel({
             <button disabled={busy} onClick={() => onResetChange('seed')}>
               成長・出会いを体験
             </button>
-            <button disabled={busy} onClick={() => onResetChange('fresh')}>
-              最初から育てる
+          </div>
+        </details>
+      )}
+      <button
+        type="button"
+        className="settings-row"
+        disabled={busy}
+        aria-expanded={reset === 'fresh'}
+        aria-controls={resetConfirmationId}
+        onClick={() => onResetChange('fresh')}
+      >
+        <RotateCcw size={17} />
+        進捗をリセット
+        <ChevronRight size={16} />
+      </button>
+      {reset && (
+        <section id={resetConfirmationId} className="reset-confirm" aria-label="進捗リセットの確認">
+          <p>
+            {isLocal ? 'このブラウザー' : 'このアカウント'}
+            のもぐの成長・なかま・持ちもの・コイン・ジェム・料理カード・食事の記録をリセットして、
+            {reset === 'fresh' ? '最初から育てます。' : '成長・出会いを体験します。'}
+            元には戻せません。
+            {!isLocal && 'アカウントとログイン状態はそのままです。'}
+          </p>
+          {error && <p role="alert">{error}</p>}
+          <div className="reset-buttons">
+            <button disabled={busy} onClick={() => onResetChange(null)}>
+              やめる
+            </button>
+            <button disabled={busy} onClick={() => onReset(reset)}>
+              {busy ? 'リセット中' : '記録を消して始める'}
             </button>
           </div>
-          {reset && (
-            <div className="reset-confirm">
-              <p>
-                この端末の写真・育成記録を消して、
-                {reset === 'fresh' ? '最初から育てます。' : '成長・出会いを体験します。'}
-              </p>
-              <div className="reset-buttons">
-                <button onClick={() => onResetChange(null)}>やめる</button>
-                <button disabled={busy} onClick={() => onReset(reset)}>
-                  記録を消して始める
-                </button>
-              </div>
-            </div>
-          )}
-        </details>
+        </section>
       )}
       <p className="settings-note">
         {isLocal

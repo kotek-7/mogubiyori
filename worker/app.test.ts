@@ -6,12 +6,14 @@ import type { GameSnapshot } from '../shared/game/contracts'
 import type { GameState } from '../shared/game/types'
 import type { GameCommand } from '../shared/game/commands'
 import { chooseStarter, initialGame } from '../shared/game/game'
+import { demoGame } from '../shared/game/demo'
 import { executeCommand } from './game/gameService'
 
 const userA = '00000000-0000-4000-8000-000000000001'
 const userB = '00000000-0000-4000-8000-000000000002'
 const opA = '10000000-0000-4000-8000-000000000001'
 const opB = '10000000-0000-4000-8000-000000000002'
+const opC = '10000000-0000-4000-8000-000000000003'
 const mealId = '20000000-0000-4000-8000-000000000001'
 const day = '2026-09-26'
 const feed: GameCommand = {
@@ -166,6 +168,123 @@ describe('server-authoritative game API', () => {
     expect(replay.receipt).toEqual(first.receipt)
     expect(replay.snapshot.state.name).toBe('ぽん')
     expect(replay.snapshot.revision).toBe(2)
+  })
+
+  it('resets only the authenticated user and retains the account for a new game', async () => {
+    const { app, request, repository } = setup()
+    repository.games.set(userA, { state: demoGame('2026-09-25'), revision: 8 })
+    const other = { state: demoGame('2026-09-24'), revision: 4 }
+    repository.games.set(userB, structuredClone(other))
+    const body = { operationId: opA, command: { type: 'resetProgress' } }
+    const unauthorized = await app.request(
+      'https://game.example/api/game/commands',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      },
+      env,
+    )
+    expect(unauthorized.status).toBe(401)
+    expect((await request('/api/game/commands', { ...body, userId: userB })).status).toBe(400)
+    const reset = await request('/api/game/commands', body)
+    expect(reset.status).toBe(200)
+    expect(await reset.json()).toEqual({
+      snapshot: { state: initialGame(day), revision: 9 },
+      receipt: null,
+    })
+    expect(repository.games.get(userB)).toEqual(other)
+    expect(await (await request('/api/game')).json()).toEqual({
+      state: initialGame(day),
+      revision: 9,
+    })
+    const restarted = await request('/api/game/commands', {
+      operationId: opB,
+      command: { type: 'chooseStarter', id: 'mame' },
+    })
+    expect(restarted.status).toBe(200)
+    expect((await restarted.json()).snapshot.state.activeId).toBe('mame')
+  })
+
+  it('replays a lost reset response without clearing new progress or restoring earlier meals', async () => {
+    const { request, repository } = setup()
+    await request('/api/game/commands', { operationId: opA, command: feed })
+    const reset = { operationId: opB, command: { type: 'resetProgress' } }
+    await request('/api/game/commands', reset)
+    const oldFeed = await (
+      await request('/api/game/commands', { operationId: opA, command: feed })
+    ).json()
+    expect(oldFeed).toEqual({
+      snapshot: { state: initialGame(day), revision: 2 },
+      receipt: null,
+    })
+    await request('/api/game/commands', {
+      operationId: opC,
+      command: { type: 'chooseStarter', id: 'shizuku' },
+    })
+    const replay = await (await request('/api/game/commands', reset)).json()
+    expect(replay.snapshot.state.activeId).toBe('shizuku')
+    expect(replay.snapshot.state.meals).toEqual([])
+    expect(replay.snapshot.revision).toBe(3)
+    expect(replay.receipt).toBeNull()
+    expect(repository.operations.size).toBe(3)
+  })
+
+  it('suppresses an old feed receipt when a reset commits before the transaction replay returns', async () => {
+    const { repository } = setup()
+    await executeCommand(repository, userA, opA, feed, { today: day, mealId })
+    const find = repository.findOperation.bind(repository)
+    let firstLookup = true
+    repository.findOperation = async (userId, operationId) => {
+      if (firstLookup) {
+        firstLookup = false
+        // This read began before the original feed committed.
+        return null
+      }
+      return find(userId, operationId)
+    }
+    const commit = repository.commit.bind(repository)
+    repository.commit = async (input) => {
+      repository.commit = commit
+      await executeCommand(
+        repository,
+        userA,
+        opB,
+        { type: 'resetProgress' },
+        { today: day, mealId },
+      )
+      return commit(input)
+    }
+    const replay = await executeCommand(repository, userA, opA, feed, {
+      today: day,
+      mealId: 'retry-meal',
+    })
+    expect(replay).toEqual({
+      snapshot: { state: initialGame(day), revision: 2 },
+      receipt: null,
+    })
+    expect(repository.operations.size).toBe(2)
+  })
+
+  it('retries a reset against a concurrent revision and leaves the save intact if persistence fails', async () => {
+    const { request, repository } = setup()
+    const original = structuredClone(repository.games.get(userA))
+    const commit = repository.commit.bind(repository)
+    repository.commit = async () => {
+      throw new ApiError(502, 'storage_unavailable')
+    }
+    const body = { operationId: opA, command: { type: 'resetProgress' } }
+    expect((await request('/api/game/commands', body)).status).toBe(502)
+    expect(repository.games.get(userA)).toEqual(original)
+    expect(repository.operations.size).toBe(0)
+    repository.commit = commit
+    repository.conflicts = 1
+    const reset = await (await request('/api/game/commands', body)).json()
+    expect(reset).toEqual({
+      snapshot: { state: initialGame(day), revision: 2 },
+      receipt: null,
+    })
+    expect(repository.operations.size).toBe(1)
   })
 
   it('saves diary edits without replaying rewards and rejects future or missing records', async () => {
@@ -398,9 +517,36 @@ describe('private photo API', () => {
     expect(repository.photos.size).toBe(1)
     expect((await upload(app, 'user-b')).status).toBe(409)
     expect((await request('/api/photos/read-urls', { photoIds: [opA] }, 'user-b')).status).toBe(404)
+    // Uploaded images only become readable once they belong to a saved meal.
+    expect((await request('/api/photos/read-urls', { photoIds: [opA] })).status).toBe(404)
+    await request('/api/game/commands', {
+      operationId: opA,
+      command: { type: 'feed', input: { ...feed.input, photoId: opA } },
+    })
     const read = await (await request('/api/photos/read-urls', { photoIds: [opA] })).json()
     expect(read.expiresIn).toBe(300)
     expect(read.photos[0].photoId).toBe(opA)
+  })
+
+  it('stops issuing photo URLs after a reset while retaining immutable upload and operation history', async () => {
+    const { app, request, repository } = setup()
+    await upload(app)
+    const command = { type: 'feed', input: { ...feed.input, photoId: opA } }
+    await request('/api/game/commands', { operationId: opA, command })
+    expect((await request('/api/photos/read-urls', { photoIds: [opA] })).status).toBe(200)
+    await request('/api/game/commands', {
+      operationId: opB,
+      command: { type: 'resetProgress' },
+    })
+    const read = await request('/api/photos/read-urls', { photoIds: [opA] })
+    expect(read.status).toBe(404)
+    expect(await read.json()).toEqual({ error: 'photo_not_found' })
+    expect(repository.photos.get(opA)?.mealId).toBe(mealId)
+    const replay = await (await request('/api/game/commands', { operationId: opA, command })).json()
+    expect(replay.receipt).toBeNull()
+    expect(replay.snapshot.state.meals).toEqual([])
+    expect(replay.snapshot.revision).toBe(2)
+    expect(repository.operations.size).toBe(2)
   })
 
   it('links owned photos transactionally and rejects a missing or already used photo', async () => {

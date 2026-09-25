@@ -6,7 +6,7 @@ import { z } from 'zod'
 import { commandRequestSchema } from '../shared/game/contracts'
 import { ApiError, readBytes } from './errors'
 import type { Env } from './env'
-import { executeCommand, loadGame, tokyoDay } from './game/gameService'
+import { executeCommand, loadGame, readGamePhotoUrls, tokyoDay } from './game/gameService'
 import type { CloudServices } from './game/repository'
 import { MAX_PHOTO_BYTES, recognizeFood, RecognitionError } from './recognition/recognition'
 import { createCloudServices, PHOTO_URL_LIFETIME } from './game/supabase'
@@ -128,7 +128,12 @@ export function createApp(overrides: Partial<Dependencies> = {}) {
           dependencies.services(context.env),
         )
         return context.json({
-          photos: await repository.readPhotoUrls(userId, context.req.valid('json').photoIds),
+          photos: await readGamePhotoUrls(
+            repository,
+            userId,
+            context.req.valid('json').photoIds,
+            tokyoDay(dependencies.now()),
+          ),
           expiresIn: PHOTO_URL_LIFETIME,
         })
       },

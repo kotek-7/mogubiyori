@@ -188,11 +188,52 @@ describe('cloud game gateway through the real Worker API', () => {
 
   it('obtains a signed URL only for the requested photo', async () => {
     const { gateway, calls } = setup()
+    await gateway.execute(
+      { type: 'feed', input: { title: 'ごはん', sample: 'rice', photo } },
+      operationId,
+    )
+    calls.length = 0
     expect(await gateway.photoUrl!(operationId)).toBe(
       `https://photos.example/${operationId}?signed`,
     )
     expect(await calls[0].json()).toEqual({ photoIds: [operationId] })
     expect(calls[0].headers.get('authorization')).toBe('Bearer player-token')
+  })
+
+  it('resets through the authenticated API and reuses the operation after a lost response', async () => {
+    const { gateway, calls, snapshot, operations, loseCommandResponse } = setup()
+    const resetId = '10000000-0000-4000-8000-000000000002'
+    await gateway.execute(
+      { type: 'feed', input: { title: 'ごはん', sample: 'rice', photo } },
+      operationId,
+    )
+    expect(snapshot().state.meals).toHaveLength(1)
+    calls.length = 0
+    loseCommandResponse()
+    await expect(gateway.execute({ type: 'resetProgress' }, resetId)).rejects.toThrow(
+      'response lost',
+    )
+    expect(snapshot().state).toEqual(initialGame(day))
+    const result = await gateway.execute({ type: 'resetProgress' }, resetId)
+    expect(result.snapshot.state).toEqual(initialGame(day))
+    expect(result.snapshot.revision).toBe(2)
+    expect(result.receipt).toBeNull()
+    expect(operations.size).toBe(2)
+    expect(gateway.identity).toBe(userId)
+    expect(calls).toHaveLength(2)
+    expect(
+      calls.every((request) => request.headers.get('authorization') === 'Bearer player-token'),
+    ).toBe(true)
+    expect(await calls[0].json()).toEqual({
+      operationId: resetId,
+      command: { type: 'resetProgress' },
+    })
+    expect(await calls[1].json()).toEqual({
+      operationId: resetId,
+      command: { type: 'resetProgress' },
+    })
+    expect((await gateway.load()).state).toEqual(initialGame(day))
+    await expect(gateway.photoUrl!(operationId)).rejects.toThrow()
   })
 
   it('rechecks identity between photo upload and commit if the account changes', async () => {

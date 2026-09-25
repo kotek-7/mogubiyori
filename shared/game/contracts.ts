@@ -44,6 +44,7 @@ export const gameCommandSchema: z.ZodType<GameCommand> = z.discriminatedUnion('t
   z.strictObject({ type: z.literal('equip'), id: z.string().min(1).max(100) }),
   z.strictObject({ type: z.literal('rest') }),
   z.strictObject({ type: z.literal('claimLogin') }),
+  z.strictObject({ type: z.literal('resetProgress') }),
   z.strictObject({
     type: z.literal('updateSettings'),
     input: z.strictObject({

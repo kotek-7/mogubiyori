@@ -29,12 +29,39 @@ function dated(snapshot: GameSnapshot, today: string): GameSnapshot {
   return { ...snapshot, state: { ...snapshot.state, today, dayOffset: 0 } }
 }
 
+function responseWithCurrentReceipt(
+  snapshot: GameSnapshot,
+  receipt: CommandResponse['receipt'],
+): CommandResponse {
+  // Retain operation IDs across resets so retries cannot restore old rewards.
+  // A receipt whose meal was reset must not reopen its old reward sequence.
+  return {
+    snapshot,
+    receipt:
+      receipt && snapshot.state.meals.some((meal) => meal.id === receipt.meal.id) ? receipt : null,
+  }
+}
+
 export async function loadGame(
   repository: GameRepository,
   userId: string,
   today: string,
 ): Promise<GameSnapshot> {
   return dated(await repository.load(userId, initialGame(today)), today)
+}
+
+export async function readGamePhotoUrls(
+  repository: GameRepository,
+  userId: string,
+  photoIds: string[],
+  today: string,
+): Promise<{ photoId: string; url: string }[]> {
+  if (!photoIds.length) return []
+  const snapshot = await loadGame(repository, userId, today)
+  const currentPhotoIds = new Set(snapshot.state.meals.map((meal) => meal.photoId))
+  if (photoIds.some((photoId) => !currentPhotoIds.has(photoId)))
+    throw new ApiError(404, 'photo_not_found')
+  return repository.readPhotoUrls(userId, photoIds)
 }
 
 export async function executeCommand(
@@ -48,10 +75,10 @@ export async function executeCommand(
   const previous = await repository.findOperation(userId, operationId)
   if (previous) {
     if (previous.requestHash !== requestHash) throw new ApiError(409, 'operation_mismatch')
-    return {
-      snapshot: await loadGame(repository, userId, context.today),
-      receipt: previous.receipt,
-    }
+    return responseWithCurrentReceipt(
+      await loadGame(repository, userId, context.today),
+      previous.receipt,
+    )
   }
   // Each retry re-evaluates the operation against the latest persisted state.
   // The server date and meal ID stay fixed across attempts for this request.
@@ -73,10 +100,10 @@ export async function executeCommand(
       const concurrent = await repository.findOperation(userId, operationId)
       if (concurrent) {
         if (concurrent.requestHash !== requestHash) throw new ApiError(409, 'operation_mismatch')
-        return {
-          snapshot: await loadGame(repository, userId, context.today),
-          receipt: concurrent.receipt,
-        }
+        return responseWithCurrentReceipt(
+          await loadGame(repository, userId, context.today),
+          concurrent.receipt,
+        )
       }
       throw new ApiError(422, 'command_not_applied')
     }
@@ -95,7 +122,7 @@ export async function executeCommand(
     if (committed.status === 'conflict') continue
     if (committed.status === 'operation_mismatch') throw new ApiError(409, 'operation_mismatch')
     if (committed.status === 'invalid_photo') throw new ApiError(422, 'invalid_photo')
-    return { snapshot: dated(committed.snapshot, context.today), receipt: committed.receipt }
+    return responseWithCurrentReceipt(dated(committed.snapshot, context.today), committed.receipt)
   }
   throw new ApiError(409, 'revision_conflict')
 }

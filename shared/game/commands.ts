@@ -3,6 +3,7 @@ import {
   claimLogin,
   equipItem,
   feed,
+  initialGame,
   purchaseItem,
   restGame,
   selectCompanion,
@@ -22,6 +23,7 @@ export type GameCommand =
   | { type: 'equip'; id: string }
   | { type: 'rest' }
   | { type: 'claimLogin' }
+  | { type: 'resetProgress' }
   | { type: 'updateSettings'; input: { name?: string; reminder?: GameState['reminder'] } }
   | { type: 'tutorial'; input: Partial<Pick<TutorialState, 'step' | 'status' | 'homeGuide'>> }
 
@@ -62,6 +64,9 @@ export function applyGameCommand(
       break
     case 'claimLogin':
       next = claimLogin(current)
+      break
+    case 'resetProgress':
+      next = initialGame(environment.today)
       break
     case 'updateSettings': {
       const name = command.input.name?.trim() || current.name
