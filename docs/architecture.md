@@ -24,6 +24,7 @@ flowchart TD
 | `src/app/game/`                               | 保存セッション、Query cache、local/cloud gateway、ブラウザの時刻・IDとlocalStorage |
 | `src/features/room/`、`companions/`           | ひろば、最初のなかま選び、なかま一覧、成長の表示                                   |
 | `src/features/collection/`、`album/`、`shop/` | ずかんと料理詳細、ごはんの記録、おみせと各機能のpanel                              |
+| `src/features/nutrition/`                     | 自炊レポートのページ、日次と7日間のレポート表示                                    |
 | `src/features/meal/`                          | 食事の下書き、写真処理、料理選択、確定までの進行                                   |
 | `src/features/feast/`、`streak/`、`tutorial/` | 食後と連続記録のお祝い、初回案内                                                   |
 | `src/features/auth/`                          | ログイン、匿名ユーザー、Google連携、認証セッション                                 |
@@ -57,7 +58,7 @@ cloudの`AuthGate`は保存済みセッションの復元を待ち、セッシ�
 
 dialogの開閉、ずかんのタブ、表示中の演出などはReactの状態に置く。食事の写真・入力・選択・処理中状態はXStateに置く。永続化する`GameState`を別のグローバルstoreへ複製しない。
 
-TanStack Routerは`/`、`/book`、`/album`、`/shop`、`/auth/callback`を扱う。画面URLと保存済みゲームは別の責務とする。旧URLの`#book`等は対応するpathへ移す。
+TanStack Routerは`/`、`/album`、`/reports`、`/book`、`/shop`、`/auth/callback`を扱う。画面URLと保存済みゲームは別の責務とする。記録とレポートは`day`と`end`の検索パラメータで選択日と期間を共有し、`useMealHistory`で履歴・集計・日付操作をそろえる。閲覧操作では保存済みゲームを書き換えない。旧URLの`#book`等は対応するpathへ移す。
 
 `GameState.xp`は既存保存形式との互換のため、選択中のなかまのXPを表す値として残っている。個体別XPの正本は`companions`であり、ゲームルールと保存移行で同期する。この互換値を独立して更新しない。
 
