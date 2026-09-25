@@ -63,10 +63,12 @@ export async function navigate(
   page: Page,
   name: 'ひろば' | '記録' | 'レポート' | 'ずかん' | 'おみせ',
 ) {
-  await page
+  const destination = page
     .getByRole('navigation', { name: 'メインナビゲーション' })
     .getByRole('button', { name, exact: true })
-    .click()
+  await destination.click()
+  // Lazy route content commits after the click and URL update.
+  await expect(destination).toHaveAttribute('aria-current', 'page')
 }
 
 export async function sampleToTable(page: Page, recipeId = '') {
