@@ -266,6 +266,8 @@ describe('server-authoritative game API', () => {
 
   it('suppresses an old feed receipt when a reset commits before the transaction replay returns', async () => {
     const { repository } = setup()
+    // Permit another feed evaluation so this race reaches the commit replay path.
+    repository.games.get(userA)!.state.subscriptionPlan = 'premium'
     await executeCommand(repository, userA, opA, feed, { today: day, mealId })
     const find = repository.findOperation.bind(repository)
     let firstLookup = true
@@ -294,7 +296,7 @@ describe('server-authoritative game API', () => {
       mealId: 'retry-meal',
     })
     expect(replay).toEqual({
-      snapshot: { state: initialGame(day), revision: 2 },
+      snapshot: { state: { ...initialGame(day), subscriptionPlan: 'premium' }, revision: 2 },
       receipt: null,
     })
     expect(repository.operations.size).toBe(2)
