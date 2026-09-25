@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ArrowRight, Camera, Heart, Sparkles } from 'lucide-react'
-import { DishArt, GatheringScene, Pet } from '../../ui/art/GameArt'
+import { GatheringScene, Pet } from '../../ui/art/GameArt'
 import { DiscoverySilhouette } from '../../ui/art/DiscoverySilhouette'
 import { JourneyFrame } from '../../ui/journey/JourneyFrame'
 import { TutorialFriends } from './TutorialCollectionLessons'
 import { TutorialCards } from './TutorialRecipeLesson'
 import type { TutorialCardPhase } from './TutorialRecipeLesson'
-import { TutorialPhotoExample } from './TutorialPhotoExample'
-import type { TutorialPhotoPhase } from './TutorialPhotoExample'
+import { TutorialFirstPhoto } from './TutorialFirstPhoto'
+import type { TutorialFirstPhotoPhase } from './TutorialFirstPhoto'
 import { TutorialGuide } from './TutorialGuide'
 import { StreakCelebration } from '../streak/StreakCelebration'
 import { growthStages, LOGIN_BONUS, species } from '../../app/game/browserGame'
@@ -30,7 +30,7 @@ const scenes = [
   'tutorial-streak',
 ]
 const titles = [
-  '自炊でなかまを育てよう',
+  '最初の料理写真を撮ろう',
   '育つと姿が変わる',
   '育った子にごはんをあげよう',
   '作った料理を記録しよう',
@@ -50,7 +50,11 @@ export function TutorialJourney(props: Props) {
 
 function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onComplete }: Props) {
   const name = species.find((entry) => entry.id === speciesId)!.name
-  const [meal, setMeal] = useState<TutorialPhotoPhase | 'hungry' | 'eating' | 'full'>('cooking')
+  const [meal, setMeal] = useState<TutorialFirstPhotoPhase | 'hungry' | 'eating' | 'full'>(
+    'cooking',
+  )
+  const [firstPhoto, setFirstPhoto] = useState('')
+  const mealScene = useRef<HTMLDivElement>(null)
   const [form, setForm] = useState<GrowthStage>(0)
   const [ready, setReady] = useState(false)
   const [friendPhase, setFriendPhase] = useState<
@@ -59,6 +63,9 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
   const [cardPhase, setCardPhase] = useState<TutorialCardPhase>('cooking')
   const [days, setDays] = useState(0)
   const [streakReady, setStreakReady] = useState(true)
+  useEffect(() => {
+    if (meal === 'hungry') mealScene.current?.focus({ preventScroll: true })
+  }, [meal])
   useEffect(() => {
     if (step !== 4 || !streakReady || days >= 3) return
     const timer = window.setTimeout(() => {
@@ -93,8 +100,8 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
   let title = titles[step]
   if (step === 0 && meal !== 'cooking') {
     title = {
-      capturing: 'カレーの例を撮影中',
-      photo: '料理の写真を記録しよう',
+      loading: '写真を読み込み中',
+      photo: '料理の写真を確認しよう',
       hungry: `${name}にごはんをあげよう`,
       eating: `${name}が食事中`,
       full: 'ごはんで経験値を獲得',
@@ -174,13 +181,27 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
       }
     >
       <div className={`tutorial-lesson tutorial-step-${step}`}>
-        <span className="tutorial-example">{step === 4 ? '自炊の記録例' : '操作の練習'}</span>
-        {step === 0 && (meal === 'cooking' || meal === 'capturing' || meal === 'photo') && (
-          <TutorialPhotoExample onPhaseChange={setMeal} onSubmit={() => setMeal('hungry')} />
+        {step !== 0 && (
+          <span className="tutorial-example">{step === 4 ? '自炊の記録例' : '操作の練習'}</span>
+        )}
+        {step === 0 && (meal === 'cooking' || meal === 'loading' || meal === 'photo') && (
+          <TutorialFirstPhoto
+            onPhaseChange={setMeal}
+            onSubmit={(photo) => {
+              setFirstPhoto(photo)
+              setMeal('hungry')
+            }}
+          />
         )}
         {step === 0 && (meal === 'hungry' || meal === 'eating' || meal === 'full') && (
           <>
-            <div className={`tutorial-meal-world is-${meal}`}>
+            <div
+              className={`tutorial-meal-world is-${meal}`}
+              ref={mealScene}
+              role="group"
+              aria-label={`${name}のごはん`}
+              tabIndex={-1}
+            >
               <GatheringScene />
               <div className="tutorial-meal-pet">
                 <Pet
@@ -191,7 +212,7 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
               </div>
               <div className="tutorial-photo">
                 <Camera size={18} />
-                <DishArt kind="curry" />
+                <img src={firstPhoto} alt="料理の写真" />
               </div>
               <ArrowRight className="tutorial-photo-arrow" size={28} aria-hidden="true" />
               {meal === 'full' && (
@@ -224,7 +245,7 @@ function TutorialLesson({ speciesId, step, replay = false, onStep, onPause, onCo
               {done
                 ? 'ごはんを食べると経験値（XP）がたまります。毎日の自炊で育てていきましょう。'
                 : meal === 'hungry'
-                  ? `写真を記録できました。ごはんをあげて、${name}に食べてもらいましょう。`
+                  ? `写真を選べました。ごはんをあげて、${name}に食べてもらいましょう。`
                   : `${name}がごはんを食べています。`}
             </TutorialGuide>
           </>

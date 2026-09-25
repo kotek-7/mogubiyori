@@ -156,25 +156,19 @@ async function practice(
     const lesson = screen.locator('.tutorial-recipe-lab')
     await expect(lesson).toHaveAttribute('data-phase', 'cooking')
     await expect(screen.getByRole('region', { name: 'あそびかたガイド' })).toContainText(
-      'カレーのイラスト',
+      '料理の写真',
     )
     await expect(screen.locator('.tutorial-xp-panel')).toHaveCount(0)
     await onCheckpoint?.('tutorial-meal-cooking')
-    await action(page, 'この例で撮影を試す', checkLayout)
-    const reducedMotion = await page.evaluate(
-      () => matchMedia('(prefers-reduced-motion: reduce)').matches,
-    )
-    if (!reducedMotion) {
-      await expect(lesson).toHaveAttribute('data-phase', 'capturing')
-      await expect(screen.getByRole('button', { name: '撮影中', exact: true })).toBeDisabled()
-      await expect(screen.locator('.tutorial-recipe-camera-cut')).toBeVisible()
-      await expect(screen.locator('.tutorial-recipe-camera-device')).toBeVisible()
-    }
+    await action(page, 'サンプル写真を使う', checkLayout)
     await expect(lesson).toHaveAttribute('data-phase', 'photo')
+    await expect(
+      screen.getByRole('img', { name: 'サンプルのカレー写真', exact: true }),
+    ).toBeVisible()
     await expectChapterLocked(page)
     await expect(screen.locator('.tutorial-xp-panel')).toHaveCount(0)
     await onCheckpoint?.('tutorial-meal-photo')
-    await action(page, 'この写真を記録する', checkLayout)
+    await action(page, 'この写真を使う', checkLayout)
     await expect(screen.locator('.tutorial-meal-world')).toHaveClass(/is-hungry/)
     await expect(screen.locator('.tutorial-xp-panel')).toContainText('0 XP')
     await expect(screen.getByRole('progressbar', { name: '最初の成長まで' })).toHaveAttribute(
@@ -183,7 +177,7 @@ async function practice(
     )
     await expectChapterLocked(page)
     await expect(screen.getByRole('region', { name: 'あそびかたガイド' })).toContainText(
-      '写真を記録できました。ごはんをあげて、',
+      '写真を選べました。ごはんをあげて、',
     )
     await onCheckpoint?.('tutorial-meal-hungry')
     await action(page, 'ごはんをあげる', checkLayout)
@@ -483,15 +477,15 @@ test('the first lesson resets interrupted photos and waits for explicit feeding'
   const before = await storedGame(page)
   const screen = journey(page, 'welcome')
   const lesson = screen.locator('.tutorial-recipe-lab')
-  await action(page, 'この例で撮影を試す')
-  await expect(lesson).toHaveAttribute('data-phase', 'capturing')
+  await action(page, 'サンプル写真を使う')
+  await expect(lesson).toHaveAttribute('data-phase', 'photo')
   await page.keyboard.press('Escape')
   await expect(journey(page)).toHaveCount(0)
   await expectPracticeOnly(page, before)
   await page.reload()
   await page.getByRole('button', { name: 'チュートリアルを続ける', exact: true }).click()
   await expect(lesson).toHaveAttribute('data-phase', 'cooking')
-  await action(page, 'この例で撮影を試す')
+  await action(page, 'サンプル写真を使う')
   await expect(lesson).toHaveAttribute('data-phase', 'photo')
   await expectChapterLocked(page)
   await expect(screen.locator('.tutorial-xp-panel')).toHaveCount(0)
