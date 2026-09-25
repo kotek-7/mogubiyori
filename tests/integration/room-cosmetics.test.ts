@@ -60,7 +60,7 @@ describe('new room purchases and saved ownership', () => {
   )
 
   it.each(rooms)(
-    '$id cannot be equipped or purchased before its cost is available',
+    '$id can be purchased with insufficient coins but cannot be equipped before purchase',
     ({ id, currency, price }) => {
       const start = {
         ...chooseStarter(initialGame(day), 'mame'),
@@ -69,8 +69,16 @@ describe('new room purchases and saved ownership', () => {
       }
       expect(execute(start, { type: 'equip', id }).state).toBe(start)
       const result = execute(start, { type: 'purchase', id })
-      expect(result.changed).toBe(false)
-      expect(result.state).toBe(start)
+      expect(result.changed).toBe(true)
+      expect(result.state).toEqual({
+        ...start,
+        coins: 0,
+        owned: [...start.owned, id],
+        equipped: { ...start.equipped, room: id },
+      })
+      const restored = decodeGame(JSON.parse(JSON.stringify(result.state)), day)
+      expect(restored).toEqual(result.state)
+      expect(execute(restored, { type: 'purchase', id }).state).toBe(restored)
     },
   )
 })

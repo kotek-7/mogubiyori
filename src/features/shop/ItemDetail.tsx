@@ -40,16 +40,12 @@ export function ItemDetail({
           <small>所持数 {state[item.currency]}</small>
         </div>
       )}
-      <button
-        className="primary-button full"
-        disabled={busy || equipped || (!owned && !enough)}
-        onClick={onUse}
-      >
-        {equipped ? '使用中' : owned ? '使う' : enough ? '購入して使う' : 'コインが足りません'}
+      <button className="primary-button full" disabled={busy || equipped} onClick={onUse}>
+        {equipped ? '使用中' : owned ? '使う' : '購入して使う'}
       </button>
       {!owned && !enough && (
         <small className="purchase-hint">
-          あと {item.price - state.coins} コイン。ごはんの記録や毎日のログインで貯められます。
+          現在はコインが足りなくても購入できます。購入後の残高は0になります。
         </small>
       )}
     </div>

@@ -20,7 +20,7 @@ describe('coins after retiring gem purchases', () => {
       equipped: { ...before.equipped, hat: 'chef' },
     })
     expect(purchaseItem(purchased, 'chef')).toBe(purchased)
-    expect(purchaseItem({ ...before, coins: 79 }, 'chef')).toMatchObject({ coins: 79 })
+    expect(purchaseItem({ ...before, coins: 79 }, 'chef')).toEqual({ ...purchased, coins: 0 })
   })
 
   it('converts a legacy gem balance once while preserving the rest of the local save', () => {

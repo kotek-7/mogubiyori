@@ -113,7 +113,12 @@ describe('wardrobe catalogs and independent equipment', () => {
       expect(purchaseItem(purchased, item.id)).toBe(purchased)
       expect(decodeGame(JSON.parse(JSON.stringify(purchased)), day)).toEqual(purchased)
       const poor = { ...withoutItem, [item.currency]: item.price - 1 }
-      expect(purchaseItem(poor, item.id)).toBe(poor)
+      const purchasedWithShortfall = purchaseItem(poor, item.id)
+      expect(purchasedWithShortfall).toEqual({ ...purchased, [item.currency]: 0 })
+      expect(purchaseItem(purchasedWithShortfall, item.id)).toBe(purchasedWithShortfall)
+      expect(decodeGame(JSON.parse(JSON.stringify(purchasedWithShortfall)), day)).toEqual(
+        purchasedWithShortfall,
+      )
     },
   )
 })

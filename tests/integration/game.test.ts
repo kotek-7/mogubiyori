@@ -386,13 +386,21 @@ describe('cosmetic shop', () => {
     expect(feed(bought, meal).owned.filter((id) => id === 'sprout')).toHaveLength(1)
   })
 
-  it('rejects unknown, unowned and unaffordable items', () => {
+  it('allows purchases with no coins while rejecting unknown purchases and unowned equipment', () => {
     const state = { ...demoGame(date), coins: 0 }
     expect(purchaseItem(state, 'missing')).toBe(state)
-    expect(purchaseItem(state, 'beret')).toBe(state)
-    expect(purchaseItem(state, 'chef')).toBe(state)
     expect(equipItem(state, 'chef')).toBe(state)
     expect(equipItem(state, 'missing')).toBe(state)
+    for (const id of ['beret', 'chef']) {
+      const bought = purchaseItem(state, id)
+      expect(bought).toEqual({
+        ...state,
+        owned: [...state.owned, id],
+        equipped: { ...state.equipped, hat: id },
+      })
+      expect(purchaseItem(bought, id)).toBe(bought)
+      expect(parseGame(JSON.stringify(bought), date)).toEqual(bought)
+    }
   })
 
   it('uses earned coins for cosmetics without feeding the pet', () => {

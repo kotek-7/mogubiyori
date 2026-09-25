@@ -300,10 +300,11 @@ export function restGame(state: GameState): GameState {
 
 export function purchaseItem(state: GameState, id: string): GameState {
   const item = items.find((candidate) => candidate.id === id)
-  if (!item || state.owned.includes(id) || state.coins < item.price) return state
+  if (!item || state.owned.includes(id)) return state
   return {
     ...state,
-    coins: state.coins - item.price,
+    // Temporary: allow purchases with insufficient coins without creating a negative balance.
+    coins: Math.max(0, state.coins - item.price),
     owned: [...state.owned, id],
     equipped: { ...state.equipped, [item.kind]: id },
   }

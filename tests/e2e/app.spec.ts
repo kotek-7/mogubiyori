@@ -325,7 +325,7 @@ test('fast-forward advances once and never grants rewards twice', async ({ page 
   expect((await storedGame(page)).meals).toHaveLength(1)
 })
 
-test('cosmetics use only coins and cannot be bought without enough coins', async ({ page }) => {
+test('cosmetics can temporarily be bought with insufficient or zero coins', async ({ page }) => {
   await start(page)
   await navigate(page, 'おみせ')
   await page.getByRole('button', { name: /ふたばのかんむり/ }).click()
@@ -342,22 +342,11 @@ test('cosmetics use only coins and cannot be bought without enough coins', async
   const before = await storedGame(page)
   await page.getByRole('button', { name: /コックさんの帽子/ }).click()
   const detail = page.getByRole('dialog')
-  await expect(
-    detail.getByRole('button', { name: 'コインが足りません', exact: true }),
-  ).toBeDisabled()
-  await expect(detail).toContainText('あと 60 コイン')
-  await expect(detail.getByRole('button', { name: /追加|購入を体験/ })).toHaveCount(0)
+  await expect(detail.getByRole('button', { name: '購入して使う', exact: true })).toBeEnabled()
+  await expect(detail).toContainText('現在はコインが足りなくても購入できます')
   expect(await storedGame(page)).toEqual(before)
-  await detail.getByRole('button', { name: '閉じる', exact: true }).click()
-
-  // Supply an earned-coin balance to exercise both formerly gem-priced purchases.
-  await page.evaluate(
-    (state) => localStorage.setItem('mogubiyori-v1', JSON.stringify({ ...state, coins: 200 })),
-    before,
-  )
-  await page.reload()
-  await page.getByRole('button', { name: /コックさんの帽子/ }).click()
-  await page.getByRole('button', { name: '購入して使う' }).click()
+  await detail.getByRole('button', { name: '購入して使う', exact: true }).click()
+  expect((await storedGame(page)).coins).toBe(0)
   await navigate(page, 'おみせ')
   await page
     .getByRole('group', { name: 'おみせのカテゴリ' })
@@ -367,7 +356,7 @@ test('cosmetics use only coins and cannot be bought without enough coins', async
   await page.getByRole('button', { name: '購入して使う' }).click()
   await expect(page.locator('.play-world')).toHaveClass(/theme-garden/)
   const state = await storedGame(page)
-  expect(state.coins).toBe(20)
+  expect(state.coins).toBe(0)
   expect(state.gems).toBe(0)
   expect(state.equipped).toEqual({
     hat: 'chef',
@@ -377,6 +366,9 @@ test('cosmetics use only coins and cannot be bought without enough coins', async
   })
   expect(state.xp).toBe(0)
   expect(state.meals).toEqual([])
+  await page.reload()
+  expect(await storedGame(page)).toEqual(state)
+  await expect(page.locator('.play-world')).toHaveClass(/theme-garden/)
 })
 
 test('mobile scenes keep the main action in view and keyboard cancellation restores focus', async ({
