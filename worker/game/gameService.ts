@@ -2,6 +2,7 @@ import { applyGameCommand } from '../../shared/game/commands'
 import type { GameCommand } from '../../shared/game/commands'
 import type { CommandResponse, GameSnapshot } from '../../shared/game/contracts'
 import { initialGame } from '../../shared/game/game'
+import { canRecordMeal } from '../../shared/game/subscription'
 import type { GameRepository } from './repository'
 import { ApiError } from '../errors'
 
@@ -105,6 +106,8 @@ export async function executeCommand(
           concurrent.receipt,
         )
       }
+      if (command.type === 'feed' && !command.input.mealRecordId && !canRecordMeal(snapshot.state))
+        throw new ApiError(422, 'daily_meal_limit_reached')
       throw new ApiError(422, 'command_not_applied')
     }
     const photoId =

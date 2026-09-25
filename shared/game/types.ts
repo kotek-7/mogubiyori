@@ -1,3 +1,5 @@
+import type { SubscriptionPlan } from './subscription'
+
 export type SpeciesId = 'komugi' | 'mame' | 'shizuku' | 'yuzu' | 'momo' | 'goma'
 export type Companion = { id: SpeciesId; xp: number; joinedDay: string }
 export type GrowthStage = 0 | 1 | 2 | 3 | 4
@@ -42,6 +44,7 @@ export type TutorialState = {
 export type GameState = {
   version: 1
   growthVersion: 2
+  subscriptionPlan: SubscriptionPlan
   tutorial: TutorialState
   today: string
   dayOffset: number

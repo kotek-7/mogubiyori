@@ -18,6 +18,12 @@ afterEach(() => {
 })
 
 describe('explicit game commands', () => {
+  it('keeps the membership when resetting game progress', () => {
+    const state = { ...demoGame(today), subscriptionPlan: 'premium' as const }
+    const result = applyGameCommand(state, { type: 'resetProgress' }, environment)
+    expect(result.state).toEqual({ ...initialGame(today), subscriptionPlan: 'premium' })
+  })
+
   it('resets all progress to the supplied day and restarts companion selection without mutating the old save', () => {
     const before = demoGame('2026-09-24')
     const original = structuredClone(before)
@@ -54,7 +60,7 @@ describe('explicit game commands', () => {
 
   it('awards daily rewards using the adapter day and does not repeat them on another meal', () => {
     const tomorrow = shiftDay(today, 1)
-    const state = demoGame(today)
+    const state = { ...demoGame(today), subscriptionPlan: 'premium' as const }
     const login = applyGameCommand(
       state,
       { type: 'claimLogin' },
@@ -162,7 +168,11 @@ describe('committed feed receipts', () => {
   })
 
   it('reports the fed visitor rather than the previously active companion', () => {
-    const ready = applyGameCommand(demoGame(today), command, environment).state
+    const ready = applyGameCommand(
+      { ...demoGame(today), subscriptionPlan: 'premium' },
+      command,
+      environment,
+    ).state
     const result = applyGameCommand(
       ready,
       {

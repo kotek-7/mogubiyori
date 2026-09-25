@@ -2,14 +2,21 @@ import { describe, expect, it } from 'vitest'
 import {
   advanceGame,
   chooseStarter,
-  demoGame,
+  demoGame as createDemoGame,
   feed,
-  initialGame,
+  initialGame as createInitialGame,
   restGame,
 } from '../../app/game/browserGame'
 import { deriveFeastSteps, feastStepsFromReceipt } from './feastSteps'
 import { createFeedReceipt } from '../../../shared/game/receipt'
 import type { FeedReceipt } from '../../../shared/game/receipt'
+
+// These reward/animation scenarios exercise multiple meals on the paid plan.
+const initialGame = (day: string) => ({
+  ...createInitialGame(day),
+  subscriptionPlan: 'premium' as const,
+})
+const demoGame = (day: string) => ({ ...createDemoGame(day), subscriptionPlan: 'premium' as const })
 
 const day = '2026-09-24'
 const plainMeal = { title: '今日のごはん', sample: 'rice' }

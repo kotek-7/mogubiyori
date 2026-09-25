@@ -1,6 +1,6 @@
 import { BookOpen } from 'lucide-react'
-import { recipes } from '../../app/game/browserGame'
 import type { GameState } from '../../app/game/browserGame'
+import { availableRecipes } from '../../../shared/content/freeRecipes'
 import { RecipeBrowser } from './RecipeBrowser'
 
 export function RecipeBoard({
@@ -10,7 +10,8 @@ export function RecipeBoard({
   state: GameState
   onRecipe: (id: string) => void
 }) {
-  const count = recipes.filter((recipe) => state.cards.includes(recipe.id)).length
+  const accessibleRecipes = availableRecipes(state)
+  const count = accessibleRecipes.filter((recipe) => state.cards.includes(recipe.id)).length
   return (
     <div className="collection-screen">
       <div className="collection-heading">
@@ -20,7 +21,7 @@ export function RecipeBoard({
         <span className="collection-count">
           <BookOpen size={17} />
           <strong>{count}</strong>
-          <span>/ {recipes.length}</span>
+          <span>/ {accessibleRecipes.length}</span>
         </span>
       </div>
       <RecipeBrowser state={state} onRecipe={onRecipe} />

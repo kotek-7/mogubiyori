@@ -58,7 +58,11 @@ describe('real meals and companion feeding', () => {
   })
 
   it('counts new meals from legacy callers as home cooking without changing their rewards', () => {
-    const first = feed(starter(), { ...input, mealRecord: undefined }, { mealId: 'dinner' })
+    const first = feed(
+      { ...starter(), subscriptionPlan: 'premium' },
+      { ...input, mealRecord: undefined },
+      { mealId: 'dinner' },
+    )
     expect(first.mealRecords?.[0]).toMatchObject({ source: 'home', slot: 'unknown' })
     const second = feed(first, input, { mealId: 'second' })
     expect(second.mealRecords).toHaveLength(2)

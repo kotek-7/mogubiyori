@@ -29,6 +29,27 @@ function memoryStorage(initial: GameState) {
 }
 
 describe('local game gateway', () => {
+  it('persists mock plan changes and enforces the free daily limit without blocking replay', async () => {
+    const storage = memoryStorage(starter())
+    const gateway = createLocalGameGateway(storage, () => day)
+    const first = await gateway.execute(meal, 'first')
+    await expect(gateway.execute(meal, 'second')).rejects.toThrow('有料プランに切り替えると')
+    expect(storage.saved()).toEqual(first.snapshot.state)
+    expect((await gateway.execute(meal, 'first')).receipt).toEqual(first.receipt)
+    await gateway.execute({ type: 'setSubscriptionPlan', plan: 'premium' }, 'upgrade')
+    const second = await gateway.execute(meal, 'second')
+    expect(second.snapshot.state.mealRecords).toHaveLength(2)
+    const downgraded = await gateway.execute(
+      { type: 'setSubscriptionPlan', plan: 'free' },
+      'downgrade',
+    )
+    expect(downgraded.snapshot.state.mealRecords).toEqual(second.snapshot.state.mealRecords)
+    expect((await createLocalGameGateway(storage, () => day).load()).state.subscriptionPlan).toBe(
+      'free',
+    )
+    await expect(gateway.execute(meal, 'third')).rejects.toThrow('1日1回')
+  })
+
   it('retains the last good save and retries a rejected meal without losing the input', async () => {
     const initial = starter()
     const storage = memoryStorage(initial)
@@ -126,6 +147,19 @@ describe('local game gateway', () => {
     expect(storage.saved()).toEqual(committed.snapshot.state)
     expect(storage.write).toHaveBeenCalledTimes(2)
   })
+
+  it.each(['fresh', 'seed'] as const)(
+    'keeps the membership when loading the %s demo preset',
+    async (preset) => {
+      const storage = memoryStorage({ ...starter(), subscriptionPlan: 'premium' })
+      const gateway = createLocalGameGateway(storage, () => day)
+      const result = await gateway.demo!({ type: 'reset', preset })
+      expect(result.state.subscriptionPlan).toBe('premium')
+      expect((await createLocalGameGateway(storage, () => day).load()).state.subscriptionPlan).toBe(
+        'premium',
+      )
+    },
+  )
 
   it('resets progress and the demo date while keeping the local save revision increasing', async () => {
     const storage = memoryStorage({ ...demoGame(day), dayOffset: 5 })

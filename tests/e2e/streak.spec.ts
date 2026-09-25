@@ -9,7 +9,7 @@ import {
   todayTokyo,
 } from '../../src/app/game/browserGame'
 import type { GameState } from '../../src/app/game/browserGame'
-import { feedSample, journey, returnToPlaza, storedGame } from './helpers'
+import { enablePremium, feedSample, journey, returnToPlaza, storedGame } from './helpers'
 
 const plainMeal = { title: '今日のごはん', sample: 'rice' }
 
@@ -113,6 +113,7 @@ test('a second cooking day fills its record and counts up without inventing a bo
   expect(await storedGame(page)).toEqual(saved)
   await journey(page, 'mealReport').getByRole('button', { name: 'ひろばへ', exact: true }).click()
   await expect(page.locator('.play-feed')).toBeVisible()
+  await enablePremium(page)
   await feedSample(page)
   expect(await returnToPlaza(page)).not.toContain('streak')
   expect((await storedGame(page)).coins).toBe(saved.coins)
@@ -159,6 +160,7 @@ test('a cooking milestone fills the day, increments the streak and reveals coins
   await journey(page, 'mealReport').getByRole('button', { name: 'ひろばへ', exact: true }).click()
   await expect(page.locator('.play-feed')).toBeVisible()
   expect(await storedGame(page)).toEqual(saved)
+  await enablePremium(page)
   await feedSample(page)
   expect(await returnToPlaza(page)).not.toContain('streak')
   const repeated = await storedGame(page)

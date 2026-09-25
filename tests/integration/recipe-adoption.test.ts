@@ -60,7 +60,7 @@ describe('the integrated recipe registry', () => {
   })
 
   it('preserves saved cards, meals, companions and balances from the original catalog', () => {
-    let state = chooseStarter(initialGame(date), 'mame')
+    let state = chooseStarter({ ...initialGame(date), subscriptionPlan: 'premium' }, 'mame')
     for (const recipe of legacyRecipes)
       state = feed(state, {
         title: recipe.name,
@@ -76,7 +76,7 @@ describe('the integrated recipe registry', () => {
     (rarity) => {
       const source = expansion.recipes.find((recipe) => recipe.rarity === rarity)!
       const recipe = recipeById(source.id)!
-      const start = chooseStarter(initialGame(date), 'komugi')
+      const start = chooseStarter({ ...initialGame(date), subscriptionPlan: 'premium' }, 'komugi')
       const input = { title: recipe.name, sample: recipe.sample, recipeId: recipe.id }
       const first = feed(start, input)
       expect(first.cards).toEqual([recipe.id])

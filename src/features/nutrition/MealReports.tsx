@@ -1,4 +1,5 @@
 import { useId } from 'react'
+import { LockKeyhole } from 'lucide-react'
 import type { DailyMealReport, FoodGroup } from '../../../shared/meals/types'
 import { foodGroupLabels } from '../../../shared/meals/types'
 import { mealDayLabel } from './mealReportLabels'
@@ -85,24 +86,46 @@ export function WeekMealReport({
   selectedDay,
   onSelectDay,
   legacyDays = [],
+  minDay,
 }: {
   reports: DailyMealReport[]
   selectedDay: string
   onSelectDay: (day: string) => void
   legacyDays?: string[]
+  minDay?: string
 }) {
-  const homeDays = reports.filter((report) => report.homeMealCount > 0).length
-  const recordedDays = reports.filter((report) => report.mealCount > 0).length
+  const visibleReports = reports.filter((report) => !minDay || report.day >= minDay)
+  const homeDays = visibleReports.filter((report) => report.homeMealCount > 0).length
+  const recordedDays = visibleReports.filter((report) => report.mealCount > 0).length
   return (
     <section className="meal-week" aria-label="7日間のごはんバランス">
       <div className="meal-week-heading">
         <h2>7日間のごはん</h2>
         <span>
+          {minDay && '直近3日間: '}
           自炊した日 {homeDays}日 · 記録した日 {recordedDays}日
         </span>
       </div>
       <div className="meal-week-chart">
         {reports.map((report) => {
+          if (minDay && report.day < minDay) {
+            return (
+              <button
+                key={report.day}
+                type="button"
+                className="meal-week-day meal-week-day-locked"
+                disabled
+                aria-label={`${mealDayLabel(report.day)}、有料プランで閲覧できます`}
+              >
+                <span className="meal-week-value" aria-hidden="true">
+                  <LockKeyhole size={15} />
+                </span>
+                <span className="meal-week-track" aria-hidden="true" />
+                <span className="meal-week-date">{report.day.slice(5).replace('-', '/')}</span>
+                <span className="meal-week-status">有料</span>
+              </button>
+            )
+          }
           const legacyOnly = !report.mealCount && legacyDays.includes(report.day)
           const status =
             report.score !== null
@@ -133,6 +156,7 @@ export function WeekMealReport({
       </div>
       <p className="meal-report-note">
         日付を選ぶと、その日の食事が見られます。未記録の日には点数を付けません。
+        {minDay && '鍵の付いた日のレポートは、有料プランで見られます。'}
       </p>
       <section className="meal-week-foods" aria-label="食べたものの推移">
         <h3>食べたものの推移</h3>
@@ -153,10 +177,20 @@ export function WeekMealReport({
               <tr key={group}>
                 <th scope="row">{foodGroupLabels[group]}</th>
                 {reports.map((report) => (
-                  <td key={report.day}>
-                    {report.scoredMealCount || Object.values(report.groupCounts).some(Boolean)
-                      ? report.groupCounts[group]
-                      : '—'}
+                  <td
+                    key={report.day}
+                    aria-label={
+                      minDay && report.day < minDay ? '有料プランで閲覧できます' : undefined
+                    }
+                  >
+                    {minDay && report.day < minDay ? (
+                      <LockKeyhole size={12} className="meal-week-food-lock" aria-hidden="true" />
+                    ) : report.scoredMealCount ||
+                      Object.values(report.groupCounts).some(Boolean) ? (
+                      report.groupCounts[group]
+                    ) : (
+                      '—'
+                    )}
                   </td>
                 ))}
               </tr>

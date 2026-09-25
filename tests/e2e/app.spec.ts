@@ -3,6 +3,7 @@ import { recipes } from '../../src/app/game/browserGame'
 import {
   advanceXp,
   chooseStarter,
+  enablePremium,
   expectFocusedScene,
   feedSample,
   journey,
@@ -97,6 +98,7 @@ test('the first meal rewards cooking while keeping the initial form recognizable
 test('varied meals grow the companion and visitors join only after being fed', async ({ page }) => {
   test.setTimeout(90000)
   await start(page)
+  await enablePremium(page)
   const dishes = [
     'egg-rice',
     'tofu-soup',
@@ -145,6 +147,7 @@ test('varied meals grow the companion and visitors join only after being fed', a
 
 test('repeated recipes reduce growth while the card bonus is awarded once', async ({ page }) => {
   await start(page)
+  await enablePremium(page)
   for (const xp of [45, 30, 15]) {
     await page.locator('.play-feed').click()
     await sampleToTable(page, 'curry')
@@ -217,6 +220,7 @@ test('daily login and three/seven-day cooking bonuses cannot be claimed twice', 
   expect(state.meals.filter((meal) => meal.streakBonus)).toHaveLength(2)
   await page.reload()
   expect((await storedGame(page)).coins).toBe(600)
+  await enablePremium(page)
   await feedSample(page)
   expect(await returnToPlaza(page)).not.toContain('streak')
   state = await storedGame(page)
@@ -279,6 +283,7 @@ test('a real photo alone persists in the meal album without a required recipe or
 
 test('an ordinary meal keeps XP visible until the user returns to the plaza', async ({ page }) => {
   await start(page)
+  await enablePremium(page)
   await feedSample(page)
   await returnToPlaza(page)
   await feedSample(page)
@@ -390,6 +395,7 @@ test('mobile scenes keep the main action in view and keyboard cancellation resto
   }
   await returnToPlaza(page)
   await expect(page.locator('.play-name')).toContainText('うまれたて')
+  await enablePremium(page)
   await feedSample(page, 'curry')
   await returnToPlaza(page)
   await feedSample(page, 'tofu-soup')

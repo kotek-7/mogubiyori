@@ -3,6 +3,7 @@ import type { Page } from '@playwright/test'
 import { applyGameCommand } from '../../shared/game/commands'
 import type { CommandRequest, CommandResponse, GameSnapshot } from '../../shared/game/contracts'
 import { chooseStarter, initialGame } from '../../shared/game/game'
+import { canRecordMeal } from '../../shared/game/subscription'
 
 const userId = '00000000-0000-4000-8000-000000000001'
 const day = '2026-09-26'
@@ -176,6 +177,16 @@ async function mockCloud(page: Page) {
           today: day,
           mealId: `meal-${body.operationId}`,
         })
+        if (body.command.type === 'feed' && !result.receipt)
+          return route.fulfill({
+            status: 422,
+            json: {
+              error:
+                !body.command.input.mealRecordId && !canRecordMeal(snapshot.state)
+                  ? 'daily_meal_limit_reached'
+                  : 'command_not_applied',
+            },
+          })
         const updated = { state: result.state, revision: snapshot.revision + 1 }
         snapshots.set(id, updated)
         response = { snapshot: updated, receipt: result.receipt }
@@ -250,7 +261,7 @@ async function openSettings(page: Page) {
 }
 
 async function prepareMeal(page: Page) {
-  await page.getByRole('button', { name: 'ごはんをあげる', exact: true }).click()
+  await page.locator('.play-feed').click()
   await expect(scene(page, 'photo')).toBeVisible()
   await page.getByRole('button', { name: '写真なしで体験する' }).click()
   await expect(scene(page, 'serve')).toBeVisible()
@@ -335,6 +346,7 @@ for (const account of ['anonymous', 'Google-linked'] as const) {
   test(`${account} players can cancel a progress reset or start over while keeping their account`, async ({
     page,
   }) => {
+    test.setTimeout(60_000)
     test.skip(account === 'Google-linked' && process.env.E2E_GOOGLE_AUTH_ENABLED === 'false')
     if (account === 'anonymous') await page.setViewportSize({ width: 390, height: 844 })
     const cloud = await mockCloud(page)
@@ -346,6 +358,12 @@ for (const account of ['anonymous', 'Google-linked'] as const) {
       await expect.poll(() => cloud.exchanges.length).toBe(1)
       await expect(page.getByRole('heading', { name: 'ひろば' })).toBeVisible()
     }
+    await openSettings(page)
+    await page.getByRole('button', { name: '有料プランに切り替える', exact: true }).click()
+    await expect(
+      page.getByRole('button', { name: '有料プランを利用中', exact: true }),
+    ).toBeDisabled()
+    await page.getByRole('button', { name: '閉じる', exact: true }).click()
     const before = structuredClone(cloud.snapshot())
     const otherAccount = structuredClone(cloud.snapshot(googleUserId))
     await openSettings(page)
@@ -378,7 +396,7 @@ for (const account of ['anonymous', 'Google-linked'] as const) {
     ).toBeVisible()
     expect(cloud.resetRequests).toHaveLength(1)
     expect(cloud.resetRequests[0].command).toEqual({ type: 'resetProgress' })
-    expect(cloud.snapshot().state).toEqual(initialGame(day))
+    expect(cloud.snapshot().state).toEqual({ ...initialGame(day), subscriptionPlan: 'premium' })
     expect(cloud.snapshot().revision).toBe(before.revision + 1)
     expect(cloud.snapshot(googleUserId)).toEqual(otherAccount)
     expect(cloud.authRequests).toEqual(authBefore)
@@ -386,7 +404,7 @@ for (const account of ['anonymous', 'Google-linked'] as const) {
     await expect(
       page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true }),
     ).toBeVisible()
-    expect(cloud.snapshot().state).toEqual(initialGame(day))
+    expect(cloud.snapshot().state).toEqual({ ...initialGame(day), subscriptionPlan: 'premium' })
     expect(cloud.loadUsers.every((id) => id === userId)).toBe(true)
     expect(cloud.authRequests.filter((path) => path === '/auth/v1/signup')).toHaveLength(1)
     expect(cloud.authRequests).not.toContain('/auth/v1/logout')
@@ -465,6 +483,78 @@ test('a lost reset response keeps the current screen and retries the same operat
   expect(cloud.resetRequests[0]).toEqual(cloud.resetRequests[1])
   expect(cloud.snapshot().revision).toBe(revision + 1)
   expect(cloud.authRequests.filter((path) => path === '/auth/v1/signup')).toHaveLength(1)
+  expect(cloud.blockedExternal).toEqual([])
+})
+
+test('cloud membership survives reload, unlocks extra meals and preserves records on downgrade', async ({
+  page,
+}) => {
+  test.setTimeout(60_000)
+  const cloud = await mockCloud(page)
+  await begin(page)
+  await expect(page.getByRole('complementary', { name: '広告', exact: true })).toBeVisible()
+  await saveMeal(page, '無料プランのごはん')
+  await page.locator('.play-feed').click()
+  await expect(
+    page.getByRole('heading', { name: 'ごはんをもっと記録する', exact: true }),
+  ).toBeVisible()
+  await expect(scene(page, 'photo')).toHaveCount(0)
+  expect(cloud.feedRequests).toHaveLength(1)
+  await page.getByRole('button', { name: '有料プランに切り替える', exact: true }).click()
+  await expect(page.getByRole('button', { name: '有料プランを利用中', exact: true })).toBeDisabled()
+  expect(cloud.snapshot().state.subscriptionPlan).toBe('premium')
+  await page.reload()
+  await expect(page.getByRole('heading', { name: 'ひろば' })).toBeVisible()
+  await expect(page.getByRole('complementary', { name: '広告', exact: true })).toHaveCount(0)
+  await saveMeal(page, '有料プランの追加ごはん')
+  expect(cloud.snapshot().state.mealRecords).toHaveLength(2)
+  expect(cloud.snapshot().state.meals).toHaveLength(2)
+  await openSettings(page)
+  await page.getByRole('button', { name: '無料プランに切り替える', exact: true }).click()
+  await expect(page.getByRole('button', { name: '無料プランを利用中', exact: true })).toBeDisabled()
+  expect(cloud.snapshot().state.subscriptionPlan).toBe('free')
+  expect(cloud.snapshot().state.mealRecords).toHaveLength(2)
+  await page.reload()
+  await expect(page.getByRole('heading', { name: 'ひろば' })).toBeVisible()
+  await expect(page.getByRole('complementary', { name: '広告', exact: true })).toBeVisible()
+  await page.locator('.play-feed').click()
+  await expect(
+    page.getByRole('heading', { name: 'ごはんをもっと記録する', exact: true }),
+  ).toBeVisible()
+  expect(cloud.feedRequests).toHaveLength(2)
+  await page.goto('/album')
+  await expect(page.getByText('無料プランのごはん', { exact: true })).toBeVisible()
+  await expect(page.getByText('有料プランの追加ごはん', { exact: true })).toBeVisible()
+  expect(cloud.blockedExternal).toEqual([])
+})
+
+test('switching accounts loads that user’s plan without carrying over paid membership', async ({
+  page,
+}) => {
+  const cloud = await mockCloud(page)
+  await begin(page)
+  await openSettings(page)
+  await page.getByRole('button', { name: '有料プランに切り替える', exact: true }).click()
+  await expect(page.getByRole('button', { name: '有料プランを利用中', exact: true })).toBeDisabled()
+  expect(cloud.snapshot().state.subscriptionPlan).toBe('premium')
+  await page.getByRole('button', { name: 'Googleで続きから', exact: true }).click()
+  await page.getByRole('button', { name: 'Googleの記録を開く', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'ひろば' })).toBeVisible()
+  await expect.poll(() => cloud.loadUsers.at(-1)).toBe(googleUserId)
+  await expect(page.getByRole('complementary', { name: '広告', exact: true })).toBeVisible()
+  await openSettings(page)
+  await expect(page.getByRole('button', { name: '無料プランを利用中', exact: true })).toBeDisabled()
+  expect(cloud.snapshot(googleUserId).state.subscriptionPlan).toBe('free')
+  await page.getByRole('button', { name: '有料プランに切り替える', exact: true }).click()
+  await expect(page.getByRole('button', { name: '有料プランを利用中', exact: true })).toBeDisabled()
+  await page.getByRole('button', { name: 'ログアウト', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'ひろば' })).toBeVisible()
+  await expect.poll(() => cloud.loadUsers.at(-1)).toBe(freshUserId)
+  await openSettings(page)
+  await expect(page.getByRole('button', { name: '無料プランを利用中', exact: true })).toBeDisabled()
+  expect(cloud.snapshot(freshUserId).state.subscriptionPlan).toBe('free')
+  expect(cloud.snapshot(googleUserId).state.subscriptionPlan).toBe('premium')
+  expect(cloud.snapshot().state.subscriptionPlan).toBe('premium')
   expect(cloud.blockedExternal).toEqual([])
 })
 

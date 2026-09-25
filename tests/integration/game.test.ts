@@ -28,6 +28,10 @@ import { GAME_STORAGE_KEY, loadGame, parseGame, saveGame } from '../../src/app/g
 
 const date = '2026-09-24'
 const meal = { title: 'たまごごはん', sample: 'rice' }
+const premium = (state: ReturnType<typeof initialGame>) => ({
+  ...state,
+  subscriptionPlan: 'premium' as const,
+})
 afterEach(() => vi.unstubAllGlobals())
 
 describe('companions and recipe cards', () => {
@@ -48,7 +52,7 @@ describe('companions and recipe cards', () => {
   })
 
   it('keeps the first two meals in the newborn stage and first grows on meal three', () => {
-    const selected = chooseStarter(initialGame(date), 'mame')
+    const selected = chooseStarter(premium(initialGame(date)), 'mame')
     const first = feed(selected, { ...meal, recipeId: 'egg-rice' })
     const second = feed(first, { ...meal, recipeId: 'curry' })
     const third = feed(second, { ...meal, recipeId: 'onigiri' })
@@ -74,7 +78,7 @@ describe('companions and recipe cards', () => {
   })
 
   it('recruits visitors by feeding and keeps every companion growth independent', () => {
-    const adult = feed(demoGame(date), meal)
+    const adult = feed(premium(demoGame(date)), meal)
     expect(adult.visitors).toEqual(['mame', 'shizuku', 'yuzu'])
     expect(selectCompanion(adult, 'mame')).toBe(adult)
     const joined = feed(adult, { ...meal, recipeId: 'curry', targetId: 'mame' })
@@ -96,7 +100,7 @@ describe('companions and recipe cards', () => {
   })
 
   it('reduces repeated recipes for the same recipient and resets after variety', () => {
-    const start = demoGame(date)
+    const start = premium(demoGame(date))
     const curry = { ...meal, recipeId: 'curry' }
     expect(mealXp(start, 'curry')).toBe(45)
     const first = feed(start, curry)
@@ -114,7 +118,7 @@ describe('companions and recipe cards', () => {
   })
 
   it('awards one card and rarity bonus, without rewarding the same card again', () => {
-    const start = chooseStarter(initialGame(date), 'shizuku')
+    const start = chooseStarter(premium(initialGame(date)), 'shizuku')
     const first = feed(start, { ...meal, recipeId: 'curry' })
     expect(first.cards).toEqual(['curry'])
     expect(first.meals[0].cardBonus).toBe(70)
@@ -133,7 +137,7 @@ describe('companions and recipe cards', () => {
   })
 
   it('tracks hunger per companion while daily cooking remains shared', () => {
-    const adult = feed(demoGame(date), meal)
+    const adult = feed(premium(demoGame(date)), meal)
     const tomorrow = advanceGame(adult)
     const joined = feed(tomorrow, { ...meal, targetId: 'mame' })
     expect(hungerOf(joined)).toBe(96)
@@ -161,18 +165,18 @@ describe('login and streak bonuses', () => {
   })
 
   it('awards the three-day and seven-day coins on the first meal only', () => {
-    let state = chooseStarter(initialGame(date), 'komugi')
+    let state = chooseStarter(premium(initialGame(date)), 'komugi')
     state = advanceGame(feed(state, meal))
     state = advanceGame(feed(state, meal))
     const third = feed(state, meal)
     expect(third.meals[0].streakBonus).toBe(30)
     expect(third.meals[0].coins).toBe(60)
     expect(feed(third, meal).meals[0].streakBonus).toBe(0)
-    const seventh = feed(demoGame(date), { ...meal, recipeId: 'curry' })
+    const seventh = feed(premium(demoGame(date)), { ...meal, recipeId: 'curry' })
     expect(seventh.meals[0].streakBonus).toBe(100)
     expect(seventh.meals[0].coins).toBe(200)
     expect(feed(seventh, meal).meals[0].streakBonus).toBe(0)
-    expect(restGame(demoGame(date)).coins).toBe(120)
+    expect(restGame(premium(demoGame(date))).coins).toBe(120)
   })
 
   it('counts cooking days around rest tickets rather than awarding rests', () => {
@@ -281,7 +285,7 @@ describe('daily cooking and growth', () => {
   })
 
   it('grows on extra meals without repeating daily coins or milestones', () => {
-    const first = feed(demoGame(date), meal)
+    const first = feed(premium(demoGame(date)), meal)
     const second = feed(first, { title: '夜のスープ', sample: 'soup' })
     expect(second.meals).toHaveLength(8)
     expect(second.xp).toBe(first.xp + 45)
@@ -333,7 +337,7 @@ describe('daily cooking and growth', () => {
   it('works on LAN HTTP where randomUUID is unavailable', () => {
     const getRandomValues = vi.fn((array: Uint32Array) => array.fill(42))
     vi.stubGlobal('crypto', { getRandomValues })
-    const first = feed(chooseStarter(initialGame(date, true), 'komugi'), meal)
+    const first = feed(chooseStarter(premium(initialGame(date, true)), 'komugi'), meal)
     const second = feed(first, meal)
     expect(getRandomValues).toHaveBeenCalledTimes(2)
     expect(new Set(second.meals.map((entry) => entry.id)).size).toBe(2)

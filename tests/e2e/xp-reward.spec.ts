@@ -176,7 +176,10 @@ test('repeated recipes show the actual 30 and 15 XP even when daily coins are ex
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  let state = feed(starter(), { ...plainMeal, recipeId: 'curry' })
+  let state = feed(
+    { ...starter(), subscriptionPlan: 'premium' },
+    { ...plainMeal, recipeId: 'curry' },
+  )
   for (const [gained, total] of [
     [30, 75],
     [15, 90],
@@ -199,7 +202,9 @@ test('a visitor starts at zero XP without borrowing the previous active companio
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  const state = claimLogin(feed(demoGame(todayTokyo()), plainMeal))
+  const state = claimLogin(
+    feed({ ...demoGame(todayTokyo()), subscriptionPlan: 'premium' }, plainMeal),
+  )
   await seed(page, state)
   const saved = await serve(page, '', 'まめ')
   await expect(scene(page, 'xp')).toContainText('まめ')
@@ -224,7 +229,7 @@ test('the final form still earns XP without promising a sixth form or resetting 
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  const state = feed(starter(), plainMeal)
+  const state = feed({ ...starter(), subscriptionPlan: 'premium' }, plainMeal)
   state.xp = 1050
   state.companions[0].xp = 1050
   state.visitors = ['mame', 'shizuku', 'yuzu']
@@ -282,7 +287,7 @@ test('a short mobile additional meal keeps its summary and finish button inside 
 }, testInfo) => {
   await page.setViewportSize({ width: 320, height: 568 })
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  const before = feed(starter(), plainMeal)
+  const before = feed({ ...starter(), subscriptionPlan: 'premium' }, plainMeal)
   await seed(page, before)
   const saved = await serve(page)
   await expect.poll(() => displayedTotal(page)).toBe(90)

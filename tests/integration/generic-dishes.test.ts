@@ -33,7 +33,9 @@ describe('generic meal classification across commands, rewards and saves', () =>
 
   it('keeps generic curry separate from the collectible curry recipe and its repeat rewards', () => {
     const generic = { title: '', sample: 'rice', dishId: 'generic-curry' }
-    const first = feed(start(), generic, { mealId: 'generic-first' })
+    const first = feed({ ...start(), subscriptionPlan: 'premium' }, generic, {
+      mealId: 'generic-first',
+    })
     const repeat = feed(first, generic, { mealId: 'generic-repeat' })
     expect(first.coins).toBe(150)
     expect(repeat.coins).toBe(150)

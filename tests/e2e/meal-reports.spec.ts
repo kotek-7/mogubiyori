@@ -129,7 +129,9 @@ test('a meal can be reviewed with a keyboard and its daily report fits a 320px p
   await expect(page.getByRole('heading', { name: '自炊レポート', exact: true })).toBeVisible()
   await expect(page.locator('.meal-report-score strong')).toHaveText('70')
   const week = page.getByRole('region', { name: '7日間のごはんバランス', exact: true })
-  const days = week.locator('.meal-week-day')
+  const days = week.locator('.meal-week-day:not(:disabled)')
+  await expect(days).toHaveCount(3)
+  await expect(week.locator('.meal-week-day:disabled')).toHaveCount(4)
   await days.first().focus()
   await page.keyboard.press('Enter')
   await expect(days.first()).toHaveAttribute('aria-pressed', 'true')
@@ -142,7 +144,7 @@ test('a meal can be reviewed with a keyboard and its daily report fits a 320px p
   const vegetables = foods.getByRole('row').filter({
     has: page.getByRole('rowheader', { name: '野菜・きのこ・海藻', exact: true }),
   })
-  await expect(vegetables.getByRole('cell')).toHaveText(['—', '—', '—', '—', '—', '—', '1'])
+  await expect(vegetables.getByRole('cell')).toHaveText(['', '', '', '', '—', '—', '1'])
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   const albumAccessibility = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
@@ -244,7 +246,7 @@ test('legacy meals remain visible and missing days never become zero-score days'
   const week = page.getByRole('region', { name: '7日間のごはんバランス', exact: true })
   await expect(week.locator('.meal-week-day')).toHaveCount(7)
   await expect(week.locator('.meal-week-day[aria-label*="0点"]')).toHaveCount(0)
-  await expect(week.locator('.meal-week-day[aria-label*="未記録"]')).toHaveCount(6)
+  await expect(week.locator('.meal-week-day[aria-label*="未記録"]')).toHaveCount(2)
   await week.locator('.meal-week-day[aria-label*="以前の記録・未判定"]').click()
   await page.getByRole('button', { name: 'この日の記録を見る', exact: true }).click()
   await expect(page.locator('.memory-card').filter({ hasText: '以前のカレー' })).toContainText(
@@ -258,6 +260,7 @@ test('the weekly average counts a meal once when two companions shared it', asyn
   let state = chooseStarter(initialGame(today), 'komugi')
   state = {
     ...state,
+    subscriptionPlan: 'premium',
     companions: [...state.companions, { id: 'mame', xp: 0, joinedDay: today }],
     tutorial: { version: 1, step: 4, status: 'completed', homeGuide: 'done' },
   }

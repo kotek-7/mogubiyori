@@ -4,6 +4,7 @@ import { suggestMealItem } from '../meals/analysis'
 import { mealRecordInputSchema, mealRecordUpdateSchema } from '../meals/schemas'
 import type { MealRecord, MealRecordUpdate } from '../meals/types'
 import type { Companion, FeedInput, GameState, GrowthStage, SpeciesId } from './types'
+import { canRecordMeal } from './subscription'
 
 export function shiftDay(day: string, days: number): string {
   const date = new Date(`${day}T12:00:00Z`)
@@ -15,6 +16,7 @@ export function initialGame(day: string): GameState {
   return {
     version: 1,
     growthVersion: 2,
+    subscriptionPlan: 'free',
     tutorial: { version: 1, step: 0, status: 'active' },
     today: day,
     dayOffset: 0,
@@ -174,6 +176,7 @@ export function feed(
   )
     return state
   const parsedRecord = input.mealRecord && mealRecordInputSchema.safeParse(input.mealRecord)
+  if (!sharedRecord && !canRecordMeal(state)) return state
   if (parsedRecord && !parsedRecord.success) return state
   if (sharedRecord) {
     const previousFeed = state.meals.find((meal) => meal.mealRecordId === sharedRecord.id)

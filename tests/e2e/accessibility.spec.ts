@@ -5,6 +5,7 @@ import type { Page } from '@playwright/test'
 import {
   advanceXp,
   chooseStarter,
+  enablePremium,
   feedSample,
   journey,
   navigate,
@@ -109,6 +110,7 @@ test('mobile welcome, photo, serving, eating, XP, growth, card and daily streak 
   await expect(journey(page, 'mealReport')).toBeVisible()
   await check(page, 'daily meal report')
   await returnToPlaza(page)
+  await enablePremium(page)
   await feedSample(page, 'tofu-soup')
   await returnToPlaza(page)
   await feedSample(page, 'onigiri')
@@ -150,6 +152,7 @@ test('arrival, streak, gift, recruitment and ordinary XP scenes are accessible',
   await expect(journey(page, 'mealReport')).toBeVisible()
   await check(page, 'meal report after seven-day gift')
   await page.getByRole('button', { name: 'ひろばへ', exact: true }).click()
+  await enablePremium(page)
   await page.getByRole('button', { name: 'お客さんのまめにごはんをあげる' }).click()
   await submitSample(page, '', 'まめ')
   await page.getByRole('button', { name: '早送り', exact: true }).click()

@@ -117,6 +117,40 @@ function setup() {
 }
 
 describe('server-authoritative game API', () => {
+  it('persists the mock plan and enforces daily limits against the latest server state', async () => {
+    const { repository, request } = setup()
+    const first = await executeCommand(repository, userA, opA, feed, { today: day, mealId })
+    const blocked = await request('/api/game/commands', { operationId: opB, command: feed })
+    expect(blocked.status).toBe(422)
+    expect(await blocked.json()).toEqual({ error: 'daily_meal_limit_reached' })
+    expect(repository.games.get(userA)!.state).toEqual(first.snapshot.state)
+    const upgraded = await request('/api/game/commands', {
+      operationId: opB,
+      command: { type: 'setSubscriptionPlan', plan: 'premium' },
+    })
+    expect(upgraded.status).toBe(200)
+    expect((await (await request('/api/game')).json()).state.subscriptionPlan).toBe('premium')
+    const second = await executeCommand(repository, userA, 'second-meal', feed, {
+      today: day,
+      mealId: 'second',
+    })
+    expect(second.snapshot.state.mealRecords).toHaveLength(2)
+    const downgraded = await executeCommand(
+      repository,
+      userA,
+      'downgrade',
+      { type: 'setSubscriptionPlan', plan: 'free' },
+      { today: day, mealId: 'unused' },
+    )
+    expect(downgraded.snapshot.state.mealRecords).toEqual(second.snapshot.state.mealRecords)
+    await expect(
+      executeCommand(repository, userA, 'third-meal', feed, { today: day, mealId: 'third' }),
+    ).rejects.toThrow('daily_meal_limit_reached')
+    const replayed = await executeCommand(repository, userA, opA, feed, { today: day, mealId })
+    expect(replayed.receipt).toEqual(first.receipt)
+    expect(replayed.snapshot.state.mealRecords).toHaveLength(2)
+  })
+
   it('requires configured cloud and a verified bearer token instead of falling back to local state', async () => {
     const response = await createApp().request('https://game.example/api/game', {}, env)
     expect(response.status).toBe(503)

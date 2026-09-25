@@ -48,6 +48,17 @@ export async function start(page: Page, name = 'こむぎ') {
   await expect(page.getByRole('button', { name: 'コイン 140枚、おみせへ' })).toBeVisible()
 }
 
+export async function enablePremium(page: Page) {
+  await page.getByRole('button', { name: '設定', exact: true }).click()
+  const dialog = page.getByRole('dialog')
+  await dialog.getByRole('button', { name: '有料プランに切り替える', exact: true }).click()
+  await expect(
+    dialog.getByRole('button', { name: '有料プランを利用中', exact: true }),
+  ).toBeDisabled()
+  await dialog.getByRole('button', { name: '閉じる', exact: true }).click()
+  await expect(dialog).toHaveCount(0)
+}
+
 export async function navigate(
   page: Page,
   name: 'ひろば' | '記録' | 'レポート' | 'ずかん' | 'おみせ',

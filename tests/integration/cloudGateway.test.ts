@@ -104,6 +104,22 @@ function setup() {
 }
 
 describe('cloud game gateway through the real Worker API', () => {
+  it('surfaces the free daily limit and persists a mock membership change through the API', async () => {
+    const { gateway, snapshot } = setup()
+    const command: GameCommand = { type: 'feed', input: { title: 'ごはん', sample: 'rice' } }
+    await gateway.execute(command, operationId)
+    await expect(gateway.execute(command, '10000000-0000-4000-8000-000000000002')).rejects.toThrow(
+      '有料プランに切り替えると',
+    )
+    expect(snapshot().state.mealRecords).toHaveLength(1)
+    const upgraded = await gateway.execute(
+      { type: 'setSubscriptionPlan', plan: 'premium' },
+      '10000000-0000-4000-8000-000000000003',
+    )
+    expect(upgraded.snapshot.state.subscriptionPlan).toBe('premium')
+    expect((await gateway.load()).state.subscriptionPlan).toBe('premium')
+  })
+
   it('uses the current bearer token, honors cancellation and has no local demo operations', async () => {
     const { gateway, calls } = setup()
     const abort = new AbortController()

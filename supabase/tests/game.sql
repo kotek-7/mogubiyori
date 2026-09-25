@@ -53,3 +53,22 @@ begin
   if (select meal_id from public.photo_assets where id='20000000-0000-4000-8000-000000000002') is not null then raise exception 'photo linkage did not roll back'; end if;
 end;
 $$;
+
+-- Membership uses the existing JSON state and operation transaction without a migration.
+do $$
+declare
+  member uuid := '00000000-0000-4000-8000-000000000002';
+  original jsonb;
+  result jsonb;
+begin
+  set local role service_role;
+  select state into original from public.game_states where user_id = member;
+  result := public.commit_game_command(member, '40000000-0000-4000-8000-000000000001', repeat('1',64), 'setSubscriptionPlan', 1, original || '{"subscriptionPlan":"premium"}', null);
+  if result->>'status' <> 'applied' or result#>>'{snapshot,state,subscriptionPlan}' <> 'premium' then raise exception 'membership upgrade did not persist'; end if;
+  if (result#>'{snapshot,state}') - 'subscriptionPlan' <> original then raise exception 'membership upgrade changed existing progress'; end if;
+  result := public.commit_game_command(member, '40000000-0000-4000-8000-000000000002', repeat('2',64), 'setSubscriptionPlan', 2, original || '{"subscriptionPlan":"free"}', null);
+  if result->>'status' <> 'applied' or result#>>'{snapshot,state,subscriptionPlan}' <> 'free' then raise exception 'membership downgrade did not persist'; end if;
+  if (result#>'{snapshot,state}') - 'subscriptionPlan' <> original then raise exception 'membership downgrade changed existing progress'; end if;
+  if exists(select 1 from public.game_states where user_id <> member and state ? 'subscriptionPlan') then raise exception 'membership crossed account boundary'; end if;
+end;
+$$;

@@ -117,7 +117,7 @@ async function watchDemo(page: Page, step: number) {
         await expect(screen.getByRole('status', { name: '初回ボーナス 70コイン' })).toBeVisible()
       if (phase === 'board') {
         await expect(
-          screen.getByRole('group', { name: '料理カード 1/310', exact: true }),
+          screen.getByRole('group', { name: '料理カード 1/30', exact: true }),
         ).toBeVisible()
         await expect(screen.getByRole('group', { name: '70コイン', exact: true })).toBeVisible()
       }

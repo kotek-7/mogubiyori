@@ -17,6 +17,7 @@ import { HelpPanel } from '../../features/settings/HelpPanel'
 import { RestPanel } from '../../features/room/RestPanel'
 import { MealReminder } from '../../features/room/MealReminder'
 import { StreakPanel } from '../../features/streak/StreakPanel'
+import { SubscriptionSettings } from '../../features/subscription/Subscription'
 import type { Page } from '../gameUi'
 
 export type Dialog =
@@ -25,7 +26,7 @@ export type Dialog =
   | { type: 'mealRecord'; recordId: string }
   | { type: 'item'; item: Item }
   | { type: 'profile'; speciesId?: SpeciesId }
-  | { type: 'settings' | 'streak' | 'gems' | 'rest' | 'letters' | 'help' }
+  | { type: 'settings' | 'streak' | 'gems' | 'rest' | 'letters' | 'help' | 'subscription' }
 
 type Props = {
   dialog: Dialog
@@ -94,6 +95,15 @@ export function GameDialogs({
   let title = ''
   let content: ReactNode
   switch (local.type) {
+    case 'subscription':
+      title = 'ごはんをもっと記録する'
+      content = (
+        <>
+          <p>無料プランのごはん記録は1日1回です。有料プランなら、1日に何回でも記録できます。</p>
+          <SubscriptionSettings />
+        </>
+      )
+      break
     case 'recipe':
       title = recipes.find((recipe) => recipe.id === local.recipeId)?.name ?? 'レシピ'
       content = (

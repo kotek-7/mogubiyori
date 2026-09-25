@@ -134,6 +134,7 @@ test('records and reports keep the selected day and week through links, reload a
   const recordDay = shiftDay(today, -8)
   const end = shiftDay(today, -7)
   let state = freshState()
+  state.subscriptionPlan = 'premium'
   state = feed(
     { ...state, today: recordDay },
     { title: '先週のおにぎり', sample: 'rice', recipeId: 'onigiri' },

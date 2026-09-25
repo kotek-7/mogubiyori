@@ -1,6 +1,7 @@
 import { useId } from 'react'
 import { ChevronRight, HelpCircle, RotateCcw, Sparkles } from 'lucide-react'
 import { AccountSettings } from '../auth/AuthGate'
+import { SubscriptionSettings } from '../subscription/Subscription'
 import type { GameState } from '../../app/game/browserGame'
 
 export function SettingsPanel({
@@ -31,6 +32,7 @@ export function SettingsPanel({
   const resetConfirmationId = useId()
   return (
     <div className="settings-sheet">
+      <SubscriptionSettings />
       <fieldset className="reminder-setting" disabled={busy}>
         <legend>ごはんのお知らせ</legend>
         <div className="segmented">

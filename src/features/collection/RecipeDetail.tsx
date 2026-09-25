@@ -1,7 +1,9 @@
 import { Clock3, LockKeyhole, Sparkles, Utensils } from 'lucide-react'
 import { recipes } from '../../app/game/browserGame'
 import type { GameState } from '../../app/game/browserGame'
+import { canViewRecipe } from '../../../shared/content/freeRecipes'
 import { RecipeArt } from '../../ui/art/RecipeArt'
+import { SubscriptionPrompt } from '../subscription/Subscription'
 
 const difficultyNames = ['かんたん', 'ひと工夫', 'じっくり']
 const rarityNames = { common: 'ノーマル', rare: 'レア', special: 'スペシャル' }
@@ -21,6 +23,13 @@ export function RecipeDetail({
       <div className="recipe-detail-empty">
         <LockKeyhole size={36} />
         <p>レシピが見つかりませんでした。</p>
+      </div>
+    )
+  if (!canViewRecipe(state, recipeId))
+    return (
+      <div className="recipe-detail-empty">
+        <LockKeyhole size={36} />
+        <SubscriptionPrompt reason="このレシピは有料プランで見られます。獲得済みの料理カードはそのまま残ります。" />
       </div>
     )
   return (

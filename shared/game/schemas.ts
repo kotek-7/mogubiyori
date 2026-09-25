@@ -69,6 +69,7 @@ export const mealSchema = z.object({
 export const saveBaseSchema = z.object({
   version: z.literal(1),
   growthVersion: z.literal(2).optional(),
+  subscriptionPlan: z.enum(['free', 'premium']).default('free'),
   today: daySchema,
   dayOffset: nonnegativeIntegerSchema,
   name: z.string().refine((value) => value.trim().length > 0),

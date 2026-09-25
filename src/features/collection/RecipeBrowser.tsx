@@ -2,7 +2,9 @@ import { useId, useMemo, useRef, useState } from 'react'
 import { BookOpen, ChevronLeft, ChevronRight, Clock3, Search, Sparkles } from 'lucide-react'
 import type { GameState } from '../../app/game/browserGame'
 import { recipes, recipeCategories } from '../../../shared/content/recipes'
+import { canViewRecipe, FREE_RECIPE_IDS } from '../../../shared/content/freeRecipes'
 import { RecipeArt } from '../../ui/art/RecipeArt'
+import { SubscriptionPrompt } from '../subscription/Subscription'
 
 const pageSize = 24
 const difficultyNames = ['かんたん', 'ひと工夫', 'じっくり']
@@ -44,6 +46,7 @@ export function RecipeBrowser({
     const terms = normalizeSearch(query).trim().split(/\s+/).filter(Boolean)
     const matchingRecipes = searchableRecipes
       .filter(({ recipe, searchText }) => {
+        if (!canViewRecipe(state, recipe.id)) return false
         if (category !== 'all' && recipe.category !== category) return false
         if (minutes !== 'all' && recipe.minutes > Number(minutes)) return false
         if (difficulty !== 'all' && recipe.difficulty !== Number(difficulty)) return false
@@ -57,7 +60,7 @@ export function RecipeBrowser({
           (left, right) => Number(cards.has(right.id)) - Number(cards.has(left.id)),
         )
       : matchingRecipes
-  }, [query, category, minutes, difficulty, acquired, cards, mode])
+  }, [query, category, minutes, difficulty, acquired, cards, mode, state])
   const pageCount = Math.max(1, Math.ceil(matching.length / pageSize))
   const currentPage = Math.min(page, pageCount)
   const firstIndex = (currentPage - 1) * pageSize
@@ -81,6 +84,11 @@ export function RecipeBrowser({
 
   return (
     <div className="recipe-browser" ref={browser}>
+      {state.subscriptionPlan !== 'premium' && (
+        <SubscriptionPrompt
+          reason={`無料プランでは定番の${FREE_RECIPE_IDS.length}品が見られます。有料プランなら全${recipes.length}品のレシピを楽しめます。`}
+        />
+      )}
       <div className="recipe-browser-controls" role="search" aria-label="レシピを探す">
         <label className="recipe-browser-search" htmlFor={`${id}-search`}>
           <span>名前・材料で検索</span>

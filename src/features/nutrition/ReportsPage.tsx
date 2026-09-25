@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useGameUi } from '../../app/gameUi'
 import { useMealHistory } from '../album/useMealHistory'
+import { SubscriptionPrompt } from '../subscription/Subscription'
 import { TodayMealReport, WeekMealReport } from './MealReports'
 import { mealDayLabel } from './mealReportLabels'
 
@@ -11,6 +12,7 @@ export function ReportsPage() {
     legacyMeals,
     selectedDay,
     weekEnd,
+    minReportDay,
     reports,
     report,
     selectDate,
@@ -30,8 +32,16 @@ export function ReportsPage() {
       <p className="meal-page-description">
         自炊を続けた日と、ごはんのバランスを振り返れます。グラフの日付を選ぶと、その日の詳しい内容を見られます。
       </p>
+      {minReportDay && (
+        <SubscriptionPrompt reason="無料プランで見られるレポートは今日を含む3日分です。有料プランなら、保存されたすべての日のレポートを振り返れます。" />
+      )}
       <div className="meal-history-period">
-        <button type="button" aria-label="前の7日間" onClick={() => moveWeek(-7)}>
+        <button
+          type="button"
+          aria-label="前の7日間"
+          disabled={!!minReportDay}
+          onClick={() => moveWeek(-7)}
+        >
           <ChevronLeft size={20} />
         </button>
         <span>
@@ -51,7 +61,9 @@ export function ReportsPage() {
           <h2>
             {hasWeekLegacy
               ? '以前の記録も、記録画面から見られます'
-              : 'この7日間の記録はまだありません'}
+              : minReportDay
+                ? 'この3日間の記録はまだありません'
+                : 'この7日間の記録はまだありません'}
           </h2>
           <p>
             {hasWeekLegacy
@@ -68,6 +80,7 @@ export function ReportsPage() {
         selectedDay={selectedDay}
         onSelectDay={selectDate}
         legacyDays={legacyMeals.map((meal) => meal.day)}
+        minDay={minReportDay}
       />
       <div className="meal-history-date">
         <label>
@@ -75,6 +88,7 @@ export function ReportsPage() {
           <input
             type="date"
             value={selectedDay}
+            min={minReportDay}
             max={state.today}
             onChange={(event) => selectDate(event.target.value)}
           />

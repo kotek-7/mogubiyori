@@ -8,6 +8,7 @@ import {
   gameSnapshotSchema,
 } from '../../../shared/game/contracts'
 import type { GameGateway } from './gameGateway'
+import { DAILY_MEAL_LIMIT_MESSAGE } from '../../../shared/game/subscription'
 
 function validated<T>(schema: z.ZodType<T>, value: unknown): T {
   const result = schema.safeParse(value)
@@ -34,8 +35,17 @@ export function createCloudGameGateway(auth: SupabaseClient, userId: string): Ga
         throw new Error('記録が更新されています。もう一度お試しください。')
       if (response.status === 413)
         throw new Error('写真のサイズが大きすぎます。別の写真を選んでください。')
-      if (response.status === 422)
+      if (response.status === 422) {
+        const body: unknown = await response.json().catch(() => null)
+        if (
+          body &&
+          typeof body === 'object' &&
+          'error' in body &&
+          body.error === 'daily_meal_limit_reached'
+        )
+          throw new Error(DAILY_MEAL_LIMIT_MESSAGE)
         throw new Error('操作を完了できませんでした。現在の記録を確認してください。')
+      }
       throw new Error('保存サービスに接続できませんでした。もう一度お試しください。')
     }
     return response

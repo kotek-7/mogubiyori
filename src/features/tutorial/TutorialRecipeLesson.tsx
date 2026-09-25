@@ -10,6 +10,8 @@ import {
 } from './TutorialPhotoExample'
 import { useTutorialPlayback } from './useTutorialPlayback'
 import { recipes } from '../../app/game/browserGame'
+import { useGameSession } from '../../app/game/useGameSession'
+import { availableRecipes } from '../../../shared/content/freeRecipes'
 
 export type TutorialCardPhase = TutorialPhotoPhase | 'earned' | 'board' | 'browse' | 'recipe'
 type Phase = TutorialCardPhase
@@ -31,6 +33,8 @@ export function TutorialCards({
   onPhaseChange?: (phase: NextPhase) => void
   playing: boolean
 }) {
+  const { state } = useGameSession()
+  const recipeCount = availableRecipes(state).length
   const curry = recipes.find((recipe) => recipe.id === 'curry')!
   const onigiri = recipes.find((recipe) => recipe.id === 'onigiri')!
   const [phase, setPhase] = useState<Phase>('cooking')
@@ -143,14 +147,14 @@ export function TutorialCards({
               <div
                 className="tutorial-recipe-total"
                 role="group"
-                aria-label={`料理カード 1/${recipes.length}`}
+                aria-label={`料理カード 1/${recipeCount}`}
               >
                 <BookOpen size={15} aria-hidden="true" />
                 <span>
                   ずかん<small>料理カード</small>
                 </span>
                 <strong>
-                  1<small>/{recipes.length}</small>
+                  1<small>/{recipeCount}</small>
                 </strong>
               </div>
               <div

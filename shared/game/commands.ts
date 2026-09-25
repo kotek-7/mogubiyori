@@ -13,6 +13,7 @@ import type { MealRecordUpdate } from '../meals/types'
 import { createFeedReceipt } from './receipt'
 import type { FeedReceipt } from './receipt'
 import type { FeedInput, GameState, SpeciesId, TutorialState } from './types'
+import type { SubscriptionPlan } from './subscription'
 
 export type GameCommand =
   | { type: 'chooseStarter'; id: SpeciesId }
@@ -24,6 +25,7 @@ export type GameCommand =
   | { type: 'rest' }
   | { type: 'claimLogin' }
   | { type: 'resetProgress' }
+  | { type: 'setSubscriptionPlan'; plan: SubscriptionPlan }
   | { type: 'updateSettings'; input: { name?: string; reminder?: GameState['reminder'] } }
   | { type: 'tutorial'; input: Partial<Pick<TutorialState, 'step' | 'status' | 'homeGuide'>> }
 
@@ -66,7 +68,14 @@ export function applyGameCommand(
       next = claimLogin(current)
       break
     case 'resetProgress':
-      next = initialGame(environment.today)
+      next = { ...initialGame(environment.today), subscriptionPlan: current.subscriptionPlan }
+      break
+    case 'setSubscriptionPlan':
+      // Billing is mocked: the selected membership is persisted with the game.
+      next =
+        current.subscriptionPlan === command.plan
+          ? current
+          : { ...current, subscriptionPlan: command.plan }
       break
     case 'updateSettings': {
       const name = command.input.name?.trim() || current.name

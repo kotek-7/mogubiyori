@@ -1,6 +1,7 @@
 import { applyGameCommand } from '../../../shared/game/commands'
 import type { GameCommand } from '../../../shared/game/commands'
 import type { CommandResponse, GameSnapshot } from '../../../shared/game/contracts'
+import { canRecordMeal, DAILY_MEAL_LIMIT_MESSAGE } from '../../../shared/game/subscription'
 import { mealRecordUpdateSchema } from '../../../shared/meals/schemas'
 import {
   addDemoGems,
@@ -74,8 +75,11 @@ export function createLocalGameGateway(
           today: command.type === 'resetProgress' ? today() : state.today,
           mealId: `meal-${operationId}`,
         })
-        if (command.type === 'feed' && !result.receipt)
+        if (command.type === 'feed' && !result.receipt) {
+          if (!command.input.mealRecordId && !canRecordMeal(state))
+            throw new Error(DAILY_MEAL_LIMIT_MESSAGE)
           throw new Error('ごはんの相手を選び直してください。')
+        }
         if (!result.changed && ['purchase', 'rest', 'chooseStarter'].includes(command.type))
           throw new Error('操作を完了できませんでした。現在の状態を確認してください。')
         const snapshot = result.changed ? save(result.state) : { state: result.state, revision }
@@ -94,7 +98,7 @@ export function createLocalGameGateway(
               : command.preset === 'fresh'
                 ? initialGame(today())
                 : demoGame(today())
-        const snapshot = save(state)
+        const snapshot = save({ ...state, subscriptionPlan: current.subscriptionPlan })
         completed.clear()
         return snapshot
       }),

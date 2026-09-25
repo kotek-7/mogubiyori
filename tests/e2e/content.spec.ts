@@ -3,6 +3,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { recipes } from '../../src/app/game/browserGame'
 import {
   advanceXp,
+  enablePremium,
   feedSample,
   journey,
   navigate,
@@ -18,6 +19,7 @@ test('the main collection searches all 310 recipes and replaces the separate rec
 }) => {
   await page.goto('/')
   await start(page)
+  await enablePremium(page)
   await navigate(page, 'ずかん')
   await expect(page.locator('.collection-count')).toContainText('/ 310')
   await expect(page.locator('.recipe-collection-card')).toHaveCount(24)
@@ -74,6 +76,7 @@ test('an added recipe earns one card and keeps its artwork and progress after re
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
   await start(page)
+  await enablePremium(page)
   const before = await storedGame(page)
   const recipe = recipes.find((entry) => entry.id === 'r-oyako-don')!
   await navigate(page, 'ずかん')

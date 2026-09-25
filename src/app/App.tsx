@@ -20,6 +20,8 @@ import type { MealHistorySearch, Page } from './gameUi'
 import { Currency } from '../ui/Currency'
 import { Toast } from '../ui/Toast'
 import { AccountMenu } from '../features/auth/AccountMenu'
+import { canRecordMeal } from '../../shared/game/subscription'
+import { PlanAdvertisement } from '../features/subscription/Subscription'
 
 type MealOptions = { recipeId?: string; targetId?: SpeciesId; mealRecordId?: string }
 type Journey =
@@ -27,7 +29,7 @@ type Journey =
   | ({ type: 'meal'; origin: { page: Page; search: MealHistorySearch } } & MealOptions)
   | { type: 'feast'; receipt: FeedReceipt; photo?: string }
 function App() {
-  const { state, execute, error, busy, retry, dismissError, gateway } = useGameSession()
+  const { state, execute, error, busy, retry, dismissError } = useGameSession()
   const router = useRouter()
   const routerNavigate = useNavigate()
   // The requested location changes before the outlet commits. Follow the
@@ -146,6 +148,10 @@ function App() {
   }
   function openMeal(options: MealOptions = {}) {
     dismissError()
+    if (!options.mealRecordId && !canRecordMeal(state)) {
+      setDialog({ type: 'subscription' })
+      return
+    }
     transitionScene(() => {
       setToast('')
       setDialog(null)
@@ -221,7 +227,7 @@ function App() {
       <>
         <StarterSelection
           busy={busy}
-          accountSettings={gateway.mode === 'cloud' ? <AccountMenu /> : undefined}
+          accountSettings={<AccountMenu />}
           onChoose={(id) =>
             run({ type: 'chooseStarter', id }, () => {
               setJourney(null)
@@ -373,6 +379,12 @@ function App() {
         <main id="main" className={`play-main play-page-${page}`} tabIndex={-1}>
           {feedback}
           <Outlet />
+          <PlanAdvertisement
+            onOpenRecipes={() => {
+              setBookKind('recipes')
+              navigate('book')
+            }}
+          />
         </main>
         <div className={showBookGuide ? 'play-guide-nav' : undefined} ref={bookGuide}>
           {showBookGuide && (

@@ -2,6 +2,7 @@ import { useSearch } from '@tanstack/react-router'
 import { dailyMealReport, weekMealReports } from '../../../shared/meals/analysis'
 import { mealDaySchema } from '../../../shared/meals/schemas'
 import { shiftDay } from '../../../shared/game/game'
+import { earliestReportDay } from '../../../shared/game/subscription'
 import { useGameSession } from '../../app/game/useGameSession'
 import { useGameUi } from '../../app/gameUi'
 
@@ -10,18 +11,28 @@ export function useMealHistory(page: 'album' | 'reports') {
   const { state } = useGameSession()
   const { navigate } = useGameUi()
   const search = useSearch({ strict: false }) as { day?: string; end?: string }
-  const clampDay = (value: string | undefined) =>
-    value && mealDaySchema.safeParse(value).success && value <= state.today ? value : state.today
+  const minReportDay = page === 'reports' ? earliestReportDay(state) : undefined
+  const clampDay = (value: string | undefined) => {
+    const day =
+      value && mealDaySchema.safeParse(value).success && value <= state.today ? value : state.today
+    return minReportDay && day < minReportDay ? minReportDay : day
+  }
   const selectedDay = clampDay(search.day ?? search.end)
   const requestedEnd = clampDay(search.end)
-  const weekEnd =
-    selectedDay > requestedEnd || selectedDay < shiftDay(requestedEnd, -6)
+  const weekEnd = minReportDay
+    ? state.today
+    : selectedDay > requestedEnd || selectedDay < shiftDay(requestedEnd, -6)
       ? selectedDay
       : requestedEnd
-  const records = state.mealRecords ?? []
-  const recordIds = new Set(records.map((record) => record.id))
+  const allRecords = state.mealRecords ?? []
+  const records = minReportDay
+    ? allRecords.filter((record) => record.day >= minReportDay)
+    : allRecords
+  const recordIds = new Set(allRecords.map((record) => record.id))
   const legacyMeals = state.meals.filter(
-    (meal) => !meal.mealRecordId || !recordIds.has(meal.mealRecordId),
+    (meal) =>
+      (!meal.mealRecordId || !recordIds.has(meal.mealRecordId)) &&
+      (!minReportDay || meal.day >= minReportDay),
   )
   const reports = weekMealReports(records, weekEnd)
 
@@ -45,6 +56,7 @@ export function useMealHistory(page: 'album' | 'reports') {
     legacyMeals,
     selectedDay,
     weekEnd,
+    minReportDay,
     reports,
     report: dailyMealReport(records, selectedDay),
     dayRecords: records.filter((record) => record.day === selectedDay),
