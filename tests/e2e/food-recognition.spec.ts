@@ -3,6 +3,7 @@ import type { Page, Route } from '@playwright/test'
 import { Buffer } from 'node:buffer'
 import { recipes } from '../../src/app/game/browserGame'
 import {
+  confirmUnclassifiedMeal,
   enablePremium,
   journey,
   navigate,
@@ -45,8 +46,9 @@ async function toTable(page: Page) {
   await expect(journey(page, 'serve')).toBeVisible()
 }
 
-async function giveMeal(page: Page) {
+async function giveMeal(page: Page, unclassified = false) {
   await page.getByRole('button', { name: 'こむぎにごはんをあげる', exact: true }).click()
+  if (unclassified) await confirmUnclassifiedMeal(page)
   await expect(journey(page, 'eating')).toBeVisible()
 }
 
@@ -219,7 +221,7 @@ test('a late suggestion preserves a manually selected recipe and custom meal tit
       )
     expect(await storedGame(page)).toEqual(before)
 
-    await giveMeal(page)
+    await giveMeal(page, edit === 'title')
     const saved = await storedGame(page)
     expect(saved.meals[0].recipeId).toBe(edit === 'recipe' ? 'onigiri' : undefined)
     expect(saved.meals[0].title).toBe(edit === 'recipe' ? 'おかかのおにぎり' : '梅のおにぎり')
@@ -332,7 +334,7 @@ test('photo-free play skips recognition and ignores a response for a discarded p
   await api.reply(0, ['curry'])
   await expect(selectedMealRecipe(page)).toHaveText('今日のごはん')
   expect(await storedGame(page)).toEqual(before)
-  await giveMeal(page)
+  await giveMeal(page, true)
   const saved = await storedGame(page)
   expect(saved.meals).toHaveLength(1)
   expect(saved.meals[0].photo).toBeUndefined()

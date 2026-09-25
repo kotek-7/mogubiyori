@@ -94,9 +94,19 @@ export async function selectMealRecipe(page: Page, recipeId: string) {
   await expect(journey(page, 'serve')).toBeVisible()
 }
 
+export async function confirmUnclassifiedMeal(page: Page) {
+  const dialog = page.getByRole('dialog', {
+    name: '栄養記録なしでごはんをあげますか？',
+    exact: true,
+  })
+  await expect(dialog).toBeVisible()
+  await dialog.getByRole('button', { name: 'このままごはんをあげる', exact: true }).click()
+}
+
 export async function submitSample(page: Page, recipeId = '', name = 'こむぎ') {
   await sampleToTable(page, recipeId)
   await page.getByRole('button', { name: `${name}にごはんをあげる`, exact: true }).click()
+  if (!recipeId) await confirmUnclassifiedMeal(page)
   await expect(journey(page, 'eating')).toBeVisible()
 }
 

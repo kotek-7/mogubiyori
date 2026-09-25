@@ -9,7 +9,7 @@ import {
   todayTokyo,
 } from '../../src/app/game/browserGame'
 import type { GameState } from '../../src/app/game/browserGame'
-import { selectMealRecipe } from './helpers'
+import { confirmUnclassifiedMeal, selectMealRecipe } from './helpers'
 
 const plainMeal = { title: '今日のごはん', sample: 'rice' }
 const scene = (page: Page, name: string) => page.locator(`main[data-scene="${name}"]`)
@@ -38,6 +38,7 @@ async function serve(page: Page, recipeId = '', recipient = 'こむぎ', skipEat
   await page.getByRole('button', { name: '写真なしで体験する', exact: true }).click()
   await selectMealRecipe(page, recipeId)
   await page.getByRole('button', { name: `${recipient}にごはんをあげる`, exact: true }).click()
+  if (!recipeId) await confirmUnclassifiedMeal(page)
   await expect(scene(page, 'eating')).toBeVisible()
   const saved = await stored(page)
   if (skipEating) await page.getByRole('button', { name: '早送り', exact: true }).click()

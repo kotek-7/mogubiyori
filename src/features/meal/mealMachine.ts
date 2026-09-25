@@ -35,7 +35,9 @@ type MealEvent =
   | { type: 'TITLE_CHANGED'; title: string }
   | { type: 'RECORD_CHANGED'; value: MealRecordInput }
   | { type: 'TARGET_CHANGED'; targetId: SpeciesId }
-  | { type: 'NEXT' | 'BACK' | 'OPEN_RECIPES' | 'USE_SAMPLE' | 'SUBMIT' | 'CANCEL' }
+  | {
+      type: 'NEXT' | 'BACK' | 'OPEN_RECIPES' | 'USE_SAMPLE' | 'SUBMIT' | 'CONFIRM_SUBMIT' | 'CANCEL'
+    }
 
 export type MealServices = {
   resizePhoto: (file: File) => Promise<string>
@@ -122,6 +124,9 @@ export function createMealMachine(services: MealServices) {
     guards: {
       hasMeal: ({ context }) => Boolean(context.photo || context.sample),
       isSharedMeal: ({ context }) => Boolean(context.mealRecordId),
+      needsNutritionConfirmation: ({ context }) =>
+        !context.mealRecordId &&
+        !context.mealRecord.items.some((item) => item.groupsConfirmed || item.groups.length > 0),
     },
     actions: {
       prepareSubmission: assign(({ context }) => {
@@ -183,15 +188,6 @@ export function createMealMachine(services: MealServices) {
           TITLE_CHANGED: {
             actions: assign({ title: ({ event }) => event.title, titleEdited: true }),
           },
-          SUBMIT: {
-            guard: and([
-              'hasMeal',
-              stateIn({ editing: { navigation: 'serve' } }),
-              not(stateIn({ editing: { media: 'resizing' } })),
-            ]),
-            target: 'submitting',
-            actions: 'prepareSubmission',
-          },
           CANCEL: 'cancelled',
         },
         states: {
@@ -208,7 +204,40 @@ export function createMealMachine(services: MealServices) {
                   },
                 },
               },
-              serve: { on: { BACK: 'photo', OPEN_RECIPES: 'recipes' } },
+              serve: {
+                on: {
+                  BACK: 'photo',
+                  OPEN_RECIPES: 'recipes',
+                  SUBMIT: [
+                    {
+                      guard: and([
+                        'hasMeal',
+                        not(stateIn({ editing: { media: 'resizing' } })),
+                        'needsNutritionConfirmation',
+                      ]),
+                      target: 'confirmNutrition',
+                    },
+                    {
+                      guard: and(['hasMeal', not(stateIn({ editing: { media: 'resizing' } }))]),
+                      target: '#meal.submitting',
+                      actions: 'prepareSubmission',
+                    },
+                  ],
+                },
+              },
+              confirmNutrition: {
+                // A late recognition result may make the warning unnecessary.
+                // Return to the draft; it never authorizes a submission itself.
+                always: { guard: not('needsNutritionConfirmation'), target: 'serve' },
+                on: {
+                  BACK: 'serve',
+                  CONFIRM_SUBMIT: {
+                    guard: and(['hasMeal', not(stateIn({ editing: { media: 'resizing' } }))]),
+                    target: '#meal.submitting',
+                    actions: 'prepareSubmission',
+                  },
+                },
+              },
               recipes: {
                 on: {
                   BACK: 'serve',

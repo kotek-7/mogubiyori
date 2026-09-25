@@ -3,6 +3,7 @@ import { recipes } from '../../src/app/game/browserGame'
 import {
   advanceXp,
   chooseStarter,
+  confirmUnclassifiedMeal,
   enablePremium,
   expectFocusedScene,
   feedSample,
@@ -264,6 +265,7 @@ test('a real photo alone persists in the meal album without a required recipe or
   await uploadPhoto(page)
   await page.getByRole('button', { name: '食卓へ', exact: true }).click()
   await page.getByRole('button', { name: 'こむぎにごはんをあげる', exact: true }).click()
+  await confirmUnclassifiedMeal(page)
   await returnToPlaza(page)
   await page.reload()
   await navigate(page, 'ずかん')
@@ -397,6 +399,7 @@ test('mobile scenes keep the main action in view and keyboard cancellation resto
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     await attachViewport(page, name === '食卓へ' ? 'mobile-photo' : 'mobile-serve')
     await button.click()
+    if (name === 'こむぎにごはんをあげる') await confirmUnclassifiedMeal(page)
   }
   await returnToPlaza(page)
   await expect(page.locator('.play-name')).toContainText('うまれたて')
@@ -455,6 +458,7 @@ test('submitting across midnight uses the new date before the timer refreshes', 
   await sampleToTable(page)
   await page.clock.setFixedTime(new Date('2026-09-24T15:00:01Z'))
   await page.getByRole('button', { name: 'こむぎにごはんをあげる', exact: true }).click()
+  await confirmUnclassifiedMeal(page)
   await returnToPlaza(page)
   const state = await storedGame(page)
   expect(state.today).toBe('2026-09-25')

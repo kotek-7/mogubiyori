@@ -131,6 +131,9 @@ describe('meal draft workflow', () => {
     expect(services.submit).not.toHaveBeenCalled()
     actor.send({ type: 'NEXT' })
     actor.send({ type: 'SUBMIT' })
+    expect(actor.getSnapshot().matches({ editing: { navigation: 'confirmNutrition' } })).toBe(true)
+    expect(services.submit).not.toHaveBeenCalled()
+    actor.send({ type: 'CONFIRM_SUBMIT' })
     await waitFor(actor, (state) => state.matches('committed'))
     expect(services.submit).toHaveBeenCalledExactlyOnceWith(
       {
@@ -145,6 +148,114 @@ describe('meal draft workflow', () => {
     )
     expect(actor.getSnapshot().context.receipt).toBe(receipt)
   })
+
+  it('allows an unclassified warning to be cancelled without changing the draft or allocating an operation', () => {
+    const createOperationId = vi.fn(() => 'operation-1')
+    const { actor, services } = start({ createOperationId })
+    actor.send({ type: 'USE_SAMPLE' })
+    const draft = actor.getSnapshot().context
+    actor.send({ type: 'SUBMIT' })
+    expect(actor.getSnapshot().matches({ editing: { navigation: 'confirmNutrition' } })).toBe(true)
+    actor.send({ type: 'SUBMIT' })
+    expect(services.submit).not.toHaveBeenCalled()
+    expect(createOperationId).not.toHaveBeenCalled()
+    actor.send({ type: 'BACK' })
+    expect(actor.getSnapshot().matches({ editing: { navigation: 'serve' } })).toBe(true)
+    expect(actor.getSnapshot().context).toEqual(draft)
+    actor.send({ type: 'CONFIRM_SUBMIT' })
+    expect(services.submit).not.toHaveBeenCalled()
+    expect(createOperationId).not.toHaveBeenCalled()
+  })
+
+  it('submits an unknown meal only after confirmation and reuses its operation on a confirmed retry', async () => {
+    const firstSave = pending<FeedReceipt>()
+    const retrySave = pending<FeedReceipt>()
+    const submit = vi
+      .fn()
+      .mockImplementationOnce(() => firstSave.promise)
+      .mockImplementationOnce(() => retrySave.promise)
+    const createOperationId = vi.fn(() => 'operation-1')
+    const { actor } = start({ submit, createOperationId })
+    actor.send({ type: 'USE_SAMPLE' })
+    actor.send({ type: 'SUBMIT' })
+    expect(submit).not.toHaveBeenCalled()
+    actor.send({ type: 'CONFIRM_SUBMIT' })
+    actor.send({ type: 'CONFIRM_SUBMIT' })
+    actor.send({ type: 'SUBMIT' })
+    expect(actor.getSnapshot().matches('submitting')).toBe(true)
+    expect(submit).toHaveBeenCalledTimes(1)
+    expect(submit.mock.calls[0][0].mealRecord.items).toEqual([suggestMealItem()])
+    firstSave.reject(new Error('保存できませんでした'))
+    await waitFor(actor, (state) => state.matches({ editing: { navigation: 'serve' } }))
+    expect(actor.getSnapshot().context.error).toBe('保存できませんでした')
+    actor.send({ type: 'SUBMIT' })
+    expect(actor.getSnapshot().matches({ editing: { navigation: 'confirmNutrition' } })).toBe(true)
+    expect(submit).toHaveBeenCalledTimes(1)
+    actor.send({ type: 'CONFIRM_SUBMIT' })
+    expect(submit).toHaveBeenCalledTimes(2)
+    expect(submit.mock.calls[1]).toEqual(submit.mock.calls[0])
+    expect(createOperationId).toHaveBeenCalledTimes(1)
+    retrySave.resolve(receipt)
+    await waitFor(actor, (state) => state.matches('committed'))
+    actor.send({ type: 'CONFIRM_SUBMIT' })
+    expect(submit).toHaveBeenCalledTimes(2)
+  })
+
+  it.each([
+    { name: 'recipe-inferred groups', item: suggestMealItem('curry') },
+    {
+      name: 'manually entered groups',
+      item: { ...suggestMealItem(), groups: ['vegetable'] as const, groupsConfirmed: true },
+    },
+    {
+      name: 'explicitly confirmed empty groups',
+      item: { ...suggestMealItem(), groupsConfirmed: true },
+    },
+  ])('skips the warning for $name', async ({ item }) => {
+    const { actor, services } = start()
+    actor.send({ type: 'USE_SAMPLE' })
+    actor.send({
+      type: 'RECORD_CHANGED',
+      value: { slot: 'dinner', source: 'home', items: [{ ...item, groups: [...item.groups] }] },
+    })
+    actor.send({ type: 'SUBMIT' })
+    expect(actor.getSnapshot().matches('submitting')).toBe(true)
+    await waitFor(actor, (state) => state.matches('committed'))
+    expect(services.submit).toHaveBeenCalledTimes(1)
+  })
+
+  it.each([{ candidates: [] }, { candidates: ['curry'] }])(
+    'keeps recognition active during the warning and never auto-submits its late result %j',
+    async ({ candidates }) => {
+      const recognition = pending<string[]>()
+      let signal!: AbortSignal
+      const { actor, services } = start({
+        recognizeFood: async (_photo, nextSignal) => {
+          signal = nextSignal
+          return recognition.promise
+        },
+      })
+      actor.send({ type: 'PHOTO_SELECTED', file: photo() })
+      await waitFor(actor, (state) => state.matches({ editing: { media: 'recognizing' } }))
+      actor.send({ type: 'NEXT' })
+      actor.send({ type: 'SUBMIT' })
+      expect(
+        actor
+          .getSnapshot()
+          .matches({ editing: { navigation: 'confirmNutrition', media: 'recognizing' } }),
+      ).toBe(true)
+      expect(signal.aborted).toBe(false)
+      recognition.resolve(candidates)
+      await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
+      expect(
+        actor
+          .getSnapshot()
+          .matches({ editing: { navigation: candidates.length ? 'serve' : 'confirmNutrition' } }),
+      ).toBe(true)
+      expect(services.submit).not.toHaveBeenCalled()
+      expect(actor.getSnapshot().context.operationId).toBeUndefined()
+    },
+  )
 
   it.each(['title', 'recipe'] as const)(
     'keeps recognition running across screens and protects a manual %s edit',
@@ -353,9 +464,11 @@ describe('meal draft workflow', () => {
     await waitFor(actor, (state) => state.matches({ editing: { media: 'failed' } }))
     actor.send({ type: 'NEXT' })
     actor.send({ type: 'SUBMIT' })
+    actor.send({ type: 'CONFIRM_SUBMIT' })
     await waitFor(actor, (state) => state.matches({ editing: { navigation: 'serve' } }))
     actor.send({ type: 'TITLE_CHANGED', title: '手で選んだごはん' })
     actor.send({ type: 'SUBMIT' })
+    actor.send({ type: 'CONFIRM_SUBMIT' })
     await waitFor(actor, (state) => state.matches('committed'))
     expect(submit.mock.calls.map((call) => call[1])).toEqual(['operation-1', 'operation-2'])
     expect(submit.mock.calls[1][0].photo).toBe('photo:meal.jpg')
@@ -422,6 +535,30 @@ describe('meal draft workflow', () => {
     await waitFor(actor, (state) => state.matches('committed'))
     expect(services.submit).toHaveBeenCalledExactlyOnceWith(
       { targetId: 'mame', title: 'お昼のカレー', sample: 'curry', mealRecordId: 'existing-meal' },
+      'operation-1',
+    )
+  })
+
+  it('shares a saved unclassified meal without asking for nutrition confirmation again', async () => {
+    const { actor, services } = start(
+      {},
+      {
+        targetId: 'mame',
+        sharedMeal: {
+          id: 'unknown-meal',
+          title: '今日のごはん',
+          day: '2026-09-25',
+          slot: 'unknown',
+          source: 'home',
+          items: [suggestMealItem()],
+        },
+      },
+    )
+    actor.send({ type: 'SUBMIT' })
+    expect(actor.getSnapshot().matches('submitting')).toBe(true)
+    await waitFor(actor, (state) => state.matches('committed'))
+    expect(services.submit).toHaveBeenCalledExactlyOnceWith(
+      { targetId: 'mame', title: '今日のごはん', sample: 'rice', mealRecordId: 'unknown-meal' },
       'operation-1',
     )
   })

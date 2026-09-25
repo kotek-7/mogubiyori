@@ -4,6 +4,7 @@ import { applyGameCommand } from '../../shared/game/commands'
 import type { CommandRequest, CommandResponse, GameSnapshot } from '../../shared/game/contracts'
 import { chooseStarter, initialGame } from '../../shared/game/game'
 import { canRecordMeal } from '../../shared/game/subscription'
+import { confirmUnclassifiedMeal } from '../e2e/helpers'
 
 const userId = '00000000-0000-4000-8000-000000000001'
 const day = '2026-09-26'
@@ -291,6 +292,7 @@ test('a meal stays pending until the server confirms and starts its celebration 
   await prepareMeal(page)
   cloud.holdFeed()
   await page.getByRole('button', { name: 'こむぎにごはんをあげる', exact: true }).click()
+  await confirmUnclassifiedMeal(page)
   await expect.poll(() => cloud.feedRequests.length).toBe(1)
   await expect(page.getByRole('button', { name: 'ごはんを保存中', exact: true })).toBeDisabled()
   await expect(scene(page, 'eating')).toHaveCount(0)
@@ -319,11 +321,13 @@ test('a lost confirmation retains the meal and retries the same operation withou
   await page.getByRole('textbox', { name: /料理名/ }).fill('夜ごはん')
   cloud.loseFeedResponse()
   await page.getByRole('button', { name: 'こむぎにごはんをあげる', exact: true }).click()
+  await confirmUnclassifiedMeal(page)
   await expect(scene(page, 'serve').getByRole('alert')).toBeVisible()
   await expect(page.getByRole('textbox', { name: /料理名/ })).toHaveValue('夜ごはん')
   await expect(scene(page, 'eating')).toHaveCount(0)
   expect(cloud.snapshot().state.meals).toHaveLength(1)
   await page.getByRole('button', { name: 'こむぎにごはんをあげる', exact: true }).click()
+  await confirmUnclassifiedMeal(page)
   await expect(scene(page, 'eating')).toBeVisible()
   expect(cloud.feedRequests).toHaveLength(2)
   expect(cloud.feedRequests[0]).toEqual(cloud.feedRequests[1])
@@ -337,6 +341,7 @@ async function saveMeal(page: Page, title: string) {
   await page.getByText('料理名をつける', { exact: true }).click()
   await page.getByRole('textbox', { name: /料理名/ }).fill(title)
   await page.getByRole('button', { name: 'こむぎにごはんをあげる', exact: true }).click()
+  await confirmUnclassifiedMeal(page)
   await expect(scene(page, 'eating')).toBeVisible()
   await page.reload()
   await expect(page.getByRole('heading', { name: 'ひろば' })).toBeVisible()

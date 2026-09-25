@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useMachine } from '@xstate/react'
 import { fromPromise } from 'xstate'
+import { AnimatePresence } from 'motion/react'
 import { ArrowRight, Camera, ImagePlus, Search, Utensils } from 'lucide-react'
 import { Pet } from '../../ui/art/GameArt'
 import { RecipeArt } from '../../ui/art/RecipeArt'
@@ -21,6 +22,7 @@ import { RecognitionStatus } from './RecognitionStatus'
 import { MealRecordFields } from './MealRecordFields'
 import { MealArtwork } from '../album/MealArtwork'
 import { CameraCapture } from './CameraCapture'
+import { Sheet } from '../../ui/Sheet'
 
 export type MealJourneyProps = {
   state: GameState
@@ -103,6 +105,7 @@ export function MealJourney({
       ? 'recipe-pick'
       : 'serve'
   const loading = snapshot.matches({ editing: { media: 'resizing' } })
+  const confirmingNutrition = snapshot.matches({ editing: { navigation: 'confirmNutrition' } })
   const submitting = snapshot.matches('submitting') || snapshot.matches('committed')
   const recognition = snapshot.matches({ editing: { media: 'recognizing' } })
     ? 'recognizing'
@@ -154,7 +157,8 @@ export function MealJourney({
   useEffect(() => {
     const escape = (event: KeyboardEvent) => {
       if (submitting || event.key !== 'Escape' || event.defaultPrevented) return
-      // Let native select menus handle their own dismissal.
+      // Native dialogs and select menus handle their own dismissal.
+      if (event.target instanceof Element && event.target.closest('dialog[open]')) return
       if (event.target instanceof HTMLSelectElement) return
       event.preventDefault()
       if (sharing) close()
@@ -494,6 +498,38 @@ export function MealJourney({
           </p>
         )}
       </form>
+      <AnimatePresence>
+        {confirmingNutrition && (
+          <Sheet
+            title="栄養記録なしでごはんをあげますか？"
+            contentKey="unclassified-meal"
+            onClose={() => send({ type: 'BACK' })}
+          >
+            <div className="meal-nutrition-confirmation">
+              <p>
+                料理の分類が未入力のため、栄養バランスは記録されません。このままごはんをあげますか？
+              </p>
+              <p className="meal-record-help">
+                写真や食事の履歴、もぐの成長は保存されます。あとから記録を編集して分類を追加できます。
+              </p>
+              <button
+                type="button"
+                className="secondary-button full"
+                onClick={() => send({ type: 'BACK' })}
+              >
+                入力に戻る
+              </button>
+              <button
+                type="button"
+                className="primary-button full"
+                onClick={() => send({ type: 'CONFIRM_SUBMIT' })}
+              >
+                このままごはんをあげる
+              </button>
+            </div>
+          </Sheet>
+        )}
+      </AnimatePresence>
     </JourneyFrame>
   )
 }

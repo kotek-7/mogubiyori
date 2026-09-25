@@ -8,7 +8,13 @@ import {
   species,
   todayTokyo,
 } from '../../src/app/game/browserGame'
-import { navigate, sampleToTable, storedGame, waitForSceneMotion } from './helpers'
+import {
+  confirmUnclassifiedMeal,
+  navigate,
+  sampleToTable,
+  storedGame,
+  waitForSceneMotion,
+} from './helpers'
 
 async function openCategory(page: Page, name: string) {
   await navigate(page, 'おみせ')
@@ -100,6 +106,7 @@ test('hat, neckwear and bag can be tried on, bought and removed independently on
   for (const layer of Object.values(outfit(page, '.journey-screen')))
     await expect(layer).toBeVisible()
   await page.getByRole('button', { name: 'こむぎにごはんをあげる', exact: true }).click()
+  await confirmUnclassifiedMeal(page)
   await expect(page.locator('[data-scene="eating"]')).toBeVisible()
   for (const layer of Object.values(outfit(page, '[data-scene="eating"]')))
     await expect(layer).toBeVisible()

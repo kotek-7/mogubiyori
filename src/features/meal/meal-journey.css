@@ -485,3 +485,11 @@
     animation: none;
   }
 }
+.meal-nutrition-confirmation {
+  display: grid;
+  gap: 14px;
+}
+.meal-nutrition-confirmation p {
+  margin: 0;
+  line-height: 1.8;
+}
