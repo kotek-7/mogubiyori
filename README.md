@@ -78,7 +78,7 @@ Cloudflare Workers AIの`@cf/google/gemma-4-26b-a4b-it`で料理候補を最大3
 
 ## 保存と実装範囲
 
-公開サイトはSupabaseの匿名認証・DB・private Storageを使う`cloud`モードです。Google連携はOAuthクライアントの設定待ちで、現在の公開画面には表示していません。
+公開サイトはSupabaseの匿名認証・DB・private Storageを使う`cloud`モードです。Google連携も設定済みで、設定画面から任意で連携・記録の復帰を行えます。
 
 `local`では記録・縮小写真・育成・購入状態を、このブラウザの`localStorage`（`mogubiyori-v1`）に保存します。再読み込み後も残りますが、端末間では共有されません。既存セーブは移行処理を通して読み込みます。
 
