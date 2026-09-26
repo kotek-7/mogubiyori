@@ -105,8 +105,8 @@ for (const classification of ['inferred', 'manual', 'confirmed-empty'] as const)
     await page.locator('.play-feed').click()
     await sampleToTable(page, classification === 'inferred' ? 'curry' : '')
     if (classification !== 'inferred') {
-      await page.locator('summary').filter({ hasText: '食事の内容を確認' }).click()
       const vegetable = page.getByRole('checkbox', { name: '野菜・きのこ・海藻', exact: true })
+      await expect(vegetable).toBeVisible()
       await vegetable.check()
       if (classification === 'confirmed-empty') await vegetable.uncheck()
     }

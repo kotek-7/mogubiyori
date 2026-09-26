@@ -64,6 +64,7 @@ async function expectMealItems(page: Page, items: MealItem[]) {
   await expect(page.locator('.meal-record-item')).toHaveCount(items.length)
   for (const [index, item] of items.entries()) {
     const fields = page.getByRole('group', { name: `料理 ${index + 1}`, exact: true })
+    await expect(fields).toBeVisible()
     await expect(
       fields.getByRole('textbox', { name: `料理 ${index + 1} の名前`, exact: true }),
     ).toHaveValue(item.name)
@@ -135,8 +136,7 @@ test('photo recognition automatically fills and saves every dish, food group and
     '写真から3品の料理・食品グループ・量を推定しました。',
   )
   const disclosure = page.locator('summary').filter({ hasText: '食事の内容を確認' })
-  await expect(disclosure.locator('..')).not.toHaveAttribute('open', '')
-  await disclosure.click()
+  await expect(disclosure.locator('..')).toHaveAttribute('open', '')
   await expectMealItems(page, detected)
   expect(await storedGame(page)).toEqual(before)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
@@ -145,7 +145,6 @@ test('photo recognition automatically fills and saves every dish, food group and
     path: testInfo.outputPath('recognized-meal-item-fields-mobile.png'),
   })
   // Reviewing requires no per-item confirmation and makes no edits to the inferred data.
-  await disclosure.click()
   await giveMeal(page)
   const saved = await storedGame(page)
   expect(saved.mealRecords).toHaveLength(1)
@@ -175,8 +174,8 @@ test('a manually changed portion survives a late recognition while names, groups
   await uploadPhoto(page)
   await api.waitFor(1)
   await toTable(page)
-  await page.locator('summary').filter({ hasText: '食事の内容を確認' }).click()
   const primary = page.getByRole('group', { name: '料理 1', exact: true })
+  await expect(primary).toBeVisible()
   await primary.getByRole('combobox', { name: '量', exact: true }).selectOption('small')
   await api.reply(0, ['curry'], 200, detected)
   const expected: MealItem[] = [{ ...detected[0], portion: 'small' }, detected[1]]
@@ -217,15 +216,14 @@ test('replacing a photo clears its automatic side dishes before saving the new p
   const firstPhoto = (await api.waitFor(1)).request().postDataJSON().photo
   await api.reply(0, ['curry'], 200, original)
   await toTable(page)
-  await page.locator('summary').filter({ hasText: '食事の内容を確認' }).click()
   await expectMealItems(page, original)
   await page.getByRole('button', { name: '写真にもどる', exact: true }).click()
   await uploadDifferentPhoto(page)
   const secondPhoto = (await api.waitFor(2)).request().postDataJSON().photo
   expect(secondPhoto).not.toBe(firstPhoto)
   await toTable(page)
-  await page.locator('summary').filter({ hasText: '食事の内容を確認' }).click()
   await expect(page.locator('.meal-record-item')).toHaveCount(1)
+  await expect(page.getByRole('textbox', { name: '料理 1 の名前', exact: true })).toBeVisible()
   await expect(page.getByRole('textbox', { name: '料理 1 の名前', exact: true })).not.toHaveValue(
     'カレー',
   )

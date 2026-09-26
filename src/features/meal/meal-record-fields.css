@@ -143,6 +143,14 @@
 .meal-record-disclosure[open] > summary {
   margin-bottom: 12px;
 }
+.journey-screen[data-scene='serve'] > .journey-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  padding-block: 12px max(12px, env(safe-area-inset-bottom));
+  border-top: 1px solid var(--game-line);
+  background: var(--game-surface);
+}
 @media (max-width: 400px) {
   .meal-record-item {
     padding: 12px;

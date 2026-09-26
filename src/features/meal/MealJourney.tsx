@@ -517,7 +517,7 @@ export function MealJourney({
                 </button>
               </div>
             </div>
-            <details className="meal-record-disclosure">
+            <details className="meal-record-disclosure" open>
               <summary>
                 <span>食事の内容を確認</span>
                 <span className="meal-record-count">{mealRecord.items.length}品</span>
