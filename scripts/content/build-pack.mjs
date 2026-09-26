@@ -5,7 +5,9 @@ import { recipeSilhouette } from './recipe-silhouette.mjs'
 const read = async (path) => JSON.parse(await readFile(path, 'utf8'))
 const sourceRecipes = (
   await Promise.all(
-    ['staples', 'mains-sides'].map((name) => read(`content/expansion/recipes/${name}.json`)),
+    ['staples', 'mains-sides', 'everyday', 'global-mains', 'bakery-sweets'].map((name) =>
+      read(`content/expansion/recipes/${name}.json`),
+    ),
   )
 ).flat()
 // Rotate meal categories in the opening view; every category retains source order.
@@ -64,12 +66,16 @@ const serialized = JSON.stringify(data, null, 2) + '\n'
 const sourceFiles = [
   'content/expansion/recipes/staples.json',
   'content/expansion/recipes/mains-sides.json',
+  'content/expansion/recipes/everyday.json',
+  'content/expansion/recipes/global-mains.json',
+  'content/expansion/recipes/bakery-sweets.json',
   'content/expansion/characters.json',
   'content/expansion/items.json',
   'scripts/content/recipe-art.mjs',
   'scripts/content/recipe-silhouette.mjs',
   'scripts/content/dessert-art.mjs',
   'scripts/content/savory-art.mjs',
+  'scripts/content/global-art.mjs',
   'scripts/content/build-pack.mjs',
   'scripts/content/generate-companions-items.py',
 ]
@@ -88,7 +94,7 @@ const manifest = {
   schemaVersion: 1,
   id: data.id,
   title: data.name,
-  contentVersion: '1.1.0',
+  contentVersion: '1.2.0',
   sourceHashes,
   catalog: 'catalog.json',
   sha256: createHash('sha256').update(serialized).digest('hex'),

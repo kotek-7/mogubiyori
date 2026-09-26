@@ -53,6 +53,12 @@ describe('meal composition reports', () => {
     }
   })
 
+  it('recognizes the named rice and pasta in international recipes without treating rice vinegar as a staple', () => {
+    expect(suggestMealItem('r-chicken-biryani').groups).toContain('staple')
+    expect(suggestMealItem('r-bolognese-tagliatelle').groups).toContain('staple')
+    expect(suggestMealItem('r-kohaku-namasu').groups).not.toContain('staple')
+  })
+
   it('lets people edit food groups without mutating future suggestions', () => {
     const item = suggestMealItem('generic-oyakodon')
     item.groups.push('vegetable')

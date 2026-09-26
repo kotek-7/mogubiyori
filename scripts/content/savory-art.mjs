@@ -818,7 +818,406 @@ function dashimaki() {
   return frame(s, G)
 }
 
+// New everyday dishes have their own silhouettes; the existing collection stays unchanged.
+function everydayRice(x = 240, y = 187, scale = 1) {
+  return T(x, y, E(0, 0, 147, 74, C) + flecks(-117, -45, 233, 90, 110, '#d8c48e'), 0, scale)
+}
+function nigiriSushi(kind) {
+  let s = ''
+  for (const [x, y] of [
+    [142, 149],
+    [239, 134],
+    [332, 161],
+    [149, 218],
+    [247, 208],
+    [337, 229],
+  ]) {
+    let piece = Q(-39, -2, 78, 37, C, 16) + flecks(-33, 3, 63, 25, 21, '#d6bd89')
+    if (kind === 'egg') {
+      piece +=
+        Q(-43, -24, 86, 34, '#e8b944', 7) +
+        P('M-40-7H40L40 9H-40Z', '#d29230', I, 1.8) +
+        Q(-9, -24, 18, 58, '#2d4937', 1) +
+        P('M-4-21V29', 'none', '#5b7351', 2)
+    } else {
+      piece +=
+        P('M-44-7Q-37-35 21-21L39-8 53-17 52 1 59 12 40 8Q5 22-37 9Z', '#edb687') +
+        P('M-38-5Q-14-22 26-12Q9 10-35 6Z', '#f5dac0', '#ae684e', 1.5) +
+        lines(['M-26-17-24 8', 'M-11-22-9 10', 'M5-22 6 10', 'M20-18 21 5'], '#c66045', 3)
+    }
+    s += T(x, y, piece, -15, 0.95)
+  }
+  return frame(s, kind === 'egg' ? G : '#286c97')
+}
+function temakiSushi() {
+  let s = ''
+  for (const [x, y, a] of [
+    [157, 184, -28],
+    [248, 186, 1],
+    [327, 197, 29],
+  ]) {
+    s += T(
+      x,
+      y,
+      P('M-43-49Q0-70 46-45L14 92Q-3 101-13 77Z', '#2b4534') +
+        P('M-38-39Q-7-14 12 76L-7 74Z', '#425b3c', I, 1.5) +
+        E(0, -45, 43, 22, C) +
+        flecks(-34, -61, 67, 31, 27, '#cbb683') +
+        Q(-20, -79, 17, 43, '#e4b943', 3) +
+        Q(10, -77, 15, 45, '#6d9b4d', 3) +
+        P('M15-72V-36', 'none', '#b4c16c', 3) +
+        P('M-20-30Q-32-48-12-52Q-2-65 8-49Q29-52 28-35Q7-19-20-30Z', '#c4a270', I, 2) +
+        flecks(-15, -49, 38, 25, 15, '#9e744e'),
+      a,
+      0.92,
+    )
+  }
+  return frame(s, '#bd4830')
+}
+function pressedSushi() {
+  let s = ''
+  for (const [x, y, a] of [
+    [148, 162, -10],
+    [243, 145, -10],
+    [328, 187, -10],
+    [224, 235, -10],
+  ]) {
+    s += T(
+      x,
+      y,
+      P('M-41-5 29-20 48-1 47 40-22 52-43 29Z', C) +
+        P('M-41-5-20 11 48-1M-20 11-22 52', 'none', '#b69f70', 2) +
+        flecks(-31, 16, 64, 28, 30, '#d5c18a') +
+        P('M-42-12 29-26 50-9 48 6-23 19-44 7Z', G, I, 2) +
+        P('M-43-24 28-39 50-22 49-8-22 7-44-8Z', '#cbb88b') +
+        P('M-43-24 28-39 48-23-23-8Z', '#60716a', I, 2) +
+        lines(['M-29-23-13-12', 'M-9-28 6-18', 'M10-33 25-22'], '#354c4d', 3) +
+        P('M-42-8-23 6 47-8', 'none', '#ad763d', 3),
+      a,
+    )
+  }
+  return frame(s, '#286c97')
+}
+function takoyaki() {
+  let s = ''
+  for (const [x, y] of [
+    [156, 150],
+    [240, 136],
+    [324, 161],
+    [161, 227],
+    [246, 214],
+    [329, 238],
+  ]) {
+    s += T(
+      x,
+      y,
+      E(0, 5, 39, 34, '#a56a29') +
+        E(-2, -3, 36, 30, '#d6a240', I, 2) +
+        flecks(-29, -22, 58, 42, 21, '#965529') +
+        P('M-31-9Q-8-31 25-12Q34 4 11 8Q-12 22-31-9Z', '#77452b', I, 1.6) +
+        lines(['M-27-8Q-6 6 23-9', 'M-26 3Q-3 17 26 2'], '#f0dcb2', 3) +
+        P('M-14-20Q0-31 19-22L11-14Q-1-24-14-14Z', '#bd935d', '#835d39', 1) +
+        flecks(-26, -15, 50, 32, 14, G),
+    )
+  }
+  return frame(s, '#bd4830')
+}
+function monjayaki() {
+  let s =
+    Q(64, 96, 352, 220, '#303a34', 25, I, 4) +
+    Q(28, 167, 39, 64, '#525d52', 9) +
+    Q(413, 167, 39, 64, '#525d52', 9) +
+    P(
+      'M94 180Q78 135 123 143Q152 107 187 124Q224 98 252 125Q299 110 319 132Q373 130 365 161Q409 183 379 209Q388 245 350 247Q321 284 282 266Q241 292 212 270Q154 284 139 253Q95 252 110 222Q71 206 94 180Z',
+      '#b99151',
+      '#795631',
+      2,
+    )
+  for (let j = 0; j < 44; j++) {
+    const x = 116 + ((j * 47) % 243),
+      y = 140 + ((j * 29) % 105)
+    s += T(x, y, P('M-12-4 11-7 14 2-10 7Z', j % 4 ? '#d8cb91' : '#b57c53', '#957645', 1), j * 41)
+  }
+  s += flecks(111, 142, 255, 115, 70, '#745131') + flecks(131, 148, 221, 102, 33, G)
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="480" height="360" viewBox="0 0 480 360"><rect width="480" height="360" fill="${C}"/>${s}</svg>`
+}
+function stuffedSquid() {
+  let s =
+    P('M111 137Q159 101 270 134L339 175 301 202Q166 210 119 174Z', '#a75f3c') +
+    P('M280 138 320 112 347 147 327 162Z', '#bc7650') +
+    P('M299 183 335 194 319 230 289 204Z', '#bc7650') +
+    lines(['M139 133Q203 131 268 157', 'M143 149Q203 147 275 172'], '#dfad7c', 3)
+  for (const [x, y, a] of [
+    [142, 194, -17],
+    [211, 222, -17],
+    [286, 240, -17],
+  ]) {
+    s += T(
+      x,
+      y,
+      P('M-39-9Q-45-36 0-40Q47-34 43-4L39 23Q0 51-40 22Z', '#a85f3b') +
+        E(1, -6, 41, 30, '#d68f5b') +
+        E(1, -6, 32, 22, '#e7cd96', I, 2) +
+        flecks(-25, -20, 53, 31, 36, '#b4925d'),
+      a,
+    )
+  }
+  return frame(s, G)
+}
+function goheiMochi() {
+  let s = ''
+  for (const [x, y] of [
+    [181, 172],
+    [292, 220],
+  ]) {
+    s += T(
+      x,
+      y,
+      P('M-53-50Q0-79 52-48L56 34Q30 74-26 67Q-65 52-59 12Z', '#cfaa65') +
+        P('M-43-41Q0-66 42-39L44 31Q22 57-20 52Q-53 37-46 4Z', '#8c4c28', I, 2) +
+        flecks(-41, -38, 76, 78, 42, '#bc8644') +
+        sesame(-32, -31, 61, 71),
+      -28,
+    )
+  }
+  return frame(s, '#bd4830')
+}
+function soboroDon() {
+  let s = everydayRice()
+  s +=
+    P('M100 169Q111 122 209 118L276 243Q128 260 101 203Z', '#9b673b') +
+    P('M211 118Q324 109 375 169L278 243Z', '#e3ba3f') +
+    P('M375 173Q398 232 280 254L251 201Z', '#599045')
+  s += flecks(125, 149, 76, 63, 65, '#6d472e') + flecks(208, 144, 104, 42, 65, '#f7d96e')
+  for (let j = 0; j < 16; j++) {
+    const x = 285 + ((j * 29) % 61),
+      y = 198 + ((j * 19) % 39)
+    s += T(x, y, Q(-13, -5, 27, 10, '#6f9e4c', 3, '#345937', 1.5), -28)
+  }
+  return frame(s, '#286c97', true)
+}
+function katsudon() {
+  let s = everydayRice()
+  for (let j = 0; j < 5; j++) {
+    s += T(
+      142 + j * 42,
+      169 + j * 7,
+      P('M-19-40Q1-54 21-33L20 40Q-1 55-23 35Z', '#c58d35') +
+        P('M-10-26Q1-33 11-24L10 30Q-1 37-11 29Z', '#e6c99e', I, 1.4) +
+        flecks(-18, -32, 37, 61, 17, '#9c6429', j),
+      -23,
+    )
+  }
+  s +=
+    P(
+      'M103 202Q129 181 151 202Q177 180 196 204Q221 187 241 209Q267 190 287 211Q328 196 358 220Q326 247 295 233Q258 260 234 239Q197 256 171 234Q125 241 103 202Z',
+      '#edc968',
+      '#ab813e',
+      1.8,
+    ) +
+    lines(
+      ['M132 153Q120 191 158 219', 'M204 137Q188 170 218 189', 'M315 172Q305 207 333 216'],
+      '#dcc598',
+      5,
+    )
+  return frame(s, G, true)
+}
+function kabayakiRice(anago = false) {
+  let s = everydayRice()
+  const pieces = anago
+    ? [
+        [134, 158],
+        [206, 155],
+        [278, 154],
+        [167, 218],
+        [239, 219],
+        [310, 213],
+      ]
+    : [
+        [192, 158],
+        [266, 218],
+      ]
+  for (const [x, y] of pieces) {
+    const w = anago ? 57 : 167,
+      h = anago ? 38 : 57
+    s += T(
+      x,
+      y,
+      Q(-w / 2, -h / 2, w, h, '#a76631', 9) +
+        P(`M${-w / 2 + 5} ${h / 2 - 8}H${w / 2 - 5}`, 'none', '#643c27', 5) +
+        Array.from({ length: anago ? 3 : 7 }, (_, j) => {
+          const dx = -w / 2 + 10 + (j * (w - 20)) / (anago ? 2 : 6)
+          return P(`M${dx} ${-h / 2 + 7}Q${dx - 7} 0 ${dx} ${h / 2 - 7}`, 'none', '#683b24', 4)
+        }).join('') +
+        P(`M${-w / 2 + 8} ${-h / 2 + 7}H${w / 2 - 9}`, 'none', '#d5984b', 3),
+      -15,
+    )
+  }
+  if (anago)
+    s += lines(
+      ['M152 173 181 155', 'M210 211 240 193', 'M282 166 309 150', 'M270 229 300 215'],
+      '#304437',
+      4,
+    )
+  else s += flecks(176, 140, 145, 76, 20, '#658146')
+  return frame(s, anago ? '#bd4830' : G, true)
+}
+function friedShrimpPiece(x, y, rotation = 0, scale = 1, tempura = false) {
+  let s =
+    P('M-18-65Q4-79 23-52L19 32Q4 55-16 36Q-24 4-18-65Z', tempura ? '#e7c784' : '#d4a048') +
+    P('M-15 36 0 67 5 47 20 65 23 29Q2 42-15 36Z', '#c86639') +
+    flecks(-15, -55, 32, 84, 38, tempura ? '#bd9247' : '#936027') +
+    P('M-6-57Q7-58 8-31', 'none', '#f4d992', 4)
+  if (tempura)
+    for (let j = 0; j < 9; j++)
+      s += E(j % 2 ? -19 : 21, -48 + j * 9, 6, 5, '#e7c784', '#b68d46', 1.3)
+  return T(x, y, s, rotation, scale)
+}
+function breadedPlate(kind) {
+  let s = cabbage(339, 169, 0.85)
+  if (kind === 'shrimp') {
+    for (const [x, y] of [
+      [153, 171],
+      [222, 184],
+      [288, 198],
+    ])
+      s += friedShrimpPiece(x, y, -29, 0.97)
+  } else if (kind === 'aji') {
+    s += T(
+      218,
+      195,
+      P(
+        'M0-76Q-17-49-41-44Q-95-20-100 36Q-65 70-15 52L0 41 15 53Q67 67 102 32Q94-25 37-44Q14-48 0-76Z',
+        '#c99437',
+      ) +
+        P('M-17-58-27-97 0-82 25-100 16-57Z', '#a87035') +
+        P('M0-49Q-8-8 0 41', 'none', '#81512b', 5) +
+        flecks(-71, -30, 140, 69, 90, '#94612b') +
+        lines(['M-48-22-19 26', 'M38-26 18 28'], '#e6bb6a', 5),
+      -13,
+    )
+  } else if (kind === 'chicken') {
+    for (let j = 0; j < 5; j++)
+      s += T(
+        128 + j * 41,
+        177 + j * 8,
+        Q(-20, -39, 40, 85, '#c28c32', 10) +
+          Q(-12, -29, 24, 64, '#ecd0a4', 6) +
+          flecks(-18, -35, 37, 76, 30, '#946025', j),
+        -22,
+      )
+    s += sauce(223, 249, 158, 9, '#70442b')
+  } else {
+    const positions =
+      kind === 'oyster'
+        ? [
+            [144, 161],
+            [214, 151],
+            [276, 190],
+            [181, 231],
+          ]
+        : kind === 'cream'
+          ? [
+              [148, 161],
+              [228, 188],
+              [302, 218],
+            ]
+          : [
+              [173, 181],
+              [273, 221],
+            ]
+    for (const [x, y] of positions) {
+      let piece =
+        kind === 'cream'
+          ? Q(-32, -48, 64, 97, '#d5a345', 25)
+          : E(0, 0, kind === 'oyster' ? 35 : 58, kind === 'oyster' ? 30 : 43, '#c58c32')
+      piece +=
+        flecks(-27, -23, 54, 48, 37, '#906027') + P('M-21-16Q-6-28 12-21', 'none', '#eac47e', 4)
+      s += T(x, y, piece, -24)
+    }
+  }
+  if (kind === 'shrimp' || kind === 'oyster' || kind === 'aji') s += lemon(353, 245, 20, 0.82)
+  return frame(s, kind === 'aji' || kind === 'oyster' ? G : '#286c97')
+}
+function shrimpTempura() {
+  let s = ''
+  for (const [x, y] of [
+    [144, 169],
+    [205, 181],
+    [266, 190],
+    [326, 205],
+  ])
+    s += friedShrimpPiece(x, y, -30, 0.94, true)
+  s += T(141, 262, P('M-22 5Q-29-14-9-13Q2-30 16-13Q39-12 30 10Q5 27-22 5Z', C, I, 2))
+  s += T(175, 265, E(0, 0, 14, 8, '#ccad78', I, 1.5))
+  return frame(s, G)
+}
+function everydayDatemaki() {
+  let s = ''
+  for (const [x, y] of [
+    [137, 181],
+    [197, 159],
+    [257, 181],
+    [317, 211],
+    [229, 242],
+  ]) {
+    s += T(
+      x,
+      y,
+      P(
+        'M-29-24-17-36-3-34 12-40 25-28 35-19 33-3 39 12 26 25 18 37 2 34-13 39-25 27-38 15-34-1-39-14Z',
+        '#cf9133',
+      ) +
+        E(0, -1, 29, 29, '#ebc352', I, 1.5) +
+        P(
+          'M-20 9C-38-22 15-37 22-4C29 23-13 27-12 7C-10-8 12-6 10 6Q7 14 0 8',
+          'none',
+          '#ad6d27',
+          3,
+        ),
+      -13,
+    )
+  }
+  return frame(s, '#bd4830')
+}
+function chilledTofu(egg = false) {
+  let s =
+    E(240, 220, 119, 48, '#d7ba72', '#a17e48', 1.5) +
+    T(
+      232,
+      180,
+      P('M-83-26 46-43 90-12 84 58-45 76-87 43Z', egg ? '#e6c866' : '#e1d1aa') +
+        P('M-83-26-41 4 90-12M-41 4-45 76', 'none', egg ? '#bc993f' : '#b5a17b', 2) +
+        P('M-75-27 43-41 82-15-40 2Z', egg ? '#f1dc91' : '#efe2c1', I, 1.5),
+    )
+  if (egg) s += leaf(225, 159, -56, 0.45) + leaf(244, 152, 16, 0.42) + leaf(246, 170, 87, 0.38)
+  else s += T(330, 230, P('M-16 8-11-4-2-6 2-18 11-5 17-1 21 10Z', '#779451', I, 1.8))
+  return frame(s, egg ? '#286c97' : G)
+}
+
 const DRAWINGS = {
+  'r-tamago-nigiri': ['egg-nigiri', () => nigiriSushi('egg')],
+  'r-ebi-nigiri': ['shrimp-nigiri', () => nigiriSushi('shrimp')],
+  'r-cooked-temaki-zushi': ['temaki-sushi', temakiSushi],
+  'r-grilled-saba-oshizushi': ['pressed-mackerel-sushi', pressedSushi],
+  'r-takoyaki': ['takoyaki', takoyaki],
+  'r-monjayaki': ['monjayaki-griddle', monjayaki],
+  'r-ika-meshi': ['stuffed-squid-rice', stuffedSquid],
+  'r-gohei-mochi': ['gohei-mochi', goheiMochi],
+  'r-three-color-soboro-don': ['three-color-soboro', soboroDon],
+  'r-katsudon': ['egg-katsu-don', katsudon],
+  'r-unadon': ['eel-rice-bowl', () => kabayakiRice(false)],
+  'r-anago-meshi': ['anago-rice', () => kabayakiRice(true)],
+  'r-aji-fry': ['breaded-aji', () => breadedPlate('aji')],
+  'r-ebi-fry': ['breaded-shrimp', () => breadedPlate('shrimp')],
+  'r-kaki-fry': ['breaded-oysters', () => breadedPlate('oyster')],
+  'r-chicken-katsu': ['breaded-chicken', () => breadedPlate('chicken')],
+  'r-menchi-katsu': ['menchi-katsu', () => breadedPlate('menchi')],
+  'r-kani-cream-croquette': ['crab-cream-croquette', () => breadedPlate('cream')],
+  'r-shrimp-tempura': ['shrimp-tempura', shrimpTempura],
+  'r-datemaki': ['datemaki', everydayDatemaki],
+  'r-goma-dofu': ['sesame-tofu', () => chilledTofu(false)],
+  'r-tamago-dofu': ['egg-tofu', () => chilledTofu(true)],
   'r-chicken-teriyaki': ['sliced-teriyaki', () => slicedMeat('teriyaki')],
   'r-chicken-nanban-tartar': ['tartar-chicken', () => slicedMeat('nanban')],
   'r-small-pan-tonkatsu': ['breaded-pork-cutlet', () => slicedMeat('katsu')],

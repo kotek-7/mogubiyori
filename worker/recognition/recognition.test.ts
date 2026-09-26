@@ -90,18 +90,17 @@ describe('food recognition API', () => {
     }[]
     expect(content[1]).toEqual({ type: 'image_url', image_url: { url: png } })
     const catalog = JSON.parse(content[0].text!.slice('登録料理カタログ: '.length)) as {
-      recipe: [string, string, string][]
-      dish: [string, string, string[], string][]
+      recipe: [string, string][]
+      dish: [string, string, string[]][]
     }
     expect([...catalog.recipe, ...catalog.dish].map(([id]) => id)).toEqual(
       mealChoices.map((choice) => choice.id),
     )
     expect(catalog.recipe).toHaveLength(recipes.length)
     expect(catalog.recipe[0].slice(0, 2)).toEqual([recipes[0].id, recipes[0].name])
-    expect(catalog.recipe[0][2]).toContain(recipes[0].ingredients[0])
-    expect(catalog.dish).toEqual(
-      genericDishes.map(({ id, name, aliases, description }) => [id, name, aliases, description]),
-    )
+    expect(catalog.recipe).toEqual(recipes.map(({ id, name }) => [id, name]))
+    expect(new TextEncoder().encode(content[0].text!).length).toBeLessThan(80_000)
+    expect(catalog.dish).toEqual(genericDishes.map(({ id, name, aliases }) => [id, name, aliases]))
     expect(env.ASSETS.fetch).not.toHaveBeenCalled()
   })
 

@@ -645,3 +645,21 @@ test('cancelling a pending recognition keeps the save and the next meal unchange
   await page.getByRole('button', { name: 'ひろばへ', exact: true }).click()
   expect(await storedGame(page)).toEqual(before)
 })
+
+test('an ambiguous dessert suggestion remains a broad meal without guessed ingredients', async ({
+  page,
+}) => {
+  const api = await mockRecognition(page)
+  await page.locator('.play-feed').click()
+  await uploadPhoto(page)
+  await api.waitFor(1)
+  await api.reply(0, ['generic-dessert'])
+  await toTable(page)
+  await expect(selectedMealRecipe(page)).toHaveText('デザート')
+  await giveMeal(page, true)
+  expect((await storedGame(page)).meals[0]).toMatchObject({
+    dishId: 'generic-dessert',
+    cardBonus: 0,
+  })
+  expect((await storedGame(page)).cards).toEqual([])
+})

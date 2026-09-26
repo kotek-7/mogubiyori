@@ -6,7 +6,7 @@ import type { DailyMealReport, FoodGroup, MealItem, MealRecord } from './types'
 // Condiments (butter, stock, oils, miso, garnish amounts) do not establish a food group.
 const ingredientPatterns: Record<FoodGroup, RegExp> = {
   staple:
-    /ごはん|ご飯|米飯|パスタ|スパゲ|うどん|そば|中華麺|焼きそば麺|そうめん|食パン|ロールパン|餅|オートミール|小麦粉/,
+    /ごはん|ご飯|米飯|(?:^|\s)(?:米|白米|うるち米|もち米|バスマティ米|ジャスミン米)(?=\s|$)|パスタ|ペンネ|タリアテッレ|リングイネ|フェットチーネ|ビーフン|スパゲ|うどん|そば|中華麺|焼きそば麺|そうめん|食パン|ロールパン|餅|オートミール|小麦粉/,
   protein:
     /鶏(?:もも|むね|胸|ひき|挽|肉|手羽|ささみ)|豚|牛肉|牛ひき|合いびき|合挽|卵|たまご|豆腐|納豆|厚揚げ|油揚げ|ツナ|鮭|さけ|サバ|さば|イワシ|いわし|ブリ|ぶり|タラ|たら|しらす|えび|エビ|あさり|大豆|ひよこ豆|レンズ豆|ベーコン|ハム|ソーセージ|鶏ささみ/,
   vegetable:

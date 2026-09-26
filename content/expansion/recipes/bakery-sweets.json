@@ -1,0 +1,6128 @@
+[
+  {
+    "id": "r-butter-croissant",
+    "name": "クロワッサン",
+    "description": "薄い生地とバターを重ね、三日月形に巻いて焼くパン。",
+    "category": "breakfast",
+    "cuisine": "フランス風",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 220,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "強力粉",
+        "amount": "70g"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "10g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "45ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "6g"
+      },
+      {
+        "name": "塩",
+        "amount": "1g"
+      },
+      {
+        "name": "インスタントドライイースト",
+        "amount": "1g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "5g（生地用）"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "25g（折り込み用）"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "5g（表面用）"
+      }
+    ],
+    "steps": [
+      "粉、牛乳、砂糖、塩、イースト、生地用バターをこね、暖かい場所で50分発酵させて冷蔵庫で30分冷やす。",
+      "折り込み用バターを8cm角に薄くし、生地を倍の大きさにのばして包み、細長くのばして三つ折りにする。",
+      "冷蔵庫で20分ずつ休ませながら、のばして三つ折りにする操作をあと2回行う。",
+      "厚さ3mmにのばして三角形2枚に切り、底辺から巻いて天板に置き、25℃程度で50分発酵させる。",
+      "表面に卵を塗り、200℃に予熱したオーブンで18〜20分、側面の層まで色づくように焼く。"
+    ],
+    "tip": "バターが柔らかくなったら冷蔵庫に戻し、生地から染み出す前に折り込む。",
+    "tags": ["パン", "折り込み", "バター"],
+    "equipment": ["ボウル", "めん棒", "冷蔵庫", "オーブン", "オーブンシート", "刷毛"],
+    "reward": 70,
+    "art": {
+      "vessel": "basket",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "crescent-croissant",
+      "toppings": ["laminated-bread", "butter"]
+    }
+  },
+  {
+    "id": "r-plain-kettle-bagel",
+    "name": "ベーグル",
+    "description": "輪にした生地を湯にくぐらせ、つやのある皮を焼き上げる。",
+    "category": "breakfast",
+    "cuisine": "北米風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 110,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "強力粉",
+        "amount": "90g"
+      },
+      {
+        "name": "水",
+        "amount": "50ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "4g"
+      },
+      {
+        "name": "塩",
+        "amount": "1g"
+      },
+      {
+        "name": "インスタントドライイースト",
+        "amount": "1g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "大さじ1（ゆで湯用）"
+      },
+      {
+        "name": "水",
+        "amount": "1L（ゆで湯用）"
+      }
+    ],
+    "steps": [
+      "粉、生地用の水、砂糖、塩、イーストを10分こね、乾燥を防いで暖かい場所で30分休ませる。",
+      "生地を25cmの棒にし、一端を平らにして反対側を包み、継ぎ目を閉じて輪を作り20分発酵させる。",
+      "鍋にゆで湯用の水と砂糖を沸かし、弱火にして生地の両面を30秒ずつゆでる。",
+      "湯を切って天板に移し、200℃に予熱したオーブンで20分ほど、表面がきつね色になるまで焼く。"
+    ],
+    "tip": "輪の穴を指3本ほどの幅にしておくと、膨らんだ後も中央が塞がりにくい。",
+    "tags": ["パン", "ゆで焼き", "朝食"],
+    "equipment": ["ボウル", "鍋", "網じゃくし", "オーブン", "オーブンシート"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "ring-bagel",
+      "toppings": ["bread-ring"]
+    }
+  },
+  {
+    "id": "r-cookie-crust-melonpan",
+    "name": "メロンパン",
+    "description": "丸いパンを格子模様のクッキー生地で包む。",
+    "category": "breakfast",
+    "cuisine": "日本のパン",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 150,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "強力粉",
+        "amount": "55g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "32ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "5g（パン用）"
+      },
+      {
+        "name": "塩",
+        "amount": "0.7g"
+      },
+      {
+        "name": "インスタントドライイースト",
+        "amount": "0.8g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "5g（パン用）"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "25g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "10g（上生地用）"
+      },
+      {
+        "name": "砂糖",
+        "amount": "10g（上生地用）"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "8g"
+      },
+      {
+        "name": "グラニュー糖",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "強力粉、牛乳、パン用砂糖、塩、イースト、パン用バターをこね、暖かい場所で50分発酵させる。",
+      "上生地用バターと砂糖を混ぜ、卵、薄力粉の順に加え、ラップで包んで冷蔵庫で30分冷やす。",
+      "パン生地を2等分して丸め、上生地も2等分して薄く広げ、パンの上面を包んで格子を浅く刻む。",
+      "グラニュー糖を上にまぶして30分発酵させ、180℃に予熱したオーブンで15〜18分焼く。"
+    ],
+    "tip": "クッキー生地で底まで包まず、パンが膨らむ余地を残す。",
+    "tags": ["パン", "クッキー生地", "格子模様"],
+    "equipment": ["ボウル", "冷蔵庫", "めん棒", "オーブン", "オーブンシート"],
+    "reward": 70,
+    "art": {
+      "vessel": "basket",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "grid-crust-melon-buns",
+      "toppings": ["cookie-crust", "sugar"]
+    }
+  },
+  {
+    "id": "r-azuki-anpan",
+    "name": "あんパン",
+    "description": "小豆あんを薄いパン生地で包んだ丸い菓子パン。",
+    "category": "breakfast",
+    "cuisine": "日本のパン",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 140,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "強力粉",
+        "amount": "60g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "35ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "6g"
+      },
+      {
+        "name": "塩",
+        "amount": "0.7g"
+      },
+      {
+        "name": "インスタントドライイースト",
+        "amount": "1g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "5g"
+      },
+      {
+        "name": "こしあん",
+        "amount": "45g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "5g"
+      },
+      {
+        "name": "黒ごま",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "強力粉、牛乳、砂糖、塩、イーストを混ぜ、バターを加えてこね、暖かい場所で50分発酵させる。",
+      "生地を2等分して10分休ませ、中央を厚めに丸くのばし、半量ずつのあんを包んで底を閉じる。",
+      "閉じ目を下にして天板に並べ、暖かい場所で30分発酵させ、卵を塗ってごまを散らす。",
+      "180℃に予熱したオーブンで15〜18分、底にも焼き色が付くまで焼いて網で冷ます。"
+    ],
+    "tip": "あんを生地の縁に付けないようにすると、閉じ目をしっかり合わせられる。",
+    "tags": ["パン", "あんこ", "包む"],
+    "equipment": ["ボウル", "オーブン", "オーブンシート", "刷毛", "網"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "round-azuki-anpan",
+      "toppings": ["bread-bun", "black-sesame"]
+    }
+  },
+  {
+    "id": "r-custard-cream-pan",
+    "name": "クリームパン",
+    "description": "加熱したカスタードを包み、貝のような切り込みを入れたパン。",
+    "category": "breakfast",
+    "cuisine": "日本のパン",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 165,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "強力粉",
+        "amount": "60g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "35ml（パン用）"
+      },
+      {
+        "name": "砂糖",
+        "amount": "6g（パン用）"
+      },
+      {
+        "name": "塩",
+        "amount": "0.7g"
+      },
+      {
+        "name": "インスタントドライイースト",
+        "amount": "1g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "5g"
+      },
+      {
+        "name": "卵黄",
+        "amount": "10g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "10g（クリーム用）"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "5g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "50ml（クリーム用）"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "5g（表面用）"
+      }
+    ],
+    "steps": [
+      "パン用の粉、牛乳、砂糖、塩、イースト、バターをこね、暖かい場所で50分発酵させる。",
+      "鍋で卵黄、クリーム用砂糖、薄力粉を混ぜ、牛乳を加えて弱火で混ぜ、とろみが付いてから1分加熱し、薄く広げて冷ます。",
+      "生地を2等分して10分休ませ、楕円にのばし、冷めたクリームを半量ずつ包んで半月形に閉じる。",
+      "丸い縁に浅い切り込みを3本入れ、30分発酵させて卵を塗り、180℃に予熱したオーブンで16〜18分焼く。"
+    ],
+    "tip": "クリームは完全に冷ましてから包むと、生地が緩まず継ぎ目も開きにくい。",
+    "tags": ["パン", "カスタード", "卵"],
+    "equipment": ["ボウル", "小鍋", "へら", "バット", "オーブン", "オーブンシート"],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "scalloped-custard-bread",
+      "toppings": ["golden-bread", "custard"]
+    }
+  },
+  {
+    "id": "r-baked-curry-pan",
+    "name": "焼きカレーパン",
+    "description": "水分を飛ばしたカレーを包み、パン粉の衣をオーブンで焼く。",
+    "category": "breakfast",
+    "cuisine": "日本のパン",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 155,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "強力粉",
+        "amount": "65g"
+      },
+      {
+        "name": "水",
+        "amount": "38ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "4g"
+      },
+      {
+        "name": "塩",
+        "amount": "0.8g"
+      },
+      {
+        "name": "インスタントドライイースト",
+        "amount": "1g"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "小さじ1（生地用）"
+      },
+      {
+        "name": "調理済みカレー",
+        "amount": "50g"
+      },
+      {
+        "name": "パン粉",
+        "amount": "10g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "10g"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "小さじ1（表面用）"
+      }
+    ],
+    "steps": [
+      "強力粉、水、砂糖、塩、イースト、生地用油をこね、暖かい場所で50分発酵させる。",
+      "カレーを小鍋に入れて十分に再加熱し、へらですくって落ちにくい固さまで煮詰め、冷まして2等分する。",
+      "生地を2等分して10分休ませ、楕円にのばしてカレーを包み、継ぎ目をしっかり閉じて30分発酵させる。",
+      "卵、パン粉の順に付け、表面用油を回しかけ、200℃に予熱したオーブンで18〜20分焼く。"
+    ],
+    "tip": "カレーに大きな具があれば先につぶし、尖った部分が生地を破らないようにする。",
+    "tags": ["パン", "カレー", "オーブン"],
+    "equipment": ["ボウル", "小鍋", "へら", "オーブン", "オーブンシート"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "oval-crumbed-curry-bread",
+      "toppings": ["bread-crumbs", "curry-filling"]
+    }
+  },
+  {
+    "id": "r-salt-butter-roll",
+    "name": "塩バターロール",
+    "description": "バターを芯にして巻き、底を香ばしく焼く小さな塩パン。",
+    "category": "breakfast",
+    "cuisine": "日本のパン",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 135,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "強力粉",
+        "amount": "70g"
+      },
+      {
+        "name": "水",
+        "amount": "40ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "3g"
+      },
+      {
+        "name": "塩",
+        "amount": "0.7g（生地用）"
+      },
+      {
+        "name": "インスタントドライイースト",
+        "amount": "1g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "5g（生地用）"
+      },
+      {
+        "name": "有塩バター",
+        "amount": "8g（芯用）"
+      },
+      {
+        "name": "粗塩",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "強力粉、水、砂糖、生地用塩、イースト、生地用バターをこね、暖かい場所で50分発酵させる。",
+      "生地を2等分して10分休ませ、細長い三角形にのばし、底辺に芯用バターを半量ずつ置いて巻く。",
+      "継ぎ目を下にして縁のある天板に置き、30分発酵させ、表面を水で湿らせて粗塩を振る。",
+      "200℃に予熱したオーブンで15〜18分焼き、流れたバターで底に焼き色が付いたら取り出す。"
+    ],
+    "tip": "バターが流れ出るため、平らな網ではなく縁のある天板を使う。",
+    "tags": ["パン", "バター", "塩味"],
+    "equipment": ["ボウル", "めん棒", "縁付き天板", "オーブン", "オーブンシート"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "tapered-salt-butter-rolls",
+      "toppings": ["golden-bread", "coarse-salt"]
+    }
+  },
+  {
+    "id": "r-mini-pullman-loaf",
+    "name": "小さな山食パン",
+    "description": "少量の生地をミニ型で焼く、山形の食パン。",
+    "category": "breakfast",
+    "cuisine": "日本のパン",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 155,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "強力粉",
+        "amount": "90g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "60ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "6g"
+      },
+      {
+        "name": "塩",
+        "amount": "1g"
+      },
+      {
+        "name": "インスタントドライイースト",
+        "amount": "1g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "7g"
+      }
+    ],
+    "steps": [
+      "強力粉、牛乳、砂糖、塩、イーストを合わせ、バターを加えて表面がなめらかになるまで10分こねる。",
+      "暖かい場所で50分発酵させ、軽く押してガスを抜き、丸めて10分休ませる。",
+      "幅8cmほどの長方形にのばして巻き、紙を敷いた約10×6×6cmの型に入れ、型の高さまで40分ほど発酵させる。",
+      "180℃に予熱したオーブンで22〜25分焼き、型から外して網で冷ましてから切る。"
+    ],
+    "tip": "発酵の進み方は室温で変わるので、時間だけでなく生地の高さも見る。",
+    "tags": ["パン", "食パン", "朝食"],
+    "equipment": ["ボウル", "ミニ食パン型", "オーブンシート", "オーブン", "網"],
+    "reward": 40,
+    "art": {
+      "vessel": "board",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "domed-mini-bread-loaf",
+      "toppings": ["bread-slice"]
+    }
+  },
+  {
+    "id": "r-mini-brioche",
+    "name": "ブリオッシュ",
+    "description": "卵とバターを練り込んだ、ふっくら香る小さなパン。",
+    "category": "breakfast",
+    "cuisine": "フランス風",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 220,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "強力粉",
+        "amount": "60g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "25g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "15ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "8g"
+      },
+      {
+        "name": "塩",
+        "amount": "0.7g"
+      },
+      {
+        "name": "インスタントドライイースト",
+        "amount": "1g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "18g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "5g（表面用）"
+      }
+    ],
+    "steps": [
+      "強力粉、生地用卵、牛乳、砂糖、塩、イーストを混ぜてこね、柔らかいバターを3回に分けて練り込む。",
+      "暖かい場所で60分発酵させ、軽く押してガスを抜き、冷蔵庫で45分冷やして扱いやすくする。",
+      "生地を2等分して丸め、紙を敷いた直径6cmの耐熱型2個に入れ、暖かい場所で45分発酵させる。",
+      "表面に卵を塗り、180℃に予熱したオーブンで18〜20分、中心まで膨らんで色づくように焼く。"
+    ],
+    "tip": "バターを入れると一度べたつくが、粉を足さずにこねるとまとまってくる。",
+    "tags": ["パン", "卵", "バター"],
+    "equipment": ["ボウル", "冷蔵庫", "耐熱型", "オーブンシート", "オーブン", "刷毛"],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "round-brioche-buns",
+      "toppings": ["glazed-bread"]
+    }
+  },
+  {
+    "id": "r-small-baguette",
+    "name": "バゲット",
+    "description": "細長く成形した生地を高温で焼き、薄い皮と軽い中身を作る。",
+    "category": "breakfast",
+    "cuisine": "フランス風",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 180,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "準強力粉",
+        "amount": "90g"
+      },
+      {
+        "name": "水",
+        "amount": "60ml"
+      },
+      {
+        "name": "塩",
+        "amount": "1.5g"
+      },
+      {
+        "name": "インスタントドライイースト",
+        "amount": "0.5g"
+      },
+      {
+        "name": "準強力粉",
+        "amount": "少量（打ち粉用）"
+      }
+    ],
+    "steps": [
+      "粉、水、塩、イーストを粉気がなくなるまで混ぜ、20分休ませてから生地の四方を中央へ折る。",
+      "乾燥を防いで暖かい場所に置き、30分間隔で2回折り、さらに30分発酵させる。",
+      "打ち粉をした台で長さ22cmの棒状に成形し、紙を敷いた天板で30分休ませ、斜めの切り込みを3本入れる。",
+      "表面に軽く霧を吹き、230℃に予熱したオーブンで20〜25分、しっかり焼き色が付くまで焼く。"
+    ],
+    "tip": "成形で強く押しつぶさず、折るときにできた気泡を少し残す。",
+    "tags": ["パン", "ハードパン", "小麦"],
+    "equipment": ["ボウル", "カード", "オーブン", "オーブンシート", "霧吹き", "包丁"],
+    "reward": 70,
+    "art": {
+      "vessel": "board",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "slashed-baguette",
+      "toppings": ["bread-crust"]
+    }
+  },
+  {
+    "id": "r-rustic-ciabatta",
+    "name": "チャバタ",
+    "description": "水分の多い生地を折り、平たい長方形に焼くイタリアのパン。",
+    "category": "breakfast",
+    "cuisine": "イタリア風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 170,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "強力粉",
+        "amount": "90g"
+      },
+      {
+        "name": "水",
+        "amount": "72ml"
+      },
+      {
+        "name": "塩",
+        "amount": "1g"
+      },
+      {
+        "name": "インスタントドライイースト",
+        "amount": "1g"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "強力粉",
+        "amount": "少量（打ち粉用）"
+      }
+    ],
+    "steps": [
+      "強力粉、水、塩、イースト、油をへらで混ぜ、ふたをして20分休ませる。",
+      "ぬらしたへらで四方から生地を折り、20分休ませる操作を3回行い、さらに30分発酵させる。",
+      "多めに打ち粉をした紙の上へ生地を出し、つぶさず約15×8cmの長方形に整え、20分休ませる。",
+      "220℃に予熱したオーブンで22〜25分焼き、底が固く焼けたら網に移して冷ます。"
+    ],
+    "tip": "柔らかい生地は手で持ち上げず、カードで下からすくうように動かす。",
+    "tags": ["パン", "オリーブ油", "発酵"],
+    "equipment": ["ボウル", "へら", "カード", "オーブンシート", "オーブン", "網"],
+    "reward": 40,
+    "art": {
+      "vessel": "board",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "flat-ciabatta-loaf",
+      "toppings": ["flour-dusted-bread"]
+    }
+  },
+  {
+    "id": "r-rosemary-focaccia",
+    "name": "ローズマリーのフォカッチャ",
+    "description": "指でくぼみを付け、オリーブ油を染み込ませて焼く平たいパン。",
+    "category": "breakfast",
+    "cuisine": "イタリア風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 130,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "強力粉",
+        "amount": "80g"
+      },
+      {
+        "name": "水",
+        "amount": "56ml"
+      },
+      {
+        "name": "インスタントドライイースト",
+        "amount": "1g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "2g"
+      },
+      {
+        "name": "塩",
+        "amount": "1g"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ1（生地用）"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ1（表面用）"
+      },
+      {
+        "name": "ローズマリー",
+        "amount": "1枝"
+      },
+      {
+        "name": "粗塩",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "粉、水、イースト、砂糖、塩、生地用油を混ぜてこね、暖かい場所で50分発酵させる。",
+      "紙を敷いた直径12cmの耐熱型に広げ、乾燥を防いで30分発酵させる。",
+      "油を付けた指で底近くまで数か所押し、表面用油、ちぎったローズマリー、粗塩を散らす。",
+      "200℃に予熱したオーブンで20分ほど焼き、型から外して底の焼け具合も確かめる。"
+    ],
+    "tip": "二次発酵後にくぼみを付けると、油がたまる穴が焼いた後も残りやすい。",
+    "tags": ["パン", "ハーブ", "オリーブ油"],
+    "equipment": ["ボウル", "12cm耐熱型", "オーブンシート", "オーブン"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "dimpled-focaccia",
+      "toppings": ["rosemary", "olive-oil"]
+    }
+  },
+  {
+    "id": "r-rye-small-boule",
+    "name": "ライ麦の丸パン",
+    "description": "ライ麦粉を混ぜた生地を丸く焼く、香りの濃い食事パン。",
+    "category": "breakfast",
+    "cuisine": "欧風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 140,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "強力粉",
+        "amount": "60g"
+      },
+      {
+        "name": "ライ麦粉",
+        "amount": "30g"
+      },
+      {
+        "name": "水",
+        "amount": "62ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "3g"
+      },
+      {
+        "name": "塩",
+        "amount": "1g"
+      },
+      {
+        "name": "インスタントドライイースト",
+        "amount": "1g"
+      },
+      {
+        "name": "強力粉",
+        "amount": "少量（打ち粉用）"
+      }
+    ],
+    "steps": [
+      "強力粉、ライ麦粉、水、砂糖、塩、イーストを合わせ、べたつきが落ち着くまで7分ほどこねる。",
+      "乾燥を防いで暖かい場所で50分発酵させ、軽く押して丸め直す。",
+      "閉じ目を下にして天板に置き、35分発酵させて打ち粉を振り、十字の切り込みを浅く入れる。",
+      "210℃に予熱したオーブンで23〜25分焼き、網にのせて十分冷ましてから切る。"
+    ],
+    "tip": "ライ麦入りは中が湿りやすいので、熱いうちに切らず蒸気が抜けるのを待つ。",
+    "tags": ["パン", "ライ麦", "食事パン"],
+    "equipment": ["ボウル", "オーブンシート", "オーブン", "包丁", "網"],
+    "reward": 40,
+    "art": {
+      "vessel": "board",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "cross-cut-rye-boule",
+      "toppings": ["dark-bread"]
+    }
+  },
+  {
+    "id": "r-yogurt-soda-bread",
+    "name": "ソーダブレッド",
+    "description": "ヨーグルトと重曹で膨らませる、発酵を待たないパン。",
+    "category": "breakfast",
+    "cuisine": "アイルランド風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 45,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "60g"
+      },
+      {
+        "name": "全粒粉",
+        "amount": "30g"
+      },
+      {
+        "name": "重曹",
+        "amount": "1g"
+      },
+      {
+        "name": "塩",
+        "amount": "1g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "3g"
+      },
+      {
+        "name": "無糖ヨーグルト",
+        "amount": "65g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "10ml"
+      }
+    ],
+    "steps": [
+      "オーブンを200℃に予熱し、ボウルで薄力粉、全粒粉、重曹、塩、砂糖を均一に混ぜる。",
+      "ヨーグルトと牛乳を加え、粉が見えなくなるまでへらで混ぜ、こねずに直径10cmの円形へまとめる。",
+      "天板に置いて深さ2cmの十字の切れ目を入れ、200℃のオーブンで25〜30分焼く。",
+      "切れ目の内側まで乾いて焼けたら網で10分ほど冷まし、十字に沿って割る。"
+    ],
+    "tip": "重曹が水分に触れると反応が始まるため、混ぜる前に予熱を済ませておく。",
+    "tags": ["パン", "全粒粉", "発酵なし"],
+    "equipment": ["ボウル", "へら", "オーブン", "オーブンシート", "包丁", "網"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "cross-cut-soda-bread",
+      "toppings": ["wholegrain-bread"]
+    }
+  },
+  {
+    "id": "r-baking-soda-pretzel",
+    "name": "プレッツェル",
+    "description": "結び目を作った生地を重曹湯にくぐらせ、濃い焼き色を付ける。",
+    "category": "breakfast",
+    "cuisine": "ドイツ風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 115,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "強力粉",
+        "amount": "80g"
+      },
+      {
+        "name": "水",
+        "amount": "45ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "3g"
+      },
+      {
+        "name": "塩",
+        "amount": "0.8g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "5g"
+      },
+      {
+        "name": "インスタントドライイースト",
+        "amount": "1g"
+      },
+      {
+        "name": "食品用重曹",
+        "amount": "10g"
+      },
+      {
+        "name": "水",
+        "amount": "500ml（ゆで湯用）"
+      },
+      {
+        "name": "粗塩",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "強力粉、生地用水、砂糖、塩、バター、イーストをこね、暖かい場所で45分発酵させる。",
+      "生地を40cmの棒にのばし、両端を交差させて輪の手前へ留め、結び目の形にして15分休ませる。",
+      "鍋にゆで湯用の水と食品用重曹を入れて沸かし、弱火で生地を片面20秒ずつゆでて湯を切る。",
+      "天板へ移して粗塩を振り、210℃に予熱したオーブンで18〜20分、濃いきつね色になるまで焼く。"
+    ],
+    "tip": "ゆでた生地は柔らかいので、幅の広い網じゃくしで全体を支えて移す。",
+    "tags": ["パン", "結び目", "塩味"],
+    "equipment": ["ボウル", "鍋", "網じゃくし", "オーブン", "オーブンシート"],
+    "reward": 40,
+    "art": {
+      "vessel": "basket",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "knotted-pretzel",
+      "toppings": ["brown-bread", "coarse-salt"]
+    }
+  },
+  {
+    "id": "r-pan-english-muffin",
+    "name": "イングリッシュマフィン",
+    "description": "粉をまぶした丸い生地を、フライパンで両面焼く。",
+    "category": "breakfast",
+    "cuisine": "イギリス風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 120,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "強力粉",
+        "amount": "75g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "48ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "4g"
+      },
+      {
+        "name": "塩",
+        "amount": "0.8g"
+      },
+      {
+        "name": "インスタントドライイースト",
+        "amount": "1g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "5g"
+      },
+      {
+        "name": "コーンミール",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "強力粉、牛乳、砂糖、塩、イースト、バターをこね、暖かい場所で45分発酵させる。",
+      "生地を2等分して丸め、コーンミールを両面に付け、厚さ2cmに押して30分発酵させる。",
+      "油を引かないフライパンに並べ、ふたをしてごく弱火で8分焼き、裏返してさらに8分焼く。",
+      "側面がべたつかず中心まで火が通ったら取り出し、フォークを周囲に差し込んで上下に割る。"
+    ],
+    "tip": "火が強いと表面だけ焦げるので、厚い生地は弱火でじっくり焼く。",
+    "tags": ["パン", "フライパン", "朝食"],
+    "equipment": ["ボウル", "ふた付きフライパン", "フォーク"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "round-cornmeal-muffins",
+      "toppings": ["cornmeal", "bread"]
+    }
+  },
+  {
+    "id": "r-puffed-pita-bread",
+    "name": "ピタパン",
+    "description": "高温で一気に膨らませ、中に空洞を作る丸いパン。",
+    "category": "breakfast",
+    "cuisine": "中東風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 120,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "強力粉",
+        "amount": "80g"
+      },
+      {
+        "name": "水",
+        "amount": "48ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "3g"
+      },
+      {
+        "name": "塩",
+        "amount": "1g"
+      },
+      {
+        "name": "インスタントドライイースト",
+        "amount": "1g"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "強力粉",
+        "amount": "少量（打ち粉用）"
+      }
+    ],
+    "steps": [
+      "粉、水、砂糖、塩、イースト、油を混ぜて8分こね、暖かい場所で50分発酵させる。",
+      "2等分して10分休ませ、打ち粉をしながら直径12cm、厚さ4mmの均一な円にのばす。",
+      "生地を15分休ませる間に天板ごとオーブンを250℃に予熱する。",
+      "紙にのせた生地を熱い天板へ移し、250℃で5〜7分、ふくらんで薄く色づくまで焼く。"
+    ],
+    "tip": "中央と縁の厚さをそろえ、生地を傷つけないようにのばすと空洞ができやすい。",
+    "tags": ["パン", "空洞", "食事パン"],
+    "equipment": ["ボウル", "めん棒", "オーブン", "天板", "オーブンシート"],
+    "reward": 40,
+    "art": {
+      "vessel": "basket",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "puffed-pita-discs",
+      "toppings": ["flatbread"]
+    }
+  },
+  {
+    "id": "r-yogurt-skillet-naan",
+    "name": "フライパンナン",
+    "description": "ヨーグルトを混ぜた生地を薄くのばし、ふくらみと焼き目を付ける。",
+    "category": "breakfast",
+    "cuisine": "インド風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 95,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "強力粉",
+        "amount": "70g"
+      },
+      {
+        "name": "無糖ヨーグルト",
+        "amount": "25g"
+      },
+      {
+        "name": "水",
+        "amount": "20ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "4g"
+      },
+      {
+        "name": "塩",
+        "amount": "0.8g"
+      },
+      {
+        "name": "インスタントドライイースト",
+        "amount": "1g"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "3g"
+      }
+    ],
+    "steps": [
+      "強力粉、ヨーグルト、水、砂糖、塩、イースト、油を混ぜ、表面がなめらかになるまでこねる。",
+      "乾燥を防いで暖かい場所で50分発酵させ、2等分して10分休ませる。",
+      "生地を厚さ4mmの涙形にのばし、温めたフライパンに入れ、ふたをして中火で2〜3分焼く。",
+      "裏返して弱火で2〜3分焼き、両面に焼き色が付き中心まで火が通ったらバターを塗る。"
+    ],
+    "tip": "一度に2枚入れず、空いた面積を残して焼くと生地を返しやすい。",
+    "tags": ["パン", "ヨーグルト", "フライパン"],
+    "equipment": ["ボウル", "めん棒", "ふた付きフライパン"],
+    "reward": 40,
+    "art": {
+      "vessel": "basket",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "teardrop-naan",
+      "toppings": ["flatbread", "butter"]
+    }
+  },
+  {
+    "id": "r-pao-de-queijo",
+    "name": "ポンデケージョ",
+    "description": "タピオカでんぷんとチーズで作る、もちもちした小さなパン。",
+    "category": "breakfast",
+    "cuisine": "ブラジル風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 40,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "タピオカでんぷん",
+        "amount": "40g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "25ml"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "10ml"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "15g"
+      },
+      {
+        "name": "粉チーズ",
+        "amount": "15g"
+      },
+      {
+        "name": "塩",
+        "amount": "ひとつまみ"
+      }
+    ],
+    "steps": [
+      "小鍋で牛乳、油、塩を沸騰直前まで温め、タピオカでんぷんに注いでへらで混ぜる。",
+      "手で触れられる温度まで冷まし、溶き卵と粉チーズを加えて均一にこねる。",
+      "生地を4等分して丸め、紙を敷いた天板に間隔を空けて並べる。",
+      "190℃に予熱したオーブンで20〜25分、ふくらんで薄く色づくまで焼く。"
+    ],
+    "tip": "卵は生地を冷ましてから加えると、混ぜている途中で固まらない。",
+    "tags": ["パン", "チーズ", "タピオカ"],
+    "equipment": ["小鍋", "ボウル", "へら", "オーブン", "オーブンシート"],
+    "reward": 40,
+    "art": {
+      "vessel": "basket",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "round-cheese-bread-balls",
+      "toppings": ["cheese-bread"]
+    }
+  },
+  {
+    "id": "r-skillet-cornbread",
+    "name": "コーンブレッド",
+    "description": "とうもろこし粉を混ぜ、ミニ型で焼くほろりとしたパン。",
+    "category": "breakfast",
+    "cuisine": "アメリカ風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 40,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "コーンミール",
+        "amount": "35g"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "25g"
+      },
+      {
+        "name": "ベーキングパウダー",
+        "amount": "2g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "8g"
+      },
+      {
+        "name": "塩",
+        "amount": "ひとつまみ"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "20g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "40ml"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "10g"
+      }
+    ],
+    "steps": [
+      "オーブンを190℃に予熱し、直径10cmの耐熱型に紙を敷き、バターを溶かしておく。",
+      "コーンミール、薄力粉、ベーキングパウダー、砂糖、塩を混ぜ、卵、牛乳、バターを加えて粉気をなくす。",
+      "型へ流し、190℃で20〜25分焼き、中心に差した竹串に湿った生地が付かないことを確かめる。",
+      "型のまま5分置いてから取り出し、粗熱が取れたらくさび形に切る。"
+    ],
+    "tip": "コーンミールの粒を残すため、粉を合わせた後は練らずに混ぜる。",
+    "tags": ["パン", "とうもろこし", "発酵なし"],
+    "equipment": ["ボウル", "10cm耐熱型", "オーブンシート", "オーブン", "竹串"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "cornbread-wedges",
+      "toppings": ["cornmeal-crumb"]
+    }
+  },
+  {
+    "id": "r-classic-blt-sandwich",
+    "name": "BLTサンド",
+    "description": "焼いたベーコン、レタス、トマトを重ねるサンドイッチ。",
+    "category": "breakfast",
+    "cuisine": "アメリカ風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "食パン",
+        "amount": "2枚（8枚切り）"
+      },
+      {
+        "name": "ベーコン",
+        "amount": "2枚"
+      },
+      {
+        "name": "レタス",
+        "amount": "1枚"
+      },
+      {
+        "name": "トマト",
+        "amount": "1/2個"
+      },
+      {
+        "name": "マヨネーズ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "粒マスタード",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "トマトを厚さ5mmに切り、レタスとともに水気を拭き、パンを軽くトーストする。",
+      "フライパンでベーコンを両面焼き、全体に火が通って脂が出たら紙で余分な脂を取る。",
+      "パンにマヨネーズとマスタードを塗り、レタス、トマト、ベーコンを挟み、軽く押さえて半分に切る。"
+    ],
+    "tip": "熱いベーコンを少し冷ましてから挟むと、レタスの歯触りが残る。",
+    "tags": ["サンドイッチ", "ベーコン", "トマト"],
+    "equipment": ["包丁", "まな板", "フライパン", "トースター"],
+    "reward": 20,
+    "art": {
+      "vessel": "board",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "layered-blt-sandwich",
+      "toppings": ["bacon", "lettuce", "tomato"]
+    }
+  },
+  {
+    "id": "r-chicken-club-sandwich",
+    "name": "クラブサンド",
+    "description": "チキンと卵を三枚のパンで挟む、断面のにぎやかなサンド。",
+    "category": "breakfast",
+    "cuisine": "アメリカ風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "食パン",
+        "amount": "3枚（10枚切り）"
+      },
+      {
+        "name": "鶏むね肉",
+        "amount": "60g"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "レタス",
+        "amount": "1枚"
+      },
+      {
+        "name": "トマト",
+        "amount": "2切れ"
+      },
+      {
+        "name": "マヨネーズ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "鶏肉を厚さ1cmに開き、塩こしょうを振り、油を熱したフライパンで両面焼いて中心75℃で1分以上加熱し、薄切りにする。",
+      "卵を水からゆで、沸騰後11〜12分で冷水に取り、殻をむいて輪切りにし、野菜の水気を拭く。",
+      "パン3枚をトーストしてマヨネーズを塗り、1段目に鶏肉とレタス、2段目に卵とトマトを挟む。",
+      "全体を軽く押さえてから4つに切り、崩れないよう皿に並べる。"
+    ],
+    "tip": "2段の具を均等に広げると、切ったときに上のパンが傾きにくい。",
+    "tags": ["サンドイッチ", "鶏肉", "卵"],
+    "equipment": ["包丁", "まな板", "フライパン", "鍋", "食品用温度計", "トースター"],
+    "reward": 40,
+    "art": {
+      "vessel": "board",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "triple-decker-club-sandwich",
+      "toppings": ["chicken", "egg", "lettuce", "tomato"]
+    }
+  },
+  {
+    "id": "r-pork-katsu-sandwich",
+    "name": "カツサンド",
+    "description": "揚げた豚カツをソースとキャベツで挟む厚みのあるサンド。",
+    "category": "breakfast",
+    "cuisine": "日本のパン",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "食パン",
+        "amount": "2枚（8枚切り）"
+      },
+      {
+        "name": "豚ロース肉",
+        "amount": "90g（厚さ1cm）"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "20g"
+      },
+      {
+        "name": "パン粉",
+        "amount": "15g"
+      },
+      {
+        "name": "キャベツ",
+        "amount": "25g"
+      },
+      {
+        "name": "中濃ソース",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "揚げ油",
+        "amount": "適量"
+      }
+    ],
+    "steps": [
+      "豚肉の筋を切って塩こしょうを振り、薄力粉、卵、パン粉の順に付け、キャベツを細切りにする。",
+      "170℃の油で豚肉を返しながら5〜6分揚げ、中心が75℃に達してから1分以上加熱する。",
+      "油を切ったカツにソースを絡め、パンにキャベツと一緒に挟んで2分ほど落ち着かせる。",
+      "包丁を大きく動かしてパンとカツを一緒に切り、断面を上にして盛る。"
+    ],
+    "tip": "カツを押しつぶさず、刃を前後させて切ると衣がはがれにくい。",
+    "tags": ["サンドイッチ", "豚カツ", "キャベツ"],
+    "equipment": ["包丁", "まな板", "深い鍋", "油用温度計", "食品用温度計", "網"],
+    "reward": 40,
+    "art": {
+      "vessel": "board",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "thick-katsu-sandwich",
+      "toppings": ["pork-cutlet", "shredded-cabbage"]
+    }
+  },
+  {
+    "id": "r-pork-banh-mi",
+    "name": "バインミー",
+    "description": "甘酢の野菜と焼いた豚肉を、小さなバゲットに詰める。",
+    "category": "breakfast",
+    "cuisine": "ベトナム風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "小さなバゲット",
+        "amount": "1本（80g）"
+      },
+      {
+        "name": "豚薄切り肉",
+        "amount": "60g"
+      },
+      {
+        "name": "にんじん",
+        "amount": "20g"
+      },
+      {
+        "name": "大根",
+        "amount": "20g"
+      },
+      {
+        "name": "きゅうり",
+        "amount": "20g"
+      },
+      {
+        "name": "酢",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "ナンプラー",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "マヨネーズ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "香菜",
+        "amount": "少々"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "にんじんと大根を細切りにし、酢と砂糖で10分漬け、きゅうりは薄切りにする。",
+      "豚肉にナンプラーとしょうゆを絡め、油を熱したフライパンで肉の赤みがなくなるまで焼き、さらに1分加熱する。",
+      "パンを軽く温めて横に切り込みを入れ、内側にマヨネーズを塗る。",
+      "汁気を絞った甘酢野菜、豚肉、きゅうり、香菜を詰め、具を押さえながら半分に切る。"
+    ],
+    "tip": "甘酢野菜の汁気をしっかり切ると、パンの皮がふやけにくい。",
+    "tags": ["サンドイッチ", "豚肉", "甘酢"],
+    "equipment": ["包丁", "まな板", "ボウル", "フライパン", "トースター"],
+    "reward": 40,
+    "art": {
+      "vessel": "board",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "baguette-banh-mi-sandwich",
+      "toppings": ["pork", "carrot-strips", "cucumber", "cilantro"]
+    }
+  },
+  {
+    "id": "r-corned-beef-reuben",
+    "name": "ルーベンサンド",
+    "description": "コンビーフとザワークラウトを挟み、チーズを溶かす温かいサンド。",
+    "category": "breakfast",
+    "cuisine": "アメリカ風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ライ麦パン",
+        "amount": "2枚（70g）"
+      },
+      {
+        "name": "コンビーフ",
+        "amount": "40g"
+      },
+      {
+        "name": "ザワークラウト",
+        "amount": "35g"
+      },
+      {
+        "name": "スライスチーズ",
+        "amount": "1枚"
+      },
+      {
+        "name": "マヨネーズ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "ケチャップ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "5g"
+      }
+    ],
+    "steps": [
+      "ザワークラウトの汁気を絞り、コンビーフをほぐし、マヨネーズとケチャップを混ぜる。",
+      "パンの内側にソースを塗り、コンビーフ、ザワークラウト、チーズを重ねて挟む。",
+      "フライパンにバターを溶かし、サンドを弱めの中火で片面3分ずつ焼き、チーズが溶けたら切る。"
+    ],
+    "tip": "具を中央に盛りすぎず、パンの端まで薄く広げると温まりやすい。",
+    "tags": ["サンドイッチ", "コンビーフ", "チーズ"],
+    "equipment": ["ボウル", "フライパン", "フライ返し", "包丁"],
+    "reward": 20,
+    "art": {
+      "vessel": "board",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "grilled-reuben-sandwich",
+      "toppings": ["corned-beef", "sauerkraut", "cheese"]
+    }
+  },
+  {
+    "id": "r-pulled-pork-bun",
+    "name": "プルドポークバーガー",
+    "description": "柔らかく煮てほぐした豚肉を、甘酸っぱいソースでバンズに挟む。",
+    "category": "breakfast",
+    "cuisine": "アメリカ風",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 155,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "バンズ",
+        "amount": "1個"
+      },
+      {
+        "name": "豚肩ロース肉",
+        "amount": "120g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "30g"
+      },
+      {
+        "name": "水",
+        "amount": "250ml"
+      },
+      {
+        "name": "ケチャップ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "酢",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "ウスターソース",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "キャベツ",
+        "amount": "30g"
+      },
+      {
+        "name": "マヨネーズ",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "豚肉を3cm角に切り、薄切り玉ねぎ、水、塩と小鍋に入れ、沸騰後は弱火でふたをして90〜110分煮る。",
+      "水が減ったら補い、肉がフォークでほぐれるまで柔らかくなったら取り出して細く裂く。",
+      "肉を鍋に戻し、ケチャップ、酢、砂糖、ソースを加えて5分ほど煮詰め、汁気を飛ばす。",
+      "細切りキャベツをマヨネーズであえ、温めたバンズに肉と一緒に挟む。"
+    ],
+    "tip": "煮汁が完全になくならないよう途中で確認し、肉が硬いうちは煮込みを続ける。",
+    "tags": ["バーガー", "豚肉", "煮込み"],
+    "equipment": ["包丁", "まな板", "ふた付き小鍋", "フォーク", "トースター"],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "pulled-pork-burger",
+      "toppings": ["shredded-pork", "shredded-cabbage"]
+    }
+  },
+  {
+    "id": "r-crispy-fish-burger",
+    "name": "フィッシュバーガー",
+    "description": "白身魚のフライに、ピクルス入りのソースを合わせる。",
+    "category": "breakfast",
+    "cuisine": "洋風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "バンズ",
+        "amount": "1個"
+      },
+      {
+        "name": "骨取りたら",
+        "amount": "80g"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "20g"
+      },
+      {
+        "name": "パン粉",
+        "amount": "12g"
+      },
+      {
+        "name": "揚げ油",
+        "amount": "適量"
+      },
+      {
+        "name": "レタス",
+        "amount": "1枚"
+      },
+      {
+        "name": "マヨネーズ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "ピクルス",
+        "amount": "10g"
+      },
+      {
+        "name": "レモン汁",
+        "amount": "小さじ1/2"
+      }
+    ],
+    "steps": [
+      "たらの水気を拭いて塩を振り、薄力粉、卵、パン粉の順に付ける。",
+      "ピクルスを刻み、マヨネーズとレモン汁を混ぜ、レタスを洗って水気を拭く。",
+      "たらを170℃の油で4〜5分揚げ、中心まで不透明になり身がほぐれることを確認して油を切る。",
+      "温めたバンズにレタス、魚、ピクルスソースを重ね、上のパンをかぶせる。"
+    ],
+    "tip": "魚の表面を乾かしてから衣を付けると、揚げている間に衣が浮きにくい。",
+    "tags": ["バーガー", "白身魚", "フライ"],
+    "equipment": ["包丁", "まな板", "深い鍋", "油用温度計", "網", "トースター"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "fish-fillet-burger",
+      "toppings": ["breaded-fish", "lettuce", "pickle-sauce"]
+    }
+  },
+  {
+    "id": "r-baked-falafel-pita",
+    "name": "ファラフェルのピタサンド",
+    "description": "ひよこ豆の小さな焼きコロッケを野菜とピタに詰める。",
+    "category": "breakfast",
+    "cuisine": "中東風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 40,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ピタパン",
+        "amount": "1枚"
+      },
+      {
+        "name": "ゆでひよこ豆",
+        "amount": "70g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "15g"
+      },
+      {
+        "name": "パセリ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "パン粉",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "クミン",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "無糖ヨーグルト",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "レモン汁",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "トマト",
+        "amount": "30g"
+      },
+      {
+        "name": "レタス",
+        "amount": "1枚"
+      }
+    ],
+    "steps": [
+      "豆の水気を拭いてつぶし、刻んだ玉ねぎとパセリ、薄力粉、パン粉、クミン、塩を混ぜて3個の平たい丸にする。",
+      "油を薄く塗った天板に並べ、残りの油を表面に塗り、200℃に予熱したオーブンで返しながら20分焼く。",
+      "ヨーグルトとレモン汁を混ぜ、トマトとレタスを食べやすく切って水気を拭く。",
+      "温めたピタを半分に切って開き、焼いた豆のコロッケと野菜を詰め、ヨーグルトソースをかける。"
+    ],
+    "tip": "ゆで豆は水分が多いので、表面を十分に拭いてから生地にする。",
+    "tags": ["サンドイッチ", "ひよこ豆", "スパイス"],
+    "equipment": ["ボウル", "フォーク", "包丁", "まな板", "オーブン", "オーブンシート"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "falafel-pita-sandwich",
+      "toppings": ["chickpea-patties", "tomato", "lettuce"]
+    }
+  },
+  {
+    "id": "r-tuna-pan-bagnat",
+    "name": "パンバーニャ",
+    "description": "ツナ、ゆで卵、野菜の汁をパンになじませる丸いサンド。",
+    "category": "breakfast",
+    "cuisine": "南フランス風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 45,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "丸パン",
+        "amount": "1個（80g）"
+      },
+      {
+        "name": "ツナ缶",
+        "amount": "35g（水気を切る）"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "トマト",
+        "amount": "40g"
+      },
+      {
+        "name": "きゅうり",
+        "amount": "20g"
+      },
+      {
+        "name": "黒オリーブ",
+        "amount": "2粒"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "ワインビネガー",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "卵を水からゆで、沸騰後11〜12分で冷水に取り、殻をむいて輪切りにする。",
+      "トマトときゅうりを薄切りにし、刻んだオリーブ、油、ビネガー、塩とあえる。",
+      "横半分に切った丸パンの内側へ野菜の汁を少量塗り、ツナ、卵、野菜を挟む。",
+      "ラップで包んで軽く押さえ、冷蔵庫で20分休ませてから半分に切る。"
+    ],
+    "tip": "パンの内側を少しくり抜くと、丸い形を保ったまま具を収められる。",
+    "tags": ["サンドイッチ", "ツナ", "ゆで卵"],
+    "equipment": ["鍋", "包丁", "まな板", "ボウル", "ラップ", "冷蔵庫"],
+    "reward": 40,
+    "art": {
+      "vessel": "board",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "round-pan-bagnat-sandwich",
+      "toppings": ["tuna", "egg", "tomato", "olive"]
+    }
+  },
+  {
+    "id": "r-classic-hot-dog",
+    "name": "ホットドッグ",
+    "description": "温めたソーセージをパンに挟み、玉ねぎとマスタードを添える。",
+    "category": "breakfast",
+    "cuisine": "アメリカ風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ドッグパン",
+        "amount": "1本"
+      },
+      {
+        "name": "加熱済みソーセージ",
+        "amount": "1本（60g）"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "15g"
+      },
+      {
+        "name": "キャベツ",
+        "amount": "20g"
+      },
+      {
+        "name": "ケチャップ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "マスタード",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "小さじ1/2"
+      }
+    ],
+    "steps": [
+      "玉ねぎをみじん切り、キャベツを細切りにし、フライパンで油とともに2分炒める。",
+      "ソーセージを表示どおりにゆでて中まで温め、パンは切り込みを入れて軽くトーストする。",
+      "パンにキャベツ、ソーセージ、玉ねぎを詰め、ケチャップとマスタードを細くかける。"
+    ],
+    "tip": "ソーセージをぐらぐら煮立てずに温めると、皮が裂けにくい。",
+    "tags": ["パン", "ソーセージ", "軽食"],
+    "equipment": ["包丁", "まな板", "フライパン", "鍋", "トースター"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "long-hot-dog",
+      "toppings": ["sausage", "onion", "ketchup", "mustard"]
+    }
+  },
+  {
+    "id": "r-butter-breakfast-waffles",
+    "name": "朝のワッフル",
+    "description": "専用型で格子模様を付け、表面を香ばしく焼く。",
+    "category": "breakfast",
+    "cuisine": "洋風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "45g"
+      },
+      {
+        "name": "ベーキングパウダー",
+        "amount": "2g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "8g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "25g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "40ml"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "10g"
+      },
+      {
+        "name": "メープルシロップ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "少量（型用）"
+      }
+    ],
+    "steps": [
+      "ワッフルメーカーを予熱し、バターを溶かして卵、牛乳、砂糖と混ぜる。",
+      "薄力粉とベーキングパウダーを合わせて加え、粉気がなくなるまで混ぜて5分休ませる。",
+      "型に油を薄く塗り、生地を2回に分けて流し、機器の説明書に従って各3〜5分焼く。",
+      "表面が色づき中心に生の生地が残っていないことを確かめ、シロップを添える。"
+    ],
+    "tip": "焼き上がりを重ねずに網へ置くと、蒸気が抜けて格子の縁が軽くなる。",
+    "tags": ["ワッフル", "朝食", "メープル"],
+    "equipment": ["ボウル", "ワッフルメーカー", "刷毛", "網"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "grid-waffles",
+      "toppings": ["waffle", "maple-syrup"]
+    }
+  },
+  {
+    "id": "r-skillet-dutch-baby",
+    "name": "ダッチベイビー",
+    "description": "卵の生地を熱い型へ流し、縁を大きく膨らませるパンケーキ。",
+    "category": "breakfast",
+    "cuisine": "アメリカ風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "30g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "50ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "ひとつまみ"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "8g"
+      },
+      {
+        "name": "レモン",
+        "amount": "1/8個"
+      },
+      {
+        "name": "粉砂糖",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "直径15cmのオーブン対応スキレットを入れ、オーブンを220℃に予熱する。",
+      "卵、牛乳、砂糖、塩を混ぜ、薄力粉を加えて滑らかにし、5分休ませる。",
+      "熱い型をミトンで取り出し、バターを溶かして生地を注ぎ、220℃で15〜18分、縁が膨らみ中央が固まるまで焼く。",
+      "焼けたらすぐにレモンと粉砂糖を添え、熱い型を鍋敷きにのせて食卓へ運ぶ。"
+    ],
+    "tip": "焼いている途中で扉を開けず、十分に膨らんでから焼け具合を確認する。",
+    "tags": ["パンケーキ", "オーブン", "卵"],
+    "equipment": ["15cmスキレット", "オーブン", "ボウル", "ミトン", "鍋敷き"],
+    "reward": 40,
+    "art": {
+      "vessel": "deep-plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "puffed-dutch-baby-pancake",
+      "toppings": ["lemon", "powdered-sugar"]
+    }
+  },
+  {
+    "id": "r-griddle-crumpets",
+    "name": "クランペット",
+    "description": "発酵させたゆるい生地を焼き、表面に小さな穴を作る。",
+    "category": "breakfast",
+    "cuisine": "イギリス風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 95,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "強力粉",
+        "amount": "50g"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "20g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "70ml"
+      },
+      {
+        "name": "水",
+        "amount": "20ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "3g"
+      },
+      {
+        "name": "インスタントドライイースト",
+        "amount": "1g"
+      },
+      {
+        "name": "塩",
+        "amount": "0.8g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "5g"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "少量（型用）"
+      }
+    ],
+    "steps": [
+      "35℃程度に温めた牛乳に水、砂糖、イーストを混ぜ、粉と塩を加えて滑らかにし、暖かい場所で45分発酵させる。",
+      "油を塗った直径7cmの金属セルクル2個をフライパンに置き、生地を高さ1.5cmほどまで流す。",
+      "ごく弱火で10〜12分焼き、表面に穴が開いて濡れた部分がなくなったら型を外す。",
+      "裏返して2分ほど焼き、中心まで火を通してバターをのせる。"
+    ],
+    "tip": "穴が出ないほど生地が固い場合は、焼く前に水を小さじ1ずつ足す。",
+    "tags": ["パン", "発酵", "フライパン"],
+    "equipment": ["ボウル", "金属セルクル", "フライパン", "フライ返し"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "porous-round-crumpets",
+      "toppings": ["crumpet", "butter"]
+    }
+  },
+  {
+    "id": "r-oven-maple-granola",
+    "name": "自家製グラノーラ",
+    "description": "オーツ麦とナッツを薄く広げて焼く、ざくざくした朝食。",
+    "category": "breakfast",
+    "cuisine": "洋風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 40,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "オートミール",
+        "amount": "40g"
+      },
+      {
+        "name": "アーモンド",
+        "amount": "10g"
+      },
+      {
+        "name": "かぼちゃの種",
+        "amount": "5g"
+      },
+      {
+        "name": "メープルシロップ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "レーズン",
+        "amount": "10g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "100ml"
+      }
+    ],
+    "steps": [
+      "アーモンドを粗く刻み、オートミール、かぼちゃの種、シロップ、油とむらなく混ぜる。",
+      "紙を敷いた天板へ厚さ1cm以下に広げ、160℃に予熱したオーブンで20〜25分、途中で混ぜながら焼く。",
+      "薄いきつね色になったら完全に冷まし、レーズンを混ぜて器に盛り、牛乳を注ぐ。"
+    ],
+    "tip": "レーズンは焼き込まず冷めてから加えると、硬く焦げずに仕上がる。",
+    "tags": ["グラノーラ", "オートミール", "ナッツ"],
+    "equipment": ["包丁", "まな板", "ボウル", "天板", "オーブンシート", "オーブン"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "toasted-granola-bowl",
+      "toppings": ["oat-flakes", "almond", "raisin", "pumpkin-seed"]
+    }
+  },
+  {
+    "id": "r-quinoa-milk-porridge",
+    "name": "キヌアのミルクがゆ",
+    "description": "キヌアを柔らかく煮て、ドライいちじくと合わせる。",
+    "category": "breakfast",
+    "cuisine": "洋風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "キヌア",
+        "amount": "35g"
+      },
+      {
+        "name": "水",
+        "amount": "100ml"
+      },
+      {
+        "name": "牛乳",
+        "amount": "100ml"
+      },
+      {
+        "name": "ドライいちじく",
+        "amount": "1個（15g）"
+      },
+      {
+        "name": "はちみつ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "くるみ",
+        "amount": "5g"
+      }
+    ],
+    "steps": [
+      "キヌアを目の細かいざるでよく洗い、いちじくとくるみを粗く刻む。",
+      "小鍋にキヌアと水を入れ、沸騰したらふたをして弱火で15分煮る。",
+      "牛乳といちじくを加えて混ぜながら5分ほど煮て、粒が柔らかくなったら器に盛り、はちみつとくるみを添える。"
+    ],
+    "tip": "牛乳を加えた後は沸かしすぎず、鍋底をなでるように混ぜる。",
+    "tags": ["キヌア", "朝食", "いちじく"],
+    "equipment": ["目の細かいざる", "包丁", "まな板", "ふた付き小鍋", "へら"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "quinoa-porridge",
+      "toppings": ["quinoa", "fig", "walnut"]
+    }
+  },
+  {
+    "id": "r-creamy-breakfast-polenta",
+    "name": "チーズポレンタ",
+    "description": "とうもろこしの粉をゆっくり煮て、なめらかな朝食にする。",
+    "category": "breakfast",
+    "cuisine": "イタリア風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "インスタントポレンタ粉",
+        "amount": "40g"
+      },
+      {
+        "name": "水",
+        "amount": "160ml"
+      },
+      {
+        "name": "牛乳",
+        "amount": "60ml"
+      },
+      {
+        "name": "粉チーズ",
+        "amount": "10g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "5g"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "ミニトマト",
+        "amount": "3個"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "ミニトマトを半分に切り、小さなフライパンで油とともに3分ほど焼く。",
+      "鍋に水と牛乳を入れて温め、ポレンタ粉を少しずつ振り入れながら泡立て器で混ぜる。",
+      "製品の表示時間を目安に弱火で5〜8分混ぜて煮て、粉っぽさがなくなったらチーズ、バター、塩を加える。",
+      "温めた器へ移し、焼いたミニトマトを汁ごとのせる。"
+    ],
+    "tip": "粉を一度に入れず、液体をかき混ぜながら細く振り入れるとだまができにくい。",
+    "tags": ["とうもろこし", "チーズ", "朝食"],
+    "equipment": ["包丁", "まな板", "フライパン", "鍋", "泡立て器"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "creamy-polenta",
+      "toppings": ["tomato", "parmesan"]
+    }
+  },
+  {
+    "id": "r-cooked-egg-benedict",
+    "name": "エッグベネディクト",
+    "description": "マフィンに卵とハムを重ね、加熱した卵黄ソースをかける。",
+    "category": "breakfast",
+    "cuisine": "アメリカ風",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "イングリッシュマフィン",
+        "amount": "1個"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "ロースハム",
+        "amount": "2枚"
+      },
+      {
+        "name": "卵黄",
+        "amount": "1個分（ソース用）"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "12g"
+      },
+      {
+        "name": "レモン汁",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "水",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "酢",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "ソース用卵黄、水、レモン汁を耐熱ボウルで混ぜ、湯煎でかき混ぜながら75℃で1分以上加熱する。",
+      "火から外して溶かしたバターを少しずつ混ぜ、塩で味を調え、固ければ湯を少量加える。",
+      "小鍋に湯と酢を沸かして弱火にし、割った卵を静かに入れ、白身と黄身が固まるまで6〜7分煮る。",
+      "半分に割ったマフィンとハムを焼き、卵を水切りしてのせ、温かいソースをかける。"
+    ],
+    "tip": "ソースの湯煎はボウルの底を激しく沸く湯に当てず、混ぜながら温度を確認する。",
+    "tags": ["卵", "マフィン", "朝食"],
+    "equipment": [
+      "鍋",
+      "小鍋",
+      "耐熱ボウル",
+      "泡立て器",
+      "食品用温度計",
+      "網じゃくし",
+      "トースター"
+    ],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "egg-benedict-muffin",
+      "toppings": ["egg", "ham", "hollandaise"]
+    }
+  },
+  {
+    "id": "r-egg-bean-breakfast-burrito",
+    "name": "朝食ブリトー",
+    "description": "卵と豆、じゃがいもをトルティーヤに巻き、表面を焼く。",
+    "category": "breakfast",
+    "cuisine": "メキシコ風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "フラワートルティーヤ",
+        "amount": "1枚（直径25cm）"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "じゃがいも",
+        "amount": "60g"
+      },
+      {
+        "name": "ゆで赤いんげん豆",
+        "amount": "30g"
+      },
+      {
+        "name": "ピザ用チーズ",
+        "amount": "15g"
+      },
+      {
+        "name": "トマトサルサ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "じゃがいもを1cm角に切り、耐熱容器に入れてラップをし、600Wで2〜3分、芯がなくなるまで加熱する。",
+      "フライパンに油を熱してじゃがいもと豆を炒め、卵と塩を加え、卵全体が固まるまで混ぜる。",
+      "温めたトルティーヤの中央に炒めた具、チーズ、サルサをのせ、左右を折り込んで手前から巻く。",
+      "巻き終わりを下にしてフライパンで2分焼き、返して1分焼いてチーズを溶かす。"
+    ],
+    "tip": "具を冷たいまま包まず温めておくと、外側を焦がす前にチーズが溶ける。",
+    "tags": ["トルティーヤ", "卵", "豆"],
+    "equipment": ["包丁", "まな板", "耐熱容器", "電子レンジ", "フライパン", "ラップ"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "wrapped-breakfast-burrito",
+      "toppings": ["egg", "red-bean", "potato", "cheese"]
+    }
+  },
+  {
+    "id": "r-tomato-pepper-menemen",
+    "name": "メネメン",
+    "description": "トマトとピーマンの煮汁に卵を混ぜ込む、温かい朝食。",
+    "category": "breakfast",
+    "cuisine": "トルコ風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "卵",
+        "amount": "2個"
+      },
+      {
+        "name": "トマト",
+        "amount": "1個（150g）"
+      },
+      {
+        "name": "ピーマン",
+        "amount": "1個"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "30g"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "パプリカ粉",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "食パン",
+        "amount": "1枚"
+      }
+    ],
+    "steps": [
+      "トマトを粗く刻み、ピーマンと玉ねぎを細かく切って、卵を溶きほぐす。",
+      "フライパンに油を熱し、玉ねぎとピーマンを3分炒め、トマト、塩、パプリカ粉を加えて5分煮詰める。",
+      "卵を流して大きく混ぜ、液状の部分が残らないよう全体に火を通し、焼いた食パンを添える。"
+    ],
+    "tip": "トマトの水気を先に減らしておくと、卵がまとまり、パンにも載せやすくなる。",
+    "tags": ["卵", "トマト", "朝食"],
+    "equipment": ["包丁", "まな板", "ボウル", "フライパン", "トースター"],
+    "reward": 20,
+    "art": {
+      "vessel": "deep-plate",
+      "base": "main",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "menemen-scrambled-eggs",
+      "toppings": ["egg-ribbons", "tomato", "green-pepper"]
+    }
+  },
+  {
+    "id": "r-savory-bread-strata",
+    "name": "パンとほうれん草のストラータ",
+    "description": "角切りパンに卵液を染み込ませ、野菜と一緒に焼く。",
+    "category": "breakfast",
+    "cuisine": "アメリカ風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 50,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "食パン",
+        "amount": "1枚（6枚切り）"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "牛乳",
+        "amount": "70ml"
+      },
+      {
+        "name": "ほうれん草",
+        "amount": "40g"
+      },
+      {
+        "name": "加熱済みハム",
+        "amount": "20g"
+      },
+      {
+        "name": "ピザ用チーズ",
+        "amount": "15g"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "3g"
+      }
+    ],
+    "steps": [
+      "ほうれん草を熱湯で1分ゆでて水に取り、絞って刻み、パンとハムを一口大に切る。",
+      "卵、牛乳、塩を混ぜ、パンを10分浸して途中で上下を返す。",
+      "バターを塗った容量300mlの耐熱皿にパン、ほうれん草、ハムを入れ、卵液とチーズを加える。",
+      "180℃に予熱したオーブンで25〜30分、中央の卵液が完全に固まるまで焼く。"
+    ],
+    "tip": "パンを軽く押して卵液を吸わせると、上だけ乾いた状態になりにくい。",
+    "tags": ["パン", "卵", "オーブン"],
+    "equipment": ["包丁", "まな板", "鍋", "ボウル", "300ml耐熱皿", "オーブン"],
+    "reward": 40,
+    "art": {
+      "vessel": "deep-plate",
+      "base": "main",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "savory-bread-strata",
+      "toppings": ["bread-cubes", "spinach", "ham", "cheese"]
+    }
+  },
+  {
+    "id": "r-strawberry-shortcake",
+    "name": "いちごのショートケーキ",
+    "description": "小さく焼いたスポンジにクリームといちごを重ねる。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 90,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "砂糖",
+        "amount": "25g"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "25g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "5g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "生クリーム",
+        "amount": "50ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "5g（クリーム用）"
+      },
+      {
+        "name": "いちご",
+        "amount": "3個"
+      }
+    ],
+    "steps": [
+      "卵と砂糖を湯煎で人肌に温め、湯煎を外して白くもったりするまで泡立て、薄力粉をふるい入れてさっくり混ぜる。",
+      "溶かしたバターと牛乳に少量の生地を混ぜてから全体に戻し、紙を敷いた直径9cmの型に流す。",
+      "170℃に予熱したオーブンで20〜25分焼き、竹串に生地が付かないことを確認して網で完全に冷ます。",
+      "クリームとクリーム用砂糖を泡立て、半分の厚さに切ったスポンジに薄切りいちごと挟み、上にも塗って残りのいちごを飾る。"
+    ],
+    "tip": "スポンジが温かいとクリームが溶けるため、冷めてから切って仕上げる。",
+    "tags": ["ケーキ", "いちご", "生クリーム"],
+    "equipment": [
+      "ボウル",
+      "ハンドミキサー",
+      "9cm丸型",
+      "オーブンシート",
+      "オーブン",
+      "網",
+      "包丁"
+    ],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#f5dfaa", "#fff1dc", "#df442d", "#24624b"],
+      "garnish": [],
+      "motif": "layered-strawberry-shortcake",
+      "toppings": ["strawberry", "whipped-cream"]
+    }
+  },
+  {
+    "id": "r-vanilla-chiffon",
+    "name": "バニラシフォンケーキ",
+    "description": "卵白の泡を生かし、中心に穴のある型で軽く焼き上げる。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 100,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "砂糖",
+        "amount": "20g"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "20g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "15ml"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "10ml"
+      },
+      {
+        "name": "バニラエッセンス",
+        "amount": "1滴"
+      }
+    ],
+    "steps": [
+      "卵を卵黄と卵白に分け、卵黄に砂糖5g、牛乳、油、バニラを混ぜ、薄力粉を加えて滑らかにする。",
+      "卵白を泡立て、残りの砂糖を2回に分けて加え、角の先が少し曲がるメレンゲを作る。",
+      "卵黄生地にメレンゲを3回に分けて混ぜ、油を塗らない直径10cmのシフォン型に流す。",
+      "170℃に予熱したオーブンで25分ほど焼き、竹串に生地が付かなくなったら型を逆さにして完全に冷まして外す。"
+    ],
+    "tip": "メレンゲを固く立てすぎず、卵黄生地となじむ柔らかさを残す。",
+    "tags": ["ケーキ", "メレンゲ", "バニラ"],
+    "equipment": ["ボウル2個", "ハンドミキサー", "10cmシフォン型", "オーブン", "竹串", "網"],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "ring-chiffon-cake",
+      "toppings": ["sponge-cake"]
+    }
+  },
+  {
+    "id": "r-dark-gateau-chocolat",
+    "name": "ガトーショコラ",
+    "description": "チョコレートと卵の生地を小さな型でしっとり焼く。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 65,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ビターチョコレート",
+        "amount": "35g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "15g"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "砂糖",
+        "amount": "15g"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "7g"
+      },
+      {
+        "name": "純ココア",
+        "amount": "5g"
+      },
+      {
+        "name": "粉砂糖",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "チョコレートとバターを湯煎で溶かし、卵を卵黄と卵白に分け、卵黄をチョコレートに混ぜる。",
+      "卵白に砂糖を加えて柔らかい角が立つまで泡立て、チョコレート生地に半量ずつ混ぜる。",
+      "薄力粉とココアをふるい入れ、紙を敷いた直径9cmの型へ流し、170℃に予熱したオーブンで25分ほど焼く。",
+      "中央に差した竹串に液状の生地が付かないことを確かめ、冷ましてから粉砂糖を振る。"
+    ],
+    "tip": "溶かしたチョコレートは熱いまま卵黄に加えず、人肌まで冷ましておく。",
+    "tags": ["ケーキ", "チョコレート", "オーブン"],
+    "equipment": ["ボウル", "ハンドミキサー", "9cm丸型", "オーブンシート", "オーブン", "竹串"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#633928", "#8a5536", "#fff1dc", "#275bbb"],
+      "garnish": [],
+      "motif": "dark-gateau-chocolat",
+      "toppings": ["chocolate", "powdered-sugar"]
+    }
+  },
+  {
+    "id": "r-mini-basque-cheesecake",
+    "name": "バスクチーズケーキ",
+    "description": "高温で表面を濃く焼き、チーズの香りを引き出す。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 220,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "クリームチーズ",
+        "amount": "80g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "20g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "25g"
+      },
+      {
+        "name": "生クリーム",
+        "amount": "35ml"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "3g"
+      }
+    ],
+    "steps": [
+      "室温に戻したチーズを練り、砂糖、卵、生クリームを順に加え、薄力粉をふるい入れて混ぜる。",
+      "ぬらして絞ったオーブンシートを直径8cm、深さ5cm以上の型に敷き、生地を流す。",
+      "230℃に予熱したオーブンで20〜25分焼き、表面が濃い茶色で中央の液状部分がなくなるまで火を通す。",
+      "型ごと冷まし、粗熱が取れたら冷蔵庫で2時間以上冷やしてから紙を外す。"
+    ],
+    "tip": "小型は焦げ色が早く付くので、中央が未加熱なら箔をかぶせて追加で焼く。",
+    "tags": ["チーズケーキ", "焦がし", "冷やす"],
+    "equipment": [
+      "ボウル",
+      "泡立て器",
+      "8cm耐熱型",
+      "オーブンシート",
+      "オーブン",
+      "アルミ箔",
+      "冷蔵庫"
+    ],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#673f2a", "#f5d9a0", "#fff1dc", "#275bbb"],
+      "garnish": [],
+      "motif": "burnt-top-basque-cheesecake",
+      "toppings": ["cream-cheese", "browned-crust"]
+    }
+  },
+  {
+    "id": "r-spiced-carrot-cake",
+    "name": "キャロットケーキ",
+    "description": "すりおろしたにんじんとくるみを焼き込み、チーズクリームを添える。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 60,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "にんじん",
+        "amount": "35g"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "35g"
+      },
+      {
+        "name": "ベーキングパウダー",
+        "amount": "1g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "15g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "20g"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "15ml"
+      },
+      {
+        "name": "くるみ",
+        "amount": "8g"
+      },
+      {
+        "name": "シナモン",
+        "amount": "少々"
+      },
+      {
+        "name": "クリームチーズ",
+        "amount": "20g"
+      },
+      {
+        "name": "粉砂糖",
+        "amount": "5g"
+      }
+    ],
+    "steps": [
+      "にんじんを細かくすりおろし、くるみを刻み、卵、砂糖、油をボウルで混ぜる。",
+      "にんじん、薄力粉、ベーキングパウダー、シナモン、くるみを加え、粉気がなくなるまで混ぜる。",
+      "紙を敷いた容量100mlのマフィン型2個に分け、180℃に予熱したオーブンで20〜25分、竹串に生地が付かなくなるまで焼く。",
+      "完全に冷まし、柔らかくしたチーズと粉砂糖を混ぜたクリームを上に塗る。"
+    ],
+    "tip": "にんじんは細かくおろすと、生地の水分となじみ口当たりがそろう。",
+    "tags": ["ケーキ", "にんじん", "くるみ"],
+    "equipment": ["おろし金", "包丁", "ボウル", "マフィン型", "紙カップ", "オーブン", "竹串"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#bd793d", "#e6bd70", "#fff1dc", "#24624b"],
+      "garnish": [],
+      "motif": "carrot-cake-portions",
+      "toppings": ["carrot", "walnut", "cream-cheese"]
+    }
+  },
+  {
+    "id": "r-lemon-pound-cake",
+    "name": "レモンパウンドケーキ",
+    "description": "レモンの皮を混ぜたバター生地に、薄い糖衣をかける。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 80,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "40g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "30g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "25g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "30g"
+      },
+      {
+        "name": "ベーキングパウダー",
+        "amount": "1g"
+      },
+      {
+        "name": "レモンの皮",
+        "amount": "すりおろし少々"
+      },
+      {
+        "name": "レモン汁",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "粉砂糖",
+        "amount": "10g"
+      }
+    ],
+    "steps": [
+      "柔らかいバターと砂糖を白っぽくなるまで混ぜ、卵を少量ずつ加え、洗ったレモンの皮とレモン汁小さじ1を混ぜる。",
+      "薄力粉とベーキングパウダーをふるい入れ、紙を敷いた約10×6cmのミニパウンド型へ流す。",
+      "170℃に予熱したオーブンで25〜30分焼き、竹串に生地が付かなければ網で冷ます。",
+      "粉砂糖に残りのレモン汁を少しずつ混ぜ、流れすぎない糖衣を作って冷めたケーキにかける。"
+    ],
+    "tip": "卵を一度に加えると分離しやすいので、バターと同じ室温にして少しずつ混ぜる。",
+    "tags": ["ケーキ", "レモン", "バター"],
+    "equipment": [
+      "ボウル",
+      "泡立て器",
+      "ミニパウンド型",
+      "オーブンシート",
+      "オーブン",
+      "竹串",
+      "網"
+    ],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "glazed-lemon-loaf",
+      "toppings": ["lemon", "sugar-glaze"]
+    }
+  },
+  {
+    "id": "r-cream-sponge-roll",
+    "name": "ロールケーキ",
+    "description": "薄く焼いたスポンジで生クリームを巻き、冷やして切り分ける。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 115,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "砂糖",
+        "amount": "25g"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "20g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "生クリーム",
+        "amount": "45ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "5g（クリーム用）"
+      }
+    ],
+    "steps": [
+      "卵と砂糖を人肌の湯煎で温め、湯煎を外してリボン状に落ちるまで泡立て、薄力粉と牛乳を混ぜる。",
+      "紙で作った約12×18cmの縁付き型に広げ、180℃に予熱したオーブンで10〜12分、表面を触ると戻るまで焼く。",
+      "乾燥しないよう紙をかぶせて冷まし、クリームとクリーム用砂糖を角が立つまで泡立てる。",
+      "スポンジにクリームを塗って短い辺から巻き、紙で包み、冷蔵庫で1時間冷やして切る。"
+    ],
+    "tip": "巻き終わりの端はクリームを薄くすると、巻いたときにはみ出しにくい。",
+    "tags": ["ケーキ", "生クリーム", "ロール"],
+    "equipment": [
+      "ボウル",
+      "ハンドミキサー",
+      "天板",
+      "オーブンシート",
+      "オーブン",
+      "冷蔵庫",
+      "包丁"
+    ],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "cream-sponge-roll",
+      "toppings": ["sponge", "whipped-cream"]
+    }
+  },
+  {
+    "id": "r-banana-bread-loaf",
+    "name": "バナナブレッド",
+    "description": "よく熟したバナナを生地に混ぜ、小型のローフに焼く。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 60,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "バナナ",
+        "amount": "60g"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "45g"
+      },
+      {
+        "name": "ベーキングパウダー",
+        "amount": "1.5g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "10g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "25g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "12g"
+      },
+      {
+        "name": "くるみ",
+        "amount": "5g"
+      }
+    ],
+    "steps": [
+      "バナナをフォークでつぶし、溶かしたバター、砂糖、卵を混ぜ、くるみを粗く刻む。",
+      "薄力粉とベーキングパウダーを加えてさっくり混ぜ、くるみも加える。",
+      "紙を敷いた約10×6cmの型に入れ、170℃に予熱したオーブンで30〜35分焼く。",
+      "中央に差した竹串に湿った生地が付かないことを確認し、型を外して粗熱を取る。"
+    ],
+    "tip": "バナナの塊を少し残すと、焼いた後に果肉の柔らかさも楽しめる。",
+    "tags": ["ケーキ", "バナナ", "くるみ"],
+    "equipment": ["ボウル", "フォーク", "ミニパウンド型", "オーブンシート", "オーブン", "竹串"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "banana-bread-slices",
+      "toppings": ["banana", "walnut"]
+    }
+  },
+  {
+    "id": "r-walnut-chocolate-brownie",
+    "name": "ブラウニー",
+    "description": "チョコレートとくるみの生地を平たく焼く、濃い味の焼菓子。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 60,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ビターチョコレート",
+        "amount": "30g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "15g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "15g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "25g"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "15g"
+      },
+      {
+        "name": "くるみ",
+        "amount": "10g"
+      }
+    ],
+    "steps": [
+      "チョコレートとバターを湯煎で溶かし、人肌まで冷まして砂糖と卵を混ぜる。",
+      "薄力粉と粗く刻んだくるみを加え、紙を敷いた約8×8cmの型に平らに広げる。",
+      "170℃に予熱したオーブンで18〜22分焼き、中央に竹串を差して液状の生地が付かないことを確かめる。",
+      "型に入れたまま冷ましてから取り出し、四角く切り分ける。"
+    ],
+    "tip": "完全に冷ましてから切ると、チョコレートの生地が落ち着いて崩れにくい。",
+    "tags": ["チョコレート", "くるみ", "焼菓子"],
+    "equipment": ["耐熱ボウル", "鍋", "8cm角型", "オーブンシート", "オーブン", "竹串", "包丁"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#633928", "#8c5738", "#d4a35d", "#24624b"],
+      "garnish": [],
+      "motif": "square-walnut-brownies",
+      "toppings": ["chocolate", "walnut"]
+    }
+  },
+  {
+    "id": "r-browned-butter-financier",
+    "name": "フィナンシェ",
+    "description": "焦がしバターとアーモンドで、縁の香ばしい小さな菓子を焼く。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 45,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "卵白",
+        "amount": "25g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "20g"
+      },
+      {
+        "name": "アーモンドパウダー",
+        "amount": "15g"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "10g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "20g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "少量（型用）"
+      }
+    ],
+    "steps": [
+      "バターを小鍋で加熱し、細かな泡が出て薄茶色になったら火を止め、鍋底を水に当てて加熱を止める。",
+      "卵白を泡立てないようにほぐして砂糖を混ぜ、アーモンドパウダー、薄力粉、温かい焦がしバターを加える。",
+      "バターを塗った小さなフィナンシェ型3個に七分目まで流す。",
+      "190℃に予熱したオーブンで12〜15分、縁に濃い焼き色が付くまで焼いて型から外す。"
+    ],
+    "tip": "焦がしバターは余熱でも色づくので、香りが立ったらすぐに鍋を冷やす。",
+    "tags": ["焼菓子", "アーモンド", "焦がしバター"],
+    "equipment": ["小鍋", "ボウル", "泡立て器", "小型フィナンシェ型", "オーブン"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#a9652e", "#e5b965", "#fff1dc", "#275bbb"],
+      "garnish": [],
+      "motif": "rectangular-financiers",
+      "toppings": ["almond-cake"]
+    }
+  },
+  {
+    "id": "r-shell-madeleine",
+    "name": "マドレーヌ",
+    "description": "卵とバターの生地を休ませ、貝殻の型でふっくら焼く。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 65,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "30g"
+      },
+      {
+        "name": "ベーキングパウダー",
+        "amount": "1g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "20g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "25g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "20g"
+      },
+      {
+        "name": "はちみつ",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "少量（型用）"
+      }
+    ],
+    "steps": [
+      "卵、砂糖、はちみつを混ぜ、薄力粉とベーキングパウダーをふるい入れ、溶かしたバターを加える。",
+      "ラップをして冷蔵庫で30分休ませ、その間に小さなマドレーヌ型3個へバターを薄く塗る。",
+      "生地を型の八分目まで流し、190℃に予熱したオーブンで12〜15分、中央が膨らみ竹串に生地が付かなくなるまで焼く。",
+      "焼き上がったら型から外し、貝殻の面を上にして網で冷ます。"
+    ],
+    "tip": "冷たい生地を十分に予熱したオーブンへ入れると、中央がふくらみやすい。",
+    "tags": ["焼菓子", "貝殻", "バター"],
+    "equipment": ["ボウル", "冷蔵庫", "小型マドレーヌ型", "オーブン", "竹串", "網"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "shell-madeleines",
+      "toppings": ["golden-sponge"]
+    }
+  },
+  {
+    "id": "r-mini-vanilla-canele",
+    "name": "カヌレ",
+    "description": "寝かせた牛乳の生地を高温で焼き、外側に濃い焼き色を付ける。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 460,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "牛乳",
+        "amount": "100ml"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "20g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "30g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "20g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "5g"
+      },
+      {
+        "name": "ラム酒",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "バニラエッセンス",
+        "amount": "1滴"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "少量（型用）"
+      }
+    ],
+    "steps": [
+      "牛乳とバターを小鍋で温め、沸騰直前で火を止め、40℃程度まで冷ます。",
+      "砂糖と薄力粉に卵を混ぜ、牛乳を少しずつ加え、ラム酒とバニラを混ぜてこし、冷蔵庫で6時間休ませる。",
+      "バターを塗った容量60mlのカヌレ型4個に、生地を軽く混ぜ直して七分目まで注ぐ。",
+      "220℃に予熱したオーブンで15分焼き、190℃に下げて35〜40分、側面まで濃い茶色になるまで焼く。",
+      "型から外し、網にのせて中まで冷ましてから盛る。"
+    ],
+    "tip": "生地は泡立てずに混ぜ、型の耐熱温度が設定温度に対応することを確かめる。",
+    "tags": ["焼菓子", "牛乳", "カヌレ"],
+    "equipment": ["小鍋", "ボウル", "こし器", "冷蔵庫", "耐熱カヌレ型", "オーブン", "網"],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#603621", "#a56531", "#f1cf85", "#275bbb"],
+      "garnish": [],
+      "motif": "fluted-caneles",
+      "toppings": ["caramelized-custard-cake"]
+    }
+  },
+  {
+    "id": "r-mini-tarte-tatin",
+    "name": "タルトタタン",
+    "description": "カラメルで煮たりんごをパイで覆い、焼いた後に返す。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 70,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "りんご",
+        "amount": "1個（180g）"
+      },
+      {
+        "name": "砂糖",
+        "amount": "25g"
+      },
+      {
+        "name": "水",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "10g"
+      },
+      {
+        "name": "冷凍パイシート",
+        "amount": "40g"
+      }
+    ],
+    "steps": [
+      "りんごをむいて芯を除き、6等分する。砂糖と水を小鍋で茶色くなるまで熱し、火を止めてバターとりんごを加える。",
+      "弱火へ戻してりんごを返しながら10分煮て、直径10cmの耐熱型に隙間なく詰める。",
+      "半解凍したパイシートを型より少し大きくのばし、穴を開けてりんごにかぶせ、縁を内側へ折り込む。",
+      "200℃に予熱したオーブンで25分ほど焼き、10分置いてから皿を当てて型ごと返す。"
+    ],
+    "tip": "返すときは熱いカラメルが流れるので、大きめの皿とミトンで型を支える。",
+    "tags": ["タルト", "りんご", "カラメル"],
+    "equipment": ["包丁", "まな板", "小鍋", "10cm耐熱型", "めん棒", "オーブン", "ミトン"],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "upturned-apple-tatin",
+      "toppings": ["caramel-apple", "pastry"]
+    }
+  },
+  {
+    "id": "r-lemon-meringue-tart",
+    "name": "レモンメレンゲタルト",
+    "description": "焼いたタルトにレモンクリームとふわりとしたメレンゲを重ねる。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 110,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "30g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "15g（生地用）"
+      },
+      {
+        "name": "砂糖",
+        "amount": "8g（生地用）"
+      },
+      {
+        "name": "水",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "卵黄",
+        "amount": "1個分"
+      },
+      {
+        "name": "レモン汁",
+        "amount": "20ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "15g（クリーム用）"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "8g（クリーム用）"
+      },
+      {
+        "name": "卵白",
+        "amount": "20g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "20g（メレンゲ用）"
+      }
+    ],
+    "steps": [
+      "生地用バターと砂糖に薄力粉を混ぜ、水を加えてまとめ、冷蔵庫で20分休ませて直径8cmのタルト型に敷く。",
+      "底に穴を開け、180℃に予熱したオーブンで18〜20分焼いて冷ます。",
+      "小鍋で卵黄、レモン汁、クリーム用砂糖を混ぜ、弱火で混ぜながら75℃で1分以上加熱し、火を止めてバターを加えタルトに詰める。",
+      "卵白とメレンゲ用砂糖を耐熱ボウルで混ぜ、湯煎で75℃に達してから1分混ぜ、湯煎を外して角が立つまで泡立てる。",
+      "タルトにメレンゲをのせ、200℃のオーブンで5〜8分表面を色づけ、粗熱を取って冷蔵庫で30分冷やす。"
+    ],
+    "tip": "レモンクリームは酸に強いステンレスやほうろうの鍋で加熱する。",
+    "tags": ["タルト", "レモン", "メレンゲ"],
+    "equipment": [
+      "ボウル",
+      "8cmタルト型",
+      "冷蔵庫",
+      "小鍋",
+      "食品用温度計",
+      "ハンドミキサー",
+      "オーブン"
+    ],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "lemon-meringue-tart",
+      "toppings": ["lemon-curd", "meringue"]
+    }
+  },
+  {
+    "id": "r-pear-almond-tart",
+    "name": "洋梨のアーモンドタルト",
+    "description": "洋梨を扇形に並べ、アーモンドのクリームと焼き込む。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 85,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "30g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "15g（生地用）"
+      },
+      {
+        "name": "砂糖",
+        "amount": "8g（生地用）"
+      },
+      {
+        "name": "水",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "10g（クリーム用）"
+      },
+      {
+        "name": "砂糖",
+        "amount": "10g（クリーム用）"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "15g"
+      },
+      {
+        "name": "アーモンドパウダー",
+        "amount": "15g"
+      },
+      {
+        "name": "洋梨缶",
+        "amount": "50g（汁気を切る）"
+      }
+    ],
+    "steps": [
+      "生地用バターと砂糖に薄力粉を混ぜ、水でまとめ、冷蔵庫で20分休ませて直径9cmのタルト型に敷く。",
+      "クリーム用バターと砂糖を混ぜ、卵とアーモンドパウダーを順に加えてタルトへ広げる。",
+      "洋梨を薄く切って少しずつずらして並べ、180℃に予熱したオーブンで30〜35分焼く。",
+      "中央のクリームに竹串を差し、液状の生地が付かなくなったら冷まして型から外す。"
+    ],
+    "tip": "洋梨の表面を紙で拭いてから並べると、果物の下も焼けやすい。",
+    "tags": ["タルト", "洋梨", "アーモンド"],
+    "equipment": ["ボウル", "9cmタルト型", "冷蔵庫", "包丁", "オーブン", "竹串"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "fanned-pear-almond-tart",
+      "toppings": ["pear", "almond"]
+    }
+  },
+  {
+    "id": "r-mini-pecan-pie",
+    "name": "ピーカンパイ",
+    "description": "香ばしいナッツを黒糖と卵のフィリングでまとめる。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 65,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "冷凍パイシート",
+        "amount": "40g"
+      },
+      {
+        "name": "ピーカンナッツ",
+        "amount": "20g"
+      },
+      {
+        "name": "黒糖",
+        "amount": "15g"
+      },
+      {
+        "name": "メープルシロップ",
+        "amount": "10g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "20g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "8g"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "半解凍したパイシートを直径9cmのタルト型に敷き、底に穴を開けて冷蔵庫に入れる。",
+      "溶かしたバター、黒糖、シロップ、卵、薄力粉を混ぜ、半量のナッツを刻んで加える。",
+      "型にフィリングを流し、残りのナッツを上に並べ、180℃に予熱したオーブンで25〜30分焼く。",
+      "中心のフィリングが固まり液体が流れないことを確認し、冷ましてから型を外す。"
+    ],
+    "tip": "ナッツが先に色づく場合はアルミ箔をかぶせ、底の生地まで焼く。",
+    "tags": ["パイ", "ナッツ", "黒糖"],
+    "equipment": ["ボウル", "9cmタルト型", "冷蔵庫", "オーブン", "アルミ箔"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#88512c", "#c5914a", "#ecc983", "#24624b"],
+      "garnish": [],
+      "motif": "pecan-pie",
+      "toppings": ["pecan", "caramel-filling"]
+    }
+  },
+  {
+    "id": "r-custard-egg-tarts",
+    "name": "エッグタルト",
+    "description": "薄いパイ生地に卵と牛乳のクリームを流して焼く。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 55,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "冷凍パイシート",
+        "amount": "45g"
+      },
+      {
+        "name": "卵黄",
+        "amount": "1個分"
+      },
+      {
+        "name": "牛乳",
+        "amount": "45ml"
+      },
+      {
+        "name": "生クリーム",
+        "amount": "15ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "15g"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "3g"
+      },
+      {
+        "name": "バニラエッセンス",
+        "amount": "1滴"
+      }
+    ],
+    "steps": [
+      "半解凍したパイシートを薄くのばし、直径6cmの耐熱タルト型2個に敷いて底に穴を開ける。",
+      "卵黄、砂糖、薄力粉を混ぜ、牛乳、生クリーム、バニラを加え、茶こしでこす。",
+      "型の八分目まで注ぎ、210℃に予熱したオーブンで20〜25分、パイが色づきクリームの中央が固まるまで焼く。",
+      "型のまま10分ほど置き、持てる温度になったら外して網で冷ます。"
+    ],
+    "tip": "卵液をこすと小さな塊が取れ、焼いたクリームの口当たりがそろう。",
+    "tags": ["タルト", "カスタード", "卵"],
+    "equipment": ["めん棒", "6cmタルト型", "ボウル", "茶こし", "オーブン", "網"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "golden-egg-tarts",
+      "toppings": ["custard", "pastry"]
+    }
+  },
+  {
+    "id": "r-crisp-palmiers",
+    "name": "パルミエ",
+    "description": "パイを両側から折り、砂糖の粒が光るハート形に焼く。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 45,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "冷凍パイシート",
+        "amount": "60g"
+      },
+      {
+        "name": "グラニュー糖",
+        "amount": "15g"
+      }
+    ],
+    "steps": [
+      "半解凍したパイシートを約15×20cmにのばし、グラニュー糖の半量を両面にまぶす。",
+      "長辺の左右を中央へ2回ずつ折り、さらに半分に合わせ、冷蔵庫で15分冷やす。",
+      "厚さ8mmに切って残りの砂糖を付け、間隔を空けて天板に並べ、200℃に予熱したオーブンで15〜18分、途中で返して両面を焼く。",
+      "焼けたら紙から離し、砂糖が熱いうちは触らず、網の上で冷ます。"
+    ],
+    "tip": "切った断面を上にして並べると、折り目が開いてハート形になりやすい。",
+    "tags": ["パイ", "砂糖", "焼菓子"],
+    "equipment": ["めん棒", "包丁", "冷蔵庫", "天板", "オーブンシート", "オーブン", "網"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "heart-palmiers",
+      "toppings": ["caramelized-pastry"]
+    }
+  },
+  {
+    "id": "r-custard-millefeuille",
+    "name": "ミルフィーユ",
+    "description": "平らに焼いたパイとカスタードを交互に重ねる。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 90,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "冷凍パイシート",
+        "amount": "50g"
+      },
+      {
+        "name": "卵黄",
+        "amount": "1個分"
+      },
+      {
+        "name": "砂糖",
+        "amount": "15g"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "6g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "70ml"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "3g"
+      },
+      {
+        "name": "粉砂糖",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "パイシートを約8×18cmにのばして穴を開け、紙と耐熱の天板で挟み、200℃に予熱したオーブンで15分焼く。",
+      "上の天板を外して5分ほど焼き足し、きつね色になったら冷まして3等分する。",
+      "卵黄、砂糖、薄力粉に牛乳を混ぜ、小鍋で混ぜながら加熱し、沸いてから弱火で1分練り、バターを加えて薄く広げて冷ます。",
+      "冷めたパイとクリームを交互に重ね、冷蔵庫で20分落ち着かせ、粉砂糖を振る。"
+    ],
+    "tip": "焼くときに重しをすると層が均一になり、クリームを重ねても傾きにくい。",
+    "tags": ["パイ", "カスタード", "層"],
+    "equipment": [
+      "めん棒",
+      "天板2枚",
+      "オーブンシート",
+      "オーブン",
+      "小鍋",
+      "ボウル",
+      "冷蔵庫",
+      "包丁"
+    ],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "layered-millefeuille",
+      "toppings": ["pastry", "custard", "powdered-sugar"]
+    }
+  },
+  {
+    "id": "r-almond-galette-des-rois",
+    "name": "ガレットデロワ",
+    "description": "アーモンドクリームを丸いパイで包み、表面に模様を刻む。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 75,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "冷凍パイシート",
+        "amount": "65g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "12g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "12g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "15g（クリーム用）"
+      },
+      {
+        "name": "アーモンドパウダー",
+        "amount": "15g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "5g（表面用）"
+      }
+    ],
+    "steps": [
+      "柔らかいバターに砂糖、クリーム用卵、アーモンドパウダーを順に混ぜ、冷蔵庫で15分冷やす。",
+      "パイを厚さ2mmにのばし、直径11cmの円2枚を切り、1枚に縁1.5cmを残してクリームを広げる。",
+      "縁を水で湿らせてもう1枚をかぶせ、縁を閉じて表面用卵を塗り、浅い弧の模様と中央の蒸気穴を入れる。",
+      "200℃に予熱したオーブンで25〜30分焼き、底まで色づいたら網で冷ます。"
+    ],
+    "tip": "表面の模様は生地を切り抜かない深さにすると、クリームが漏れにくい。",
+    "tags": ["パイ", "アーモンド", "焼菓子"],
+    "equipment": ["ボウル", "冷蔵庫", "めん棒", "包丁", "刷毛", "オーブン", "オーブンシート", "網"],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "scored-round-almond-galette",
+      "toppings": ["pastry", "almond-cream"]
+    }
+  },
+  {
+    "id": "r-chocolate-chip-cookies",
+    "name": "チョコチップクッキー",
+    "description": "バター生地にチョコを混ぜ、縁を香ばしく焼く。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 40,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "35g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "20g"
+      },
+      {
+        "name": "きび砂糖",
+        "amount": "15g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "10g"
+      },
+      {
+        "name": "チョコチップ",
+        "amount": "15g"
+      },
+      {
+        "name": "ベーキングパウダー",
+        "amount": "0.5g"
+      }
+    ],
+    "steps": [
+      "柔らかいバターと砂糖を混ぜ、卵を加え、薄力粉とベーキングパウダーを混ぜ合わせる。",
+      "チョコチップを加え、生地を4等分して天板に落とし、厚さ8mm程度に平たくする。",
+      "170℃に予熱したオーブンで13〜16分、縁がきつね色になるまで焼き、天板で5分置いてから網へ移す。"
+    ],
+    "tip": "焼いている間に広がるので、生地同士の間隔を4cmほど空ける。",
+    "tags": ["クッキー", "チョコレート", "バター"],
+    "equipment": ["ボウル", "へら", "天板", "オーブンシート", "オーブン", "網"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "chocolate-chip-cookies",
+      "toppings": ["chocolate-chip", "cookie"]
+    }
+  },
+  {
+    "id": "r-butter-shortbread",
+    "name": "ショートブレッド",
+    "description": "卵を使わず、バターと粉でほろりと崩れる厚焼きの菓子。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 70,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "35g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "20g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "10g"
+      },
+      {
+        "name": "塩",
+        "amount": "ひとつまみ"
+      }
+    ],
+    "steps": [
+      "柔らかいバターに砂糖と塩を混ぜ、薄力粉を加えてへらで押すようにまとめる。",
+      "厚さ1cmの長方形にのばし、冷蔵庫で20分休ませ、4本に切ってフォークで穴を開ける。",
+      "160℃に予熱したオーブンで23〜28分、縁がうっすら色づくまで焼き、天板の上で冷ます。"
+    ],
+    "tip": "生地を長くこねず、粉がまとまった時点で止めると軽い口当たりになる。",
+    "tags": ["クッキー", "バター", "厚焼き"],
+    "equipment": [
+      "ボウル",
+      "へら",
+      "めん棒",
+      "冷蔵庫",
+      "包丁",
+      "フォーク",
+      "オーブン",
+      "オーブンシート"
+    ],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "shortbread-fingers",
+      "toppings": ["butter-biscuit"]
+    }
+  },
+  {
+    "id": "r-almond-snowball-cookies",
+    "name": "スノーボール",
+    "description": "丸く焼いたアーモンドのクッキーを、粉砂糖で白く包む。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 60,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "30g"
+      },
+      {
+        "name": "アーモンドパウダー",
+        "amount": "10g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "20g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "10g"
+      },
+      {
+        "name": "粉砂糖",
+        "amount": "8g"
+      }
+    ],
+    "steps": [
+      "柔らかいバターと砂糖を混ぜ、薄力粉とアーモンドパウダーを加え、粉気がなくなるまでまとめる。",
+      "生地を6等分して丸め、紙を敷いた天板に並べ、160℃に予熱したオーブンで20〜23分焼く。",
+      "底が薄く色づいたら網で完全に冷まし、袋に粉砂糖と一緒に入れて優しく転がす。"
+    ],
+    "tip": "熱いまま粉砂糖をまぶすと溶けるので、中まで冷えてから仕上げる。",
+    "tags": ["クッキー", "アーモンド", "粉砂糖"],
+    "equipment": ["ボウル", "天板", "オーブンシート", "オーブン", "網", "食品用袋"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#f4e7d0", "#d9b776", "#fff5de", "#275bbb"],
+      "garnish": [],
+      "motif": "white-snowball-cookies",
+      "toppings": ["powdered-sugar", "almond-cookie"]
+    }
+  },
+  {
+    "id": "r-almond-biscotti",
+    "name": "ビスコッティ",
+    "description": "塊で焼いた生地を切り、もう一度乾かすように焼く。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 75,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "50g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "20g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "25g"
+      },
+      {
+        "name": "ベーキングパウダー",
+        "amount": "1g"
+      },
+      {
+        "name": "アーモンド",
+        "amount": "15g"
+      }
+    ],
+    "steps": [
+      "卵と砂糖を混ぜ、薄力粉とベーキングパウダー、粗く刻んだアーモンドを加える。",
+      "紙の上で幅5cm、厚さ2cmの棒状に整え、170℃に予熱したオーブンで20分焼く。",
+      "10分冷ましてから厚さ1cmに切り、断面を上にして150℃で10分、返してさらに10分焼く。",
+      "中心まで乾いたら網に移し、十分に冷まして歯触りを落ち着かせる。"
+    ],
+    "tip": "最初の焼き上がりは割れやすいので、少し冷ましてから波刃の包丁で切る。",
+    "tags": ["焼菓子", "アーモンド", "二度焼き"],
+    "equipment": ["ボウル", "包丁", "まな板", "オーブン", "オーブンシート", "網"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "sliced-almond-biscotti",
+      "toppings": ["almond", "biscuit"]
+    }
+  },
+  {
+    "id": "r-langue-de-chat",
+    "name": "ラングドシャ",
+    "description": "卵白入りの生地を細長く絞り、薄く軽く焼く。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 45,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "無塩バター",
+        "amount": "15g"
+      },
+      {
+        "name": "粉砂糖",
+        "amount": "15g"
+      },
+      {
+        "name": "卵白",
+        "amount": "15g"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "15g"
+      },
+      {
+        "name": "バニラエッセンス",
+        "amount": "1滴"
+      }
+    ],
+    "steps": [
+      "柔らかいバターに粉砂糖を混ぜ、卵白を少しずつ加え、薄力粉とバニラを混ぜる。",
+      "丸口金を付けた袋に入れ、紙を敷いた天板へ長さ5cmの棒を間隔を空けて8本絞る。",
+      "170℃に予熱したオーブンで8〜11分、周囲がきつね色になるまで焼き、紙の上で冷ます。"
+    ],
+    "tip": "卵白を室温に戻しておくと、バターと分離せず混ぜやすくなる。",
+    "tags": ["クッキー", "卵白", "薄焼き"],
+    "equipment": ["ボウル", "絞り袋", "丸口金", "オーブン", "オーブンシート"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "thin-langue-de-chat",
+      "toppings": ["thin-butter-cookie"]
+    }
+  },
+  {
+    "id": "r-almond-florentines",
+    "name": "フロランタン",
+    "description": "クッキーの上に、カラメルでまとめた薄切りアーモンドを焼き付ける。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 80,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "25g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "12g（生地用）"
+      },
+      {
+        "name": "砂糖",
+        "amount": "8g（生地用）"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "5g"
+      },
+      {
+        "name": "アーモンドスライス",
+        "amount": "20g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "10g（上掛け用）"
+      },
+      {
+        "name": "はちみつ",
+        "amount": "5g"
+      },
+      {
+        "name": "生クリーム",
+        "amount": "10ml"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "5g（上掛け用）"
+      }
+    ],
+    "steps": [
+      "生地用バターと砂糖に卵、薄力粉を順に混ぜ、冷蔵庫で15分休ませ、約8×10cm、厚さ5mmにのばす。",
+      "底にフォークで穴を開け、170℃に予熱したオーブンで12〜15分、薄く色づくまで焼く。",
+      "小鍋に上掛け用砂糖、はちみつ、生クリーム、上掛け用バターを入れて1分煮立て、アーモンドを混ぜて生地に広げる。",
+      "170℃のオーブンで12〜15分焼き足し、全体が茶色く色づいたら冷まし、少し温かいうちに裏側から切る。"
+    ],
+    "tip": "完全に冷める前に切ると、硬いアーモンド層が大きく割れにくい。",
+    "tags": ["焼菓子", "アーモンド", "カラメル"],
+    "equipment": [
+      "ボウル",
+      "冷蔵庫",
+      "めん棒",
+      "フォーク",
+      "小鍋",
+      "オーブン",
+      "オーブンシート",
+      "包丁"
+    ],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "almond-florentine-squares",
+      "toppings": ["almond-slices", "caramel"]
+    }
+  },
+  {
+    "id": "r-chocolate-ganache-macarons",
+    "name": "マカロン",
+    "description": "アーモンドのメレンゲ生地を焼き、チョコクリームで挟む。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 150,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "卵白",
+        "amount": "10g"
+      },
+      {
+        "name": "グラニュー糖",
+        "amount": "10g"
+      },
+      {
+        "name": "アーモンドパウダー",
+        "amount": "13g"
+      },
+      {
+        "name": "粉砂糖",
+        "amount": "13g"
+      },
+      {
+        "name": "チョコレート",
+        "amount": "15g"
+      },
+      {
+        "name": "生クリーム",
+        "amount": "10ml"
+      }
+    ],
+    "steps": [
+      "アーモンドパウダーと粉砂糖を合わせてふるい、別の小さなボウルで卵白にグラニュー糖を加えて固いメレンゲを作る。",
+      "粉類を混ぜ、へらで軽く押して生地が帯状に流れる固さへ整え、紙に直径3cmの円を6枚絞る。",
+      "表面を軽く触って指に付かなくなるまで30〜60分乾かし、150℃に予熱したオーブンで13〜16分焼いて完全に冷ます。",
+      "温めた生クリームに刻んだチョコを混ぜて溶かし、絞れる固さに冷まして生地2枚ずつで挟み、冷蔵庫で30分なじませる。"
+    ],
+    "tip": "粉を合わせてから混ぜすぎると広がりすぎるため、少しずつ固さを確認する。",
+    "tags": ["マカロン", "アーモンド", "メレンゲ"],
+    "equipment": [
+      "小さなボウル",
+      "ハンドミキサー",
+      "ふるい",
+      "絞り袋",
+      "オーブンシート",
+      "オーブン",
+      "小鍋",
+      "冷蔵庫"
+    ],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "sandwiched-macarons",
+      "toppings": ["almond-shell", "chocolate-ganache"]
+    }
+  },
+  {
+    "id": "r-ginger-snap-biscuits",
+    "name": "ジンジャービスケット",
+    "description": "しょうがと黒糖を練り込み、薄くのばして焼く。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 65,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "40g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "15g"
+      },
+      {
+        "name": "黒糖",
+        "amount": "15g"
+      },
+      {
+        "name": "はちみつ",
+        "amount": "5g"
+      },
+      {
+        "name": "すりおろししょうが",
+        "amount": "3g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "ベーキングパウダー",
+        "amount": "0.5g"
+      },
+      {
+        "name": "シナモン",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "柔らかいバターに黒糖、はちみつ、しょうが、牛乳を混ぜ、薄力粉、ベーキングパウダー、シナモンを加える。",
+      "生地をまとめて冷蔵庫で20分冷やし、厚さ3mmにのばして抜き型で6枚ほど抜く。",
+      "170℃に予熱したオーブンで12〜15分焼き、縁が色づいたら紙の上で冷ます。"
+    ],
+    "tip": "生地がくっつくときは粉を増やす前に冷やすと、硬くなりすぎない。",
+    "tags": ["クッキー", "しょうが", "黒糖"],
+    "equipment": ["ボウル", "冷蔵庫", "めん棒", "抜き型", "オーブン", "オーブンシート"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "ginger-biscuits",
+      "toppings": ["ginger-cookie"]
+    }
+  },
+  {
+    "id": "r-crisp-meringue-kisses",
+    "name": "メレンゲクッキー",
+    "description": "小さく絞った卵白の泡を、低い温度で乾かすように焼く。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 110,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "卵白",
+        "amount": "15g"
+      },
+      {
+        "name": "グラニュー糖",
+        "amount": "30g"
+      },
+      {
+        "name": "レモン汁",
+        "amount": "2滴"
+      }
+    ],
+    "steps": [
+      "油分のないボウルで卵白とレモン汁を泡立て、砂糖を3回に分けて加え、つやのある固いメレンゲを作る。",
+      "星口金の袋へ入れ、紙を敷いた天板に直径2cmほどの山を8〜10個絞る。",
+      "100℃に予熱したオーブンで60〜70分焼き、1個割って中心まで乾いていれば火を止め、扉を少し開けて20分冷ます。"
+    ],
+    "tip": "冷めたらすぐ密閉容器へ入れると、湿気で表面がべたつくのを抑えられる。",
+    "tags": ["メレンゲ", "卵白", "焼菓子"],
+    "equipment": [
+      "ボウル",
+      "ハンドミキサー",
+      "星口金",
+      "絞り袋",
+      "オーブンシート",
+      "オーブン",
+      "密閉容器"
+    ],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#fff5de", "#e6d4b3", "#f2e6d0", "#275bbb"],
+      "garnish": [],
+      "motif": "meringue-kisses",
+      "toppings": ["white-meringue"]
+    }
+  },
+  {
+    "id": "r-folded-fortune-cookies",
+    "name": "フォーチュンクッキー",
+    "description": "薄い丸いクッキーを温かいうちに折り、独特の形を作る。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 45,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "卵白",
+        "amount": "15g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "15g"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "15g"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "5ml"
+      },
+      {
+        "name": "水",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "バニラエッセンス",
+        "amount": "1滴"
+      }
+    ],
+    "steps": [
+      "卵白を軽くほぐして砂糖、油、水、バニラを混ぜ、薄力粉を加えて滑らかにする。",
+      "紙を敷いた天板へ生地を直径8cmに薄く2枚広げ、170℃に予熱したオーブンで7〜9分、縁が茶色くなるまで焼く。",
+      "熱いうちにへらで剥がし、トングで半分に折り、カップの縁に中央を当てて両端を曲げる。",
+      "小さなカップに入れて冷まし、残りの生地も同じように2枚ずつ焼いて成形する。"
+    ],
+    "tip": "焼く枚数を絞ると、先に冷えて固くなる前に折り曲げられる。",
+    "tags": ["クッキー", "薄焼き", "成形"],
+    "equipment": ["ボウル", "オーブン", "オーブンシート", "へら", "トング", "小さなカップ"],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "folded-fortune-cookies",
+      "toppings": ["folded-cookie"]
+    }
+  },
+  {
+    "id": "r-cream-panna-cotta",
+    "name": "パンナコッタ",
+    "description": "生クリームの香りをゼラチンで柔らかく固める。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 195,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "生クリーム",
+        "amount": "70ml"
+      },
+      {
+        "name": "牛乳",
+        "amount": "50ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "12g"
+      },
+      {
+        "name": "粉ゼラチン",
+        "amount": "2g"
+      },
+      {
+        "name": "水",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "バニラエッセンス",
+        "amount": "1滴"
+      },
+      {
+        "name": "ラズベリージャム",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "粉ゼラチンを分量の水に振り入れ、5分ふやかす。小鍋に生クリーム、牛乳、砂糖を入れて温める。",
+      "砂糖が溶け、湯気が出たら火を止め、ふやかしたゼラチンとバニラを混ぜて完全に溶かす。",
+      "容量180mlの器に注いで粗熱を取り、冷蔵庫で3時間冷やし、固まったらジャムをのせる。"
+    ],
+    "tip": "ゼラチンを加えた後は沸騰させず、粒が残っていないか確認して注ぐ。",
+    "tags": ["冷菓", "生クリーム", "ゼラチン"],
+    "equipment": ["小鍋", "ボウル", "180ml器", "冷蔵庫"],
+    "reward": 20,
+    "art": {
+      "vessel": "glass",
+      "base": "cake",
+      "colors": ["#fff1dc", "#f3dda9", "#df442d", "#24624b"],
+      "garnish": [],
+      "motif": "panna-cotta-cup",
+      "toppings": ["cream-pudding", "raspberry-jam"]
+    }
+  },
+  {
+    "id": "r-mango-pudding-cup",
+    "name": "マンゴープリン",
+    "description": "マンゴーピューレを牛乳と合わせ、果実の色をそのまま固める。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 195,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "マンゴー",
+        "amount": "90g（冷凍なら解凍する）"
+      },
+      {
+        "name": "牛乳",
+        "amount": "40ml"
+      },
+      {
+        "name": "生クリーム",
+        "amount": "20ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "8g"
+      },
+      {
+        "name": "粉ゼラチン",
+        "amount": "2g"
+      },
+      {
+        "name": "水",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "マンゴーのうち70gをつぶしてピューレにし、残りを角切りにする。ゼラチンを水で5分ふやかす。",
+      "牛乳と砂糖を小鍋で温め、火を止めてゼラチンを溶かし、マンゴーピューレと生クリームを混ぜる。",
+      "器に注ぎ、粗熱が取れたら冷蔵庫で3時間冷やし、固まった表面に角切りマンゴーを飾る。"
+    ],
+    "tip": "ピューレが冷たすぎるとゼラチンが塊になるので、加える前に冷たさを取る。",
+    "tags": ["冷菓", "マンゴー", "プリン"],
+    "equipment": ["ボウル", "フォーク", "小鍋", "器", "冷蔵庫"],
+    "reward": 20,
+    "art": {
+      "vessel": "glass",
+      "base": "cake",
+      "colors": ["#f0b631", "#eecd76", "#df442d", "#24624b"],
+      "garnish": [],
+      "motif": "mango-pudding-cup",
+      "toppings": ["mango-cubes"]
+    }
+  },
+  {
+    "id": "r-eggless-cup-tiramisu",
+    "name": "ティラミス",
+    "description": "コーヒーを染み込ませたビスケットとチーズクリームを重ねる。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 145,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "マスカルポーネ",
+        "amount": "50g"
+      },
+      {
+        "name": "生クリーム",
+        "amount": "30ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "10g"
+      },
+      {
+        "name": "フィンガービスケット",
+        "amount": "20g"
+      },
+      {
+        "name": "濃いコーヒー",
+        "amount": "30ml"
+      },
+      {
+        "name": "純ココア",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "コーヒーをいれて冷まし、マスカルポーネはへらで滑らかにしておく。",
+      "生クリームに砂糖を加えて角が立つまで泡立て、マスカルポーネと均一に混ぜる。",
+      "器にビスケットを敷いてコーヒーを染み込ませ、クリームと交互に2段重ね、冷蔵庫で2時間冷やす。",
+      "食べる直前に茶こしでココアを振り、表面を薄く覆う。"
+    ],
+    "tip": "ビスケットを長く浸すと崩れるので、コーヒーはスプーンで少しずつ染み込ませる。",
+    "tags": ["冷菓", "チーズ", "コーヒー"],
+    "equipment": ["ボウル", "泡立て器", "器", "冷蔵庫", "茶こし"],
+    "reward": 40,
+    "art": {
+      "vessel": "glass",
+      "base": "cake",
+      "colors": ["#f5e9d1", "#774329", "#a06a45", "#275bbb"],
+      "garnish": [],
+      "motif": "layered-tiramisu-cup",
+      "toppings": ["mascarpone", "cocoa", "coffee-biscuit"]
+    }
+  },
+  {
+    "id": "r-airy-chocolate-mousse",
+    "name": "チョコレートムース",
+    "description": "溶かしたチョコに泡立てたクリームを合わせて冷やす。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 145,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ビターチョコレート",
+        "amount": "30g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "20ml"
+      },
+      {
+        "name": "生クリーム",
+        "amount": "50ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "5g"
+      },
+      {
+        "name": "チョコレート",
+        "amount": "少量（飾り用）"
+      }
+    ],
+    "steps": [
+      "チョコレートを刻み、温めた牛乳を注いで溶かし、人肌程度まで冷ます。",
+      "別のボウルで生クリームと砂糖を、泡立て器の跡が残る柔らかさまで泡立てる。",
+      "チョコレートにクリームの1/3を混ぜ、残りも泡をつぶさずに合わせ、器に入れて冷蔵庫で2時間冷やす。",
+      "十分に冷えて固まったら、飾り用のチョコレートを削って表面にのせる。"
+    ],
+    "tip": "チョコレートが冷えすぎて固まり始める前に、クリームを合わせる。",
+    "tags": ["ムース", "チョコレート", "冷菓"],
+    "equipment": ["ボウル2個", "小鍋", "泡立て器", "へら", "器", "冷蔵庫"],
+    "reward": 40,
+    "art": {
+      "vessel": "glass",
+      "base": "cake",
+      "colors": ["#71452d", "#a37556", "#d7ae81", "#275bbb"],
+      "garnish": [],
+      "motif": "chocolate-mousse-cup",
+      "toppings": ["chocolate-shavings"]
+    }
+  },
+  {
+    "id": "r-caramel-creme-brulee",
+    "name": "クレームブリュレ",
+    "description": "ゆっくり焼いたクリームの表面に、薄いカラメルの殻を作る。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 215,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "卵黄",
+        "amount": "1個分"
+      },
+      {
+        "name": "生クリーム",
+        "amount": "70ml"
+      },
+      {
+        "name": "牛乳",
+        "amount": "20ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "12g"
+      },
+      {
+        "name": "バニラエッセンス",
+        "amount": "1滴"
+      },
+      {
+        "name": "グラニュー糖",
+        "amount": "小さじ2（表面用）"
+      }
+    ],
+    "steps": [
+      "生クリームと牛乳を沸騰直前まで温め、卵黄と砂糖を混ぜたボウルへ少しずつ加え、バニラを入れてこす。",
+      "容量150mlの浅い耐熱器に注ぎ、天板に器の半分の高さまで湯を張り、150℃に予熱したオーブンで30〜40分焼く。",
+      "中央の液体が流れない状態まで火を通し、粗熱が取れたら冷蔵庫で2時間冷やす。",
+      "表面にグラニュー糖を薄く広げ、耐熱器ごと耐熱台に置き、調理用バーナーを動かしながら茶色く焦がす。"
+    ],
+    "tip": "表面の水分を紙でそっと取ってから砂糖を振ると、薄い殻になりやすい。",
+    "tags": ["カスタード", "カラメル", "冷菓"],
+    "equipment": [
+      "小鍋",
+      "ボウル",
+      "こし器",
+      "浅い耐熱器",
+      "深い天板",
+      "オーブン",
+      "冷蔵庫",
+      "調理用バーナー",
+      "耐熱台"
+    ],
+    "reward": 70,
+    "art": {
+      "vessel": "deep-plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "caramel-crusted-creme-brulee",
+      "toppings": ["caramel-crust", "custard"]
+    }
+  },
+  {
+    "id": "r-lemon-granita",
+    "name": "レモングラニータ",
+    "description": "レモンのシロップを凍らせ、フォークで細かな氷にする。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 195,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "レモン汁",
+        "amount": "30ml"
+      },
+      {
+        "name": "水",
+        "amount": "100ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "25g"
+      },
+      {
+        "name": "レモンの皮",
+        "amount": "すりおろし少々"
+      }
+    ],
+    "steps": [
+      "小鍋で水と砂糖を温めて溶かし、冷ましてからレモン汁と洗った皮を加える。",
+      "浅い金属容器に流して冷凍庫へ入れ、45分ほどで縁が凍り始めたらフォークで崩す。",
+      "以後30分おきに全体をかき混ぜ、2〜3時間で細かな氷状になったら、冷やした器に盛る。"
+    ],
+    "tip": "縁から凍った部分を中央へ混ぜ込むと、大きな氷の塊ができにくい。",
+    "tags": ["氷菓", "レモン", "冷凍"],
+    "equipment": ["小鍋", "浅い金属容器", "冷凍庫", "フォーク", "器"],
+    "reward": 20,
+    "art": {
+      "vessel": "glass",
+      "base": "cake",
+      "colors": ["#f3e5ac", "#fff5de", "#e9c34b", "#24624b"],
+      "garnish": [],
+      "motif": "lemon-granita",
+      "toppings": ["lemon-ice", "lemon-zest"]
+    }
+  },
+  {
+    "id": "r-vanilla-milk-icecream",
+    "name": "バニラアイスクリーム",
+    "description": "牛乳とクリームを混ぜ、凍らせながら空気を含ませる。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 280,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "牛乳",
+        "amount": "70ml"
+      },
+      {
+        "name": "生クリーム",
+        "amount": "50ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "18g"
+      },
+      {
+        "name": "バニラエッセンス",
+        "amount": "1滴"
+      },
+      {
+        "name": "片栗粉",
+        "amount": "小さじ1/2"
+      }
+    ],
+    "steps": [
+      "牛乳、砂糖、片栗粉を小鍋で混ぜ、中火にかけて混ぜながら沸かし、とろみが付いてから弱火で1分煮る。",
+      "鍋底を冷水に当てて冷まし、生クリームとバニラを混ぜ、浅い冷凍対応容器に入れる。",
+      "冷凍庫に1時間置き、縁が固まったら泡立て器でよく混ぜ、以後40分ごとに3回かき混ぜる。",
+      "全体が固まるまでさらに冷やし、すくえる柔らかさになってから器に盛る。"
+    ],
+    "tip": "容器の縁に固まった部分も削り混ぜると、口に残る氷の粒が小さくなる。",
+    "tags": ["アイスクリーム", "牛乳", "バニラ"],
+    "equipment": ["小鍋", "へら", "ボウル", "浅い冷凍対応容器", "泡立て器", "冷凍庫"],
+    "reward": 40,
+    "art": {
+      "vessel": "bowl",
+      "base": "cake",
+      "colors": ["#f1ddb0", "#fff1dc", "#d4b176", "#275bbb"],
+      "garnish": [],
+      "motif": "vanilla-icecream-scoops",
+      "toppings": ["vanilla-icecream"]
+    }
+  },
+  {
+    "id": "r-cinnamon-rice-pudding",
+    "name": "ライスプディング",
+    "description": "米を牛乳でゆっくり煮て、粒の残る甘いデザートにする。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 55,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "米",
+        "amount": "25g"
+      },
+      {
+        "name": "水",
+        "amount": "80ml"
+      },
+      {
+        "name": "牛乳",
+        "amount": "150ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "15g"
+      },
+      {
+        "name": "塩",
+        "amount": "ひとつまみ"
+      },
+      {
+        "name": "シナモン",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "米を軽く洗って小鍋に入れ、水を加えて沸騰させ、弱火で10分煮る。",
+      "牛乳を加え、底を時々混ぜながら弱火で20〜25分、米の芯がなくなるまで煮る。",
+      "砂糖と塩を加えて2分煮て、少しとろりとした状態で火を止め、器に盛ってシナモンを振る。"
+    ],
+    "tip": "冷めると米が水分を吸うため、温かいうちはややゆるめに仕上げる。",
+    "tags": ["米", "牛乳", "デザート"],
+    "equipment": ["ざる", "小鍋", "へら", "器"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "rice",
+      "colors": ["#f5e6c6", "#d2ac76", "#774329", "#275bbb"],
+      "garnish": [],
+      "motif": "rice-pudding",
+      "toppings": ["milk-rice", "cinnamon"]
+    }
+  },
+  {
+    "id": "r-coconut-tapioca-dessert",
+    "name": "タピオカココナッツミルク",
+    "description": "小粒のタピオカをゆで、冷たいココナッツミルクに浮かべる。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 105,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "乾燥小粒タピオカ",
+        "amount": "20g"
+      },
+      {
+        "name": "ココナッツミルク",
+        "amount": "80ml"
+      },
+      {
+        "name": "牛乳",
+        "amount": "50ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "15g"
+      },
+      {
+        "name": "バナナ",
+        "amount": "1/3本"
+      },
+      {
+        "name": "水",
+        "amount": "500ml（ゆで用）"
+      }
+    ],
+    "steps": [
+      "鍋に水を沸かし、タピオカを入れて製品の表示どおりにゆで、中心の白い芯がなくなったらざるで水を切る。",
+      "小鍋でココナッツミルク、牛乳、砂糖を温め、砂糖が溶けたら火を止めて粗熱を取る。",
+      "タピオカをミルクへ加え、冷蔵庫で1時間冷やして器に注ぎ、輪切りのバナナを添える。"
+    ],
+    "tip": "ゆで上がったタピオカは乾く前にミルクへ移すと、粒同士が付着しにくい。",
+    "tags": ["タピオカ", "ココナッツ", "冷菓"],
+    "equipment": ["鍋", "小鍋", "ざる", "包丁", "まな板", "器", "冷蔵庫"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#fff1dc", "#e7d19e", "#d5ac65", "#24624b"],
+      "garnish": [],
+      "motif": "tapioca-coconut-bowl",
+      "toppings": ["tapioca-pearls", "banana"]
+    }
+  },
+  {
+    "id": "r-poached-pear-dessert",
+    "name": "洋梨のコンポート",
+    "description": "洋梨をレモンのシロップで静かに煮て、冷たく供する。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 150,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "洋梨",
+        "amount": "1/2個（100g）"
+      },
+      {
+        "name": "水",
+        "amount": "120ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "25g"
+      },
+      {
+        "name": "レモン汁",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "シナモンスティック",
+        "amount": "小片1本"
+      },
+      {
+        "name": "無糖ヨーグルト",
+        "amount": "大さじ2"
+      }
+    ],
+    "steps": [
+      "洋梨の皮をむき、芯をくり抜く。小鍋に水、砂糖、レモン汁、シナモンを入れて沸かす。",
+      "洋梨を入れて落としぶたをし、弱火で15〜20分、竹串がすっと通るまで煮る。",
+      "シロップに浸したまま粗熱を取り、冷蔵庫で1時間以上冷やし、ヨーグルトを敷いた皿に盛る。"
+    ],
+    "tip": "煮汁が少ない場合は途中で洋梨を返し、表面全体をシロップに触れさせる。",
+    "tags": ["洋梨", "果物", "コンポート"],
+    "equipment": ["包丁", "まな板", "小鍋", "落としぶた", "竹串", "冷蔵庫"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#ebcc82", "#fff1dc", "#9b6738", "#24624b"],
+      "garnish": [],
+      "motif": "poached-pear-half",
+      "toppings": ["pear", "yogurt", "cinnamon"]
+    }
+  },
+  {
+    "id": "r-azuki-daifuku",
+    "name": "大福",
+    "description": "加熱した白玉生地でこしあんを包む、柔らかな餅菓子。",
+    "category": "snack",
+    "cuisine": "和菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "白玉粉",
+        "amount": "30g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "10g"
+      },
+      {
+        "name": "水",
+        "amount": "45ml"
+      },
+      {
+        "name": "こしあん",
+        "amount": "40g"
+      },
+      {
+        "name": "片栗粉",
+        "amount": "大さじ1（打ち粉用）"
+      }
+    ],
+    "steps": [
+      "こしあんを2等分して丸め、耐熱ボウルで白玉粉に水を少しずつ加えて粒をつぶし、砂糖を混ぜる。",
+      "ふんわりラップをして600Wで1分加熱し、へらで混ぜ、さらに30秒ずつ加熱して全体が半透明で粘る生地にする。",
+      "片栗粉を広げたバットへ生地を移し、触れる温度まで冷まして2等分し、円形にのばす。",
+      "中央にあんを置き、縁を伸ばして包み、閉じ目を下にして余分な粉を払う。"
+    ],
+    "tip": "餅生地は熱を持つため、取り出すときはへらを使い、手で触る前に冷ます。",
+    "tags": ["和菓子", "あんこ", "白玉粉"],
+    "equipment": ["耐熱ボウル", "ラップ", "電子レンジ", "へら", "バット"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#fff1dc", "#e7d5af", "#774329", "#df442d"],
+      "garnish": [],
+      "motif": "round-daifuku-mochi",
+      "toppings": ["white-mochi", "azuki"]
+    }
+  },
+  {
+    "id": "r-kanto-sakura-mochi",
+    "name": "桜餅",
+    "description": "薄く焼いた桜色の皮であんを巻き、桜葉を添える。",
+    "category": "snack",
+    "cuisine": "和菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 40,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "20g"
+      },
+      {
+        "name": "白玉粉",
+        "amount": "5g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "8g"
+      },
+      {
+        "name": "水",
+        "amount": "40ml"
+      },
+      {
+        "name": "食用色素（赤）",
+        "amount": "ごく少量"
+      },
+      {
+        "name": "こしあん",
+        "amount": "35g"
+      },
+      {
+        "name": "桜葉の塩漬け",
+        "amount": "2枚"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "少量"
+      }
+    ],
+    "steps": [
+      "桜葉を水に10分浸して塩抜きし、水気を拭く。白玉粉を水で溶き、砂糖、薄力粉、色素を混ぜる。",
+      "生地を10分休ませ、薄く油を塗ったフライパンへ2等分して楕円に流す。",
+      "弱火で表面が乾くまで2分ほど焼き、返して30秒ほど焼き、生の生地が残らないよう火を通す。",
+      "皮を冷まして半量ずつのあんを巻き、桜葉で包む。"
+    ],
+    "tip": "葉の塩気を少し残すと、あんの甘さと桜の香りがまとまる。",
+    "tags": ["和菓子", "桜", "あんこ"],
+    "equipment": ["ボウル", "フライパン", "へら"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#d99b99", "#e8b8a7", "#775535", "#24624b"],
+      "garnish": [],
+      "motif": "folded-sakura-mochi",
+      "toppings": ["pink-mochi", "salted-sakura-leaf"]
+    }
+  },
+  {
+    "id": "r-kinako-warabi-mochi",
+    "name": "わらび餅",
+    "description": "わらび餅粉を練り上げ、冷ましてからきなこをまぶす。",
+    "category": "snack",
+    "cuisine": "和菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 60,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "わらび餅粉",
+        "amount": "20g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "10g"
+      },
+      {
+        "name": "水",
+        "amount": "100ml"
+      },
+      {
+        "name": "きなこ",
+        "amount": "8g"
+      },
+      {
+        "name": "黒みつ",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "鍋にわらび餅粉、砂糖、水を入れ、粉の塊がなくなるまでよく混ぜる。",
+      "中火にかけて底から混ぜ、固まり始めたら弱火にして、全体が透き通り強い粘りが出るまで2〜3分練る。",
+      "水でぬらしたバットへ移して平らにし、粗熱を取って20〜30分冷ます。",
+      "ぬらした包丁で一口大に切り、きなこをまぶして皿に盛り、黒みつをかける。"
+    ],
+    "tip": "白く濁った部分が残らないよう、火を弱めてからも鍋底を返して練る。",
+    "tags": ["和菓子", "きなこ", "黒みつ"],
+    "equipment": ["鍋", "へら", "バット", "包丁"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#ba985b", "#dcc78f", "#75472a", "#24624b"],
+      "garnish": [],
+      "motif": "warabi-mochi-cubes",
+      "toppings": ["kinako", "black-syrup"]
+    }
+  },
+  {
+    "id": "r-fruit-anmitsu",
+    "name": "あんみつ",
+    "description": "角切り寒天にあんと果物を盛り、黒みつをかける。",
+    "category": "snack",
+    "cuisine": "和菓子",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 90,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "粉寒天",
+        "amount": "0.8g"
+      },
+      {
+        "name": "水",
+        "amount": "100ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "5g"
+      },
+      {
+        "name": "こしあん",
+        "amount": "25g"
+      },
+      {
+        "name": "ゆで赤えんどう",
+        "amount": "10g"
+      },
+      {
+        "name": "みかん缶",
+        "amount": "20g"
+      },
+      {
+        "name": "黄桃缶",
+        "amount": "20g"
+      },
+      {
+        "name": "黒みつ",
+        "amount": "大さじ1"
+      }
+    ],
+    "steps": [
+      "小鍋に水と粉寒天を入れて混ぜ、沸騰させて弱火で2分煮てから砂糖を溶かす。",
+      "浅い容器へ流し、粗熱を取って冷蔵庫で1時間冷やし、固まったら1cm角に切る。",
+      "黄桃を食べやすく切り、器へ寒天、赤えんどう、みかん、黄桃、あんを盛り、黒みつを別添えにする。"
+    ],
+    "tip": "寒天は常温でも固まるが、冷やしてから切ると断面がきれいにそろう。",
+    "tags": ["和菓子", "寒天", "果物"],
+    "equipment": ["小鍋", "浅い容器", "冷蔵庫", "包丁", "まな板", "器"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "cake",
+      "colors": ["#e7d6ad", "#774329", "#e9ac25", "#df442d"],
+      "garnish": [],
+      "motif": "anmitsu-bowl",
+      "toppings": ["agar-cubes", "azuki", "mandarin", "peach"]
+    }
+  },
+  {
+    "id": "r-azuki-ohagi",
+    "name": "おはぎ",
+    "description": "もち米を粒が残る程度につぶし、あんで包む。",
+    "category": "snack",
+    "cuisine": "和菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 85,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "もち米",
+        "amount": "30g"
+      },
+      {
+        "name": "米",
+        "amount": "10g"
+      },
+      {
+        "name": "水",
+        "amount": "65ml"
+      },
+      {
+        "name": "塩",
+        "amount": "ひとつまみ"
+      },
+      {
+        "name": "粒あん",
+        "amount": "50g"
+      }
+    ],
+    "steps": [
+      "もち米と米を合わせて洗い、小さな厚手の鍋に水と入れて30分浸す。",
+      "ふたをして中火で沸かし、弱火で12分炊き、火を止めて10分蒸らす。",
+      "塩を加え、熱いうちにぬらしたすりこぎで米粒が半分ほど残るまでつぶし、触れる温度まで冷まして2等分する。",
+      "ラップに半量のあんを広げ、丸めた米を中央に置いて包み、残りも同様に作る。"
+    ],
+    "tip": "完全につぶさず米粒を残すと、餅とあんの間に歯触りの違いが出る。",
+    "tags": ["和菓子", "もち米", "あんこ"],
+    "equipment": ["ざる", "ふた付き小鍋", "すりこぎ", "ラップ"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "azuki-coated-ohagi",
+      "toppings": ["azuki", "rice"]
+    }
+  },
+  {
+    "id": "r-honey-castella",
+    "name": "カステラ",
+    "description": "卵を泡立てた生地に、はちみつを加えてしっとり焼く。",
+    "category": "snack",
+    "cuisine": "和菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 115,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "砂糖",
+        "amount": "25g"
+      },
+      {
+        "name": "強力粉",
+        "amount": "25g"
+      },
+      {
+        "name": "はちみつ",
+        "amount": "8g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "卵と砂糖を湯煎で人肌に温め、湯煎から外してハンドミキサーで白くもったりするまで泡立てる。",
+      "はちみつを温めた牛乳で溶いて加え、強力粉をふるい入れ、へらで粉気がなくなるまで混ぜる。",
+      "紙を敷いた約8×8cmの型へ流し、160℃に予熱したオーブンで25〜30分、竹串に生地が付かなくなるまで焼く。",
+      "型から外し、乾燥しないよう紙を付けたまま軽くラップをかけ、冷めてから切り分ける。"
+    ],
+    "tip": "粉を加えた後も底から返して混ぜ、底に粉の塊を残さない。",
+    "tags": ["和菓子", "卵", "はちみつ"],
+    "equipment": [
+      "ボウル",
+      "鍋",
+      "ハンドミキサー",
+      "へら",
+      "8cm角型",
+      "オーブンシート",
+      "オーブン",
+      "竹串",
+      "ラップ"
+    ],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "square-honey-castella",
+      "toppings": ["golden-sponge", "brown-crust"]
+    }
+  },
+  {
+    "id": "r-azuki-taiyaki",
+    "name": "たい焼き",
+    "description": "魚の型で焼いた生地に、あんをたっぷり包む。",
+    "category": "snack",
+    "cuisine": "和菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "40g"
+      },
+      {
+        "name": "ベーキングパウダー",
+        "amount": "1g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "8g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "15g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "45ml"
+      },
+      {
+        "name": "粒あん",
+        "amount": "40g"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "少量（型用）"
+      }
+    ],
+    "steps": [
+      "卵、牛乳、砂糖を混ぜ、薄力粉とベーキングパウダーを加えて滑らかにし、5分休ませる。",
+      "小型たい焼き2個分の型を予熱して油を薄く塗り、底に生地を流し、半量ずつのあんを中央に置いて生地をかぶせる。",
+      "型を閉じ、機器の表示に従って焼き、両面に色が付き縁から見える生地にも火が通ったら取り出す。",
+      "一度に焼けない場合は残りも同様に焼き、型からはみ出した薄い縁を整える。"
+    ],
+    "tip": "尾の部分にも薄く生地を行き渡らせると、魚の形が欠けずに焼ける。",
+    "tags": ["和菓子", "あんこ", "型焼き"],
+    "equipment": ["ボウル", "たい焼き器", "刷毛", "へら"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "fish-shaped-taiyaki",
+      "toppings": ["golden-fish-pastry", "azuki"]
+    }
+  },
+  {
+    "id": "r-small-egg-boro",
+    "name": "たまごボーロ",
+    "description": "卵黄と片栗粉の生地を丸め、口ほどけの軽い粒に焼く。",
+    "category": "snack",
+    "cuisine": "和菓子",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 40,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "片栗粉",
+        "amount": "30g"
+      },
+      {
+        "name": "卵黄",
+        "amount": "10g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "10g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "卵黄と砂糖を混ぜ、片栗粉を加え、牛乳を少しずつ入れて手で丸められる固さにする。",
+      "生地を直径1cmほどの玉に丸め、紙を敷いた天板へ間隔を空けて並べる。",
+      "160℃に予熱したオーブンで12〜15分、底が薄く色づくまで焼き、中心まで乾いたら天板で冷ます。"
+    ],
+    "tip": "牛乳は一度に入れず、生地が指に付かない固さを見ながら調整する。",
+    "tags": ["焼菓子", "卵黄", "片栗粉"],
+    "equipment": ["ボウル", "天板", "オーブンシート", "オーブン"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "tiny-egg-boro",
+      "toppings": ["small-round-biscuits"]
+    }
+  },
+  {
+    "id": "r-brown-sugar-karinto",
+    "name": "黒糖かりんとう",
+    "description": "細い生地を揚げ、煮詰めた黒糖を絡めて乾かす。",
+    "category": "snack",
+    "cuisine": "和菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 45,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "40g"
+      },
+      {
+        "name": "ベーキングパウダー",
+        "amount": "1g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "5g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "10g"
+      },
+      {
+        "name": "水",
+        "amount": "10ml（生地用）"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "黒糖",
+        "amount": "20g"
+      },
+      {
+        "name": "水",
+        "amount": "小さじ2（衣用）"
+      },
+      {
+        "name": "揚げ油",
+        "amount": "適量"
+      }
+    ],
+    "steps": [
+      "薄力粉、ベーキングパウダー、砂糖、卵、生地用水、サラダ油を混ぜ、まとめて10分休ませる。",
+      "厚さ4mmにのばして細い棒状に切り、160℃の油で4〜5分、返しながら中まで乾くように揚げる。",
+      "小鍋に黒糖と衣用水を入れて泡が大きくなるまで煮詰め、揚げた生地を加えて手早く絡める。",
+      "紙を敷いたバットに重ならないよう広げ、糖衣が固まるまで冷ます。"
+    ],
+    "tip": "太い生地は中心に湿りが残るので、切る幅をそろえて揚げる。",
+    "tags": ["和菓子", "黒糖", "揚げ菓子"],
+    "equipment": [
+      "ボウル",
+      "めん棒",
+      "包丁",
+      "深い鍋",
+      "油用温度計",
+      "小鍋",
+      "バット",
+      "オーブンシート"
+    ],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#6b4329", "#a27345", "#d7ae71", "#275bbb"],
+      "garnish": [],
+      "motif": "brown-sugar-karinto",
+      "toppings": ["dark-sugar-coated-sticks"]
+    }
+  },
+  {
+    "id": "r-azuki-mizu-yokan",
+    "name": "水ようかん",
+    "description": "こしあんを寒天でやわらかく固め、涼やかな切り口に仕上げる。",
+    "category": "snack",
+    "cuisine": "和菓子",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 100,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "こしあん",
+        "amount": "70g"
+      },
+      {
+        "name": "水",
+        "amount": "80ml"
+      },
+      {
+        "name": "粉寒天",
+        "amount": "0.8g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "5g"
+      },
+      {
+        "name": "塩",
+        "amount": "ひとつまみ"
+      }
+    ],
+    "steps": [
+      "小鍋に水と粉寒天を入れて混ぜ、沸騰してから弱火で2分煮て寒天を溶かす。",
+      "こしあん、砂糖、塩を加え、へらで混ぜながら弱火で1〜2分温めて均一にする。",
+      "鍋底を冷水に当て、混ぜながら少しとろみが付くまで冷まし、水でぬらした小型容器に流す。",
+      "冷蔵庫で1時間以上冷やし、固まったら容器から外して食べやすく切る。"
+    ],
+    "tip": "熱いまま型へ流さず軽くとろみを付けると、あんと寒天が分離しにくい。",
+    "tags": ["和菓子", "あんこ", "寒天"],
+    "equipment": ["小鍋", "へら", "ボウル", "小型容器", "冷蔵庫", "包丁"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#694635", "#956c53", "#c09468", "#24624b"],
+      "garnish": [],
+      "motif": "azuki-yokan-blocks",
+      "toppings": ["azuki-jelly"]
+    }
+  },
+  {
+    "id": "r-custard-cream-puffs",
+    "name": "シュークリーム",
+    "description": "鍋で練った生地を空洞に焼き、カスタードを詰める。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 95,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "水",
+        "amount": "25ml"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "12g"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "15g（皮用）"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "25g"
+      },
+      {
+        "name": "卵黄",
+        "amount": "1個分"
+      },
+      {
+        "name": "砂糖",
+        "amount": "15g"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "6g（クリーム用）"
+      },
+      {
+        "name": "牛乳",
+        "amount": "70ml"
+      },
+      {
+        "name": "粉砂糖",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "小鍋に水とバターを入れて沸かし、皮用薄力粉を一度に加え、弱火で1分練って火を止める。",
+      "溶き卵を少しずつ加え、へらからゆっくり三角形に落ちる固さにし、天板へ2個の山に絞る。",
+      "200℃に予熱したオーブンで15分、170℃に下げて15分焼き、扉を開けずに膨らみを保ち、乾いた皮を冷ます。",
+      "卵黄、砂糖、クリーム用粉、牛乳を鍋で混ぜ、火にかけて沸いたら弱火で1分練り、薄く広げて冷ます。",
+      "皮の上部を切ってクリームを詰め、上部を戻して粉砂糖を振り、食べるまで冷蔵する。"
+    ],
+    "tip": "皮は薄い焼き色で止めず、亀裂まで色づくよう焼くと冷めてもつぶれにくい。",
+    "tags": ["シュー", "カスタード", "焼菓子"],
+    "equipment": [
+      "小鍋",
+      "へら",
+      "絞り袋",
+      "天板",
+      "オーブンシート",
+      "オーブン",
+      "バット",
+      "包丁",
+      "冷蔵庫"
+    ],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "round-cream-puffs",
+      "toppings": ["choux", "custard", "powdered-sugar"]
+    }
+  },
+  {
+    "id": "r-cinnamon-churros",
+    "name": "チュロス",
+    "description": "加熱して練った生地を星形に絞り、揚げて砂糖をまぶす。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "40g"
+      },
+      {
+        "name": "水",
+        "amount": "55ml"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "8g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1（生地用）"
+      },
+      {
+        "name": "塩",
+        "amount": "ひとつまみ"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "15g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "大さじ1（仕上げ用）"
+      },
+      {
+        "name": "シナモン",
+        "amount": "少々"
+      },
+      {
+        "name": "揚げ油",
+        "amount": "適量"
+      }
+    ],
+    "steps": [
+      "鍋に水、バター、生地用砂糖、塩を入れて沸かし、薄力粉を一度に入れ、弱火で1分練る。",
+      "火から外して粗熱を取り、溶き卵を少しずつ混ぜ、太い星口金を付けた丈夫な絞り袋へ入れる。",
+      "生地を長さ10cmに絞って静かに170℃の油へ入れ、返しながら3〜4分、全体がきつね色になるまで揚げる。",
+      "網に取り、1本割って中心に生の生地が残らないことを確認し、仕上げ用砂糖とシナモンをまぶす。"
+    ],
+    "tip": "星口金で表面に溝を作ると蒸気が抜けやすくなり、均一に揚がる。",
+    "tags": ["揚げ菓子", "シナモン", "チュロス"],
+    "equipment": ["鍋", "へら", "丈夫な絞り袋", "星口金", "深い鍋", "油用温度計", "網"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "toast",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "ridged-churros",
+      "toppings": ["fried-dough", "cinnamon-sugar"]
+    }
+  },
+  {
+    "id": "r-old-fashioned-doughnuts",
+    "name": "オールドファッションドーナツ",
+    "description": "ベーキングパウダーで膨らむ生地を、輪にしてゆっくり揚げる。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 65,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "50g"
+      },
+      {
+        "name": "ベーキングパウダー",
+        "amount": "2g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "15g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "10g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "20g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "揚げ油",
+        "amount": "適量"
+      }
+    ],
+    "steps": [
+      "柔らかいバターと砂糖を混ぜ、卵と牛乳を加え、薄力粉とベーキングパウダーを混ぜて冷蔵庫で20分休ませる。",
+      "生地を厚さ1cmにのばし、直径7cmほどの輪を2個抜き、中央の小さな生地も取り分ける。",
+      "160℃の油に輪を入れ、片面が固まったら返し、合計4〜5分ほどかけてきつね色に揚げる。",
+      "小さな生地は短めに揚げ、割って粉っぽい部分がないことを確認して油を切る。"
+    ],
+    "tip": "生地が柔らかいときは冷やし直し、打ち粉を増やしすぎないようにする。",
+    "tags": ["ドーナツ", "揚げ菓子", "輪形"],
+    "equipment": ["ボウル", "冷蔵庫", "めん棒", "丸抜き型", "深い鍋", "油用温度計", "網"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "craggy-old-fashioned-doughnuts",
+      "toppings": ["ring-doughnut"]
+    }
+  },
+  {
+    "id": "r-pistachio-baklava",
+    "name": "バクラヴァ",
+    "description": "薄いフィロ生地にナッツを挟み、焼き上がりへシロップを染み込ませる。",
+    "category": "snack",
+    "cuisine": "中東風",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 100,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "フィロ生地",
+        "amount": "20g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "15g"
+      },
+      {
+        "name": "ピスタチオ",
+        "amount": "10g"
+      },
+      {
+        "name": "くるみ",
+        "amount": "10g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "20g"
+      },
+      {
+        "name": "水",
+        "amount": "20ml"
+      },
+      {
+        "name": "レモン汁",
+        "amount": "小さじ1/2"
+      }
+    ],
+    "steps": [
+      "砂糖、水、レモン汁を小鍋で3分煮て冷まし、ナッツを刻んで混ぜ、バターを溶かす。",
+      "フィロを約8×10cmに切り、バターを塗った同サイズの耐熱型に半量を1枚ずつバターを塗りながら重ねる。",
+      "ナッツを広げ、残りのフィロもバターを塗って重ね、底まで切れ目を入れて4つに分ける。",
+      "180℃に予熱したオーブンで25〜30分焼き、熱いうちに冷めたシロップをかけ、30分ほど置く。"
+    ],
+    "tip": "フィロは乾きやすいので、作業中に使わない分はラップで覆っておく。",
+    "tags": ["パイ", "ナッツ", "シロップ"],
+    "equipment": ["小鍋", "包丁", "まな板", "耐熱型", "刷毛", "ラップ", "オーブン"],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#b77b32", "#e6bb65", "#7f9142", "#774329"],
+      "garnish": [],
+      "motif": "layered-baklava-diamonds",
+      "toppings": ["pistachio", "walnut", "filo"]
+    }
+  },
+  {
+    "id": "r-sesame-halva",
+    "name": "ごまのハルヴァ",
+    "description": "練りごまに煮詰めた砂糖を混ぜ、ほろりとした塊にする。",
+    "category": "snack",
+    "cuisine": "中東風",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 145,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "白練りごま",
+        "amount": "30g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "25g"
+      },
+      {
+        "name": "水",
+        "amount": "10ml"
+      },
+      {
+        "name": "ピスタチオ",
+        "amount": "5g"
+      },
+      {
+        "name": "塩",
+        "amount": "ひとつまみ"
+      }
+    ],
+    "steps": [
+      "練りごまをよく混ぜて油分をなじませ、刻んだピスタチオと塩を加え、小さな容器に紙を敷く。",
+      "小鍋に砂糖と水を入れて火にかけ、混ぜずに温め、調理用温度計で118℃になるまで煮詰める。",
+      "練りごまへ熱いシロップを細く注ぎ、へらで手早く混ぜ、少し重くなったら容器へ詰める。",
+      "粗熱を取り、冷蔵庫で2時間ほど冷やして固め、紙を外して小さく切る。"
+    ],
+    "tip": "シロップを入れた後は練り続けず、ざらつき始める前に型へ移す。",
+    "tags": ["ごま", "ナッツ", "砂糖菓子"],
+    "equipment": [
+      "小鍋",
+      "調理用温度計",
+      "ボウル",
+      "へら",
+      "小型容器",
+      "オーブンシート",
+      "冷蔵庫",
+      "包丁"
+    ],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "sesame-halva-blocks",
+      "toppings": ["sesame", "pistachio"]
+    }
+  },
+  {
+    "id": "r-tres-leches-cake",
+    "name": "トレスレチェス",
+    "description": "スポンジに三種類のミルクを染み込ませる冷たいケーキ。",
+    "category": "snack",
+    "cuisine": "中南米風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 235,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "砂糖",
+        "amount": "20g"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "25g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "30ml"
+      },
+      {
+        "name": "練乳",
+        "amount": "15g"
+      },
+      {
+        "name": "無糖エバミルク",
+        "amount": "25ml"
+      },
+      {
+        "name": "生クリーム",
+        "amount": "25ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "3g（クリーム用）"
+      },
+      {
+        "name": "シナモン",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "卵と砂糖を白くもったりするまで泡立て、薄力粉をふるい入れて混ぜ、紙を敷いた直径9cmの型に流す。",
+      "170℃に予熱したオーブンで20〜25分焼き、竹串に生地が付かないことを確かめて冷ます。",
+      "スポンジを深めの皿へ移してフォークで穴を開け、牛乳、練乳、エバミルクを混ぜて少しずつ注ぎ、冷蔵庫で2時間冷やす。",
+      "クリームとクリーム用砂糖を泡立てて上に塗り、シナモンを振る。"
+    ],
+    "tip": "ミルクを数回に分けて注ぐと、表面だけでなく中央まで均一に染み込む。",
+    "tags": ["ケーキ", "ミルク", "冷菓"],
+    "equipment": [
+      "ボウル",
+      "ハンドミキサー",
+      "9cm丸型",
+      "オーブンシート",
+      "オーブン",
+      "竹串",
+      "深い皿",
+      "フォーク",
+      "冷蔵庫"
+    ],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "milk-soaked-tres-leches",
+      "toppings": ["sponge", "whipped-cream", "cinnamon"]
+    }
+  },
+  {
+    "id": "r-berry-pavlova",
+    "name": "パブロヴァ",
+    "description": "低温で焼いたメレンゲにクリームと果物を盛る。",
+    "category": "snack",
+    "cuisine": "オセアニア風",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 130,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "卵白",
+        "amount": "25g"
+      },
+      {
+        "name": "グラニュー糖",
+        "amount": "40g"
+      },
+      {
+        "name": "コーンスターチ",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "レモン汁",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "生クリーム",
+        "amount": "30ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "3g（クリーム用）"
+      },
+      {
+        "name": "いちご",
+        "amount": "2個"
+      },
+      {
+        "name": "ブルーベリー",
+        "amount": "10g"
+      }
+    ],
+    "steps": [
+      "卵白を泡立て、グラニュー糖を3回に分けて加えて固いメレンゲを作り、コーンスターチとレモン汁を混ぜる。",
+      "紙を敷いた天板に直径10cmの円形に盛り、中央を少しくぼませ、120℃に予熱したオーブンで60分焼く。",
+      "表面が乾いて持ち上げられる状態になったら火を止め、扉を少し開けて30分冷ます。",
+      "生クリームとクリーム用砂糖を泡立ててくぼみに盛り、切ったいちごとブルーベリーを飾る。"
+    ],
+    "tip": "クリームをのせるとメレンゲが湿るので、食べる直前に盛り付ける。",
+    "tags": ["メレンゲ", "生クリーム", "果物"],
+    "equipment": ["ボウル", "ハンドミキサー", "オーブン", "オーブンシート", "包丁", "まな板"],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#fff1dc", "#e4cfa6", "#df442d", "#485991"],
+      "garnish": [],
+      "motif": "berry-pavlova",
+      "toppings": ["meringue", "strawberry", "blueberry", "whipped-cream"]
+    }
+  },
+  {
+    "id": "r-raisin-bread-pudding",
+    "name": "ブレッドプディング",
+    "description": "パンに甘い卵液を吸わせ、レーズンと一緒に焼く。",
+    "category": "snack",
+    "cuisine": "イギリス風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 60,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "食パン",
+        "amount": "1枚（6枚切り）"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "牛乳",
+        "amount": "80ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "15g"
+      },
+      {
+        "name": "レーズン",
+        "amount": "10g"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "5g"
+      },
+      {
+        "name": "シナモン",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "パンを一口大に切り、卵、牛乳、砂糖、シナモンを混ぜた液へ10分浸す。",
+      "バターを塗った容量300mlの耐熱皿にパンと卵液を入れ、レーズンを中にも散らす。",
+      "180℃に予熱したオーブンで25〜30分、中央の卵液が完全に固まり、表面が香ばしくなるまで焼く。",
+      "熱い皿を鍋敷きに移し、5分ほど落ち着かせてからスプーンですくう。"
+    ],
+    "tip": "表面が先に焦げるときは箔をかぶせ、中央の卵液に火が通るまで焼く。",
+    "tags": ["パン", "プリン", "レーズン"],
+    "equipment": ["包丁", "まな板", "ボウル", "300ml耐熱皿", "オーブン", "アルミ箔", "鍋敷き"],
+    "reward": 20,
+    "art": {
+      "vessel": "deep-plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "baked-bread-pudding",
+      "toppings": ["bread-cubes", "raisin", "custard"]
+    }
+  },
+  {
+    "id": "r-orange-crepes-suzette",
+    "name": "クレープシュゼット",
+    "description": "薄焼きクレープをオレンジのバターソースにくぐらせる。",
+    "category": "snack",
+    "cuisine": "フランス風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 45,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "25g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "25g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "60ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "5g（生地用）"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "5g（生地用）"
+      },
+      {
+        "name": "オレンジ果汁",
+        "amount": "70ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "12g（ソース用）"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "8g（ソース用）"
+      },
+      {
+        "name": "オレンジの皮",
+        "amount": "すりおろし少々"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "少量"
+      }
+    ],
+    "steps": [
+      "卵、牛乳、生地用砂糖、薄力粉、溶かした生地用バターを混ぜてこし、10分休ませる。",
+      "油を薄く塗った直径18cmのフライパンへ生地を薄く流し、両面に火が通るまで焼いて3枚作る。",
+      "同じフライパンにソース用砂糖と果汁を入れて2分煮、ソース用バターと洗った皮を加える。",
+      "クレープを四つ折りにしてソースへ入れ、両面に1分ずつ絡めて皿へ盛る。"
+    ],
+    "tip": "ソースは先に少し煮詰めてからクレープを入れると、生地が崩れにくい。",
+    "tags": ["クレープ", "オレンジ", "バター"],
+    "equipment": ["ボウル", "こし器", "18cmフライパン", "へら", "おろし金"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "folded-crepes-suzette",
+      "toppings": ["crepe", "orange-sauce"]
+    }
+  },
+  {
+    "id": "r-layered-mille-crepe",
+    "name": "ミルクレープ",
+    "description": "薄いクレープとクリームを何層も重ね、冷やして切る。",
+    "category": "snack",
+    "cuisine": "洋菓子",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 150,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "30g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "25g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "75ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "8g（生地用）"
+      },
+      {
+        "name": "無塩バター",
+        "amount": "5g"
+      },
+      {
+        "name": "生クリーム",
+        "amount": "50ml"
+      },
+      {
+        "name": "砂糖",
+        "amount": "5g（クリーム用）"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "少量"
+      }
+    ],
+    "steps": [
+      "卵、牛乳、生地用砂糖、薄力粉、溶かしたバターを混ぜてこし、10分休ませる。",
+      "油を薄く塗ったフライパンへ直径10cmの円形に薄く流し、片面1分、裏面20秒ほど焼き、6〜8枚作って冷ます。",
+      "クリームとクリーム用砂糖を角が立つまで泡立て、クレープ1枚ごとに薄く塗って重ねる。",
+      "ラップをかけて冷蔵庫で1時間以上冷やし、温めて水気を拭いた包丁で半分に切る。"
+    ],
+    "tip": "各層のクリームを端まで薄く均一に塗ると、切り口の層が揃う。",
+    "tags": ["ケーキ", "クレープ", "生クリーム"],
+    "equipment": ["ボウル", "こし器", "フライパン", "へら", "泡立て器", "ラップ", "冷蔵庫", "包丁"],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "cake",
+      "colors": ["#c58a42", "#f3dda9", "#774329", "#24624b"],
+      "garnish": [],
+      "motif": "layered-mille-crepe",
+      "toppings": ["crepe-layers", "whipped-cream"]
+    }
+  }
+]

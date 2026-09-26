@@ -20,7 +20,7 @@ const expansion: ExpansionCatalog = JSON.parse(
 afterEach(() => vi.unstubAllGlobals())
 
 describe('the integrated recipe registry', () => {
-  it('retains the original ten IDs and appends all 300 expansion recipes', () => {
+  it('retains the original ten IDs and appends all 602 expansion recipes', () => {
     expect(legacyRecipes.map(({ id }) => id)).toEqual([
       'egg-rice',
       'onigiri',
@@ -33,8 +33,8 @@ describe('the integrated recipe registry', () => {
       'omurice',
       'gratin',
     ])
-    expect(recipes).toHaveLength(310)
-    expect(new Set(recipes.map(({ id }) => id)).size).toBe(310)
+    expect(recipes).toHaveLength(612)
+    expect(new Set(recipes.map(({ id }) => id)).size).toBe(612)
     expect(recipes.slice(0, 10)).toEqual(legacyRecipes)
     expect(recipeCategories).toEqual(expansion.categories)
     for (const source of expansion.recipes) {

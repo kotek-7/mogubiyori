@@ -1,6 +1,7 @@
 // Original deterministic vector art. Shared illustration grammar; dish-specific composition.
 import { dessertArt } from './dessert-art.mjs'
 import { savoryArt } from './savory-art.mjs'
+import { globalArt } from './global-art.mjs'
 
 const ink = '#202820',
   cream = '#fff5de',
@@ -237,7 +238,7 @@ function ingredient(kind, color) {
   )
 }
 export function recipeArt(recipe) {
-  const dedicated = dessertArt(recipe) ?? savoryArt(recipe)
+  const dedicated = dessertArt(recipe) ?? savoryArt(recipe) ?? globalArt(recipe)
   if (dedicated) return dedicated
   const a = recipe.art,
     seed = hash(recipe.id),

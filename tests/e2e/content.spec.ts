@@ -14,14 +14,14 @@ import {
   waitForSceneMotion,
 } from './helpers'
 
-test('the main collection searches all 310 recipes and replaces the separate recipe board', async ({
+test('the main collection searches all 612 recipes and replaces the separate recipe board', async ({
   page,
 }) => {
   await page.goto('/')
   await start(page)
   await enablePremium(page)
   await navigate(page, 'ずかん')
-  await expect(page.locator('.collection-count')).toContainText('/ 310')
+  await expect(page.locator('.collection-count')).toContainText('/ 612')
   await expect(page.locator('.recipe-collection-card')).toHaveCount(24)
   await expect(page.locator('.recipe-collection-card .discovery-silhouette')).toHaveCount(24)
   expect(
@@ -53,7 +53,9 @@ test('the main collection searches all 310 recipes and replaces the separate rec
   await expect(page.getByText('条件に合うレシピが見つかりませんでした。')).toBeVisible()
   await page.getByRole('button', { name: 'すべてのレシピを見る' }).click()
   await page.getByRole('button', { name: '次のページ', exact: true }).click()
-  await expect(page.getByRole('navigation', { name: 'レシピ一覧のページ' })).toContainText('2 / 13')
+  await expect(page.getByRole('navigation', { name: 'レシピ一覧のページ' })).toContainText(
+    `2 / ${Math.ceil(recipes.length / 24)}`,
+  )
   await expect(page.locator('.recipe-collection-card')).toHaveCount(24)
   await page.getByRole('searchbox', { name: '名前・材料で検索' }).fill('とまと')
   await expect(page.locator('.recipe-collection-card').first()).toBeVisible()
@@ -67,7 +69,7 @@ test('the main collection searches all 310 recipes and replaces the separate rec
   await expect(page.locator('[data-tab="recipes"]')).toHaveCount(0)
   await page.getByRole('link', { name: '料理カード', exact: true }).click()
   await expect(page).toHaveURL(/\/#book$/)
-  await expect(page.locator('.collection-count')).toContainText('/ 310')
+  await expect(page.locator('.collection-count')).toContainText('/ 612')
 })
 
 test('an added recipe keeps its card artwork, sample meal photo and progress after reload', async ({
@@ -78,7 +80,7 @@ test('an added recipe keeps its card artwork, sample meal photo and progress aft
   await start(page)
   await enablePremium(page)
   const before = await storedGame(page)
-  const recipe = recipes.find((entry) => entry.id === 'r-oyako-don')!
+  const recipe = recipes.find((entry) => entry.id === 'r-chicken-biryani')!
   await navigate(page, 'ずかん')
   await page.getByRole('searchbox', { name: '名前・材料で検索' }).fill(recipe.name)
   await page

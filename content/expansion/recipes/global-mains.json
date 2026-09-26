@@ -1,0 +1,6882 @@
+[
+  {
+    "id": "r-sweet-sour-pork",
+    "name": "酢豚",
+    "description": "揚げ焼きした豚肉と大きく切った野菜を、甘酸っぱいあんで包む。",
+    "category": "main",
+    "cuisine": "中華",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "豚肩ロース肉",
+        "amount": "120g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "ピーマン",
+        "amount": "1個"
+      },
+      {
+        "name": "にんじん",
+        "amount": "30g"
+      },
+      {
+        "name": "片栗粉",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "酢",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "ケチャップ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ3"
+      },
+      {
+        "name": "油",
+        "amount": "大さじ2"
+      }
+    ],
+    "steps": [
+      "豚肉を一口大に切って片栗粉の半量をまぶし、にんじんは薄切り、玉ねぎとピーマンは角切りにする。",
+      "油で豚肉を返しながら焼き、中心まで火を通して取り出す。同じ鍋で野菜を炒め、水大さじ1を加えて蒸す。",
+      "残りの水と片栗粉、酢、ケチャップ、しょうゆ、砂糖を混ぜて加え、煮立ててから肉を戻して絡める。"
+    ],
+    "tip": "あんの材料は入れる直前に混ぜ直すと、片栗粉が底に残らない。",
+    "tags": ["豚肉", "甘酢", "中華"],
+    "equipment": ["フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "sweet-sour-pork",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["pork-chunks", "green-pepper", "carrot", "onion"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-yurinchi",
+    "name": "油淋鶏",
+    "description": "皮を香ばしく焼いた鶏肉に、ねぎと酢のたれをたっぷりかける。",
+    "category": "main",
+    "cuisine": "中華",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏もも肉",
+        "amount": "150g"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "1/4本"
+      },
+      {
+        "name": "レタス",
+        "amount": "2枚"
+      },
+      {
+        "name": "しょうが",
+        "amount": "5g"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "酢",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "片栗粉",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "油",
+        "amount": "大さじ1"
+      }
+    ],
+    "steps": [
+      "ねぎとしょうがをみじん切りにし、しょうゆ、酢、砂糖を合わせてたれを作る。レタスは洗ってちぎる。",
+      "厚さをそろえた鶏肉に片栗粉をまぶし、油を熱したフライパンで皮目を焼く。裏返してふたをし、中心まで火を通す。",
+      "ふたを外して再び皮を焼き、食べやすく切ってレタスにのせ、食べる直前にねぎだれをかける。"
+    ],
+    "tip": "皮を最後にもう一度焼くと、蒸し焼きで柔らかくなった衣が締まる。",
+    "tags": ["鶏肉", "ねぎ", "香ばしい"],
+    "equipment": ["フライパン", "ふた"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "yurinchi",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["chicken-slices", "lettuce", "scallion"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-bang-bang-chicken",
+    "name": "棒棒鶏",
+    "description": "ほぐした鶏むね肉ときゅうりを、香ばしいごまだれで味わう。",
+    "category": "main",
+    "cuisine": "中華",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏むね肉",
+        "amount": "150g"
+      },
+      {
+        "name": "きゅうり",
+        "amount": "1/2本"
+      },
+      {
+        "name": "トマト",
+        "amount": "1/2個"
+      },
+      {
+        "name": "しょうが",
+        "amount": "5g"
+      },
+      {
+        "name": "水",
+        "amount": "400ml"
+      },
+      {
+        "name": "練りごま",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "酢",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "鍋に水としょうがを入れて沸かし、厚さをそろえた鶏肉を入れる。弱く煮立つ火加減で約15分ゆで、中心まで火を通す。",
+      "きゅうりは細切り、トマトは薄切りにする。鶏肉を清潔な皿で少し冷まし、繊維に沿って細くほぐす。",
+      "練りごま、しょうゆ、酢、砂糖を混ぜ、ゆで汁小さじ2でのばす。野菜と鶏肉を盛ってたれをかける。"
+    ],
+    "tip": "鶏肉を冷ますときは乾かないようにゆで汁を少量かけておく。",
+    "tags": ["鶏肉", "ごま", "冷菜"],
+    "equipment": ["鍋"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "bang-bang-chicken",
+      "colors": ["#e8d8ab", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["chicken-strips", "cucumber-strips", "tomato"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-sichuan-chili-chicken",
+    "name": "よだれ鶏",
+    "description": "ゆで鶏に花椒とラー油の香るたれを合わせた、辛味のある冷菜。",
+    "category": "main",
+    "cuisine": "中華",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏もも肉",
+        "amount": "150g"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "1/4本"
+      },
+      {
+        "name": "しょうが",
+        "amount": "5g"
+      },
+      {
+        "name": "水",
+        "amount": "500ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "黒酢",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "ラー油",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "花椒粉",
+        "amount": "少々"
+      },
+      {
+        "name": "ピーナッツ",
+        "amount": "10g"
+      }
+    ],
+    "steps": [
+      "水としょうがを沸かし、鶏肉を入れて弱く煮立つ火加減で約18分ゆでる。厚い部分の中心まで火が通ったことを確かめる。",
+      "ねぎはみじん切り、ピーナッツは粗く砕く。しょうゆ、黒酢、砂糖、ラー油、花椒粉とゆで汁大さじ1を合わせる。",
+      "鶏肉を少し冷ましてそぎ切りにし、たれをかける。ねぎとピーナッツを散らして仕上げる。"
+    ],
+    "tip": "花椒とラー油は少量から加え、香りと辛さを別々に調節する。",
+    "tags": ["鶏肉", "花椒", "冷菜"],
+    "equipment": ["鍋"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "sichuan-chili-chicken",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["chicken-slices", "peanut", "scallion"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-liver-chive-stirfry",
+    "name": "ニラレバ炒め",
+    "description": "下処理した豚レバーを香ばしく焼き、にらともやしを手早く合わせる。",
+    "category": "main",
+    "cuisine": "中華",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "豚レバー",
+        "amount": "120g"
+      },
+      {
+        "name": "にら",
+        "amount": "1/2束"
+      },
+      {
+        "name": "もやし",
+        "amount": "80g"
+      },
+      {
+        "name": "しょうが",
+        "amount": "5g"
+      },
+      {
+        "name": "酒",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "オイスターソース",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "片栗粉",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "レバーを薄く切って冷水で洗い、水気を拭く。酒の半量とおろししょうがを絡め、片栗粉をまぶす。",
+      "油を熱してレバーの両面を焼き、残りの酒を加えてふたをする。中心まで十分に加熱して取り出す。",
+      "切ったにらともやしを炒め、しょうゆとオイスターソースを加える。レバーを戻して全体を炒め合わせる。"
+    ],
+    "tip": "レバーは薄く均一に切り、厚い部分を残さず十分に加熱する。",
+    "tags": ["レバー", "にら", "炒め物"],
+    "equipment": ["フライパン", "ふた"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "liver-chive-stirfry",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["beef-slices", "scallion", "sprout"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-mapo-glass-noodles",
+    "name": "麻婆春雨",
+    "description": "春雨が豚ひき肉のうま味と豆板醤の辛味を吸った炒め煮。",
+    "category": "main",
+    "cuisine": "中華",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "春雨",
+        "amount": "35g"
+      },
+      {
+        "name": "豚ひき肉",
+        "amount": "70g"
+      },
+      {
+        "name": "にんじん",
+        "amount": "20g"
+      },
+      {
+        "name": "にら",
+        "amount": "20g"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "20g"
+      },
+      {
+        "name": "豆板醤",
+        "amount": "小さじ1/3"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "みそ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "水",
+        "amount": "180ml"
+      },
+      {
+        "name": "ごま油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "春雨を表示どおりに戻して食べやすく切る。にんじんは細切り、ねぎはみじん切り、にらは3cmに切る。",
+      "ごま油でひき肉を十分に炒め、ねぎ、にんじん、豆板醤を加える。水、しょうゆ、みそ、砂糖を入れて煮立てる。",
+      "春雨を入れて煮汁を吸わせ、にらを加えて1分煮る。水分が少なくなったら混ぜながら仕上げる。"
+    ],
+    "tip": "春雨の種類で吸水量が違うため、硬ければ水を大さじ1ずつ足す。",
+    "tags": ["春雨", "豚ひき肉", "ピリ辛"],
+    "equipment": ["フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "noodles",
+      "motif": "mapo-glass-noodles",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["pork-mince", "carrot-strips", "scallion"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-mushu-pork",
+    "name": "木須肉",
+    "description": "きくらげの歯ごたえと卵の柔らかさが楽しい、豚肉の炒め物。",
+    "category": "main",
+    "cuisine": "中華",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "豚こま切れ肉",
+        "amount": "100g"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "乾燥きくらげ",
+        "amount": "3g"
+      },
+      {
+        "name": "小松菜",
+        "amount": "60g"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "オイスターソース",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "酒",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "きくらげを表示どおりに戻して石づきを除く。小松菜は4cm、豚肉は一口大に切り、卵は溶く。",
+      "油の半量で卵を大きく混ぜながら炒めて取り出す。残りの油で豚肉を炒め、色が変わったらきくらげと小松菜を加える。",
+      "酒、しょうゆ、オイスターソースを加えて豚肉と野菜に火を通す。卵を戻し、全体が熱くなるまで炒め合わせる。"
+    ],
+    "tip": "卵を先に焼いて取り出すと、具材を炒める間に硬くなりにくい。",
+    "tags": ["卵", "豚肉", "きくらげ"],
+    "equipment": ["フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "mushu-pork",
+      "colors": ["#e9ac25", "#b57b3c", "#24624b", "#fff5de"],
+      "toppings": ["egg-ribbons", "pork-slices", "mushroom", "komatsuna"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-yuxiang-pork-strips",
+    "name": "魚香肉絲",
+    "description": "細切り豚肉とたけのこを、にんにくの利いた甘酸っぱい辛味だれで炒める。",
+    "category": "main",
+    "cuisine": "中華",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "豚ロース薄切り",
+        "amount": "100g"
+      },
+      {
+        "name": "ゆでたけのこ",
+        "amount": "60g"
+      },
+      {
+        "name": "乾燥きくらげ",
+        "amount": "2g"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "20g"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1/2片"
+      },
+      {
+        "name": "豆板醤",
+        "amount": "小さじ1/3"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "酢",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "片栗粉",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "きくらげを戻し、豚肉とたけのことともに細切りにする。ねぎとにんにくはみじん切りにする。",
+      "油で豚肉を炒めて十分に火を通し、ねぎ、にんにく、豆板醤を加える。たけのこときくらげも炒める。",
+      "しょうゆ、酢、砂糖、片栗粉、水を混ぜて流し入れ、全体を混ぜながらとろみが付くまで煮立てる。"
+    ],
+    "tip": "たけのこは繊維に沿った細切りにすると、炒めても歯ごたえが残る。",
+    "tags": ["豚肉", "たけのこ", "甘辛酸味"],
+    "equipment": ["フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "yuxiang-pork-strips",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["pork-strips", "mushroom", "scallion"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-shrimp-mayonnaise",
+    "name": "えびマヨ",
+    "description": "さくっと焼いたえびに、ほんのり甘いマヨネーズソースをまとわせる。",
+    "category": "main",
+    "cuisine": "中華",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "むきえび",
+        "amount": "120g"
+      },
+      {
+        "name": "レタス",
+        "amount": "2枚"
+      },
+      {
+        "name": "片栗粉",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "油",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "マヨネーズ",
+        "amount": "大さじ1と1/2"
+      },
+      {
+        "name": "ケチャップ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "牛乳",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "レモン汁",
+        "amount": "小さじ1/2"
+      }
+    ],
+    "steps": [
+      "えびの背わたを取り、水気を拭いて片栗粉をまぶす。レタスは洗ってちぎり、皿に広げる。",
+      "油を熱してえびを両面から焼き、身が不透明になって中心まで火が通ったら油を切る。",
+      "マヨネーズ、ケチャップ、牛乳、砂糖、レモン汁をボウルで混ぜ、熱すぎないえびを絡めてレタスにのせる。"
+    ],
+    "tip": "ソースは火にかけずに和えると、マヨネーズが分離しにくい。",
+    "tags": ["えび", "マヨネーズ", "揚げ焼き"],
+    "equipment": ["フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "shrimp-mayonnaise",
+      "colors": ["#e8d8ab", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["shrimp", "lettuce", "yogurt"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-savory-spring-rolls",
+    "name": "五目春巻き",
+    "description": "豚肉、春雨、野菜の具を包んだ、薄い皮の香ばしい春巻き。",
+    "category": "main",
+    "cuisine": "中華",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 40,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "春巻きの皮",
+        "amount": "3枚"
+      },
+      {
+        "name": "豚ひき肉",
+        "amount": "50g"
+      },
+      {
+        "name": "春雨",
+        "amount": "10g"
+      },
+      {
+        "name": "ゆでたけのこ",
+        "amount": "30g"
+      },
+      {
+        "name": "しいたけ",
+        "amount": "1枚"
+      },
+      {
+        "name": "にんじん",
+        "amount": "20g"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "オイスターソース",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "片栗粉",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "水",
+        "amount": "80ml"
+      },
+      {
+        "name": "油",
+        "amount": "フライパンの深さ5mm分"
+      }
+    ],
+    "steps": [
+      "春雨を戻して切り、野菜を細切りにする。ひき肉を炒めて火を通し、野菜、春雨、しょうゆ、オイスターソース、水60mlを加えて煮る。",
+      "片栗粉と水10mlを混ぜて加え、汁気をとろりとまとめて冷ます。皮に3等分した具をのせて巻き、薄力粉と残りの水で端を留める。",
+      "油を160〜170度に熱して春巻きを入れ、返しながら皮がきつね色になるまで揚げ焼きにして油を切る。"
+    ],
+    "tip": "具を十分に冷ましてから包むと、蒸気で皮が破れにくくなる。",
+    "tags": ["豚肉", "春雨", "点心"],
+    "equipment": ["フライパン", "ボウル"],
+    "reward": 70,
+    "art": {
+      "base": "main",
+      "motif": "savory-spring-rolls",
+      "colors": ["#e9ac25", "#b57b3c", "#24624b", "#fff5de"],
+      "toppings": ["carrot-strips", "pork-mince", "mushroom"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-boiled-pork-dumplings",
+    "name": "水餃子",
+    "description": "もっちりした皮から肉汁が広がる、ゆでて仕上げる餃子。",
+    "category": "main",
+    "cuisine": "中華",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "水餃子用の皮",
+        "amount": "6枚"
+      },
+      {
+        "name": "豚ひき肉",
+        "amount": "80g"
+      },
+      {
+        "name": "白菜",
+        "amount": "60g"
+      },
+      {
+        "name": "にら",
+        "amount": "15g"
+      },
+      {
+        "name": "しょうが",
+        "amount": "5g"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "ごま油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "ひとつまみ"
+      },
+      {
+        "name": "酢",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "白菜をみじん切りにして塩でもみ、水気を絞る。にらとしょうがも刻み、ひき肉、しょうゆ、ごま油と粘りが出るまで練る。",
+      "皮に6等分した具をのせ、縁を水でぬらして空気を抜きながらしっかり閉じる。鍋にたっぷりの湯を沸かす。",
+      "餃子を入れ、浮いてからも4〜5分ゆでる。1個を切って肉の中心まで火が通ったことを確かめ、湯を切って酢を添える。"
+    ],
+    "tip": "皮の縁に肉だねを付けないようにすると、ゆでても口が開きにくい。",
+    "tags": ["豚肉", "点心", "ゆでる"],
+    "equipment": ["鍋", "ボウル"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "boiled-pork-dumplings",
+      "colors": ["#fff5de", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["dumpling", "scallion"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-steamed-soup-dumplings",
+    "name": "小籠包",
+    "description": "冷やし固めたスープを肉だねに練り込んだ、蒸したての点心。",
+    "category": "main",
+    "cuisine": "中華",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 70,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "小籠包用の皮",
+        "amount": "6枚"
+      },
+      {
+        "name": "豚ひき肉",
+        "amount": "80g"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "15g"
+      },
+      {
+        "name": "しょうが",
+        "amount": "5g"
+      },
+      {
+        "name": "鶏がらスープの素",
+        "amount": "小さじ1/3"
+      },
+      {
+        "name": "水",
+        "amount": "50ml"
+      },
+      {
+        "name": "粉ゼラチン",
+        "amount": "2g"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "ごま油",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "白菜",
+        "amount": "1枚"
+      }
+    ],
+    "steps": [
+      "水とスープの素を熱して火を止め、ゼラチンを溶かす。浅い容器に入れて冷蔵庫で約30分冷やし、固まったら細かく刻む。",
+      "ひき肉、刻んだねぎとしょうが、しょうゆ、ごま油を練り、スープのゼリーを混ぜる。皮で包み、ひだを寄せて頂点を閉じる。",
+      "白菜を敷いた蒸し器に間隔を空けて並べ、十分に蒸気が上がった状態で12〜15分蒸し、肉の中心まで加熱する。"
+    ],
+    "tip": "中のスープは非常に熱いため、れんげにのせて皮を少し開いて食べる。",
+    "tags": ["点心", "豚肉", "蒸し料理"],
+    "equipment": ["蒸し器", "冷蔵庫", "ボウル"],
+    "reward": 70,
+    "art": {
+      "base": "main",
+      "motif": "steamed-soup-dumplings",
+      "colors": ["#fff5de", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["dumpling", "cabbage"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-chinese-tomato-eggs",
+    "name": "トマトと卵の中華炒め",
+    "description": "トマトの汁を卵に絡めた、赤と黄色が鮮やかな家庭のおかず。",
+    "category": "main",
+    "cuisine": "中華",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 10,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "トマト",
+        "amount": "1個"
+      },
+      {
+        "name": "卵",
+        "amount": "2個"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "10g"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/5"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "ごま油",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "トマトはくし形、ねぎは小口切りにする。卵を溶いて塩の半量を混ぜ、油の半量で炒めて一度取り出す。",
+      "残りの油でトマトを炒め、砂糖と残りの塩を振る。切り口が少し崩れて汁が出るまで加熱する。",
+      "卵を戻して大きく混ぜ、卵全体に火を通す。ねぎを散らし、トマトの汁ごと器に盛る。"
+    ],
+    "tip": "トマトを炒めすぎず、角が少し崩れる程度で卵を戻す。",
+    "tags": ["卵", "トマト", "炒め物"],
+    "equipment": ["フライパン"],
+    "reward": 20,
+    "art": {
+      "base": "main",
+      "motif": "chinese-tomato-eggs",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["tomato", "egg-ribbons", "scallion"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-tofu-skin-coriander-salad",
+    "name": "干豆腐のパクチーあえ",
+    "description": "細切り干豆腐の歯ごたえに、香菜とごま油を合わせた冷菜。",
+    "category": "side",
+    "cuisine": "中華",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "干豆腐",
+        "amount": "80g"
+      },
+      {
+        "name": "きゅうり",
+        "amount": "1/3本"
+      },
+      {
+        "name": "パクチー",
+        "amount": "10g"
+      },
+      {
+        "name": "にんじん",
+        "amount": "15g"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "酢",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "ごま油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "干豆腐を細切りにし、製品の表示に従ってゆで、水を切って冷ます。にんじんも細切りにしてさっとゆでる。",
+      "きゅうりは細切り、パクチーは3cmに切る。しょうゆ、酢、ごま油、砂糖、塩をボウルで混ぜる。",
+      "干豆腐と野菜をたれに加えてほぐしながら和え、5分ほど置いて味をなじませる。"
+    ],
+    "tip": "干豆腐の水分をよく切ると、細い帯にたれが均一に絡む。",
+    "tags": ["豆腐", "パクチー", "冷菜"],
+    "equipment": ["鍋", "ボウル"],
+    "reward": 20,
+    "art": {
+      "base": "salad",
+      "motif": "tofu-skin-coriander-salad",
+      "colors": ["#e8d8ab", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["tofu-strips", "cucumber-strips", "carrot-strips"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-jellyfish-vinegar-salad",
+    "name": "くらげの中華あえ",
+    "description": "こりこりしたくらげときゅうりを、酢とごまの軽いたれで和える。",
+    "category": "side",
+    "cuisine": "中華",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "塩抜き済み食用くらげ",
+        "amount": "70g"
+      },
+      {
+        "name": "きゅうり",
+        "amount": "1/2本"
+      },
+      {
+        "name": "ハム",
+        "amount": "1枚"
+      },
+      {
+        "name": "酢",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "ごま油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "白ごま",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "くらげは製品の表示に従って下処理し、水気を十分に切る。長いものは食べやすい長さに切る。",
+      "きゅうりとハムを細切りにする。ボウルに酢、しょうゆ、砂糖、ごま油を入れ、砂糖が溶けるまで混ぜる。",
+      "くらげ、きゅうり、ハムを加えて和え、白ごまを振る。水が出る前に器に盛って食べる。"
+    ],
+    "tip": "塩抜き済みでも味を確かめ、しょうゆの量は塩気に応じて調節する。",
+    "tags": ["くらげ", "酢", "冷菜"],
+    "equipment": ["ボウル"],
+    "reward": 20,
+    "art": {
+      "base": "salad",
+      "motif": "jellyfish-vinegar-salad",
+      "colors": ["#fff5de", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["cucumber-strips", "ham", "sesame"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-century-egg-tofu",
+    "name": "ピータン豆腐",
+    "description": "濃厚なピータンと冷たい豆腐に、ねぎだれを添える小皿。",
+    "category": "side",
+    "cuisine": "中華",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 10,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "絹ごし豆腐",
+        "amount": "150g"
+      },
+      {
+        "name": "ピータン",
+        "amount": "1個"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "15g"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "黒酢",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "ごま油",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "しょうが",
+        "amount": "3g"
+      }
+    ],
+    "steps": [
+      "豆腐を清潔なペーパーで包み、軽く水気を切る。ピータンは製品の表示どおりに殻をむき、くし形に切る。",
+      "ねぎとしょうがをみじん切りにして、しょうゆ、黒酢、ごま油と混ぜてたれを作る。",
+      "豆腐を大きく切って皿に並べ、ピータンをのせる。食べる直前にねぎだれをかける。"
+    ],
+    "tip": "豆腐を強く押して水切りせず、表面の水分を取る程度にする。",
+    "tags": ["豆腐", "ピータン", "冷菜"],
+    "equipment": ["包丁", "ボウル"],
+    "reward": 20,
+    "art": {
+      "base": "salad",
+      "motif": "century-egg-tofu",
+      "colors": ["#fff5de", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["tofu", "egg", "scallion"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-braised-char-siu",
+    "name": "煮豚チャーシュー",
+    "description": "しょうゆだれで柔らかく煮た豚肉を、厚めに切って味わう。",
+    "category": "main",
+    "cuisine": "中華",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 75,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "豚肩ロースかたまり",
+        "amount": "180g"
+      },
+      {
+        "name": "長ねぎの青い部分",
+        "amount": "1本分"
+      },
+      {
+        "name": "しょうが",
+        "amount": "10g"
+      },
+      {
+        "name": "水",
+        "amount": "300ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "酒",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "砂糖",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "豚肉の水気を拭き、小鍋に油を熱して全ての面を焼く。しょうがを薄切りにする。",
+      "水、しょうゆ、酒、砂糖、ねぎ、しょうがを加える。沸いたらあくを取り、落としぶたをして弱火で50〜60分煮る。",
+      "途中で肉を返し、中心まで火を通す。肉を取り出して少し休ませて切り、煮汁を軽く煮詰めてかける。"
+    ],
+    "tip": "煮汁が減りすぎたら湯を足し、肉の半分以上が浸る状態を保つ。",
+    "tags": ["豚肉", "煮込み", "作り置き"],
+    "equipment": ["小鍋", "落としぶた"],
+    "reward": 70,
+    "art": {
+      "base": "main",
+      "motif": "braised-char-siu",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["pork-slices", "scallion"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-hot-sour-soup",
+    "name": "酸辣湯",
+    "description": "酢の酸味とこしょうの辛さを利かせた、豆腐と卵のとろみスープ。",
+    "category": "soup",
+    "cuisine": "中華",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "絹ごし豆腐",
+        "amount": "70g"
+      },
+      {
+        "name": "豚こま切れ肉",
+        "amount": "40g"
+      },
+      {
+        "name": "しいたけ",
+        "amount": "1枚"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "水",
+        "amount": "300ml"
+      },
+      {
+        "name": "鶏がらスープの素",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "酢",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "片栗粉",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "ラー油",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "豚肉、豆腐、しいたけを細く切る。鍋に水とスープの素を沸かして豚肉としいたけを煮、あくを取る。",
+      "肉に火が通ったら豆腐としょうゆを加える。片栗粉を同量の水で溶いて入れ、混ぜながらとろみを付ける。",
+      "溶き卵を細く流し入れて十分に火を通し、酢、こしょう、ラー油を加えてひと混ぜする。"
+    ],
+    "tip": "酢は仕上げに加えると、煮立てすぎず鮮やかな酸味を残せる。",
+    "tags": ["酢", "豆腐", "卵"],
+    "equipment": ["鍋"],
+    "reward": 40,
+    "art": {
+      "base": "soup",
+      "motif": "hot-sour-soup",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["tofu", "egg-ribbons", "mushroom"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-zhajiang-noodles",
+    "name": "ジャージャー麺",
+    "description": "甜麺醤で炒めた肉みそと、冷たいきゅうりを中華麺にのせる。",
+    "category": "noodles",
+    "cuisine": "中華",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "中華麺",
+        "amount": "1玉"
+      },
+      {
+        "name": "豚ひき肉",
+        "amount": "80g"
+      },
+      {
+        "name": "きゅうり",
+        "amount": "1/2本"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "20g"
+      },
+      {
+        "name": "甜麺醤",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ3"
+      },
+      {
+        "name": "片栗粉",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "ごま油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "きゅうりを細切り、ねぎをみじん切りにする。ごま油でひき肉とねぎを炒め、肉に十分に火を通す。",
+      "甜麺醤、しょうゆ、砂糖、水を加えて2分煮る。同量の水で溶いた片栗粉を入れ、肉みそをとろりとさせる。",
+      "麺を表示時間どおりにゆでて湯を切り、器に盛る。肉みそときゅうりをのせ、混ぜながら食べる。"
+    ],
+    "tip": "肉みそを少し緩めに仕上げると、食べるとき麺全体に絡めやすい。",
+    "tags": ["中華麺", "豚ひき肉", "肉みそ"],
+    "equipment": ["鍋", "フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "noodles",
+      "motif": "zhajiang-noodles",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["pork-mince", "cucumber-strips", "scallion"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-taiwan-lu-rou-fan",
+    "name": "ルーローハン",
+    "description": "小さく切った豚バラを五香粉の香る煮汁で煮て、ご飯にのせる。",
+    "category": "rice",
+    "cuisine": "台湾料理",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 55,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "150g"
+      },
+      {
+        "name": "豚バラ肉",
+        "amount": "100g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "ゆで卵",
+        "amount": "1個"
+      },
+      {
+        "name": "青梗菜",
+        "amount": "1/2株"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "酒",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "五香粉",
+        "amount": "少々"
+      },
+      {
+        "name": "水",
+        "amount": "150ml"
+      }
+    ],
+    "steps": [
+      "玉ねぎは薄切り、豚肉は1cm幅に切る。小鍋で豚肉を炒め、出た脂で玉ねぎを色付くまで炒める。",
+      "水、しょうゆ、砂糖、酒、五香粉、殻をむいたゆで卵を加える。落としぶたをして弱火で30分ほど煮る。",
+      "青梗菜を別にゆでて水を切る。豚肉が柔らかくなったら、ご飯に煮汁ごとのせ、半分に切った卵と青梗菜を添える。"
+    ],
+    "tip": "五香粉は少量でもよく香るので、最後に味を見て足す。",
+    "tags": ["台湾", "豚肉", "煮込み"],
+    "equipment": ["小鍋", "落としぶた"],
+    "reward": 70,
+    "art": {
+      "base": "rice",
+      "motif": "taiwan-lu-rou-fan",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["pork-chunks", "egg", "komatsuna"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-bulgogi",
+    "name": "プルコギ",
+    "description": "甘めのしょうゆだれをもみ込んだ牛肉を、野菜と一緒に炒める。",
+    "category": "main",
+    "cuisine": "韓国料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "牛薄切り肉",
+        "amount": "120g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "にんじん",
+        "amount": "30g"
+      },
+      {
+        "name": "にら",
+        "amount": "30g"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "おろしにんにく",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "白ごま",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "ごま油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "牛肉を食べやすく切り、しょうゆ、砂糖、にんにくをもみ込んで10分置く。玉ねぎとにんじんを細切りにする。",
+      "ごま油で玉ねぎとにんじんを炒め、牛肉をたれごと加える。肉をほぐしながら十分に火を通す。",
+      "切ったにらを加えて手早く炒め、余分な水分を飛ばす。器に盛り、白ごまを振る。"
+    ],
+    "tip": "野菜を先に炒めておくと、肉に火が通る頃に全体が食べ頃になる。",
+    "tags": ["牛肉", "甘辛", "炒め物"],
+    "equipment": ["フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "bulgogi",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["beef-strips", "carrot-strips", "scallion"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-samgyeopsal",
+    "name": "サムギョプサル",
+    "description": "こんがり焼いた豚バラを、葉野菜とみそだれで包む焼き肉。",
+    "category": "main",
+    "cuisine": "韓国料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "豚バラ厚切り肉",
+        "amount": "150g"
+      },
+      {
+        "name": "サニーレタス",
+        "amount": "4枚"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1片"
+      },
+      {
+        "name": "キムチ",
+        "amount": "40g"
+      },
+      {
+        "name": "みそ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "コチュジャン",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "ごま油",
+        "amount": "小さじ1/2"
+      }
+    ],
+    "steps": [
+      "葉野菜を洗って水気を切る。みそ、コチュジャン、砂糖、ごま油を混ぜ、にんにくを薄切りにする。",
+      "豚肉をフライパンに並べて両面を焼き、余分な脂を拭きながら中心まで十分に火を通す。にんにくも端で焼く。",
+      "肉を一口大に切り、キムチ、葉野菜、みそだれと別々に盛る。肉と薬味を葉野菜で包む。"
+    ],
+    "tip": "豚肉の脂を拭きながら焼くと、表面がべたつかず香ばしく仕上がる。",
+    "tags": ["豚肉", "焼き肉", "葉野菜"],
+    "equipment": ["フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "samgyeopsal",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["pork-slices", "lettuce", "garlic"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-cheese-dakgalbi",
+    "name": "チーズタッカルビ",
+    "description": "鶏肉とキャベツの辛味炒めに、とろけるチーズを添える。",
+    "category": "main",
+    "cuisine": "韓国料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏もも肉",
+        "amount": "130g"
+      },
+      {
+        "name": "キャベツ",
+        "amount": "100g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "さつまいも",
+        "amount": "50g"
+      },
+      {
+        "name": "ピザ用チーズ",
+        "amount": "40g"
+      },
+      {
+        "name": "コチュジャン",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "酒",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "ごま油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "鶏肉を一口大にし、コチュジャン、しょうゆ、砂糖、酒をもみ込む。さつまいもは薄い半月切り、野菜はざく切りにする。",
+      "ごま油で鶏肉と野菜を炒め、水大さじ2を加えてふたをする。弱めの中火で10分ほど蒸し焼きにして肉の中心まで火を通す。",
+      "ふたを取り、汁気を軽く飛ばす。中央に隙間を作ってチーズを入れ、再びふたをして溶かす。"
+    ],
+    "tip": "さつまいもは5mmほどに切ると、鶏肉と一緒に火が通りやすい。",
+    "tags": ["鶏肉", "チーズ", "甘辛"],
+    "equipment": ["フライパン", "ふた"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "cheese-dakgalbi",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["chicken-chunks", "cabbage", "cheese"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-yangnyeom-chicken",
+    "name": "ヤンニョムチキン",
+    "description": "からりと焼いた鶏肉に、コチュジャンとケチャップの甘辛だれを絡める。",
+    "category": "main",
+    "cuisine": "韓国料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏もも肉",
+        "amount": "150g"
+      },
+      {
+        "name": "片栗粉",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "酒",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "コチュジャン",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "ケチャップ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "白ごま",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "油",
+        "amount": "大さじ2"
+      }
+    ],
+    "steps": [
+      "鶏肉を一口大にし、酒と塩をもみ込んで片栗粉をまぶす。たれのコチュジャン、ケチャップ、砂糖、しょうゆを混ぜる。",
+      "油を熱し、鶏肉を返しながら8〜10分ほど揚げ焼きにする。厚い肉を切って中心まで火が通ったことを確かめる。",
+      "余分な油を拭いてたれを加え、弱火で鶏肉に絡める。照りが出たら白ごまを振って盛る。"
+    ],
+    "tip": "砂糖を含むたれは焦げやすいので、肉に火を通してから加える。",
+    "tags": ["鶏肉", "コチュジャン", "揚げ焼き"],
+    "equipment": ["フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "yangnyeom-chicken",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["chicken-chunks", "sesame"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-bossam",
+    "name": "ポッサム",
+    "description": "みそと香味野菜でゆでた豚肉を、キムチと葉野菜で包む。",
+    "category": "main",
+    "cuisine": "韓国料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 65,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "豚肩ロースかたまり",
+        "amount": "180g"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "1/2本"
+      },
+      {
+        "name": "しょうが",
+        "amount": "10g"
+      },
+      {
+        "name": "みそ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "水",
+        "amount": "700ml"
+      },
+      {
+        "name": "サニーレタス",
+        "amount": "4枚"
+      },
+      {
+        "name": "キムチ",
+        "amount": "40g"
+      },
+      {
+        "name": "コチュジャン",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "鍋に水、みそ、ねぎ、薄切りしょうがを入れて沸かす。豚肉を加え、再び煮立ったらあくを取る。",
+      "弱く煮立つ火加減で45〜50分煮る。肉が湯から出ないよう湯を足し、中心まで十分に火を通す。",
+      "肉を取り出して少し休ませ、薄く切る。洗って水気を切った葉野菜、キムチ、コチュジャンを添える。"
+    ],
+    "tip": "ゆでた肉を少し休ませてから切ると、断面が崩れにくくなる。",
+    "tags": ["豚肉", "ゆでる", "葉野菜"],
+    "equipment": ["鍋"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "bossam",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["pork-slices", "lettuce", "chili-sauce"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-japchae",
+    "name": "チャプチェ",
+    "description": "つやのある韓国春雨に、牛肉と彩り野菜を混ぜる。",
+    "category": "main",
+    "cuisine": "韓国料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "韓国春雨",
+        "amount": "50g"
+      },
+      {
+        "name": "牛薄切り肉",
+        "amount": "60g"
+      },
+      {
+        "name": "ほうれん草",
+        "amount": "50g"
+      },
+      {
+        "name": "にんじん",
+        "amount": "30g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "しいたけ",
+        "amount": "1枚"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "ごま油",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "白ごま",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "春雨を表示どおりにゆで、長ければ切る。ほうれん草をさっとゆでて絞り、にんじん、玉ねぎ、しいたけは細切りにする。",
+      "ごま油の半量で牛肉とにんじん、玉ねぎ、しいたけを炒める。肉と野菜に火が通ったらしょうゆと砂糖を加える。",
+      "春雨とほうれん草を加えて汁気を吸わせ、残りのごま油と白ごまを混ぜる。箸でほぐして盛り付ける。"
+    ],
+    "tip": "春雨はゆでた後に少量のごま油を絡めると、ほぐしやすくなる。",
+    "tags": ["春雨", "牛肉", "甘辛"],
+    "equipment": ["鍋", "フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "noodles",
+      "motif": "japchae",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["beef-strips", "carrot-strips", "komatsuna", "mushroom"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-tteokbokki",
+    "name": "トッポギ",
+    "description": "棒状のもちとさつま揚げを、甘辛いコチュジャンだれで煮る。",
+    "category": "main",
+    "cuisine": "韓国料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "トッポギ用もち",
+        "amount": "120g"
+      },
+      {
+        "name": "さつま揚げ",
+        "amount": "1枚"
+      },
+      {
+        "name": "キャベツ",
+        "amount": "40g"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "20g"
+      },
+      {
+        "name": "水",
+        "amount": "180ml"
+      },
+      {
+        "name": "コチュジャン",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "白ごま",
+        "amount": "小さじ1/2"
+      }
+    ],
+    "steps": [
+      "キャベツとさつま揚げを一口大、ねぎを斜め切りにする。もちの下処理が必要な場合は製品の表示に従う。",
+      "小鍋に水、コチュジャン、砂糖、しょうゆを入れて沸かす。もち、さつま揚げ、キャベツを加え、弱めの中火で煮る。",
+      "もちが中心まで柔らかくなったらねぎを加え、混ぜながら汁を煮詰める。とろみが付いたらごまを振る。"
+    ],
+    "tip": "もちが鍋底に張り付かないよう、煮ている間は時々混ぜる。",
+    "tags": ["もち", "コチュジャン", "甘辛"],
+    "equipment": ["小鍋"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "tteokbokki",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["rice-cake", "scallion", "cabbage"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-gyeran-jjim",
+    "name": "ケランチム",
+    "description": "だしを含ませた卵を小鍋でふっくら蒸し上げる。",
+    "category": "side",
+    "cuisine": "韓国料理",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "卵",
+        "amount": "2個"
+      },
+      {
+        "name": "水",
+        "amount": "100ml"
+      },
+      {
+        "name": "鶏がらスープの素",
+        "amount": "小さじ1/3"
+      },
+      {
+        "name": "塩",
+        "amount": "ひとつまみ"
+      },
+      {
+        "name": "にんじん",
+        "amount": "10g"
+      },
+      {
+        "name": "小ねぎ",
+        "amount": "1本"
+      },
+      {
+        "name": "ごま油",
+        "amount": "小さじ1/2"
+      }
+    ],
+    "steps": [
+      "にんじんを細かく刻み、小ねぎは小口切りにする。卵をよく溶き、水、スープの素、塩を混ぜる。",
+      "内側にごま油を塗った小鍋に卵液とにんじんを入れ、弱めの中火で底からゆっくり混ぜながら温める。",
+      "卵がもったりしてきたら小ねぎを散らし、ふたをして弱火で5〜7分加熱する。中央まで固まったら火を止める。"
+    ],
+    "tip": "浅く広い鍋より小鍋を使うと、卵が厚くふっくらまとまる。",
+    "tags": ["卵", "蒸し料理", "だし"],
+    "equipment": ["小鍋", "ふた"],
+    "reward": 20,
+    "art": {
+      "base": "main",
+      "motif": "gyeran-jjim",
+      "colors": ["#e9ac25", "#b57b3c", "#24624b", "#fff5de"],
+      "toppings": ["egg-ribbons", "scallion", "carrot"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-chicken-samgyetang",
+    "name": "手羽元サムゲタン風",
+    "description": "手羽元ともち米を煮込んだ、にんにくの香る白いスープ。",
+    "category": "soup",
+    "cuisine": "韓国料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 55,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏手羽元",
+        "amount": "3本"
+      },
+      {
+        "name": "もち米",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "1/3本"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1片"
+      },
+      {
+        "name": "しょうが",
+        "amount": "5g"
+      },
+      {
+        "name": "乾燥なつめ",
+        "amount": "1個"
+      },
+      {
+        "name": "水",
+        "amount": "600ml"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/3"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "もち米を洗い、ねぎをぶつ切り、しょうがを薄切りにする。手羽元の表面の水気を拭く。",
+      "鍋に手羽元、もち米、ねぎ、にんにく、しょうが、なつめ、水を入れる。沸いたらあくを取り、弱火で40分ほど煮る。",
+      "骨際まで火が通り、もち米が柔らかくなったら塩とこしょうで味を調える。煮詰まりすぎたら湯を足す。"
+    ],
+    "tip": "もち米が鍋底に沈むので、時々底から静かに混ぜて焦げを防ぐ。",
+    "tags": ["鶏肉", "もち米", "煮込み"],
+    "equipment": ["鍋"],
+    "reward": 40,
+    "art": {
+      "base": "soup",
+      "motif": "chicken-samgyetang",
+      "colors": ["#fff5de", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["chicken-drumstick", "scallion", "garlic"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-yukgaejang",
+    "name": "ユッケジャン",
+    "description": "牛肉ともやしを煮込んだ、赤い辛味スープ。",
+    "category": "soup",
+    "cuisine": "韓国料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "牛薄切り肉",
+        "amount": "80g"
+      },
+      {
+        "name": "もやし",
+        "amount": "50g"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "1/2本"
+      },
+      {
+        "name": "水煮ぜんまい",
+        "amount": "30g"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "水",
+        "amount": "350ml"
+      },
+      {
+        "name": "鶏がらスープの素",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "コチュジャン",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "ごま油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "粉唐辛子",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "牛肉とぜんまいは食べやすく切り、ねぎは斜め切りにする。鍋にごま油を熱し、牛肉を炒める。",
+      "肉の色が変わったらコチュジャンと粉唐辛子を加え、水、スープの素、しょうゆ、野菜を入れて15分煮る。",
+      "牛肉と野菜に十分に火が通ったら溶き卵を回し入れ、卵が固まるまで加熱して器に盛る。"
+    ],
+    "tip": "粉唐辛子は油で長く炒めると焦げるため、香りが出たらすぐ水を加える。",
+    "tags": ["牛肉", "辛い", "野菜"],
+    "equipment": ["鍋"],
+    "reward": 40,
+    "art": {
+      "base": "soup",
+      "motif": "yukgaejang",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["beef-strips", "sprout", "scallion", "egg-ribbons"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-thai-green-curry",
+    "name": "グリーンカレー",
+    "description": "青唐辛子のペーストとココナッツミルクで煮る、香りの強いカレー。",
+    "category": "main",
+    "cuisine": "タイ料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏もも肉",
+        "amount": "120g"
+      },
+      {
+        "name": "なす",
+        "amount": "1本"
+      },
+      {
+        "name": "たけのこ水煮",
+        "amount": "40g"
+      },
+      {
+        "name": "グリーンカレーペースト",
+        "amount": "15g"
+      },
+      {
+        "name": "ココナッツミルク",
+        "amount": "150ml"
+      },
+      {
+        "name": "水",
+        "amount": "80ml"
+      },
+      {
+        "name": "ナンプラー",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "バジル",
+        "amount": "3枚"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "鶏肉となすを一口大、たけのこを薄切りにする。鍋に油を熱し、ペーストを弱火で炒めて香りを出す。",
+      "ココナッツミルクを少しずつ加えてのばし、鶏肉、水、なす、たけのこを入れて弱火で15分ほど煮る。",
+      "鶏肉の中心まで火が通ったらナンプラーと砂糖で味を調え、ちぎったバジルを加えて器に盛る。"
+    ],
+    "tip": "カレーペーストによって塩分が異なるので、ナンプラーは最後に加える。",
+    "tags": ["ココナッツ", "鶏肉", "辛い"],
+    "equipment": ["鍋"],
+    "reward": 40,
+    "art": {
+      "base": "curry",
+      "motif": "thai-green-curry",
+      "colors": ["#729f49", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["chicken-chunks", "eggplant", "basil"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-massaman-curry",
+    "name": "マッサマンカレー",
+    "description": "じゃがいもとピーナッツが入った、甘みのあるココナッツカレー。",
+    "category": "main",
+    "cuisine": "タイ料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 40,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏もも肉",
+        "amount": "120g"
+      },
+      {
+        "name": "じゃがいも",
+        "amount": "1個"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "マッサマンカレーペースト",
+        "amount": "15g"
+      },
+      {
+        "name": "ココナッツミルク",
+        "amount": "150ml"
+      },
+      {
+        "name": "水",
+        "amount": "120ml"
+      },
+      {
+        "name": "ピーナッツ",
+        "amount": "10g"
+      },
+      {
+        "name": "ナンプラー",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "レモン汁",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "鶏肉とじゃがいもを一口大、玉ねぎをくし形に切る。鍋に油を熱し、ペーストを弱火で香りが立つまで炒める。",
+      "ココナッツミルクと水を混ぜ、鶏肉、じゃがいも、玉ねぎ、ピーナッツを加える。弱火で25分ほど煮る。",
+      "鶏肉の中心まで火が通り、じゃがいもが柔らかくなったら、ナンプラー、砂糖、レモン汁で味を調える。"
+    ],
+    "tip": "じゃがいもは大きさをそろえると、煮崩れる前に均一に火が通る。",
+    "tags": ["ココナッツ", "じゃがいも", "ピーナッツ"],
+    "equipment": ["鍋"],
+    "reward": 40,
+    "art": {
+      "base": "curry",
+      "motif": "massaman-curry",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["chicken-chunks", "potato", "peanut"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-chicken-satay",
+    "name": "鶏のサテ",
+    "description": "スパイスをもみ込んだ串焼きに、濃厚なピーナッツソースを添える。",
+    "category": "main",
+    "cuisine": "インドネシア料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏もも肉",
+        "amount": "150g"
+      },
+      {
+        "name": "カレー粉",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "無糖ピーナッツバター",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "ココナッツミルク",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "レモン汁",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "鶏肉を細長く切り、カレー粉、しょうゆ、砂糖の半量をもみ込む。水に浸した竹串に縫うように刺す。",
+      "油を熱したフライパンで串の両面を焼き、ふたをして弱火で蒸し焼きにする。鶏肉の中心まで十分に火を通す。",
+      "小鍋でピーナッツバター、ココナッツミルク、残りの砂糖、レモン汁、塩を混ぜて温め、串焼きに添える。"
+    ],
+    "tip": "肉を薄く平たく串に刺すと、フライパンでも中心まで焼きやすい。",
+    "tags": ["鶏肉", "串焼き", "ピーナッツ"],
+    "equipment": ["フライパン", "ふた", "小鍋", "竹串"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "chicken-satay",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["chicken-chunks", "peanut"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-nasi-goreng",
+    "name": "ナシゴレン",
+    "description": "甘いしょうゆと唐辛子の風味を利かせた、目玉焼き付きの炒めご飯。",
+    "category": "rice",
+    "cuisine": "インドネシア料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "150g"
+      },
+      {
+        "name": "むきえび",
+        "amount": "60g"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1/2片"
+      },
+      {
+        "name": "ケチャップマニス",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "サンバル",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "きゅうり",
+        "amount": "1/4本"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "玉ねぎとにんにくを刻み、えびの背わたを取る。油の半量で卵を焼き、ふたをして黄身と白身に火を通して取り出す。",
+      "残りの油で玉ねぎ、にんにく、えびを炒める。えびが不透明になったらご飯を加え、ほぐして炒める。",
+      "ケチャップマニス、サンバル、しょうゆを混ぜ、目玉焼きをのせて輪切りきゅうりを添える。"
+    ],
+    "tip": "ご飯は温かいものを使うと、少量の油でも塊をほぐしやすい。",
+    "tags": ["炒めご飯", "えび", "甘辛"],
+    "equipment": ["フライパン", "ふた"],
+    "reward": 40,
+    "art": {
+      "base": "rice",
+      "motif": "nasi-goreng",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["shrimp", "egg", "cucumber"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-mie-goreng",
+    "name": "ミーゴレン",
+    "description": "甘辛いソースを中華麺に絡めた、えびと野菜の炒め麺。",
+    "category": "noodles",
+    "cuisine": "インドネシア料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "蒸し中華麺",
+        "amount": "1玉"
+      },
+      {
+        "name": "むきえび",
+        "amount": "60g"
+      },
+      {
+        "name": "キャベツ",
+        "amount": "60g"
+      },
+      {
+        "name": "もやし",
+        "amount": "40g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "ケチャップマニス",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "サンバル",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "オイスターソース",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "キャベツは一口大、玉ねぎは薄切りにする。えびの背わたを取り、麺は袋の表示に従って軽く温めておく。",
+      "油でえびと玉ねぎを炒め、えびの色が変わったらキャベツともやしを加える。麺と水を入れてほぐす。",
+      "ケチャップマニス、サンバル、オイスターソースを加え、麺と具材に火を通しながら汁気を飛ばす。"
+    ],
+    "tip": "調味料をあらかじめ混ぜておくと、麺の一部だけ濃い味になるのを防げる。",
+    "tags": ["炒め麺", "えび", "甘辛"],
+    "equipment": ["フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "noodles",
+      "motif": "mie-goreng",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["shrimp", "cabbage", "sprout"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-vietnamese-fresh-rolls",
+    "name": "えびの生春巻き",
+    "description": "えび、米麺、葉野菜を透けるライスペーパーで巻く。",
+    "category": "side",
+    "cuisine": "ベトナム料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ライスペーパー",
+        "amount": "3枚"
+      },
+      {
+        "name": "むきえび",
+        "amount": "6尾"
+      },
+      {
+        "name": "細い米麺",
+        "amount": "20g"
+      },
+      {
+        "name": "レタス",
+        "amount": "2枚"
+      },
+      {
+        "name": "きゅうり",
+        "amount": "1/3本"
+      },
+      {
+        "name": "ミント",
+        "amount": "6枚"
+      },
+      {
+        "name": "スイートチリソース",
+        "amount": "大さじ1"
+      }
+    ],
+    "steps": [
+      "えびを中心までゆでて冷まし、厚みを半分に切る。米麺は表示どおりにゆで、流水で冷まして水気を切る。",
+      "レタスは細くちぎり、きゅうりは細切りにする。ライスペーパーを1枚ずつぬるま湯にさっとくぐらせる。",
+      "皮にえび、野菜、米麺、ミントをのせて両端を折り込みながら巻く。スイートチリソースを添える。"
+    ],
+    "tip": "皮は水に浸しすぎず、少し硬さが残るうちに引き上げて具を置く。",
+    "tags": ["えび", "米麺", "野菜"],
+    "equipment": ["鍋", "ボウル"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "vietnamese-fresh-rolls",
+      "colors": ["#fff5de", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["shrimp", "cucumber-strips", "lettuce"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-banh-xeo",
+    "name": "バインセオ",
+    "description": "米粉の薄い生地に豚肉ともやしを包んだ、黄色いお食事焼き。",
+    "category": "main",
+    "cuisine": "ベトナム料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "米粉",
+        "amount": "40g"
+      },
+      {
+        "name": "ココナッツミルク",
+        "amount": "60ml"
+      },
+      {
+        "name": "水",
+        "amount": "40ml"
+      },
+      {
+        "name": "ターメリック",
+        "amount": "少々"
+      },
+      {
+        "name": "豚薄切り肉",
+        "amount": "50g"
+      },
+      {
+        "name": "むきえび",
+        "amount": "40g"
+      },
+      {
+        "name": "もやし",
+        "amount": "60g"
+      },
+      {
+        "name": "レタス",
+        "amount": "2枚"
+      },
+      {
+        "name": "ナンプラー",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "レモン汁",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "米粉、ココナッツミルク、水、ターメリックを混ぜる。別の器でナンプラー、レモン汁、砂糖を混ぜてたれを作る。",
+      "油の半量で豚肉とえびを炒め、中心まで火を通して取り出す。残りの油を広げ、生地を薄く流し入れる。",
+      "半面に肉、えび、もやしをのせてふたをし、3分ほど焼く。ふたを外して縁をカリッとさせ、半分に折ってレタスとたれを添える。"
+    ],
+    "tip": "生地を注ぐ前に沈んだ米粉を混ぜ直すと、薄さが均一になる。",
+    "tags": ["米粉", "えび", "ココナッツ"],
+    "equipment": ["フライパン", "ふた", "ボウル"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "banh-xeo",
+      "colors": ["#e9ac25", "#b57b3c", "#24624b", "#fff5de"],
+      "toppings": ["shrimp", "sprout", "pork-slices"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-yam-woon-sen",
+    "name": "ヤムウンセン",
+    "description": "春雨とえびにライムとナンプラーをなじませた、香りのよい温サラダ。",
+    "category": "side",
+    "cuisine": "タイ料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "春雨",
+        "amount": "30g"
+      },
+      {
+        "name": "むきえび",
+        "amount": "50g"
+      },
+      {
+        "name": "豚ひき肉",
+        "amount": "40g"
+      },
+      {
+        "name": "紫玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "セロリ",
+        "amount": "30g"
+      },
+      {
+        "name": "パクチー",
+        "amount": "5g"
+      },
+      {
+        "name": "ナンプラー",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "ライム汁",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "粉唐辛子",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "紫玉ねぎとセロリは薄切りにする。春雨を表示どおりにゆで、食べやすく切って水を切る。",
+      "別の湯でえびとひき肉をそれぞれ中心までゆで、ひき肉は細かくほぐす。ナンプラー、ライム汁、砂糖、唐辛子を混ぜる。",
+      "春雨が温かいうちにえび、肉、野菜、たれを混ぜる。パクチーをちぎって加え、器に盛る。"
+    ],
+    "tip": "温かい春雨にたれを絡めると、冷める間に味が入りやすい。",
+    "tags": ["春雨", "ライム", "えび"],
+    "equipment": ["鍋", "ボウル"],
+    "reward": 40,
+    "art": {
+      "base": "noodles",
+      "motif": "yam-woon-sen",
+      "colors": ["#fff5de", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["shrimp", "pork-mince", "onion", "cucumber-strips"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-coconut-laksa",
+    "name": "ラクサ",
+    "description": "えびと厚揚げをのせた、ココナッツ風味の濃厚なスープ麺。",
+    "category": "noodles",
+    "cuisine": "シンガポール料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "米麺",
+        "amount": "70g"
+      },
+      {
+        "name": "むきえび",
+        "amount": "60g"
+      },
+      {
+        "name": "厚揚げ",
+        "amount": "50g"
+      },
+      {
+        "name": "もやし",
+        "amount": "40g"
+      },
+      {
+        "name": "ラクサペースト",
+        "amount": "20g"
+      },
+      {
+        "name": "ココナッツミルク",
+        "amount": "150ml"
+      },
+      {
+        "name": "水",
+        "amount": "200ml"
+      },
+      {
+        "name": "ナンプラー",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "パクチー",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "米麺を表示に従って戻す。えびの背わたを取り、厚揚げは湯をかけて油抜きして一口大に切る。",
+      "鍋に油を熱してペーストを弱火で炒め、ココナッツミルクと水を加える。えび、厚揚げ、もやしを入れて煮る。",
+      "えびの中心まで火が通ったら麺を加えて温め、ナンプラーで味を調える。器に盛ってパクチーを添える。"
+    ],
+    "tip": "ペーストの塩分を見て、スープを味見してからナンプラーを足す。",
+    "tags": ["ココナッツ", "米麺", "えび"],
+    "equipment": ["鍋"],
+    "reward": 40,
+    "art": {
+      "base": "noodles",
+      "motif": "coconut-laksa",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["shrimp", "fried-tofu", "sprout"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-tom-yum-goong",
+    "name": "トムヤムクン",
+    "description": "レモングラスの香りとライムの酸味を重ねた、辛いえびスープ。",
+    "category": "soup",
+    "cuisine": "タイ料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "殻付きえび",
+        "amount": "4尾"
+      },
+      {
+        "name": "しめじ",
+        "amount": "40g"
+      },
+      {
+        "name": "トマト",
+        "amount": "1/2個"
+      },
+      {
+        "name": "レモングラス",
+        "amount": "1本"
+      },
+      {
+        "name": "こぶみかんの葉",
+        "amount": "2枚"
+      },
+      {
+        "name": "トムヤムペースト",
+        "amount": "15g"
+      },
+      {
+        "name": "水",
+        "amount": "350ml"
+      },
+      {
+        "name": "ナンプラー",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "ライム汁",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "パクチー",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "えびは背わたを取り、しめじはほぐす。レモングラスを軽くたたいて切り、トマトをくし形にする。",
+      "水にレモングラスとこぶみかんの葉を入れて5分煮る。ペーストを溶かし、えび、しめじ、トマトを加えて煮る。",
+      "えびの中心まで火が通ったらナンプラーとライム汁を加える。硬い香草を取り除いて盛り、パクチーを添える。"
+    ],
+    "tip": "ライム汁は火を止める直前に加えると、香りが飛びにくい。",
+    "tags": ["えび", "ライム", "辛い"],
+    "equipment": ["鍋"],
+    "reward": 40,
+    "art": {
+      "base": "soup",
+      "motif": "tom-yum-goong",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["shrimp", "tomato", "mushroom"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-chicken-biryani",
+    "name": "チキンビリヤニ",
+    "description": "スパイスで煮た鶏肉とバスマティ米を重ねて蒸し上げる。",
+    "category": "rice",
+    "cuisine": "インド料理",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 70,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "バスマティ米",
+        "amount": "80g"
+      },
+      {
+        "name": "鶏もも肉",
+        "amount": "120g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/2個"
+      },
+      {
+        "name": "トマト",
+        "amount": "1/2個"
+      },
+      {
+        "name": "プレーンヨーグルト",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "ビリヤニマサラ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1/2片"
+      },
+      {
+        "name": "しょうが",
+        "amount": "5g"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/3"
+      },
+      {
+        "name": "油",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ3"
+      },
+      {
+        "name": "ミント",
+        "amount": "5枚"
+      }
+    ],
+    "steps": [
+      "米を洗って20分浸水する。鶏肉にヨーグルト、マサラ、おろしたにんにくとしょうが、塩の半量を混ぜ、玉ねぎを薄切りにする。",
+      "小鍋で玉ねぎを油できつね色まで炒める。刻んだトマト、鶏肉、水を加えて約12分煮る。米は別のたっぷりの湯で5分ほど下ゆでして湯を切る。",
+      "肉の鍋に米を重ね、残りの塩とミントを散らす。ふたをして弱火で15分加熱し、10分蒸らす。肉の中心まで火が通ったことを確かめ、底からほぐす。"
+    ],
+    "tip": "米の下ゆでは芯を少し残し、最後の蒸し煮で仕上げる。",
+    "tags": ["バスマティ米", "鶏肉", "スパイス"],
+    "equipment": ["鍋", "小鍋", "ふた"],
+    "reward": 70,
+    "art": {
+      "base": "rice",
+      "motif": "chicken-biryani",
+      "colors": ["#e9ac25", "#b57b3c", "#24624b", "#fff5de"],
+      "toppings": ["chicken-chunks", "onion", "mint"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-butter-chicken-curry",
+    "name": "バターチキンカレー",
+    "description": "トマトとバターのまろやかなソースで鶏肉を煮込む。",
+    "category": "main",
+    "cuisine": "インド料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏もも肉",
+        "amount": "130g"
+      },
+      {
+        "name": "プレーンヨーグルト",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "カットトマト",
+        "amount": "150g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "バター",
+        "amount": "15g"
+      },
+      {
+        "name": "生クリーム",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "カレー粉",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "ガラムマサラ",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1/2片"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "水",
+        "amount": "50ml"
+      }
+    ],
+    "steps": [
+      "鶏肉を一口大にし、ヨーグルトとカレー粉をもみ込む。玉ねぎとにんにくを細かく刻み、バターの半量で炒める。",
+      "トマト、水、鶏肉を漬け汁ごと加え、弱火で15分ほど煮る。焦げないよう底から混ぜ、肉の中心まで火を通す。",
+      "生クリーム、残りのバター、ガラムマサラ、砂糖、塩を加えて2分温め、なめらかなソースにする。"
+    ],
+    "tip": "トマトの酸味に合わせて砂糖を少しずつ加え、甘くしすぎないようにする。",
+    "tags": ["鶏肉", "トマト", "バター"],
+    "equipment": ["鍋"],
+    "reward": 40,
+    "art": {
+      "base": "curry",
+      "motif": "butter-chicken-curry",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["chicken-chunks", "cream-sauce"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-plain-dosa",
+    "name": "ドーサ",
+    "description": "米と豆の発酵生地を薄く広げて焼く、香ばしい南インドの料理。",
+    "category": "main",
+    "cuisine": "インド料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "市販ドーサ用発酵済み生地",
+        "amount": "150g"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ1〜2"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "市販ココナッツチャトニ",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "市販サンバル",
+        "amount": "100g"
+      }
+    ],
+    "steps": [
+      "生地は製品の表示に従って混ぜ、水を少しずつ足しておたまから流れる濃さにする。サンバルを小鍋で十分に温める。",
+      "フライパンを中火で温め、油を薄く塗る。火を弱めて生地の半量を中心に置き、おたまの底で円を描いて薄く広げる。",
+      "縁に油を少量垂らし、表面が乾いて裏がきつね色になるまで焼く。折りたたみ、残りも同様に焼いてチャトニとサンバルを添える。"
+    ],
+    "tip": "フライパンが熱すぎると生地を広げにくいので、注ぐ前に火を弱める。",
+    "tags": ["米粉", "発酵生地", "南インド"],
+    "equipment": ["フライパン", "小鍋", "おたま"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "plain-dosa",
+      "colors": ["#e9ac25", "#b57b3c", "#24624b", "#fff5de"],
+      "toppings": ["coconut", "curry-sauce"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-steamed-idli",
+    "name": "イドゥリ",
+    "description": "米と豆の発酵生地を型で蒸した、ふわりと軽い白い蒸しパン。",
+    "category": "main",
+    "cuisine": "インド料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "市販イドゥリ用発酵済み生地",
+        "amount": "180g"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "市販サンバル",
+        "amount": "150g"
+      },
+      {
+        "name": "市販ココナッツチャトニ",
+        "amount": "大さじ2"
+      }
+    ],
+    "steps": [
+      "イドゥリ型または小さな耐熱カップに油を薄く塗る。生地は製品の表示どおりに整え、型の七〜八分目まで入れる。",
+      "蒸し器の湯を十分に沸かして型を入れ、強めの中火で12〜15分蒸す。中心に刺した竹串に生地が付かなければ取り出す。",
+      "3分ほど置いてから型から外す。小鍋でサンバルを十分に温め、チャトニとともに別の器で添える。"
+    ],
+    "tip": "米粉だけの生地に置き換えず、米と豆を発酵させた専用生地を使う。",
+    "tags": ["米", "豆", "蒸し料理"],
+    "equipment": ["蒸し器", "イドゥリ型または耐熱カップ", "小鍋"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "steamed-idli",
+      "colors": ["#fff5de", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["rice-cake", "curry-sauce"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-potato-samosa",
+    "name": "サモサ",
+    "description": "じゃがいもと豆のスパイス炒めを三角形の皮に包んで揚げる。",
+    "category": "side",
+    "cuisine": "インド料理",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 55,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "60g"
+      },
+      {
+        "name": "塩",
+        "amount": "ひとつまみ"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ2と揚げ油適量"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "じゃがいも",
+        "amount": "1個"
+      },
+      {
+        "name": "グリーンピース",
+        "amount": "20g"
+      },
+      {
+        "name": "クミンシード",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "カレー粉",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "レモン汁",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "薄力粉と塩に油小さじ1を混ぜ、水を加えて硬めにこねて20分休ませる。じゃがいもをゆでて粗くつぶす。",
+      "油小さじ1でクミンを温め、じゃがいも、グリーンピース、カレー粉を炒める。レモン汁を混ぜて冷ます。生地を2等分して丸くのばし、それぞれ半分に切る。",
+      "半円の直線を重ねて水で留め、円すい形にして具を詰め、口を閉じる。160度の油で8〜10分ほど揚げ、皮をきつね色にする。"
+    ],
+    "tip": "具を冷まし、皮の合わせ目をしっかり押さえると揚げる間に開きにくい。",
+    "tags": ["じゃがいも", "豆", "スパイス"],
+    "equipment": ["鍋", "ボウル", "麺棒"],
+    "reward": 70,
+    "art": {
+      "base": "main",
+      "motif": "potato-samosa",
+      "colors": ["#e9ac25", "#b57b3c", "#24624b", "#fff5de"],
+      "toppings": ["potato", "pea"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-saag-paneer",
+    "name": "サグパニール",
+    "description": "ほうれん草の緑色のソースに、パニールを加えたカレー。",
+    "category": "main",
+    "cuisine": "インド料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ほうれん草",
+        "amount": "150g"
+      },
+      {
+        "name": "パニール",
+        "amount": "80g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "トマト",
+        "amount": "1/2個"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1/2片"
+      },
+      {
+        "name": "カレー粉",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "ガラムマサラ",
+        "amount": "小さじ1/3"
+      },
+      {
+        "name": "生クリーム",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "水",
+        "amount": "50ml"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "ほうれん草をゆでて冷水に取り、水気を絞って水と一緒に攪拌する。玉ねぎ、にんにく、トマトを刻む。",
+      "油で玉ねぎとにんにくを炒め、トマト、カレー粉、塩を加えて水分が減るまで炒める。ほうれん草のペーストを混ぜる。",
+      "角切りパニールを入れて弱火で5分煮る。生クリームとガラムマサラを混ぜ、全体を温めて器に盛る。"
+    ],
+    "tip": "ほうれん草はゆでてから冷ますと、えぐみを抑えて色も保ちやすい。",
+    "tags": ["ほうれん草", "チーズ", "カレー"],
+    "equipment": ["鍋", "ミキサー"],
+    "reward": 40,
+    "art": {
+      "base": "curry",
+      "motif": "saag-paneer",
+      "colors": ["#729f49", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["cheese", "spinach"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-chana-masala",
+    "name": "チャナマサラ",
+    "description": "ひよこ豆をトマトとスパイスで煮る、水分を少なめにしたカレー。",
+    "category": "main",
+    "cuisine": "インド料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ゆでひよこ豆",
+        "amount": "120g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "トマト",
+        "amount": "1個"
+      },
+      {
+        "name": "しょうが",
+        "amount": "5g"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1/2片"
+      },
+      {
+        "name": "クミンシード",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "カレー粉",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "ガラムマサラ",
+        "amount": "小さじ1/3"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "水",
+        "amount": "80ml"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "玉ねぎ、トマト、しょうが、にんにくを細かく切る。鍋に油とクミンを入れて弱火にかけ、香りを出す。",
+      "玉ねぎ、しょうが、にんにくを炒め、色付いたらトマト、カレー粉、塩を加える。トマトの形が崩れるまで炒める。",
+      "ひよこ豆と水を加えて10分煮る。豆の一部をつぶしてとろみを付け、ガラムマサラを混ぜて仕上げる。"
+    ],
+    "tip": "豆を数粒つぶすと、粉やルウを使わずにソースがまとまる。",
+    "tags": ["ひよこ豆", "トマト", "スパイス"],
+    "equipment": ["鍋"],
+    "reward": 40,
+    "art": {
+      "base": "curry",
+      "motif": "chana-masala",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["chickpea", "tomato", "onion"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-dal-tadka",
+    "name": "ダールタルカ",
+    "description": "柔らかく煮た豆に、油で温めたクミンとにんにくの香りを加える。",
+    "category": "main",
+    "cuisine": "インド料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "皮なし赤レンズ豆",
+        "amount": "60g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "トマト",
+        "amount": "1/2個"
+      },
+      {
+        "name": "ターメリック",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "水",
+        "amount": "300ml"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1片"
+      },
+      {
+        "name": "クミンシード",
+        "amount": "小さじ1/3"
+      },
+      {
+        "name": "ギー",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "粉唐辛子",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "レンズ豆を洗い、みじん切り玉ねぎ、角切りトマト、水、ターメリックと鍋に入れる。煮立ったらあくを取る。",
+      "弱火で20分ほど煮て豆を柔らかくし、木べらで少し崩す。塩で味を調え、濃ければ湯を少量足す。",
+      "別の小鍋にギー、クミン、薄切りにんにくを入れて弱火で香りを出す。唐辛子を加えて火を止め、豆に回しかける。"
+    ],
+    "tip": "香味油は焦がさず、にんにくが薄く色付いた時点で豆に加える。",
+    "tags": ["レンズ豆", "クミン", "煮込み"],
+    "equipment": ["鍋", "小鍋"],
+    "reward": 40,
+    "art": {
+      "base": "curry",
+      "motif": "dal-tadka",
+      "colors": ["#e9ac25", "#b57b3c", "#24624b", "#fff5de"],
+      "toppings": ["lentil", "garlic", "tomato"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-aloo-gobi",
+    "name": "アルゴビ",
+    "description": "じゃがいもとカリフラワーを、スパイスで蒸し炒めにする。",
+    "category": "main",
+    "cuisine": "インド料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "じゃがいも",
+        "amount": "1個"
+      },
+      {
+        "name": "カリフラワー",
+        "amount": "100g"
+      },
+      {
+        "name": "トマト",
+        "amount": "1/2個"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "クミンシード",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "カレー粉",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "しょうが",
+        "amount": "5g"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ3"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "じゃがいもは1.5cm角、カリフラワーは小房に分ける。玉ねぎ、トマト、しょうがを刻む。",
+      "油とクミンを弱火で温め、玉ねぎとしょうがを炒める。トマト、カレー粉、塩を加えてペースト状にする。",
+      "じゃがいも、カリフラワー、水を加えてふたをし、弱火で12〜15分蒸す。柔らかくなったらふたを取って汁気を飛ばす。"
+    ],
+    "tip": "カリフラワーを細かくしすぎないと、じゃがいもと同じ頃に火が通る。",
+    "tags": ["じゃがいも", "カリフラワー", "スパイス"],
+    "equipment": ["フライパン", "ふた"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "aloo-gobi",
+      "colors": ["#e9ac25", "#b57b3c", "#24624b", "#fff5de"],
+      "toppings": ["potato", "cauliflower", "tomato"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-pork-vindaloo",
+    "name": "ポークビンダルー",
+    "description": "酢とにんにくを利かせ、豚肉を柔らかく煮る辛味カレー。",
+    "category": "main",
+    "cuisine": "インド料理",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 65,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "豚肩ロース肉",
+        "amount": "150g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/2個"
+      },
+      {
+        "name": "トマト",
+        "amount": "1/2個"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1片"
+      },
+      {
+        "name": "しょうが",
+        "amount": "5g"
+      },
+      {
+        "name": "酢",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "カレー粉",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "粉唐辛子",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "水",
+        "amount": "200ml"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "豚肉を2cm角に切り、おろしたにんにくとしょうが、酢、カレー粉、唐辛子、塩をもみ込んで15分置く。",
+      "油で薄切り玉ねぎを色付くまで炒め、刻んだトマトを加えて煮崩す。豚肉を漬け汁ごと加えて炒める。",
+      "水と砂糖を加えて弱火で35〜40分煮る。豚肉の中心まで火を通し、柔らかくなったら水分を調節して仕上げる。"
+    ],
+    "tip": "酢を含む漬け汁も使い、煮込みの最後に酸味と塩分を確かめる。",
+    "tags": ["豚肉", "酢", "辛い"],
+    "equipment": ["鍋"],
+    "reward": 70,
+    "art": {
+      "base": "curry",
+      "motif": "pork-vindaloo",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["pork-chunks", "onion", "tomato"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-beef-steak",
+    "name": "ビーフステーキ",
+    "description": "厚切り牛肉を香ばしく焼き、肉汁を使ったしょうゆバターソースを添える。",
+    "category": "main",
+    "cuisine": "洋食",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "牛ステーキ肉",
+        "amount": "150g"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1/2片"
+      },
+      {
+        "name": "バター",
+        "amount": "5g"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "酒",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "クレソン",
+        "amount": "10g"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "牛肉の水気を拭き、焼く直前に塩とこしょうを振る。にんにくは薄切りにし、油を入れたフライパンで色付けて取り出す。",
+      "同じフライパンで牛肉の両面を焼く。火を弱めて好みの焼き加減まで加熱し、成形肉の場合は中心まで十分に火を通す。",
+      "肉を皿で3分休ませる。フライパンに酒、しょうゆ、バターを加えて煮立て、肉にかけてにんにくとクレソンを添える。"
+    ],
+    "tip": "焼いている間は肉を何度も動かさず、片面に焼き色を付けてから返す。",
+    "tags": ["牛肉", "ステーキ", "にんにく"],
+    "equipment": ["フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "beef-steak",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["beef-slices", "garlic", "leaf"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-herb-roast-chicken",
+    "name": "骨付きローストチキン",
+    "description": "ローズマリーとにんにくを香らせた、皮まで香ばしい骨付き鶏。",
+    "category": "main",
+    "cuisine": "洋食",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 55,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "骨付き鶏もも肉",
+        "amount": "1本（約250g）"
+      },
+      {
+        "name": "じゃがいも",
+        "amount": "1個"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1片"
+      },
+      {
+        "name": "ローズマリー",
+        "amount": "1枝"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/3"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "レモン",
+        "amount": "1/8個"
+      }
+    ],
+    "steps": [
+      "鶏肉の骨に沿って切り込みを入れ、塩、こしょう、油の半量をすり込む。じゃがいもはくし形に切って残りの油を絡める。",
+      "天板に鶏肉、じゃがいも、つぶしたにんにく、ローズマリーを並べる。200度に予熱したオーブンで35〜40分焼く。",
+      "肉の厚い部分と骨際まで火が通ったことを確かめ、足りなければ追加で焼く。5分休ませ、レモンを添える。"
+    ],
+    "tip": "途中で天板の肉汁を鶏肉にかけると、表面が乾きすぎるのを防げる。",
+    "tags": ["鶏肉", "オーブン", "ハーブ"],
+    "equipment": ["オーブン", "天板"],
+    "reward": 70,
+    "art": {
+      "base": "main",
+      "motif": "herb-roast-chicken",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["chicken-drumstick", "potato", "lemon"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-beef-stew",
+    "name": "ビーフシチュー",
+    "description": "牛肉と根菜を、赤ワインとデミグラスソースでじっくり煮込む。",
+    "category": "main",
+    "cuisine": "洋食",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 100,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "牛シチュー用肉",
+        "amount": "150g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/2個"
+      },
+      {
+        "name": "にんじん",
+        "amount": "50g"
+      },
+      {
+        "name": "じゃがいも",
+        "amount": "1個"
+      },
+      {
+        "name": "赤ワイン",
+        "amount": "80ml"
+      },
+      {
+        "name": "デミグラスソース",
+        "amount": "100g"
+      },
+      {
+        "name": "水",
+        "amount": "200ml"
+      },
+      {
+        "name": "ケチャップ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "牛肉に塩とこしょうを振り、油を熱した鍋で表面を焼く。くし形の玉ねぎと乱切りにんじんを加えて炒める。",
+      "赤ワインを注いで煮立て、水を加えてあくを取る。ふたを少しずらして弱火で60分ほど煮る。",
+      "大きめに切ったじゃがいも、デミグラスソース、ケチャップを加え、底を混ぜながら20分ほど煮て野菜を柔らかくする。"
+    ],
+    "tip": "牛肉を先に柔らかくしてからじゃがいもを加えると、煮崩れを防げる。",
+    "tags": ["牛肉", "赤ワイン", "煮込み"],
+    "equipment": ["鍋", "ふた"],
+    "reward": 70,
+    "art": {
+      "base": "main",
+      "motif": "beef-stew",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["beef-chunks", "carrot", "potato", "onion"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-pot-au-feu",
+    "name": "ポトフ",
+    "description": "大きく切った野菜とソーセージを、澄んだスープでゆっくり煮る。",
+    "category": "soup",
+    "cuisine": "フランス料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 40,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ソーセージ",
+        "amount": "3本"
+      },
+      {
+        "name": "キャベツ",
+        "amount": "100g"
+      },
+      {
+        "name": "じゃがいも",
+        "amount": "1個"
+      },
+      {
+        "name": "にんじん",
+        "amount": "50g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "水",
+        "amount": "400ml"
+      },
+      {
+        "name": "コンソメ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "ローリエ",
+        "amount": "1枚"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "粒マスタード",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "キャベツは芯を付けたままくし形に切る。じゃがいもは半分、にんじんは縦長、玉ねぎはくし形に切る。",
+      "鍋に野菜、水、コンソメ、ローリエを入れて煮立てる。あくを取り、弱火で20分ほど煮る。",
+      "ソーセージを加えてさらに10分煮る。野菜に竹串が通ったらこしょうを振り、粒マスタードを添える。"
+    ],
+    "tip": "強く沸騰させずに煮ると、野菜の形を残して澄んだスープになる。",
+    "tags": ["ソーセージ", "根菜", "煮込み"],
+    "equipment": ["鍋"],
+    "reward": 40,
+    "art": {
+      "base": "soup",
+      "motif": "pot-au-feu",
+      "colors": ["#e8d8ab", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["sausage", "cabbage", "carrot", "potato"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-white-bean-cassoulet",
+    "name": "白いんげん豆のカスレ",
+    "description": "豆と肉のトマト煮を耐熱皿に移し、パン粉を香ばしく焼く。",
+    "category": "main",
+    "cuisine": "フランス料理",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 40,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ゆで白いんげん豆",
+        "amount": "100g"
+      },
+      {
+        "name": "ソーセージ",
+        "amount": "2本"
+      },
+      {
+        "name": "鶏もも肉",
+        "amount": "70g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "カットトマト",
+        "amount": "100g"
+      },
+      {
+        "name": "水",
+        "amount": "80ml"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1/2片"
+      },
+      {
+        "name": "パン粉",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "鶏肉を一口大、ソーセージを半分、玉ねぎとにんにくをみじん切りにする。油の半量で鶏肉と香味野菜を炒める。",
+      "豆、ソーセージ、トマト、水、塩を加えて15分煮る。鶏肉の中心まで火が通ったら耐熱皿に移す。",
+      "パン粉と残りの油を混ぜて表面に散らす。220度に予熱したオーブンで10分ほど焼き、表面をきつね色にする。"
+    ],
+    "tip": "豆を入れてからは大きく混ぜ、皮を崩しすぎないようにする。",
+    "tags": ["白いんげん豆", "鶏肉", "オーブン"],
+    "equipment": ["鍋", "耐熱皿", "オーブン"],
+    "reward": 70,
+    "art": {
+      "base": "main",
+      "motif": "white-bean-cassoulet",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["white-bean", "sausage", "chicken-chunks"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-coq-au-vin",
+    "name": "鶏肉の赤ワイン煮",
+    "description": "焼き付けた鶏肉を、マッシュルームと赤ワインで煮込む。",
+    "category": "main",
+    "cuisine": "フランス料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 55,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏もも肉",
+        "amount": "150g"
+      },
+      {
+        "name": "マッシュルーム",
+        "amount": "4個"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "ベーコン",
+        "amount": "20g"
+      },
+      {
+        "name": "赤ワイン",
+        "amount": "100ml"
+      },
+      {
+        "name": "水",
+        "amount": "100ml"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "バター",
+        "amount": "5g"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/5"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "ローリエ",
+        "amount": "1枚"
+      }
+    ],
+    "steps": [
+      "鶏肉を大きめに切って塩、こしょう、薄力粉をまぶす。玉ねぎはくし形、ベーコンは短冊切りにする。",
+      "鍋にバターを熱し、鶏肉の両面を焼く。玉ねぎ、ベーコン、マッシュルームを加えて炒め、赤ワインを注いで煮立てる。",
+      "水とローリエを加えて弱火で30分煮る。肉の中心まで火が通り、ソースにとろみが付いたら器に盛る。"
+    ],
+    "tip": "薄力粉は薄く均一にまぶし、鍋底に焦げ付かないよう火を弱めて煮る。",
+    "tags": ["鶏肉", "赤ワイン", "きのこ"],
+    "equipment": ["鍋"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "coq-au-vin",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["chicken-chunks", "mushroom", "onion"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-beef-stroganoff",
+    "name": "ビーフストロガノフ",
+    "description": "牛肉ときのこを炒め、サワークリームの酸味でまとめる。",
+    "category": "main",
+    "cuisine": "ロシア料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "牛薄切り肉",
+        "amount": "120g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/2個"
+      },
+      {
+        "name": "マッシュルーム",
+        "amount": "4個"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "バター",
+        "amount": "10g"
+      },
+      {
+        "name": "水",
+        "amount": "100ml"
+      },
+      {
+        "name": "コンソメ",
+        "amount": "小さじ1/3"
+      },
+      {
+        "name": "トマトペースト",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "サワークリーム",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "牛肉を細く切り、玉ねぎとマッシュルームを薄切りにする。バターで玉ねぎを炒め、牛肉ときのこを加える。",
+      "肉に火が通ったら薄力粉を振って炒め、水、コンソメ、トマトペーストを加える。混ぜながら5分ほど煮る。",
+      "火を弱めてサワークリームを溶かし、塩とこしょうで味を調える。沸騰させすぎずに温めて盛る。"
+    ],
+    "tip": "サワークリームは最後に入れ、酸味と乳製品の滑らかさを残す。",
+    "tags": ["牛肉", "きのこ", "クリーム"],
+    "equipment": ["フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "beef-stroganoff",
+      "colors": ["#e8d8ab", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["beef-strips", "mushroom", "onion"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-mini-meatloaf",
+    "name": "ミートローフ",
+    "description": "ひき肉と野菜をひとつの形にまとめて焼き、厚く切って盛る。",
+    "category": "main",
+    "cuisine": "洋食",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 45,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "合いびき肉",
+        "amount": "150g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "にんじん",
+        "amount": "20g"
+      },
+      {
+        "name": "パン粉",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "牛乳",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/5"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "ケチャップ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "ウスターソース",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "みじん切り玉ねぎとにんじんを油で炒めて冷ます。パン粉を牛乳に浸し、肉、野菜、卵、塩、こしょうと粘りが出るまで混ぜる。",
+      "小さな耐熱型に詰め、表面を平らにする。200度に予熱したオーブンで25〜30分焼き、中心まで十分に火を通す。",
+      "型から出して5分休ませ、厚めに切る。ケチャップとウスターソースを温めて混ぜ、上からかける。"
+    ],
+    "tip": "肉だねを型に少しずつ詰めて空気を抜くと、切り分けたときに崩れにくい。",
+    "tags": ["ひき肉", "オーブン", "肉料理"],
+    "equipment": ["フライパン", "ボウル", "耐熱型", "オーブン"],
+    "reward": 70,
+    "art": {
+      "base": "main",
+      "motif": "mini-meatloaf",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["beef-slices", "carrot", "tomato-sauce"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-chicken-cordon-bleu",
+    "name": "コルドンブルー",
+    "description": "鶏むね肉にハムとチーズをはさみ、薄い衣を付けて焼く。",
+    "category": "main",
+    "cuisine": "フランス料理",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏むね肉",
+        "amount": "150g"
+      },
+      {
+        "name": "ハム",
+        "amount": "1枚"
+      },
+      {
+        "name": "スライスチーズ",
+        "amount": "1枚"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "パン粉",
+        "amount": "大さじ3"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "油",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "レモン",
+        "amount": "1/8個"
+      }
+    ],
+    "steps": [
+      "鶏肉を横から開いて薄くたたき、塩とこしょうを振る。ハムとチーズをのせて折り、端を押さえる。",
+      "薄力粉、溶き卵、パン粉の順に衣を付ける。油を熱したフライパンで両面をきつね色に焼く。",
+      "弱火にしてふたをし、中心まで十分に加熱する。ふたを取って表面をもう一度焼き、切ってレモンを添える。"
+    ],
+    "tip": "チーズを肉の縁より内側に収めると、焼く途中に流れ出にくい。",
+    "tags": ["鶏肉", "チーズ", "ハム"],
+    "equipment": ["フライパン", "ふた"],
+    "reward": 70,
+    "art": {
+      "base": "main",
+      "motif": "chicken-cordon-bleu",
+      "colors": ["#e9ac25", "#b57b3c", "#24624b", "#fff5de"],
+      "toppings": ["chicken-slices", "ham", "cheese"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-pork-chop-ketchup",
+    "name": "ポークチャップ",
+    "description": "厚切り豚肉に、玉ねぎ入りのケチャップソースを絡める。",
+    "category": "main",
+    "cuisine": "洋食",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "豚ロース肉",
+        "amount": "1枚（150g）"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "ケチャップ",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "ウスターソース",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "酒",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "豚肉の脂身と赤身の境目に切り込みを入れ、塩、こしょう、薄力粉を薄くまぶす。玉ねぎを薄切りにする。",
+      "油を熱して豚肉の両面を焼き、玉ねぎを端で炒める。酒と水を入れてふたをし、肉の中心まで火を通す。",
+      "ケチャップとウスターソースを加え、ふたを外して煮詰める。豚肉にソースを絡め、食べやすく切る。"
+    ],
+    "tip": "筋切りをしておくと、厚切り肉が反らずに均一に焼ける。",
+    "tags": ["豚肉", "ケチャップ", "洋食"],
+    "equipment": ["フライパン", "ふた"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "pork-chop-ketchup",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["pork-slices", "onion", "tomato-sauce"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-barbecue-spare-ribs",
+    "name": "バーベキュースペアリブ",
+    "description": "柔らかく下ゆでした骨付き肉に、甘酸っぱいたれを焼き付ける。",
+    "category": "main",
+    "cuisine": "アメリカ料理",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 85,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "豚スペアリブ",
+        "amount": "250g"
+      },
+      {
+        "name": "しょうが",
+        "amount": "10g"
+      },
+      {
+        "name": "水",
+        "amount": "700ml"
+      },
+      {
+        "name": "ケチャップ",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "はちみつ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "酢",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "おろしにんにく",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "鍋に肉、薄切りしょうが、水を入れて煮立てる。あくを取り、弱火で45〜50分ゆでて骨際まで十分に火を通す。",
+      "ケチャップ、しょうゆ、はちみつ、酢、にんにく、こしょうを混ぜ、ゆで汁を切った肉に絡める。",
+      "天板に並べ、200度に予熱したオーブンで15〜20分焼く。途中でたれを塗り、焦がさずに照りを付ける。"
+    ],
+    "tip": "下ゆでした後に表面の水気を拭くと、たれを薄く重ねて焼き付けやすい。",
+    "tags": ["豚肉", "骨付き", "甘辛"],
+    "equipment": ["鍋", "オーブン", "天板"],
+    "reward": 70,
+    "art": {
+      "base": "main",
+      "motif": "barbecue-spare-ribs",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["pork-ribs", "tomato-sauce"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-shepherds-pie",
+    "name": "シェパーズパイ",
+    "description": "ラムひき肉の煮込みにマッシュポテトを重ねて焼く。",
+    "category": "main",
+    "cuisine": "イギリス料理",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 45,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ラムひき肉",
+        "amount": "100g"
+      },
+      {
+        "name": "じゃがいも",
+        "amount": "1個（150g）"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "にんじん",
+        "amount": "30g"
+      },
+      {
+        "name": "グリーンピース",
+        "amount": "20g"
+      },
+      {
+        "name": "トマトペースト",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "ウスターソース",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "水",
+        "amount": "80ml"
+      },
+      {
+        "name": "牛乳",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "バター",
+        "amount": "5g"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "じゃがいもをゆでてつぶし、牛乳、バター、塩の半量を混ぜる。玉ねぎとにんじんを細かく刻む。",
+      "フライパンでラム肉と野菜を炒めて火を通す。トマトペースト、ソース、水、豆、残りの塩とこしょうを加え、汁気が少なくなるまで煮る。",
+      "耐熱皿に肉の煮込みを入れ、ポテトを重ねてフォークで筋を付ける。220度に予熱したオーブンで15分ほど焼く。"
+    ],
+    "tip": "肉の煮込みの汁を煮詰めておくと、ポテトをのせても沈みにくい。",
+    "tags": ["ラム肉", "じゃがいも", "オーブン"],
+    "equipment": ["鍋", "フライパン", "耐熱皿", "オーブン"],
+    "reward": 70,
+    "art": {
+      "base": "main",
+      "motif": "shepherds-pie",
+      "colors": ["#e8d8ab", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["mashed-potato", "beef-mince", "pea"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-lasagna",
+    "name": "ラザニア",
+    "description": "板状のパスタにミートソースとホワイトソースを交互に重ねる。",
+    "category": "main",
+    "cuisine": "イタリア料理",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 45,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ラザニア生地",
+        "amount": "3枚"
+      },
+      {
+        "name": "市販ミートソース",
+        "amount": "150g"
+      },
+      {
+        "name": "市販ホワイトソース",
+        "amount": "100g"
+      },
+      {
+        "name": "ピザ用チーズ",
+        "amount": "30g"
+      },
+      {
+        "name": "粉チーズ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ1/2"
+      }
+    ],
+    "steps": [
+      "生地は製品の表示どおりに下ゆでし、重ならないよう広げる。耐熱皿に油を薄く塗り、ソースをそれぞれ温める。",
+      "ミートソース、パスタ、ホワイトソースを順に重ねる。これを繰り返し、最後にホワイトソースと2種類のチーズを広げる。",
+      "200度に予熱したオーブンで20分ほど焼き、中心まで熱くする。取り出して5分置き、層を崩さないように切る。"
+    ],
+    "tip": "皿の底にも少量のソースを敷くと、パスタが張り付きにくくなる。",
+    "tags": ["パスタ", "ひき肉", "チーズ"],
+    "equipment": ["鍋", "耐熱皿", "オーブン"],
+    "reward": 70,
+    "art": {
+      "base": "main",
+      "motif": "lasagna",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["cheese", "tomato-sauce", "beef-mince"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-spinach-cannelloni",
+    "name": "ほうれん草のカネロニ",
+    "description": "筒状パスタにほうれん草とリコッタを詰め、トマトソースで焼く。",
+    "category": "main",
+    "cuisine": "イタリア料理",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 45,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "カネロニ",
+        "amount": "4本"
+      },
+      {
+        "name": "ほうれん草",
+        "amount": "70g"
+      },
+      {
+        "name": "リコッタチーズ",
+        "amount": "70g"
+      },
+      {
+        "name": "トマトソース",
+        "amount": "150g"
+      },
+      {
+        "name": "ピザ用チーズ",
+        "amount": "20g"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ1/2"
+      }
+    ],
+    "steps": [
+      "ほうれん草をゆでて水気をよく絞り、細かく刻む。リコッタ、塩、こしょうを混ぜて詰め物を作る。",
+      "カネロニは表示どおりに下処理し、詰め物を入れる。油を塗った耐熱皿にソースの半量を敷いて並べる。",
+      "残りのソースを全体にかけ、チーズを散らす。200度に予熱したオーブンで表示を目安に20〜25分焼き、パスタを柔らかくする。"
+    ],
+    "tip": "筒の端までソースで覆うと、焼いている間にパスタが乾きにくい。",
+    "tags": ["ほうれん草", "リコッタ", "パスタ"],
+    "equipment": ["鍋", "耐熱皿", "オーブン"],
+    "reward": 70,
+    "art": {
+      "base": "main",
+      "motif": "spinach-cannelloni",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["spinach", "cheese", "tomato-sauce"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-ricotta-ravioli",
+    "name": "リコッタのラビオリ",
+    "description": "チーズの詰め物を小さなパスタで包み、セージバターを絡める。",
+    "category": "noodles",
+    "cuisine": "イタリア料理",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 60,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "強力粉",
+        "amount": "60g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "35g"
+      },
+      {
+        "name": "リコッタチーズ",
+        "amount": "50g"
+      },
+      {
+        "name": "粉チーズ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "バター",
+        "amount": "10g"
+      },
+      {
+        "name": "セージ",
+        "amount": "3枚"
+      },
+      {
+        "name": "打ち粉",
+        "amount": "適量"
+      }
+    ],
+    "steps": [
+      "強力粉と卵を混ぜて滑らかにこね、ラップで包んで20分休ませる。リコッタ、粉チーズ、塩、こしょうを混ぜる。",
+      "打ち粉をして生地を薄くのばし、半分に詰め物を間隔を空けて置く。もう半分をかぶせ、空気を抜いて四角く切り、縁を押さえる。",
+      "たっぷりの湯で4〜5分ゆで、生地の中心まで火を通す。フライパンでバターとセージを温め、湯を切ったラビオリを絡める。"
+    ],
+    "tip": "詰め物の周りの空気を抜いてから閉じると、ゆでるときに破れにくい。",
+    "tags": ["パスタ", "チーズ", "セージ"],
+    "equipment": ["ボウル", "麺棒", "鍋", "フライパン"],
+    "reward": 70,
+    "art": {
+      "base": "main",
+      "motif": "ricotta-ravioli",
+      "colors": ["#e8d8ab", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["dumpling", "cheese", "basil"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-potato-gnocchi",
+    "name": "じゃがいものニョッキ",
+    "description": "じゃがいもを練り込んだ柔らかな生地に、チーズソースを絡める。",
+    "category": "noodles",
+    "cuisine": "イタリア料理",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 40,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "じゃがいも",
+        "amount": "150g"
+      },
+      {
+        "name": "強力粉",
+        "amount": "40g"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "牛乳",
+        "amount": "80ml"
+      },
+      {
+        "name": "粉チーズ",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "バター",
+        "amount": "5g"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "打ち粉",
+        "amount": "適量"
+      }
+    ],
+    "steps": [
+      "じゃがいもを皮ごとゆで、熱いうちに皮をむいてつぶす。少し冷まして強力粉、卵、塩を混ぜ、生地をまとめる。",
+      "打ち粉をして棒状にのばし、2cm幅に切ってフォークで筋を付ける。沸いた湯に入れ、浮いてから1分ほどゆでる。",
+      "牛乳、バター、粉チーズをフライパンで温める。ニョッキを加えて優しく絡め、こしょうを振る。"
+    ],
+    "tip": "生地をこねすぎると硬くなるため、粉がなじんだら成形に進む。",
+    "tags": ["じゃがいも", "パスタ", "チーズ"],
+    "equipment": ["鍋", "ボウル", "フライパン"],
+    "reward": 70,
+    "art": {
+      "base": "main",
+      "motif": "potato-gnocchi",
+      "colors": ["#e8d8ab", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["potato", "cheese"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-bolognese-tagliatelle",
+    "name": "ボロネーゼ",
+    "description": "焼き付けたひき肉と香味野菜を煮込み、幅広パスタに絡める。",
+    "category": "noodles",
+    "cuisine": "イタリア料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 40,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "タリアテッレ",
+        "amount": "80g"
+      },
+      {
+        "name": "牛ひき肉",
+        "amount": "80g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "にんじん",
+        "amount": "20g"
+      },
+      {
+        "name": "セロリ",
+        "amount": "20g"
+      },
+      {
+        "name": "カットトマト",
+        "amount": "100g"
+      },
+      {
+        "name": "赤ワイン",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "粉チーズ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "玉ねぎ、にんじん、セロリを細かく刻み、油でしんなりするまで炒める。牛ひき肉を加え、あまり触らず焼き色を付ける。",
+      "肉をほぐして中心まで火を通し、赤ワインを加えて煮立てる。トマト、塩、こしょうを加え、弱火で20分煮る。",
+      "パスタを表示時間どおりにゆで、ゆで汁大さじ2とともにソースに加える。全体を絡めて粉チーズを振る。"
+    ],
+    "tip": "ひき肉を細かくほぐす前に焼き色を付けると、ソースに香ばしさが加わる。",
+    "tags": ["牛ひき肉", "トマト", "パスタ"],
+    "equipment": ["鍋", "フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "noodles",
+      "motif": "bolognese-tagliatelle",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["beef-mince", "tomato-sauce", "parmesan"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-carbonara",
+    "name": "カルボナーラ",
+    "description": "ベーコンと卵、チーズで仕上げる、黒こしょうの利いたパスタ。",
+    "category": "noodles",
+    "cuisine": "イタリア料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "スパゲティ",
+        "amount": "80g"
+      },
+      {
+        "name": "ベーコン",
+        "amount": "40g"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "粉チーズ",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "牛乳",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "黒こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "ゆで湯用適量"
+      }
+    ],
+    "steps": [
+      "卵、粉チーズ、牛乳をボウルで混ぜる。スパゲティを塩を加えた湯でゆで、ベーコンを短冊切りにする。",
+      "油でベーコンをこんがり炒め、パスタのゆで汁大さじ2を加える。湯を切った麺を入れて混ぜ、火をいったん止める。",
+      "卵液を加え、弱火で絶えず混ぜてなめらかにとろみを付ける。卵を十分に温め、固まり始める前に器へ移して黒こしょうを振る。"
+    ],
+    "tip": "卵液を入れる前に火を止め、余熱を落ち着かせると粒状になりにくい。",
+    "tags": ["卵", "チーズ", "黒こしょう"],
+    "equipment": ["鍋", "フライパン", "ボウル"],
+    "reward": 40,
+    "art": {
+      "base": "noodles",
+      "motif": "carbonara",
+      "colors": ["#e8d8ab", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["ham", "parmesan"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-pesto-genovese",
+    "name": "ジェノベーゼパスタ",
+    "description": "バジル、松の実、チーズの緑色のソースを絡めるパスタ。",
+    "category": "noodles",
+    "cuisine": "イタリア料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "スパゲティ",
+        "amount": "80g"
+      },
+      {
+        "name": "バジル",
+        "amount": "15g"
+      },
+      {
+        "name": "松の実",
+        "amount": "10g"
+      },
+      {
+        "name": "粉チーズ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1/4片"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "大さじ1と1/2"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "いんげん",
+        "amount": "3本"
+      }
+    ],
+    "steps": [
+      "バジルは洗って十分に水気を拭く。松の実を乾いたフライパンで軽く煎り、冷ましておく。",
+      "バジル、松の実、チーズ、にんにく、油、塩をミキサーで攪拌する。パスタをゆで、残り3分で切ったいんげんも加える。",
+      "ソースをボウルに移し、ゆで汁大さじ1でのばす。湯を切ったパスタといんげんを熱いうちに和える。"
+    ],
+    "tip": "バジルソースを強火で炒めず、麺の熱で和えると香りが残る。",
+    "tags": ["バジル", "松の実", "パスタ"],
+    "equipment": ["鍋", "フライパン", "ミキサー", "ボウル"],
+    "reward": 40,
+    "art": {
+      "base": "noodles",
+      "motif": "pesto-genovese",
+      "colors": ["#729f49", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["basil", "green-bean", "parmesan"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-mentaiko-spaghetti",
+    "name": "明太子スパゲティ",
+    "description": "明太子とバターを温かい麺に絡め、のりと大葉を散らす。",
+    "category": "noodles",
+    "cuisine": "和風洋食",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "スパゲティ",
+        "amount": "80g"
+      },
+      {
+        "name": "明太子",
+        "amount": "30g"
+      },
+      {
+        "name": "バター",
+        "amount": "10g"
+      },
+      {
+        "name": "牛乳",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "刻みのり",
+        "amount": "少々"
+      },
+      {
+        "name": "大葉",
+        "amount": "2枚"
+      },
+      {
+        "name": "塩",
+        "amount": "ゆで湯用適量"
+      }
+    ],
+    "steps": [
+      "明太子の薄皮を除いてほぐし、牛乳としょうゆを混ぜる。大葉は細切りにし、パスタを表示どおりにゆでる。",
+      "フライパンにバター、ゆで汁大さじ2、明太子を入れて弱火で温める。明太子がほぐれて全体に火が通るまで混ぜる。",
+      "湯を切ったパスタを加えて手早く絡める。器に盛り、大葉と刻みのりを散らす。"
+    ],
+    "tip": "明太子に塩気があるため、ソースに追加の塩を入れる前に味を確かめる。",
+    "tags": ["明太子", "バター", "パスタ"],
+    "equipment": ["鍋", "フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "noodles",
+      "motif": "mentaiko-spaghetti",
+      "colors": ["#e8d8ab", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["fish-roe", "nori", "basil"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-squid-ink-spaghetti",
+    "name": "イカ墨スパゲティ",
+    "description": "いかとトマトのソースにイカ墨を加えた、黒い海のパスタ。",
+    "category": "noodles",
+    "cuisine": "イタリア料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "スパゲティ",
+        "amount": "80g"
+      },
+      {
+        "name": "いか",
+        "amount": "80g"
+      },
+      {
+        "name": "食用イカ墨ペースト",
+        "amount": "4g"
+      },
+      {
+        "name": "カットトマト",
+        "amount": "70g"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1/2片"
+      },
+      {
+        "name": "白ワイン",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "パセリ",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "いかは内臓と軟骨を除いて輪切りにする。にんにくを刻み、油とともに弱火にかけて香りを出す。",
+      "いかを加えて炒め、白ワインを入れて煮立てる。トマトとイカ墨を混ぜて5分ほど煮て、いかの中心まで火を通す。",
+      "ゆでたパスタとゆで汁大さじ2を加えて絡める。塩で味を調え、パセリを振って器に盛る。"
+    ],
+    "tip": "イカ墨ペーストの塩分は製品で違うため、最後に塩加減を整える。",
+    "tags": ["いか", "イカ墨", "パスタ"],
+    "equipment": ["鍋", "フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "noodles",
+      "motif": "squid-ink-spaghetti",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["squid-rings", "tomato", "parsley"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-pescatore",
+    "name": "ペスカトーレ",
+    "description": "えび、いか、あさりのうま味を合わせた、トマトソースのパスタ。",
+    "category": "noodles",
+    "cuisine": "イタリア料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "スパゲティ",
+        "amount": "80g"
+      },
+      {
+        "name": "殻付きえび",
+        "amount": "2尾"
+      },
+      {
+        "name": "いか",
+        "amount": "50g"
+      },
+      {
+        "name": "砂抜き済みあさり",
+        "amount": "80g"
+      },
+      {
+        "name": "カットトマト",
+        "amount": "120g"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1/2片"
+      },
+      {
+        "name": "白ワイン",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "パセリ",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "えびは背わたを取り、いかは輪切りにし、あさりは殻をこすり洗いする。刻んだにんにくを油で温める。",
+      "魚介と白ワインを加えてふたをする。あさりが開いたらトマトを加え、魚介に十分に火を通すまで煮る。",
+      "ゆでたパスタとゆで汁大さじ2を加えて絡め、塩を調節する。開かない貝は使わず、パセリを振って盛る。"
+    ],
+    "tip": "魚介を長く煮すぎないよう、パスタをゆで始める時刻を合わせる。",
+    "tags": ["魚介", "トマト", "パスタ"],
+    "equipment": ["鍋", "フライパン", "ふた"],
+    "reward": 40,
+    "art": {
+      "base": "noodles",
+      "motif": "pescatore",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["shrimp", "squid-rings", "clam", "tomato"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-puttanesca",
+    "name": "プッタネスカ",
+    "description": "オリーブ、ケッパー、アンチョビを利かせたトマトパスタ。",
+    "category": "noodles",
+    "cuisine": "イタリア料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "スパゲティ",
+        "amount": "80g"
+      },
+      {
+        "name": "カットトマト",
+        "amount": "150g"
+      },
+      {
+        "name": "種なし黒オリーブ",
+        "amount": "5個"
+      },
+      {
+        "name": "ケッパー",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "アンチョビ",
+        "amount": "1枚"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1/2片"
+      },
+      {
+        "name": "赤唐辛子",
+        "amount": "1/2本"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "塩",
+        "amount": "ゆで湯用適量"
+      }
+    ],
+    "steps": [
+      "にんにくとアンチョビを刻み、オリーブを半分に切る。油、にんにく、種を除いた唐辛子を弱火で温める。",
+      "アンチョビを加えてつぶし、トマト、オリーブ、ケッパーを入れる。弱火で10分ほど煮て水分を少し飛ばす。",
+      "パスタを表示どおりにゆで、ゆで汁大さじ2とともにソースへ加える。底から混ぜて麺に絡める。"
+    ],
+    "tip": "塩気のある具材が多いので、ソースへの塩は味見してから加える。",
+    "tags": ["オリーブ", "アンチョビ", "パスタ"],
+    "equipment": ["鍋", "フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "noodles",
+      "motif": "puttanesca",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["olive", "tomato", "anchovy"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-cacio-e-pepe",
+    "name": "カチョエペペ",
+    "description": "ペコリーノチーズと黒こしょうを、ゆで汁でなめらかに絡める。",
+    "category": "noodles",
+    "cuisine": "イタリア料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "スパゲティ",
+        "amount": "80g"
+      },
+      {
+        "name": "ペコリーノチーズ",
+        "amount": "25g"
+      },
+      {
+        "name": "粗びき黒こしょう",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "塩",
+        "amount": "ゆで湯用適量"
+      }
+    ],
+    "steps": [
+      "チーズを細かくおろす。パスタは控えめに塩を加えた湯でゆで、仕上げ用にゆで汁を100mlほど取り分ける。",
+      "フライパンで黒こしょうを弱火で乾煎りし、ゆで汁大さじ2を加える。パスタを入れ、ゆで汁を少し足してなじませる。",
+      "火を止めて1分ほど待ち、チーズを少しずつ混ぜる。必要に応じてゆで汁を足し、白くなめらかなソースにする。"
+    ],
+    "tip": "チーズは強火で加熱すると固まりやすいので、火を止めてから加える。",
+    "tags": ["チーズ", "黒こしょう", "パスタ"],
+    "equipment": ["鍋", "フライパン", "おろし器"],
+    "reward": 40,
+    "art": {
+      "base": "noodles",
+      "motif": "cacio-e-pepe",
+      "colors": ["#e8d8ab", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["parmesan", "black-pepper"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-spaghetti-meatballs",
+    "name": "ミートボールスパゲティ",
+    "description": "トマトで煮た大きな肉団子を、スパゲティにのせる。",
+    "category": "noodles",
+    "cuisine": "アメリカ料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "スパゲティ",
+        "amount": "80g"
+      },
+      {
+        "name": "合いびき肉",
+        "amount": "90g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "パン粉",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "牛乳",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "カットトマト",
+        "amount": "150g"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1/2片"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "粉チーズ",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "ひき肉、みじん切り玉ねぎ、牛乳に浸したパン粉、塩とこしょうの半量を混ぜ、3〜4個の団子にする。",
+      "油で団子を転がして焼き、刻んだにんにく、トマト、残りの塩とこしょうを加える。ふたをして15分煮て中心まで火を通す。",
+      "ゆでたパスタをソースに絡め、肉団子とともに盛る。ソースが濃ければゆで汁でのばし、粉チーズを振る。"
+    ],
+    "tip": "肉団子は表面が固まってから返すと、煮崩れを防ぎやすい。",
+    "tags": ["ひき肉", "トマト", "パスタ"],
+    "equipment": ["鍋", "フライパン", "ふた"],
+    "reward": 40,
+    "art": {
+      "base": "noodles",
+      "motif": "spaghetti-meatballs",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["meatball", "tomato-sauce", "parmesan"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-seafood-paella",
+    "name": "シーフードパエリア",
+    "description": "魚介のだしとサフランを含ませ、フライパンで炊き上げる米料理。",
+    "category": "rice",
+    "cuisine": "スペイン料理",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 45,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "米",
+        "amount": "80g"
+      },
+      {
+        "name": "殻付きえび",
+        "amount": "2尾"
+      },
+      {
+        "name": "砂抜き済みあさり",
+        "amount": "80g"
+      },
+      {
+        "name": "いか",
+        "amount": "40g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "パプリカ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1/2片"
+      },
+      {
+        "name": "カットトマト",
+        "amount": "50g"
+      },
+      {
+        "name": "水",
+        "amount": "180ml"
+      },
+      {
+        "name": "サフラン",
+        "amount": "ひとつまみ"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "レモン",
+        "amount": "1/8個"
+      }
+    ],
+    "steps": [
+      "サフランを水に浸す。えびの背わたを取り、いかを輪切りにする。玉ねぎとにんにくを刻み、油で炒める。",
+      "洗わない米を加えて透き通るまで炒め、トマト、サフラン水、塩を入れる。魚介と細切りパプリカを並べ、煮立てる。",
+      "ふたをして弱火で18〜20分炊き、米と魚介に火を通す。開かない貝は除き、10分蒸らしてレモンを添える。"
+    ],
+    "tip": "炊いている間は混ぜず、米を浅く均一に広げた状態を保つ。",
+    "tags": ["魚介", "サフラン", "米"],
+    "equipment": ["フライパン", "ふた"],
+    "reward": 70,
+    "art": {
+      "base": "rice",
+      "motif": "seafood-paella",
+      "colors": ["#e9ac25", "#b57b3c", "#24624b", "#fff5de"],
+      "toppings": ["shrimp", "clam", "squid-rings", "red-pepper"],
+      "garnish": [],
+      "vessel": "bowl"
+    }
+  },
+  {
+    "id": "r-ratatouille",
+    "name": "ラタトゥイユ",
+    "description": "なす、ズッキーニ、パプリカをトマトと蒸し煮にする。",
+    "category": "side",
+    "cuisine": "フランス料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "なす",
+        "amount": "1/2本"
+      },
+      {
+        "name": "ズッキーニ",
+        "amount": "1/2本"
+      },
+      {
+        "name": "パプリカ",
+        "amount": "1/2個"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "カットトマト",
+        "amount": "100g"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1/2片"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "乾燥タイム",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "野菜を同じくらいの角切りにし、にんにくをつぶす。鍋に油とにんにくを入れ、弱火で香りを出す。",
+      "玉ねぎ、なす、ズッキーニ、パプリカを順に加えて炒める。トマト、塩、タイムを入れて底から混ぜる。",
+      "ふたをして弱火で15分ほど煮る。野菜が柔らかくなったらふたを取り、水分が多ければ少し煮詰める。"
+    ],
+    "tip": "野菜から水分が出るため、最初から水を多く加えずに煮る。",
+    "tags": ["夏野菜", "トマト", "煮込み"],
+    "equipment": ["鍋", "ふた"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "ratatouille",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["eggplant", "zucchini", "red-pepper", "tomato"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-caponata",
+    "name": "カポナータ",
+    "description": "なすとセロリにオリーブを合わせ、酢と砂糖で甘酸っぱく煮る。",
+    "category": "side",
+    "cuisine": "イタリア料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "なす",
+        "amount": "1本"
+      },
+      {
+        "name": "セロリ",
+        "amount": "30g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "カットトマト",
+        "amount": "100g"
+      },
+      {
+        "name": "種なしオリーブ",
+        "amount": "4個"
+      },
+      {
+        "name": "ケッパー",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "酢",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "大さじ1"
+      }
+    ],
+    "steps": [
+      "なすは大きめの角切り、セロリと玉ねぎは薄切りにする。油の半量でなすをよく焼き、一度取り出す。",
+      "残りの油で玉ねぎとセロリを炒め、トマト、オリーブ、ケッパー、酢、砂糖、塩を加える。弱火で5分煮る。",
+      "なすを戻してさらに5〜8分煮込み、煮汁を野菜に絡める。少し冷ましてから味をなじませて盛る。"
+    ],
+    "tip": "なすを先に焼いておくと、甘酸っぱい煮汁の中でも形を保ちやすい。",
+    "tags": ["なす", "オリーブ", "甘酢"],
+    "equipment": ["フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "caponata",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["eggplant", "olive", "onion", "tomato"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-shrimp-ajillo",
+    "name": "えびのアヒージョ",
+    "description": "にんにくの香るオイルでえびとマッシュルームをゆっくり煮る。",
+    "category": "main",
+    "cuisine": "スペイン料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "むきえび",
+        "amount": "100g"
+      },
+      {
+        "name": "マッシュルーム",
+        "amount": "4個"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1片"
+      },
+      {
+        "name": "赤唐辛子",
+        "amount": "1/2本"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "80ml"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/5"
+      },
+      {
+        "name": "パセリ",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "えびの背わたを取り、水気をしっかり拭く。マッシュルームは半分、にんにくは薄切りにし、唐辛子の種を除く。",
+      "小鍋に油、にんにく、唐辛子を入れ、弱火で温める。香りが出たらえび、マッシュルーム、塩を加える。",
+      "弱く泡立つ火加減で5〜7分煮て、えびの中心まで火を通す。刻んだパセリを振り、熱いうちに器に盛る。"
+    ],
+    "tip": "具の水気を十分に拭いてから油に入れると、油はねを抑えられる。",
+    "tags": ["えび", "にんにく", "オリーブ油"],
+    "equipment": ["小鍋"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "shrimp-ajillo",
+      "colors": ["#e9ac25", "#b57b3c", "#24624b", "#fff5de"],
+      "toppings": ["shrimp", "mushroom", "garlic"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-galician-octopus",
+    "name": "たこのガリシア風",
+    "description": "柔らかなじゃがいもとたこに、パプリカ粉とオリーブ油を振る。",
+    "category": "side",
+    "cuisine": "スペイン料理",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ゆでだこ",
+        "amount": "80g"
+      },
+      {
+        "name": "じゃがいも",
+        "amount": "1個"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "パプリカパウダー",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "粗びきこしょう",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "じゃがいもを皮ごとゆで、竹串が通ったら取り出す。少し冷まして皮をむき、1cmの輪切りにする。",
+      "ゆでだこは5mmほどのそぎ切りにし、熱湯でさっと温めて水気を切る。じゃがいもを皿に並べる。",
+      "たこを重ね、塩、パプリカパウダー、こしょうを振る。オリーブ油を全体に回しかける。"
+    ],
+    "tip": "パプリカパウダーは食べる直前に振ると、鮮やかな色と香りを残せる。",
+    "tags": ["たこ", "じゃがいも", "パプリカ"],
+    "equipment": ["鍋"],
+    "reward": 20,
+    "art": {
+      "base": "main",
+      "motif": "galician-octopus",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["octopus", "potato"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-fish-and-chips",
+    "name": "フィッシュアンドチップス",
+    "description": "白身魚を厚めの衣で揚げ、ほくほくのフライドポテトを添える。",
+    "category": "main",
+    "cuisine": "イギリス料理",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "たら",
+        "amount": "1切れ（120g）"
+      },
+      {
+        "name": "じゃがいも",
+        "amount": "1個"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "40gと打ち粉少々"
+      },
+      {
+        "name": "ベーキングパウダー",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "冷たい炭酸水",
+        "amount": "50ml"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "揚げ油",
+        "amount": "適量"
+      },
+      {
+        "name": "レモン",
+        "amount": "1/8個"
+      }
+    ],
+    "steps": [
+      "じゃがいもを棒状に切って水にさらし、水気を拭く。たらの骨を取り、塩とこしょうを振って薄く粉をまぶす。",
+      "160度の油でじゃがいもを柔らかくなるまで揚げて取り出す。薄力粉、ベーキングパウダー、炭酸水をさっくり混ぜる。",
+      "たらに衣を付け、170度の油で返しながら中心まで揚げる。じゃがいもは180度で二度揚げし、塩を振ってレモンと添える。"
+    ],
+    "tip": "衣は混ぜすぎず、炭酸水を加えたら時間を置かずに揚げる。",
+    "tags": ["白身魚", "じゃがいも", "揚げ物"],
+    "equipment": ["鍋", "ボウル"],
+    "reward": 70,
+    "art": {
+      "base": "main",
+      "motif": "fish-and-chips",
+      "colors": ["#e9ac25", "#b57b3c", "#24624b", "#fff5de"],
+      "toppings": ["fish", "potato-sticks", "lemon"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-mussels-white-wine",
+    "name": "ムール貝の白ワイン蒸し",
+    "description": "殻付きムール貝を香味野菜と蒸し、だしの出た汁ごと味わう。",
+    "category": "main",
+    "cuisine": "フランス料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "殻付きムール貝",
+        "amount": "250g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "セロリ",
+        "amount": "20g"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1/2片"
+      },
+      {
+        "name": "白ワイン",
+        "amount": "70ml"
+      },
+      {
+        "name": "バター",
+        "amount": "5g"
+      },
+      {
+        "name": "パセリ",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "ムール貝は製品の表示に従って下処理し、殻を洗ってひげを取り除く。玉ねぎ、セロリ、にんにくを細かく刻む。",
+      "鍋にバターを溶かして香味野菜を炒める。ムール貝と白ワインを入れてふたをし、中火で蒸す。",
+      "貝が開いて中心まで熱くなるまで加熱し、鍋を揺すって汁を絡める。開かない貝を除き、こしょうとパセリを振る。"
+    ],
+    "tip": "蒸し汁に貝の塩気が出るので、塩を加える前に味を見て調節する。",
+    "tags": ["貝", "白ワイン", "蒸し料理"],
+    "equipment": ["鍋", "ふた"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "mussels-white-wine",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["clam", "onion", "parsley"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-fish-pie",
+    "name": "フィッシュパイ",
+    "description": "魚のクリーム煮をマッシュポテトで覆い、表面を焼き上げる。",
+    "category": "main",
+    "cuisine": "イギリス料理",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 45,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "たら",
+        "amount": "80g"
+      },
+      {
+        "name": "鮭",
+        "amount": "50g"
+      },
+      {
+        "name": "じゃがいも",
+        "amount": "150g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "牛乳",
+        "amount": "150ml"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "バター",
+        "amount": "10g"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/5"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "粉チーズ",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "じゃがいもをゆでてつぶし、牛乳大さじ2とバターの半量を混ぜる。魚の骨と皮を取り、一口大に切る。",
+      "残りのバターで薄切り玉ねぎを炒め、薄力粉を混ぜる。残りの牛乳を少しずつ入れ、魚、塩、こしょうを加えて魚の中心まで煮る。",
+      "耐熱皿に魚の煮込みを入れ、ポテトを広げてチーズを振る。220度に予熱したオーブンで12〜15分焼く。"
+    ],
+    "tip": "魚を煮るときは大きく混ぜ、身を細かく崩さないようにする。",
+    "tags": ["魚", "じゃがいも", "クリーム"],
+    "equipment": ["鍋", "フライパン", "耐熱皿", "オーブン"],
+    "reward": 70,
+    "art": {
+      "base": "main",
+      "motif": "fish-pie",
+      "colors": ["#e8d8ab", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["fish", "mashed-potato", "parmesan"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-moussaka",
+    "name": "ムサカ",
+    "description": "焼いたなすと肉のトマト煮に、ホワイトソースを重ねて焼く。",
+    "category": "main",
+    "cuisine": "ギリシャ料理",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 45,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "なす",
+        "amount": "1本"
+      },
+      {
+        "name": "合いびき肉",
+        "amount": "90g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "カットトマト",
+        "amount": "100g"
+      },
+      {
+        "name": "市販ホワイトソース",
+        "amount": "80g"
+      },
+      {
+        "name": "ピザ用チーズ",
+        "amount": "20g"
+      },
+      {
+        "name": "シナモン",
+        "amount": "ごく少々"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "なすを厚さ1cmに切り、油の半量で両面を焼いて取り出す。玉ねぎを刻み、残りの油でひき肉と炒める。",
+      "肉に火が通ったらトマト、塩、こしょう、シナモンを加える。10分ほど煮て汁気を減らす。",
+      "耐熱皿になすと肉のソースを交互に重ねる。ホワイトソースとチーズをのせ、200度のオーブンで15分ほど焼く。"
+    ],
+    "tip": "シナモンは香りが前に出すぎないよう、ほんのひとつまみから使う。",
+    "tags": ["なす", "ひき肉", "オーブン"],
+    "equipment": ["フライパン", "耐熱皿", "オーブン"],
+    "reward": 70,
+    "art": {
+      "base": "main",
+      "motif": "moussaka",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["eggplant", "beef-mince", "cheese"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-lamb-kofta",
+    "name": "ラムのコフタ",
+    "description": "クミンとパセリを混ぜたラム肉を、細長い形にして焼く。",
+    "category": "main",
+    "cuisine": "中東料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ラムひき肉",
+        "amount": "130g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "パセリ",
+        "amount": "5g"
+      },
+      {
+        "name": "クミンパウダー",
+        "amount": "小さじ1/3"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "プレーンヨーグルト",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "レモン汁",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1/4片"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "玉ねぎとパセリを細かく刻み、ひき肉、クミン、塩、こしょうと粘りが出るまで混ぜる。3個の細長い形に整える。",
+      "油を熱したフライパンで全ての面を焼き、弱火にしてふたをする。肉の中心まで十分に加熱する。",
+      "ヨーグルト、レモン汁、おろしにんにくを混ぜる。肉を皿に盛り、ヨーグルトソースを添える。"
+    ],
+    "tip": "肉だねを厚くしすぎず、細長く均一にすると火が通りやすい。",
+    "tags": ["ラム肉", "クミン", "ヨーグルト"],
+    "equipment": ["ボウル", "フライパン", "ふた"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "lamb-kofta",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["meatball", "yogurt", "parsley"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-chicken-shawarma-plate",
+    "name": "チキンシャワルマ",
+    "description": "スパイスとヨーグルトをもみ込んだ鶏肉を焼き、薄く切って盛る。",
+    "category": "main",
+    "cuisine": "中東料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏もも肉",
+        "amount": "150g"
+      },
+      {
+        "name": "プレーンヨーグルト",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "クミンパウダー",
+        "amount": "小さじ1/3"
+      },
+      {
+        "name": "パプリカパウダー",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "おろしにんにく",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "レモン汁",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "きゅうり",
+        "amount": "1/3本"
+      },
+      {
+        "name": "トマト",
+        "amount": "1/2個"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "鶏肉の厚さをそろえ、ヨーグルト、スパイス、にんにく、レモン汁の半量、塩をもみ込んで15分置く。",
+      "油を熱したフライパンで鶏肉の両面を焼き、弱火でふたをして中心まで火を通す。ふたを外して表面を香ばしくする。",
+      "肉を薄く切り、角切りきゅうりとトマトを添える。残りのレモン汁をかけ、焼き汁を少量回しかける。"
+    ],
+    "tip": "漬けだれを軽く落としてから焼くと、焦げすぎずに肉へ焼き色が付く。",
+    "tags": ["鶏肉", "スパイス", "ヨーグルト"],
+    "equipment": ["フライパン", "ふた"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "chicken-shawarma-plate",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["chicken-slices", "cucumber", "tomato"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-hummus-dip",
+    "name": "フムス",
+    "description": "ひよこ豆と練りごまを、レモンの香る滑らかなペーストにする。",
+    "category": "side",
+    "cuisine": "中東料理",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ゆでひよこ豆",
+        "amount": "120g"
+      },
+      {
+        "name": "白練りごま",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "レモン汁",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1/4片"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/5"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "パプリカパウダー",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "ひよこ豆は水を切り、気になる薄皮を取り除く。にんにくを細かく刻み、豆とミキサーに入れる。",
+      "練りごま、レモン汁、水、塩を加えて滑らかになるまで攪拌する。硬ければ水を小さじ1ずつ足す。",
+      "皿に広げてスプーンで浅いくぼみを作り、オリーブ油を回しかける。パプリカパウダーを振る。"
+    ],
+    "tip": "豆の薄皮を取ってから長めに攪拌すると、口当たりが滑らかになる。",
+    "tags": ["ひよこ豆", "ごま", "ディップ"],
+    "equipment": ["ミキサー"],
+    "reward": 20,
+    "art": {
+      "base": "main",
+      "motif": "hummus-dip",
+      "colors": ["#e8d8ab", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["chickpea", "sesame"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-tabbouleh",
+    "name": "タブレ",
+    "description": "パセリとトマトをたっぷり使った、ブルグルのレモンサラダ。",
+    "category": "side",
+    "cuisine": "中東料理",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "細粒ブルグル",
+        "amount": "30g"
+      },
+      {
+        "name": "熱湯",
+        "amount": "60ml"
+      },
+      {
+        "name": "パセリ",
+        "amount": "20g"
+      },
+      {
+        "name": "トマト",
+        "amount": "1/2個"
+      },
+      {
+        "name": "きゅうり",
+        "amount": "1/3本"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/8個"
+      },
+      {
+        "name": "ミント",
+        "amount": "4枚"
+      },
+      {
+        "name": "レモン汁",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/5"
+      }
+    ],
+    "steps": [
+      "ブルグルに熱湯を注ぎ、製品の表示に従って戻す。余った水を切り、広げて冷ます。",
+      "パセリとミントを細かく刻み、トマトときゅうりは小さな角切りにする。玉ねぎはみじん切りにする。",
+      "レモン汁、油、塩を混ぜ、ブルグルと野菜を加えて和える。10分ほど置いて味をなじませる。"
+    ],
+    "tip": "パセリの水気をしっかり拭いてから刻むと、香りがぼやけにくい。",
+    "tags": ["パセリ", "ブルグル", "レモン"],
+    "equipment": ["ボウル"],
+    "reward": 20,
+    "art": {
+      "base": "salad",
+      "motif": "tabbouleh",
+      "colors": ["#729f49", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["tomato", "cucumber", "parsley", "onion"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-vegetable-chicken-couscous",
+    "name": "鶏と野菜のクスクス",
+    "description": "スパイスで煮た鶏肉と野菜を、細かな粒のクスクスにかける。",
+    "category": "main",
+    "cuisine": "北アフリカ料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "クスクス",
+        "amount": "50g"
+      },
+      {
+        "name": "熱湯",
+        "amount": "60ml"
+      },
+      {
+        "name": "鶏もも肉",
+        "amount": "100g"
+      },
+      {
+        "name": "にんじん",
+        "amount": "40g"
+      },
+      {
+        "name": "ズッキーニ",
+        "amount": "1/3本"
+      },
+      {
+        "name": "ゆでひよこ豆",
+        "amount": "40g"
+      },
+      {
+        "name": "カットトマト",
+        "amount": "80g"
+      },
+      {
+        "name": "水",
+        "amount": "180ml"
+      },
+      {
+        "name": "クミンパウダー",
+        "amount": "小さじ1/3"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "鶏肉と野菜を大きめに切る。鍋に油の半量を熱して鶏肉を焼き、にんじん、トマト、水、クミン、塩を加えて15分煮る。",
+      "ズッキーニとひよこ豆を加えてさらに8分煮る。鶏肉の中心まで火が通り、野菜が柔らかくなったことを確かめる。",
+      "クスクスに熱湯と残りの油を混ぜ、表示時間蒸らしてフォークでほぐす。器に盛り、鶏肉と野菜を煮汁ごとかける。"
+    ],
+    "tip": "クスクスは蒸らした後にほぐすと、粒がつぶれず軽い食感になる。",
+    "tags": ["クスクス", "鶏肉", "野菜"],
+    "equipment": ["鍋", "ボウル"],
+    "reward": 40,
+    "art": {
+      "base": "rice",
+      "motif": "vegetable-chicken-couscous",
+      "colors": ["#e9ac25", "#b57b3c", "#24624b", "#fff5de"],
+      "toppings": ["chicken-chunks", "carrot", "zucchini", "chickpea"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-lemon-chicken-tagine",
+    "name": "鶏とレモンのタジン風",
+    "description": "レモンとオリーブの香りを移しながら、鶏肉を蒸し煮にする。",
+    "category": "main",
+    "cuisine": "モロッコ料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 40,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏もも肉",
+        "amount": "150g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/2個"
+      },
+      {
+        "name": "レモン",
+        "amount": "1/4個"
+      },
+      {
+        "name": "種なしオリーブ",
+        "amount": "5個"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1/2片"
+      },
+      {
+        "name": "クミンパウダー",
+        "amount": "小さじ1/3"
+      },
+      {
+        "name": "ターメリック",
+        "amount": "少々"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "水",
+        "amount": "100ml"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "鶏肉を大きめに切り、塩、クミン、ターメリックをまぶす。玉ねぎを薄切り、レモンを輪切りにする。",
+      "厚手の鍋に油、玉ねぎ、刻んだにんにく、鶏肉、レモン、オリーブを順に入れ、水を注ぐ。",
+      "ふたをして弱火で25〜30分蒸し煮にする。鶏肉の中心まで火を通し、煮汁が多ければふたを取って少し煮詰める。"
+    ],
+    "tip": "レモンの種は先に取り除き、皮ごと使えるものをよく洗って使う。",
+    "tags": ["鶏肉", "レモン", "オリーブ"],
+    "equipment": ["厚手の鍋", "ふた"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "lemon-chicken-tagine",
+      "colors": ["#e9ac25", "#b57b3c", "#24624b", "#fff5de"],
+      "toppings": ["chicken-chunks", "lemon", "olive", "onion"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-bean-beef-burrito",
+    "name": "ビーフブリトー",
+    "description": "牛肉、豆、ご飯を大きなトルティーヤで包む、具だくさんの一品。",
+    "category": "main",
+    "cuisine": "メキシコ風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "大判フラワートルティーヤ",
+        "amount": "1枚"
+      },
+      {
+        "name": "牛ひき肉",
+        "amount": "60g"
+      },
+      {
+        "name": "ご飯",
+        "amount": "50g"
+      },
+      {
+        "name": "ゆで赤いんげん豆",
+        "amount": "40g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "サルサ",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "ピザ用チーズ",
+        "amount": "20g"
+      },
+      {
+        "name": "クミンパウダー",
+        "amount": "小さじ1/3"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "玉ねぎをみじん切りにし、油で牛ひき肉と炒めて中心まで火を通す。豆、クミン、塩、サルサの半量を加えて汁気を飛ばす。",
+      "トルティーヤを表示どおりに温め、中央より手前にご飯、肉と豆、チーズ、残りのサルサをのせる。",
+      "左右を折り込み、手前からきつく巻く。巻き終わりを下にしてフライパンで温め、チーズを溶かして半分に切る。"
+    ],
+    "tip": "具の汁気を飛ばしてから包むと、食べるときに底から漏れにくい。",
+    "tags": ["牛肉", "豆", "トルティーヤ"],
+    "equipment": ["フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "bean-beef-burrito",
+      "colors": ["#e9ac25", "#b57b3c", "#24624b", "#fff5de"],
+      "toppings": ["beef-mince", "kidney-bean", "cheese"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-beef-tacos",
+    "name": "ビーフタコス",
+    "description": "小さなコーントルティーヤに牛肉と野菜をのせ、ライムを搾る。",
+    "category": "main",
+    "cuisine": "メキシコ料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "コーントルティーヤ",
+        "amount": "3枚"
+      },
+      {
+        "name": "牛こま切れ肉",
+        "amount": "100g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "トマト",
+        "amount": "1/2個"
+      },
+      {
+        "name": "パクチー",
+        "amount": "5g"
+      },
+      {
+        "name": "クミンパウダー",
+        "amount": "小さじ1/3"
+      },
+      {
+        "name": "パプリカパウダー",
+        "amount": "小さじ1/3"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/5"
+      },
+      {
+        "name": "ライム",
+        "amount": "1/4個"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "牛肉を細かく切り、クミン、パプリカ、塩をまぶす。玉ねぎとトマトは小さく切り、パクチーを刻む。",
+      "油で牛肉を炒め、中心まで十分に火を通す。別のフライパンでトルティーヤを表示どおりに温め、布で包んで保温する。",
+      "トルティーヤに肉、玉ねぎ、トマト、パクチーをのせる。ライムを添え、食べる直前に搾る。"
+    ],
+    "tip": "トルティーヤは温かいうちに具をのせると、折り曲げても割れにくい。",
+    "tags": ["牛肉", "トルティーヤ", "ライム"],
+    "equipment": ["フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "beef-tacos",
+      "colors": ["#e9ac25", "#b57b3c", "#24624b", "#fff5de"],
+      "toppings": ["beef-strips", "tomato", "onion", "parsley"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-chicken-enchiladas",
+    "name": "チキンエンチラーダ",
+    "description": "鶏肉を巻いたトルティーヤに赤いソースをかけ、チーズと焼く。",
+    "category": "main",
+    "cuisine": "メキシコ料理",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "小さなコーントルティーヤ",
+        "amount": "3枚"
+      },
+      {
+        "name": "鶏むね肉",
+        "amount": "100g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "カットトマト",
+        "amount": "150g"
+      },
+      {
+        "name": "チリパウダー",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "クミンパウダー",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "ピザ用チーズ",
+        "amount": "30g"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/5"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "鶏肉を中心までゆでてほぐす。油でみじん切り玉ねぎを炒め、トマト、チリパウダー、クミン、塩を加えて10分煮る。",
+      "温めたトルティーヤに鶏肉とソースの一部をのせて巻く。耐熱皿に巻き終わりを下にして並べる。",
+      "残りのソースを全体にかけてチーズを散らす。200度に予熱したオーブンで10〜15分焼き、中心まで熱くする。"
+    ],
+    "tip": "トルティーヤの端までソースをかけると、焼いたときに乾きすぎない。",
+    "tags": ["鶏肉", "トルティーヤ", "チーズ"],
+    "equipment": ["鍋", "フライパン", "耐熱皿", "オーブン"],
+    "reward": 70,
+    "art": {
+      "base": "main",
+      "motif": "chicken-enchiladas",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["chicken-strips", "tomato-sauce", "cheese"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-chicken-fajitas",
+    "name": "チキンファヒータ",
+    "description": "鶏肉と色とりどりのパプリカを炒め、温めたトルティーヤで包む。",
+    "category": "main",
+    "cuisine": "メキシコ風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏もも肉",
+        "amount": "120g"
+      },
+      {
+        "name": "パプリカ",
+        "amount": "1/2個"
+      },
+      {
+        "name": "ピーマン",
+        "amount": "1個"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "フラワートルティーヤ",
+        "amount": "2枚"
+      },
+      {
+        "name": "クミンパウダー",
+        "amount": "小さじ1/3"
+      },
+      {
+        "name": "パプリカパウダー",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "ライム汁",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "鶏肉を細切りにし、クミン、パプリカ粉、塩、ライム汁をもみ込む。野菜は幅をそろえた細切りにする。",
+      "油を熱して鶏肉を焼き、中心まで火を通す。玉ねぎ、パプリカ、ピーマンを加えて強めの中火で炒める。",
+      "野菜に焼き色が付き、食べやすい硬さになったら盛る。トルティーヤを表示どおりに温めて別添えにする。"
+    ],
+    "tip": "具を詰め込みすぎずに焼くと、野菜から水が出る前に焼き色が付く。",
+    "tags": ["鶏肉", "パプリカ", "スパイス"],
+    "equipment": ["フライパン"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "chicken-fajitas",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["chicken-strips", "red-pepper", "green-pepper", "onion"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-cheese-quesadilla",
+    "name": "チーズケサディーヤ",
+    "description": "トルティーヤに豆とチーズをはさみ、両面をこんがり焼く。",
+    "category": "main",
+    "cuisine": "メキシコ料理",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "フラワートルティーヤ",
+        "amount": "2枚"
+      },
+      {
+        "name": "ピザ用チーズ",
+        "amount": "40g"
+      },
+      {
+        "name": "ゆで黒豆または赤いんげん豆",
+        "amount": "40g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "20g"
+      },
+      {
+        "name": "サルサ",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "玉ねぎを細かく刻み、油の半量で炒める。ゆで豆を加えて軽くつぶし、サルサの半量を混ぜて水分を飛ばす。",
+      "トルティーヤ1枚にチーズの半量、豆、残りのチーズを広げ、もう1枚を重ねて軽く押さえる。",
+      "残りの油をフライパンに塗り、弱めの中火で両面を焼く。チーズが溶けたら切り分け、残りのサルサを添える。"
+    ],
+    "tip": "弱めの火でじっくり焼くと、皮が焦げる前に中央のチーズが溶ける。",
+    "tags": ["チーズ", "豆", "トルティーヤ"],
+    "equipment": ["フライパン"],
+    "reward": 20,
+    "art": {
+      "base": "main",
+      "motif": "cheese-quesadilla",
+      "colors": ["#e9ac25", "#b57b3c", "#24624b", "#fff5de"],
+      "toppings": ["cheese", "kidney-bean", "tomato"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-guacamole",
+    "name": "ワカモレ",
+    "description": "アボカドを粗くつぶし、玉ねぎとライムを混ぜるディップ。",
+    "category": "side",
+    "cuisine": "メキシコ料理",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 10,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "アボカド",
+        "amount": "1/2個"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "トマト",
+        "amount": "1/4個"
+      },
+      {
+        "name": "ライム汁",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "パクチー",
+        "amount": "少々"
+      },
+      {
+        "name": "塩",
+        "amount": "ひとつまみ"
+      },
+      {
+        "name": "トルティーヤチップス",
+        "amount": "20g"
+      }
+    ],
+    "steps": [
+      "玉ねぎとパクチーを細かく刻む。トマトは種の周りの水分を軽く除き、小さな角切りにする。",
+      "アボカドの皮と種を除き、ライム汁をかけてフォークで粗くつぶす。塩を加えて味を調える。",
+      "玉ねぎ、トマト、パクチーを混ぜ、アボカドの塊を少し残す。器に盛ってチップスを添える。"
+    ],
+    "tip": "作ってすぐに食べると、アボカドの色とライムの香りを楽しめる。",
+    "tags": ["アボカド", "ライム", "ディップ"],
+    "equipment": ["ボウル", "フォーク"],
+    "reward": 20,
+    "art": {
+      "base": "salad",
+      "motif": "guacamole",
+      "colors": ["#729f49", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["avocado", "tomato", "onion"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-greek-salad",
+    "name": "ギリシャサラダ",
+    "description": "トマトときゅうりにフェタチーズとオリーブを合わせる。",
+    "category": "side",
+    "cuisine": "ギリシャ料理",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 10,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "トマト",
+        "amount": "1個"
+      },
+      {
+        "name": "きゅうり",
+        "amount": "1/2本"
+      },
+      {
+        "name": "紫玉ねぎ",
+        "amount": "1/8個"
+      },
+      {
+        "name": "フェタチーズ",
+        "amount": "30g"
+      },
+      {
+        "name": "種なしオリーブ",
+        "amount": "5個"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "ワインビネガー",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "乾燥オレガノ",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "トマトを大きめの角切り、きゅうりを厚めの半月切りにする。紫玉ねぎを薄切りにして水にさっとさらす。",
+      "野菜の水気を切ってボウルに入れ、オリーブ、油、ワインビネガーを加えて優しく和える。",
+      "フェタチーズを大きく崩してのせ、オレガノとこしょうを振る。チーズの塩気を全体になじませて食べる。"
+    ],
+    "tip": "フェタチーズに塩気があるため、追加の塩は味を見てから使う。",
+    "tags": ["フェタチーズ", "オリーブ", "生野菜"],
+    "equipment": ["ボウル"],
+    "reward": 20,
+    "art": {
+      "base": "salad",
+      "motif": "greek-salad",
+      "colors": ["#729f49", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["tomato", "cucumber", "cheese", "olive"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-caesar-salad",
+    "name": "シーザーサラダ",
+    "description": "ロメインレタスにアンチョビ入りのソースとチーズを絡める。",
+    "category": "side",
+    "cuisine": "洋食",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ロメインレタス",
+        "amount": "100g"
+      },
+      {
+        "name": "バゲット",
+        "amount": "20g"
+      },
+      {
+        "name": "粉チーズ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "マヨネーズ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "プレーンヨーグルト",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "アンチョビ",
+        "amount": "1/2枚"
+      },
+      {
+        "name": "レモン汁",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "にんにく",
+        "amount": "少々"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "黒こしょう",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "バゲットを角切りにし、油を絡めてフライパンでカリッと焼く。レタスを一口大にちぎり、水気を十分に切る。",
+      "アンチョビを細かく刻み、マヨネーズ、ヨーグルト、レモン汁、おろしにんにくを混ぜる。",
+      "レタスをソースで和え、器に盛る。焼いたパンと粉チーズを散らし、黒こしょうを振る。"
+    ],
+    "tip": "レタスの水気をしっかり取ると、濃いソースが薄まらずに絡む。",
+    "tags": ["レタス", "チーズ", "クルトン"],
+    "equipment": ["フライパン", "ボウル"],
+    "reward": 20,
+    "art": {
+      "base": "salad",
+      "motif": "caesar-salad",
+      "colors": ["#729f49", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["lettuce", "bread-cubes", "parmesan"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-cobb-salad",
+    "name": "コブサラダ",
+    "description": "鶏肉、卵、アボカドを列に並べた、食べ応えのあるサラダ。",
+    "category": "main",
+    "cuisine": "アメリカ料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏むね肉",
+        "amount": "80g"
+      },
+      {
+        "name": "ゆで卵",
+        "amount": "1個"
+      },
+      {
+        "name": "アボカド",
+        "amount": "1/2個"
+      },
+      {
+        "name": "トマト",
+        "amount": "1/2個"
+      },
+      {
+        "name": "レタス",
+        "amount": "60g"
+      },
+      {
+        "name": "ベーコン",
+        "amount": "1枚"
+      },
+      {
+        "name": "ブルーチーズ",
+        "amount": "15g"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "酢",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "粒マスタード",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "鶏肉を中心までゆで、冷まして角切りにする。ベーコンは細く切ってフライパンでカリッと焼く。",
+      "レタスをちぎり、卵、アボカド、トマトを角切りにする。油、酢、マスタード、塩、こしょうを混ぜてたれを作る。",
+      "皿にレタスを広げ、具材を種類ごとに列に並べる。ブルーチーズとベーコンを散らし、たれを別添えにする。"
+    ],
+    "tip": "具材を同じくらいの大きさに切ると、取り分けたとき味が偏りにくい。",
+    "tags": ["鶏肉", "アボカド", "サラダ"],
+    "equipment": ["鍋", "フライパン", "ボウル"],
+    "reward": 40,
+    "art": {
+      "base": "salad",
+      "motif": "cobb-salad",
+      "colors": ["#729f49", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["chicken-chunks", "egg", "avocado", "tomato", "cheese"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-coleslaw",
+    "name": "コールスロー",
+    "description": "細切りキャベツとにんじんを、酢の利いたマヨネーズで和える。",
+    "category": "side",
+    "cuisine": "洋食",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "キャベツ",
+        "amount": "100g"
+      },
+      {
+        "name": "にんじん",
+        "amount": "20g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "15g"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/5"
+      },
+      {
+        "name": "マヨネーズ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "酢",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "キャベツ、にんじん、玉ねぎを細く切る。塩を全体にもみ込み、5分置いてしんなりさせる。",
+      "野菜を手でしっかり絞って水気を切る。別のボウルにマヨネーズ、酢、砂糖、こしょうを混ぜる。",
+      "野菜をソースに加えてよく和え、冷蔵庫で5分ほど冷やす。底から混ぜて器に盛る。"
+    ],
+    "tip": "塩もみ後の水分を絞ると、時間がたっても味が薄まりにくい。",
+    "tags": ["キャベツ", "にんじん", "サラダ"],
+    "equipment": ["ボウル", "冷蔵庫"],
+    "reward": 20,
+    "art": {
+      "base": "salad",
+      "motif": "coleslaw",
+      "colors": ["#fff5de", "#b57b3c", "#24624b", "#df442d"],
+      "toppings": ["shredded-cabbage", "carrot-strips", "onion"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-margherita-pizza",
+    "name": "マルゲリータ",
+    "description": "トマト、モッツァレラ、バジルをのせた、丸い生地の定番ピザ。",
+    "category": "main",
+    "cuisine": "イタリア料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "市販ピザ生地",
+        "amount": "1枚（直径約20cm）"
+      },
+      {
+        "name": "トマトソース",
+        "amount": "50g"
+      },
+      {
+        "name": "モッツァレラチーズ",
+        "amount": "60g"
+      },
+      {
+        "name": "バジル",
+        "amount": "5枚"
+      },
+      {
+        "name": "オリーブ油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "モッツァレラをちぎってペーパーで水気を取る。ピザ生地を製品の表示に従って準備し、オーブンを指定温度に予熱する。",
+      "生地の縁を1cmほど残してトマトソースを広げる。モッツァレラを間隔を空けて並べ、塩とオリーブ油を振る。",
+      "製品の表示を目安に焼き、生地の中央まで火を通す。縁が色付き、チーズが溶けたら取り出してバジルを散らし、放射状に切る。"
+    ],
+    "tip": "モッツァレラの水気を先に取ると、中央の生地が水っぽくなりにくい。",
+    "tags": ["ピザ", "モッツァレラ", "トマト"],
+    "equipment": ["オーブン", "天板"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "margherita-pizza",
+      "colors": ["#bd432d", "#e9ac25", "#24624b", "#fff5de"],
+      "toppings": ["tomato-sauce", "mozzarella", "basil"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  },
+  {
+    "id": "r-classic-beef-burger",
+    "name": "ハンバーガー",
+    "description": "焼いた牛肉のパティにレタス、トマト、玉ねぎを重ねたハンバーガー。",
+    "category": "main",
+    "cuisine": "アメリカ料理",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ハンバーガーバンズ",
+        "amount": "1個"
+      },
+      {
+        "name": "牛ひき肉",
+        "amount": "120g"
+      },
+      {
+        "name": "レタス",
+        "amount": "1枚"
+      },
+      {
+        "name": "トマト",
+        "amount": "1輪（厚さ1cm）"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1輪"
+      },
+      {
+        "name": "ピクルス",
+        "amount": "2枚"
+      },
+      {
+        "name": "ケチャップ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "マスタード",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/5"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "牛ひき肉に塩とこしょうを混ぜ、バンズより少し大きい平たい丸形にする。中央を軽くくぼませ、レタスの水気を切る。",
+      "油を熱したフライパンでパティの両面を焼き、弱火でふたをして中心まで十分に加熱する。玉ねぎも脇で焼き、バンズは切り口を軽く焼く。",
+      "下のバンズにマスタードを塗り、レタス、パティ、トマト、玉ねぎ、ピクルスを重ねる。ケチャップをかけ、上のバンズをのせる。"
+    ],
+    "tip": "パティは焼くと縮むため、バンズより直径を少し大きく成形する。",
+    "tags": ["牛肉", "バンズ", "ハンバーガー"],
+    "equipment": ["フライパン", "ふた"],
+    "reward": 40,
+    "art": {
+      "base": "main",
+      "motif": "classic-beef-burger",
+      "colors": ["#855237", "#e9ac25", "#24624b", "#f2d5a0"],
+      "toppings": ["beef-patty", "lettuce", "tomato", "onion"],
+      "garnish": [],
+      "vessel": "plate"
+    }
+  }
+]

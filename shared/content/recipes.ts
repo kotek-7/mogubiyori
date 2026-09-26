@@ -1,5 +1,8 @@
 import staples from '../../content/expansion/recipes/staples.json' with { type: 'json' }
 import mainsAndSides from '../../content/expansion/recipes/mains-sides.json' with { type: 'json' }
+import everyday from '../../content/expansion/recipes/everyday.json' with { type: 'json' }
+import globalMains from '../../content/expansion/recipes/global-mains.json' with { type: 'json' }
+import bakerySweets from '../../content/expansion/recipes/bakery-sweets.json' with { type: 'json' }
 import { adaptRecipe, mergeById } from './adoption'
 import type { ExpansionRecipe, RecipeCategory } from './types'
 
@@ -216,5 +219,10 @@ export const legacyRecipes: Recipe[] = [
 // are validated. The larger character and cosmetic catalog remains independently loaded.
 export const recipes: Recipe[] = mergeById(
   legacyRecipes,
-  ([...staples, ...mainsAndSides] as Omit<ExpansionRecipe, 'artPath'>[]).map(adaptRecipe),
+  (
+    [...staples, ...mainsAndSides, ...everyday, ...globalMains, ...bakerySweets] as Omit<
+      ExpansionRecipe,
+      'artPath'
+    >[]
+  ).map(adaptRecipe),
 )

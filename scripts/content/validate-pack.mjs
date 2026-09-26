@@ -54,7 +54,7 @@ for (const [kind, entries] of Object.entries({
     check(e.description?.length >= 8, `${e.id}: missing description`)
   }
 }
-check(data.recipes.length >= 300, 'fewer than 300 recipes')
+check(data.recipes.length >= 600, 'fewer than 600 recipes')
 for (const r of data.recipes) {
   const label = r.id
   check(r.category in data.categories, `${label}: category`)

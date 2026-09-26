@@ -12,10 +12,10 @@ import type { ExpansionCatalog } from '../../src/features/collection/expansion'
 import { normalizeSearch, selectEntries } from '../../public/expansion/catalog-tools.js'
 const data: ExpansionCatalog = JSON.parse(readFileSync('public/expansion/catalog.json', 'utf8'))
 describe('expansion adoption boundaries', () => {
-  it('adds 300 recipes while preserving every existing recipe and its ID', () => {
+  it('adds 602 recipes while preserving every existing recipe and its ID', () => {
     const before = JSON.stringify(legacyRecipes)
     const merged = mergeById(legacyRecipes, data.recipes.map(adaptRecipe))
-    expect(merged).toHaveLength(legacyRecipes.length + 300)
+    expect(merged).toHaveLength(legacyRecipes.length + 602)
     expect(JSON.stringify(legacyRecipes)).toBe(before)
     for (const original of legacyRecipes)
       expect(merged.find((r) => r.id === original.id)).toBe(original)
@@ -27,7 +27,7 @@ describe('expansion adoption boundaries', () => {
       ...data.characters.flatMap((c) => c.stages.map((s) => s.artPath)),
       ...data.items.map((i) => i.artPath),
     ]
-    expect(paths).toHaveLength(552)
+    expect(paths).toHaveLength(854)
     for (const path of paths) expect(existsSync(`public${path}`), path).toBe(true)
   })
   it('gives all 36 companions five anatomically different growth stages', () => {
@@ -91,7 +91,9 @@ describe('large catalog discovery', () => {
       labels: data.categories,
       pageSize: 400,
     })
-    expect(breakfast.entries.filter((r) => r.category === 'breakfast')).toHaveLength(30)
+    expect(breakfast.entries.filter((r) => r.category === 'breakfast')).toHaveLength(
+      data.recipes.filter((r) => r.category === 'breakfast').length,
+    )
   })
   it('intersects category, time and difficulty before pagination', () => {
     const options = { category: 'side', maxMinutes: 20, difficulty: '1', pageSize: 5, page: 1 }
@@ -110,11 +112,11 @@ describe('large catalog discovery', () => {
   })
   it('bounds DOM work to 24 cards and covers the complete collection', () => {
     const ids = new Set<string>()
-    for (let page = 1; page <= 13; page++) {
+    for (let page = 1; page <= Math.ceil(data.recipes.length / 24); page++) {
       const result = selectEntries(data.recipes, { page })
       expect(result.entries.length).toBeLessThanOrEqual(24)
       for (const entry of result.entries) ids.add(entry.id)
     }
-    expect(ids.size).toBe(300)
+    expect(ids.size).toBe(data.recipes.length)
   })
 })

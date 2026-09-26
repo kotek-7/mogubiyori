@@ -91,12 +91,8 @@ const dishIds = new Set(genericDishes.map((dish) => dish.id))
 // Each section describes its row format once in the prompt. Keep every choice
 // available without repeating field names and kind labels hundreds of times.
 const catalogText = JSON.stringify({
-  recipe: recipes.map(({ id, name, ingredients }) => [
-    id,
-    name,
-    ingredients.slice(0, 4).join('、').slice(0, 120),
-  ]),
-  dish: genericDishes.map(({ id, name, aliases, description }) => [id, name, aliases, description]),
+  dish: genericDishes.map(({ id, name, aliases }) => [id, name, aliases]),
+  recipe: recipes.map(({ id, name }) => [id, name]),
 })
 
 function modelInput(photo: string): Record<string, unknown> {
@@ -113,16 +109,17 @@ function modelInput(photo: string): Record<string, unknown> {
           'カタログにない料理も名前が分かるなら choiceId を null にして items に含めてください。' +
           'groups は写真で確認できる食品グループのみです。staple=ごはん・パン・麺、protein=肉・魚・卵・豆、' +
           'vegetable=野菜・きのこ・海藻、fruit=果物、dairy=乳製品。不明なら空配列です。' +
-          'カタログの材料は料理候補を選ぶ参考に限り、見えない材料の食品グループを補わないでください。' +
+          '料理名に一般的に使われる材料でも、写真に見えない食品グループを補わないでください。' +
           'portion はその品の1人分として見たおおまかな量です。small=少なめ、regular=ふつう、large=多め、' +
           'unknown=量を判断できない。器の大きさや分量が分からない場合は unknown にしてください。' +
           '食べた時刻、自炊・外食などの入手方法、写真にない品や具材は推測しないでください。' +
-          'カタログの recipe は具体的なレシピで、各行は [ID,料理名,主な材料] です。' +
-          'dish は料理の種類で、各行は [ID,料理名,別名の配列,説明] です。別名は同じIDの料理を指します。' +
+          'カタログの recipe は具体的なレシピで、各行は [ID,料理名] です。' +
+          'dish は料理の種類で、各行は [ID,料理名,別名の配列] です。別名は同じIDの料理を指します。' +
           '写真から具材や調理法が十分に確認できる場合だけ recipe を選び、それ以外は dish から選んでください。' +
           'dish の中では見た目から判別できる最も具体的な種類を優先し、細かい種類が分からなければ広い種類を選んでください。' +
           '例えばソースの分からないパスタは generic-pasta、具材不明のカレーは generic-curry、' +
-          'チャーハンは generic-fried-rice、ハンバーグは generic-hamburg として選べます。' +
+          '米料理としか分からなければ generic-rice、お菓子の種類が不明なら generic-dessert を選べます。' +
+          'ビリヤニを似た色のジャンバラヤにするなど、別の料理に置き換えないでください。' +
           '写真から分からない具材や味付けを想像してレシピや細かい種類に当てはめないでください。' +
           '該当するレシピも種類もない場合は candidates を空配列にしてください。' +
           '料理が写っていない、または料理を判別できない場合は candidates と items を両方空配列にしてください。' +

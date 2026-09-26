@@ -106,7 +106,7 @@ MotionはXP表示、カテゴリの選択表示、通知、dialogの開閉と内
 
 localの写真は従来どおり縮小したData URLをセーブに含める。cloud gatewayは写真を先にWorkerへ送信し、給餌コマンドには`photoId`だけを渡す。写真と食事の紐付けはDBの確定処理内で行う。表示時は所有者を確認して発行した短期間のURLを使い、URLを永続的な写真IDとして保存しない。
 
-採用レシピは`shared/content/recipes.ts`で既存10件と追加300件を合成する。UI、保存時のカード検証、ゲームルール、写真認識は同じregistryを参照する。既存レシピIDと`rice` / `pasta` / `soup` / `curry`のsample値は維持する。追加レシピの画像は`artPath`で表示する。追加のなかま・きせかえの採用はレシピの採用と別に扱う。
+採用レシピは`shared/content/recipes.ts`で既存10件と追加602件を合成する。UI、保存時のカード検証、ゲームルール、写真認識は同じregistryを参照する。既存レシピIDと`rice` / `pasta` / `soup` / `curry`のsample値は維持する。追加レシピの画像は`artPath`で表示する。追加のなかま・きせかえの採用はレシピの採用と別に扱う。
 
 具体的なレシピを特定しない料理は、`shared/content/dishes.ts`の種類を任意の`dishId`として食事に保存する。写真認識と食事の選択肢は`mealChoices.ts`でレシピと種類を合わせて参照する。`recipeId`は引き続き料理カードの対象を示し、種類だけの記録でカードやカード報酬を付与しない。種類の記録は未分類の食事と同じ45 XPと通常の日次・継続報酬を得る。既存セーブでは`dishId`の追加は不要で、読込・API・receiptのschemaはいずれも任意項目として扱う。
 

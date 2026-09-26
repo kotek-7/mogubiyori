@@ -1,0 +1,6265 @@
+[
+  {
+    "id": "r-katsudon",
+    "name": "卵とじカツ丼",
+    "description": "だしを吸ったとんかつに卵をからめた食べごたえのある丼。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "180g"
+      },
+      {
+        "name": "とんかつ（加熱済み）",
+        "amount": "1枚（100g）"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "だし汁",
+        "amount": "80ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "玉ねぎを薄切りにし、とんかつを食べやすい幅に切る。",
+      "小鍋でだし汁、しょうゆ、みりん、玉ねぎを煮て柔らかくする。",
+      "とんかつを加えて温め、溶き卵を回し入れて全体が固まるまでふたをして煮る。",
+      "丼のご飯に具を移し、好みの量の煮汁を回しかける。"
+    ],
+    "tip": "とんかつは卵を入れる直前に加えると衣が崩れにくい。",
+    "tags": ["丼", "豚肉", "卵"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "rice",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "cutlet-egg-don",
+      "toppings": ["pork", "egg-ribbons", "onion"]
+    }
+  },
+  {
+    "id": "r-tempura-tendon",
+    "name": "えびと野菜の天丼",
+    "description": "えびと野菜の衣に甘辛いつゆをからめる天ぷらの丼。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "180g"
+      },
+      {
+        "name": "むきえび",
+        "amount": "3尾"
+      },
+      {
+        "name": "なす",
+        "amount": "1/2本"
+      },
+      {
+        "name": "かぼちゃ",
+        "amount": "40g"
+      },
+      {
+        "name": "天ぷら粉",
+        "amount": "35g"
+      },
+      {
+        "name": "冷水",
+        "amount": "55ml"
+      },
+      {
+        "name": "揚げ油",
+        "amount": "鍋底から3cm"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ1"
+      }
+    ],
+    "steps": [
+      "えびの背わたを除き、なすとかぼちゃを薄く切って水気を拭く。",
+      "小鍋で調味料と水をひと煮立ちさせ、天丼のたれを作る。",
+      "天ぷら粉を冷水で溶き、具をくぐらせて170℃の油で中まで火を通す。",
+      "天ぷらの油を切ってご飯に並べ、温かいたれを回しかける。"
+    ],
+    "tip": "かぼちゃを薄く切ると衣が色づく頃に中も柔らかくなる。",
+    "tags": ["丼", "えび", "天ぷら"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 40,
+    "art": {
+      "vessel": "bowl",
+      "base": "rice",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "tempura-don",
+      "toppings": ["shrimp", "eggplant", "pumpkin"]
+    }
+  },
+  {
+    "id": "r-unadon",
+    "name": "うな丼",
+    "description": "温め直したうなぎのかば焼きをたれとともにご飯にのせる。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "180g"
+      },
+      {
+        "name": "うなぎのかば焼き（加熱済み）",
+        "amount": "100g"
+      },
+      {
+        "name": "酒",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "かば焼きのたれ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "粉山椒",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "かば焼きを丼に収まる大きさに切り、フライパンに並べる。",
+      "酒と水を加えてふたをし、弱火で中心まで温まるまで蒸す。",
+      "ご飯にたれを少量混ぜ、うなぎをのせて残りのたれと山椒をかける。"
+    ],
+    "tip": "かば焼きは皮を下にして蒸すと身を崩さず取り出せる。",
+    "tags": ["丼", "うなぎ"],
+    "equipment": ["フライパン", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "rice",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "eel-kabayaki-don",
+      "toppings": ["fish", "glaze"]
+    }
+  },
+  {
+    "id": "r-anago-meshi",
+    "name": "穴子めし",
+    "description": "蒸し直した焼き穴子をだしで味つけしたご飯に重ねる。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "180g"
+      },
+      {
+        "name": "焼き穴子（加熱済み）",
+        "amount": "80g"
+      },
+      {
+        "name": "だし汁",
+        "amount": "40ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "酒",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "刻みのり",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "焼き穴子を切り、酒を振ってふたをした小鍋で温める。",
+      "別の鍋でだし汁、しょうゆ、みりんを煮立て、半量ほどに煮詰める。",
+      "温かいご飯に煮汁を混ぜて穴子を並べ、刻みのりを散らす。"
+    ],
+    "tip": "穴子に濃いたれが付いている場合はご飯に混ぜる煮汁を控える。",
+    "tags": ["ご飯", "穴子"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "rice",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "anago-rice",
+      "toppings": ["fish", "nori", "glaze"]
+    }
+  },
+  {
+    "id": "r-tokachi-butadon",
+    "name": "十勝風豚丼",
+    "description": "厚めの豚肉を焼き、香ばしいしょうゆだれで仕上げる丼。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "180g"
+      },
+      {
+        "name": "豚ロース薄切り肉",
+        "amount": "120g"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "みりん",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "豚肉の筋に切り込みを入れ、しょうゆ、みりん、砂糖、水を混ぜる。",
+      "油を熱したフライパンで豚肉の両面を焼き、中心まで十分火を通す。",
+      "余分な脂を拭いてたれを加え、軽くとろみが出たら肉ごとご飯にのせる。"
+    ],
+    "tip": "肉に火を通してからたれを入れると糖分が焦げにくい。",
+    "tags": ["丼", "豚肉"],
+    "equipment": ["フライパン", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "rice",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "glazed-pork-don",
+      "toppings": ["pork", "glaze"]
+    }
+  },
+  {
+    "id": "r-tamagodon",
+    "name": "玉子丼",
+    "description": "玉ねぎの甘みを含んだ卵とじを、だしごとご飯にのせる。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "160g"
+      },
+      {
+        "name": "卵",
+        "amount": "2個"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "だし汁",
+        "amount": "80ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "三つ葉",
+        "amount": "2本"
+      }
+    ],
+    "steps": [
+      "玉ねぎを薄切りにして三つ葉を刻み、卵を溶いておく。",
+      "小鍋でだし汁、しょうゆ、みりん、玉ねぎを煮て柔らかくする。",
+      "卵を流してふたをし全体が固まるまで煮て、ご飯にのせ三つ葉を散らす。"
+    ],
+    "tip": "卵を入れる前に玉ねぎを煮ておくと卵を加熱しすぎず仕上がる。",
+    "tags": ["丼", "卵"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "rice",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "egg-onion-don",
+      "toppings": ["egg-ribbons", "onion", "mitsuba"]
+    }
+  },
+  {
+    "id": "r-hayashi-rice",
+    "name": "ハヤシライス",
+    "description": "牛肉と玉ねぎをトマトとデミグラスソースで煮込む洋食。",
+    "category": "rice",
+    "cuisine": "洋食",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "180g"
+      },
+      {
+        "name": "牛薄切り肉",
+        "amount": "80g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/2個"
+      },
+      {
+        "name": "マッシュルーム",
+        "amount": "2個"
+      },
+      {
+        "name": "デミグラスソース",
+        "amount": "70g"
+      },
+      {
+        "name": "トマトケチャップ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "水",
+        "amount": "100ml"
+      },
+      {
+        "name": "バター",
+        "amount": "5g"
+      }
+    ],
+    "steps": [
+      "玉ねぎとマッシュルームを薄切りにし、牛肉を食べやすく切る。",
+      "鍋でバターを溶かして玉ねぎを炒め、牛肉とマッシュルームを加えて炒める。",
+      "水、デミグラスソース、ケチャップを加え、肉に火が通るまで10分ほど煮る。",
+      "温かいご飯を皿の片側に盛り、煮込んだソースをかける。"
+    ],
+    "tip": "鍋底についた肉と玉ねぎの焼き色を水でこそげると風味が増す。",
+    "tags": ["牛肉", "洋食"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "deep-plate",
+      "base": "curry",
+      "colors": ["#854b30", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "hayashi-rice",
+      "toppings": ["beef", "onion", "mushroom"]
+    }
+  },
+  {
+    "id": "r-chicken-doria",
+    "name": "チキンドリア",
+    "description": "鶏肉入りのご飯にホワイトソースとチーズを重ねて焼く。",
+    "category": "rice",
+    "cuisine": "洋食",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "150g"
+      },
+      {
+        "name": "鶏もも肉",
+        "amount": "60g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "牛乳",
+        "amount": "150ml"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "バター",
+        "amount": "10g"
+      },
+      {
+        "name": "トマトケチャップ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "ピザ用チーズ",
+        "amount": "25g"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "鶏肉を小さく切り、薄切り玉ねぎとバター半量で中心まで火が通るまで炒める。",
+      "ご飯とケチャップを加えて炒め、耐熱皿に移す。",
+      "鍋で残りのバターと薄力粉を炒め、牛乳を少しずつ加えてとろみをつけ塩で整える。",
+      "ご飯にソースとチーズを重ね、トースターで表面が色づくまで焼く。"
+    ],
+    "tip": "ホワイトソースは牛乳を数回に分けて混ぜるとだまができにくい。",
+    "tags": ["ご飯", "鶏肉", "チーズ"],
+    "equipment": ["フライパン", "鍋", "耐熱皿", "トースター"],
+    "reward": 40,
+    "art": {
+      "vessel": "deep-plate",
+      "base": "rice",
+      "colors": ["#e9d19a", "#c08a40", "#3c784d", "#bc6043"],
+      "garnish": [],
+      "motif": "baked-doria",
+      "toppings": ["chicken", "cheese", "onion"]
+    }
+  },
+  {
+    "id": "r-chicken-gomoku-gohan",
+    "name": "鶏五目ご飯",
+    "description": "鶏肉と根菜のうまみを米に炊き込む具だくさんのご飯。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 70,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "米",
+        "amount": "75g"
+      },
+      {
+        "name": "鶏もも肉",
+        "amount": "40g"
+      },
+      {
+        "name": "ごぼう",
+        "amount": "20g"
+      },
+      {
+        "name": "にんじん",
+        "amount": "20g"
+      },
+      {
+        "name": "しいたけ",
+        "amount": "1個"
+      },
+      {
+        "name": "油揚げ",
+        "amount": "1/4枚"
+      },
+      {
+        "name": "だし汁",
+        "amount": "90ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "酒",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "米を洗って30分浸水させ、水を切り、鶏肉と野菜と油揚げを細かく切る。",
+      "小鍋に米、だし汁、調味料を入れて混ぜ、具を上に広げてふたをする。",
+      "沸騰したら弱火で15分炊き、火を止めて10分蒸らして底から混ぜる。"
+    ],
+    "tip": "具は米に混ぜ込まず上にのせて炊くと米に熱が均等に入る。",
+    "tags": ["炊き込みご飯", "鶏肉", "根菜"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "rice",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "chicken-gomoku-gohan",
+      "toppings": ["chicken", "carrot", "burdock", "mushroom"]
+    }
+  },
+  {
+    "id": "r-takenoko-gohan",
+    "name": "たけのこご飯",
+    "description": "たけのこの歯ざわりと薄口しょうゆの香りを楽しむ炊き込みご飯。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 70,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "米",
+        "amount": "75g"
+      },
+      {
+        "name": "たけのこ水煮",
+        "amount": "60g"
+      },
+      {
+        "name": "油揚げ",
+        "amount": "1/4枚"
+      },
+      {
+        "name": "だし汁",
+        "amount": "100ml"
+      },
+      {
+        "name": "薄口しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "酒",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "米を洗って30分浸水させて水を切り、たけのこと油揚げを薄く切る。",
+      "小鍋に米、だし汁、薄口しょうゆ、酒、塩を入れ、具を上にのせる。",
+      "ふたをして沸騰させ、弱火で15分炊いて火を止め、10分蒸らしてほぐす。"
+    ],
+    "tip": "水煮たけのこの白い粒は軽く洗い流してから切る。",
+    "tags": ["炊き込みご飯", "たけのこ"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "rice",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "takenoko-gohan",
+      "toppings": ["bamboo-shoot", "fried-tofu"]
+    }
+  },
+  {
+    "id": "r-tai-meshi",
+    "name": "焼き鯛の鯛めし",
+    "description": "香ばしく焼いた鯛を米と一緒に炊き、身をほぐして混ぜる。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 75,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "米",
+        "amount": "75g"
+      },
+      {
+        "name": "鯛の切り身",
+        "amount": "80g"
+      },
+      {
+        "name": "だし汁",
+        "amount": "100ml"
+      },
+      {
+        "name": "酒",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "薄口しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "しょうが",
+        "amount": "3g"
+      }
+    ],
+    "steps": [
+      "米を洗って30分浸水させ、鯛に塩を振り、しょうがを千切りにする。",
+      "鯛の水気を拭き、魚焼きグリルで両面に焼き色をつける。",
+      "小鍋に水を切った米、だし汁、酒、しょうゆ、しょうが、鯛を入れてふたをする。",
+      "沸騰後弱火で15分炊いて10分蒸らし、鯛の骨と皮を除き身をご飯に混ぜる。"
+    ],
+    "tip": "炊き上がった鯛は一度皿に出して骨を確かめるとほぐしやすい。",
+    "tags": ["炊き込みご飯", "鯛"],
+    "equipment": ["鍋", "魚焼きグリル", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "rice",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "tai-meshi",
+      "toppings": ["fish", "ginger"]
+    }
+  },
+  {
+    "id": "r-tako-meshi",
+    "name": "たこ飯",
+    "description": "ゆでだこのうまみとしょうがを炊き込んだ磯の香りのご飯。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 70,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "米",
+        "amount": "75g"
+      },
+      {
+        "name": "ゆでだこ",
+        "amount": "60g"
+      },
+      {
+        "name": "だし汁",
+        "amount": "100ml"
+      },
+      {
+        "name": "しょうが",
+        "amount": "5g"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "酒",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "刻みねぎ",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "洗った米を30分浸水させ、たこは薄い輪切り、しょうがは千切りにする。",
+      "小鍋に水を切った米、だし汁、しょうゆ、酒を入れ、たことしょうがを広げる。",
+      "ふたをして沸騰後弱火で15分炊き、10分蒸らして混ぜ、刻みねぎを散らす。"
+    ],
+    "tip": "たこを薄く切るとご飯となじみ、噛み切りやすくなる。",
+    "tags": ["炊き込みご飯", "たこ"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "rice",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "tako-meshi",
+      "toppings": ["octopus", "ginger", "scallion"]
+    }
+  },
+  {
+    "id": "r-fukagawa-meshi",
+    "name": "深川めし",
+    "description": "あさりと長ねぎをみそだしで煮て、汁ごとご飯にかける。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "180g"
+      },
+      {
+        "name": "冷凍むきあさり",
+        "amount": "80g"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "1/3本"
+      },
+      {
+        "name": "しょうが",
+        "amount": "3g"
+      },
+      {
+        "name": "だし汁",
+        "amount": "120ml"
+      },
+      {
+        "name": "みそ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "長ねぎを斜め切りにしてしょうがを千切りにし、あさりは表示に従い解凍する。",
+      "鍋でだし汁、みりん、しょうがを煮立て、あさりとねぎを加えて十分に煮る。",
+      "火を弱めてみそを溶き、あさりの身の中心まで火が通ったらご飯に汁ごとかける。"
+    ],
+    "tip": "あさりの塩気を確かめ、みそは少しずつ足して味を整える。",
+    "tags": ["丼", "あさり", "郷土料理"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "rice",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "fukagawa-meshi",
+      "toppings": ["clam", "scallion", "ginger"]
+    }
+  },
+  {
+    "id": "r-ika-meshi",
+    "name": "いかめし",
+    "description": "小ぶりのいかにもち米を詰め、甘辛い煮汁で炊き上げる。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 120,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "するめいか（小）",
+        "amount": "1杯"
+      },
+      {
+        "name": "もち米",
+        "amount": "35g"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "みりん",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "酒",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "しょうが",
+        "amount": "5g"
+      },
+      {
+        "name": "水",
+        "amount": "250ml"
+      }
+    ],
+    "steps": [
+      "もち米を洗って1時間浸水させ、いかの内臓と軟骨を除いて洗う。",
+      "水を切ったもち米を胴の半分ほどまで詰め、口をつまようじで留める。",
+      "鍋で水と調味料としょうがを沸かし、いかを入れて落としぶたをして弱火で40分ほど煮る。",
+      "途中で上下を返し、米が柔らかくなったら少し休ませ、ようじを抜いて輪切りにする。"
+    ],
+    "tip": "もち米は煮ると膨らむので、いかの胴に詰め込みすぎない。",
+    "tags": ["もち米", "いか", "郷土料理"],
+    "equipment": ["鍋", "包丁", "まな板", "落としぶた"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "stuffed-squid",
+      "toppings": ["squid", "rice"]
+    }
+  },
+  {
+    "id": "r-okayama-ebimeshi",
+    "name": "えびめし",
+    "description": "ソースとケチャップで色づけたご飯にえびと薄焼き卵を合わせる。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "180g"
+      },
+      {
+        "name": "むきえび",
+        "amount": "60g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "ウスターソース",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "トマトケチャップ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "カレー粉",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "えびの背わたを除き、玉ねぎをみじん切りにし、卵を溶く。",
+      "油半量で薄焼き卵を両面しっかり焼いて取り出し、細く切る。",
+      "残りの油で玉ねぎとえびを炒め、えびに火が通ったらご飯と調味料を加えて炒める。",
+      "皿にご飯を盛り、切った薄焼き卵を上に広げる。"
+    ],
+    "tip": "温かいご飯を使うとソースが均一に混ざりやすい。",
+    "tags": ["焼き飯", "えび", "郷土料理"],
+    "equipment": ["フライパン", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "rice",
+      "colors": ["#815337", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "shrimp-fried-rice",
+      "toppings": ["shrimp", "egg-ribbons", "onion"]
+    }
+  },
+  {
+    "id": "r-amami-keihan",
+    "name": "鶏飯",
+    "description": "ほぐした鶏肉と錦糸卵を並べ、温かい鶏だしをかけるご飯。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "160g"
+      },
+      {
+        "name": "鶏むね肉",
+        "amount": "80g"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "干ししいたけ（水戻し済み）",
+        "amount": "1枚"
+      },
+      {
+        "name": "刻みねぎ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "刻みのり",
+        "amount": "少々"
+      },
+      {
+        "name": "鶏がらスープ",
+        "amount": "250ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "戻したしいたけの水気を絞って細切りにし、鶏肉は厚みを均一にする。",
+      "鍋の鶏がらスープで鶏肉としいたけを煮て、肉の中心まで十分に火を通し取り出してほぐす。",
+      "溶き卵を油で薄く両面焼いて細切りにし、残ったスープをしょうゆとみりんで整える。",
+      "ご飯に鶏肉、しいたけ、卵、ねぎ、のりを盛り、熱いスープを注ぐ。"
+    ],
+    "tip": "鶏肉は少し冷ましてから繊維に沿ってほぐすと盛りつけやすい。",
+    "tags": ["ご飯", "鶏肉", "郷土料理"],
+    "equipment": ["鍋", "フライパン", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "rice",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "amami-keihan",
+      "toppings": ["chicken", "egg-ribbons", "mushroom", "nori"]
+    }
+  },
+  {
+    "id": "r-mehari-zushi",
+    "name": "めはり寿司",
+    "description": "高菜漬けの大きな葉でご飯を包む、手のひら大のおむすび。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "180g"
+      },
+      {
+        "name": "高菜漬け（葉）",
+        "amount": "2枚"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "白ごま",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "高菜漬けの塩気が強ければさっと洗い、水気を絞って葉と茎を分ける。",
+      "茎を細かく刻み、温かいご飯にしょうゆと白ごまと一緒に混ぜる。",
+      "ご飯を二つに分けて丸め、高菜の葉で隙間なく包む。"
+    ],
+    "tip": "葉の厚い茎を薄くそぐとご飯に沿って巻きやすい。",
+    "tags": ["おむすび", "高菜", "郷土料理"],
+    "equipment": ["包丁", "まな板", "ボウル"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "rice",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "leaf-onigiri",
+      "toppings": ["greens", "sesame"]
+    }
+  },
+  {
+    "id": "r-gohei-mochi",
+    "name": "五平餅",
+    "description": "つぶしたご飯を平たく焼き、くるみ入りのみそだれを塗る。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "150g"
+      },
+      {
+        "name": "みそ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "くるみ",
+        "amount": "10g"
+      },
+      {
+        "name": "白すりごま",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "温かいご飯をすりこぎで半分ほどつぶし、平たい小判形を二つ作る。",
+      "くるみを細かく刻み、みそ、砂糖、みりん、すりごまと混ぜる。",
+      "油を薄くひいたフライパンでご飯の両面を焼き、たれを塗って弱火で香ばしく焼く。"
+    ],
+    "tip": "たれは焦げやすいので、ご飯の形が固まってから薄く塗る。",
+    "tags": ["ご飯", "みそ", "郷土料理"],
+    "equipment": ["フライパン", "ボウル", "すりこぎ"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "grilled-rice-patties",
+      "toppings": ["walnut", "miso-glaze"]
+    }
+  },
+  {
+    "id": "r-sansai-okowa",
+    "name": "山菜おこわ",
+    "description": "水煮の山菜ともち米を蒸し炊きにした、もっちりしたご飯。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 100,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "もち米",
+        "amount": "60g"
+      },
+      {
+        "name": "米",
+        "amount": "15g"
+      },
+      {
+        "name": "山菜水煮",
+        "amount": "50g"
+      },
+      {
+        "name": "油揚げ",
+        "amount": "1/4枚"
+      },
+      {
+        "name": "だし汁",
+        "amount": "90ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "酒",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "もち米と米を合わせて洗い1時間浸水させ、山菜は洗って水を切る。",
+      "油揚げを細切りにし、鍋に水を切った米、だし汁、調味料と具を入れる。",
+      "ふたをして沸騰させ、弱火で15分炊いたら火を止め、15分蒸らしてほぐす。"
+    ],
+    "tip": "山菜水煮は水気をしっかり切り、加える水分量を変えない。",
+    "tags": ["おこわ", "山菜"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "rice",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "sansai-okowa",
+      "toppings": ["greens", "fried-tofu"]
+    }
+  },
+  {
+    "id": "r-futomaki-zushi",
+    "name": "太巻き寿司",
+    "description": "煮しいたけと卵焼き、きゅうりを酢飯と海苔で巻く太巻き。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "160g"
+      },
+      {
+        "name": "焼きのり",
+        "amount": "1枚"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "きゅうり",
+        "amount": "1/4本"
+      },
+      {
+        "name": "しいたけ",
+        "amount": "2個"
+      },
+      {
+        "name": "酢",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "温かいご飯に酢、砂糖半量、塩を混ぜ、平らに広げて粗熱を取る。",
+      "しいたけを細切りにして水、しょうゆ、残りの砂糖で煮詰め、きゅうりを細長く切る。",
+      "油で卵を中まで固まるように棒状に焼き、海苔にご飯を広げて具を並べる。",
+      "巻きすで具を包み、巻き終わりを下に置いてなじませてから切る。"
+    ],
+    "tip": "海苔の奥側を2cm空けて酢飯を広げると巻き終わりが留まりやすい。",
+    "tags": ["寿司", "海苔", "卵"],
+    "equipment": ["鍋", "フライパン", "巻きす", "包丁"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "sushi-rolls",
+      "toppings": ["egg", "cucumber", "mushroom"]
+    }
+  },
+  {
+    "id": "r-tamago-nigiri",
+    "name": "玉子の握り寿司",
+    "description": "甘い卵焼きを小さな酢飯に重ね、海苔で留める握り寿司。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "120g"
+      },
+      {
+        "name": "卵",
+        "amount": "2個"
+      },
+      {
+        "name": "酢",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "だし汁",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "焼きのり",
+        "amount": "1/4枚"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "温かいご飯に酢、砂糖半量、塩を混ぜて冷まし、海苔を細い帯に切る。",
+      "卵に残りの砂糖とだし汁を混ぜ、油をひいたフライパンで中まで固まる厚焼き卵を作る。",
+      "卵焼きを六つに切り、ご飯も六つの小さな俵形に整えて卵をのせ海苔で留める。"
+    ],
+    "tip": "卵焼きを冷ましてから切ると角がきれいにそろう。",
+    "tags": ["寿司", "卵"],
+    "equipment": ["フライパン", "ボウル", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "tamago-nigiri-sushi",
+      "toppings": ["egg", "nori", "rice"]
+    }
+  },
+  {
+    "id": "r-ebi-nigiri",
+    "name": "ゆでえびの握り寿司",
+    "description": "開いたゆでえびを小さな酢飯に重ねた握り寿司。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "120g"
+      },
+      {
+        "name": "殻付きえび",
+        "amount": "6尾"
+      },
+      {
+        "name": "酢",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "えびは背わたを取り、腹側に竹串を通し、沸騰した湯で中まで不透明になるまでゆでる。",
+      "冷めたら串と殻を外し、腹側から厚みを半分に開く。",
+      "ご飯に酢、砂糖、塩を混ぜて冷まし、六つに握ってえびを重ね、しょうゆを添える。"
+    ],
+    "tip": "腹側を開くときに背まで切り離さないと平たく広げられる。",
+    "tags": ["寿司", "えび"],
+    "equipment": ["鍋", "竹串", "包丁", "ボウル"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "shrimp-nigiri-sushi",
+      "toppings": ["shrimp", "rice"]
+    }
+  },
+  {
+    "id": "r-grilled-saba-oshizushi",
+    "name": "焼きさばの押し寿司",
+    "description": "焼いたさばをしょうが入りの酢飯と重ね、切り分ける押し寿司。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 40,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "160g"
+      },
+      {
+        "name": "骨取りさばの切り身",
+        "amount": "80g"
+      },
+      {
+        "name": "酢",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "甘酢しょうが",
+        "amount": "10g"
+      },
+      {
+        "name": "大葉",
+        "amount": "2枚"
+      }
+    ],
+    "steps": [
+      "さばに塩を振って水気を拭き、魚焼きグリルで中心まで火を通して骨を確かめる。",
+      "温かいご飯に酢と砂糖を混ぜて粗熱を取り、刻んだ甘酢しょうがを合わせる。",
+      "ラップを敷いた容器にさば、大葉、ご飯を重ね、包んで軽く押す。",
+      "形が落ち着いたら容器から取り出し、ラップを外して食べやすく切る。"
+    ],
+    "tip": "さばは熱いうちに小骨を確認し、冷ましてからご飯と重ねる。",
+    "tags": ["寿司", "さば"],
+    "equipment": ["魚焼きグリル", "容器", "包丁", "ボウル"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "pressed-mackerel-sushi",
+      "toppings": ["fish", "rice", "shiso"]
+    }
+  },
+  {
+    "id": "r-cooked-temaki-zushi",
+    "name": "卵とツナの手巻き寿司",
+    "description": "卵焼きとツナ、きゅうりを海苔で包む手巻き寿司。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "150g"
+      },
+      {
+        "name": "焼きのり",
+        "amount": "2枚"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "ツナ缶",
+        "amount": "40g"
+      },
+      {
+        "name": "きゅうり",
+        "amount": "1/3本"
+      },
+      {
+        "name": "酢",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "マヨネーズ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "温かいご飯に酢、砂糖、塩を混ぜて冷まし、きゅうりを細長く切る。",
+      "溶き卵を油で中まで固まるように焼いて切り、汁を切ったツナをマヨネーズであえる。",
+      "海苔を半分に切ってご飯と具を端に置き、円すい形になるように巻く。"
+    ],
+    "tip": "海苔が湿りすぎないよう、ご飯が冷めてから食べる分ずつ巻く。",
+    "tags": ["寿司", "ツナ", "卵"],
+    "equipment": ["フライパン", "包丁", "まな板", "ボウル"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "hand-rolled-sushi",
+      "toppings": ["nori", "egg", "tuna", "cucumber"]
+    }
+  },
+  {
+    "id": "r-three-color-soboro-don",
+    "name": "三色そぼろ丼",
+    "description": "鶏そぼろと炒り卵、緑のいんげんを並べる三色の丼。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "160g"
+      },
+      {
+        "name": "鶏ひき肉",
+        "amount": "70g"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "いんげん",
+        "amount": "3本"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "しょうが",
+        "amount": "3g"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "いんげんを柔らかくゆでて斜めに切り、しょうがを細かく刻む。",
+      "鍋に鶏肉、しょうゆ、みりん、砂糖半量、しょうがを入れ、ほぐしながら十分加熱する。",
+      "卵に残りの砂糖を混ぜ、油を熱したフライパンで全体が固まるまで細かく炒る。",
+      "ご飯の上を三つに分け、鶏そぼろ、卵、いんげんを並べる。"
+    ],
+    "tip": "そぼろは火にかける前に調味料とほぐしておくと細かく仕上がる。",
+    "tags": ["丼", "鶏肉", "卵"],
+    "equipment": ["鍋", "フライパン", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "rice",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "three-color-soboro",
+      "toppings": ["chicken-mince", "egg-ribbons", "greenbeans"]
+    }
+  },
+  {
+    "id": "r-soba-meshi",
+    "name": "そばめし",
+    "description": "短く刻んだ焼きそばとご飯をソースで炒め合わせる。",
+    "category": "rice",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ご飯",
+        "amount": "100g"
+      },
+      {
+        "name": "蒸し焼きそば麺",
+        "amount": "1/2玉"
+      },
+      {
+        "name": "豚こま切れ肉",
+        "amount": "50g"
+      },
+      {
+        "name": "キャベツ",
+        "amount": "1枚"
+      },
+      {
+        "name": "焼きそばソース",
+        "amount": "大さじ1と1/2"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "青のり",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "麺は2cmほどに刻み、キャベツと豚肉も小さく切る。",
+      "油を熱したフライパンで豚肉を十分に炒め、キャベツと麺を加えてほぐす。",
+      "ご飯とソースを加えて全体が熱くなるまで炒め、皿に盛って青のりを振る。"
+    ],
+    "tip": "麺を先に切っておくとご飯と均一に混ざり、すくいやすい。",
+    "tags": ["焼き飯", "焼きそば", "郷土料理"],
+    "equipment": ["フライパン", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "rice",
+      "colors": ["#eee0b9", "#a97139", "#34704b", "#da9b32"],
+      "garnish": [],
+      "motif": "noodle-fried-rice",
+      "toppings": ["noodles", "pork", "cabbage"]
+    }
+  },
+  {
+    "id": "r-niku-udon",
+    "name": "肉うどん",
+    "description": "甘辛く煮た牛肉を温かいうどんつゆに重ねる。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ゆでうどん",
+        "amount": "1玉"
+      },
+      {
+        "name": "牛薄切り肉",
+        "amount": "70g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "だし汁",
+        "amount": "300ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ3"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ3"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "刻みねぎ",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "玉ねぎと牛肉を切り、小鍋にだし汁50ml、しょうゆとみりん各小さじ1、砂糖を入れる。",
+      "牛肉と玉ねぎを加え、肉の中心まで火が通るまで煮る。",
+      "別の鍋で残りのだし汁と調味料を沸かし、うどんを温め、丼に移して肉とねぎをのせる。"
+    ],
+    "tip": "牛肉の煮汁を少しずつつゆに加えると好みの甘さに整えやすい。",
+    "tags": ["うどん", "牛肉"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "noodles",
+      "colors": ["#be8b50", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "beef-udon",
+      "toppings": ["beef", "onion", "scallion"]
+    }
+  },
+  {
+    "id": "r-tempura-udon",
+    "name": "天ぷらうどん",
+    "description": "熱いつゆのうどんに、えび天とさつまいも天を添える。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ゆでうどん",
+        "amount": "1玉"
+      },
+      {
+        "name": "えび天ぷら（加熱済み）",
+        "amount": "1本"
+      },
+      {
+        "name": "さつまいも天ぷら（加熱済み）",
+        "amount": "1枚"
+      },
+      {
+        "name": "だし汁",
+        "amount": "300ml"
+      },
+      {
+        "name": "薄口しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "刻みねぎ",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "天ぷらをトースターで温め、表面の衣を軽くカリッとさせる。",
+      "鍋にだし汁、薄口しょうゆ、みりんを入れて沸かす。",
+      "うどんをつゆで温めて丼に移し、天ぷらを食べる直前にのせてねぎを散らす。"
+    ],
+    "tip": "天ぷらを別皿に盛ると衣の食感を好みの加減で楽しめる。",
+    "tags": ["うどん", "天ぷら"],
+    "equipment": ["鍋", "トースター", "菜箸"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "noodles",
+      "colors": ["#be8b50", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "tempura-udon",
+      "toppings": ["shrimp", "sweet-potato", "scallion"]
+    }
+  },
+  {
+    "id": "r-bukkake-udon",
+    "name": "冷やしぶっかけうどん",
+    "description": "冷たいうどんに濃いめのつゆと大根おろしをからめる。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "冷凍うどん",
+        "amount": "1玉"
+      },
+      {
+        "name": "大根",
+        "amount": "60g"
+      },
+      {
+        "name": "しょうが",
+        "amount": "3g"
+      },
+      {
+        "name": "めんつゆ（3倍濃縮）",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "冷水",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "天かす",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "刻みねぎ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "レモン",
+        "amount": "1切れ"
+      }
+    ],
+    "steps": [
+      "めんつゆを冷水で薄め、大根としょうがをそれぞれすりおろす。",
+      "うどんを表示どおりにゆで、流水でもみ洗いして冷やし、水をよく切る。",
+      "器にうどんを盛り、大根おろし、しょうが、天かす、ねぎ、レモンをのせてつゆをかける。"
+    ],
+    "tip": "うどんの水を十分に切るとつゆの濃さがぼやけにくい。",
+    "tags": ["うどん", "冷たい麺"],
+    "equipment": ["鍋", "ざる", "おろし器"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "noodles",
+      "colors": ["#be8b50", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "cold-udon",
+      "toppings": ["grated-daikon", "ginger", "scallion", "lemon"]
+    }
+  },
+  {
+    "id": "r-kamaage-udon",
+    "name": "釜揚げうどん",
+    "description": "ゆでたてのうどんを熱い湯ごと盛り、温かいつゆにつける。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "生うどん",
+        "amount": "120g"
+      },
+      {
+        "name": "めんつゆ（3倍濃縮）",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ4"
+      },
+      {
+        "name": "しょうが",
+        "amount": "5g"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "5cm"
+      },
+      {
+        "name": "白ごま",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "しょうがをすりおろし、ねぎを小口切りにして薬味を用意する。",
+      "小鍋でめんつゆと水を温め、別の鍋の十分な湯でうどんを表示どおりゆでる。",
+      "うどんを洗わずゆで湯とともに器へ移し、薬味を入れた温かいつゆを添える。"
+    ],
+    "tip": "つけつゆはうどんをゆで上げる直前に温めると冷めにくい。",
+    "tags": ["うどん", "つけ麺"],
+    "equipment": ["鍋", "小鍋", "おろし器"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "noodles",
+      "colors": ["#be8b50", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "kamaage-udon",
+      "toppings": ["noodles", "scallion", "ginger"]
+    }
+  },
+  {
+    "id": "r-miso-nikomi-udon",
+    "name": "みそ煮込みうどん",
+    "description": "赤みそのつゆで鶏肉と太いうどんを煮込む。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ゆでうどん",
+        "amount": "1玉"
+      },
+      {
+        "name": "鶏もも肉",
+        "amount": "70g"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "1/3本"
+      },
+      {
+        "name": "しいたけ",
+        "amount": "1個"
+      },
+      {
+        "name": "油揚げ",
+        "amount": "1/4枚"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "だし汁",
+        "amount": "350ml"
+      },
+      {
+        "name": "赤みそ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "鶏肉を小さめに切り、ねぎ、しいたけ、油揚げを食べやすく切る。",
+      "鍋でだし汁を沸かし、鶏肉と野菜を加えて鶏肉に十分火を通す。",
+      "赤みそとみりんを混ぜ入れ、うどんと油揚げを加えて煮る。",
+      "卵を割り入れてふたをし、白身と黄身が固まるまで弱火で加熱する。"
+    ],
+    "tip": "ゆでうどんは煮崩れやすいので、具に火が通ってから加える。",
+    "tags": ["うどん", "赤みそ", "郷土料理"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "noodles",
+      "colors": ["#be8b50", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "miso-udon",
+      "toppings": ["chicken", "egg", "mushroom", "scallion"]
+    }
+  },
+  {
+    "id": "r-kishimen",
+    "name": "きしめん",
+    "description": "幅広の麺に澄んだだしつゆとかつお節を合わせる。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ゆできしめん",
+        "amount": "1玉"
+      },
+      {
+        "name": "だし汁",
+        "amount": "300ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "ほうれん草",
+        "amount": "30g"
+      },
+      {
+        "name": "かまぼこ",
+        "amount": "2切れ"
+      },
+      {
+        "name": "かつお節",
+        "amount": "2g"
+      },
+      {
+        "name": "刻みねぎ",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "ほうれん草をゆでて水に取り、水気を絞って3cmに切る。",
+      "鍋にだし汁、しょうゆ、みりんを入れて沸かし、きしめんを表示どおりに温める。",
+      "麺とつゆを丼に移し、ほうれん草、かまぼこ、ねぎ、かつお節を盛る。"
+    ],
+    "tip": "幅広の麺は折れやすいため、菜箸で強くかき混ぜない。",
+    "tags": ["平打ち麺", "だし", "郷土料理"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "noodles",
+      "colors": ["#be8b50", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "flat-udon",
+      "toppings": ["spinach", "fish-cake", "scallion", "bonito"]
+    }
+  },
+  {
+    "id": "r-houtou",
+    "name": "かぼちゃのほうとう",
+    "description": "幅広麺とかぼちゃをみそ味の汁で煮込む山梨の郷土料理。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ほうとう麺",
+        "amount": "100g"
+      },
+      {
+        "name": "かぼちゃ",
+        "amount": "70g"
+      },
+      {
+        "name": "にんじん",
+        "amount": "30g"
+      },
+      {
+        "name": "白菜",
+        "amount": "1枚"
+      },
+      {
+        "name": "しめじ",
+        "amount": "30g"
+      },
+      {
+        "name": "油揚げ",
+        "amount": "1/4枚"
+      },
+      {
+        "name": "だし汁",
+        "amount": "450ml"
+      },
+      {
+        "name": "みそ",
+        "amount": "大さじ1"
+      }
+    ],
+    "steps": [
+      "かぼちゃを薄めの一口大にし、にんじん、白菜、油揚げを切ってしめじをほぐす。",
+      "鍋のだし汁で野菜を煮て、かぼちゃに竹串が通る手前まで柔らかくする。",
+      "ほうとう麺と油揚げを加え、麺の表示時間を目安に芯がなくなるまで煮る。",
+      "みそを溶き入れ、鍋底を混ぜながら弱火でなじませる。"
+    ],
+    "tip": "とろみがつくと鍋底が焦げやすくなるので時々底から混ぜる。",
+    "tags": ["平打ち麺", "かぼちゃ", "郷土料理"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "noodles",
+      "colors": ["#be8b50", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "flat-udon-stew",
+      "toppings": ["pumpkin", "carrot", "cabbage", "mushroom"]
+    }
+  },
+  {
+    "id": "r-ise-udon",
+    "name": "伊勢うどん",
+    "description": "柔らかい極太うどんに濃いたまりじょうゆだれをからめる。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "伊勢うどん（ゆで）",
+        "amount": "1玉"
+      },
+      {
+        "name": "たまりじょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "だし汁",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "刻みねぎ",
+        "amount": "大さじ1"
+      }
+    ],
+    "steps": [
+      "小鍋にたまりじょうゆ、みりん、だし汁、砂糖を入れてひと煮立ちさせる。",
+      "別の鍋に湯を沸かし、伊勢うどんを表示の時間どおり温める。",
+      "湯を切ったうどんを丼に入れ、少量のたれとねぎをのせてよく混ぜる。"
+    ],
+    "tip": "たれは初めから全量をかけず、麺を混ぜながら足すと調整しやすい。",
+    "tags": ["うどん", "たまりじょうゆ", "郷土料理"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "noodles",
+      "colors": ["#be8b50", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "thick-udon",
+      "toppings": ["noodles", "scallion", "soy-glaze"]
+    }
+  },
+  {
+    "id": "r-tempura-soba",
+    "name": "天ぷらそば",
+    "description": "香りのよいそばつゆにえび天と大葉の天ぷらを添える。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "乾そば",
+        "amount": "80g"
+      },
+      {
+        "name": "えび天ぷら（加熱済み）",
+        "amount": "1本"
+      },
+      {
+        "name": "大葉の天ぷら（加熱済み）",
+        "amount": "1枚"
+      },
+      {
+        "name": "だし汁",
+        "amount": "300ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "5cm"
+      }
+    ],
+    "steps": [
+      "ねぎを小口切りにし、天ぷらはトースターで温め直す。",
+      "そばを表示どおりゆでて流水で洗い、だし汁、しょうゆ、みりんを別鍋で沸かす。",
+      "そばをつゆでさっと温め直して丼に盛り、天ぷらとねぎをのせる。"
+    ],
+    "tip": "そばは一度洗ってぬめりを落とすと、つゆが濁りにくい。",
+    "tags": ["そば", "天ぷら"],
+    "equipment": ["鍋", "ざる", "トースター"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "noodles",
+      "colors": ["#be8b50", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "tempura-soba",
+      "toppings": ["shrimp", "shiso", "scallion"]
+    }
+  },
+  {
+    "id": "r-nishin-soba",
+    "name": "にしんそば",
+    "description": "にしんの甘露煮を温かいそばにのせる、甘辛い味わいの一杯。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "乾そば",
+        "amount": "80g"
+      },
+      {
+        "name": "にしん甘露煮（加熱済み）",
+        "amount": "1枚"
+      },
+      {
+        "name": "だし汁",
+        "amount": "300ml"
+      },
+      {
+        "name": "薄口しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "九条ねぎ",
+        "amount": "15g"
+      }
+    ],
+    "steps": [
+      "ねぎを斜めに切り、にしん甘露煮は小鍋に少量のだし汁と入れて温める。",
+      "そばを表示どおりゆでて流水で洗い、残りのだし汁をしょうゆとみりんで温める。",
+      "そばをつゆで温め直して丼へ移し、にしんを崩さずのせてねぎを散らす。"
+    ],
+    "tip": "甘露煮の煮汁は味が濃いので、そばつゆには少量ずつ加える。",
+    "tags": ["そば", "にしん", "郷土料理"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "noodles",
+      "colors": ["#be8b50", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "herring-soba",
+      "toppings": ["fish", "scallion"]
+    }
+  },
+  {
+    "id": "r-tororo-soba",
+    "name": "とろろそば",
+    "description": "冷たいそばにすりおろした長いもを合わせ、つゆをからめる。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "乾そば",
+        "amount": "80g"
+      },
+      {
+        "name": "長いも",
+        "amount": "80g"
+      },
+      {
+        "name": "めんつゆ（3倍濃縮）",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "冷水",
+        "amount": "大さじ3"
+      },
+      {
+        "name": "刻みのり",
+        "amount": "少々"
+      },
+      {
+        "name": "刻みねぎ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "わさび",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "長いもの皮をむいてすりおろし、めんつゆを冷水で薄める。",
+      "そばを表示どおりにゆで、流水でよく洗って冷やし、水を切る。",
+      "器にそばを盛り、とろろ、ねぎ、のりをのせ、つゆとわさびを添える。"
+    ],
+    "tip": "とろろにつゆを少し混ぜておくとそばによくからむ。",
+    "tags": ["そば", "長いも", "冷たい麺"],
+    "equipment": ["鍋", "ざる", "おろし器"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "noodles",
+      "colors": ["#be8b50", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "tororo-soba",
+      "toppings": ["grated-yam", "nori", "scallion"]
+    }
+  },
+  {
+    "id": "r-kamo-nanban-soba",
+    "name": "鴨南蛮そば",
+    "description": "鴨肉のうまみと焼いた長ねぎの香りを含ませたそば。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "乾そば",
+        "amount": "80g"
+      },
+      {
+        "name": "鴨肉（薄切り）",
+        "amount": "80g"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "1/2本"
+      },
+      {
+        "name": "だし汁",
+        "amount": "300ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "ねぎを3cmに切り、フライパンで鴨肉とともに焼き色をつける。",
+      "だし汁、しょうゆ、みりんを加え、鴨肉の中心まで十分に火が通るまで煮る。",
+      "別鍋でそばを表示どおりにゆでて洗い、温め直して丼に盛り、鴨肉とつゆをかける。"
+    ],
+    "tip": "鴨から出る脂でねぎを焼くとつゆにも香ばしさがつく。",
+    "tags": ["そば", "鴨肉"],
+    "equipment": ["鍋", "フライパン", "ざる", "包丁"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "noodles",
+      "colors": ["#be8b50", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "duck-soba",
+      "toppings": ["duck", "scallion"]
+    }
+  },
+  {
+    "id": "r-okinawa-soba",
+    "name": "沖縄そば",
+    "description": "豚のだしとかつおだしを合わせ、三枚肉とかまぼこを添える。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "沖縄そば（ゆで）",
+        "amount": "1玉"
+      },
+      {
+        "name": "豚三枚肉の煮付け（加熱済み）",
+        "amount": "60g"
+      },
+      {
+        "name": "かまぼこ",
+        "amount": "2切れ"
+      },
+      {
+        "name": "かつおだし",
+        "amount": "200ml"
+      },
+      {
+        "name": "豚骨スープ（市販・希釈済み）",
+        "amount": "100ml"
+      },
+      {
+        "name": "薄口しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "紅しょうが",
+        "amount": "5g"
+      },
+      {
+        "name": "刻みねぎ",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "三枚肉を鍋で温め直し、かまぼこを薄く切る。",
+      "かつおだしと豚骨スープを合わせて沸かし、しょうゆで味を整える。",
+      "別鍋で麺を表示どおり温めて湯を切り、丼につゆとともに入れて具と薬味を盛る。"
+    ],
+    "tip": "市販スープの塩分に合わせ、しょうゆは味を見て加減する。",
+    "tags": ["沖縄そば", "豚肉", "郷土料理"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "noodles",
+      "colors": ["#be8b50", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "okinawa-noodles",
+      "toppings": ["pork", "fish-cake", "scallion", "pickled-ginger"]
+    }
+  },
+  {
+    "id": "r-nagasaki-champon",
+    "name": "長崎ちゃんぽん",
+    "description": "肉や魚介、野菜を炒めたうまみを白いつゆに移して麺を煮る。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ちゃんぽん麺",
+        "amount": "1玉"
+      },
+      {
+        "name": "豚薄切り肉",
+        "amount": "40g"
+      },
+      {
+        "name": "むきえび",
+        "amount": "30g"
+      },
+      {
+        "name": "キャベツ",
+        "amount": "1枚"
+      },
+      {
+        "name": "もやし",
+        "amount": "30g"
+      },
+      {
+        "name": "にんじん",
+        "amount": "20g"
+      },
+      {
+        "name": "かまぼこ",
+        "amount": "20g"
+      },
+      {
+        "name": "ちゃんぽんスープ（市販・希釈済み）",
+        "amount": "350ml"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "えびの背わたを除き、豚肉、野菜、かまぼこを食べやすい大きさに切る。",
+      "鍋で油を熱して豚肉とえびを十分に炒め、野菜とかまぼこを加えて炒める。",
+      "スープを注いで沸かし、麺を加えて表示時間を目安に煮て丼に盛る。"
+    ],
+    "tip": "スープを入れる前に具を炒めると野菜の香りがつゆに出る。",
+    "tags": ["ちゃんぽん", "野菜", "魚介"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "noodles",
+      "colors": ["#be8b50", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "champon-noodles",
+      "toppings": ["shrimp", "pork", "cabbage", "carrot", "fish-cake"]
+    }
+  },
+  {
+    "id": "r-kawara-soba",
+    "name": "フライパン瓦そば",
+    "description": "茶そばを香ばしく焼き、牛肉と錦糸卵を盛ってつゆにつける。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "乾茶そば",
+        "amount": "80g"
+      },
+      {
+        "name": "牛薄切り肉",
+        "amount": "60g"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "めんつゆ（3倍濃縮）",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ4"
+      },
+      {
+        "name": "レモン",
+        "amount": "2切れ"
+      },
+      {
+        "name": "刻みのり",
+        "amount": "少々"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "牛肉をしょうゆ、砂糖、みりんで十分に炒め煮にし、卵は油半量で薄く両面焼いて細切りにする。",
+      "茶そばを表示どおりゆでて洗い、水をよく切る。",
+      "フライパンに残りの油を熱し、茶そばを広げて底が香ばしくなるまで焼く。",
+      "牛肉、卵、のり、レモンをのせ、水で薄めて温めためんつゆを添える。"
+    ],
+    "tip": "麺を広げた後しばらく動かさないと底面に軽い焼き目がつく。",
+    "tags": ["そば", "牛肉", "郷土料理"],
+    "equipment": ["鍋", "フライパン", "ざる", "包丁"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "noodles",
+      "colors": ["#be8b50", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "green-soba",
+      "toppings": ["beef", "egg-ribbons", "lemon", "nori"]
+    }
+  },
+  {
+    "id": "r-abura-soba",
+    "name": "油そば",
+    "description": "酢としょうゆ、ごま油のたれを熱い中華麺にからめる汁なし麺。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "中華生麺",
+        "amount": "1玉"
+      },
+      {
+        "name": "チャーシュー（加熱済み）",
+        "amount": "40g"
+      },
+      {
+        "name": "メンマ",
+        "amount": "20g"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "ごま油",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "酢",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "オイスターソース",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "刻みねぎ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "刻みのり",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "チャーシューを温めて切り、丼にしょうゆ、ごま油、酢、オイスターソースを混ぜる。",
+      "麺を表示時間どおりにゆで、湯をしっかり切って丼へ移す。",
+      "チャーシュー、メンマ、ねぎ、のりを盛り、底のたれと麺をよく混ぜる。"
+    ],
+    "tip": "麺が熱いうちにたれと混ぜると油と調味料がなじみやすい。",
+    "tags": ["中華麺", "汁なし麺"],
+    "equipment": ["鍋", "ざる", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "noodles",
+      "colors": ["#be8b50", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "abura-noodles",
+      "toppings": ["pork", "bamboo-shoot", "nori", "scallion"]
+    }
+  },
+  {
+    "id": "r-gyokai-tsukemen",
+    "name": "魚介しょうゆつけ麺",
+    "description": "冷たく締めた太麺を、魚粉をきかせた温かいつけ汁で食べる。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "中華太麺",
+        "amount": "1玉"
+      },
+      {
+        "name": "チャーシュー（加熱済み）",
+        "amount": "40g"
+      },
+      {
+        "name": "メンマ",
+        "amount": "20g"
+      },
+      {
+        "name": "鶏がらスープ",
+        "amount": "150ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ3"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "かつお粉",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "酢",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "5cm"
+      }
+    ],
+    "steps": [
+      "チャーシューとねぎを切り、小鍋でスープ、しょうゆ、みりん、かつお粉を沸かす。",
+      "チャーシュー、メンマ、ねぎを汁に加えて温め、最後に酢を入れる。",
+      "太麺を表示どおりゆでて冷水で締め、水を切り、温かいつけ汁を別器で添える。"
+    ],
+    "tip": "つけ汁は食べる直前まで温めておくと冷たい麺をつけても冷めにくい。",
+    "tags": ["つけ麺", "中華麺", "魚介"],
+    "equipment": ["鍋", "小鍋", "ざる", "包丁"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "noodles",
+      "colors": ["#be8b50", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "dipping-noodles",
+      "toppings": ["pork", "bamboo-shoot", "scallion"]
+    }
+  },
+  {
+    "id": "r-tonkotsu-ramen",
+    "name": "豚骨ラーメン",
+    "description": "白い豚骨スープに細麺ときくらげ、紅しょうがを合わせる。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "中華細麺",
+        "amount": "1玉"
+      },
+      {
+        "name": "豚骨ラーメンスープ（市販・希釈済み）",
+        "amount": "300ml"
+      },
+      {
+        "name": "チャーシュー（加熱済み）",
+        "amount": "40g"
+      },
+      {
+        "name": "乾燥きくらげ",
+        "amount": "2g"
+      },
+      {
+        "name": "紅しょうが",
+        "amount": "5g"
+      },
+      {
+        "name": "刻みねぎ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "白ごま",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "きくらげを表示どおりに戻して細切りにし、スープと一緒に十分に煮る。",
+      "チャーシューを温め、別鍋で細麺を表示時間どおりにゆでる。",
+      "麺の湯を切ってスープと丼に入れ、チャーシュー、紅しょうが、ねぎ、ごまをのせる。"
+    ],
+    "tip": "細麺はのびやすいので、具とスープを整えてからゆで始める。",
+    "tags": ["ラーメン", "豚骨"],
+    "equipment": ["鍋", "ざる", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "noodles",
+      "colors": ["#e4d7b2", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "tonkotsu-ramen",
+      "toppings": ["pork", "kikurage", "scallion", "pickled-ginger"]
+    }
+  },
+  {
+    "id": "r-tori-paitan-ramen",
+    "name": "鶏白湯ラーメン",
+    "description": "白く濃厚な鶏スープに鶏肉と青菜をのせるラーメン。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "中華生麺",
+        "amount": "1玉"
+      },
+      {
+        "name": "鶏白湯スープ（市販・希釈済み）",
+        "amount": "300ml"
+      },
+      {
+        "name": "鶏むね肉",
+        "amount": "60g"
+      },
+      {
+        "name": "小松菜",
+        "amount": "30g"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "5cm"
+      },
+      {
+        "name": "ゆで卵（固ゆで）",
+        "amount": "1/2個"
+      }
+    ],
+    "steps": [
+      "鶏肉を薄いそぎ切りにし、小松菜をざく切り、ねぎを細切りにする。",
+      "スープを沸かして鶏肉を入れ、中心まで十分加熱し、小松菜も煮る。",
+      "麺を表示どおりゆでて湯を切り、スープと具を盛り、ねぎとゆで卵を添える。"
+    ],
+    "tip": "白湯スープは煮詰まると濃くなるので強く沸かし続けない。",
+    "tags": ["ラーメン", "鶏肉"],
+    "equipment": ["鍋", "ざる", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "noodles",
+      "colors": ["#e4d7b2", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "chicken-paitan-ramen",
+      "toppings": ["chicken", "komatsuna", "egg", "scallion"]
+    }
+  },
+  {
+    "id": "r-sanma-men",
+    "name": "サンマーメン",
+    "description": "しょうゆラーメンに、もやしと豚肉の熱いあんをかける。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "中華生麺",
+        "amount": "1玉"
+      },
+      {
+        "name": "豚薄切り肉",
+        "amount": "50g"
+      },
+      {
+        "name": "もやし",
+        "amount": "80g"
+      },
+      {
+        "name": "にんじん",
+        "amount": "20g"
+      },
+      {
+        "name": "白菜",
+        "amount": "1枚"
+      },
+      {
+        "name": "しょうゆラーメンスープ（市販・希釈済み）",
+        "amount": "350ml"
+      },
+      {
+        "name": "片栗粉",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "豚肉、にんじん、白菜を細切りにし、片栗粉を水で溶く。",
+      "フライパンに油を熱して豚肉を十分に炒め、野菜ともやしを加えて炒める。",
+      "温めたスープ100mlを野菜に加え、水溶き片栗粉でとろみをつけて煮立てる。",
+      "麺を表示どおりゆで、残りの熱いスープと丼に入れて野菜あんをかける。"
+    ],
+    "tip": "あんは煮立ててから仕上げると粉っぽさが残らない。",
+    "tags": ["ラーメン", "もやし", "あんかけ"],
+    "equipment": ["鍋", "フライパン", "ざる", "包丁"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "noodles",
+      "colors": ["#be8b50", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "ankake-ramen",
+      "toppings": ["sprout", "pork", "cabbage", "carrot"]
+    }
+  },
+  {
+    "id": "r-somen-champuru",
+    "name": "そうめんチャンプルー",
+    "description": "そうめんをツナとにらで炒める沖縄の家庭料理。",
+    "category": "noodles",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "そうめん",
+        "amount": "80g"
+      },
+      {
+        "name": "ツナ缶",
+        "amount": "40g"
+      },
+      {
+        "name": "にら",
+        "amount": "25g"
+      },
+      {
+        "name": "にんじん",
+        "amount": "20g"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "油",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "にらを3cmに切ってにんじんを細切りにし、そうめんを少しかためにゆでる。",
+      "麺を流水で洗ってよく水を切り、油半量をからめておく。",
+      "残りの油でにんじんとツナを炒め、麺とにらを加えてほぐし、しょうゆと塩で整える。"
+    ],
+    "tip": "麺に油を先にからめておくとフライパンに貼りつきにくい。",
+    "tags": ["そうめん", "ツナ", "郷土料理"],
+    "equipment": ["鍋", "フライパン", "ざる", "包丁"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "noodles",
+      "colors": ["#be8b50", "#ebdaa8", "#34704b", "#c15b3e"],
+      "garnish": [],
+      "motif": "stir-fried-somen",
+      "toppings": ["tuna", "chives", "carrot"]
+    }
+  },
+  {
+    "id": "r-chicken-mizutaki",
+    "name": "鶏の水炊き",
+    "description": "鶏肉のうまみで野菜を煮て、ぽん酢で味わう鍋。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 40,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏もも肉",
+        "amount": "120g"
+      },
+      {
+        "name": "白菜",
+        "amount": "2枚"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "1/2本"
+      },
+      {
+        "name": "しいたけ",
+        "amount": "2個"
+      },
+      {
+        "name": "豆腐",
+        "amount": "80g"
+      },
+      {
+        "name": "昆布",
+        "amount": "3cm角"
+      },
+      {
+        "name": "水",
+        "amount": "400ml"
+      },
+      {
+        "name": "酒",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "ぽん酢しょうゆ",
+        "amount": "大さじ2"
+      }
+    ],
+    "steps": [
+      "昆布を水に浸し、鶏肉、白菜、ねぎ、しいたけ、豆腐を食べやすく切る。",
+      "鍋に昆布水と酒を入れて温め、沸騰前に昆布を出し、鶏肉を加える。",
+      "あくを取りながら15分ほど煮て肉に十分火を通し、野菜と豆腐を加えて柔らかく煮る。",
+      "具を器に取り、ぽん酢しょうゆを少しずつつけながら食べる。"
+    ],
+    "tip": "白菜の硬い軸から入れて葉を後に足すと食感がそろう。",
+    "tags": ["鍋", "鶏肉"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#dfd1a0", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "chicken-mizutaki",
+      "toppings": ["chicken", "cabbage", "tofu", "mushroom"]
+    }
+  },
+  {
+    "id": "r-shio-chanko-nabe",
+    "name": "塩ちゃんこ鍋",
+    "description": "豚肉と鶏団子、野菜を塩味のだしで煮る具だくさんの鍋。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏ひき肉",
+        "amount": "60g"
+      },
+      {
+        "name": "豚薄切り肉",
+        "amount": "50g"
+      },
+      {
+        "name": "白菜",
+        "amount": "1枚"
+      },
+      {
+        "name": "にら",
+        "amount": "20g"
+      },
+      {
+        "name": "えのき",
+        "amount": "30g"
+      },
+      {
+        "name": "豆腐",
+        "amount": "60g"
+      },
+      {
+        "name": "しょうが",
+        "amount": "3g"
+      },
+      {
+        "name": "片栗粉",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "鶏がらスープ",
+        "amount": "350ml"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "鶏ひき肉にすりおろしたしょうがと片栗粉を混ぜ、野菜と豆腐を切る。",
+      "鍋でスープを沸かし、鶏肉だねを小さな団子にして落とし、豚肉も広げて入れる。",
+      "肉の中心まで十分に火が通ったら野菜と豆腐を加えて煮て、塩としょうゆで整える。"
+    ],
+    "tip": "鶏団子を小さめにそろえると中心まで加熱しやすい。",
+    "tags": ["鍋", "鶏団子", "豚肉"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#dfd1a0", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "shio-chanko-nabe",
+      "toppings": ["meatball", "pork", "cabbage", "tofu"]
+    }
+  },
+  {
+    "id": "r-ishikari-nabe",
+    "name": "石狩鍋",
+    "description": "鮭とじゃがいもをみそだしで煮て、バターをひとかけ添える。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "生鮭",
+        "amount": "1切れ（80g）"
+      },
+      {
+        "name": "じゃがいも",
+        "amount": "1個"
+      },
+      {
+        "name": "白菜",
+        "amount": "1枚"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "1/3本"
+      },
+      {
+        "name": "豆腐",
+        "amount": "60g"
+      },
+      {
+        "name": "昆布だし",
+        "amount": "350ml"
+      },
+      {
+        "name": "みそ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "酒",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "バター",
+        "amount": "5g"
+      }
+    ],
+    "steps": [
+      "鮭の骨を取り除いて切り、じゃがいも、白菜、ねぎ、豆腐も食べやすく切る。",
+      "鍋で昆布だしと酒を沸かし、じゃがいもを柔らかくなるまで煮る。",
+      "鮭、白菜、ねぎ、豆腐を加え、鮭の中心まで火が通るまで煮る。",
+      "火を弱めてみそを溶き、仕上げにバターを落とす。"
+    ],
+    "tip": "みそを入れた後は強く煮立てず、鮭の身を崩さないようにする。",
+    "tags": ["鍋", "鮭", "郷土料理"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#bb9a64", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "ishikari-nabe",
+      "toppings": ["salmon", "potato", "cabbage", "tofu"]
+    }
+  },
+  {
+    "id": "r-kiritanpo-nabe",
+    "name": "きりたんぽ鍋",
+    "description": "焼いたきりたんぽに鶏とごぼうのだしを含ませる鍋。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "きりたんぽ（市販）",
+        "amount": "1本"
+      },
+      {
+        "name": "鶏もも肉",
+        "amount": "80g"
+      },
+      {
+        "name": "ごぼう",
+        "amount": "30g"
+      },
+      {
+        "name": "舞茸",
+        "amount": "40g"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "1/3本"
+      },
+      {
+        "name": "せり",
+        "amount": "20g"
+      },
+      {
+        "name": "だし汁",
+        "amount": "350ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "鶏肉ときりたんぽを切り、ごぼうをささがきにし、舞茸と野菜を食べやすくする。",
+      "鍋でだし汁と調味料を沸かし、鶏肉とごぼうを十分に煮る。",
+      "舞茸とねぎを加え、鶏肉の中心まで火が通ったらきりたんぽを入れる。",
+      "きりたんぽがだしを吸ったら、よく洗ったせりを加えてさっと煮る。"
+    ],
+    "tip": "きりたんぽは煮続けると崩れるので、仕上げの数分で加える。",
+    "tags": ["鍋", "ご飯", "郷土料理"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#d5b471", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "kiritanpo-nabe",
+      "toppings": ["rice-cake", "chicken", "burdock", "mushroom", "greens"]
+    }
+  },
+  {
+    "id": "r-yudofu",
+    "name": "湯豆腐",
+    "description": "昆布だしで豆腐をゆっくり温め、薬味とともに食べる。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "絹ごし豆腐",
+        "amount": "200g"
+      },
+      {
+        "name": "昆布",
+        "amount": "5cm角"
+      },
+      {
+        "name": "水",
+        "amount": "350ml"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "5cm"
+      },
+      {
+        "name": "しょうが",
+        "amount": "3g"
+      },
+      {
+        "name": "ぽん酢しょうゆ",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "かつお節",
+        "amount": "1g"
+      }
+    ],
+    "steps": [
+      "昆布を水に15分ほど浸し、豆腐を大きめの角切りにする。",
+      "ねぎを刻んでしょうがをすりおろし、ぽん酢とかつお節を小皿に用意する。",
+      "昆布水を弱火で温め、豆腐を入れて沸騰させず中心まで温め、薬味を添える。"
+    ],
+    "tip": "ぐらぐら煮立てないと豆腐の角を保ったまま温められる。",
+    "tags": ["鍋", "豆腐"],
+    "equipment": ["鍋", "包丁", "まな板", "おろし器"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#dfd1a0", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "yudofu",
+      "toppings": ["tofu", "scallion", "kombu"]
+    }
+  },
+  {
+    "id": "r-yose-nabe",
+    "name": "寄せ鍋",
+    "description": "白身魚、えび、鶏肉と野菜を薄口しょうゆのだしで煮る。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "たら",
+        "amount": "60g"
+      },
+      {
+        "name": "むきえび",
+        "amount": "2尾"
+      },
+      {
+        "name": "鶏もも肉",
+        "amount": "50g"
+      },
+      {
+        "name": "白菜",
+        "amount": "1枚"
+      },
+      {
+        "name": "しいたけ",
+        "amount": "1個"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "1/3本"
+      },
+      {
+        "name": "豆腐",
+        "amount": "60g"
+      },
+      {
+        "name": "だし汁",
+        "amount": "350ml"
+      },
+      {
+        "name": "薄口しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "酒",
+        "amount": "大さじ1"
+      }
+    ],
+    "steps": [
+      "魚の骨とえびの背わたを除き、鶏肉、野菜、豆腐を一口大に切る。",
+      "鍋にだし汁、しょうゆ、酒を沸かし、鶏肉を入れて十分に煮る。",
+      "魚、えび、野菜、豆腐を加え、魚介と鶏肉の中心まで火が通るまで煮る。"
+    ],
+    "tip": "魚は煮崩れやすいので鶏肉を先に入れて時間差で加熱する。",
+    "tags": ["鍋", "魚介", "鶏肉"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#dfd1a0", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "yose-nabe",
+      "toppings": ["fish", "shrimp", "chicken", "cabbage", "tofu"]
+    }
+  },
+  {
+    "id": "r-motsu-nabe",
+    "name": "もつ鍋",
+    "description": "下ゆでした牛もつを、キャベツとにら、にんにくのスープで煮る。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "牛もつ（下ゆで済み）",
+        "amount": "100g"
+      },
+      {
+        "name": "キャベツ",
+        "amount": "2枚"
+      },
+      {
+        "name": "にら",
+        "amount": "30g"
+      },
+      {
+        "name": "にんにく",
+        "amount": "1片"
+      },
+      {
+        "name": "豆腐",
+        "amount": "80g"
+      },
+      {
+        "name": "鶏がらスープ",
+        "amount": "350ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "唐辛子",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "もつは商品の表示を確認し、必要な下処理を行い、野菜と豆腐を切る。",
+      "鍋でスープ、しょうゆ、みりん、薄切りにんにくを沸かし、もつを加えて十分に煮る。",
+      "キャベツと豆腐を加えて柔らかく煮て、にらと唐辛子を加えて全体に火を通す。"
+    ],
+    "tip": "下ゆで済みのもつでも、包装に指定された加熱を省かず行う。",
+    "tags": ["鍋", "もつ", "郷土料理"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#d5b471", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "motsu-nabe",
+      "toppings": ["beef-offal", "cabbage", "chives", "tofu", "garlic"]
+    }
+  },
+  {
+    "id": "r-kaki-dote-nabe",
+    "name": "かきの土手鍋",
+    "description": "みそだれを少しずつ溶かしながら、かきと野菜を煮る。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "かき（加熱用）",
+        "amount": "100g"
+      },
+      {
+        "name": "白菜",
+        "amount": "1枚"
+      },
+      {
+        "name": "春菊",
+        "amount": "30g"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "1/3本"
+      },
+      {
+        "name": "豆腐",
+        "amount": "80g"
+      },
+      {
+        "name": "だし汁",
+        "amount": "300ml"
+      },
+      {
+        "name": "みそ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "塩（洗う用）",
+        "amount": "適量"
+      }
+    ],
+    "steps": [
+      "かきを塩水でやさしく洗ってすすぎ、野菜と豆腐を食べやすく切る。",
+      "鍋の縁にみそ、みりん、砂糖を混ぜて塗り、だし汁と野菜、豆腐を入れて煮る。",
+      "かきを加え、中心温度計で85〜90℃に達したことを確かめて90秒以上保ち、みそだれを溶かす。"
+    ],
+    "tip": "かきは加熱用を使い、大きさにかかわらず中心まで十分に加熱する。",
+    "tags": ["鍋", "かき", "みそ"],
+    "equipment": ["包丁", "まな板", "鍋", "中心温度計"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#bb9a64", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "kaki-dote-nabe",
+      "toppings": ["oyster", "cabbage", "tofu", "scallion"]
+    }
+  },
+  {
+    "id": "r-mizore-nabe",
+    "name": "豚肉のみぞれ鍋",
+    "description": "薄切り豚肉と白菜にたっぷりの大根おろしを合わせる。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "豚薄切り肉",
+        "amount": "100g"
+      },
+      {
+        "name": "大根",
+        "amount": "150g"
+      },
+      {
+        "name": "白菜",
+        "amount": "2枚"
+      },
+      {
+        "name": "しめじ",
+        "amount": "40g"
+      },
+      {
+        "name": "だし汁",
+        "amount": "250ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "大根をすりおろし、白菜をざく切りにし、しめじをほぐす。",
+      "鍋にだし汁、しょうゆ、みりん、白菜、しめじを入れて柔らかく煮る。",
+      "豚肉を一枚ずつ広げて入れ、中心まで火が通ったら大根おろしを加えて温める。"
+    ],
+    "tip": "大根おろしは最後に加えるとみずみずしい口当たりが残る。",
+    "tags": ["鍋", "豚肉", "大根"],
+    "equipment": ["鍋", "包丁", "まな板", "おろし器"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#d5b471", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "mizore-nabe",
+      "toppings": ["pork", "grated-daikon", "cabbage", "mushroom"]
+    }
+  },
+  {
+    "id": "r-tori-dango-nabe",
+    "name": "鶏団子鍋",
+    "description": "しょうが入りの鶏団子を、春雨と野菜と一緒にだしで煮る。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏ひき肉",
+        "amount": "100g"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "1/3本"
+      },
+      {
+        "name": "しょうが",
+        "amount": "5g"
+      },
+      {
+        "name": "片栗粉",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "白菜",
+        "amount": "1枚"
+      },
+      {
+        "name": "春雨",
+        "amount": "20g"
+      },
+      {
+        "name": "だし汁",
+        "amount": "350ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "酒",
+        "amount": "大さじ1"
+      }
+    ],
+    "steps": [
+      "ねぎとしょうがを細かく刻み、鶏ひき肉、片栗粉、塩とよく練る。",
+      "鍋にだし汁、しょうゆ、酒を沸かし、肉だねを小さく丸めて入れて煮る。",
+      "切った白菜と表示どおり戻した春雨を加え、団子の中心まで十分火が通るまで煮る。"
+    ],
+    "tip": "団子はスプーン二本を使うと均等な大きさに落としやすい。",
+    "tags": ["鍋", "鶏団子", "春雨"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#d5b471", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "tori-dango-nabe",
+      "toppings": ["meatball", "cabbage", "glass-noodles", "scallion"]
+    }
+  },
+  {
+    "id": "r-noppei-jiru",
+    "name": "のっぺい汁",
+    "description": "里芋やにんじんの汁に薄いとろみをつけた、やさしい味の椀。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "里芋",
+        "amount": "2個"
+      },
+      {
+        "name": "にんじん",
+        "amount": "30g"
+      },
+      {
+        "name": "大根",
+        "amount": "40g"
+      },
+      {
+        "name": "しいたけ",
+        "amount": "1個"
+      },
+      {
+        "name": "油揚げ",
+        "amount": "1/4枚"
+      },
+      {
+        "name": "だし汁",
+        "amount": "300ml"
+      },
+      {
+        "name": "薄口しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "片栗粉",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "水",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "里芋の皮をむき、大根、にんじん、しいたけ、油揚げとともに小さく切る。",
+      "鍋でだし汁と根菜を煮て、柔らかくなったらしいたけと油揚げを加える。",
+      "しょうゆで味を整え、水で溶いた片栗粉を加えて混ぜ、ひと煮立ちさせる。"
+    ],
+    "tip": "里芋はほかの根菜より少し大きめに切ると形を残しやすい。",
+    "tags": ["汁物", "里芋", "根菜"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#dfd1a0", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "noppei-jiru",
+      "toppings": ["taro", "carrot", "daikon", "mushroom"]
+    }
+  },
+  {
+    "id": "r-yamagata-imoni",
+    "name": "山形風芋煮",
+    "description": "里芋と牛肉、こんにゃくをしょうゆ味で煮込む郷土料理。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 40,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "里芋",
+        "amount": "2個"
+      },
+      {
+        "name": "牛薄切り肉",
+        "amount": "80g"
+      },
+      {
+        "name": "こんにゃく",
+        "amount": "60g"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "1/2本"
+      },
+      {
+        "name": "だし汁",
+        "amount": "300ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "酒",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "里芋の皮をむいて切り、こんにゃくをちぎって下ゆでし、牛肉とねぎを切る。",
+      "鍋でだし汁、酒、里芋、こんにゃくを煮て、里芋が柔らかくなるまで加熱する。",
+      "牛肉、しょうゆ、砂糖を加えてあくを取り、ねぎを入れて肉に十分火を通す。"
+    ],
+    "tip": "牛肉は里芋が柔らかくなってから加えると煮すぎを防ぎやすい。",
+    "tags": ["汁物", "牛肉", "里芋"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#d5b471", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "yamagata-imoni",
+      "toppings": ["beef", "taro", "konnyaku", "scallion"]
+    }
+  },
+  {
+    "id": "r-sumashi-zoni",
+    "name": "すまし仕立ての雑煮",
+    "description": "焼いた餅に鶏肉と青菜のすまし汁を注ぐ正月の椀。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "切り餅",
+        "amount": "2個"
+      },
+      {
+        "name": "鶏もも肉",
+        "amount": "50g"
+      },
+      {
+        "name": "小松菜",
+        "amount": "30g"
+      },
+      {
+        "name": "にんじん",
+        "amount": "20g"
+      },
+      {
+        "name": "かまぼこ",
+        "amount": "2切れ"
+      },
+      {
+        "name": "だし汁",
+        "amount": "300ml"
+      },
+      {
+        "name": "薄口しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "酒",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "鶏肉を小さく切り、にんじんを薄切りにし、小松菜をざく切りにする。",
+      "鍋でだし汁、酒、鶏肉、にんじんを煮て、肉に十分火が通ったら小松菜としょうゆを加える。",
+      "餅をトースターで中まで柔らかく焼き、椀に入れて汁と具を盛り、かまぼこを添える。"
+    ],
+    "tip": "焼いた餅は椀へ移してから汁を注ぐと鍋につきにくい。",
+    "tags": ["汁物", "餅", "行事食"],
+    "equipment": ["鍋", "トースター", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#dfd1a0", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "sumashi-zoni",
+      "toppings": ["rice-cake", "chicken", "carrot", "komatsuna", "fish-cake"]
+    }
+  },
+  {
+    "id": "r-suiton",
+    "name": "すいとん",
+    "description": "小麦粉の柔らかな団子を根菜のだしで煮る具だくさんの汁物。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "50g"
+      },
+      {
+        "name": "水（生地用）",
+        "amount": "35ml"
+      },
+      {
+        "name": "にんじん",
+        "amount": "30g"
+      },
+      {
+        "name": "大根",
+        "amount": "40g"
+      },
+      {
+        "name": "ごぼう",
+        "amount": "20g"
+      },
+      {
+        "name": "油揚げ",
+        "amount": "1/4枚"
+      },
+      {
+        "name": "だし汁",
+        "amount": "350ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "薄力粉と生地用の水を混ぜて休ませ、野菜と油揚げを小さく切る。",
+      "鍋でだし汁と根菜を煮て柔らかくし、油揚げとしょうゆ、塩を加える。",
+      "生地を小さな薄い団子にして落とし、中心に粉っぽさがなくなるまで十分に煮る。"
+    ],
+    "tip": "団子は厚く丸めず、薄く平たくすると中まで火が通りやすい。",
+    "tags": ["汁物", "小麦粉", "根菜"],
+    "equipment": ["鍋", "ボウル", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#d5b471", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "suiton",
+      "toppings": ["dumpling", "carrot", "daikon", "burdock"]
+    }
+  },
+  {
+    "id": "r-satsuma-jiru",
+    "name": "さつま汁",
+    "description": "骨のない鶏肉と根菜をたっぷり入れたみそ仕立ての汁。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏もも肉",
+        "amount": "70g"
+      },
+      {
+        "name": "ごぼう",
+        "amount": "20g"
+      },
+      {
+        "name": "にんじん",
+        "amount": "30g"
+      },
+      {
+        "name": "大根",
+        "amount": "40g"
+      },
+      {
+        "name": "里芋",
+        "amount": "1個"
+      },
+      {
+        "name": "だし汁",
+        "amount": "300ml"
+      },
+      {
+        "name": "みそ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "刻みねぎ",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "鶏肉を小さく切り、ごぼうをささがきにして、ほかの根菜を一口大にする。",
+      "鍋にだし汁と根菜を入れて沸かし、鶏肉を加えてあくを取りながら煮る。",
+      "根菜が柔らかく鶏肉の中心まで火が通ったら、みそを溶いてねぎを散らす。"
+    ],
+    "tip": "具を小さめにそろえると汁と一緒にすくいやすくなる。",
+    "tags": ["汁物", "鶏肉", "郷土料理"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#bb9a64", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "satsuma-jiru",
+      "toppings": ["chicken", "burdock", "carrot", "daikon", "taro"]
+    }
+  },
+  {
+    "id": "r-kasu-jiru",
+    "name": "鮭の粕汁",
+    "description": "鮭と根菜を酒粕とみそで仕上げる、こくのある汁物。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "生鮭",
+        "amount": "60g"
+      },
+      {
+        "name": "大根",
+        "amount": "50g"
+      },
+      {
+        "name": "にんじん",
+        "amount": "30g"
+      },
+      {
+        "name": "こんにゃく",
+        "amount": "30g"
+      },
+      {
+        "name": "油揚げ",
+        "amount": "1/4枚"
+      },
+      {
+        "name": "だし汁",
+        "amount": "300ml"
+      },
+      {
+        "name": "酒粕",
+        "amount": "25g"
+      },
+      {
+        "name": "みそ",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "鮭の骨を除き、根菜、こんにゃく、油揚げを小さく切る。",
+      "鍋でだし汁と根菜、こんにゃくを煮て、鮭と油揚げを加えて中まで火を通す。",
+      "煮汁少量で酒粕を溶いて鍋に戻し、弱火で数分煮てからみそを溶く。"
+    ],
+    "tip": "酒粕を先に少量の煮汁でのばすと塊が残りにくい。",
+    "tags": ["汁物", "鮭", "酒粕"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#e4d7b2", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "kasu-jiru",
+      "toppings": ["salmon", "daikon", "carrot", "fried-tofu"]
+    }
+  },
+  {
+    "id": "r-tai-ushio-jiru",
+    "name": "鯛の潮汁",
+    "description": "霜降りした鯛のあらからうまみを引き出す澄んだ汁。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鯛のあら",
+        "amount": "150g"
+      },
+      {
+        "name": "昆布",
+        "amount": "3cm角"
+      },
+      {
+        "name": "水",
+        "amount": "350ml"
+      },
+      {
+        "name": "酒",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "三つ葉",
+        "amount": "2本"
+      },
+      {
+        "name": "しょうが",
+        "amount": "3g"
+      }
+    ],
+    "steps": [
+      "鯛のあらに熱湯をかけ、流水で血やうろこを丁寧に取り除く。",
+      "鍋に水、昆布、酒、しょうが、あらを入れ、沸く直前に昆布を取り出す。",
+      "あくを取りながら弱火で15分ほど煮て中まで火を通し、塩で整えて三つ葉を添える。"
+    ],
+    "tip": "椀に盛るときも小骨を確かめ、汁をこすと飲みやすくなる。",
+    "tags": ["汁物", "鯛", "だし"],
+    "equipment": ["鍋", "ざる", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#dfd1a0", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "tai-ushio-jiru",
+      "toppings": ["fish", "mitsuba", "ginger"]
+    }
+  },
+  {
+    "id": "r-hiyajiru",
+    "name": "冷や汁",
+    "description": "焼き魚とごまのみそだしに、きゅうりと豆腐を合わせる冷たい汁。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "あじの開き",
+        "amount": "小1枚"
+      },
+      {
+        "name": "きゅうり",
+        "amount": "1/2本"
+      },
+      {
+        "name": "木綿豆腐",
+        "amount": "80g"
+      },
+      {
+        "name": "みそ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "白すりごま",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "冷たいだし汁",
+        "amount": "200ml"
+      },
+      {
+        "name": "大葉",
+        "amount": "2枚"
+      },
+      {
+        "name": "みょうが",
+        "amount": "1個"
+      }
+    ],
+    "steps": [
+      "あじを魚焼きグリルで中心まで焼き、骨と皮を外して身を細かくほぐす。",
+      "魚の身にみそとすりごまを混ぜ、冷たいだし汁で少しずつのばす。",
+      "薄切りきゅうり、崩した豆腐、刻んだ大葉とみょうがを加えて冷たく盛る。"
+    ],
+    "tip": "魚の塩気を見て、みそは全量を入れる前に味を確かめる。",
+    "tags": ["冷たい汁", "あじ", "郷土料理"],
+    "equipment": ["魚焼きグリル", "ボウル", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#e4d7b2", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "hiyajiru",
+      "toppings": ["fish", "cucumber", "tofu", "shiso"]
+    }
+  },
+  {
+    "id": "r-kinoko-dobinmushi",
+    "name": "きのこの土瓶蒸し風",
+    "description": "きのこ、えび、鶏肉を小さな耐熱器で蒸して香りを閉じ込める。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "しいたけ",
+        "amount": "1個"
+      },
+      {
+        "name": "しめじ",
+        "amount": "30g"
+      },
+      {
+        "name": "むきえび",
+        "amount": "2尾"
+      },
+      {
+        "name": "鶏もも肉",
+        "amount": "30g"
+      },
+      {
+        "name": "三つ葉",
+        "amount": "2本"
+      },
+      {
+        "name": "だし汁",
+        "amount": "180ml"
+      },
+      {
+        "name": "薄口しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "酒",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "すだち",
+        "amount": "1/2個"
+      }
+    ],
+    "steps": [
+      "きのこを食べやすく切り、えびの背わたを除き、鶏肉を小さく切る。",
+      "耐熱器に具を入れ、だし汁、しょうゆ、酒を混ぜて注ぎ、ふたかアルミ箔をかぶせる。",
+      "蒸気の上がった蒸し器で15〜20分蒸し、肉とえびの中心まで火が通ったら三つ葉とすだちを添える。"
+    ],
+    "tip": "器のふたを開けるときは蒸気を逃がしてから持ち上げる。",
+    "tags": ["蒸し物", "きのこ", "だし"],
+    "equipment": ["蒸し器", "耐熱器", "包丁", "まな板"],
+    "reward": 40,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#dfd1a0", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "kinoko-dobinmushi",
+      "toppings": ["mushroom", "shrimp", "chicken", "mitsuba"]
+    }
+  },
+  {
+    "id": "r-senbei-jiru",
+    "name": "せんべい汁",
+    "description": "汁用の南部せんべいを鶏だしで煮込み、もちっと仕上げる。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "汁用南部せんべい",
+        "amount": "2枚"
+      },
+      {
+        "name": "鶏もも肉",
+        "amount": "70g"
+      },
+      {
+        "name": "ごぼう",
+        "amount": "20g"
+      },
+      {
+        "name": "にんじん",
+        "amount": "20g"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "1/3本"
+      },
+      {
+        "name": "しめじ",
+        "amount": "30g"
+      },
+      {
+        "name": "だし汁",
+        "amount": "350ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "酒",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "鶏肉を小さく切り、ごぼうをささがきにし、にんじんとねぎを薄く切る。",
+      "鍋でだし汁、酒、鶏肉、根菜を煮て、肉に十分火を通してしょうゆを加える。",
+      "しめじ、ねぎ、割った汁用せんべいを加え、包装に示された時間を目安に煮る。"
+    ],
+    "tip": "普通のせんべいではなく、煮崩れにくい汁用の南部せんべいを使う。",
+    "tags": ["汁物", "せんべい", "郷土料理"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#d5b471", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "senbei-jiru",
+      "toppings": ["cracker", "chicken", "burdock", "carrot", "mushroom"]
+    }
+  },
+  {
+    "id": "r-tororo-kombu-sumashi",
+    "name": "とろろ昆布の吸い物",
+    "description": "とろろ昆布と梅干しに熱いだしを注ぐ手軽な吸い物。",
+    "category": "soup",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 10,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "とろろ昆布",
+        "amount": "3g"
+      },
+      {
+        "name": "梅干し",
+        "amount": "1個"
+      },
+      {
+        "name": "だし汁",
+        "amount": "200ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "三つ葉",
+        "amount": "2本"
+      },
+      {
+        "name": "かつお節",
+        "amount": "1g"
+      }
+    ],
+    "steps": [
+      "三つ葉を刻み、梅干しの種を除いて食べやすくほぐす。",
+      "鍋でだし汁を沸かし、しょうゆを加えて味を整える。",
+      "椀にとろろ昆布、梅干し、かつお節を入れて熱いだしを注ぎ、三つ葉を散らす。"
+    ],
+    "tip": "梅干しと昆布の塩分があるので、しょうゆを入れすぎない。",
+    "tags": ["吸い物", "昆布", "梅干し"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "bowl",
+      "base": "soup",
+      "colors": ["#dfd1a0", "#eee0b9", "#34704b", "#b7723d"],
+      "garnish": [],
+      "motif": "tororo-kombu-sumashi",
+      "toppings": ["kombu", "pickled-plum", "mitsuba"]
+    }
+  },
+  {
+    "id": "r-nikujaga",
+    "name": "肉じゃが",
+    "description": "牛肉とじゃがいもを甘辛いだしで煮込む定番のおかず。",
+    "category": "main",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "牛薄切り肉",
+        "amount": "80g"
+      },
+      {
+        "name": "じゃがいも",
+        "amount": "1個"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "にんじん",
+        "amount": "1/4本"
+      },
+      {
+        "name": "しらたき",
+        "amount": "40g"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "だし汁",
+        "amount": "180ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "みりん",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "じゃがいもを大きめの一口大に切り、玉ねぎとにんじんも切り、しらたきを下ゆでする。",
+      "鍋に油を熱して牛肉を炒め、色が変わったら野菜としらたきを加えて炒め合わせる。",
+      "だし汁と調味料を加え、落としぶたをして弱めの中火で20分ほど煮て、じゃがいもを軟らかくする。"
+    ],
+    "tip": "じゃがいもを入れた後は混ぜすぎず、鍋を揺すって味を行き渡らせる。",
+    "tags": ["煮物", "牛肉", "じゃがいも"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "deep-plate",
+      "base": "main",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "nikujaga",
+      "toppings": ["beef", "potato", "carrot", "onion"]
+    }
+  },
+  {
+    "id": "r-chikuzenni",
+    "name": "筑前煮",
+    "description": "鶏肉と歯ごたえのある根菜を炒めてから煮る、福岡ゆかりの料理。",
+    "category": "main",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 40,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏もも肉",
+        "amount": "80g"
+      },
+      {
+        "name": "れんこん",
+        "amount": "40g"
+      },
+      {
+        "name": "ごぼう",
+        "amount": "30g"
+      },
+      {
+        "name": "にんじん",
+        "amount": "30g"
+      },
+      {
+        "name": "こんにゃく",
+        "amount": "40g"
+      },
+      {
+        "name": "しいたけ",
+        "amount": "1個"
+      },
+      {
+        "name": "絹さや",
+        "amount": "3枚"
+      },
+      {
+        "name": "ごま油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "だし汁",
+        "amount": "150ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "みりん",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "鶏肉と根菜を一口大に切り、こんにゃくをちぎって下ゆでし、絹さやは別にさっとゆでる。",
+      "鍋でごま油を熱し、鶏肉、根菜、こんにゃく、しいたけの順に炒める。",
+      "だし汁と調味料を加えて20分ほど煮込み、鶏肉と根菜に火が通ったら煮汁を少し煮詰めて絹さやを添える。"
+    ],
+    "tip": "根菜の大きさをそろえると、火の通りと盛り付けが整う。",
+    "tags": ["煮物", "鶏肉", "根菜"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "deep-plate",
+      "base": "main",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "chikuzenni",
+      "toppings": ["chicken", "lotus-root", "burdock", "carrot"]
+    }
+  },
+  {
+    "id": "r-oden",
+    "name": "おでん",
+    "description": "大根、卵、練り物を薄味のだしでじっくり温める。",
+    "category": "main",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 60,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "大根",
+        "amount": "100g"
+      },
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "ちくわ",
+        "amount": "1本"
+      },
+      {
+        "name": "さつま揚げ",
+        "amount": "1枚"
+      },
+      {
+        "name": "こんにゃく",
+        "amount": "60g"
+      },
+      {
+        "name": "だし汁",
+        "amount": "400ml"
+      },
+      {
+        "name": "薄口しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "練りからし",
+        "amount": "好みの量"
+      }
+    ],
+    "steps": [
+      "大根を2cm厚さに切って軟らかく下ゆでし、卵を固ゆでして殻をむき、こんにゃくも下ゆでする。",
+      "鍋にだし汁、しょうゆ、みりん、塩を煮立て、大根、卵、こんにゃくを弱火で20分煮る。",
+      "ちくわとさつま揚げを加えてさらに10分ほど煮て、好みでからしを添える。"
+    ],
+    "tip": "練り物を入れてから強く沸かすとだしが濁るので、静かに煮る。",
+    "tags": ["煮物", "大根", "練り物"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "deep-plate",
+      "base": "soup",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "oden",
+      "toppings": ["daikon", "egg", "chikuwa", "konjac"]
+    }
+  },
+  {
+    "id": "r-aji-fry",
+    "name": "あじフライ",
+    "description": "開いたあじにパン粉をまとわせて揚げる、魚の定番フライ。",
+    "category": "main",
+    "cuisine": "洋食",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "あじの開き（生・フライ用）",
+        "amount": "1尾分"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "パン粉",
+        "amount": "大さじ4"
+      },
+      {
+        "name": "揚げ油",
+        "amount": "適量"
+      },
+      {
+        "name": "キャベツ",
+        "amount": "40g"
+      },
+      {
+        "name": "レモン",
+        "amount": "1切れ"
+      },
+      {
+        "name": "中濃ソース",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "あじの水分を拭いて残った小骨を確かめ、塩こしょうを振り、キャベツを千切りにする。",
+      "あじに薄力粉、溶き卵、パン粉の順で衣を付け、余分な粉を落とす。",
+      "170℃の油で両面を色よく揚げ、中心まで火が通ったら油を切り、キャベツとレモン、ソースを添える。"
+    ],
+    "tip": "開き干しではなく、生のフライ用に開いたあじを選ぶ。",
+    "tags": ["揚げ物", "あじ", "定食"],
+    "equipment": ["揚げ鍋", "温度計", "バット", "菜箸"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "aji-fry",
+      "toppings": ["breaded-fish", "cabbage", "lemon"]
+    }
+  },
+  {
+    "id": "r-ebi-fry",
+    "name": "エビフライ",
+    "description": "まっすぐに整えたえびを、さくっとした衣で揚げる。",
+    "category": "main",
+    "cuisine": "洋食",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "殻付きえび",
+        "amount": "3尾"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "パン粉",
+        "amount": "大さじ4"
+      },
+      {
+        "name": "揚げ油",
+        "amount": "適量"
+      },
+      {
+        "name": "キャベツ",
+        "amount": "40g"
+      },
+      {
+        "name": "レモン",
+        "amount": "1切れ"
+      },
+      {
+        "name": "タルタルソース",
+        "amount": "大さじ1"
+      }
+    ],
+    "steps": [
+      "えびの尾を残して殻と背わたを除き、尾先の水分をしごき出して全体をよく拭く。",
+      "腹側に浅い切り込みを入れて身を伸ばし、塩こしょうをして薄力粉、卵、パン粉を付ける。",
+      "170℃の油で揚げてえびの中心まで火を通し、油を切って千切りキャベツ、レモン、ソースを添える。"
+    ],
+    "tip": "尾の内側にも水分が残りやすいため、揚げる前に丁寧に拭く。",
+    "tags": ["揚げ物", "えび", "洋食"],
+    "equipment": ["揚げ鍋", "温度計", "バット", "包丁"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "ebi-fry",
+      "toppings": ["breaded-shrimp", "cabbage", "lemon"]
+    }
+  },
+  {
+    "id": "r-kaki-fry",
+    "name": "カキフライ",
+    "description": "かきをパン粉で包み、中心までしっかり火を通して揚げる。",
+    "category": "main",
+    "cuisine": "洋食",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "むきかき（加熱用）",
+        "amount": "100g"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "パン粉",
+        "amount": "大さじ4"
+      },
+      {
+        "name": "揚げ油",
+        "amount": "適量"
+      },
+      {
+        "name": "キャベツ",
+        "amount": "40g"
+      },
+      {
+        "name": "レモン",
+        "amount": "1切れ"
+      },
+      {
+        "name": "タルタルソース",
+        "amount": "大さじ1"
+      }
+    ],
+    "steps": [
+      "かきを薄い塩水で優しく洗い、水を替えてすすぎ、キッチンペーパーで水分を十分に拭く。",
+      "かきに薄力粉、溶き卵、パン粉の順に衣を付けて形を整える。",
+      "170℃の油で揚げ、中心温度計で85〜90℃に達したことを確かめて90秒以上保ち、油を切って付け合わせを添える。"
+    ],
+    "tip": "衣の色だけでは火の通りが分からないため、中心温度も確認する。",
+    "tags": ["揚げ物", "かき", "定食"],
+    "equipment": ["揚げ鍋", "油用温度計", "中心温度計", "バット"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "kaki-fry",
+      "toppings": ["breaded-oyster", "cabbage", "lemon"]
+    }
+  },
+  {
+    "id": "r-chicken-katsu",
+    "name": "チキンカツ",
+    "description": "鶏むね肉を均一な厚さにして揚げる、食べやすいカツ。",
+    "category": "main",
+    "cuisine": "洋食",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏むね肉",
+        "amount": "120g"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "パン粉",
+        "amount": "大さじ4"
+      },
+      {
+        "name": "揚げ油",
+        "amount": "適量"
+      },
+      {
+        "name": "キャベツ",
+        "amount": "40g"
+      },
+      {
+        "name": "とんかつソース",
+        "amount": "大さじ1"
+      }
+    ],
+    "steps": [
+      "鶏肉を開いて1cmほどの厚さにそろえ、塩こしょうを振り、キャベツを千切りにする。",
+      "肉に薄力粉、溶き卵、パン粉の順で衣を付け、軽く押さえてなじませる。",
+      "170℃の油で返しながら揚げ、中心まで十分に火を通して油を切り、食べやすく切ってソースを添える。"
+    ],
+    "tip": "肉の厚い部分を薄く開いておくと、衣だけが先に焦げにくい。",
+    "tags": ["揚げ物", "鶏むね肉", "定食"],
+    "equipment": ["揚げ鍋", "温度計", "バット", "包丁"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "chicken-katsu",
+      "toppings": ["breaded-chicken", "cabbage"]
+    }
+  },
+  {
+    "id": "r-menchi-katsu",
+    "name": "メンチカツ",
+    "description": "肉と玉ねぎをこねた種をパン粉で包む、丸い揚げ物。",
+    "category": "main",
+    "cuisine": "洋食",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "合いびき肉",
+        "amount": "100g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "パン粉（肉種用）",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "牛乳",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "パン粉（衣用）",
+        "amount": "大さじ4"
+      },
+      {
+        "name": "揚げ油",
+        "amount": "適量"
+      },
+      {
+        "name": "キャベツ",
+        "amount": "40g"
+      },
+      {
+        "name": "中濃ソース",
+        "amount": "小さじ2"
+      }
+    ],
+    "steps": [
+      "玉ねぎをみじん切りにし、肉種用のパン粉を牛乳に浸し、キャベツを千切りにする。",
+      "ひき肉に塩こしょうをして粘りが出るまで混ぜ、玉ねぎと浸したパン粉を加え、平たい小判形を2個作る。",
+      "薄力粉、卵、衣用パン粉を付け、160〜170℃の油で中心まで十分に火を通して揚げ、キャベツとソースを添える。"
+    ],
+    "tip": "厚く丸めると中心が生焼けになりやすいので、厚さを1.5cm程度にそろえる。",
+    "tags": ["揚げ物", "ひき肉", "洋食"],
+    "equipment": ["揚げ鍋", "温度計", "ボウル", "バット"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "menchi-katsu",
+      "toppings": ["croquette", "cabbage"]
+    }
+  },
+  {
+    "id": "r-kani-cream-croquette",
+    "name": "カニクリームコロッケ",
+    "description": "かに入りのホワイトソースを冷やし固め、衣で包んで揚げる。",
+    "category": "main",
+    "cuisine": "洋食",
+    "difficulty": 3,
+    "rarity": "special",
+    "minutes": 100,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "かに缶（汁を切る）",
+        "amount": "40g"
+      },
+      {
+        "name": "玉ねぎ",
+        "amount": "30g"
+      },
+      {
+        "name": "バター",
+        "amount": "10g"
+      },
+      {
+        "name": "薄力粉（ソース用）",
+        "amount": "大さじ1と1/2"
+      },
+      {
+        "name": "牛乳",
+        "amount": "100ml"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "薄力粉（衣用）",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "パン粉",
+        "amount": "大さじ4"
+      },
+      {
+        "name": "揚げ油",
+        "amount": "適量"
+      },
+      {
+        "name": "キャベツ",
+        "amount": "30g"
+      }
+    ],
+    "steps": [
+      "みじん切りの玉ねぎをバターで炒め、ソース用の薄力粉を加えて粉っぽさが消えるまで混ぜる。",
+      "牛乳を数回に分けて加えて練り、かにと塩こしょうを混ぜてバットに広げ、粗熱を取って冷蔵庫で1時間ほど冷やす。",
+      "固まった種を小さな俵形2個にし、衣用の粉、卵、パン粉をすき間なく付ける。",
+      "170〜180℃の油で衣が色づくまで揚げて油を切り、千切りキャベツを添える。"
+    ],
+    "tip": "種が軟らかいまま成形せず、扱える固さになるまでしっかり冷やす。",
+    "tags": ["揚げ物", "かに", "洋食"],
+    "equipment": ["鍋", "揚げ鍋", "温度計", "バット", "冷蔵庫"],
+    "reward": 70,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "cream-croquette",
+      "toppings": ["croquette", "cabbage"]
+    }
+  },
+  {
+    "id": "r-shrimp-tempura",
+    "name": "えびの天ぷら",
+    "description": "薄い衣を付けたえびを手早く揚げ、天つゆで食べる。",
+    "category": "main",
+    "cuisine": "和風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "殻付きえび",
+        "amount": "4尾"
+      },
+      {
+        "name": "天ぷら粉",
+        "amount": "30g"
+      },
+      {
+        "name": "冷水",
+        "amount": "45ml（粉の表示を優先）"
+      },
+      {
+        "name": "揚げ油",
+        "amount": "適量"
+      },
+      {
+        "name": "大根",
+        "amount": "30g"
+      },
+      {
+        "name": "しょうが",
+        "amount": "少々"
+      },
+      {
+        "name": "天つゆ",
+        "amount": "50ml"
+      }
+    ],
+    "steps": [
+      "えびの尾を残して殻と背わたを除き、尾先を切って水分をしごき出し、身の水分もよく拭く。",
+      "えびの腹側に浅い切り込みを入れて伸ばし、天ぷら粉を少量まぶしてから残りの粉を冷水で溶く。",
+      "えびを衣にくぐらせて170〜180℃の油で中心まで火を通し、すりおろした大根としょうが、天つゆを添える。"
+    ],
+    "tip": "えびを一度に入れすぎず、油の温度が大きく下がらないようにする。",
+    "tags": ["天ぷら", "えび", "和食"],
+    "equipment": ["揚げ鍋", "温度計", "ボウル", "おろし器"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "shrimp-tempura",
+      "toppings": ["tempura-shrimp", "grated-daikon"]
+    }
+  },
+  {
+    "id": "r-vegetable-kakiage",
+    "name": "野菜かき揚げ",
+    "description": "細切りの野菜を小さくまとめ、軽い衣で揚げる。",
+    "category": "main",
+    "cuisine": "和風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "玉ねぎ",
+        "amount": "1/4個"
+      },
+      {
+        "name": "にんじん",
+        "amount": "30g"
+      },
+      {
+        "name": "ごぼう",
+        "amount": "30g"
+      },
+      {
+        "name": "三つ葉",
+        "amount": "3本"
+      },
+      {
+        "name": "天ぷら粉",
+        "amount": "40g"
+      },
+      {
+        "name": "冷水",
+        "amount": "50ml（粉の表示を優先）"
+      },
+      {
+        "name": "揚げ油",
+        "amount": "適量"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "玉ねぎとにんじんを細切り、ごぼうをささがき、三つ葉を短く切り、野菜の水分をよく拭く。",
+      "野菜に天ぷら粉小さじ2をまぶし、残りの粉と冷水を混ぜた衣を加えて軽く合わせる。",
+      "小さめのお玉で薄くまとめて170℃の油に入れ、両面を揚げて野菜に火を通し、油を切って塩を添える。"
+    ],
+    "tip": "厚く重ねず、小さく平たい形にすると中の衣まで火が通りやすい。",
+    "tags": ["天ぷら", "野菜", "和食"],
+    "equipment": ["揚げ鍋", "温度計", "ボウル", "お玉"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "kakiage",
+      "toppings": ["kakiage", "carrot", "onion"]
+    }
+  },
+  {
+    "id": "r-toriten",
+    "name": "とり天",
+    "description": "しょうゆとしょうがで下味を付けた鶏肉の天ぷら。",
+    "category": "main",
+    "cuisine": "和風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏むね肉",
+        "amount": "120g"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "酒",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "おろししょうが",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "天ぷら粉",
+        "amount": "40g"
+      },
+      {
+        "name": "冷水",
+        "amount": "60ml（粉の表示を優先）"
+      },
+      {
+        "name": "揚げ油",
+        "amount": "適量"
+      },
+      {
+        "name": "ぽん酢",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "練りからし",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "鶏肉を厚さ1cmほどのそぎ切りにし、しょうゆ、酒、しょうがをもみ込んで10分置く。",
+      "鶏肉の余分な汁気を拭き、天ぷら粉と冷水を混ぜた衣にくぐらせる。",
+      "170℃の油で返しながら揚げ、鶏肉の中心まで十分に火を通して油を切り、ぽん酢とからしを添える。"
+    ],
+    "tip": "下味の汁をしっかり切ると、衣がはがれにくくなる。",
+    "tags": ["天ぷら", "鶏むね肉", "郷土料理"],
+    "equipment": ["揚げ鍋", "温度計", "ボウル", "バット"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "chicken-tempura",
+      "toppings": ["tempura-chicken"]
+    }
+  },
+  {
+    "id": "r-tonpei-yaki",
+    "name": "とん平焼き",
+    "description": "炒めた豚肉とキャベツを薄焼き卵で包む鉄板料理。",
+    "category": "main",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "豚バラ薄切り肉",
+        "amount": "60g"
+      },
+      {
+        "name": "キャベツ",
+        "amount": "80g"
+      },
+      {
+        "name": "卵",
+        "amount": "2個"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "お好み焼きソース",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "マヨネーズ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "青のり",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "豚肉を短く切り、キャベツを千切りにし、卵をボウルで溶く。",
+      "フライパンで豚肉を十分に炒め、キャベツを加えてしんなりさせ、塩こしょうをして取り出す。",
+      "フライパンを拭いて油を熱し、卵を広げて火を通して具をのせ、折り畳んで皿に移しソースなどをかける。"
+    ],
+    "tip": "具から出た水分を飛ばしておくと、卵で包みやすくなる。",
+    "tags": ["卵料理", "豚肉", "鉄板焼き"],
+    "equipment": ["フライパン", "ボウル", "フライ返し", "包丁"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "omelet",
+      "toppings": ["egg", "pork", "cabbage"]
+    }
+  },
+  {
+    "id": "r-monjayaki",
+    "name": "もんじゃ焼き",
+    "description": "細かい具とさらりとした生地を薄く焼く、東京の粉もの。",
+    "category": "main",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "キャベツ",
+        "amount": "100g"
+      },
+      {
+        "name": "豚バラ薄切り肉",
+        "amount": "50g"
+      },
+      {
+        "name": "天かす",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "桜えび",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "20g"
+      },
+      {
+        "name": "だし汁",
+        "amount": "200ml"
+      },
+      {
+        "name": "ウスターソース",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "青のり",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "キャベツと豚肉を細かく切り、薄力粉、だし汁、ウスターソースをダマがなくなるまで混ぜる。",
+      "ホットプレートに油を熱して豚肉を十分に炒め、キャベツ、天かす、桜えびを加えて輪に広げる。",
+      "輪の内側に生地を少しずつ注ぎ、とろみが出たら全体を混ぜ、薄く広げて底が香ばしくなるまで焼いて青のりを振る。"
+    ],
+    "tip": "生地は一度に流し込まず、具の土手からあふれない量ずつ入れる。",
+    "tags": ["粉もの", "鉄板焼き", "郷土料理"],
+    "equipment": ["ホットプレート", "ボウル", "へら", "包丁"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "monjayaki",
+      "toppings": ["cabbage", "pork", "dried-shrimp"]
+    }
+  },
+  {
+    "id": "r-takoyaki",
+    "name": "たこ焼き",
+    "description": "だし入りの生地にたこを入れて丸く焼き上げる。",
+    "category": "main",
+    "cuisine": "和風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "薄力粉",
+        "amount": "40g"
+      },
+      {
+        "name": "だし汁",
+        "amount": "150ml"
+      },
+      {
+        "name": "溶き卵",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "ゆでだこ",
+        "amount": "50g"
+      },
+      {
+        "name": "小ねぎ",
+        "amount": "1本"
+      },
+      {
+        "name": "紅しょうが",
+        "amount": "5g"
+      },
+      {
+        "name": "天かす",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "たこ焼きソース",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "マヨネーズ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "かつお節",
+        "amount": "1g"
+      },
+      {
+        "name": "青のり",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "たこを小さく切ってねぎと紅しょうがを刻み、薄力粉、だし汁、卵を混ぜて生地を作る。",
+      "たこ焼き器を温めて油を塗り、生地を流してたこ、薬味、天かすを加える。",
+      "縁が固まったら竹串で少しずつ返し、丸く整えながら生地の中心まで焼いてソース、マヨネーズ、かつお節、青のりをかける。"
+    ],
+    "tip": "外側が固まる前に動かさず、焼けた縁を内側へ折り込んで丸める。",
+    "tags": ["粉もの", "たこ", "鉄板焼き"],
+    "equipment": ["たこ焼き器", "ボウル", "竹串", "お玉"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "takoyaki",
+      "toppings": ["octopus", "bonito", "nori"]
+    }
+  },
+  {
+    "id": "r-saba-shioyaki",
+    "name": "さばの塩焼き",
+    "description": "塩をなじませたさばを香ばしく焼き、大根おろしを添える。",
+    "category": "main",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "さばの切り身（無塩）",
+        "amount": "1切れ"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "大根",
+        "amount": "50g"
+      },
+      {
+        "name": "すだち",
+        "amount": "1/2個"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1/2"
+      }
+    ],
+    "steps": [
+      "さばに塩を振って10分ほど置き、出てきた水分をキッチンペーパーで拭く。",
+      "魚焼きグリルを温め、さばを入れて機器の説明に沿って焼き、中心まで火を通す。",
+      "大根をすりおろして軽く水気を切り、焼いたさばに添えてすだちとしょうゆを添える。"
+    ],
+    "tip": "塩さばを使う場合は追加の塩を省き、焼く前に表面の水分を拭く。",
+    "tags": ["焼き魚", "さば", "定食"],
+    "equipment": ["魚焼きグリル", "おろし器", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "grilled-fish",
+      "toppings": ["grilled-fish", "grated-daikon", "sudachi"]
+    }
+  },
+  {
+    "id": "r-sanma-shioyaki",
+    "name": "さんまの塩焼き",
+    "description": "丸ごとのさんまを香ばしく焼く秋の定番料理。",
+    "category": "main",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "さんま（下処理済み）",
+        "amount": "1尾"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "大根",
+        "amount": "50g"
+      },
+      {
+        "name": "すだち",
+        "amount": "1/2個"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1/2"
+      }
+    ],
+    "steps": [
+      "さんまをさっと洗って腹の中まで水分を拭き、両面に塩を振って10分ほど置く。",
+      "予熱した魚焼きグリルに入れ、機器の説明に沿って焼き、厚い部分まで十分に火を通す。",
+      "大根をすりおろして軽く水気を切り、さんまと一緒に盛ってすだちとしょうゆを添える。"
+    ],
+    "tip": "グリルに入らない場合は半分に切ってから、重ならないように並べる。",
+    "tags": ["焼き魚", "さんま", "定食"],
+    "equipment": ["魚焼きグリル", "おろし器", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "whole-grilled-fish",
+      "toppings": ["whole-fish", "grated-daikon", "sudachi"]
+    }
+  },
+  {
+    "id": "r-karei-nitsuke",
+    "name": "かれいの煮付け",
+    "description": "かれいをしょうが入りの煮汁でふっくら煮る。",
+    "category": "main",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "かれいの切り身",
+        "amount": "1切れ"
+      },
+      {
+        "name": "しょうが",
+        "amount": "10g"
+      },
+      {
+        "name": "水",
+        "amount": "80ml"
+      },
+      {
+        "name": "酒",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "みりん",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "小松菜",
+        "amount": "30g"
+      }
+    ],
+    "steps": [
+      "かれいのうろこと汚れを確かめて洗い、水分を拭き、皮に浅い切り込みを入れる。",
+      "小鍋で水、酒、しょうゆ、みりん、砂糖、薄切りしょうがを煮立て、かれいを入れて落としぶたをする。",
+      "弱めの中火で10〜15分煮て中心まで火を通し、煮汁をかけて盛り、別ゆでした小松菜を添える。"
+    ],
+    "tip": "魚を何度も返さず、煮汁を上からかけると身が崩れにくい。",
+    "tags": ["煮魚", "かれい", "和食"],
+    "equipment": ["小鍋", "落としぶた", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "deep-plate",
+      "base": "main",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "karei-nitsuke",
+      "toppings": ["fish", "ginger", "greens"]
+    }
+  },
+  {
+    "id": "r-renkon-hasamiage",
+    "name": "れんこんのはさみ揚げ",
+    "description": "鶏ひき肉の種をれんこんではさみ、さくっと揚げる。",
+    "category": "main",
+    "cuisine": "和風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "れんこん",
+        "amount": "100g"
+      },
+      {
+        "name": "鶏ひき肉",
+        "amount": "70g"
+      },
+      {
+        "name": "長ねぎ",
+        "amount": "10g"
+      },
+      {
+        "name": "おろししょうが",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "酒",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "片栗粉",
+        "amount": "大さじ1と1/2"
+      },
+      {
+        "name": "揚げ油",
+        "amount": "適量"
+      },
+      {
+        "name": "ぽん酢",
+        "amount": "大さじ1"
+      }
+    ],
+    "steps": [
+      "れんこんを5mm厚さに切って水にさらし、水分を拭き、長ねぎをみじん切りにする。",
+      "鶏ひき肉にねぎ、しょうが、しょうゆ、酒、片栗粉小さじ1を混ぜ、れんこん2枚ではさむ。",
+      "残りの片栗粉を薄くまぶして170℃の油で揚げ、間の肉まで十分に火を通してぽん酢を添える。"
+    ],
+    "tip": "肉種を厚く詰めず、れんこんを軽く押して穴にもなじませる。",
+    "tags": ["揚げ物", "れんこん", "鶏ひき肉"],
+    "equipment": ["揚げ鍋", "温度計", "ボウル", "包丁"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "stuffed-lotus",
+      "toppings": ["lotus-root", "chicken"]
+    }
+  },
+  {
+    "id": "r-tebasaki-amakarage",
+    "name": "手羽先の甘辛揚げ",
+    "description": "揚げた手羽先に甘辛だれとごまをからめる。",
+    "category": "main",
+    "cuisine": "和風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 35,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏手羽先",
+        "amount": "3本"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "こしょう",
+        "amount": "少々"
+      },
+      {
+        "name": "片栗粉",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "揚げ油",
+        "amount": "適量"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "みりん",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "白ごま",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "手羽先の水分を拭き、厚い部分の骨に沿って切り込みを入れ、塩こしょうと片栗粉をまぶす。",
+      "160〜170℃の油で返しながら揚げ、骨の近くまで十分に火を通す。",
+      "別の小鍋でしょうゆ、みりん、砂糖、水を煮立てて少し煮詰め、揚げた手羽先と白ごまをからめる。"
+    ],
+    "tip": "骨付き肉は火が通るのに時間がかかるため、厚い部分を必ず確かめる。",
+    "tags": ["揚げ物", "手羽先", "甘辛だれ"],
+    "equipment": ["揚げ鍋", "温度計", "小鍋", "包丁"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "main",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "chicken-wings",
+      "toppings": ["chicken-wings", "sesame"]
+    }
+  },
+  {
+    "id": "r-chicken-jibuni",
+    "name": "鶏の治部煮風",
+    "description": "粉をまぶした鶏肉を野菜や麩と煮て、とろみを付ける。",
+    "category": "main",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "鶏もも肉",
+        "amount": "100g"
+      },
+      {
+        "name": "生麩",
+        "amount": "30g"
+      },
+      {
+        "name": "しいたけ",
+        "amount": "2個"
+      },
+      {
+        "name": "ほうれん草",
+        "amount": "30g"
+      },
+      {
+        "name": "薄力粉",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "だし汁",
+        "amount": "180ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "酒",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "練りわさび",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "鶏肉を薄めのそぎ切りにし、生麩としいたけを食べやすく切り、ほうれん草を別ゆでして切る。",
+      "鍋でだし汁、しょうゆ、みりん、酒を煮立て、しいたけと生麩を入れて数分煮る。",
+      "鶏肉に薄力粉を薄くまぶして一枚ずつ加え、中心まで十分に煮てとろみを付け、ほうれん草とわさびを添える。"
+    ],
+    "tip": "鶏肉を入れてすぐにかき混ぜず、表面の粉が固まるまで待つ。",
+    "tags": ["煮物", "鶏肉", "郷土料理"],
+    "equipment": ["鍋", "バット", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "deep-plate",
+      "base": "main",
+      "colors": ["#b27835", "#e7d9ad", "#34704b", "#c65e3b"],
+      "garnish": [],
+      "motif": "chicken-jibuni",
+      "toppings": ["chicken", "namafu", "mushroom", "greens"]
+    }
+  },
+  {
+    "id": "r-unohana",
+    "name": "卯の花",
+    "description": "おからに野菜とだしを含ませて、しっとり炒り煮にする。",
+    "category": "side",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "生おから",
+        "amount": "60g"
+      },
+      {
+        "name": "にんじん",
+        "amount": "20g"
+      },
+      {
+        "name": "しいたけ",
+        "amount": "1個"
+      },
+      {
+        "name": "油揚げ",
+        "amount": "1/4枚"
+      },
+      {
+        "name": "小ねぎ",
+        "amount": "1本"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "だし汁",
+        "amount": "100ml"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1"
+      }
+    ],
+    "steps": [
+      "にんじんとしいたけを細かく切り、油揚げを短冊切り、小ねぎを小口切りにする。",
+      "鍋に油を熱してにんじん、しいたけ、油揚げを炒め、おからを加えてほぐす。",
+      "だし汁と調味料を加え、焦がさないよう混ぜながら10分ほど炒り煮にして、小ねぎを混ぜる。"
+    ],
+    "tip": "おからの水分量によって仕上がりが違うため、乾く場合はだしを少し足す。",
+    "tags": ["おから", "炒り煮", "作り置き"],
+    "equipment": ["包丁", "まな板", "鍋"],
+    "reward": 20,
+    "art": {
+      "vessel": "deep-plate",
+      "base": "salad",
+      "colors": ["#e4d5af", "#b17740", "#397345", "#cb663e"],
+      "garnish": [],
+      "motif": "unohana",
+      "toppings": ["okara", "carrot", "mushroom", "scallion"]
+    }
+  },
+  {
+    "id": "r-kohaku-namasu",
+    "name": "紅白なます",
+    "description": "大根とにんじんを甘酢で和える、さっぱりした副菜。",
+    "category": "side",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 25,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "大根",
+        "amount": "100g"
+      },
+      {
+        "name": "にんじん",
+        "amount": "20g"
+      },
+      {
+        "name": "塩",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "酢",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "ゆずの皮",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "大根とにんじんを同じ長さの細切りにし、塩をまぶして10分ほど置く。",
+      "別のボウルで酢、砂糖、水を混ぜ、砂糖を十分に溶かす。",
+      "野菜の水気をしっかり絞って甘酢で和え、細く切ったゆずの皮を加えてなじませる。"
+    ],
+    "tip": "にんじんを大根より少なくすると、紅白の色合いがきれいに出る。",
+    "tags": ["酢の物", "大根", "おせち"],
+    "equipment": ["ボウル", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "salad",
+      "colors": ["#e4d5af", "#b17740", "#397345", "#cb663e"],
+      "garnish": [],
+      "motif": "shredded-salad",
+      "toppings": ["daikon", "carrot", "yuzu"]
+    }
+  },
+  {
+    "id": "r-tazukuri",
+    "name": "田作り",
+    "description": "乾燥した小いわしをから炒りし、照りのある甘辛だれでまとめる。",
+    "category": "side",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "田作り用ごまめ",
+        "amount": "20g"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "水",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "白ごま",
+        "amount": "小さじ1/2"
+      }
+    ],
+    "steps": [
+      "フライパンにごまめを入れ、弱火で焦がさないようにから炒りして、一本冷まして折れる程度に乾かす。",
+      "ごまめを取り出し、フライパンにしょうゆ、みりん、砂糖、水を入れてとろみが出るまで煮詰める。",
+      "火を止めてごまめとごまを手早くからめ、オーブンシートに広げて冷ます。"
+    ],
+    "tip": "たれは冷めると固くなるので、煮詰めすぎる前に火を止める。",
+    "tags": ["小魚", "おせち", "甘辛だれ"],
+    "equipment": ["フライパン", "へら", "バット", "オーブンシート"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "salad",
+      "colors": ["#e4d5af", "#b17740", "#397345", "#cb663e"],
+      "garnish": [],
+      "motif": "small-fish",
+      "toppings": ["small-fish", "sesame"]
+    }
+  },
+  {
+    "id": "r-kuromame",
+    "name": "黒豆",
+    "description": "乾燥黒豆をゆっくり戻し、弱火でふっくら甘く煮る。",
+    "category": "side",
+    "cuisine": "和風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 720,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "乾燥黒豆",
+        "amount": "30g"
+      },
+      {
+        "name": "水",
+        "amount": "250ml（追加分は別途）"
+      },
+      {
+        "name": "砂糖",
+        "amount": "25g"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "塩",
+        "amount": "ひとつまみ"
+      }
+    ],
+    "steps": [
+      "黒豆を洗い、鍋に水、砂糖、しょうゆ、塩を沸かして火を止め、豆を入れて8時間ほど浸す。",
+      "浸し汁ごと弱火にかけ、あくを取りながら落としぶたをし、2〜3時間を目安に軟らかくなるまで煮る。",
+      "豆が煮汁から出ないよう途中で湯を足し、指でつぶせる軟らかさになったら火を止め、煮汁ごと冷ます。"
+    ],
+    "tip": "煮ている間も冷ます間も、豆を煮汁に浸しておくとしわが寄りにくい。",
+    "tags": ["豆料理", "おせち", "甘煮"],
+    "equipment": ["小鍋", "落としぶた", "ざる", "お玉"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "salad",
+      "colors": ["#302a2e", "#6c4b40", "#ab814e"],
+      "garnish": [],
+      "motif": "simmered-beans",
+      "toppings": ["black-beans"]
+    }
+  },
+  {
+    "id": "r-datemaki",
+    "name": "伊達巻",
+    "description": "卵とはんぺんの生地を甘く焼き、巻いて形を付ける。",
+    "category": "side",
+    "cuisine": "和風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 45,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "卵",
+        "amount": "2個"
+      },
+      {
+        "name": "はんぺん",
+        "amount": "40g"
+      },
+      {
+        "name": "砂糖",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "少々"
+      },
+      {
+        "name": "サラダ油",
+        "amount": "小さじ1/2"
+      }
+    ],
+    "steps": [
+      "卵、ちぎったはんぺん、砂糖、みりん、しょうゆをミキサーでなめらかになるまで混ぜる。",
+      "油を薄く塗った小さなフライパンに流し、ふたをして弱火で焼き、表面が固まったら返して中まで火を通す。",
+      "焼き色のある面を下にして巻きすにのせ、温かいうちに巻いて固定し、冷めてから切る。"
+    ],
+    "tip": "巻く前に内側へ浅い切り込みを数本入れると、割れずに巻きやすい。",
+    "tags": ["卵料理", "おせち", "巻き物"],
+    "equipment": ["ミキサー", "小型フライパン", "ふた", "巻きす"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "salad",
+      "colors": ["#edbd43", "#c18532", "#f5daa0"],
+      "garnish": [],
+      "motif": "rolled-omelet",
+      "toppings": ["egg-roll"]
+    }
+  },
+  {
+    "id": "r-kuri-kinton",
+    "name": "栗きんとん",
+    "description": "なめらかなさつまいもあんに栗の甘露煮を合わせる。",
+    "category": "side",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 30,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "さつまいも",
+        "amount": "100g"
+      },
+      {
+        "name": "栗の甘露煮",
+        "amount": "3粒"
+      },
+      {
+        "name": "栗の甘露煮のシロップ",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "塩",
+        "amount": "ひとつまみ"
+      }
+    ],
+    "steps": [
+      "さつまいもの皮を厚めにむいて輪切りにし、水にさらしてから軟らかくゆでる。",
+      "湯を切って熱いうちにつぶし、なめらかにしたい場合はざるで裏ごしする。",
+      "鍋にいも、シロップ、砂糖、水、塩を入れて弱火で練り、栗を加えて崩さないように混ぜる。"
+    ],
+    "tip": "冷めるとあんが締まるため、少し軟らかいところで火を止める。",
+    "tags": ["さつまいも", "栗", "おせち"],
+    "equipment": ["鍋", "ざる", "へら", "包丁"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "salad",
+      "colors": ["#e9be4b", "#c79834", "#f3d77f"],
+      "garnish": [],
+      "motif": "sweet-potato-mash",
+      "toppings": ["chestnut", "sweet-potato"]
+    }
+  },
+  {
+    "id": "r-nametake",
+    "name": "なめたけ",
+    "description": "えのきをしょうゆとみりんで煮詰める、ご飯に合う小鉢。",
+    "category": "side",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "えのき",
+        "amount": "100g"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "酒",
+        "amount": "小さじ2"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "酢",
+        "amount": "小さじ1/2"
+      }
+    ],
+    "steps": [
+      "えのきの根元を切り落とし、長さを三等分してほぐす。",
+      "小鍋にえのき、しょうゆ、みりん、酒、砂糖を入れ、混ぜながら中火にかける。",
+      "えのきがしんなりして汁が出たら弱火で5分ほど煮詰め、酢を加えてひと煮立ちさせる。"
+    ],
+    "tip": "鍋底にこびりつかないよう、とろみが出たら火を弱めて混ぜる。",
+    "tags": ["きのこ", "えのき", "作り置き"],
+    "equipment": ["小鍋", "へら", "包丁", "まな板"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "salad",
+      "colors": ["#e4d5af", "#b17740", "#397345", "#cb663e"],
+      "garnish": [],
+      "motif": "mushroom-side",
+      "toppings": ["enoki"]
+    }
+  },
+  {
+    "id": "r-goma-dofu",
+    "name": "ごま豆腐",
+    "description": "練りごまとくず粉を練り上げ、冷やして固めるごまの小鉢。",
+    "category": "side",
+    "cuisine": "和風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 60,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "白練りごま",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "本くず粉",
+        "amount": "15g"
+      },
+      {
+        "name": "水",
+        "amount": "120ml"
+      },
+      {
+        "name": "塩",
+        "amount": "ひとつまみ"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "練りわさび",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "鍋にくず粉と水を入れてよく溶かし、練りごまと塩を加えてダマがなくなるまで混ぜる。",
+      "中火で絶えず混ぜ、とろみが付いたら弱火にして5〜8分ほど艶が出るまで練る。",
+      "水でぬらした小さな容器に流し、粗熱を取って冷蔵庫で30分以上冷やし固め、しょうゆとわさびを添える。"
+    ],
+    "tip": "くず粉は火にかける前に完全に溶かし、加熱中は鍋底から混ぜ続ける。",
+    "tags": ["ごま", "精進料理", "冷たい小鉢"],
+    "equipment": ["小鍋", "へら", "小型容器", "冷蔵庫"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "salad",
+      "colors": ["#e5d6b7", "#c9b991", "#4e793f"],
+      "garnish": [],
+      "motif": "tofu",
+      "toppings": ["sesame-tofu", "wasabi"]
+    }
+  },
+  {
+    "id": "r-tamago-dofu",
+    "name": "玉子豆腐",
+    "description": "卵とだしを静かに蒸し固め、冷たいつゆで食べる。",
+    "category": "side",
+    "cuisine": "和風",
+    "difficulty": 2,
+    "rarity": "rare",
+    "minutes": 70,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "卵",
+        "amount": "1個"
+      },
+      {
+        "name": "だし汁（卵液用）",
+        "amount": "90ml"
+      },
+      {
+        "name": "薄口しょうゆ（卵液用）",
+        "amount": "小さじ1/4"
+      },
+      {
+        "name": "塩",
+        "amount": "少々"
+      },
+      {
+        "name": "だし汁（つゆ用）",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "薄口しょうゆ（つゆ用）",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ1/2"
+      },
+      {
+        "name": "三つ葉",
+        "amount": "1本"
+      }
+    ],
+    "steps": [
+      "卵を泡立てずに溶き、卵液用のだし、しょうゆ、塩を混ぜてこし、耐熱容器に注ぐ。",
+      "蒸気の上がった蒸し器に入れ、弱火で12〜15分ほど中心まで蒸し固める。",
+      "小鍋でつゆ用のだし、しょうゆ、みりんを煮立て、卵とともに粗熱を取り、冷蔵庫で冷やして三つ葉を添える。"
+    ],
+    "tip": "強い蒸気で加熱すると穴が開きやすいため、蒸し始めたら弱火に落とす。",
+    "tags": ["卵料理", "だし", "冷たい小鉢"],
+    "equipment": ["蒸し器", "耐熱容器", "こし器", "小鍋", "冷蔵庫"],
+    "reward": 40,
+    "art": {
+      "vessel": "plate",
+      "base": "salad",
+      "colors": ["#efdc88", "#c8b470", "#4e793f"],
+      "garnish": [],
+      "motif": "tofu",
+      "toppings": ["egg-tofu", "mitsuba"]
+    }
+  },
+  {
+    "id": "r-chirimen-sansho",
+    "name": "ちりめん山椒",
+    "description": "ちりめんじゃこを実山椒と煮て、香りのよい常備菜にする。",
+    "category": "side",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 20,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "ちりめんじゃこ",
+        "amount": "30g"
+      },
+      {
+        "name": "実山椒（水煮・下処理済み）",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "酒",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "みりん",
+        "amount": "小さじ1"
+      },
+      {
+        "name": "砂糖",
+        "amount": "小さじ1/2"
+      }
+    ],
+    "steps": [
+      "ちりめんじゃこをざるに入れて熱湯をさっとかけ、水気をよく切る。",
+      "小鍋に酒、水、しょうゆ、みりん、砂糖を煮立て、じゃこと実山椒を加える。",
+      "弱火で混ぜながら煮汁がほぼなくなるまで煮て、バットに薄く広げて冷ます。"
+    ],
+    "tip": "実山椒はあく抜き済みの水煮を使い、辛さを見て量を加減する。",
+    "tags": ["小魚", "山椒", "作り置き"],
+    "equipment": ["小鍋", "ざる", "へら", "バット"],
+    "reward": 20,
+    "art": {
+      "vessel": "plate",
+      "base": "salad",
+      "colors": ["#e4d5af", "#b17740", "#397345", "#cb663e"],
+      "garnish": [],
+      "motif": "small-fish",
+      "toppings": ["whitebait", "sansho"]
+    }
+  },
+  {
+    "id": "r-asari-sakamushi",
+    "name": "あさりの酒蒸し",
+    "description": "あさりを酒で蒸し、貝から出る汁ごと楽しむ。",
+    "category": "side",
+    "cuisine": "和風",
+    "difficulty": 1,
+    "rarity": "common",
+    "minutes": 15,
+    "servings": 1,
+    "ingredients": [
+      {
+        "name": "あさり（砂抜き済み）",
+        "amount": "150g"
+      },
+      {
+        "name": "酒",
+        "amount": "大さじ2"
+      },
+      {
+        "name": "水",
+        "amount": "大さじ1"
+      },
+      {
+        "name": "小ねぎ",
+        "amount": "1本"
+      },
+      {
+        "name": "しょうゆ",
+        "amount": "少々"
+      }
+    ],
+    "steps": [
+      "あさりの殻をこすり合わせて洗い、割れた貝や触っても閉じない貝を取り除き、ねぎを刻む。",
+      "フライパンにあさり、酒、水を入れてふたをし、中火で蒸す。",
+      "殻が開いた後も全体を十分に加熱し、開かない貝を取り除いてしょうゆで味を整え、ねぎを散らす。"
+    ],
+    "tip": "あさりの塩分が出るので、しょうゆは蒸し上がってから味を見て加える。",
+    "tags": ["貝料理", "あさり", "酒蒸し"],
+    "equipment": ["フライパン", "ふた", "ざる", "包丁"],
+    "reward": 20,
+    "art": {
+      "vessel": "deep-plate",
+      "base": "salad",
+      "colors": ["#e4d5af", "#b17740", "#397345", "#cb663e"],
+      "garnish": [],
+      "motif": "clams",
+      "toppings": ["clam", "scallion"]
+    }
+  }
+]
