@@ -2,8 +2,8 @@
 
 > **開発リポジトリを移行しました**
 >
-> 最新のコード・Issue・Pull Requestは [kotek-7/mogubiyori](https://github.com/kotek-7/mogubiyori) を参照してください。
-> 今後の開発は移行先で行います。このリポジトリには移行時点の履歴を残しています。
+> 実際のデプロイに使用されているリポジトリは、 [kotek-7/mogubiyori](https://github.com/kotek-7/mogubiyori) です。
+> [260926-origin-ai-hackathon/c-team](https://github.com/260926-origin-ai-hackathon/c-team/tree/main) にも最新のコードベースは反映されています。
 
 # もぐ日和
 
