@@ -8,6 +8,7 @@ import { StarterSelection } from '../features/companions/StarterSelection'
 import { TutorialJourney } from '../features/tutorial/TutorialJourney'
 import { MealJourney } from '../features/meal/MealJourney'
 import { FeastJourney } from '../features/feast/FeastJourney'
+import { LoginBonusCelebration } from '../features/rewards/LoginBonusCelebration'
 import { PlayGuide } from '../features/tutorial/PlayGuide'
 import { transitionScene } from '../ui/journey/journeyTransition'
 import type { FeedInput, ItemKind, SpeciesId, TutorialStep } from './game/browserGame'
@@ -29,7 +30,8 @@ type Journey =
   | ({ type: 'meal'; origin: { page: Page; search: MealHistorySearch } } & MealOptions)
   | { type: 'feast'; receipt: FeedReceipt; photo?: string }
 function App() {
-  const { state, execute, error, busy, retry, dismissError } = useGameSession()
+  const { state, execute, error, busy, retry, dismissError, loginBonus, dismissLoginBonus } =
+    useGameSession()
   const router = useRouter()
   const routerNavigate = useNavigate()
   // The requested location changes before the outlet commits. Follow the
@@ -471,6 +473,15 @@ function App() {
           )}
         </AnimatePresence>
         <AnimatePresence>{toast && <Toast key={toast}>{toast}</Toast>}</AnimatePresence>
+        <AnimatePresence>
+          {!dialog && !toast && loginBonus && (
+            <LoginBonusCelebration
+              key={loginBonus.day}
+              amount={loginBonus.amount}
+              onComplete={dismissLoginBonus}
+            />
+          )}
+        </AnimatePresence>
       </div>
     </GameUiProvider>
   )

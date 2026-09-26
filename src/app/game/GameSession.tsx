@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import type { GameCommand } from '../../../shared/game/commands'
 import type { GameSnapshot } from '../../../shared/game/contracts'
+import { LOGIN_BONUS } from '../../../shared/game/game'
 import { createOperationId } from '../../lib/operationId'
 import type { DemoCommand, GameGateway } from './gameGateway'
 import { chooseLatestSnapshot } from './gameSnapshot'
@@ -10,6 +11,9 @@ import { SessionContext } from './useGameSession'
 
 function useSession(gateway: GameGateway) {
   const client = useQueryClient()
+  const [loginBonus, setLoginBonus] = useState<{ day: string; amount: number } | null>(null)
+  const announcedLoginDays = useRef(new Set<string>())
+  const dismissLoginBonus = useCallback(() => setLoginBonus(null), [])
   const key = ['game', gateway.identity] as const
   const query = useQuery({
     queryKey: key,
@@ -35,7 +39,24 @@ function useSession(gateway: GameGateway) {
       await client.cancelQueries({ queryKey: key })
       return gateway.execute(command, operationId)
     },
-    onSuccess: (result) => publish(result.snapshot),
+    onSuccess: (result, { command }) => {
+      publish(result.snapshot)
+      if (command.type === 'resetProgress' || command.type === 'debugReset') {
+        announcedLoginDays.current.clear()
+        setLoginBonus(null)
+      }
+      if (command.type !== 'claimLogin') return
+      const { state } = result.snapshot
+      // Celebrate the saved claim, including a successful retry, never an optimistic balance.
+      if (
+        state.activeId &&
+        state.claimedLoginDays.includes(state.today) &&
+        !announcedLoginDays.current.has(state.today)
+      ) {
+        announcedLoginDays.current.add(state.today)
+        setLoginBonus({ day: state.today, amount: LOGIN_BONUS })
+      }
+    },
   })
   const { mutateAsync } = mutation
   const execute = useCallback(
@@ -52,7 +73,13 @@ function useSession(gateway: GameGateway) {
       if (!gateway.demo) throw new Error('この操作はローカル体験でのみ使えます。')
       return gateway.demo(command)
     },
-    onSuccess: publish,
+    onSuccess: (snapshot, command) => {
+      publish(snapshot)
+      if (command.type === 'reset') {
+        announcedLoginDays.current.clear()
+        setLoginBonus(null)
+      }
+    },
   })
   const state = query.data?.state
   const loginAttempt = useRef('')
@@ -76,6 +103,8 @@ function useSession(gateway: GameGateway) {
   }, [client, gateway])
   return {
     state,
+    loginBonus: loginBonus?.day === state?.today ? loginBonus : null,
+    dismissLoginBonus,
     gateway,
     query,
     execute,

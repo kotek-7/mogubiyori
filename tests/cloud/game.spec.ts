@@ -32,6 +32,7 @@ async function mockCloud(page: Page, debugEnabled = false) {
   ])
   const operations = new Map<string, CommandResponse>()
   const feedRequests: CommandRequest[] = []
+  const loginRequests: CommandRequest[] = []
   const photoUploads: { operationId: string; userId: string; mime: string; bytes: Buffer }[] = []
   const photos = new Map<string, (typeof photoUploads)[number]>()
   const debugRequests: CommandRequest[] = []
@@ -46,10 +47,13 @@ async function mockCloud(page: Page, debugEnabled = false) {
   let signedOut = false
   let pendingOAuth: 'link' | 'signin' = 'link'
   let loseFeedResponse = false
+  let loseLoginResponse = false
   let debugFails = false
   let loseDebugResponse = false
   let release: (() => void) | undefined
   let hold: Promise<void> | undefined
+  let releaseLogin: (() => void) | undefined
+  let loginHold: Promise<void> | undefined
   function makeSession(id: string, anonymous: boolean) {
     const accessToken = [
       Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url'),
@@ -195,6 +199,7 @@ async function mockCloud(page: Page, debugEnabled = false) {
     if (path === '/api/game/commands') {
       const body = request.postDataJSON() as CommandRequest
       if (body.command.type === 'feed') feedRequests.push(body)
+      if (body.command.type === 'claimLogin') loginRequests.push(body)
       if (isDebugGameCommand(body.command)) {
         debugRequests.push(body)
         if (!debugEnabled) return route.fulfill({ status: 403, json: { error: 'debug_disabled' } })
@@ -231,6 +236,13 @@ async function mockCloud(page: Page, debugEnabled = false) {
           return route.fulfill({ status: 503, json: { error: 'response_lost_after_commit' } })
         }
       }
+      if (body.command.type === 'claimLogin') {
+        if (loginHold) await loginHold
+        if (loseLoginResponse) {
+          loseLoginResponse = false
+          return route.fulfill({ status: 503, json: { error: 'response_lost_after_commit' } })
+        }
+      }
       if (isDebugGameCommand(body.command) && loseDebugResponse) {
         loseDebugResponse = false
         return route.fulfill({ status: 503, json: { error: 'response_lost_after_commit' } })
@@ -250,12 +262,16 @@ async function mockCloud(page: Page, debugEnabled = false) {
     exchanges,
     loadUsers,
     feedRequests,
+    loginRequests,
     photoUploads,
     debugRequests,
     blockedExternal,
     snapshot: (id = userId) => snapshots.get(id)!,
     freshGame: () => {
       snapshots.set(userId, { state: initialGame(day), revision: 0 })
+    },
+    unclaimedLogin: () => {
+      snapshots.get(userId)!.state.claimedLoginDays = []
     },
     failSignup: (value: boolean) => {
       signupFails = value
@@ -268,6 +284,9 @@ async function mockCloud(page: Page, debugEnabled = false) {
     },
     loseFeedResponse: () => {
       loseFeedResponse = true
+    },
+    loseLoginResponse: () => {
+      loseLoginResponse = true
     },
     failDebug: (value: boolean) => {
       debugFails = value
@@ -283,6 +302,15 @@ async function mockCloud(page: Page, debugEnabled = false) {
     releaseFeed: () => {
       release?.()
       hold = undefined
+    },
+    holdLogin: () => {
+      loginHold = new Promise<void>((resolve) => {
+        releaseLogin = resolve
+      })
+    },
+    releaseLogin: () => {
+      releaseLogin?.()
+      loginHold = undefined
     },
   }
 }
@@ -304,6 +332,48 @@ async function openDebug(page: Page) {
   await expect(dialog).toBeVisible()
   return dialog
 }
+
+test('cloud login bonus waits for confirmation and retries a lost response without another award', async ({
+  page,
+}) => {
+  const cloud = await mockCloud(page)
+  cloud.unclaimedLogin()
+  cloud.holdLogin()
+  cloud.loseLoginResponse()
+  const before = cloud.snapshot().state.coins
+  const celebration = page.locator('.login-bonus-celebration')
+  await begin(page)
+  await expect.poll(() => cloud.loginRequests.length).toBe(1)
+  await expect.poll(() => cloud.snapshot().state.coins).toBe(before + 20)
+  expect(cloud.snapshot().state.claimedLoginDays).toEqual([day])
+  await expect(page.getByRole('button', { name: `コイン ${before}枚、おみせへ` })).toBeVisible()
+  await expect(celebration).toHaveCount(0)
+
+  cloud.releaseLogin()
+  await expect(page.getByRole('alert')).toContainText('保存サービスに接続できませんでした')
+  await expect(celebration).toHaveCount(0)
+  const retry = page.getByRole('button', { name: 'もう一度試す', exact: true })
+  await retry.focus()
+  await expect(retry).toBeFocused()
+  await retry.press('Enter')
+  await expect(celebration).toBeVisible()
+  await expect(celebration).toContainText('+20')
+  await expect(page.getByRole('alert')).toHaveCount(0)
+  await expect(
+    page.getByRole('button', { name: `コイン ${before + 20}枚、おみせへ` }),
+  ).toBeVisible()
+  expect(cloud.loginRequests).toHaveLength(2)
+  expect(cloud.loginRequests[1]).toEqual(cloud.loginRequests[0])
+  expect(cloud.snapshot().state.coins).toBe(before + 20)
+  expect(cloud.snapshot().state.claimedLoginDays).toEqual([day])
+
+  await page.reload()
+  await expect(page.getByRole('heading', { name: 'ひろば', exact: true })).toBeVisible()
+  await expect(celebration).toHaveCount(0)
+  expect(cloud.loginRequests).toHaveLength(2)
+  expect(cloud.snapshot().state.coins).toBe(before + 20)
+  expect(cloud.blockedExternal).toEqual([])
+})
 
 test('cloud debug changes use authenticated commands and survive reload without local saves', async ({
   page,

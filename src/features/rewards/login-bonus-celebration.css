@@ -1,0 +1,226 @@
+.login-bonus-celebration {
+  position: fixed;
+  z-index: 25;
+  top: max(96px, calc(env(safe-area-inset-top) + 76px));
+  left: 50%;
+  translate: -50% 0;
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px 16px;
+  width: min(352px, calc(100% - 32px));
+  box-sizing: border-box;
+  padding: 18px 24px 16px;
+  border: 1px solid var(--game-line);
+  border-radius: 24px;
+  background: var(--game-surface);
+  color: var(--game-ink);
+  box-shadow:
+    0 12px 36px #0000001f,
+    0 2px 8px #0000000a;
+}
+
+.login-bonus-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+}
+
+.login-bonus-halo {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--game-gold);
+  border-radius: 50%;
+  animation: login-bonus-halo 800ms 120ms ease-out both;
+}
+
+.login-bonus-coin {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border: 1px solid var(--game-gold-dark);
+  border-radius: 50%;
+  background: var(--game-gold);
+  box-shadow:
+    inset 0 0 0 4px var(--game-gold),
+    inset 0 0 0 5px #ffffffa6,
+    0 4px 0 var(--game-ink);
+  animation: login-bonus-coin-pop 750ms 100ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.login-bonus-coin > svg {
+  width: 35px;
+  height: 35px;
+}
+
+.login-bonus-spark {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  fill: var(--game-gold);
+  stroke: var(--game-ink);
+  stroke-width: 1.4;
+  animation: login-bonus-spark 1100ms 240ms ease-out both;
+}
+
+.login-bonus-spark-left {
+  top: 4px;
+  left: -4px;
+  rotate: -12deg;
+}
+
+.login-bonus-spark-right {
+  right: -4px;
+  bottom: 6px;
+  width: 22px;
+  height: 22px;
+  rotate: 14deg;
+  animation-delay: 380ms;
+}
+
+.login-bonus-copy {
+  min-width: 0;
+  padding-right: 8px;
+}
+
+.login-bonus-label {
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.login-bonus-amount {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+.login-bonus-amount strong {
+  font-size: 38px;
+  font-weight: 950;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+
+.login-bonus-amount > span {
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.login-bonus-message {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--game-muted);
+  text-align: center;
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.6;
+}
+
+.login-bonus-close {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: var(--game-muted);
+  background: transparent;
+}
+
+.login-bonus-close:hover {
+  color: var(--game-ink);
+  background: var(--game-neutral-soft);
+}
+
+.login-bonus-close:focus-visible {
+  outline-offset: -4px;
+}
+
+@keyframes login-bonus-coin-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.55) rotate(-20deg);
+  }
+  55% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.08) rotate(6deg);
+  }
+  78% {
+    transform: translateY(2px) scale(0.97) rotate(-2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes login-bonus-halo {
+  from {
+    opacity: 0.8;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes login-bonus-spark {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  35% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.7);
+  }
+}
+
+@media (max-width: 600px) {
+  .login-bonus-celebration {
+    top: max(76px, calc(env(safe-area-inset-top) + 68px));
+  }
+}
+
+@media (max-width: 360px) {
+  .login-bonus-celebration {
+    grid-template-columns: 68px minmax(0, 1fr);
+    gap: 8px 12px;
+    padding-inline: 18px;
+  }
+
+  .login-bonus-art {
+    width: 68px;
+    height: 68px;
+  }
+
+  .login-bonus-amount strong {
+    font-size: 34px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-bonus-celebration * {
+    animation: none !important;
+  }
+
+  .login-bonus-halo,
+  .login-bonus-spark {
+    display: none;
+  }
+}
