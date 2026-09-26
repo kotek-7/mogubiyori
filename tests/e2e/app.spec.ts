@@ -10,7 +10,6 @@ import {
   journey,
   navigate,
   nextDay,
-  openTutorialPhotoChoices,
   returnToPlaza,
   sampleToTable,
   selectMealRecipe,
@@ -45,8 +44,7 @@ test('each starter appears in meal practice and its choice survives reload', asy
     await chooseStarter(page, name)
     await expectFocusedScene(page, 'welcome')
     const welcome = journey(page, 'welcome')
-    const choices = await openTutorialPhotoChoices(page)
-    await choices.getByRole('button', { name: 'サンプル写真を使う', exact: true }).click()
+    await welcome.getByRole('button', { name: 'サンプル写真を使う', exact: true }).click()
     await welcome.getByRole('button', { name: 'この写真でごはんをあげる', exact: true }).click()
     await expect(welcome.locator('.tutorial-meal-world')).toHaveClass(/is-eating/)
     await expect(welcome.locator('.tutorial-pet-name')).toHaveText(name)
@@ -434,9 +432,11 @@ for (const viewport of [
     for (const scene of ['choose', 'welcome']) {
       await expect(journey(page, scene)).toBeVisible()
       await waitForSceneMotion(page)
-      const bounds = await journey(page, scene)
-        .locator(scene === 'welcome' ? '.tutorial-step-action' : '.journey-primary')
-        .boundingBox()
+      const action =
+        scene === 'welcome'
+          ? journey(page, scene).getByRole('button', { name: '今日の料理を一枚', exact: true })
+          : journey(page, scene).locator('.journey-primary')
+      const bounds = await action.boundingBox()
       expect(bounds).not.toBeNull()
       expect(bounds!.y).toBeGreaterThanOrEqual(0)
       expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(viewport.height)

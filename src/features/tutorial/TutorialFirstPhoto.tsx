@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import { Camera, ImagePlus, Utensils } from 'lucide-react'
+import { Camera, ImagePlus } from 'lucide-react'
 import { resizePhoto } from '../meal/photo'
 import { TutorialGuide } from './TutorialGuide'
 import { CameraCapture } from '../meal/CameraCapture'
-import { Sheet } from '../../ui/Sheet'
 
 export type TutorialFirstPhotoPhase = 'cooking' | 'loading' | 'photo'
 
@@ -18,7 +17,6 @@ export function TutorialFirstPhoto({
   const [photo, setPhoto] = useState<{ src: string; sample: boolean } | null>(null)
   const [error, setError] = useState('')
   const [cameraOpen, setCameraOpen] = useState(false)
-  const [sourceOpen, setSourceOpen] = useState(false)
   const library = useRef<HTMLInputElement>(null)
   const entry = useRef<HTMLButtonElement>(null)
   const preview = useRef<HTMLDivElement>(null)
@@ -44,7 +42,6 @@ export function TutorialFirstPhoto({
 
   async function selectPhoto(file: File) {
     const currentRequest = ++request.current
-    setSourceOpen(false)
     setError('')
     changePhase('loading')
     try {
@@ -61,7 +58,6 @@ export function TutorialFirstPhoto({
 
   function useSample() {
     request.current += 1
-    setSourceOpen(false)
     setError('')
     setPhoto({ src: `${import.meta.env.BASE_URL}art/tutorial/sample-curry.jpg`, sample: true })
     changePhase('photo')
@@ -92,7 +88,7 @@ export function TutorialFirstPhoto({
 
   return (
     <div className="tutorial-recipe-lab tutorial-first-photo" data-phase={phase}>
-      {!sourceOpen && fileInput}
+      {fileInput}
       {!photo && !loading ? (
         <button
           ref={entry}
@@ -100,11 +96,11 @@ export function TutorialFirstPhoto({
           className="tutorial-first-photo-preview tutorial-first-photo-entry"
           aria-label="今日の料理を一枚"
           aria-haspopup="dialog"
-          onClick={() => setSourceOpen(true)}
+          onClick={() => setCameraOpen(true)}
         >
           <Camera size={42} strokeWidth={1.5} aria-hidden="true" />
           <strong>今日の料理を一枚</strong>
-          <span>タップして写真を用意</span>
+          <span>タップして撮影</span>
         </button>
       ) : (
         <div
@@ -134,14 +130,29 @@ export function TutorialFirstPhoto({
           <button
             type="button"
             className="tutorial-first-photo-retake"
+            aria-label="料理の写真を撮り直す"
             aria-haspopup="dialog"
-            onClick={() => setSourceOpen(true)}
+            disabled={loading}
+            onClick={() => setCameraOpen(true)}
           >
-            <ImagePlus size={16} aria-hidden="true" />
-            写真を変更
+            <Camera size={16} aria-hidden="true" />
+            撮り直す
           </button>
         </div>
       )}
+      <div className="tutorial-first-photo-options">
+        <button type="button" onClick={() => library.current?.click()} disabled={loading}>
+          <ImagePlus size={18} aria-hidden="true" />
+          <span>{photo ? '写真を選び直す' : '撮った写真を選ぶ'}</span>
+        </button>
+        <button type="button" aria-label="サンプル写真を使う" onClick={useSample}>
+          <img
+            src={`${import.meta.env.BASE_URL}art/tutorial/sample-curry.jpg`}
+            alt="カレーのサンプル写真"
+          />
+          <span>サンプル写真を使う</span>
+        </button>
+      </div>
       <TutorialGuide
         action={
           photo || loading
@@ -155,42 +166,12 @@ export function TutorialFirstPhoto({
       >
         {photo
           ? 'この写真で、なかまにごはんをあげてみましょう。'
-          : '上の枠から写真を用意しましょう。写真がなくてもサンプルで試せます。'}
+          : '大きな枠をタップして撮影しましょう。撮った写真やサンプルでも試せます。'}
       </TutorialGuide>
       {error && (
         <p className="error-message tutorial-first-photo-error" role="alert">
           {error}
         </p>
-      )}
-      {sourceOpen && (
-        <Sheet
-          title="料理の写真を用意"
-          contentKey="tutorial-photo-source"
-          onClose={() => setSourceOpen(false)}
-        >
-          {fileInput}
-          <div className="tutorial-first-photo-sources">
-            <button
-              type="button"
-              disabled={loading}
-              onClick={() => {
-                setSourceOpen(false)
-                setCameraOpen(true)
-              }}
-            >
-              <Camera size={22} aria-hidden="true" />
-              料理の写真を撮る
-            </button>
-            <button type="button" onClick={() => library.current?.click()} disabled={loading}>
-              <ImagePlus size={22} aria-hidden="true" />
-              撮った写真を選ぶ
-            </button>
-            <button type="button" onClick={useSample}>
-              <Utensils size={22} aria-hidden="true" />
-              サンプル写真を使う
-            </button>
-          </div>
-        </Sheet>
       )}
       {cameraOpen && (
         <CameraCapture

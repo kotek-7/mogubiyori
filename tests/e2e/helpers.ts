@@ -41,15 +41,6 @@ export async function chooseStarter(page: Page, name = 'こむぎ') {
   await expect(journey(page, 'welcome')).toBeVisible()
 }
 
-export async function openTutorialPhotoChoices(page: Page) {
-  await journey(page, 'welcome')
-    .getByRole('button', { name: /^(今日の料理を一枚|写真を変更)$/ })
-    .click()
-  const choices = page.getByRole('dialog', { name: '料理の写真を用意', exact: true })
-  await expect(choices).toBeVisible()
-  return choices
-}
-
 export async function start(page: Page, name = 'こむぎ') {
   await chooseStarter(page, name)
   await page.getByRole('button', { name: 'チュートリアルをスキップしてひろばへ' }).click()

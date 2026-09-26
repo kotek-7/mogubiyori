@@ -38,7 +38,7 @@
   background: var(--game-neutral-soft);
 }
 .tutorial-first-photo-entry:focus-visible,
-.tutorial-first-photo-sources > button:focus-visible,
+.tutorial-first-photo-options > button:focus-visible,
 .tutorial-first-photo-retake:focus-visible {
   outline: 3px solid var(--game-action);
   outline-offset: 3px;
@@ -60,23 +60,36 @@
   color: var(--game-ink);
   font-size: 12px;
 }
-.tutorial-first-photo-sources {
+.tutorial-first-photo-options {
   display: grid;
-  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
 }
-.tutorial-first-photo-sources > button {
+.tutorial-first-photo-options > button {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  gap: 4px;
   min-height: 56px;
-  padding: 12px;
+  padding: 8px;
   border: 1px solid var(--game-line);
   border-radius: var(--game-radius-control);
   background: var(--game-surface);
   color: var(--game-ink);
   font: inherit;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.5;
+}
+.tutorial-first-photo-options > button > svg {
+  flex-shrink: 0;
+}
+.tutorial-first-photo-options img {
+  width: 64px;
+  height: 48px;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 .tutorial-first-photo-retake {
   position: absolute;

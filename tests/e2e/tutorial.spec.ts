@@ -2,13 +2,7 @@ import { expect, test } from '@playwright/test'
 import type { Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import type { GameState } from '../../src/app/game/browserGame'
-import {
-  chooseStarter,
-  journey,
-  openTutorialPhotoChoices,
-  storedGame,
-  waitForSceneMotion,
-} from './helpers'
+import { chooseStarter, journey, storedGame, waitForSceneMotion } from './helpers'
 
 const scenes = [
   'welcome',
@@ -35,12 +29,12 @@ async function expectPracticeOnly(page: Page, before: GameState) {
 
 async function firstMeal(page: Page) {
   const screen = journey(page, 'welcome')
-  await (
-    await openTutorialPhotoChoices(page)
-  )
-    .getByRole('button', { name: 'サンプル写真を使う', exact: true })
-    .click()
-  await expect(screen.getByRole('img', { name: 'サンプルのカレー写真' })).toBeVisible()
+  await screen.getByRole('button', { name: 'サンプル写真を使う', exact: true }).click()
+  await expect(
+    screen
+      .locator('.tutorial-first-photo-preview')
+      .getByRole('img', { name: 'サンプルのカレー写真' }),
+  ).toBeVisible()
   await screen.getByRole('button', { name: 'この写真でごはんをあげる', exact: true }).click()
   await expect(screen.locator('.tutorial-meal-world')).toHaveClass(/is-eating/)
   await expect(screen.locator('.tutorial-meal-world')).toHaveClass(/is-full/)
@@ -166,7 +160,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/')
 })
 
-test('eight taps reach the plaza without waiting for chapter demonstrations', async ({ page }) => {
+test('seven taps reach the plaza without waiting for chapter demonstrations', async ({ page }) => {
   await chooseStarter(page)
   const before = await storedGame(page)
   await page.evaluate(() => {
@@ -187,7 +181,7 @@ test('eight taps reach the plaza without waiting for chapter demonstrations', as
   await expect(journey(page)).toHaveCount(0)
   await expect(page.getByRole('heading', { name: 'ひろば', exact: true })).toBeVisible()
   await expect(page.getByRole('region', { name: 'ひろばのガイド', exact: true })).toBeVisible()
-  await expect(page.locator('html')).toHaveAttribute('data-tutorial-taps', '8')
+  await expect(page.locator('html')).toHaveAttribute('data-tutorial-taps', '7')
   expect((await storedGame(page)).tutorial).toEqual({
     version: 1,
     step: 4,
@@ -290,11 +284,7 @@ test('photo confirmation stays until feeding and interrupted photos reset', asyn
   const before = await storedGame(page)
   const screen = journey(page, 'welcome')
   const lesson = screen.locator('.tutorial-first-photo')
-  await (
-    await openTutorialPhotoChoices(page)
-  )
-    .getByRole('button', { name: 'サンプル写真を使う', exact: true })
-    .click()
+  await screen.getByRole('button', { name: 'サンプル写真を使う', exact: true }).click()
   await page.waitForTimeout(2000)
   await expect(lesson).toHaveAttribute('data-phase', 'photo')
   await expect(screen.locator('.tutorial-xp-panel')).toHaveCount(0)
@@ -303,11 +293,7 @@ test('photo confirmation stays until feeding and interrupted photos reset', asyn
   await expect(journey(page)).toHaveCount(0)
   await page.getByRole('button', { name: 'チュートリアルを続ける', exact: true }).click()
   await expect(lesson).toHaveAttribute('data-phase', 'cooking')
-  await (
-    await openTutorialPhotoChoices(page)
-  )
-    .getByRole('button', { name: 'サンプル写真を使う', exact: true })
-    .click()
+  await screen.getByRole('button', { name: 'サンプル写真を使う', exact: true }).click()
   await page.reload()
   await expect(lesson).toHaveAttribute('data-phase', 'cooking')
   await expect(screen.locator('.tutorial-photo img')).toHaveCount(0)
