@@ -18,6 +18,16 @@ test('debug settings stay hidden until the brand gesture or keyboard shortcut', 
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
   await start(page)
+  await page.getByRole('button', { name: '設定', exact: true }).click()
+  const settings = page.getByRole('dialog', { name: '設定', exact: true })
+  await expect(settings.getByText('おためし設定', { exact: true })).toHaveCount(0)
+  await expect(settings.getByRole('button', { name: '翌日に進む', exact: true })).toHaveCount(0)
+  await expect(
+    settings.getByRole('button', { name: '成長・出会いを体験', exact: true }),
+  ).toHaveCount(0)
+  await expect(settings.getByRole('button', { name: '進捗をリセット', exact: true })).toHaveCount(0)
+  await settings.getByRole('button', { name: '閉じる', exact: true }).click()
+  await expect(settings).toHaveCount(0)
   const brand = page.getByRole('button', { name: 'もぐ日和 ひろば', exact: true })
   await brand.click()
   await expect(debugDialog(page)).toHaveCount(0)

@@ -7,7 +7,6 @@ import { useGameSession } from '../game/useGameSession'
 import { Sheet } from '../../ui/Sheet'
 import { createOperationId } from '../../lib/operationId'
 import type { GameCommand } from '../../../shared/game/commands'
-import type { DemoCommand } from '../game/gameGateway'
 import { CompanionProfile } from '../../features/companions/CompanionProfile'
 import { MealDetail } from '../../features/album/MealDetail'
 import { ItemDetail } from '../../features/shop/ItemDetail'
@@ -48,7 +47,7 @@ export function GameDialogs({
   onRecord,
   onTutorial,
 }: Props) {
-  const { execute, demo, gateway, busy, error, dismissError } = useGameSession()
+  const { execute, gateway, busy } = useGameSession()
   const inFlight = useRef(false)
   const retryCommand = useRef<{ encoded: string; operationId: string } | null>(null)
   const isLocal = gateway.mode === 'local'
@@ -78,11 +77,7 @@ export function GameDialogs({
       },
     )
   }
-  function runDemo(command: DemoCommand, onSuccess: () => void) {
-    if (isLocal) void perform(() => demo(command), onSuccess)
-  }
   const [local, setLocal] = useState<Dialog>(dialog)
-  const [reset, setReset] = useState<'seed' | 'fresh' | null>(null)
   const [previewStage, setPreviewStage] = useState<GrowthStage | null>(null)
   function close() {
     onClose()
@@ -236,32 +231,11 @@ export function GameDialogs({
           state={state}
           busy={busy}
           isLocal={isLocal}
-          reset={reset}
-          error={error?.message}
-          onResetChange={(preset) => {
-            dismissError()
-            setReset(preset)
-          }}
           onReminderChange={(reminder) =>
             runCommand({ type: 'updateSettings', input: { reminder } })
           }
           onTutorial={onTutorial}
           onHelp={() => setLocal({ type: 'help' })}
-          onAdvanceDay={() =>
-            runDemo({ type: 'advanceDay' }, () => {
-              onToast('翌日になりました')
-              leave('room')
-            })
-          }
-          onReset={(preset) => {
-            const finishReset = () => {
-              onToast('進捗をリセットしました')
-              onNavigate('room')
-              onClose()
-            }
-            if (preset === 'fresh') runCommand({ type: 'resetProgress' }, finishReset)
-            else runDemo({ type: 'reset', preset }, finishReset)
-          }}
         />
       )
       break

@@ -31,7 +31,6 @@ async function mockCloud(page: Page, debugEnabled = false) {
   ])
   const operations = new Map<string, CommandResponse>()
   const feedRequests: CommandRequest[] = []
-  const resetRequests: CommandRequest[] = []
   const debugRequests: CommandRequest[] = []
   const authRequests: string[] = []
   const oauthRequests: OAuthRequest[] = []
@@ -44,8 +43,6 @@ async function mockCloud(page: Page, debugEnabled = false) {
   let signedOut = false
   let pendingOAuth: 'link' | 'signin' = 'link'
   let loseFeedResponse = false
-  let resetFails = false
-  let loseResetResponse = false
   let debugFails = false
   let loseDebugResponse = false
   let release: (() => void) | undefined
@@ -176,11 +173,6 @@ async function mockCloud(page: Page, debugEnabled = false) {
         if (debugFails)
           return route.fulfill({ status: 503, json: { error: 'storage_unavailable' } })
       }
-      if (body.command.type === 'resetProgress') {
-        resetRequests.push(body)
-        if (resetFails)
-          return route.fulfill({ status: 503, json: { error: 'storage_unavailable' } })
-      }
       const key = `${id}:${body.operationId}`
       let response = operations.get(key)
       if (!response) {
@@ -211,10 +203,6 @@ async function mockCloud(page: Page, debugEnabled = false) {
           return route.fulfill({ status: 503, json: { error: 'response_lost_after_commit' } })
         }
       }
-      if (body.command.type === 'resetProgress' && loseResetResponse) {
-        loseResetResponse = false
-        return route.fulfill({ status: 503, json: { error: 'response_lost_after_commit' } })
-      }
       if (isDebugGameCommand(body.command) && loseDebugResponse) {
         loseDebugResponse = false
         return route.fulfill({ status: 503, json: { error: 'response_lost_after_commit' } })
@@ -229,7 +217,6 @@ async function mockCloud(page: Page, debugEnabled = false) {
     exchanges,
     loadUsers,
     feedRequests,
-    resetRequests,
     debugRequests,
     blockedExternal,
     snapshot: (id = userId) => snapshots.get(id)!,
@@ -247,12 +234,6 @@ async function mockCloud(page: Page, debugEnabled = false) {
     },
     loseFeedResponse: () => {
       loseFeedResponse = true
-    },
-    failReset: (value: boolean) => {
-      resetFails = value
-    },
-    loseResetResponse: () => {
-      loseResetResponse = true
     },
     failDebug: (value: boolean) => {
       debugFails = value
@@ -295,6 +276,16 @@ test('cloud debug changes use authenticated commands and survive reload without 
 }) => {
   const cloud = await mockCloud(page, true)
   await begin(page)
+  await openSettings(page)
+  const settings = page.getByRole('dialog', { name: '設定', exact: true })
+  await expect(settings.getByText('おためし設定', { exact: true })).toHaveCount(0)
+  await expect(settings.getByRole('button', { name: '翌日に進む', exact: true })).toHaveCount(0)
+  await expect(
+    settings.getByRole('button', { name: '成長・出会いを体験', exact: true }),
+  ).toHaveCount(0)
+  await expect(settings.getByRole('button', { name: '進捗をリセット', exact: true })).toHaveCount(0)
+  await settings.getByRole('button', { name: '閉じる', exact: true }).click()
+  await expect(settings).toHaveCount(0)
   const dialog = await openDebug(page)
   await expect(dialog.getByText('クラウド', { exact: true })).toBeVisible()
   await dialog.getByRole('button', { name: '翌日に進む', exact: true }).click()
@@ -492,7 +483,7 @@ for (const account of ['anonymous', 'Google-linked'] as const) {
     test.setTimeout(60_000)
     test.skip(account === 'Google-linked' && process.env.E2E_GOOGLE_AUTH_ENABLED === 'false')
     if (account === 'anonymous') await page.setViewportSize({ width: 390, height: 844 })
-    const cloud = await mockCloud(page)
+    const cloud = await mockCloud(page, true)
     await begin(page)
     await saveMeal(page, 'リセット前のごはん')
     if (account === 'Google-linked') {
@@ -515,30 +506,32 @@ for (const account of ['anonymous', 'Google-linked'] as const) {
         page.getByText('Googleアカウントに連携済みです。', { exact: true }),
       ).toBeVisible()
     const authBefore = [...cloud.authRequests]
-    await expect(page.getByText('おためし設定', { exact: true })).toHaveCount(0)
-    await page.getByRole('button', { name: '進捗をリセット', exact: true }).click()
+    await page.getByRole('button', { name: '閉じる', exact: true }).click()
+    await expect(page.getByRole('dialog')).toHaveCount(0)
+    await openDebug(page)
+    await page.getByRole('button', { name: '初期状態に戻す', exact: true }).click()
     await expect(
-      page.getByRole('button', { name: '記録を消して始める', exact: true }),
+      page.getByRole('button', { name: '記録を消して置き換える', exact: true }),
     ).toBeVisible()
-    expect(cloud.resetRequests).toEqual([])
+    expect(cloud.debugRequests).toEqual([])
     if (account === 'anonymous') {
-      await page.getByRole('region', { name: '進捗リセットの確認' }).scrollIntoViewIfNeeded()
+      await page.getByRole('region', { name: 'デバッグ初期化の確認' }).scrollIntoViewIfNeeded()
       await page.screenshot({ path: test.info().outputPath('reset-confirmation-mobile.png') })
     }
     await page.getByRole('button', { name: 'やめる', exact: true }).click()
-    await expect(page.getByRole('button', { name: '記録を消して始める', exact: true })).toHaveCount(
-      0,
-    )
+    await expect(
+      page.getByRole('button', { name: '記録を消して置き換える', exact: true }),
+    ).toHaveCount(0)
     expect(cloud.snapshot()).toEqual(before)
-    expect(cloud.resetRequests).toEqual([])
+    expect(cloud.debugRequests).toEqual([])
 
-    await page.getByRole('button', { name: '進捗をリセット', exact: true }).click()
-    await page.getByRole('button', { name: '記録を消して始める', exact: true }).click()
+    await page.getByRole('button', { name: '初期状態に戻す', exact: true }).click()
+    await page.getByRole('button', { name: '記録を消して置き換える', exact: true }).click()
     await expect(
       page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true }),
     ).toBeVisible()
-    expect(cloud.resetRequests).toHaveLength(1)
-    expect(cloud.resetRequests[0].command).toEqual({ type: 'resetProgress' })
+    expect(cloud.debugRequests).toHaveLength(1)
+    expect(cloud.debugRequests[0].command).toEqual({ type: 'debugReset', preset: 'fresh' })
     expect(cloud.snapshot().state).toEqual({ ...initialGame(day), subscriptionPlan: 'premium' })
     expect(cloud.snapshot().revision).toBe(before.revision + 1)
     expect(cloud.snapshot(googleUserId)).toEqual(otherAccount)
@@ -576,28 +569,30 @@ for (const account of ['anonymous', 'Google-linked'] as const) {
 test('a failed reset keeps the existing progress and confirmation until saving succeeds', async ({
   page,
 }) => {
-  const cloud = await mockCloud(page)
+  const cloud = await mockCloud(page, true)
   await begin(page)
   await saveMeal(page, '保存しておくごはん')
   const before = structuredClone(cloud.snapshot())
-  await openSettings(page)
-  await page.getByRole('button', { name: '進捗をリセット', exact: true }).click()
-  cloud.failReset(true)
-  await page.getByRole('button', { name: '記録を消して始める', exact: true }).click()
+  await openDebug(page)
+  await page.getByRole('button', { name: '初期状態に戻す', exact: true }).click()
+  cloud.failDebug(true)
+  await page.getByRole('button', { name: '記録を消して置き換える', exact: true }).click()
   await expect(
-    page.getByRole('region', { name: '進捗リセットの確認' }).getByRole('alert'),
+    page.getByRole('dialog', { name: 'デバッグ設定', exact: true }).getByRole('alert'),
   ).toContainText('保存サービスに接続できませんでした')
-  await expect(page.getByRole('heading', { name: '設定', exact: true })).toBeVisible()
-  await expect(page.getByRole('button', { name: '記録を消して始める', exact: true })).toBeEnabled()
+  await expect(page.getByRole('heading', { name: 'デバッグ設定', exact: true })).toBeVisible()
+  await expect(
+    page.getByRole('button', { name: '記録を消して置き換える', exact: true }),
+  ).toBeEnabled()
   await expect(page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true })).toHaveCount(
     0,
   )
   expect(cloud.snapshot()).toEqual(before)
-  cloud.failReset(false)
-  await page.getByRole('button', { name: '記録を消して始める', exact: true }).click()
+  cloud.failDebug(false)
+  await page.getByRole('button', { name: '記録を消して置き換える', exact: true }).click()
   await expect(page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true })).toBeVisible()
-  expect(cloud.resetRequests).toHaveLength(2)
-  expect(cloud.resetRequests[0]).toEqual(cloud.resetRequests[1])
+  expect(cloud.debugRequests).toHaveLength(2)
+  expect(cloud.debugRequests[0]).toEqual(cloud.debugRequests[1])
   expect(cloud.snapshot().state).toEqual(initialGame(day))
   expect(cloud.snapshot().revision).toBe(before.revision + 1)
   expect(cloud.blockedExternal).toEqual([])
@@ -606,26 +601,26 @@ test('a failed reset keeps the existing progress and confirmation until saving s
 test('a lost reset response keeps the current screen and retries the same operation only once', async ({
   page,
 }) => {
-  const cloud = await mockCloud(page)
+  const cloud = await mockCloud(page, true)
   await begin(page)
   await saveMeal(page, '応答を待つごはん')
   const revision = cloud.snapshot().revision
-  await openSettings(page)
-  await page.getByRole('button', { name: '進捗をリセット', exact: true }).click()
-  cloud.loseResetResponse()
-  await page.getByRole('button', { name: '記録を消して始める', exact: true }).click()
+  await openDebug(page)
+  await page.getByRole('button', { name: '初期状態に戻す', exact: true }).click()
+  cloud.loseDebugResponse()
+  await page.getByRole('button', { name: '記録を消して置き換える', exact: true }).click()
   await expect(
-    page.getByRole('region', { name: '進捗リセットの確認' }).getByRole('alert'),
+    page.getByRole('dialog', { name: 'デバッグ設定', exact: true }).getByRole('alert'),
   ).toContainText('保存サービスに接続できませんでした')
-  await expect(page.getByRole('heading', { name: '設定', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'デバッグ設定', exact: true })).toBeVisible()
   await expect(page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true })).toHaveCount(
     0,
   )
   expect(cloud.snapshot().state).toEqual(initialGame(day))
-  await page.getByRole('button', { name: '記録を消して始める', exact: true }).click()
+  await page.getByRole('button', { name: '記録を消して置き換える', exact: true }).click()
   await expect(page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true })).toBeVisible()
-  expect(cloud.resetRequests).toHaveLength(2)
-  expect(cloud.resetRequests[0]).toEqual(cloud.resetRequests[1])
+  expect(cloud.debugRequests).toHaveLength(2)
+  expect(cloud.debugRequests[0]).toEqual(cloud.debugRequests[1])
   expect(cloud.snapshot().revision).toBe(revision + 1)
   expect(cloud.authRequests.filter((path) => path === '/auth/v1/signup')).toHaveLength(1)
   expect(cloud.blockedExternal).toEqual([])

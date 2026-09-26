@@ -159,9 +159,13 @@ export async function returnToPlaza(page: Page): Promise<string[]> {
 }
 
 export async function nextDay(page: Page) {
-  await page.getByRole('button', { name: '設定', exact: true }).click()
-  await page.getByText('おためし設定', { exact: true }).click()
-  await page.getByRole('button', { name: '翌日に進む' }).click()
+  const before = await storedGame(page)
+  await page.keyboard.press('Control+Alt+d')
+  const dialog = page.getByRole('dialog', { name: 'デバッグ設定', exact: true })
+  await expect(dialog).toBeVisible()
+  await dialog.getByRole('button', { name: '翌日に進む', exact: true }).click()
+  await expect.poll(async () => (await storedGame(page)).dayOffset).toBe(before.dayOffset + 1)
+  await dialog.getByRole('button', { name: '閉じる', exact: true }).click()
   await expect(page.getByRole('dialog')).toHaveCount(0)
 }
 

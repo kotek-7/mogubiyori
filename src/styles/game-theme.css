@@ -844,9 +844,7 @@ summary:focus-visible {
 }
 .profile-sheet p,
 .profile-sheet > small,
-.settings-note,
-.playground summary,
-.playground > p {
+.settings-note {
   color: var(--game-muted);
 }
 .help-sheet > p,

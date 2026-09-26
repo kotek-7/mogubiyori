@@ -6,14 +6,17 @@ test('resetting and choosing the same companion again awards the new game login 
 }) => {
   await page.goto('/')
   await start(page)
-  await page.getByRole('button', { name: '設定', exact: true }).click()
+  await page.keyboard.press('Control+Alt+d')
+  await expect(page.getByRole('dialog', { name: 'デバッグ設定', exact: true })).toBeVisible()
   const before = await storedGame(page)
-  await page.getByRole('button', { name: '進捗をリセット', exact: true }).click()
+  await page.getByRole('button', { name: '初期状態に戻す', exact: true }).click()
   await page.getByRole('button', { name: 'やめる', exact: true }).click()
-  await expect(page.getByRole('button', { name: '記録を消して始める', exact: true })).toHaveCount(0)
+  await expect(
+    page.getByRole('button', { name: '記録を消して置き換える', exact: true }),
+  ).toHaveCount(0)
   expect(await storedGame(page)).toEqual(before)
-  await page.getByRole('button', { name: '進捗をリセット', exact: true }).click()
-  await page.getByRole('button', { name: '記録を消して始める', exact: true }).click()
+  await page.getByRole('button', { name: '初期状態に戻す', exact: true }).click()
+  await page.getByRole('button', { name: '記録を消して置き換える', exact: true }).click()
   await start(page)
   const state = await storedGame(page)
   expect(state.activeId).toBe('komugi')

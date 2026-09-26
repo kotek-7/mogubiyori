@@ -1479,23 +1479,6 @@ body:has(dialog[open]) {
 .settings-row > svg:last-child {
   margin-left: auto;
 }
-.playground {
-  margin-top: 22px;
-}
-.playground summary {
-  font-size: 12px;
-  cursor: pointer;
-  color: #7e6d55;
-}
-.playground > p {
-  font-size: 11px;
-  color: #75634e;
-  margin: 18px 0;
-}
-.playground .secondary-button {
-  font-size: 12px;
-  min-height: 45px;
-}
 .reset-buttons {
   display: flex;
   gap: 10px;
