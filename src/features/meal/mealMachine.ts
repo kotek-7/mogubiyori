@@ -386,7 +386,7 @@ export function createMealMachine(services: MealServices) {
                 invoke: {
                   src: 'loadSample',
                   onDone: {
-                    target: 'idle',
+                    target: 'recognizing',
                     actions: [
                       assign(({ context, event }) => ({
                         ...resetPhotoSuggestions(context),

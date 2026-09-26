@@ -64,9 +64,10 @@ const plate = (): MealItem[] => [
 ]
 
 describe('meal draft workflow', () => {
-  it('waits for a sample photo and submits that image without recognition', async () => {
+  it('recognizes the loaded sample at the table and submits its image and suggested dishes', async () => {
     const sample = pending<string>()
-    const recognizeFood = vi.fn(async () => recognized())
+    const recognition = pending<FoodRecognitionResult>()
+    const recognizeFood = vi.fn(async () => recognition.promise)
     const { actor, services } = start({ loadSamplePhoto: () => sample.promise, recognizeFood })
     actor.send({ type: 'USE_SAMPLE' })
     actor.send({ type: 'NEXT' })
@@ -77,16 +78,33 @@ describe('meal draft workflow', () => {
     expect(services.submit).not.toHaveBeenCalled()
     sample.resolve('data:image/jpeg;base64,c2FtcGxl')
     await waitFor(actor, (state) =>
-      state.matches({ editing: { navigation: 'serve', media: 'idle' } }),
+      state.matches({ editing: { navigation: 'serve', media: 'recognizing' } }),
     )
+    expect(recognizeFood).toHaveBeenCalledExactlyOnceWith(
+      'data:image/jpeg;base64,c2FtcGxl',
+      expect.any(AbortSignal),
+    )
+    expect(actor.getSnapshot().can({ type: 'SUBMIT' })).toBe(true)
+    const items = [{ ...suggestMealItem('curry'), portion: 'large' as const }, plate()[2]]
+    recognition.resolve(recognized(['curry'], items))
+    await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
+    expect(actor.getSnapshot().context).toMatchObject({
+      sample: true,
+      recipeId: 'curry',
+      candidates: ['curry'],
+      recognizedItemCount: 2,
+      mealRecord: { items },
+    })
     actor.send({ type: 'SUBMIT' })
-    actor.send({ type: 'CONFIRM_SUBMIT' })
     await waitFor(actor, (state) => state.matches('committed'))
     expect(services.submit).toHaveBeenCalledExactlyOnceWith(
-      expect.objectContaining({ photo: 'data:image/jpeg;base64,c2FtcGxl' }),
+      expect.objectContaining({
+        photo: 'data:image/jpeg;base64,c2FtcGxl',
+        recipeId: 'curry',
+        mealRecord: { slot: 'unknown', source: 'home', items },
+      }),
       'operation-1',
     )
-    expect(recognizeFood).not.toHaveBeenCalled()
   })
 
   it('keeps the current photo and title when a sample fails and allows retrying', async () => {
@@ -110,7 +128,7 @@ describe('meal draft workflow', () => {
     )
     actor.send({ type: 'USE_SAMPLE' })
     await waitFor(actor, (state) =>
-      state.matches({ editing: { navigation: 'serve', media: 'idle' } }),
+      state.matches({ editing: { navigation: 'serve', media: 'recognized' } }),
     )
     expect(actor.getSnapshot().context).toMatchObject({
       photo: 'data:image/jpeg;base64,c2FtcGxl',
@@ -272,7 +290,7 @@ describe('meal draft workflow', () => {
       })
       if (replacement === 'sample') {
         actor.send({ type: 'USE_SAMPLE' })
-        await waitFor(actor, (state) => state.matches({ editing: { media: 'idle' } }))
+        await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
       } else {
         actor.send({ type: 'PHOTO_SELECTED', file: photo('second.jpg') })
         await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
@@ -388,7 +406,7 @@ describe('meal draft workflow', () => {
     const { actor } = start({ submit })
     actor.send({ type: 'USE_SAMPLE' })
     await waitFor(actor, (state) =>
-      state.matches({ editing: { navigation: 'serve', media: 'idle' } }),
+      state.matches({ editing: { navigation: 'serve', media: 'recognized' } }),
     )
     actor.send({ type: 'TITLE_CHANGED', title: 'お昼ごはん' })
     actor.send({ type: 'RECIPE_CHANGED', recipeId: 'generic-fried-rice' })
@@ -440,7 +458,7 @@ describe('meal draft workflow', () => {
     const { actor, services } = start({ createOperationId })
     actor.send({ type: 'USE_SAMPLE' })
     await waitFor(actor, (state) =>
-      state.matches({ editing: { navigation: 'serve', media: 'idle' } }),
+      state.matches({ editing: { navigation: 'serve', media: 'recognized' } }),
     )
     const draft = actor.getSnapshot().context
     actor.send({ type: 'SUBMIT' })
@@ -467,7 +485,7 @@ describe('meal draft workflow', () => {
     const { actor } = start({ submit, createOperationId })
     actor.send({ type: 'USE_SAMPLE' })
     await waitFor(actor, (state) =>
-      state.matches({ editing: { navigation: 'serve', media: 'idle' } }),
+      state.matches({ editing: { navigation: 'serve', media: 'recognized' } }),
     )
     actor.send({ type: 'SUBMIT' })
     expect(submit).not.toHaveBeenCalled()
@@ -507,7 +525,7 @@ describe('meal draft workflow', () => {
     const { actor, services } = start()
     actor.send({ type: 'USE_SAMPLE' })
     await waitFor(actor, (state) =>
-      state.matches({ editing: { navigation: 'serve', media: 'idle' } }),
+      state.matches({ editing: { navigation: 'serve', media: 'recognized' } }),
     )
     actor.send({
       type: 'RECORD_CHANGED',
@@ -659,13 +677,19 @@ describe('meal draft workflow', () => {
   })
 
   it('switches to a sample without losing an explicit recipe or accepting an old photo result', async () => {
-    const recognition = pending<FoodRecognitionResult>()
-    let signal!: AbortSignal
+    const oldRecognition = pending<FoodRecognitionResult>()
+    const sampleRecognition = pending<FoodRecognitionResult>()
+    let oldSignal!: AbortSignal
+    let sampleSignal!: AbortSignal
     const { actor } = start(
       {
-        recognizeFood: async (_photo, nextSignal) => {
-          signal = nextSignal
-          return recognition.promise
+        recognizeFood: async (image, signal) => {
+          if (image === 'photo:meal.jpg') {
+            oldSignal = signal
+            return oldRecognition.promise
+          }
+          sampleSignal = signal
+          return sampleRecognition.promise
         },
       },
       { recipeId: 'onigiri' },
@@ -674,20 +698,30 @@ describe('meal draft workflow', () => {
     await waitFor(actor, (state) => state.matches({ editing: { media: 'recognizing' } }))
     actor.send({ type: 'USE_SAMPLE' })
     await waitFor(actor, (state) =>
-      state.matches({ editing: { navigation: 'serve', media: 'idle' } }),
+      state.matches({ editing: { navigation: 'serve', media: 'recognizing' } }),
     )
-    expect(signal.aborted).toBe(true)
-    recognition.resolve(recognized(['curry']))
-    await recognition.promise
-    expect(actor.getSnapshot().matches({ editing: { navigation: 'serve', media: 'idle' } })).toBe(
-      true,
-    )
+    expect(oldSignal.aborted).toBe(true)
+    expect(sampleSignal.aborted).toBe(false)
+    oldRecognition.resolve(recognized(['curry']))
+    await oldRecognition.promise
+    expect(
+      actor.getSnapshot().matches({ editing: { navigation: 'serve', media: 'recognizing' } }),
+    ).toBe(true)
     expect(actor.getSnapshot().context).toMatchObject({
       sample: true,
       photo: 'data:image/jpeg;base64,c2FtcGxl',
       candidates: [],
       recipeId: 'onigiri',
     })
+    sampleRecognition.resolve(recognized(['generic-grilled-fish'], plate()))
+    await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
+    expect(actor.getSnapshot().context).toMatchObject({
+      sample: true,
+      recipeId: 'onigiri',
+      candidates: ['generic-grilled-fish'],
+      recognizedItemCount: 3,
+    })
+    expect(actor.getSnapshot().context.mealRecord.items.slice(1)).toEqual(plate().slice(1))
   })
 
   it('cancels a draft and its recognition without committing', async () => {
@@ -721,7 +755,7 @@ describe('meal draft workflow', () => {
     const { actor } = start({ submit })
     actor.send({ type: 'USE_SAMPLE' })
     await waitFor(actor, (state) =>
-      state.matches({ editing: { navigation: 'serve', media: 'idle' } }),
+      state.matches({ editing: { navigation: 'serve', media: 'recognized' } }),
     )
     actor.send({ type: 'TITLE_CHANGED', title: '  お昼ごはん  ' })
     actor.send({ type: 'RECIPE_CHANGED', recipeId: 'curry' })

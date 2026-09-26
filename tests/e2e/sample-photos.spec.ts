@@ -171,8 +171,10 @@ test('the sample flashes as a large camera photo and shrinks onto the plate with
   await page.emulateMedia({ reducedMotion: 'no-preference' })
   const before = await storedGame(page)
   let recognitionRequests = 0
+  let recognizedPhoto = ''
   await page.route('**/api/recognize-food', async (route) => {
     recognitionRequests += 1
+    recognizedPhoto = route.request().postDataJSON().photo
     await route.fulfill({ json: { candidates: [] } })
   })
   await page.evaluate(() => {
@@ -207,7 +209,8 @@ test('the sample flashes as a large camera photo and shrinks onto the plate with
   await expect(served).toHaveAttribute('src', report.source)
   await expect(page.getByRole('button', { name: 'こむぎにごはんをあげる' })).toBeEnabled()
   expect(await page.evaluate(() => document.documentElement.dataset.cameraRequests)).toBe('0')
-  expect(recognitionRequests).toBe(0)
+  expect(recognitionRequests).toBe(1)
+  expect(recognizedPhoto).toBe(report.source)
   expect(await storedGame(page)).toEqual(before)
 })
 

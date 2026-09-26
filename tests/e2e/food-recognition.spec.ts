@@ -633,7 +633,7 @@ test('failed, unknown and empty recognition responses still allow manually recor
   }
 })
 
-test('sample-photo play skips recognition and ignores a response for a discarded photo', async ({
+test('sample-photo play recognizes each sample and ignores responses for discarded photos', async ({
   page,
 }) => {
   const api = await mockRecognition(page)
@@ -641,22 +641,29 @@ test('sample-photo play skips recognition and ignores a response for a discarded
   await page.locator('.play-feed').click()
   await page.getByRole('button', { name: 'サンプル写真で体験する', exact: true }).click()
   await expect(journey(page, 'serve')).toBeVisible()
-  expect(api.requests).toHaveLength(0)
+  await api.waitFor(1)
+  expect(api.requests[0].request().postDataJSON().photo).toMatch(/^data:image\/jpeg;base64,/)
   await page.getByRole('button', { name: '写真にもどる', exact: true }).click()
   await uploadPhoto(page)
-  await api.waitFor(1)
+  await api.waitFor(2)
   await page.getByRole('button', { name: 'サンプル写真で体験する', exact: true }).click()
   await expect(journey(page, 'serve')).toBeVisible()
+  const latest = await api.waitFor(3)
   await api.reply(0, ['curry'])
+  await api.reply(1, ['onigiri'])
   await expect(selectedMealRecipe(page)).toHaveText('今日のごはん')
+  await api.reply(2, ['omurice'])
+  await expect(selectedMealRecipe(page)).toHaveText(
+    recipes.find((recipe) => recipe.id === 'omurice')!.name,
+  )
   expect(await storedGame(page)).toEqual(before)
-  await giveMeal(page, true)
+  await giveMeal(page)
   const saved = await storedGame(page)
   expect(saved.meals).toHaveLength(1)
-  expect(saved.meals[0].photo).toMatch(/^data:image\/jpeg;base64,/)
-  expect(saved.meals[0].recipeId).toBeUndefined()
-  expect(saved.cards).toEqual([])
-  expect(api.requests).toHaveLength(1)
+  expect(saved.meals[0].photo).toBe(latest.request().postDataJSON().photo)
+  expect(saved.meals[0].recipeId).toBe('omurice')
+  expect(saved.cards).toEqual(['omurice'])
+  expect(api.requests).toHaveLength(3)
 })
 
 test('cancelling a pending recognition keeps the save and the next meal unchanged', async ({
