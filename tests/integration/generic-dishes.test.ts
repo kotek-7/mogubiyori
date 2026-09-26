@@ -1,228 +1,27 @@
 import { describe, expect, it } from 'vitest'
 import dishSource from '../../content/meal-dishes.json' with { type: 'json' }
+import legacyDishSource from '../../content/legacy-meal-dishes.json' with { type: 'json' }
+import { recipeById } from '../../shared/content/catalog'
 import { dishCategories, genericDishById, genericDishes } from '../../shared/content/dishes'
+import { mealChoiceById, mealChoices } from '../../shared/content/mealChoices'
 import { applyGameCommand } from '../../shared/game/commands'
 import { commandResponseSchema, gameCommandSchema } from '../../shared/game/contracts'
 import { chooseStarter, feed, initialGame, shiftDay } from '../../shared/game/game'
 import { decodeGame } from '../../shared/game/stateCodec'
-import { suggestMealItem } from '../../shared/meals/analysis'
+import { dailyMealReport, suggestMealItem } from '../../shared/meals/analysis'
+import { parseFoodRecognitionResult } from '../../shared/meals/recognition'
 import { foodGroupLabels } from '../../shared/meals/types'
-
-// Published IDs and meal defaults from the catalog before the JSON-source expansion.
-const publishedDishes = `
-generic-pasta|パスタ|noodles|pasta|staple
-generic-curry|カレー|rice|curry|staple
-generic-fried-rice|チャーハン|rice|rice|staple
-generic-hamburg|ハンバーグ|meat|rice|protein
-generic-onigiri|おにぎり|rice|rice|staple
-generic-donburi|丼もの|rice|rice|staple
-generic-udon|うどん|noodles|pasta|staple
-generic-soba|そば|noodles|pasta|staple
-generic-ramen|ラーメン|noodles|pasta|staple
-generic-yakisoba|焼きそば|noodles|pasta|staple
-generic-soup|スープ|soup_hotpot|soup|
-generic-miso-soup|みそ汁|soup_hotpot|soup|
-generic-salad|サラダ|vegetables|rice|vegetable
-generic-stir-fry|炒め物|other|rice|
-generic-stew|煮物|other|soup|
-generic-grilled-fish|焼き魚|seafood|rice|protein
-generic-plain-rice|白ごはん|rice|rice|staple
-generic-brown-rice|玄米・雑穀ごはん|rice|rice|staple
-generic-omelet-rice|オムライス|rice|rice|staple,protein
-generic-hayashi-rice|ハヤシライス|rice|curry|staple,protein
-generic-keema-curry|キーマカレー|rice|curry|staple,protein
-generic-dry-curry|ドライカレー|rice|curry|staple
-generic-sushi|寿司|rice|rice|staple
-generic-chirashi-sushi|ちらし寿司|rice|rice|staple
-generic-inari-sushi|いなり寿司|rice|rice|staple,protein
-generic-sushi-roll|巻き寿司|rice|rice|staple
-generic-takikomi-rice|炊き込みごはん|rice|rice|staple
-generic-mazegohan|混ぜごはん|rice|rice|staple
-generic-pilaf|ピラフ|rice|rice|staple
-generic-risotto|リゾット|rice|rice|staple
-generic-doria|ドリア|rice|rice|staple
-generic-porridge|おかゆ|rice|rice|staple
-generic-zosui|雑炊|rice|rice|staple
-generic-ochazuke|お茶漬け|rice|rice|staple
-generic-egg-over-rice|卵かけごはん|rice|rice|staple,protein
-generic-gyudon|牛丼|rice|rice|staple,protein
-generic-oyakodon|親子丼|rice|rice|staple,protein
-generic-katsudon|カツ丼|rice|rice|staple,protein
-generic-pork-rice-bowl|豚丼|rice|rice|staple,protein
-generic-tendon|天丼|rice|rice|staple
-generic-seafood-rice-bowl|海鮮丼|rice|rice|staple,protein
-generic-eel-rice-bowl|うな丼・うな重|rice|rice|staple,protein
-generic-bibimbap|ビビンバ|rice|rice|staple,vegetable
-generic-taco-rice|タコライス|rice|rice|staple,protein,vegetable
-generic-natto-rice|納豆ごはん|rice|rice|staple,protein
-generic-mochi|餅|rice|rice|staple
-generic-somen|そうめん|noodles|pasta|staple
-generic-nyumen|にゅうめん|noodles|pasta|staple
-generic-cold-ramen|冷やし中華|noodles|pasta|staple
-generic-tsukemen|つけ麺|noodles|pasta|staple
-generic-mazesoba|まぜそば・油そば|noodles|pasta|staple
-generic-tantanmen|担々麺|noodles|pasta|staple
-generic-champon|ちゃんぽん|noodles|pasta|staple
-generic-sara-udon|皿うどん|noodles|pasta|staple
-generic-yaki-udon|焼きうどん|noodles|pasta|staple
-generic-curry-udon|カレーうどん|noodles|pasta|staple
-generic-napolitan|ナポリタン|noodles|pasta|staple
-generic-meat-sauce-pasta|ミートソースパスタ|noodles|pasta|staple,protein
-generic-carbonara|カルボナーラ|noodles|pasta|staple,protein,dairy
-generic-peperoncino|ペペロンチーノ|noodles|pasta|staple
-generic-udon-hotpot|煮込みうどん|noodles|pasta|staple
-generic-pho|フォー|noodles|pasta|staple
-generic-bifun|ビーフン|noodles|pasta|staple
-generic-bread|パン|bread|rice|staple
-generic-plain-bread|食パン・トースト|bread|rice|staple
-generic-bread-roll|ロールパン|bread|rice|staple
-generic-croissant|クロワッサン|bread|rice|staple
-generic-baguette|フランスパン|bread|rice|staple
-generic-sandwich|サンドイッチ|bread|rice|staple
-generic-hot-sandwich|ホットサンド|bread|rice|staple
-generic-hamburger|ハンバーガー|bread|rice|staple
-generic-hot-dog|ホットドッグ|bread|rice|staple,protein
-generic-pizza|ピザ|bread|rice|staple
-generic-french-toast|フレンチトースト|bread|rice|staple
-generic-pancakes|パンケーキ|bread|rice|staple
-generic-okonomiyaki|お好み焼き|bread|rice|staple,vegetable
-generic-takoyaki|たこ焼き|bread|rice|staple,protein
-generic-chijimi|チヂミ|bread|rice|staple
-generic-nikuman|肉まん|bread|rice|staple,protein
-generic-bagel|ベーグル|bread|rice|staple
-generic-cereal|シリアル|bread|rice|staple
-generic-oatmeal|オートミール|bread|rice|staple
-generic-karaage|唐揚げ|meat|rice|protein
-generic-tonkatsu|とんかつ|meat|rice|protein
-generic-chicken-katsu|チキンカツ|meat|rice|protein
-generic-menchi-katsu|メンチカツ|meat|rice|protein
-generic-korokke|コロッケ|other|rice|
-generic-gyoza|餃子|meat|rice|
-generic-shumai|焼売|meat|rice|
-generic-spring-roll|春巻き|meat|rice|
-generic-yakiniku|焼肉|meat|rice|protein
-generic-steak|ステーキ|meat|rice|protein
-generic-roast-beef|ローストビーフ|meat|rice|protein
-generic-pork-ginger|豚のしょうが焼き|meat|rice|protein
-generic-chicken-teriyaki|鶏の照り焼き|meat|rice|protein
-generic-yakitori|焼き鳥|meat|rice|protein
-generic-steamed-chicken|蒸し鶏|meat|rice|protein
-generic-bang-bang-chicken|棒棒鶏|meat|rice|protein
-generic-meatballs|肉団子|meat|rice|protein
-generic-nikujaga|肉じゃが|meat|rice|protein
-generic-pork-belly-stew|豚の角煮|meat|rice|protein
-generic-sweet-sour-pork|酢豚|meat|rice|protein
-generic-twice-cooked-pork|回鍋肉|meat|rice|protein,vegetable
-generic-pepper-steak|青椒肉絲|meat|rice|protein,vegetable
-generic-sausage|ソーセージ・ウインナー|meat|rice|protein
-generic-chicken-nanban|チキン南蛮|meat|rice|protein
-generic-meat-vegetable-stir-fry|肉野菜炒め|meat|rice|protein,vegetable
-generic-meat-saute|肉のソテー|meat|rice|protein
-generic-sashimi|刺身|seafood|rice|protein
-generic-simmered-fish|煮魚|seafood|rice|protein
-generic-saba-miso|さばのみそ煮|seafood|rice|protein
-generic-fish-teriyaki|魚の照り焼き|seafood|rice|protein
-generic-fish-meuniere|魚のムニエル|seafood|rice|protein
-generic-fish-foil-bake|魚のホイル焼き|seafood|rice|protein
-generic-fish-fry|魚のフライ|seafood|rice|protein
-generic-shrimp-fry|エビフライ|seafood|rice|protein
-generic-fried-oyster|カキフライ|seafood|rice|protein
-generic-shrimp-chili|エビチリ|seafood|rice|protein
-generic-shrimp-mayo|エビマヨ|seafood|rice|protein
-generic-carpaccio|カルパッチョ|other|rice|
-generic-seafood-nanbanzuke|魚の南蛮漬け|seafood|rice|protein
-generic-clam-sake-steam|あさりの酒蒸し|seafood|rice|protein
-generic-aquapazza|アクアパッツァ|seafood|rice|protein
-generic-ahijo|アヒージョ|other|rice|
-generic-fish-cake|かまぼこ・ちくわ|seafood|rice|protein
-generic-fried-egg|目玉焼き|egg_soy|rice|protein
-generic-rolled-omelet|卵焼き|egg_soy|rice|protein
-generic-omelet|オムレツ|egg_soy|rice|protein
-generic-scrambled-eggs|スクランブルエッグ|egg_soy|rice|protein
-generic-boiled-egg|ゆで卵|egg_soy|rice|protein
-generic-onsen-egg|温泉卵|egg_soy|rice|protein
-generic-chawanmushi|茶碗蒸し|egg_soy|soup|protein
-generic-chilled-tofu|冷ややっこ|egg_soy|rice|protein
-generic-tofu-steak|豆腐ステーキ|egg_soy|rice|protein
-generic-agedashi-tofu|揚げ出し豆腐|egg_soy|rice|protein
-generic-mapo-tofu|麻婆豆腐|egg_soy|rice|protein
-generic-natto|納豆|egg_soy|rice|protein
-generic-atsuage|厚揚げ|egg_soy|rice|protein
-generic-shiraae|白あえ|egg_soy|rice|protein
-generic-iridofu|炒り豆腐|egg_soy|rice|protein
-generic-simmered-beans|煮豆|egg_soy|rice|protein
-generic-edamame|枝豆|egg_soy|rice|protein
-generic-niratama|にら玉|egg_soy|rice|protein,vegetable
-generic-nikudofu|肉豆腐|egg_soy|rice|protein
-generic-vegetable-stir-fry|野菜炒め|vegetables|rice|vegetable
-generic-vegetable-simmer|野菜の煮物|vegetables|soup|vegetable
-generic-potato-salad|ポテトサラダ|vegetables|rice|
-generic-macaroni-salad|マカロニサラダ|vegetables|rice|staple
-generic-coleslaw|コールスロー|vegetables|rice|vegetable
-generic-ohitashi|おひたし|vegetables|rice|vegetable
-generic-gomaae|ごまあえ|vegetables|rice|vegetable
-generic-namul|ナムル|vegetables|rice|vegetable
-generic-sunomono|酢の物|other|rice|
-generic-kinpira|きんぴら|vegetables|rice|vegetable
-generic-hijiki|ひじきの煮物|vegetables|rice|vegetable
-generic-kiriboshi-daikon|切り干し大根の煮物|vegetables|rice|vegetable
-generic-pickles|漬物|vegetables|rice|vegetable
-generic-kimchi|キムチ|vegetables|rice|vegetable
-generic-ratatouille|ラタトゥイユ|vegetables|soup|vegetable
-generic-mapo-eggplant|麻婆なす|vegetables|rice|vegetable
-generic-tempura|天ぷら|other|rice|
-generic-pork-miso-soup|豚汁|soup_hotpot|soup|protein
-generic-clear-soup|お吸い物|soup_hotpot|soup|
-generic-egg-soup|卵スープ|soup_hotpot|soup|protein
-generic-corn-soup|コーンスープ|soup_hotpot|soup|
-generic-potage|ポタージュ|soup_hotpot|soup|
-generic-minestrone|ミネストローネ|soup_hotpot|soup|vegetable
-generic-cream-stew|クリームシチュー|soup_hotpot|soup|
-generic-beef-stew|ビーフシチュー|soup_hotpot|soup|protein
-generic-pot-au-feu|ポトフ|soup_hotpot|soup|vegetable
-generic-oden|おでん|soup_hotpot|soup|
-generic-hotpot|鍋料理|soup_hotpot|soup|
-generic-sukiyaki|すき焼き|soup_hotpot|soup|protein
-generic-shabu-shabu|しゃぶしゃぶ|soup_hotpot|soup|protein
-generic-kimchi-hotpot|キムチ鍋|soup_hotpot|soup|vegetable
-generic-yudofu|湯豆腐|soup_hotpot|soup|protein
-generic-gratin|グラタン|other|rice|
-generic-fruit|果物|sweets|rice|fruit
-generic-banana|バナナ|sweets|rice|fruit
-generic-apple|りんご|sweets|rice|fruit
-generic-citrus|みかん・オレンジ|sweets|rice|fruit
-generic-berries|いちご・ベリー|sweets|rice|fruit
-generic-yogurt|ヨーグルト|sweets|rice|dairy
-generic-cheese|チーズ|sweets|rice|dairy
-generic-pudding|プリン|sweets|rice|
-generic-jelly|ゼリー|sweets|rice|
-generic-ice-cream|アイスクリーム|sweets|rice|
-generic-cake|ケーキ|sweets|rice|
-generic-cookies|クッキー・ビスケット|sweets|rice|
-generic-doughnut|ドーナツ|sweets|rice|
-generic-crepe|クレープ|sweets|rice|
-generic-cream-puff|シュークリーム|sweets|rice|
-generic-dango|団子|sweets|rice|staple
-generic-daifuku|大福|sweets|rice|staple
-generic-taiyaki|たい焼き|sweets|rice|
-generic-yokan|ようかん|sweets|rice|
-generic-roasted-sweet-potato|焼きいも・ふかしいも|sweets|rice|
-generic-happosai|八宝菜|other|rice|
-generic-fried-food|揚げ物|other|rice|
-generic-steamed-food|蒸し料理|other|rice|
-generic-aemono|あえ物|other|rice|
-`.trim()
 
 const today = '2026-09-25'
 const start = () => chooseStarter(initialGame(today), 'komugi')
 
 describe('generic meal classification across commands, rewards and saves', () => {
-  it('keeps the catalog addressable with unambiguous IDs, names, aliases and valid groups', () => {
+  it('keeps a small catalog of unambiguous dish families with valid nutrition suggestions', () => {
+    expect(genericDishes).toEqual(dishSource)
+    expect(genericDishes.length).toBeGreaterThan(0)
+    expect(genericDishes.length).toBeLessThanOrEqual(50)
     expect(new Set(genericDishes.map((dish) => dish.id)).size).toBe(genericDishes.length)
     expect(new Set(genericDishes.map((dish) => dish.name)).size).toBe(genericDishes.length)
-    expect(new Set(genericDishes.map((dish) => dish.category))).toEqual(
-      new Set(Object.keys(dishCategories)),
-    )
     const names = new Map<string, string>()
     for (const dish of genericDishes) {
       expect(dish.id).toMatch(/^generic-[a-z]+(?:-[a-z]+)*$/)
@@ -246,84 +45,147 @@ describe('generic meal classification across commands, rewards and saves', () =>
     }
   })
 
-  it('preserves every published ID and its saved-meal defaults when merging the JSON catalog', () => {
-    expect(genericDishes).toEqual(dishSource)
-    for (const entry of publishedDishes.split('\n')) {
-      const [id, name, category, sample, groups] = entry.split('|')
-      expect(genericDishById(id), id).toMatchObject({
+  it('uses pasta as the selectable family while keeping concrete dishes as recipe cards', () => {
+    const pasta = genericDishes.find((dish) => dish.id === 'generic-pasta')
+    expect(pasta?.aliases).toEqual(expect.arrayContaining(['カルボナーラ', 'ペペロンチーノ']))
+    expect(pasta?.suggestedGroups).toEqual(['staple'])
+    for (const id of ['generic-carbonara', 'generic-peperoncino']) {
+      expect(genericDishes.some((dish) => dish.id === id)).toBe(false)
+      expect(mealChoices.some((choice) => choice.id === id)).toBe(false)
+      expect(genericDishById(id)).toBeDefined()
+    }
+    for (const id of ['r-carbonara', 'r-bacon-peperoncino']) {
+      expect(recipeById(id), id).toBeDefined()
+      expect(
+        mealChoices.some((choice) => choice.id === id),
         id,
-        name,
-        category,
-        sample,
-        suggestedGroups: groups ? groups.split(',') : [],
-      })
+      ).toBe(true)
     }
   })
 
-  it('keeps alternate incoming IDs attached to their existing meal classifications', () => {
-    const equivalentNames = [
-      ['generic-omelet-rice', 'オムライス', 'generic-omurice'],
-      ['generic-cold-ramen', '冷やし中華', 'generic-hiyashi-chuka'],
-      ['generic-hamburger', 'ハンバーガー', 'generic-burger'],
-      ['generic-porridge', 'おかゆ', 'generic-rice-porridge'],
-      ['generic-mazesoba', 'まぜそば・油そば', 'generic-abura-soba'],
-      ['generic-eel-rice-bowl', 'うな丼・うな重', 'generic-unadon'],
-      ['generic-pork-ginger', '豚のしょうが焼き', 'generic-shogayaki'],
-      ['generic-chicken-teriyaki', '鶏の照り焼き', 'generic-teriyaki-chicken'],
-    ] as const
-    for (const [id, name, duplicateId] of equivalentNames) {
-      expect(genericDishById(id)?.name).toBe(name)
-      expect(genericDishById(duplicateId)).toBeUndefined()
+  it('resolves every historical classification without putting retired IDs back in choices', () => {
+    const activeIds = new Set(genericDishes.map((dish) => dish.id))
+    for (const dish of legacyDishSource) {
+      expect(genericDishById(dish.id), dish.id).toBeDefined()
+      expect(mealChoiceById(dish.id), dish.id).toBeDefined()
+      if (!activeIds.has(dish.id)) {
+        expect(genericDishById(dish.id), dish.id).toEqual(dish)
+        expect(
+          mealChoices.some((choice) => choice.id === dish.id),
+          dish.id,
+        ).toBe(false)
+      }
     }
-    expect(genericDishById('generic-fried-rice')?.aliases).toContain('焼き飯')
-    expect(genericDishById('generic-hamburger')?.aliases).toContain('burger')
-    expect(genericDishById('generic-eel-rice-bowl')?.aliases).toContain('うな丼')
-    expect(genericDishById('generic-chicken-rice')?.aliases).not.toContain('チキンライス')
-    expect(genericDishById('generic-green-curry')?.aliases).not.toContain('タイカレー')
-    expect(genericDishById('generic-latte')?.aliases).not.toContain('カプチーノ')
-  })
-
-  it('offers distinct world dishes and retains broad choices for uncertain photographs', () => {
-    const choices = [
-      ['generic-biryani', 'rice'],
-      ['generic-butter-chicken', 'rice'],
-      ['generic-dosa', 'bread'],
-      ['generic-idli', 'bread'],
-      ['generic-samosa', 'other'],
-      ['generic-rice', 'rice'],
-      ['generic-dessert', 'sweets'],
-      ['generic-drink', 'drinks'],
-      ['generic-bento', 'meals'],
-      ['generic-assorted-dishes', 'meals'],
-    ] as const
-    for (const [id, category] of choices) {
-      expect(genericDishById(id), id).toMatchObject({ id, category })
-    }
-    for (const id of [
-      'generic-biryani',
-      'generic-butter-chicken',
-      'generic-dosa',
-      'generic-idli',
-      'generic-samosa',
-    ]) {
-      expect(genericDishById(id)?.artPath).toMatch(/^\/expansion\/assets\/recipes\/r-[a-z-]+\.svg$/)
+    // A family can reuse an old ID; its current name and broad suggestions take precedence.
+    for (const dish of genericDishes) {
+      expect(genericDishById(dish.id)).toEqual(dish)
+      expect(mealChoiceById(dish.id)).toEqual(dish)
     }
   })
 
-  it('keeps uncertain mixed meals and drinks free of inferred ingredient groups', () => {
+  it('filters retired specific IDs from recognition even though history can resolve them', () => {
+    const result = parseFoodRecognitionResult({
+      candidates: ['generic-carbonara', 'generic-peperoncino', 'generic-pasta', 'r-carbonara'],
+      items: [
+        {
+          name: 'カルボナーラ',
+          dishId: 'generic-carbonara',
+          groups: ['staple'],
+          portion: 'unknown',
+          groupsConfirmed: false,
+        },
+      ],
+    })
+    expect(result?.candidates).toEqual(['generic-pasta', 'r-carbonara'])
+    expect(result?.items[0]).toMatchObject({ name: 'カルボナーラ', groups: ['staple'] })
+    expect(result?.items[0]).not.toHaveProperty('dishId')
+    expect(result?.items[0]).not.toHaveProperty('recipeId')
+  })
+
+  it('restores and shares a historical carbonara meal without changing its nutrition or awarding a card', () => {
+    const command = gameCommandSchema.parse({
+      type: 'feed',
+      input: {
+        title: '昼のカルボナーラ',
+        sample: 'pasta',
+        dishId: 'generic-carbonara',
+        mealRecord: {
+          slot: 'lunch',
+          source: 'restaurant',
+          items: [
+            {
+              name: '昼のカルボナーラ',
+              dishId: 'generic-carbonara',
+              groups: ['staple', 'protein', 'dairy'],
+              portion: 'large',
+              groupsConfirmed: true,
+            },
+          ],
+        },
+      },
+    })
+    // A queued command from an older client is still accepted after the selectable catalog is simplified.
+    const result = applyGameCommand({ ...start(), visitors: ['mame'] }, command, {
+      today,
+      mealId: 'old-carbonara',
+    })
+    const response = { snapshot: { state: result.state, revision: 1 }, receipt: result.receipt }
+    expect(commandResponseSchema.parse(JSON.parse(JSON.stringify(response)))).toEqual(response)
+    const restored = decodeGame(JSON.parse(JSON.stringify(result.state)), today)
+    expect(restored).toEqual(result.state)
+    expect(restored.meals[0]).toMatchObject({
+      dishId: 'generic-carbonara',
+      title: '昼のカルボナーラ',
+      sample: 'pasta',
+      cardBonus: 0,
+    })
+    expect(restored.mealRecords?.[0].items[0]).toMatchObject({
+      dishId: 'generic-carbonara',
+      groups: ['staple', 'protein', 'dairy'],
+      portion: 'large',
+      groupsConfirmed: true,
+    })
+    expect(mealChoiceById(restored.meals[0].dishId)?.name).toBe('カルボナーラ')
+    const shared = feed(
+      restored,
+      {
+        title: '共有時の入力で置き換えない',
+        sample: 'rice',
+        dishId: 'generic-pasta',
+        targetId: 'mame',
+        mealRecordId: 'old-carbonara',
+      },
+      { mealId: 'shared-carbonara' },
+    )
+    expect(shared.meals).toHaveLength(2)
+    expect(shared.meals[0]).toMatchObject({
+      dishId: 'generic-carbonara',
+      title: '昼のカルボナーラ',
+      sample: 'pasta',
+      targetId: 'mame',
+      mealRecordId: 'old-carbonara',
+      cardBonus: 0,
+    })
+    expect(shared.mealRecords).toEqual(restored.mealRecords)
+    expect(dailyMealReport(shared.mealRecords!, today)).toEqual(
+      dailyMealReport(restored.mealRecords!, today),
+    )
+    expect(shared.cards).toEqual([])
+  })
+
+  it('leaves uncertain families without inferred ingredients and named staples unconfirmed', () => {
     for (const id of [
       'generic-dessert',
       'generic-drink',
-      'generic-bento',
-      'generic-set-meal',
       'generic-assorted-dishes',
-      'generic-thali',
-      'generic-mezze',
-      'generic-smoothie',
-      'generic-juice',
-      'generic-latte',
-      'generic-green-curry',
+      'generic-curry',
+      'generic-soup',
+      'generic-stir-fry',
     ]) {
+      expect(
+        genericDishes.some((dish) => dish.id === id),
+        id,
+      ).toBe(true)
       expect(suggestMealItem(id), id).toMatchObject({
         dishId: id,
         groups: [],
@@ -331,45 +193,17 @@ describe('generic meal classification across commands, rewards and saves', () =>
         groupsConfirmed: false,
       })
     }
-    for (const [id, groups] of [
-      ['generic-rice', ['staple']],
-      ['generic-biryani', ['staple']],
-      ['generic-dosa', ['staple']],
-      ['generic-idli', ['staple']],
-      ['generic-milk', ['dairy']],
-      ['generic-grapes', ['fruit']],
-      ['generic-roast-chicken', ['protein']],
-    ] as const) {
+    for (const id of ['generic-pasta', 'generic-rice']) {
+      expect(
+        genericDishes.some((dish) => dish.id === id),
+        id,
+      ).toBe(true)
       expect(suggestMealItem(id), id).toMatchObject({
         dishId: id,
-        groups,
+        groups: ['staple'],
         portion: 'unknown',
         groupsConfirmed: false,
       })
-    }
-  })
-
-  it('preserves the original classifications and their conservative food group suggestions', () => {
-    const legacy = [
-      ['generic-pasta', 'パスタ', ['staple']],
-      ['generic-curry', 'カレー', ['staple']],
-      ['generic-fried-rice', 'チャーハン', ['staple']],
-      ['generic-hamburg', 'ハンバーグ', ['protein']],
-      ['generic-onigiri', 'おにぎり', ['staple']],
-      ['generic-donburi', '丼もの', ['staple']],
-      ['generic-udon', 'うどん', ['staple']],
-      ['generic-soba', 'そば', ['staple']],
-      ['generic-ramen', 'ラーメン', ['staple']],
-      ['generic-yakisoba', '焼きそば', ['staple']],
-      ['generic-soup', 'スープ', []],
-      ['generic-miso-soup', 'みそ汁', []],
-      ['generic-salad', 'サラダ', ['vegetable']],
-      ['generic-stir-fry', '炒め物', []],
-      ['generic-stew', '煮物', []],
-      ['generic-grilled-fish', '焼き魚', ['protein']],
-    ] as const
-    for (const [id, name, groups] of legacy) {
-      expect(suggestMealItem(id)).toMatchObject({ dishId: id, name, groups })
     }
   })
 

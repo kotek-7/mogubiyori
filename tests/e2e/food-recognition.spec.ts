@@ -655,11 +655,44 @@ test('an ambiguous dessert suggestion remains a broad meal without guessed ingre
   await api.waitFor(1)
   await api.reply(0, ['generic-dessert'])
   await toTable(page)
-  await expect(selectedMealRecipe(page)).toHaveText('デザート')
+  await expect(selectedMealRecipe(page)).toHaveText('お菓子・デザート')
   await giveMeal(page, true)
   expect((await storedGame(page)).meals[0]).toMatchObject({
     dishId: 'generic-dessert',
     cardBonus: 0,
   })
   expect((await storedGame(page)).cards).toEqual([])
+})
+
+test('pasta variations share one dish family while their recipe cards stay distinct', async ({
+  page,
+}, testInfo) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await enablePremium(page)
+  await page.locator('.play-feed').click()
+  await sampleToTable(page)
+  await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
+  const choices = page.getByRole('group', { name: '料理の種類で選ぶ' })
+  for (const name of ['ペペロンチーノ', 'カルボナーラ']) {
+    await choices.getByRole('searchbox', { name: '料理名で検索' }).fill(name)
+    await expect(choices.getByRole('button', { name: /として記録$/ })).toHaveCount(1)
+    await expect(
+      choices.getByRole('button', { name: 'パスタとして記録', exact: true }),
+    ).toBeVisible()
+    await expect(
+      choices.getByRole('button', { name: `${name}として記録`, exact: true }),
+    ).toHaveCount(0)
+    await page.getByRole('searchbox', { name: '名前・材料で検索' }).fill(name)
+    await expect(page.locator('.recipe-collection-card').first()).toContainText(name)
+  }
+  await choices.scrollIntoViewIfNeeded()
+  await page.screenshot({ path: testInfo.outputPath('broad-pasta-family-mobile.png') })
+  await choices.getByRole('button', { name: 'パスタとして記録', exact: true }).click()
+  await expect(selectedMealRecipe(page)).toHaveText('パスタ')
+  await giveMeal(page)
+  expect((await storedGame(page)).meals[0]).toMatchObject({
+    dishId: 'generic-pasta',
+    title: 'パスタ',
+    cardBonus: 0,
+  })
 })

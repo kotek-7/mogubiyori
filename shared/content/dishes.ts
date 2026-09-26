@@ -1,4 +1,5 @@
 import dishSource from '../../content/meal-dishes.json' with { type: 'json' }
+import legacyDishSource from '../../content/legacy-meal-dishes.json' with { type: 'json' }
 import type { FoodGroup } from '../meals/types'
 
 export const dishCategories = {
@@ -33,6 +34,10 @@ export type GenericDish = {
 
 export const genericDishes = dishSource as GenericDish[]
 
+// Keep saved meals and queued commands readable without offering retired labels
+// as new picker entries or image-recognition candidates.
+const legacyDishes = legacyDishSource as GenericDish[]
+
 export function genericDishById(id?: string): GenericDish | undefined {
-  return genericDishes.find((dish) => dish.id === id)
+  return genericDishes.find((dish) => dish.id === id) ?? legacyDishes.find((dish) => dish.id === id)
 }

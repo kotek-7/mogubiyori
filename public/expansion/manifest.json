@@ -7,7 +7,7 @@
     "content/expansion/recipes/staples.json": "ced516b64c81e259c81652a231b18477bffbb12c9072504092460b8dffd84501",
     "content/expansion/recipes/mains-sides.json": "4f3b24cbb0f8d129303371afdd791d3ea875fd6c23bf8f682d64b6ac4c9af739",
     "content/expansion/recipes/everyday.json": "2fea022f2c189ce17f9c4ec5f11f9533027bb811465208f147f4ca590a646174",
-    "content/expansion/recipes/global-mains.json": "27175824253a26637f852c72b11949cad3aa97208a1c4e164726f2be57df8baa",
+    "content/expansion/recipes/global-mains.json": "29cd5c49bc82ff4d3e433c397ba230fca8b9e710d173b0d448971ac5d6aaab32",
     "content/expansion/recipes/bakery-sweets.json": "f5895e132fb83e01662818fb36450580392d06aff21888afec95930296973208",
     "content/expansion/characters.json": "cf5aaff5e91411e57be79faf2c40b08488ec91e7449d95d100edf53fcff46db4",
     "content/expansion/items.json": "f2bc8be46abd49cb4f3f6b50b1461c9cdf51f7d2aee3f0903e9dbd93f4aaf48d",
@@ -20,7 +20,7 @@
     "scripts/content/generate-companions-items.py": "740100d42af7696575aef3680e29f8094936d41c8d60dbf7f04f8ce424969a35"
   },
   "catalog": "catalog.json",
-  "sha256": "fc297e02a95e8f5cfbb5201b66ec6eaf50103494bcb88e3a36b27112c07701bd",
+  "sha256": "462ab9dbc01d69207aebad35c491abc07afd1728bb0ac6acdfd8ea37370301f2",
   "counts": {
     "recipes": 602,
     "characters": 36,
