@@ -186,6 +186,7 @@ test('seven taps reach the plaza without waiting for chapter demonstrations', as
     version: 1,
     step: 4,
     status: 'completed',
+    introSeen: true,
     homeGuide: 'meal',
   })
   await expectPracticeOnly(page, before)
@@ -209,7 +210,12 @@ test('automatic demonstrations retain each lesson and never award saved game pro
     await nextLesson(page, step - 1)
     await page.reload()
     await expect(journey(page, scenes[step])).toBeVisible()
-    expect((await storedGame(page)).tutorial).toEqual({ version: 1, step, status: 'active' })
+    expect((await storedGame(page)).tutorial).toEqual({
+      version: 1,
+      step,
+      status: 'active',
+      introSeen: true,
+    })
     await watchDemo(page, step)
     await expectPracticeOnly(page, before)
   }
@@ -259,7 +265,12 @@ test('a paused chapter restarts and completed guidance replays without changing 
     .getByRole('button', { name: 'チュートリアルをスキップしてひろばへ', exact: true })
     .click()
   await expect(journey(page)).toHaveCount(0)
-  expect((await storedGame(page)).tutorial).toEqual({ version: 1, step: 2, status: 'paused' })
+  expect((await storedGame(page)).tutorial).toEqual({
+    version: 1,
+    step: 2,
+    status: 'paused',
+    introSeen: true,
+  })
   await page.reload()
   await page.getByRole('button', { name: 'チュートリアルを続ける', exact: true }).click()
   await expectDemoStart(page, 2)

@@ -1,0 +1,283 @@
+.journey-screen[data-scene^='intro-'] {
+  padding: max(16px, env(safe-area-inset-top)) 24px max(16px, env(safe-area-inset-bottom));
+}
+
+.journey-screen[data-scene^='intro-'] .journey-heading {
+  max-width: 620px;
+  margin-top: 24px;
+}
+
+.journey-screen[data-scene^='intro-'] .journey-title {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.journey-screen[data-scene^='intro-'] .journey-content {
+  flex: 1 0 auto;
+  min-height: 0;
+  gap: 24px;
+  padding: 24px 0;
+}
+
+.concept-intro-art {
+  position: relative;
+  isolation: isolate;
+  width: min(620px, 100%);
+  aspect-ratio: 1.85;
+  overflow: hidden;
+  border-radius: 48% 48% 32% 32%;
+  background: var(--game-action-soft);
+}
+
+.concept-intro-art > .gathering-scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.concept-intro-art > .pet-art {
+  position: absolute;
+  height: auto;
+}
+
+.concept-intro-host {
+  width: 54%;
+  left: 23%;
+  bottom: 4%;
+}
+
+.concept-intro-friend {
+  width: 36%;
+  bottom: 13%;
+}
+
+.concept-intro-friend.friend-left {
+  left: 0;
+}
+
+.concept-intro-friend.friend-right {
+  right: 0;
+}
+
+.concept-intro-dish {
+  position: absolute;
+  width: 14%;
+  height: auto;
+  left: 59%;
+  bottom: 6%;
+  transform: rotate(-7deg);
+}
+
+.concept-intro-heart,
+.concept-intro-sparkles {
+  position: absolute;
+  width: 7%;
+  height: auto;
+  color: var(--game-coral);
+  top: 17%;
+  right: 27%;
+  transform: rotate(12deg);
+}
+
+.concept-intro-photo {
+  background: var(--game-neutral-soft);
+}
+
+.concept-intro-photo-card {
+  position: absolute;
+  width: 32%;
+  left: 9%;
+  top: 13%;
+  padding: 2% 2% 7%;
+  border: 1px solid var(--game-line-strong);
+  border-radius: 10px;
+  background: var(--game-surface);
+  transform: rotate(-8deg);
+}
+
+.concept-intro-photo-card img {
+  aspect-ratio: 1;
+  height: auto;
+  border-radius: 5px;
+}
+
+.concept-intro-photo-card > svg {
+  position: absolute;
+  width: 15%;
+  height: auto;
+  bottom: 5%;
+  left: 42%;
+  color: var(--game-muted);
+}
+
+.concept-intro-arrow {
+  position: absolute;
+  top: 43%;
+  left: 44%;
+  width: 9%;
+  height: auto;
+  color: var(--game-action);
+}
+
+.concept-intro-meal {
+  position: absolute;
+  width: 46%;
+  right: 0;
+  bottom: 5%;
+}
+
+.concept-intro-meal > .pet-art {
+  width: 100%;
+  height: auto;
+}
+
+.concept-intro-meal > .dish-art {
+  position: absolute;
+  width: 30%;
+  height: auto;
+  bottom: 2%;
+  left: 4%;
+  transform: rotate(6deg);
+}
+
+.concept-intro-photo .concept-intro-heart {
+  top: 16%;
+  right: 12%;
+}
+
+.concept-intro-discovery {
+  background: var(--game-sea);
+}
+
+.concept-intro-cards {
+  position: absolute;
+  top: 12%;
+  left: 39%;
+  width: 24%;
+  height: 42%;
+}
+
+.concept-intro-cards > .dish-art {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  padding: 5%;
+  border: 1px solid var(--game-line-strong);
+  border-radius: 12px;
+  background: var(--game-surface);
+  transform: translateX(-38%) rotate(-18deg);
+}
+
+.concept-intro-cards > .dish-art + .dish-art {
+  transform: translateX(38%) rotate(18deg);
+}
+
+.concept-intro-discovery .concept-intro-host {
+  width: 44%;
+  left: 28%;
+  bottom: -4%;
+}
+
+.concept-intro-discovery .concept-intro-friend {
+  bottom: 3%;
+}
+
+.concept-intro-sparkles {
+  top: 15%;
+  right: 15%;
+  color: var(--game-action);
+}
+
+.concept-intro-description {
+  max-width: 34em;
+  text-align: center;
+  text-wrap: pretty;
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--game-ink);
+}
+
+.journey-screen[data-scene^='intro-'] .journey-footer {
+  padding-top: 0;
+  gap: 10px;
+}
+
+.concept-intro-progress {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.concept-intro-progress > span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--game-line-strong);
+}
+
+.concept-intro-progress > .is-current {
+  width: 22px;
+  border-radius: 8px;
+  background: var(--game-action);
+}
+
+.concept-intro-skip {
+  min-height: 44px;
+  padding: 8px 16px;
+  color: var(--game-muted);
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+  .journey-screen[data-scene^='intro-'] {
+    padding-inline: 20px;
+  }
+
+  .journey-screen[data-scene^='intro-'] .journey-heading {
+    margin-top: 18px;
+  }
+
+  .journey-screen[data-scene^='intro-'] .journey-title {
+    font-size: clamp(24px, 6.3vw, 32px);
+    max-width: 14em;
+    margin-inline: auto;
+  }
+
+  .concept-intro-art {
+    aspect-ratio: 1.5;
+  }
+
+  .concept-intro-description {
+    font-size: 14px;
+    max-width: 25em;
+  }
+}
+
+@media (max-height: 650px) {
+  .journey-screen[data-scene^='intro-'] .journey-heading {
+    margin-top: 8px;
+  }
+
+  .journey-screen[data-scene^='intro-'] .journey-content {
+    gap: 12px;
+    padding-block: 12px;
+  }
+
+  .concept-intro-art {
+    max-width: 350px;
+    aspect-ratio: 1.85;
+  }
+
+  .journey-screen[data-scene^='intro-'] .journey-footer {
+    gap: 4px;
+  }
+
+  .journey-screen[data-scene^='intro-'] .journey-primary {
+    min-height: 48px;
+    padding-block: 10px;
+  }
+}

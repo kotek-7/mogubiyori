@@ -35,7 +35,28 @@ export async function storedGame(page: Page): Promise<GameState> {
   return page.evaluate(() => JSON.parse(localStorage.getItem('mogubiyori-v1')!))
 }
 
+export async function completeConceptIntro(page: Page) {
+  const screen = journey(page)
+  await expect(screen).toHaveAttribute(
+    'data-scene',
+    /^(intro-concept|intro-photo|intro-discovery|choose)$/,
+  )
+  for (const [scene, next] of [
+    ['intro-concept', 'intro-photo'],
+    ['intro-photo', 'intro-discovery'],
+    ['intro-discovery', 'choose'],
+  ]) {
+    if ((await screen.getAttribute('data-scene')) !== scene) continue
+    await screen
+      .getByRole('button', { name: next === 'choose' ? 'なかまを選ぶ' : 'つづける', exact: true })
+      .click()
+    await expect(journey(page, next)).toBeVisible()
+  }
+  await expect(journey(page, 'choose')).toBeVisible()
+}
+
 export async function chooseStarter(page: Page, name = 'こむぎ') {
+  await completeConceptIntro(page)
   await page.getByRole('button', { name: `${name}を選ぶ`, exact: true }).click()
   await page.getByRole('button', { name: 'この子とはじめる' }).click()
   await expect(journey(page, 'welcome')).toBeVisible()

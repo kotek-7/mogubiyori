@@ -5,6 +5,7 @@ import type { Page } from '@playwright/test'
 import {
   advanceXp,
   chooseStarter,
+  completeConceptIntro,
   enablePremium,
   feedSample,
   journey,
@@ -36,6 +37,7 @@ async function extendMealAnimationTimers(page: Page) {
 
 test('starter selection is accessible before any companion has been chosen', async ({ page }) => {
   await page.goto('/')
+  await completeConceptIntro(page)
   await page.getByRole('group', { name: '最初のなかま' }).waitFor()
   await check(page, 'starter selection')
 })

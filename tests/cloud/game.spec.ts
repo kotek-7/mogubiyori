@@ -6,7 +6,7 @@ import type { CommandRequest, CommandResponse, GameSnapshot } from '../../shared
 import { isDebugGameCommand } from '../../shared/game/debug'
 import { chooseStarter, initialGame, shiftDay } from '../../shared/game/game'
 import { canRecordMeal } from '../../shared/game/subscription'
-import { confirmUnclassifiedMeal } from '../e2e/helpers'
+import { completeConceptIntro, confirmUnclassifiedMeal } from '../e2e/helpers'
 
 const userId = '00000000-0000-4000-8000-000000000001'
 const day = '2026-09-26'
@@ -481,7 +481,9 @@ test('cloud debug replacement can be canceled and fresh reset restores the real 
   await expect.poll(() => cloud.snapshot().state.dayOffset).toBe(7)
   await dialog.getByRole('button', { name: '初期状態に戻す', exact: true }).click()
   await dialog.getByRole('button', { name: '記録を消して置き換える', exact: true }).click()
-  await expect(page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true })).toBeVisible()
+  await expect(
+    page.getByRole('heading', { name: 'きみのごはんで、なかまが育つ', exact: true }),
+  ).toBeVisible()
   expect(cloud.snapshot().state).toEqual(initialGame(day))
   expect(cloud.debugRequests.map((request) => request.command)).toEqual([
     { type: 'debugReset', preset: 'seed' },
@@ -489,7 +491,9 @@ test('cloud debug replacement can be canceled and fresh reset restores the real 
     { type: 'debugReset', preset: 'fresh' },
   ])
   await page.reload()
-  await expect(page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true })).toBeVisible()
+  await expect(
+    page.getByRole('heading', { name: 'きみのごはんで、なかまが育つ', exact: true }),
+  ).toBeVisible()
   expect(await page.evaluate(() => localStorage.getItem('mogubiyori-v1'))).toBeNull()
   expect(cloud.blockedExternal).toEqual([])
 })
@@ -508,6 +512,7 @@ test('cloud starts anonymously and a failed load never falls back to a local sta
   cloud.failLoad(true)
   await page.goto('/')
   await expect(page.getByRole('heading', { name: '記録を読み込めませんでした' })).toBeVisible()
+  await expect(page.locator('main[data-scene^="intro-"]')).toHaveCount(0)
   await expect(page.getByRole('group', { name: '最初のなかま' })).toHaveCount(0)
   expect(cloud.authRequests.filter((path) => path === '/auth/v1/signup')).toHaveLength(1)
   expect(await page.evaluate(() => localStorage.getItem('mogubiyori-v1'))).toBeNull()
@@ -645,7 +650,7 @@ for (const account of ['anonymous', 'Google-linked'] as const) {
     await page.getByRole('button', { name: '初期状態に戻す', exact: true }).click()
     await page.getByRole('button', { name: '記録を消して置き換える', exact: true }).click()
     await expect(
-      page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true }),
+      page.getByRole('heading', { name: 'きみのごはんで、なかまが育つ', exact: true }),
     ).toBeVisible()
     expect(cloud.debugRequests).toHaveLength(1)
     expect(cloud.debugRequests[0].command).toEqual({ type: 'debugReset', preset: 'fresh' })
@@ -655,12 +660,13 @@ for (const account of ['anonymous', 'Google-linked'] as const) {
     expect(cloud.authRequests).toEqual(authBefore)
     await page.reload()
     await expect(
-      page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true }),
+      page.getByRole('heading', { name: 'きみのごはんで、なかまが育つ', exact: true }),
     ).toBeVisible()
     expect(cloud.snapshot().state).toEqual({ ...initialGame(day), subscriptionPlan: 'premium' })
     expect(cloud.loadUsers.every((id) => id === userId)).toBe(true)
     expect(cloud.authRequests.filter((path) => path === '/auth/v1/signup')).toHaveLength(1)
     expect(cloud.authRequests).not.toContain('/auth/v1/logout')
+    await completeConceptIntro(page)
     await page.getByRole('button', { name: 'こむぎを選ぶ', exact: true }).click()
     await page.getByRole('button', { name: 'この子とはじめる', exact: true }).click()
     await expect(scene(page, 'welcome')).toBeVisible()
@@ -701,13 +707,15 @@ test('a failed reset keeps the existing progress and confirmation until saving s
   await expect(
     page.getByRole('button', { name: '記録を消して置き換える', exact: true }),
   ).toBeEnabled()
-  await expect(page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true })).toHaveCount(
-    0,
-  )
+  await expect(
+    page.getByRole('heading', { name: 'きみのごはんで、なかまが育つ', exact: true }),
+  ).toHaveCount(0)
   expect(cloud.snapshot()).toEqual(before)
   cloud.failDebug(false)
   await page.getByRole('button', { name: '記録を消して置き換える', exact: true }).click()
-  await expect(page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true })).toBeVisible()
+  await expect(
+    page.getByRole('heading', { name: 'きみのごはんで、なかまが育つ', exact: true }),
+  ).toBeVisible()
   expect(cloud.debugRequests).toHaveLength(2)
   expect(cloud.debugRequests[0]).toEqual(cloud.debugRequests[1])
   expect(cloud.snapshot().state).toEqual(initialGame(day))
@@ -730,12 +738,14 @@ test('a lost reset response keeps the current screen and retries the same operat
     page.getByRole('dialog', { name: 'デバッグ設定', exact: true }).getByRole('alert'),
   ).toContainText('保存サービスに接続できませんでした')
   await expect(page.getByRole('heading', { name: 'デバッグ設定', exact: true })).toBeVisible()
-  await expect(page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true })).toHaveCount(
-    0,
-  )
+  await expect(
+    page.getByRole('heading', { name: 'きみのごはんで、なかまが育つ', exact: true }),
+  ).toHaveCount(0)
   expect(cloud.snapshot().state).toEqual(initialGame(day))
   await page.getByRole('button', { name: '記録を消して置き換える', exact: true }).click()
-  await expect(page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true })).toBeVisible()
+  await expect(
+    page.getByRole('heading', { name: 'きみのごはんで、なかまが育つ', exact: true }),
+  ).toBeVisible()
   expect(cloud.debugRequests).toHaveLength(2)
   expect(cloud.debugRequests[0]).toEqual(cloud.debugRequests[1])
   expect(cloud.snapshot().revision).toBe(revision + 1)
@@ -893,6 +903,7 @@ test('failed anonymous authentication offers retry without entering a local game
   await expect(
     page.getByRole('heading', { name: '接続できませんでした', exact: true }),
   ).toBeVisible()
+  await expect(page.locator('main[data-scene^="intro-"]')).toHaveCount(0)
   await expect(page.getByRole('group', { name: '最初のなかま' })).toHaveCount(0)
   expect(cloud.loadUsers).toEqual([])
   expect(cloud.authRequests.filter((path) => path === '/auth/v1/signup')).toHaveLength(1)
@@ -995,13 +1006,39 @@ test('logging out of Google starts a fresh anonymous account and leaves the prev
   expect(cloud.blockedExternal).toEqual([])
 })
 
-test('a new anonymous player can restore Google from the starter screen before playing', async ({
+test('a fresh cloud introduction is saved before companion selection and survives reload', async ({
   page,
 }) => {
   const cloud = await mockCloud(page)
   cloud.freshGame()
   await page.goto('/')
-  await expect(page.getByRole('heading', { name: '最初のなかまを選ぶ', exact: true })).toBeVisible()
+  await expect(scene(page, 'intro-concept')).toBeVisible()
+  await completeConceptIntro(page)
+  const initial = initialGame(day)
+  expect(cloud.snapshot().state).toEqual({
+    ...initial,
+    tutorial: { ...initial.tutorial, introSeen: true },
+  })
+  expect(cloud.snapshot().revision).toBe(1)
+  expect(cloud.loginRequests).toEqual([])
+  await page.reload()
+  await expect(scene(page, 'choose')).toBeVisible()
+  await expect(page.locator('main[data-scene^="intro-"]')).toHaveCount(0)
+  expect(cloud.snapshot().state.tutorial.introSeen).toBe(true)
+  expect(cloud.snapshot().state.activeId).toBeNull()
+  expect(await page.evaluate(() => localStorage.getItem('mogubiyori-v1'))).toBeNull()
+  expect(cloud.blockedExternal).toEqual([])
+})
+
+test('a new anonymous player can restore Google from the introduction before playing', async ({
+  page,
+}) => {
+  const cloud = await mockCloud(page)
+  cloud.freshGame()
+  await page.goto('/')
+  await expect(
+    page.getByRole('heading', { name: 'きみのごはんで、なかまが育つ', exact: true }),
+  ).toBeVisible()
   await expect(page.getByRole('button', { name: 'はじめる', exact: true })).toHaveCount(0)
   await expect(page.getByRole('button', { name: 'Googleで続きから', exact: true })).toHaveCount(0)
   expect(cloud.authRequests.filter((path) => path === '/auth/v1/signup')).toHaveLength(1)

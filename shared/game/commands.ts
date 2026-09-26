@@ -30,7 +30,10 @@ export type GameCommand =
   | { type: 'resetProgress' }
   | { type: 'setSubscriptionPlan'; plan: SubscriptionPlan }
   | { type: 'updateSettings'; input: { name?: string; reminder?: GameState['reminder'] } }
-  | { type: 'tutorial'; input: Partial<Pick<TutorialState, 'step' | 'status' | 'homeGuide'>> }
+  | {
+      type: 'tutorial'
+      input: Partial<Pick<TutorialState, 'step' | 'status' | 'introSeen' | 'homeGuide'>>
+    }
 
 export type CommandEnvironment = { today: string; realToday?: string; mealId: string }
 export type GameCommandResult = { state: GameState; receipt: FeedReceipt | null; changed: boolean }
@@ -106,6 +109,7 @@ export function applyGameCommand(
       next =
         tutorial.step === current.tutorial.step &&
         tutorial.status === current.tutorial.status &&
+        tutorial.introSeen === current.tutorial.introSeen &&
         tutorial.homeGuide === current.tutorial.homeGuide
           ? current
           : { ...current, tutorial }

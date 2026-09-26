@@ -18,6 +18,30 @@ afterEach(() => {
 })
 
 describe('explicit game commands', () => {
+  it('records the introduction before companion selection and leaves other progress unchanged', () => {
+    const before = initialGame(today)
+    const original = structuredClone(before)
+    const introCommand = { type: 'tutorial', input: { introSeen: true } } as const
+    const result = applyGameCommand(before, introCommand, environment)
+    expect(result).toEqual({
+      state: { ...before, tutorial: { ...before.tutorial, introSeen: true } },
+      receipt: null,
+      changed: true,
+    })
+    expect(before).toEqual(original)
+    expect(applyGameCommand(result.state, introCommand, environment)).toEqual({
+      state: result.state,
+      receipt: null,
+      changed: false,
+    })
+    const selected = applyGameCommand(
+      result.state,
+      { type: 'chooseStarter', id: 'mame' },
+      environment,
+    )
+    expect(selected.state.tutorial).toEqual(result.state.tutorial)
+  })
+
   it('keeps the membership when resetting game progress', () => {
     const state = { ...demoGame(today), subscriptionPlan: 'premium' as const }
     const result = applyGameCommand(state, { type: 'resetProgress' }, environment)
@@ -239,6 +263,23 @@ describe('committed feed receipts', () => {
 })
 
 describe('transport and saved-data boundaries', () => {
+  it('roundtrips introduction state while rejecting malformed introduction commands', () => {
+    for (const introSeen of [true, false]) {
+      const command = { type: 'tutorial', input: { introSeen } } as const
+      expect(gameCommandSchema.parse(command)).toEqual(command)
+      const result = applyGameCommand(initialGame(today), command, environment)
+      const response = { snapshot: { state: result.state, revision: 1 }, receipt: null }
+      expect(commandResponseSchema.parse(JSON.parse(JSON.stringify(response)))).toEqual(response)
+      expect(decodeGame(JSON.parse(JSON.stringify(result.state)), today)).toEqual(result.state)
+    }
+    for (const introSeen of [null, 'true', 1, {}, []])
+      expect(gameCommandSchema.safeParse({ type: 'tutorial', input: { introSeen } }).success).toBe(
+        false,
+      )
+    const legacy = { type: 'tutorial', input: { step: 0, status: 'active' } }
+    expect(gameCommandSchema.parse(legacy)).toEqual(legacy)
+  })
+
   it('accepts commands with photo references, rejecting client rewards, dates, local photos and demo controls', () => {
     const request = { operationId: '489f6941-d2d9-4747-8af5-ea9ad39e1982', command }
     expect(commandRequestSchema.parse(request)).toEqual(request)

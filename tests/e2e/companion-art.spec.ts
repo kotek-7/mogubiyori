@@ -4,6 +4,7 @@ import { writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { growthStages, initialGame, species, todayTokyo } from '../../src/app/game/browserGame'
+import { completeConceptIntro } from './helpers'
 
 test('all thirty companion forms have distinct geometry and support every hat', async ({
   browser,
@@ -49,6 +50,7 @@ test('all thirty companion forms have distinct geometry and support every hat', 
   }
   try {
     await page.goto('/')
+    await completeConceptIntro(page)
     await expect(page.getByRole('group', { name: '最初のなかま' })).toBeVisible()
     for (const friend of species) {
       const signatures: string[] = []

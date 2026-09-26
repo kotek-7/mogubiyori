@@ -65,6 +65,7 @@ export const gameCommandSchema: z.ZodType<GameCommand> = z.discriminatedUnion('t
     input: z.strictObject({
       step: tutorialSchema.shape.step.optional(),
       status: tutorialSchema.shape.status.optional(),
+      introSeen: tutorialSchema.shape.introSeen,
       homeGuide: tutorialSchema.shape.homeGuide,
     }),
   }),

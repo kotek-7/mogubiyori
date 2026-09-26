@@ -39,6 +39,7 @@ export type TutorialState = {
   version: 1
   step: TutorialStep
   status: 'active' | 'paused' | 'completed'
+  introSeen?: boolean
   homeGuide?: 'meal' | 'growth' | 'book' | 'done'
 }
 

@@ -29,6 +29,29 @@ function memoryStorage(initial: GameState) {
 }
 
 describe('local game gateway', () => {
+  it('saves the introduction before selection and restores it after reload, retrying failed writes', async () => {
+    const initial = initialGame(day)
+    const storage = memoryStorage(initial)
+    const gateway = createLocalGameGateway(storage, () => day)
+    const command = { type: 'tutorial', input: { introSeen: true } } as const
+    storage.failNextWrite()
+    await expect(gateway.execute(command, 'intro')).rejects.toThrow('保存できませんでした')
+    expect(storage.saved()).toEqual(initial)
+    const result = await gateway.execute(command, 'intro')
+    expect(result).toEqual({
+      snapshot: {
+        state: { ...initial, tutorial: { ...initial.tutorial, introSeen: true } },
+        revision: 1,
+      },
+      receipt: null,
+    })
+    expect(await gateway.execute(command, 'intro')).toEqual(result)
+    const reloaded = createLocalGameGateway(storage, () => day)
+    expect((await reloaded.load()).state).toEqual(result.snapshot.state)
+    const selected = await reloaded.execute({ type: 'chooseStarter', id: 'mame' }, 'starter')
+    expect(selected.snapshot.state.tutorial).toEqual(result.snapshot.state.tutorial)
+  })
+
   it('rejects the removed gem top-up without changing the saved game', async () => {
     const storage = memoryStorage(starter())
     const gateway = createLocalGameGateway(storage, () => day)

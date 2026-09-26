@@ -6,6 +6,7 @@ import { GameDialogs } from './dialogs/GameDialogs'
 import type { Dialog } from './dialogs/GameDialogs'
 import { StarterSelection } from '../features/companions/StarterSelection'
 import { TutorialJourney } from '../features/tutorial/TutorialJourney'
+import { ConceptIntro } from '../features/tutorial/ConceptIntro'
 import { MealJourney } from '../features/meal/MealJourney'
 import { FeastJourney } from '../features/feast/FeastJourney'
 import { LoginBonusCelebration } from '../features/rewards/LoginBonusCelebration'
@@ -245,6 +246,15 @@ function App() {
       </button>
     </p>
   )
+  if (!state.activeId && !state.tutorial.introSeen)
+    return (
+      <ConceptIntro
+        busy={busy}
+        accountSettings={<AccountMenu />}
+        feedback={feedback}
+        onComplete={() => run({ type: 'tutorial', input: { introSeen: true } })}
+      />
+    )
   if (!state.activeId)
     return (
       <>

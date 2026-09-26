@@ -33,11 +33,11 @@ function authClient() {
   return { getSession, client: { auth: { getSession } } as unknown as SupabaseClient }
 }
 
-function setup() {
+function setup(initialSnapshot: GameSnapshot = saved()) {
   vi.stubGlobal('window', { location: { origin } })
   const { client, getSession } = authClient()
   const calls: Request[] = []
-  let snapshot: GameSnapshot = saved()
+  let snapshot: GameSnapshot = initialSnapshot
   const operations = new Map<string, StoredOperation>()
   const photos = new Map<string, Uint8Array>()
   let failAfterCommit = false
@@ -104,6 +104,35 @@ function setup() {
 }
 
 describe('cloud game gateway through the real Worker API', () => {
+  it('persists the introduction before selection and replays it after a lost API response', async () => {
+    const initial = initialGame(day)
+    const { gateway, calls, snapshot, operations, loseCommandResponse } = setup({
+      state: initial,
+      revision: 0,
+    })
+    const command = { type: 'tutorial', input: { introSeen: true } } as const
+    loseCommandResponse()
+    await expect(gateway.execute(command, operationId)).rejects.toThrow('response lost')
+    const result = await gateway.execute(command, operationId)
+    expect(result).toEqual({
+      snapshot: {
+        state: { ...initial, tutorial: { ...initial.tutorial, introSeen: true } },
+        revision: 1,
+      },
+      receipt: null,
+    })
+    expect(snapshot()).toEqual(result.snapshot)
+    expect(operations.size).toBe(1)
+    expect(await calls[0].json()).toEqual({ operationId, command })
+    expect(await calls[1].json()).toEqual({ operationId, command })
+    expect(await gateway.load()).toEqual(result.snapshot)
+    const selected = await gateway.execute(
+      { type: 'chooseStarter', id: 'mame' },
+      '10000000-0000-4000-8000-000000000002',
+    )
+    expect(selected.snapshot.state.tutorial).toEqual(result.snapshot.state.tutorial)
+  })
+
   it('surfaces the free daily limit and persists a mock membership change through the API', async () => {
     const { gateway, snapshot } = setup()
     const command: GameCommand = { type: 'feed', input: { title: 'ごはん', sample: 'rice' } }

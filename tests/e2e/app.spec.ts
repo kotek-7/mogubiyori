@@ -3,6 +3,7 @@ import { recipes } from '../../src/app/game/browserGame'
 import {
   advanceXp,
   chooseStarter,
+  completeConceptIntro,
   confirmUnclassifiedMeal,
   enablePremium,
   expectFocusedScene,
@@ -38,6 +39,7 @@ test('each starter appears in meal practice and its choice survives reload', asy
     ['mame', 'まめ'],
     ['shizuku', 'しずく'],
   ]) {
+    await completeConceptIntro(page)
     await expect(page.getByRole('group', { name: '最初のなかま' }).getByRole('button')).toHaveCount(
       3,
     )
@@ -429,6 +431,7 @@ for (const viewport of [
     page,
   }) => {
     await page.setViewportSize(viewport)
+    await completeConceptIntro(page)
     for (const scene of ['choose', 'welcome']) {
       await expect(journey(page, scene)).toBeVisible()
       await waitForSceneMotion(page)

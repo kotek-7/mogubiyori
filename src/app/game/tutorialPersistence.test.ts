@@ -23,6 +23,18 @@ describe('tutorial persistence', () => {
     }
   })
 
+  it('restores a seen introduction before a companion is selected without advancing guidance', () => {
+    const state = {
+      ...initialGame(day),
+      tutorial: { ...active, introSeen: true },
+    }
+    const restored = parseGame(JSON.stringify(state), day)
+    expect(restored).toEqual(state)
+    expect(restored.activeId).toBeNull()
+    expect(chooseStarter(restored, 'mame').tutorial).toEqual(state.tutorial)
+    expect(initialGame(day).tutorial).not.toHaveProperty('introSeen')
+  })
+
   it('keeps old saves playable without forcing existing companions through guidance', () => {
     const selected = chooseStarter(initialGame(day), 'mame')
     const existing = feed(selected, {
@@ -63,6 +75,8 @@ describe('tutorial persistence', () => {
 
   it.each<TutorialState>([
     { version: 1, step: 0, status: 'active' },
+    { version: 1, step: 0, status: 'active', introSeen: false },
+    { version: 1, step: 0, status: 'active', introSeen: true },
     { version: 1, step: 1, status: 'active' },
     { version: 1, step: 2, status: 'paused' },
     { version: 1, step: 3, status: 'paused' },
@@ -72,6 +86,7 @@ describe('tutorial persistence', () => {
     { version: 1, step: 4, status: 'completed', homeGuide: 'growth' },
     { version: 1, step: 4, status: 'completed', homeGuide: 'book' },
     { version: 1, step: 4, status: 'completed', homeGuide: 'done' },
+    { version: 1, step: 4, status: 'completed', introSeen: true, homeGuide: 'meal' },
   ])('saves and restores progress at $step with status $status', (tutorial) => {
     const stored = new Map<string, string>()
     vi.stubGlobal('localStorage', {
@@ -127,4 +142,18 @@ describe('tutorial persistence', () => {
     const raw = JSON.stringify({ ...game, tutorial: { ...completed, homeGuide: 'unknown' } })
     expect(parseGame(raw, day)).toEqual(game)
   })
+
+  it.each([null, 'true', 1, {}, []])(
+    'ignores malformed introduction state %j without losing tutorial or game progress',
+    (introSeen) => {
+      const game = {
+        ...demoGame(day),
+        tutorial: { version: 1, step: 2, status: 'paused', homeGuide: 'book' } as TutorialState,
+      }
+      const raw = JSON.stringify({ ...game, tutorial: { ...game.tutorial, introSeen } })
+      const restored = parseGame(raw, day)
+      expect(restored).toEqual(game)
+      expect(restored.tutorial).not.toHaveProperty('introSeen')
+    },
+  )
 })

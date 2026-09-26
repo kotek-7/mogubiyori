@@ -18,9 +18,11 @@ export function migrateGrowthXp(xp: number): number {
 }
 
 function normalizeTutorial(value: unknown, hasCompanion: boolean): TutorialState {
-  // A stale optional guide cannot discard valid tutorial or game progress.
+  // Invalid optional guidance fields cannot discard valid tutorial or game progress.
   if (value && typeof value === 'object' && !Array.isArray(value)) {
-    const candidate = value as Record<string, unknown>
+    const candidate = { ...(value as Record<string, unknown>) }
+    if (!tutorialSchema.shape.introSeen.safeParse(candidate.introSeen).success)
+      delete candidate.introSeen
     const homeGuide = tutorialSchema.shape.homeGuide.safeParse(candidate.homeGuide)
     const parsed = tutorialSchema.safeParse({
       ...candidate,
