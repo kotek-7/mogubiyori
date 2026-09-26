@@ -4,6 +4,8 @@ import type { GameState } from '../../app/game/browserGame'
 import { canViewRecipe } from '../../../shared/content/freeRecipes'
 import { RecipeArt } from '../../ui/art/RecipeArt'
 import { SubscriptionPrompt } from '../subscription/Subscription'
+import { RecipeMealGallery } from './RecipeMealGallery'
+import type { RecipeMealMemory } from './recipeMealMemories'
 
 const difficultyNames = ['かんたん', 'ひと工夫', 'じっくり']
 const rarityNames = { common: 'ノーマル', rare: 'レア', special: 'スペシャル' }
@@ -12,10 +14,12 @@ export function RecipeDetail({
   recipeId,
   state,
   onCook,
+  onOpenMemory,
 }: {
   recipeId: string
   state: GameState
   onCook: (id: string) => void
+  onOpenMemory: (memory: RecipeMealMemory) => void
 }) {
   const recipe = recipes.find((entry) => entry.id === recipeId)
   if (!recipe)
@@ -89,6 +93,9 @@ export function RecipeDetail({
         <Utensils size={18} />
         この料理を記録する
       </button>
+      {state.cards.includes(recipeId) && (
+        <RecipeMealGallery recipe={recipe} state={state} onOpenMemory={onOpenMemory} />
+      )}
     </div>
   )
 }

@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import type { ReactNode } from 'react'
+import { ChevronLeft } from 'lucide-react'
 import { recipes, species } from '../game/browserGame'
 import type { GameMeal, GameState, GrowthStage, Item, SpeciesId } from '../game/browserGame'
 import { RecipeDetail } from '../../features/collection/RecipeDetail'
@@ -79,6 +80,7 @@ export function GameDialogs({
   }
   const [local, setLocal] = useState<Dialog>(dialog)
   const [previewStage, setPreviewStage] = useState<GrowthStage | null>(null)
+  const [returnRecipeId, setReturnRecipeId] = useState<string | null>(null)
   function close() {
     onClose()
   }
@@ -121,6 +123,11 @@ export function GameDialogs({
           recipeId={local.recipeId}
           state={state}
           onCook={() => onRecord({ recipeId: local.recipeId })}
+          onOpenMemory={(memory) => {
+            setReturnRecipeId(local.recipeId)
+            if (memory.record) setLocal({ type: 'mealRecord', recordId: memory.record.id })
+            else if (memory.meal) setLocal({ type: 'meal', meal: memory.meal })
+          }}
         />
       )
       break
@@ -129,7 +136,9 @@ export function GameDialogs({
       const meal =
         local.type === 'meal'
           ? state.meals.find((entry) => entry.id === local.meal.id)
-          : state.meals.find((entry) => entry.mealRecordId === local.recordId)
+          : (state.meals.find(
+              (entry) => entry.mealRecordId === local.recordId && (entry.photo || entry.photoId),
+            ) ?? state.meals.find((entry) => entry.mealRecordId === local.recordId))
       const recordId = local.type === 'mealRecord' ? local.recordId : meal?.mealRecordId
       const record = state.mealRecords?.find((entry) => entry.id === recordId)
       const sharedMeals = record
@@ -247,12 +256,28 @@ export function GameDialogs({
   const contentKey =
     local.type === 'recipe'
       ? `recipe:${local.recipeId}`
-      : local.type === 'item'
-        ? `item:${local.item.id}`
-        : local.type
+      : local.type === 'mealRecord'
+        ? `mealRecord:${local.recordId}`
+        : local.type === 'meal'
+          ? `meal:${local.meal.id}`
+          : local.type === 'item'
+            ? `item:${local.item.id}`
+            : local.type
   return (
     <Sheet title={title} contentKey={contentKey} onClose={close}>
-      <div aria-busy={busy}>{content}</div>
+      <div aria-busy={busy}>
+        {returnRecipeId && (local.type === 'meal' || local.type === 'mealRecord') && (
+          <button
+            type="button"
+            className="recipe-memory-back"
+            onClick={() => setLocal({ type: 'recipe', recipeId: returnRecipeId })}
+          >
+            <ChevronLeft size={18} aria-hidden="true" />
+            料理カードに戻る
+          </button>
+        )}
+        {content}
+      </div>
     </Sheet>
   )
 }
