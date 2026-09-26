@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
 import { useMachine } from '@xstate/react'
 import { fromPromise } from 'xstate'
 import { AnimatePresence } from 'motion/react'
@@ -23,6 +24,7 @@ import { RecognitionStatus } from './RecognitionStatus'
 import { MealRecordFields } from './MealRecordFields'
 import { MealArtwork } from '../album/MealArtwork'
 import { CameraCapture } from './CameraCapture'
+import { SamplePhotoCapture } from './SamplePhotoCapture'
 import { Sheet } from '../../ui/Sheet'
 
 export type MealJourneyProps = {
@@ -66,10 +68,25 @@ export function MealJourney({
     eligibleTargets[0]?.id ??
     state.activeId ??
     'komugi'
+  const servingPhoto = useRef<HTMLImageElement>(null)
+  const [samplePlayback, setSamplePlayback] = useState(false)
+  const finishSample = useCallback(() => {
+    setSamplePlayback(false)
+    requestAnimationFrame(() => {
+      servingPhoto.current?.closest('main')?.querySelector('h1')?.focus({ preventScroll: true })
+    })
+  }, [])
   const [machine] = useState(() =>
     createMealMachine({
       resizePhoto,
-      loadSamplePhoto,
+      loadSamplePhoto: async (signal) => {
+        try {
+          return await loadSamplePhoto(signal)
+        } catch (cause) {
+          if (!signal.aborted) setSamplePlayback(false)
+          throw cause
+        }
+      },
       recognizeFood,
       submit: onFeed,
     }),
@@ -176,19 +193,35 @@ export function MealJourney({
     transitionScene(() => send({ type: 'RECIPE_SELECTED', recipeId }))
   }
 
+  function withSampleCapture(frame: ReactNode) {
+    return (
+      <>
+        {frame}
+        {samplePlayback && !error && (
+          <SamplePhotoCapture
+            photo={!loadingSample && sample ? photo : undefined}
+            destination={servingPhoto}
+            onComplete={finishSample}
+            onClose={close}
+          />
+        )}
+      </>
+    )
+  }
+
   const previousFeed = sharing
     ? state.meals.find((meal) => meal.mealRecordId === mealRecordId)
     : undefined
   const dish = previousFeed ? (
     <MealArtwork meal={previousFeed} />
   ) : photo ? (
-    <img src={photo} alt={sample ? 'サンプルの料理写真' : '今日の料理'} />
+    <img ref={servingPhoto} src={photo} alt={sample ? 'サンプルの料理写真' : '今日の料理'} />
   ) : (
     <RecipeArt recipe={recipe} />
   )
 
   if (step === 'recipe-pick')
-    return (
+    return withSampleCapture(
       <JourneyFrame
         scene="recipe-pick"
         title="つくった料理を選ぶ"
@@ -206,11 +239,11 @@ export function MealJourney({
           <h2 className="meal-specific-recipes-heading">レシピから選ぶ</h2>
           <RecipeBrowser state={state} onRecipe={chooseRecipe} mode="select" />
         </div>
-      </JourneyFrame>
+      </JourneyFrame>,
     )
 
   if (step === 'photo')
-    return (
+    return withSampleCapture(
       <JourneyFrame
         scene="photo"
         title="料理の写真"
@@ -248,7 +281,10 @@ export function MealJourney({
             <button
               className="journey-secondary"
               disabled={loading}
-              onClick={() => transitionScene(() => send({ type: 'USE_SAMPLE' }))}
+              onClick={() => {
+                setSamplePlayback(true)
+                send({ type: 'USE_SAMPLE' })
+              }}
             >
               <Shuffle size={20} /> サンプル写真で体験する
             </button>
@@ -332,10 +368,10 @@ export function MealJourney({
             }}
           />
         )}
-      </JourneyFrame>
+      </JourneyFrame>,
     )
 
-  return (
+  return withSampleCapture(
     <JourneyFrame
       scene="serve"
       title="ごはんをあげる"
@@ -358,7 +394,7 @@ export function MealJourney({
             aria-describedby={guided ? 'meal-serve-guide-text' : undefined}
             type="submit"
             form="serve-meal"
-            disabled={!ready || loading || submitting}
+            disabled={!ready || loading || submitting || samplePlayback}
           >
             <Utensils size={20} />
             {submitting ? 'ごはんを保存中' : `${name}にごはんをあげる`}
@@ -378,7 +414,11 @@ export function MealJourney({
           />
         </div>
         <div className="meal-tablecloth" />
-        <div className="meal-serving-dish">{dish}</div>
+        <div
+          className={`meal-serving-dish${sample && photo ? ' has-sample-photo' : ''}${samplePlayback ? ' is-sample-arriving' : ''}`}
+        >
+          {dish}
+        </div>
         <span className="meal-serving-cutlery" aria-hidden="true">
           <Utensils size={33} strokeWidth={1.6} />
         </span>
@@ -391,6 +431,7 @@ export function MealJourney({
         }}
         onSubmit={(event) => {
           event.preventDefault()
+          if (samplePlayback) return
           send({ type: 'SUBMIT' })
         }}
       >
@@ -536,6 +577,6 @@ export function MealJourney({
           </Sheet>
         )}
       </AnimatePresence>
-    </JourneyFrame>
+    </JourneyFrame>,
   )
 }
