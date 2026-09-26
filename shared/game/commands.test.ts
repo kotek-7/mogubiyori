@@ -18,6 +18,38 @@ afterEach(() => {
 })
 
 describe('explicit game commands', () => {
+  it('completes the shopping guide only with a new purchase and preserves the reward history', () => {
+    const before = chooseStarter(initialGame(today), 'komugi')
+    before.tutorial = { version: 1, step: 4, status: 'completed', homeGuide: 'shop' }
+    expect(gameCommandSchema.parse({ type: 'tutorial', input: { homeGuide: 'shop' } })).toEqual({
+      type: 'tutorial',
+      input: { homeGuide: 'shop' },
+    })
+    const original = structuredClone(before)
+    for (const rejected of [
+      { type: 'purchase', id: 'missing' },
+      { type: 'purchase', id: 'none' },
+      { type: 'equip', id: 'none' },
+    ] as const) {
+      expect(applyGameCommand(before, rejected, environment).state.tutorial.homeGuide).toBe('shop')
+    }
+    const result = applyGameCommand(before, { type: 'purchase', id: 'chef' }, environment)
+    expect(result.state).toEqual({
+      ...before,
+      coins: before.coins - 80,
+      owned: [...before.owned, 'chef'],
+      equipped: { ...before.equipped, hat: 'chef' },
+      tutorial: { ...before.tutorial, homeGuide: 'done' },
+    })
+    expect(before).toEqual(original)
+    expect(
+      gameCommandSchema.safeParse({ type: 'tutorial', input: { homeGuide: 'unknown' } }).success,
+    ).toBe(false)
+    expect(
+      applyGameCommand(result.state, { type: 'purchase', id: 'chef' }, environment).changed,
+    ).toBe(false)
+  })
+
   it('records the introduction before companion selection and leaves other progress unchanged', () => {
     const before = initialGame(today)
     const original = structuredClone(before)

@@ -40,7 +40,7 @@ export type TutorialState = {
   step: TutorialStep
   status: 'active' | 'paused' | 'completed'
   introSeen?: boolean
-  homeGuide?: 'meal' | 'growth' | 'book' | 'done'
+  homeGuide?: 'meal' | 'growth' | 'book' | 'shop' | 'done'
 }
 
 export type GameState = {

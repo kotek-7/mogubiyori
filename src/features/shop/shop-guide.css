@@ -1,0 +1,34 @@
+.shop-guide {
+  margin-bottom: 20px;
+}
+.item-detail > .play-guide {
+  margin-bottom: 16px;
+}
+@media (max-width: 360px), (max-height: 700px) {
+  .play-app[data-page='shop'][data-home-guide='shop'] .play-book-tabs {
+    gap: 4px;
+  }
+  .play-app[data-page='shop'][data-home-guide='shop'] .play-book-tabs > button {
+    flex: 1 1 0;
+    min-width: 0;
+    padding-inline: 6px;
+  }
+  .shop-grid.is-guided .shop-card {
+    padding: 7px;
+    gap: 6px;
+  }
+  .shop-grid.is-guided .item-art {
+    height: 70px;
+  }
+  .shop-grid.is-guided .item-art > svg {
+    width: 65px;
+    height: 65px;
+  }
+  .item-detail.is-guided .item-preview {
+    height: 160px;
+  }
+  .item-detail.is-guided .item-preview > svg:only-child {
+    width: 145px;
+    height: 145px;
+  }
+}

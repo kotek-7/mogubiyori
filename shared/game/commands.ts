@@ -60,6 +60,8 @@ export function applyGameCommand(
       break
     case 'purchase':
       next = purchaseItem(current, command.id)
+      if (next !== current && next.tutorial.homeGuide === 'shop')
+        next = { ...next, tutorial: { ...next.tutorial, homeGuide: 'done' } }
       break
     case 'updateMealRecord':
       next = updateMealRecord(current, command.id, command.input)

@@ -16,6 +16,7 @@ type GameUi = {
   growthButton: RefObject<HTMLButtonElement | null>
   openProfile: () => void
   showMealGuide: boolean
+  showShopGuide: boolean
   feedButton: RefObject<HTMLButtonElement | null>
   startTutorial: () => void
   bookKind: 'recipes' | 'friends'

@@ -180,6 +180,8 @@ export function GameDialogs({
           state={state}
           item={item}
           busy={busy}
+          guided={state.tutorial.status === 'completed' && state.tutorial.homeGuide === 'shop'}
+          onDismissGuide={() => runCommand({ type: 'tutorial', input: { homeGuide: 'done' } })}
           onUse={() =>
             runCommand(
               { type: state.owned.includes(item.id) ? 'equip' : 'purchase', id: item.id },

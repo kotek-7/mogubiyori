@@ -85,6 +85,7 @@ describe('tutorial persistence', () => {
     { version: 1, step: 4, status: 'completed', homeGuide: 'meal' },
     { version: 1, step: 4, status: 'completed', homeGuide: 'growth' },
     { version: 1, step: 4, status: 'completed', homeGuide: 'book' },
+    { version: 1, step: 4, status: 'completed', homeGuide: 'shop' },
     { version: 1, step: 4, status: 'completed', homeGuide: 'done' },
     { version: 1, step: 4, status: 'completed', introSeen: true, homeGuide: 'meal' },
   ])('saves and restores progress at $step with status $status', (tutorial) => {

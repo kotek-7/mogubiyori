@@ -36,13 +36,22 @@ const bookButton = (page: Page) =>
     .getByRole('navigation', { name: 'メインナビゲーション' })
     .getByRole('button', { name: 'ずかん', exact: true })
 
+const shopButton = (page: Page) =>
+  page
+    .getByRole('navigation', { name: 'メインナビゲーション' })
+    .getByRole('button', { name: 'おみせ', exact: true })
+
+const shopGuide = (page: Page) => page.getByRole('region', { name: 'おみせのガイド', exact: true })
+
 async function expectHomeGuide(page: Page, phase: Exclude<GuidePhase, 'done'>) {
   const target =
     phase === 'meal'
       ? page.locator('.play-feed')
       : phase === 'growth'
         ? page.locator('.play-growth')
-        : bookButton(page)
+        : phase === 'book'
+          ? bookButton(page)
+          : shopButton(page)
   await expect(page.locator('.play-app')).toHaveAttribute('data-home-guide', phase)
   await expect(homeGuide(page)).toHaveCount(1)
   await expect(homeGuide(page)).toHaveAttribute('id', `home-${phase}-guide`)
@@ -53,8 +62,29 @@ async function expectHomeGuide(page: Page, phase: Exclude<GuidePhase, 'done'>) {
   return target
 }
 
+async function expectShopGuide(page: Page, scene: 'item' | 'purchase') {
+  const target =
+    scene === 'item'
+      ? page.locator('.shop-card.is-guide-target')
+      : page.getByRole('dialog').getByRole('button', { name: '購入して使う', exact: true })
+  await expect(page.locator('.play-app')).toHaveAttribute('data-home-guide', 'shop')
+  await expect(homeGuide(page)).toHaveCount(0)
+  await expect(shopGuide(page)).toHaveCount(1)
+  await expect(shopGuide(page)).toHaveAttribute('id', `shop-${scene}-guide`)
+  await expect(target).toHaveClass(/is-guide-target/)
+  await expect(target).toHaveAttribute('aria-describedby', `shop-${scene}-guide-text`)
+  await expect(page.locator('.is-guide-target')).toHaveCount(1)
+  await expect.poll(async () => (await storedGame(page)).tutorial.homeGuide).toBe('shop')
+  return scene === 'item'
+    ? page.getByRole('button', {
+        name: new RegExp(await target.locator(':scope > strong').innerText()),
+      })
+    : target
+}
+
 async function expectNoGuide(page: Page) {
   await expect(homeGuide(page)).toHaveCount(0)
+  await expect(shopGuide(page)).toHaveCount(0)
   await expect(page.getByRole('region', { name: 'ごはんの記録ガイド', exact: true })).toHaveCount(0)
   await expect(page.locator('.is-guide-target')).toHaveCount(0)
 }
@@ -75,7 +105,9 @@ test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
 })
 
-test('the real meal, growth and recipe guide resumes from each saved step', async ({ page }) => {
+test('the meal, growth, recipe and shopping guide resumes and completes with a purchase', async ({
+  page,
+}) => {
   await seedGame(page, starter('meal'))
   await expectHomeGuide(page, 'meal')
   await page.reload()
@@ -123,17 +155,31 @@ test('the real meal, growth and recipe guide resumes from each saved step', asyn
   await target.click()
   await expect(target).toHaveAttribute('aria-current', 'page')
   await expect(page.getByRole('heading', { name: '料理カード', exact: true })).toBeVisible()
+  await expectHomeGuide(page, 'shop')
+  await page.reload()
+  const shopTarget = await expectHomeGuide(page, 'shop')
+  await shopTarget.click()
+  await expectShopGuide(page, 'item')
+  const beforePurchase = await storedGame(page)
+  await page.getByRole('button', { name: /コックさんの帽子/ }).click()
+  const purchase = await expectShopGuide(page, 'purchase')
+  await purchase.click()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await expect.poll(async () => (await storedGame(page)).coins).toBe(beforePurchase.coins - 80)
+  const purchased = await storedGame(page)
+  expect(purchased.owned).toContain('chef')
+  expect(purchased.equipped.hat).toBe('chef')
   await expect(page.locator('.play-app')).toHaveAttribute('data-home-guide', 'done')
   await expectNoGuide(page)
   await page.reload()
-  await expect.poll(async () => (await storedGame(page)).tutorial.homeGuide).toBe('done')
+  expect(await storedGame(page)).toEqual(purchased)
   await expectNoGuide(page)
 })
 
 test('the guide can be dismissed from every home step and stays dismissed after reload', async ({
   page,
 }) => {
-  for (const phase of ['meal', 'growth', 'book'] as const) {
+  for (const phase of ['meal', 'growth', 'book', 'shop'] as const) {
     const state = starter(phase)
     await seedGame(
       page,
@@ -148,6 +194,55 @@ test('the guide can be dismissed from every home step and stays dismissed after 
     await expect(target).toBeFocused()
     await page.reload()
     await expect.poll(async () => (await storedGame(page)).tutorial.homeGuide).toBe('done')
+    await expectNoGuide(page)
+  }
+})
+
+test('opening, closing and equipping an owned item keep the saved shopping guide active', async ({
+  page,
+}) => {
+  const state = starter('shop')
+  await seedGame(page, { ...state, owned: [...state.owned, 'chef'] })
+  await shopButton(page).click()
+  await expectShopGuide(page, 'item')
+  await page.reload()
+  await expectShopGuide(page, 'item')
+  const before = await storedGame(page)
+  await page.getByRole('button', { name: /ふたばのかんむり/ }).click()
+  await expectShopGuide(page, 'purchase')
+  await page.getByRole('dialog').getByRole('button', { name: '閉じる', exact: true }).click()
+  await expectShopGuide(page, 'item')
+  expect(await storedGame(page)).toEqual(before)
+  await page.getByRole('button', { name: /コックさんの帽子/ }).click()
+  await expect(shopGuide(page)).toHaveCount(0)
+  await page.getByRole('dialog').getByRole('button', { name: '使う', exact: true }).click()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await expectHomeGuide(page, 'shop')
+  expect((await storedGame(page)).coins).toBe(before.coins)
+  expect((await storedGame(page)).equipped.hat).toBe('chef')
+  await page.reload()
+  await expectHomeGuide(page, 'shop')
+})
+
+test('the shopping guide can be dismissed from item selection or purchase without buying', async ({
+  page,
+}) => {
+  for (const scene of ['item', 'purchase'] as const) {
+    await seedGame(page, starter('shop'))
+    await shopButton(page).click()
+    if (scene === 'purchase') await page.getByRole('button', { name: /コックさんの帽子/ }).click()
+    const target = await expectShopGuide(page, scene)
+    const before = await storedGame(page)
+    await shopGuide(page).getByRole('button', { name: 'ガイドを終了する', exact: true }).click()
+    await expectNoGuide(page)
+    await expect(scene === 'item' ? shopButton(page) : target).toBeFocused()
+    await expect.poll(async () => (await storedGame(page)).tutorial.homeGuide).toBe('done')
+    const dismissed = await storedGame(page)
+    expect(dismissed.coins).toBe(before.coins)
+    expect(dismissed.owned).toEqual(before.owned)
+    expect(dismissed.equipped).toEqual(before.equipped)
+    await page.reload()
+    expect(await storedGame(page)).toEqual(dismissed)
     await expectNoGuide(page)
   }
 })
@@ -169,6 +264,10 @@ test('an existing completed save without the home guide never starts it implicit
   await expect(page.getByRole('dialog')).toBeVisible()
   await page.getByRole('button', { name: '閉じる', exact: true }).click()
   await bookButton(page).click()
+  await expectNoGuide(page)
+  await shopButton(page).click()
+  await expectNoGuide(page)
+  await page.getByRole('button', { name: /コックさんの帽子/ }).click()
   await expectNoGuide(page)
   await page.reload()
   await expectNoGuide(page)
@@ -209,3 +308,45 @@ test('the guide and its real action fit together on a 320px screen', async ({ pa
   await expectInsideViewport(page, journey(page, 'serve').locator('.journey-primary'))
   await capture('play-guide-serve')
 })
+
+for (const viewport of [
+  { width: 320, height: 568 },
+  { width: 390, height: 844 },
+]) {
+  test(`the coin-to-shop guide remains usable on a ${viewport.width}px screen`, async ({
+    page,
+  }, testInfo) => {
+    await page.setViewportSize(viewport)
+    await seedGame(page, { ...starter('book'), coins: 100 })
+    await bookButton(page).click()
+    const shopTarget = await expectHomeGuide(page, 'shop')
+    const capture = async (name: string) => {
+      await waitForSceneMotion(page)
+      const path = testInfo.outputPath(`${name}-${viewport.width}.png`)
+      await page.screenshot({ path, fullPage: false })
+      await testInfo.attach(name, { path, contentType: 'image/png' })
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(viewport.width)
+    }
+    await expectInsideViewport(page, homeGuide(page))
+    await expectInsideViewport(page, shopTarget)
+    await capture('play-guide-coins-to-shop')
+    await shopTarget.click()
+    const itemTarget = await expectShopGuide(page, 'item')
+    await expect(itemTarget).toContainText('コックさんの帽子')
+    await expectInsideViewport(page, shopGuide(page))
+    await capture('play-guide-shop-selection')
+    await expectInsideViewport(page, itemTarget)
+    expect(
+      await itemTarget.evaluate((button) => {
+        const box = button.getBoundingClientRect()
+        return button.contains(document.elementFromPoint(box.x + box.width / 2, box.bottom - 2))
+      }),
+      'the fixed navigation must not cover the guided shop item',
+    ).toBe(true)
+    await itemTarget.click()
+    const purchase = await expectShopGuide(page, 'purchase')
+    await expectInsideViewport(page, shopGuide(page))
+    await expectInsideViewport(page, purchase)
+    await capture('play-guide-shop-purchase')
+  })
+}

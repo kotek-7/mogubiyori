@@ -81,6 +81,7 @@ function App() {
   const feedButton = useRef<HTMLButtonElement>(null)
   const growthButton = useRef<HTMLButtonElement>(null)
   const bookButton = useRef<HTMLButtonElement>(null)
+  const shopButton = useRef<HTMLButtonElement>(null)
   const bookGuide = useRef<HTMLDivElement>(null)
   const restoreFeedFocus = useRef(false)
   const restorePageFocus = useRef<Page | null>(null)
@@ -91,6 +92,8 @@ function App() {
   const showMealGuide = homeGuide === 'meal' && !dialog
   const showGrowthGuide = homeGuide === 'growth' && !dialog
   const showBookGuide = homeGuide === 'book' && page === 'room' && !dialog
+  const showShopLinkGuide = homeGuide === 'shop' && page !== 'shop' && !dialog
+  const showShopGuide = homeGuide === 'shop' && page === 'shop' && !dialog
   useEffect(() => {
     if (!toast) return
     const timer = setTimeout(() => setToast(''), 3500)
@@ -136,7 +139,7 @@ function App() {
           ? feedButton.current?.parentElement
           : homeGuide === 'growth'
             ? growthButton.current?.parentElement
-            : homeGuide === 'book'
+            : homeGuide === 'book' || homeGuide === 'shop'
               ? bookGuide.current
               : null
       target?.scrollIntoView({ block: 'nearest', behavior: 'instant' })
@@ -211,7 +214,9 @@ function App() {
         ? growthButton.current
         : homeGuide === 'book'
           ? bookButton.current
-          : feedButton.current
+          : homeGuide === 'shop'
+            ? shopButton.current
+            : feedButton.current
     target?.focus({ preventScroll: true })
   }
   function openProfile() {
@@ -362,6 +367,7 @@ function App() {
         growthButton,
         openProfile,
         showMealGuide,
+        showShopGuide,
         feedButton,
         startTutorial,
         bookKind,
@@ -427,10 +433,25 @@ function App() {
             />
           )}
         </main>
-        <div className={showBookGuide ? 'play-guide-nav' : undefined} ref={bookGuide}>
+        <div
+          className={
+            showShopLinkGuide
+              ? 'play-guide-nav is-shop-guide'
+              : showBookGuide
+                ? 'play-guide-nav'
+                : undefined
+          }
+          ref={bookGuide}
+        >
           {showBookGuide && (
             <PlayGuide id="home-book-guide" onDismiss={dismissHomeGuide}>
               料理カードはずかんに集まります。カードを見てみましょう。
+            </PlayGuide>
+          )}
+          {showShopLinkGuide && (
+            <PlayGuide id="home-shop-guide" onDismiss={dismissHomeGuide}>
+              ごはんやログインでコインが貯まります。今は{state.coins}
+              コイン。おみせで好きなものを買ってみましょう。
             </PlayGuide>
           )}
           <nav className="play-nav" aria-label="メインナビゲーション">
@@ -443,16 +464,24 @@ function App() {
             ].map(({ id, name }) => (
               <button
                 key={id}
-                ref={id === 'book' ? bookButton : undefined}
-                className={id === 'book' && showBookGuide ? 'is-guide-target' : undefined}
+                ref={id === 'book' ? bookButton : id === 'shop' ? shopButton : undefined}
+                className={
+                  (id === 'book' && showBookGuide) || (id === 'shop' && showShopLinkGuide)
+                    ? 'is-guide-target'
+                    : undefined
+                }
                 aria-describedby={
-                  id === 'book' && showBookGuide ? 'home-book-guide-text' : undefined
+                  id === 'book' && showBookGuide
+                    ? 'home-book-guide-text'
+                    : id === 'shop' && showShopLinkGuide
+                      ? 'home-shop-guide-text'
+                      : undefined
                 }
                 aria-current={page === id ? 'page' : undefined}
                 onClick={() => {
                   if (id === 'book' && homeGuide === 'book') {
                     setBookKind('recipes')
-                    run({ type: 'tutorial', input: { homeGuide: 'done' } })
+                    run({ type: 'tutorial', input: { homeGuide: 'shop' } })
                   }
                   navigate(id)
                 }}

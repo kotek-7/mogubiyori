@@ -250,6 +250,28 @@ describe('local game gateway', () => {
     },
   )
 
+  it('saves purchase and guide completion together and retries without charging twice', async () => {
+    const initial = starter()
+    initial.tutorial = { version: 1, step: 4, status: 'completed', homeGuide: 'shop' }
+    const storage = memoryStorage(initial)
+    const gateway = createLocalGameGateway(storage, () => day)
+    storage.failNextWrite()
+    await expect(
+      gateway.execute({ type: 'purchase', id: 'chef' }, 'guide-purchase'),
+    ).rejects.toThrow('保存できませんでした')
+    expect(storage.saved()).toEqual(initial)
+    const result = await gateway.execute({ type: 'purchase', id: 'chef' }, 'guide-purchase')
+    expect(result.snapshot.state.tutorial.homeGuide).toBe('done')
+    expect(result.snapshot.state.coins).toBe(initial.coins - 80)
+    expect(result.snapshot.state.owned).toContain('chef')
+    expect(result.snapshot.state.equipped.hat).toBe('chef')
+    const writes = storage.write.mock.calls.length
+    expect(await gateway.execute({ type: 'purchase', id: 'chef' }, 'guide-purchase')).toEqual(
+      result,
+    )
+    expect(storage.write).toHaveBeenCalledTimes(writes)
+  })
+
   it('recovers the command queue after a failure', async () => {
     const storage = memoryStorage(starter())
     const gateway = createLocalGameGateway(storage, () => day)

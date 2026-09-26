@@ -105,6 +105,20 @@
 .play-app:has(.play-guide-nav) {
   padding-bottom: env(safe-area-inset-bottom, 12px);
 }
+.play-app:not([data-page='room']) .play-guide-nav.is-shop-guide {
+  position: fixed;
+  z-index: 20;
+  left: 50%;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  margin: 0;
+}
+.play-app:not([data-page='room']):has(.play-guide-nav.is-shop-guide) {
+  padding-bottom: calc(240px + env(safe-area-inset-bottom));
+}
+.play-guide-nav.is-shop-guide > .play-guide::after {
+  left: calc(90% - 6px);
+}
 .journey-footer > .play-guide {
   margin-bottom: 5px;
 }
