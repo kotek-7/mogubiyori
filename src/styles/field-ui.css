@@ -528,8 +528,28 @@
   .play-nav > button {
     min-height: 55px;
   }
+  /* Keep guidance below the status controls and clear of the companion. */
   .play-page-room .play-care .play-guide {
-    width: calc(100vw - 32px);
+    top: 0;
+    bottom: auto;
+    left: 0;
+    right: 0;
+    width: 100%;
+  }
+  .play-page-room .play-care:has(.play-guide) {
+    top: 206px;
+    align-content: end;
+  }
+  .play-page-room .play-care:has(.play-guide) > * {
+    position: static;
+  }
+  .play-page-room .play-care .play-guide::after {
+    content: none;
+  }
+  /* Grown companions need room below the guide, even if it is left open. */
+  .play-page-room:has(.play-care .play-guide) .play-world:not([data-growth-stage='0']) .play-pet {
+    max-width: calc(72svh - 310px);
+    max-height: calc(72svh - 310px);
   }
 }
 @media (max-width: 600px) and (max-height: 700px) {
@@ -604,8 +624,12 @@
     width: 30px;
     height: 30px;
   }
-  .play-page-room .play-care .play-guide {
-    width: calc(100vw - 24px);
+  .play-page-room .play-care:has(.play-guide) {
+    top: 178px;
+  }
+  .play-page-room:has(.play-care .play-guide) .play-world:not([data-growth-stage='0']) .play-pet {
+    max-width: max(108px, calc(66svh - 268px));
+    max-height: max(108px, calc(66svh - 268px));
   }
 }
 @media (prefers-reduced-transparency: reduce), (forced-colors: active) {

@@ -147,7 +147,7 @@ export function RoomPage() {
         <div className="play-care-growth">
           {showGrowthGuide && (
             <PlayGuide id="home-growth-guide" onDismiss={dismissHomeGuide}>
-              ごはんで経験値が増えました。ここで{state.name}の成長を確認できます。
+              ごはんで経験値が増えました。画面下の名前を押して、成長を確認しましょう。
             </PlayGuide>
           )}
           <button
@@ -186,7 +186,7 @@ export function RoomPage() {
         <div className="play-care-feed">
           {showMealGuide && (
             <PlayGuide id="home-meal-guide" onDismiss={dismissHomeGuide}>
-              {state.name}がごはんを待っています。自分で作った料理をここから記録しましょう。
+              自炊の写真は「ごはんをあげる」から記録できます。
             </PlayGuide>
           )}
           <button
