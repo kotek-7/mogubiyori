@@ -1,14 +1,66 @@
 import { describe, expect, it } from 'vitest'
-import { genericDishes } from '../../shared/content/dishes'
+import { dishCategories, genericDishes } from '../../shared/content/dishes'
 import { applyGameCommand } from '../../shared/game/commands'
 import { commandResponseSchema, gameCommandSchema } from '../../shared/game/contracts'
 import { chooseStarter, feed, initialGame, shiftDay } from '../../shared/game/game'
 import { decodeGame } from '../../shared/game/stateCodec'
+import { suggestMealItem } from '../../shared/meals/analysis'
+import { foodGroupLabels } from '../../shared/meals/types'
 
 const today = '2026-09-25'
 const start = () => chooseStarter(initialGame(today), 'komugi')
 
 describe('generic meal classification across commands, rewards and saves', () => {
+  it('keeps the catalog addressable with unambiguous IDs, names, aliases and valid groups', () => {
+    expect(new Set(genericDishes.map((dish) => dish.id)).size).toBe(genericDishes.length)
+    expect(new Set(genericDishes.map((dish) => dish.name)).size).toBe(genericDishes.length)
+    expect(new Set(genericDishes.map((dish) => dish.category))).toEqual(
+      new Set(Object.keys(dishCategories)),
+    )
+    const names = new Map<string, string>()
+    for (const dish of genericDishes) {
+      expect(dish.id).toMatch(/^generic-[a-z]+(?:-[a-z]+)*$/)
+      expect(dish.description.trim()).not.toBe('')
+      expect(dish.aliases.length).toBeGreaterThan(0)
+      expect(new Set(dish.suggestedGroups).size).toBe(dish.suggestedGroups.length)
+      for (const group of dish.suggestedGroups) expect(foodGroupLabels).toHaveProperty(group)
+      for (const name of [dish.name, ...dish.aliases]) {
+        expect(name.trim()).toBe(name)
+        expect(name).not.toBe('')
+        const normalized = name
+          .normalize('NFKC')
+          .toLowerCase()
+          .replace(/[ァ-ヶ]/g, (character) => String.fromCharCode(character.charCodeAt(0) - 0x60))
+        expect(names.get(normalized) ?? dish.id, name).toBe(dish.id)
+        names.set(normalized, dish.id)
+      }
+    }
+  })
+
+  it('preserves the original classifications and their conservative food group suggestions', () => {
+    const legacy = [
+      ['generic-pasta', 'パスタ', ['staple']],
+      ['generic-curry', 'カレー', ['staple']],
+      ['generic-fried-rice', 'チャーハン', ['staple']],
+      ['generic-hamburg', 'ハンバーグ', ['protein']],
+      ['generic-onigiri', 'おにぎり', ['staple']],
+      ['generic-donburi', '丼もの', ['staple']],
+      ['generic-udon', 'うどん', ['staple']],
+      ['generic-soba', 'そば', ['staple']],
+      ['generic-ramen', 'ラーメン', ['staple']],
+      ['generic-yakisoba', '焼きそば', ['staple']],
+      ['generic-soup', 'スープ', []],
+      ['generic-miso-soup', 'みそ汁', []],
+      ['generic-salad', 'サラダ', ['vegetable']],
+      ['generic-stir-fry', '炒め物', []],
+      ['generic-stew', '煮物', []],
+      ['generic-grilled-fish', '焼き魚', ['protein']],
+    ] as const
+    for (const [id, name, groups] of legacy) {
+      expect(suggestMealItem(id)).toMatchObject({ dishId: id, name, groups })
+    }
+  })
+
   it.each(genericDishes)('preserves $name in the command receipt and restored save', (dish) => {
     const command = gameCommandSchema.parse({
       type: 'feed',

@@ -327,9 +327,9 @@
   font-size: 12px;
   line-height: 1.7;
 }
-.meal-generic-dishes > div {
+.meal-dish-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
 .meal-generic-dishes button {
@@ -345,12 +345,108 @@
   font-size: 12px;
   font-weight: 700;
   text-align: left;
+  overflow-wrap: anywhere;
+  cursor: pointer;
 }
-.meal-generic-dishes button:hover,
+.meal-generic-dishes button:hover:not(:disabled),
 .meal-generic-dishes button[aria-pressed='true'] {
   border-color: var(--game-action);
   background: var(--game-action-soft);
   color: var(--game-action-dark);
+}
+.meal-dish-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+.meal-dish-controls label {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 700;
+}
+.meal-dish-search-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border: 1px solid var(--game-line-strong);
+  border-radius: var(--game-radius-control);
+  background: var(--game-surface);
+}
+.meal-dish-search-field svg {
+  flex-shrink: 0;
+  color: var(--game-muted);
+}
+.meal-dish-controls input,
+.meal-dish-controls select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  color: var(--game-ink);
+  font: inherit;
+  font-size: 16px;
+}
+.meal-dish-controls input {
+  border: 0;
+  background: transparent;
+}
+.meal-dish-controls select {
+  padding: 8px 12px;
+  border: 1px solid var(--game-line-strong);
+  border-radius: var(--game-radius-control);
+  background: var(--game-surface);
+}
+.meal-dish-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  min-height: 48px;
+  margin: 8px 0;
+}
+.meal-dish-summary p {
+  margin: 0;
+}
+.meal-generic-dishes .meal-dish-reset {
+  min-height: 44px;
+  padding: 6px 0;
+  border-color: transparent;
+  background: transparent;
+  color: var(--game-action-dark);
+}
+.meal-dish-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 12px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.meal-dish-pagination button {
+  justify-content: center;
+  gap: 2px;
+  padding: 6px;
+  font-size: 11px;
+}
+.meal-dish-pagination button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.meal-dish-empty {
+  padding: 12px 0;
+}
+@media (min-width: 600px) {
+  .meal-dish-controls {
+    grid-template-columns: minmax(0, 1fr) minmax(180px, 0.7fr);
+  }
+  .meal-dish-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 .journey-screen[data-scene='recipe-pick'] .journey-content {
   justify-content: flex-start;

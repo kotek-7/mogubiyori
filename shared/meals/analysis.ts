@@ -15,21 +15,6 @@ const ingredientPatterns: Record<FoodGroup, RegExp> = {
     /^(?:冷凍|カット)?(?:りんご|リンゴ|バナナ|みかん|オレンジ|いちご|イチゴ|キウイ|ぶどう|ブルーベリー|桃|もも|パイナップル|マンゴー)/,
   dairy: /牛乳|ヨーグルト|チーズ/,
 }
-const genericGroups: Partial<Record<string, FoodGroup[]>> = {
-  'generic-pasta': ['staple'],
-  'generic-curry': ['staple'],
-  'generic-fried-rice': ['staple'],
-  'generic-hamburg': ['protein'],
-  'generic-onigiri': ['staple'],
-  'generic-donburi': ['staple'],
-  'generic-udon': ['staple'],
-  'generic-soba': ['staple'],
-  'generic-ramen': ['staple'],
-  'generic-yakisoba': ['staple'],
-  'generic-salad': ['vegetable'],
-  'generic-grilled-fish': ['protein'],
-}
-
 export function suggestMealItem(choiceId?: string, name?: string): MealItem {
   const recipe = recipeById(choiceId)
   const dish = genericDishById(choiceId)
@@ -46,7 +31,7 @@ export function suggestMealItem(choiceId?: string, name?: string): MealItem {
     ? (Object.keys(ingredientPatterns) as FoodGroup[]).filter((group) =>
         ingredients.some((ingredient) => ingredientPatterns[group].test(ingredient.trim())),
       )
-    : [...(genericGroups[dish?.id ?? ''] ?? [])]
+    : [...(dish?.suggestedGroups ?? [])]
   return {
     name: name?.trim() || recipe?.name || dish?.name || '今日のごはん',
     ...(recipe ? { recipeId: recipe.id } : {}),

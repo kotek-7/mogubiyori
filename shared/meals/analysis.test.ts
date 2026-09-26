@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { genericDishById } from '../content/dishes'
 import { dailyMealReport, suggestMealItem, weekMealReports } from './analysis'
 import type { MealItem, MealRecord } from './types'
 
@@ -35,6 +36,28 @@ describe('meal composition reports', () => {
     expect(suggestMealItem('r-banana-peanut-toast').groups).toContain('fruit')
     expect(suggestMealItem('r-spiced-roasted-chickpeas').groups).toEqual(['protein'])
     expect(suggestMealItem('r-vanilla-milk-pudding').groups).not.toContain('fruit')
+  })
+
+  it('uses named foods in the expanded choices and leaves unspecified ingredients unconfirmed', () => {
+    expect(suggestMealItem('generic-oyakodon').groups).toEqual(['staple', 'protein'])
+    expect(suggestMealItem('generic-vegetable-stir-fry').groups).toEqual(['vegetable'])
+    expect(suggestMealItem('generic-banana').groups).toEqual(['fruit'])
+    expect(suggestMealItem('generic-yogurt').groups).toEqual(['dairy'])
+    for (const id of ['generic-tempura', 'generic-hotpot', 'generic-cake', 'generic-gyoza']) {
+      expect(suggestMealItem(id)).toMatchObject({
+        dishId: id,
+        groups: [],
+        groupsConfirmed: false,
+        portion: 'unknown',
+      })
+    }
+  })
+
+  it('lets people edit food groups without mutating future suggestions', () => {
+    const item = suggestMealItem('generic-oyakodon')
+    item.groups.push('vegetable')
+    expect(genericDishById('generic-oyakodon')?.suggestedGroups).toEqual(['staple', 'protein'])
+    expect(suggestMealItem('generic-oyakodon').groups).toEqual(['staple', 'protein'])
   })
 
   it('counts each food group once per real meal and does not add repeated plates to the score', () => {

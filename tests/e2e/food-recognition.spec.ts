@@ -1,13 +1,16 @@
 import { expect, test } from '@playwright/test'
 import type { Page, Route } from '@playwright/test'
 import { Buffer } from 'node:buffer'
+import AxeBuilder from '@axe-core/playwright'
 import { recipes } from '../../src/app/game/browserGame'
+import { genericDishes } from '../../shared/content/dishes'
 import {
   confirmUnclassifiedMeal,
   enablePremium,
   journey,
   navigate,
   returnToPlaza,
+  sampleToTable,
   start,
   selectMealRecipe,
   selectedMealRecipe,
@@ -109,7 +112,8 @@ test('generic dishes can be selected manually when recognition fails', async ({
   await toTable(page)
   await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
   const choices = page.getByRole('group', { name: '料理の種類で選ぶ' })
-  await expect(choices.getByRole('button')).toHaveCount(16)
+  await expect(choices.getByRole('button', { name: /として記録$/ })).toHaveCount(12)
+  await expect(choices.getByRole('status')).toContainText(`${genericDishes.length}種類`)
   for (const name of ['パスタ', 'カレー', 'チャーハン', 'ハンバーグ']) {
     await expect(choices.getByRole('button', { name: `${name}として記録` })).toBeVisible()
   }
@@ -128,6 +132,109 @@ test('generic dishes can be selected manually when recognition fails', async ({
     cardBonus: 0,
   })
   expect((await storedGame(page)).cards).toEqual([])
+})
+
+test('the expanded dish picker searches aliases, filters and pages without changing the saved meal', async ({
+  page,
+}, testInfo) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  const before = await storedGame(page)
+  await page.locator('.play-feed').click()
+  await sampleToTable(page)
+  await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
+  const choices = page.getByRole('group', { name: '料理の種類で選ぶ' })
+  const search = choices.getByRole('searchbox', { name: '料理名で検索' })
+  const category = choices.getByRole('combobox', { name: '種類', exact: true })
+  const pagination = choices.getByRole('navigation', { name: '料理の種類のページ' })
+  const seen = new Set(await choices.locator('.meal-dish-list button').allTextContents())
+  await expect(pagination.getByRole('button', { name: '前のページ' })).toBeDisabled()
+  await pagination.getByRole('button', { name: '次のページ' }).click()
+  await expect(choices.getByRole('status')).toContainText('13〜24件目')
+  for (let current = 2; current <= Math.ceil(genericDishes.length / 12); current += 1) {
+    for (const name of await choices.locator('.meal-dish-list button').allTextContents()) {
+      seen.add(name)
+    }
+    if (current < Math.ceil(genericDishes.length / 12)) {
+      await pagination.getByRole('button', { name: '次のページ' }).click()
+      await expect(choices.getByRole('status')).toContainText(`${current * 12 + 1}〜`)
+    }
+  }
+  await expect(pagination.getByRole('button', { name: '次のページ' })).toBeDisabled()
+  expect([...seen].sort()).toEqual(genericDishes.map((dish) => dish.name).sort())
+
+  await search.fill('ｷﾞｮｳｻﾞ')
+  await expect(choices.getByRole('button', { name: '餃子として記録', exact: true })).toBeVisible()
+  await category.selectOption('seafood')
+  await expect(choices.getByRole('status')).toContainText('0種類')
+  await expect(
+    choices.getByText('料理が見つかりませんでした。別の名前でも探せます。'),
+  ).toBeVisible()
+  await choices.getByRole('button', { name: 'すべての料理を見る' }).click()
+  await expect(search).toHaveValue('')
+  await expect(category).toHaveValue('all')
+  await expect(choices.getByRole('status')).toContainText('1〜12件目')
+
+  await category.selectOption('meat')
+  await search.fill('ぎょうざ')
+  const choose = choices.getByRole('button', { name: '餃子として記録', exact: true })
+  await expect(choose).toBeVisible()
+  await waitForSceneMotion(page)
+  expect(
+    (await new AxeBuilder({ page }).include('.meal-generic-dishes').analyze()).violations,
+  ).toEqual([])
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  expect(await choices.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true)
+  await choices.evaluate((element) => element.scrollIntoView({ block: 'start' }))
+  await page.screenshot({ path: testInfo.outputPath('dish-search-mobile.png') })
+  expect(await storedGame(page)).toEqual(before)
+
+  await choose.focus()
+  await page.keyboard.press('Enter')
+  await expect(selectedMealRecipe(page)).toHaveText('餃子')
+  await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
+  // Reopening lands on the selected dish's page, even for a newly added entry.
+  await expect(
+    choices.getByRole('button', { name: '餃子として記録', exact: true }),
+  ).toHaveAttribute('aria-pressed', 'true')
+  await page.getByRole('button', { name: '食卓にもどる', exact: true }).click()
+  expect(await storedGame(page)).toEqual(before)
+  await giveMeal(page, true)
+  const saved = await storedGame(page)
+  expect(saved.meals[0]).toMatchObject({ dishId: 'generic-gyoza', title: '餃子', cardBonus: 0 })
+  expect(saved.meals[0].recipeId).toBeUndefined()
+  expect(saved.cards).toEqual([])
+  await returnToPlaza(page)
+  await page.reload()
+  expect(await storedGame(page)).toEqual(saved)
+})
+
+test('new dish photo candidates are selectable and cannot overwrite a manual dish choice', async ({
+  page,
+}) => {
+  await enablePremium(page)
+  const api = await mockRecognition(page)
+  await page.locator('.play-feed').click()
+  await uploadPhoto(page)
+  await api.waitFor(1)
+  await toTable(page)
+  await api.reply(0, ['generic-gyoza'])
+  await expect(selectedMealRecipe(page)).toHaveText('餃子')
+  await giveMeal(page, true)
+  expect((await storedGame(page)).meals[0]).toMatchObject({ dishId: 'generic-gyoza', cardBonus: 0 })
+  await returnToPlaza(page)
+
+  await page.locator('.play-feed').click()
+  await uploadPhoto(page)
+  await api.waitFor(2)
+  await toTable(page)
+  await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
+  const choices = page.getByRole('group', { name: '料理の種類で選ぶ' })
+  await choices.getByRole('searchbox', { name: '料理名で検索' }).fill('ぎょうざ')
+  await choices.getByRole('button', { name: '餃子として記録', exact: true }).click()
+  await api.reply(1, ['generic-curry'])
+  await expect(selectedMealRecipe(page)).toHaveText('餃子')
+  await page.getByRole('button', { name: 'ひろばへ', exact: true }).click()
+  expect((await storedGame(page)).meals).toHaveLength(1)
 })
 
 test('a mocked photo suggestion grants its card and XP only after feeding is confirmed', async ({
