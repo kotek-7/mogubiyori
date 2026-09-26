@@ -19,7 +19,6 @@ import { loadSamplePhoto } from './samplePhotos'
 import { recognizeFood } from './foodRecognition'
 import { transitionScene } from '../../ui/journey/journeyTransition'
 import { createMealMachine } from './mealMachine'
-import { GenericDishPicker } from './GenericDishPicker'
 import { RecognitionStatus } from './RecognitionStatus'
 import { MealRecordFields } from './MealRecordFields'
 import { MealArtwork } from '../album/MealArtwork'
@@ -238,9 +237,13 @@ export function MealJourney({
         }
       >
         <div className="meal-recipe-browser">
-          <GenericDishPicker selectedId={dishId} onSelect={chooseRecipe} />
-          <h2 className="meal-specific-recipes-heading">レシピから選ぶ</h2>
-          <RecipeBrowser state={state} onRecipe={chooseRecipe} mode="select" />
+          <RecipeBrowser
+            state={state}
+            onRecipe={chooseRecipe}
+            mode="select"
+            includeDishes
+            selectedId={dishId ?? recipeId}
+          />
         </div>
       </JourneyFrame>,
     )

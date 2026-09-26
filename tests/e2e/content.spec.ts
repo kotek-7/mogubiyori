@@ -14,16 +14,20 @@ import {
   waitForSceneMotion,
 } from './helpers'
 
-test('the main collection searches all 612 recipes and replaces the separate recipe board', async ({
-  page,
-}) => {
+test('the collection previews each category and searches all 612 recipes', async ({ page }) => {
   await page.goto('/')
   await start(page)
   await enablePremium(page)
   await navigate(page, 'ずかん')
   await expect(page.locator('.collection-count')).toContainText('/ 612')
-  await expect(page.locator('.recipe-collection-card')).toHaveCount(24)
-  await expect(page.locator('.recipe-collection-card .discovery-silhouette')).toHaveCount(24)
+  await expect(page.locator('.recipe-collection-card')).toHaveCount(14)
+  await expect(page.locator('.recipe-collection-card .discovery-silhouette')).toHaveCount(14)
+  await expect(page.getByRole('navigation', { name: 'レシピ一覧のページ' })).toHaveCount(0)
+  const categories = page.getByRole('group', { name: '料理のカテゴリ' })
+  await expect(categories.getByRole('button', { name: 'すべて', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  )
   expect(
     await page
       .locator('.recipe-collection-card .dish-art')
@@ -52,14 +56,22 @@ test('the main collection searches all 612 recipes and replaces the separate rec
   await page.getByRole('searchbox', { name: '名前・材料で検索' }).fill('存在しない献立')
   await expect(page.getByText('条件に合うレシピが見つかりませんでした。')).toBeVisible()
   await page.getByRole('button', { name: 'すべてのレシピを見る' }).click()
+  await expect(page.locator('.recipe-collection-card')).toHaveCount(14)
+  await page.getByRole('button', { name: 'ごはん・丼をすべて見る', exact: true }).click()
+  await expect(categories.getByRole('button', { name: 'ごはん・丼', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  )
+  await expect(categories.getByRole('button', { name: 'ごはん・丼', exact: true })).toBeFocused()
   await page.getByRole('button', { name: '次のページ', exact: true }).click()
   await expect(page.getByRole('navigation', { name: 'レシピ一覧のページ' })).toContainText(
-    `2 / ${Math.ceil(recipes.length / 24)}`,
+    `2 / ${Math.ceil(recipes.filter((recipe) => recipe.category === 'rice').length / 24)}`,
   )
   await expect(page.locator('.recipe-collection-card')).toHaveCount(24)
+  await categories.getByRole('button', { name: '野菜・副菜', exact: true }).click()
   await page.getByRole('searchbox', { name: '名前・材料で検索' }).fill('とまと')
   await expect(page.locator('.recipe-collection-card').first()).toBeVisible()
-  await page.getByRole('combobox', { name: '種類', exact: true }).selectOption('side')
+  await page.locator('summary').filter({ hasText: '詳しく絞り込む' }).click()
   await page.getByRole('combobox', { name: '調理時間', exact: true }).selectOption('10')
   await page.getByRole('combobox', { name: '難しさ', exact: true }).selectOption('1')
   await expect(page.locator('.recipe-collection-card').first()).toBeVisible()
@@ -114,6 +126,7 @@ test('an added recipe keeps its card artwork, sample meal photo and progress aft
   await page.reload()
   expect(await storedGame(page)).toEqual(first)
   await navigate(page, 'ずかん')
+  await page.locator('summary').filter({ hasText: '詳しく絞り込む' }).click()
   await page.getByRole('combobox', { name: 'カード', exact: true }).selectOption('yes')
   await expect(page.locator('.recipe-collection-card')).toHaveCount(1)
   await expect(page.locator('.recipe-collection-card .discovery-silhouette')).toHaveCount(0)
@@ -146,9 +159,21 @@ test('the shared meal picker is accessible on mobile and cancellation preserves 
   await page.getByRole('textbox', { name: '料理名（任意）', exact: true }).fill('今日の手作り')
   await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
   await expect(journey(page, 'recipe-pick')).toBeVisible()
-  await expect(page.locator('.recipe-collection-card')).toHaveCount(24)
-  await expect(page.locator('.recipe-collection-card .discovery-silhouette')).toHaveCount(24)
+  const cards = page.locator('.recipe-collection-card')
+  await expect(cards.first()).toBeVisible()
+  expect(await cards.count()).toBeLessThan(30)
+  await expect(page.locator('.recipe-collection-card .discovery-silhouette')).toHaveCount(
+    await cards.count(),
+  )
+  await expect(page.getByRole('navigation', { name: 'レシピ一覧のページ' })).toHaveCount(0)
   await waitForSceneMotion(page)
+  await expect(cards.first()).toBeInViewport()
+  await page.screenshot({ path: 'test-results/category-shelves/meal-390.png' })
+  const categories = page.getByRole('group', { name: '料理のカテゴリ' })
+  await categories.getByRole('button', { name: '麺', exact: true }).click()
+  await expect(page.getByRole('button', { name: 'パスタとして記録', exact: true })).toBeVisible()
+  await expect(page.locator('.recipe-collection-card').first()).toBeVisible()
+  await page.screenshot({ path: 'test-results/category-shelves/noodles-390.png' })
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])
   await page.keyboard.press('Escape')

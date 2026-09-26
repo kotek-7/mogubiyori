@@ -27,11 +27,11 @@
 }
 .recipe-browser-controls {
   display: grid;
-  gap: 16px;
-  padding: 18px;
-  border: 1px solid var(--game-line, #dfd5bc);
+  gap: 10px;
+  padding: 0;
+  border: 0;
   border-radius: var(--game-radius-card);
-  background: var(--game-teal-soft, #f7f1e3);
+  background: transparent;
 }
 .recipe-browser-controls label {
   display: grid;
@@ -73,7 +73,7 @@
 }
 .recipe-browser-filters {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 .recipe-browser-filters select {
@@ -166,8 +166,8 @@
 }
 @media (max-width: 600px) {
   .recipe-browser-controls {
-    gap: 14px;
-    padding: 14px;
+    gap: 8px;
+    padding: 0;
     border-radius: var(--game-radius-card);
   }
   .recipe-browser-filters {
@@ -195,5 +195,175 @@
   }
   .recipe-browser-pagination button {
     padding-inline: 9px;
+  }
+}
+
+.food-category-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.food-category-chips button {
+  min-height: 38px;
+  padding: 7px 12px;
+  border: 1px solid var(--game-line);
+  border-radius: 24px;
+  background: var(--game-surface);
+  color: var(--game-ink);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+.food-category-chips button[aria-pressed='true'] {
+  border-color: var(--game-action);
+  background: var(--game-action);
+  color: #fff;
+  font-weight: 700;
+}
+.recipe-browser-details summary {
+  min-height: 44px;
+  align-content: center;
+  color: var(--game-muted);
+  font-size: 12px;
+  cursor: pointer;
+}
+.recipe-browser-details summary > span {
+  margin-left: 8px;
+  color: var(--game-action-dark);
+  font-weight: 700;
+}
+.recipe-browser-details > p {
+  margin: 0 0 12px;
+  color: var(--game-muted);
+  font-size: 12px;
+}
+.recipe-browser-details .recipe-browser-filters {
+  padding-bottom: 12px;
+}
+.food-category-shelves {
+  display: grid;
+  gap: 28px;
+}
+.food-category-shelf {
+  min-width: 0;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--game-line);
+}
+.food-shelf-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.food-shelf-heading h2,
+.food-results-heading {
+  margin: 0;
+  color: var(--game-ink);
+  font-size: 17px;
+  font-weight: 800;
+}
+.food-shelf-heading > button {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+  min-height: 44px;
+  padding: 8px 0 8px 8px;
+  border: 0;
+  background: transparent;
+  color: var(--game-action-dark);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.recipe-browser .food-category-shelf .recipe-board {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.recipe-browser .food-category-shelf .recipe-card-picture {
+  aspect-ratio: 1.8;
+}
+.food-shelf-dishes {
+  margin-top: 14px;
+}
+.food-shelf-dishes > p,
+.food-dish-results > p {
+  margin: 0 0 8px;
+  color: var(--game-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+.food-dish-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.food-dish-list > button {
+  min-width: 0;
+  min-height: 44px;
+  padding: 9px 10px;
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-control);
+  background: var(--game-surface);
+  color: var(--game-ink);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+.food-dish-list > button:hover,
+.food-dish-list > button[aria-pressed='true'],
+.recipe-browser .recipe-collection-card[aria-pressed='true'] {
+  border-color: var(--game-action);
+  background: color-mix(in srgb, var(--game-action) 6%, var(--game-surface));
+}
+.food-category-results {
+  display: grid;
+  gap: 24px;
+}
+.food-dish-results {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  scroll-margin-top: 20px;
+}
+.food-dish-results legend,
+.food-recipe-results h3 {
+  margin: 0 0 10px;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+.food-recipe-results {
+  min-width: 0;
+  scroll-margin-top: 20px;
+}
+.food-category-results .recipe-browser-pagination {
+  margin-top: 16px;
+}
+@media (min-width: 900px) {
+  .food-category-shelves {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+    align-items: start;
+  }
+  .food-dish-results .food-dish-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 360px) {
+  .food-category-chips button {
+    padding-inline: 9px;
+    font-size: 11px;
+  }
+  .recipe-browser-summary {
+    flex-wrap: wrap;
+    gap: 0 8px;
+    padding-block: 6px;
   }
 }

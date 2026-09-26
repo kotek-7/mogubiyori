@@ -287,12 +287,16 @@ test('generic dishes can be selected manually when recognition fails', async ({
   await expect(page.locator('.meal-recognition-dots')).toHaveCount(0)
   await toTable(page)
   await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
+  await expect(page.locator('.recipe-collection-card').first()).toBeVisible()
+  for (const name of ['パスタ', 'カレー', 'チャーハン', 'ハンバーグ']) {
+    await expect(page.getByRole('button', { name: `${name}として記録`, exact: true })).toBeVisible()
+  }
+  await page
+    .getByRole('group', { name: '料理のカテゴリ' })
+    .getByRole('button', { name: 'おかず', exact: true })
+    .click()
   const choices = page.getByRole('group', { name: '料理の種類で選ぶ' })
   await expect(choices.getByRole('button', { name: /として記録$/ })).toHaveCount(12)
-  await expect(choices.getByRole('status')).toContainText(`${genericDishes.length}種類`)
-  for (const name of ['パスタ', 'カレー', 'チャーハン', 'ハンバーグ']) {
-    await expect(choices.getByRole('button', { name: `${name}として記録` })).toBeVisible()
-  }
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   await page.screenshot({ path: testInfo.outputPath('generic-dish-picker-mobile.png') })
   await choices.getByRole('button', { name: 'ハンバーグとして記録' }).click()
@@ -310,7 +314,7 @@ test('generic dishes can be selected manually when recognition fails', async ({
   expect((await storedGame(page)).cards).toEqual([])
 })
 
-test('the expanded dish picker searches aliases, filters and pages without changing the saved meal', async ({
+test('category shelves expose every dish and share search without changing the saved meal', async ({
   page,
 }, testInfo) => {
   await page.setViewportSize({ width: 320, height: 568 })
@@ -319,45 +323,67 @@ test('the expanded dish picker searches aliases, filters and pages without chang
   await sampleToTable(page)
   await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
   const choices = page.getByRole('group', { name: '料理の種類で選ぶ' })
-  const search = choices.getByRole('searchbox', { name: '料理名で検索' })
-  const category = choices.getByRole('combobox', { name: '種類', exact: true })
-  const pagination = choices.getByRole('navigation', { name: '料理の種類のページ' })
-  const seen = new Set(await choices.locator('.meal-dish-list button').allTextContents())
-  await expect(pagination.getByRole('button', { name: '前のページ' })).toBeDisabled()
-  await pagination.getByRole('button', { name: '次のページ' }).click()
-  await expect(choices.getByRole('status')).toContainText('13〜24件目')
-  for (let current = 2; current <= Math.ceil(genericDishes.length / 12); current += 1) {
-    for (const name of await choices.locator('.meal-dish-list button').allTextContents()) {
-      seen.add(name)
+  const search = page.getByRole('searchbox', { name: '名前・材料で検索' })
+  const categories = page.getByRole('group', { name: '料理のカテゴリ' })
+  const categoryNames = [
+    'ごはん・丼',
+    '麺',
+    'おかず',
+    '野菜・副菜',
+    '汁もの・鍋',
+    'パン・朝ごはん',
+    'おやつ・果物',
+    '飲みもの',
+    '弁当・定食',
+  ]
+  const seen: string[] = []
+  for (const name of categoryNames) {
+    await categories.getByRole('button', { name, exact: true }).click()
+    await expect(categories.getByRole('button', { name, exact: true })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    )
+    const pagination = page.getByRole('navigation', { name: '料理の種類のページ' })
+    const next = pagination.getByRole('button', { name: '次のページ' })
+    if (await pagination.count()) {
+      await expect(pagination.getByRole('button', { name: '前のページ' })).toBeDisabled()
     }
-    if (current < Math.ceil(genericDishes.length / 12)) {
-      await pagination.getByRole('button', { name: '次のページ' }).click()
-      await expect(choices.getByRole('status')).toContainText(`${current * 12 + 1}〜`)
+    while (true) {
+      for (const label of await choices
+        .getByRole('button', { name: /として記録$/ })
+        .evaluateAll((buttons) => buttons.map((button) => button.getAttribute('aria-label')!))) {
+        seen.push(label.replace(/として記録$/, ''))
+      }
+      if (!(await next.count()) || (await next.isDisabled())) break
+      await next.click()
     }
   }
-  await expect(pagination.getByRole('button', { name: '次のページ' })).toBeDisabled()
-  expect([...seen].sort()).toEqual(genericDishes.map((dish) => dish.name).sort())
+  expect(seen.sort()).toEqual(genericDishes.map((dish) => dish.name).sort())
 
-  await search.fill('ｷﾞｮｳｻﾞ')
-  await expect(choices.getByRole('button', { name: '餃子として記録', exact: true })).toBeVisible()
-  await category.selectOption('seafood')
-  await expect(choices.getByRole('status')).toContainText('0種類')
+  await categories.getByRole('button', { name: 'すべて', exact: true }).click()
+  await search.fill('ﾄﾞﾘｱ')
   await expect(
-    choices.getByText('料理が見つかりませんでした。別の名前でも探せます。'),
+    choices.getByRole('button', { name: 'グラタンとして記録', exact: true }),
   ).toBeVisible()
-  await choices.getByRole('button', { name: 'すべての料理を見る' }).click()
+  await categories.getByRole('button', { name: '飲みもの', exact: true }).click()
+  await expect(page.getByRole('button', { name: /として記録$/ })).toHaveCount(0)
+  await expect(page.locator('.recipe-collection-card')).toHaveCount(0)
+  await page.getByRole('button', { name: '条件をリセット', exact: true }).click()
   await expect(search).toHaveValue('')
-  await expect(category).toHaveValue('all')
-  await expect(choices.getByRole('status')).toContainText('1〜12件目')
+  await expect(categories.getByRole('button', { name: 'すべて', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  )
+  await expect(page.getByRole('navigation', { name: '料理の種類のページ' })).toHaveCount(0)
 
-  await category.selectOption('meat')
-  await search.fill('ぎょうざ')
-  const choose = choices.getByRole('button', { name: '餃子として記録', exact: true })
+  await categories.getByRole('button', { name: 'おかず', exact: true }).click()
+  await search.fill('どりあ')
+  const choose = choices.getByRole('button', { name: 'グラタンとして記録', exact: true })
   await expect(choose).toBeVisible()
   await waitForSceneMotion(page)
-  expect(
-    (await new AxeBuilder({ page }).include('.meal-generic-dishes').analyze()).violations,
-  ).toEqual([])
+  expect((await new AxeBuilder({ page }).include('.recipe-browser').analyze()).violations).toEqual(
+    [],
+  )
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   expect(await choices.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true)
   await choices.evaluate((element) => element.scrollIntoView({ block: 'start' }))
@@ -366,17 +392,26 @@ test('the expanded dish picker searches aliases, filters and pages without chang
 
   await choose.focus()
   await page.keyboard.press('Enter')
-  await expect(selectedMealRecipe(page)).toHaveText('餃子')
+  await expect(selectedMealRecipe(page)).toHaveText('グラタン')
   await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
-  // Reopening lands on the selected dish's page, even for a newly added entry.
+  // Reopening lands on the selected dish's category and page.
+  await expect(page.getByRole('navigation', { name: '料理の種類のページ' })).toContainText('2 / 2')
+  await expect(categories.getByRole('button', { name: 'おかず', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  )
   await expect(
-    choices.getByRole('button', { name: '餃子として記録', exact: true }),
+    choices.getByRole('button', { name: 'グラタンとして記録', exact: true }),
   ).toHaveAttribute('aria-pressed', 'true')
   await page.getByRole('button', { name: '食卓にもどる', exact: true }).click()
   expect(await storedGame(page)).toEqual(before)
   await giveMeal(page, true)
   const saved = await storedGame(page)
-  expect(saved.meals[0]).toMatchObject({ dishId: 'generic-gyoza', title: '餃子', cardBonus: 0 })
+  expect(saved.meals[0]).toMatchObject({
+    dishId: 'generic-gratin',
+    title: 'グラタン',
+    cardBonus: 0,
+  })
   expect(saved.meals[0].recipeId).toBeUndefined()
   expect(saved.cards).toEqual([])
   await returnToPlaza(page)
@@ -405,7 +440,7 @@ test('new dish photo candidates are selectable and cannot overwrite a manual dis
   await toTable(page)
   await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
   const choices = page.getByRole('group', { name: '料理の種類で選ぶ' })
-  await choices.getByRole('searchbox', { name: '料理名で検索' }).fill('ぎょうざ')
+  await page.getByRole('searchbox', { name: '名前・材料で検索' }).fill('ぎょうざ')
   await choices.getByRole('button', { name: '餃子として記録', exact: true }).click()
   await api.reply(1, ['generic-curry'])
   await expect(selectedMealRecipe(page)).toHaveText('餃子')
@@ -518,10 +553,8 @@ test('a recipe chosen from the collection remains selected after a different pho
 }) => {
   const api = await mockRecognition(page)
   await navigate(page, 'ずかん')
-  await page
-    .locator('.recipe-collection-card')
-    .nth(recipes.findIndex((recipe) => recipe.id === 'curry'))
-    .click()
+  await page.getByRole('searchbox', { name: '名前・材料で検索' }).fill('カレー')
+  await page.getByRole('button', { name: 'カレーのレシピを見る（未獲得）', exact: true }).click()
   await page.getByRole('button', { name: 'この料理を記録する' }).click()
   await uploadPhoto(page)
   await api.waitFor(1)
@@ -674,7 +707,7 @@ test('pasta variations share one dish family while their recipe cards stay disti
   await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
   const choices = page.getByRole('group', { name: '料理の種類で選ぶ' })
   for (const name of ['ペペロンチーノ', 'カルボナーラ']) {
-    await choices.getByRole('searchbox', { name: '料理名で検索' }).fill(name)
+    await page.getByRole('searchbox', { name: '名前・材料で検索' }).fill(name)
     await expect(choices.getByRole('button', { name: /として記録$/ })).toHaveCount(1)
     await expect(
       choices.getByRole('button', { name: 'パスタとして記録', exact: true }),
@@ -682,7 +715,6 @@ test('pasta variations share one dish family while their recipe cards stay disti
     await expect(
       choices.getByRole('button', { name: `${name}として記録`, exact: true }),
     ).toHaveCount(0)
-    await page.getByRole('searchbox', { name: '名前・材料で検索' }).fill(name)
     await expect(page.locator('.recipe-collection-card').first()).toContainText(name)
   }
   await choices.scrollIntoViewIfNeeded()
