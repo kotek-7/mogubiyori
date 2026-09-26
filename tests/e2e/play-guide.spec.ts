@@ -348,5 +348,26 @@ for (const viewport of [
     await expectInsideViewport(page, shopGuide(page))
     await expectInsideViewport(page, purchase)
     await capture('play-guide-shop-purchase')
+    const outlineClearance = await purchase.evaluate((button) => {
+      const box = button.getBoundingClientRect()
+      const style = getComputedStyle(button)
+      const outline = Number.parseFloat(style.outlineWidth) + Number.parseFloat(style.outlineOffset)
+      const dialog = button.closest('dialog')!
+      const sheet = dialog.getBoundingClientRect()
+      const left = sheet.left + dialog.clientLeft
+      const top = sheet.top + dialog.clientTop
+      return {
+        top: box.top - outline - top,
+        left: box.left - outline - left,
+        right: left + dialog.clientWidth - box.right - outline,
+        bottom: top + dialog.clientHeight - box.bottom - outline,
+      }
+    })
+    for (const [edge, clearance] of Object.entries(outlineClearance)) {
+      expect(
+        clearance,
+        `the purchase button and outline must fit inside the dialog's ${edge} edge`,
+      ).toBeGreaterThanOrEqual(0)
+    }
   })
 }

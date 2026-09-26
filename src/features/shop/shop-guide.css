@@ -25,10 +25,10 @@
     height: 65px;
   }
   .item-detail.is-guided .item-preview {
-    height: 160px;
+    height: 128px;
   }
   .item-detail.is-guided .item-preview > svg:only-child {
-    width: 145px;
-    height: 145px;
+    width: 112px;
+    height: 112px;
   }
 }
