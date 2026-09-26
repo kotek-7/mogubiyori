@@ -70,7 +70,7 @@ test('the main collection searches all 310 recipes and replaces the separate rec
   await expect(page.locator('.collection-count')).toContainText('/ 310')
 })
 
-test('an added recipe earns one card and keeps its artwork and progress after reload', async ({
+test('an added recipe keeps its card artwork, sample meal photo and progress after reload', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
@@ -85,11 +85,13 @@ test('an added recipe earns one card and keeps its artwork and progress after re
     .getByRole('button', { name: `${recipe.name}のレシピを見る（未獲得）`, exact: true })
     .click()
   await page.getByRole('button', { name: 'この料理を記録する' }).click()
-  await page.getByRole('button', { name: '写真なしで体験する' }).click()
+  await page.getByRole('button', { name: 'サンプル写真で体験する' }).click()
   await expect(selectedMealRecipe(page)).toHaveText(recipe.name)
-  await expect(page.locator('.meal-serving-dish img')).toHaveAttribute('src', recipe.artPath!)
+  const samplePhoto = page.locator('.meal-serving-dish img')
+  await expect(samplePhoto).toHaveAttribute('src', /^data:image\/jpeg;base64,/)
+  const photo = await samplePhoto.getAttribute('src')
   await page.getByRole('button', { name: 'こむぎにごはんをあげる', exact: true }).click()
-  await expect(page.locator('.feast-plate img')).toHaveAttribute('src', recipe.artPath!)
+  await expect(page.locator('.feast-plate img')).toHaveAttribute('src', photo!)
   await page.getByRole('button', { name: '早送り', exact: true }).click()
   await advanceXp(page)
   await expect(journey(page, 'card').getByRole('img', { name: recipe.name })).toHaveAttribute(
@@ -103,6 +105,7 @@ test('an added recipe earns one card and keeps its artwork and progress after re
     recipeId: recipe.id,
     cardBonus: recipe.reward,
     title: recipe.name,
+    photo,
     xp: 45,
   })
   expect(first.coins).toBe(before.coins + 30 + recipe.reward)
@@ -114,11 +117,11 @@ test('an added recipe earns one card and keeps its artwork and progress after re
   await expect(page.locator('.recipe-collection-card .discovery-silhouette')).toHaveCount(0)
   await expect(page.locator('.recipe-collection-card img')).toHaveAttribute('src', recipe.artPath!)
   await page.getByRole('button', { name: 'ごはんの記録' }).click()
-  await expect(page.locator('.memory-card img')).toHaveAttribute('src', recipe.artPath!)
+  await expect(page.locator('.memory-card img')).toHaveAttribute('src', photo!)
   await page.locator('.memory-card').click()
   await expect(page.getByRole('dialog').getByRole('img', { name: recipe.name })).toHaveAttribute(
     'src',
-    recipe.artPath!,
+    photo!,
   )
   await page.getByRole('button', { name: '閉じる', exact: true }).click()
   await navigate(page, 'ひろば')
@@ -136,7 +139,7 @@ test('the shared meal picker is accessible on mobile and cancellation preserves 
   await page.goto('/')
   await start(page)
   await page.locator('.play-feed').click()
-  await page.getByRole('button', { name: '写真なしで体験する' }).click()
+  await page.getByRole('button', { name: 'サンプル写真で体験する' }).click()
   await page.getByText('料理名をつける', { exact: true }).click()
   await page.getByRole('textbox', { name: '料理名（任意）', exact: true }).fill('今日の手作り')
   await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()

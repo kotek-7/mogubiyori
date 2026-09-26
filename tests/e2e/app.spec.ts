@@ -184,7 +184,7 @@ test('an undiscovered recipe guides cooking and becomes a collected card afterwa
   await expect(page.getByRole('dialog')).toContainText('つくりかた')
   await page.getByRole('button', { name: 'この料理を記録する' }).click()
   await expectFocusedScene(page, 'photo')
-  await page.getByRole('button', { name: '写真なしで体験する' }).click()
+  await page.getByRole('button', { name: 'サンプル写真で体験する' }).click()
   await expect(selectedMealRecipe(page)).toHaveText('カレー')
   await page.getByRole('button', { name: 'こむぎにごはんをあげる', exact: true }).click()
   expect(await returnToPlaza(page)).toContain('card')

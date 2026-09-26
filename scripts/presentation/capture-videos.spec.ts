@@ -201,10 +201,11 @@ const scenes: Scene[] = [
     id: '07-growth-after-meal',
     title: 'ごはんをあげて成長する',
     fixture: 'growth',
-    description: '写真なしのごはんから食事・XP獲得・新しい姿への成長まで、一続きの操作を見せる。',
+    description:
+      'サンプル写真のごはんから食事・XP獲得・新しい姿への成長まで、一続きの操作を見せる。',
     run: async (page) => {
       await click(page, page.locator('.play-feed'))
-      await click(page, page.getByRole('button', { name: '写真なしで体験する' }), 2400)
+      await click(page, page.getByRole('button', { name: 'サンプル写真で体験する' }), 2400)
       await click(
         page,
         page.getByRole('button', { name: 'こむぎにごはんをあげる', exact: true }),

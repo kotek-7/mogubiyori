@@ -73,7 +73,7 @@ export async function navigate(
 
 export async function sampleToTable(page: Page, recipeId = '') {
   await expect(journey(page, 'photo')).toBeVisible()
-  await page.getByRole('button', { name: '写真なしで体験する' }).click()
+  await page.getByRole('button', { name: 'サンプル写真で体験する' }).click()
   await expect(journey(page, 'serve')).toBeVisible()
   await selectMealRecipe(page, recipeId)
 }

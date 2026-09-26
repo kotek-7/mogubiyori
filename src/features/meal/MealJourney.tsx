@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useMachine } from '@xstate/react'
 import { fromPromise } from 'xstate'
 import { AnimatePresence } from 'motion/react'
-import { ArrowRight, Camera, ImagePlus, Search, Utensils } from 'lucide-react'
+import { ArrowRight, Camera, ImagePlus, Search, Shuffle, Utensils } from 'lucide-react'
 import { Pet } from '../../ui/art/GameArt'
 import { RecipeArt } from '../../ui/art/RecipeArt'
 import { RecipeBrowser } from '../collection/RecipeBrowser'
@@ -14,6 +14,7 @@ import { mealChoiceById } from '../../../shared/content/mealChoices'
 import type { FeedInput, GameState, SpeciesId } from '../../../shared/game/types'
 import type { FeedReceipt } from '../../../shared/game/receipt'
 import { resizePhoto } from './photo'
+import { loadSamplePhoto } from './samplePhotos'
 import { recognizeFood } from './foodRecognition'
 import { transitionScene } from '../../ui/journey/journeyTransition'
 import { createMealMachine } from './mealMachine'
@@ -68,6 +69,7 @@ export function MealJourney({
   const [machine] = useState(() =>
     createMealMachine({
       resizePhoto,
+      loadSamplePhoto,
       recognizeFood,
       submit: onFeed,
     }),
@@ -104,7 +106,8 @@ export function MealJourney({
     : snapshot.matches({ editing: { navigation: 'recipes' } })
       ? 'recipe-pick'
       : 'serve'
-  const loading = snapshot.matches({ editing: { media: 'resizing' } })
+  const loadingSample = snapshot.matches({ editing: { media: 'loadingSample' } })
+  const loading = snapshot.matches({ editing: { media: 'resizing' } }) || loadingSample
   const confirmingNutrition = snapshot.matches({ editing: { navigation: 'confirmNutrition' } })
   const submitting = snapshot.matches('submitting') || snapshot.matches('committed')
   const recognition = snapshot.matches({ editing: { media: 'recognizing' } })
@@ -179,7 +182,7 @@ export function MealJourney({
   const dish = previousFeed ? (
     <MealArtwork meal={previousFeed} />
   ) : photo ? (
-    <img src={photo} alt="今日の料理" />
+    <img src={photo} alt={sample ? 'サンプルの料理写真' : '今日の料理'} />
   ) : (
     <RecipeArt recipe={recipe} />
   )
@@ -247,7 +250,7 @@ export function MealJourney({
               disabled={loading}
               onClick={() => transitionScene(() => send({ type: 'USE_SAMPLE' }))}
             >
-              写真なしで体験する
+              <Shuffle size={20} /> サンプル写真で体験する
             </button>
           </>
         }
@@ -303,7 +306,9 @@ export function MealJourney({
             />
           </div>
         </div>
-        {!ready && (
+        {loadingSample && <p role="status">サンプル写真を読み込んでいます</p>}
+        {sample && photo && !loading && <p className="meal-recognition-status">サンプル写真</p>}
+        {!ready && !loading && (
           <p className="meal-recognition-status">
             写真を提出すると該当する料理の候補が提示されます。
           </p>
@@ -419,6 +424,7 @@ export function MealJourney({
         )}
         {!sharing && (
           <>
+            {sample && photo && <p className="meal-recognition-status">サンプル写真</p>}
             <RecognitionStatus
               pending={recognition === 'recognizing'}
               message={recognitionMessage}

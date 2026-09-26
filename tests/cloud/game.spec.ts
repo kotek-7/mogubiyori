@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test'
 import type { Page } from '@playwright/test'
+import type { Buffer } from 'node:buffer'
 import { applyGameCommand } from '../../shared/game/commands'
 import type { CommandRequest, CommandResponse, GameSnapshot } from '../../shared/game/contracts'
 import { isDebugGameCommand } from '../../shared/game/debug'
@@ -31,6 +32,8 @@ async function mockCloud(page: Page, debugEnabled = false) {
   ])
   const operations = new Map<string, CommandResponse>()
   const feedRequests: CommandRequest[] = []
+  const photoUploads: { operationId: string; userId: string; mime: string; bytes: Buffer }[] = []
+  const photos = new Map<string, (typeof photoUploads)[number]>()
   const debugRequests: CommandRequest[] = []
   const authRequests: string[] = []
   const oauthRequests: OAuthRequest[] = []
@@ -157,6 +160,31 @@ async function mockCloud(page: Page, debugEnabled = false) {
     const id = session.user.id
     const snapshot = snapshots.get(id)!
     const path = new URL(request.url()).pathname
+    if (path === '/api/photos') {
+      const upload = {
+        operationId: request.headers()['x-operation-id'],
+        userId: id,
+        mime: request.headers()['content-type'],
+        bytes: request.postDataBuffer()!,
+      }
+      photoUploads.push(upload)
+      const previous = photos.get(upload.operationId)
+      if (previous) expect(upload).toEqual(previous)
+      else photos.set(upload.operationId, upload)
+      return route.fulfill({ json: { photoId: upload.operationId } })
+    }
+    if (path === '/api/photos/read-urls') {
+      const { photoIds } = request.postDataJSON() as { photoIds: string[] }
+      return route.fulfill({
+        json: {
+          photos: photoIds.map((photoId) => {
+            expect(photos.get(photoId)?.userId).toBe(id)
+            expect(snapshot.state.meals.some((meal) => meal.photoId === photoId)).toBe(true)
+            return { photoId, url: `${origin}/test-photos/${photoId}` }
+          }),
+        },
+      })
+    }
     if (path === '/api/game') {
       loadUsers.push(id)
       return route.fulfill({
@@ -211,12 +239,18 @@ async function mockCloud(page: Page, debugEnabled = false) {
     }
     return route.fulfill({ status: 404, json: { error: 'unexpected_test_api_request' } })
   })
+  await page.route(`${origin}/test-photos/*`, async (route) => {
+    const photoId = new URL(route.request().url()).pathname.split('/').at(-1)!
+    const photo = photos.get(photoId)!
+    return route.fulfill({ contentType: photo.mime, body: photo.bytes })
+  })
   return {
     authRequests,
     oauthRequests,
     exchanges,
     loadUsers,
     feedRequests,
+    photoUploads,
     debugRequests,
     blockedExternal,
     snapshot: (id = userId) => snapshots.get(id)!,
@@ -393,7 +427,7 @@ test('cloud debug replacement can be canceled and fresh reset restores the real 
 async function prepareMeal(page: Page) {
   await page.locator('.play-feed').click()
   await expect(scene(page, 'photo')).toBeVisible()
-  await page.getByRole('button', { name: '写真なしで体験する' }).click()
+  await page.getByRole('button', { name: 'サンプル写真で体験する' }).click()
   await expect(scene(page, 'serve')).toBeVisible()
 }
 
@@ -423,6 +457,15 @@ test('a meal stays pending until the server confirms and starts its celebration 
   await page.getByRole('button', { name: 'こむぎにごはんをあげる', exact: true }).click()
   await confirmUnclassifiedMeal(page)
   await expect.poll(() => cloud.feedRequests.length).toBe(1)
+  expect(cloud.photoUploads).toHaveLength(1)
+  const uploaded = cloud.photoUploads[0]
+  expect(uploaded.mime).toBe('image/jpeg')
+  expect([...uploaded.bytes.subarray(0, 3)]).toEqual([0xff, 0xd8, 0xff])
+  expect(cloud.feedRequests[0]).toMatchObject({
+    operationId: uploaded.operationId,
+    command: { type: 'feed', input: { photoId: uploaded.operationId } },
+  })
+  expect(cloud.feedRequests[0].command).not.toHaveProperty('input.photo')
   await expect(page.getByRole('button', { name: 'ごはんを保存中', exact: true })).toBeDisabled()
   await expect(scene(page, 'eating')).toHaveCount(0)
   // Repeated form events cannot submit a second mutation while the first waits.
@@ -435,6 +478,7 @@ test('a meal stays pending until the server confirms and starts its celebration 
   cloud.releaseFeed()
   await expect(scene(page, 'eating')).toBeVisible()
   expect(cloud.snapshot().state.meals).toHaveLength(1)
+  expect(cloud.snapshot().state.meals[0].photoId).toBe(uploaded.operationId)
   expect(cloud.snapshot().state.xp).toBe(45)
   expect(await page.evaluate(() => localStorage.getItem('mogubiyori-v1'))).toBeNull()
   expect(cloud.blockedExternal).toEqual([])
@@ -460,6 +504,9 @@ test('a lost confirmation retains the meal and retries the same operation withou
   await expect(scene(page, 'eating')).toBeVisible()
   expect(cloud.feedRequests).toHaveLength(2)
   expect(cloud.feedRequests[0]).toEqual(cloud.feedRequests[1])
+  expect(cloud.photoUploads).toHaveLength(2)
+  expect(cloud.photoUploads[0]).toEqual(cloud.photoUploads[1])
+  expect(cloud.snapshot().state.meals[0].photoId).toBe(cloud.photoUploads[0].operationId)
   expect(cloud.snapshot().state.meals).toHaveLength(1)
   expect(cloud.snapshot().state.xp).toBe(45)
   expect(cloud.blockedExternal).toEqual([])

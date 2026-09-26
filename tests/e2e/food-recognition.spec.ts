@@ -317,19 +317,19 @@ test('failed, unknown and empty recognition responses still allow manually recor
   }
 })
 
-test('photo-free play skips recognition and ignores a response for a discarded photo', async ({
+test('sample-photo play skips recognition and ignores a response for a discarded photo', async ({
   page,
 }) => {
   const api = await mockRecognition(page)
   const before = await storedGame(page)
   await page.locator('.play-feed').click()
-  await page.getByRole('button', { name: '写真なしで体験する', exact: true }).click()
+  await page.getByRole('button', { name: 'サンプル写真で体験する', exact: true }).click()
   await expect(journey(page, 'serve')).toBeVisible()
   expect(api.requests).toHaveLength(0)
   await page.getByRole('button', { name: '写真にもどる', exact: true }).click()
   await uploadPhoto(page)
   await api.waitFor(1)
-  await page.getByRole('button', { name: '写真なしで体験する', exact: true }).click()
+  await page.getByRole('button', { name: 'サンプル写真で体験する', exact: true }).click()
   await expect(journey(page, 'serve')).toBeVisible()
   await api.reply(0, ['curry'])
   await expect(selectedMealRecipe(page)).toHaveText('今日のごはん')
@@ -337,7 +337,7 @@ test('photo-free play skips recognition and ignores a response for a discarded p
   await giveMeal(page, true)
   const saved = await storedGame(page)
   expect(saved.meals).toHaveLength(1)
-  expect(saved.meals[0].photo).toBeUndefined()
+  expect(saved.meals[0].photo).toMatch(/^data:image\/jpeg;base64,/)
   expect(saved.meals[0].recipeId).toBeUndefined()
   expect(saved.cards).toEqual([])
   expect(api.requests).toHaveLength(1)
@@ -355,7 +355,7 @@ test('cancelling a pending recognition keeps the save and the next meal unchange
   await expect(journey(page)).toHaveCount(0)
   expect(await storedGame(page)).toEqual(before)
   await page.locator('.play-feed').click()
-  await page.getByRole('button', { name: '写真なしで体験する', exact: true }).click()
+  await page.getByRole('button', { name: 'サンプル写真で体験する', exact: true }).click()
   await api.reply(0, ['curry'])
   await expect(selectedMealRecipe(page)).toHaveText('今日のごはん')
   expect(await storedGame(page)).toEqual(before)

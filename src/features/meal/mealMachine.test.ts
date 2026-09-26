@@ -31,6 +31,7 @@ function start(overrides: Partial<MealServices> = {}, input: Partial<MealMachine
   let sequence = 0
   const services: MealServices = {
     resizePhoto: async (file) => `photo:${file.name}`,
+    loadSamplePhoto: async () => 'data:image/jpeg;base64,c2FtcGxl',
     recognizeFood: async () => [],
     submit: vi.fn(async () => receipt),
     createOperationId: () => `operation-${++sequence}`,
@@ -46,6 +47,92 @@ function start(overrides: Partial<MealServices> = {}, input: Partial<MealMachine
 const photo = (name = 'meal.jpg') => new File(['photo'], name, { type: 'image/jpeg' })
 
 describe('meal draft workflow', () => {
+  it('waits for a sample photo and submits that image without recognition', async () => {
+    const sample = pending<string>()
+    const recognizeFood = vi.fn(async () => [])
+    const { actor, services } = start({ loadSamplePhoto: () => sample.promise, recognizeFood })
+    actor.send({ type: 'USE_SAMPLE' })
+    actor.send({ type: 'NEXT' })
+    actor.send({ type: 'SUBMIT' })
+    expect(
+      actor.getSnapshot().matches({ editing: { navigation: 'photo', media: 'loadingSample' } }),
+    ).toBe(true)
+    expect(services.submit).not.toHaveBeenCalled()
+    sample.resolve('data:image/jpeg;base64,c2FtcGxl')
+    await waitFor(actor, (state) =>
+      state.matches({ editing: { navigation: 'serve', media: 'idle' } }),
+    )
+    actor.send({ type: 'SUBMIT' })
+    actor.send({ type: 'CONFIRM_SUBMIT' })
+    await waitFor(actor, (state) => state.matches('committed'))
+    expect(services.submit).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({ photo: 'data:image/jpeg;base64,c2FtcGxl' }),
+      'operation-1',
+    )
+    expect(recognizeFood).not.toHaveBeenCalled()
+  })
+
+  it('keeps the current photo and title when a sample fails and allows retrying', async () => {
+    const loadSamplePhoto = vi
+      .fn()
+      .mockRejectedValueOnce(new Error('offline'))
+      .mockResolvedValueOnce('data:image/jpeg;base64,c2FtcGxl')
+    const { actor } = start({ loadSamplePhoto })
+    actor.send({ type: 'PHOTO_SELECTED', file: photo() })
+    await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
+    actor.send({ type: 'TITLE_CHANGED', title: 'お昼ごはん' })
+    actor.send({ type: 'USE_SAMPLE' })
+    await waitFor(actor, (state) => state.context.error !== '')
+    expect(actor.getSnapshot().context).toMatchObject({
+      photo: 'photo:meal.jpg',
+      sample: false,
+      title: 'お昼ごはん',
+    })
+    expect(actor.getSnapshot().matches({ editing: { navigation: 'photo', media: 'idle' } })).toBe(
+      true,
+    )
+    actor.send({ type: 'USE_SAMPLE' })
+    await waitFor(actor, (state) =>
+      state.matches({ editing: { navigation: 'serve', media: 'idle' } }),
+    )
+    expect(actor.getSnapshot().context).toMatchObject({
+      photo: 'data:image/jpeg;base64,c2FtcGxl',
+      sample: true,
+      title: 'お昼ごはん',
+      error: '',
+    })
+  })
+
+  it.each(['PHOTO_SELECTED', 'CANCEL'] as const)(
+    'ignores a pending sample after %s',
+    async (action) => {
+      const sample = pending<string>()
+      let signal!: AbortSignal
+      const { actor, services } = start({
+        loadSamplePhoto: (nextSignal) => {
+          signal = nextSignal
+          return sample.promise
+        },
+      })
+      actor.send({ type: 'USE_SAMPLE' })
+      if (action === 'CANCEL') actor.send({ type: 'CANCEL' })
+      else {
+        actor.send({ type: 'PHOTO_SELECTED', file: photo() })
+        await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
+      }
+      expect(signal.aborted).toBe(true)
+      sample.resolve('discarded-sample')
+      await sample.promise
+      expect(actor.getSnapshot().context.photo).not.toBe('discarded-sample')
+      expect(
+        actor
+          .getSnapshot()
+          .matches(action === 'CANCEL' ? 'cancelled' : { editing: { navigation: 'photo' } }),
+      ).toBe(true)
+      expect(services.submit).not.toHaveBeenCalled()
+    },
+  )
+
   it('submits a recognized generic dish without assigning a recipe card', async () => {
     const { actor, services } = start({ recognizeFood: async () => ['generic-pasta'] })
     actor.send({ type: 'PHOTO_SELECTED', file: photo() })
@@ -104,6 +191,9 @@ describe('meal draft workflow', () => {
       .mockResolvedValueOnce(receipt)
     const { actor } = start({ submit })
     actor.send({ type: 'USE_SAMPLE' })
+    await waitFor(actor, (state) =>
+      state.matches({ editing: { navigation: 'serve', media: 'idle' } }),
+    )
     actor.send({ type: 'TITLE_CHANGED', title: 'お昼ごはん' })
     actor.send({ type: 'RECIPE_CHANGED', recipeId: 'generic-fried-rice' })
     actor.send({ type: 'SUBMIT' })
@@ -149,10 +239,13 @@ describe('meal draft workflow', () => {
     expect(actor.getSnapshot().context.receipt).toBe(receipt)
   })
 
-  it('allows an unclassified warning to be cancelled without changing the draft or allocating an operation', () => {
+  it('allows an unclassified warning to be cancelled without changing the draft or allocating an operation', async () => {
     const createOperationId = vi.fn(() => 'operation-1')
     const { actor, services } = start({ createOperationId })
     actor.send({ type: 'USE_SAMPLE' })
+    await waitFor(actor, (state) =>
+      state.matches({ editing: { navigation: 'serve', media: 'idle' } }),
+    )
     const draft = actor.getSnapshot().context
     actor.send({ type: 'SUBMIT' })
     expect(actor.getSnapshot().matches({ editing: { navigation: 'confirmNutrition' } })).toBe(true)
@@ -177,6 +270,9 @@ describe('meal draft workflow', () => {
     const createOperationId = vi.fn(() => 'operation-1')
     const { actor } = start({ submit, createOperationId })
     actor.send({ type: 'USE_SAMPLE' })
+    await waitFor(actor, (state) =>
+      state.matches({ editing: { navigation: 'serve', media: 'idle' } }),
+    )
     actor.send({ type: 'SUBMIT' })
     expect(submit).not.toHaveBeenCalled()
     actor.send({ type: 'CONFIRM_SUBMIT' })
@@ -214,6 +310,9 @@ describe('meal draft workflow', () => {
   ])('skips the warning for $name', async ({ item }) => {
     const { actor, services } = start()
     actor.send({ type: 'USE_SAMPLE' })
+    await waitFor(actor, (state) =>
+      state.matches({ editing: { navigation: 'serve', media: 'idle' } }),
+    )
     actor.send({
       type: 'RECORD_CHANGED',
       value: { slot: 'dinner', source: 'home', items: [{ ...item, groups: [...item.groups] }] },
@@ -378,6 +477,9 @@ describe('meal draft workflow', () => {
     actor.send({ type: 'PHOTO_SELECTED', file: photo() })
     await waitFor(actor, (state) => state.matches({ editing: { media: 'recognizing' } }))
     actor.send({ type: 'USE_SAMPLE' })
+    await waitFor(actor, (state) =>
+      state.matches({ editing: { navigation: 'serve', media: 'idle' } }),
+    )
     expect(signal.aborted).toBe(true)
     recognition.resolve(['curry'])
     await recognition.promise
@@ -386,7 +488,7 @@ describe('meal draft workflow', () => {
     )
     expect(actor.getSnapshot().context).toMatchObject({
       sample: true,
-      photo: undefined,
+      photo: 'data:image/jpeg;base64,c2FtcGxl',
       candidates: [],
       recipeId: 'onigiri',
     })
@@ -422,6 +524,9 @@ describe('meal draft workflow', () => {
       .mockImplementationOnce(() => retrySave.promise)
     const { actor } = start({ submit })
     actor.send({ type: 'USE_SAMPLE' })
+    await waitFor(actor, (state) =>
+      state.matches({ editing: { navigation: 'serve', media: 'idle' } }),
+    )
     actor.send({ type: 'TITLE_CHANGED', title: '  お昼ごはん  ' })
     actor.send({ type: 'RECIPE_CHANGED', recipeId: 'curry' })
     actor.send({ type: 'SUBMIT' })

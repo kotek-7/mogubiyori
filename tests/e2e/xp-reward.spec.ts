@@ -35,7 +35,7 @@ async function seed(page: Page, state: GameState) {
 async function serve(page: Page, recipeId = '', recipient = 'こむぎ', skipEating = true) {
   if (recipient === 'こむぎ') await page.locator('.play-feed').click()
   else await page.getByRole('button', { name: `お客さんの${recipient}にごはんをあげる` }).click()
-  await page.getByRole('button', { name: '写真なしで体験する', exact: true }).click()
+  await page.getByRole('button', { name: 'サンプル写真で体験する', exact: true }).click()
   await selectMealRecipe(page, recipeId)
   await page.getByRole('button', { name: `${recipient}にごはんをあげる`, exact: true }).click()
   if (!recipeId) await confirmUnclassifiedMeal(page)

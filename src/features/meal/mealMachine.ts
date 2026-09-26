@@ -1,4 +1,4 @@
-import { and, assign, fromPromise, not, setup, stateIn } from 'xstate'
+import { and, assign, fromPromise, not, or, raise, setup, stateIn } from 'xstate'
 import { recipeById } from '../../../shared/content/catalog'
 import { genericDishById } from '../../../shared/content/dishes'
 import type { FeedInput, SpeciesId } from '../../../shared/game/types'
@@ -36,11 +36,20 @@ type MealEvent =
   | { type: 'RECORD_CHANGED'; value: MealRecordInput }
   | { type: 'TARGET_CHANGED'; targetId: SpeciesId }
   | {
-      type: 'NEXT' | 'BACK' | 'OPEN_RECIPES' | 'USE_SAMPLE' | 'SUBMIT' | 'CONFIRM_SUBMIT' | 'CANCEL'
+      type:
+        | 'NEXT'
+        | 'BACK'
+        | 'OPEN_RECIPES'
+        | 'USE_SAMPLE'
+        | 'SAMPLE_LOADED'
+        | 'SUBMIT'
+        | 'CONFIRM_SUBMIT'
+        | 'CANCEL'
     }
 
 export type MealServices = {
   resizePhoto: (file: File) => Promise<string>
+  loadSamplePhoto: (signal: AbortSignal) => Promise<string>
   recognizeFood: (photo: string, signal: AbortSignal) => Promise<string[]>
   submit: (input: FeedInput, operationId: string) => Promise<FeedReceipt>
   createOperationId?: () => string
@@ -114,6 +123,7 @@ export function createMealMachine(services: MealServices) {
     },
     actors: {
       resize: fromPromise(({ input }: { input: File }) => services.resizePhoto(input)),
+      loadSample: fromPromise<string>(({ signal }) => services.loadSamplePhoto(signal)),
       recognize: fromPromise(({ input, signal }: { input: string; signal: AbortSignal }) =>
         services.recognizeFood(input, signal),
       ),
@@ -123,6 +133,12 @@ export function createMealMachine(services: MealServices) {
     },
     guards: {
       hasMeal: ({ context }) => Boolean(context.photo || context.sample),
+      mediaReady: not(
+        or([
+          stateIn({ editing: { media: 'resizing' } }),
+          stateIn({ editing: { media: 'loadingSample' } }),
+        ]),
+      ),
       isSharedMeal: ({ context }) => Boolean(context.mealRecordId),
       needsNutritionConfirmation: ({ context }) =>
         !context.mealRecordId &&
@@ -193,13 +209,13 @@ export function createMealMachine(services: MealServices) {
         states: {
           navigation: {
             initial: 'start',
-            on: { USE_SAMPLE: '.serve' },
+            on: { SAMPLE_LOADED: '.serve' },
             states: {
               start: { always: [{ guard: 'isSharedMeal', target: 'serve' }, { target: 'photo' }] },
               photo: {
                 on: {
                   NEXT: {
-                    guard: and(['hasMeal', not(stateIn({ editing: { media: 'resizing' } }))]),
+                    guard: and(['hasMeal', 'mediaReady']),
                     target: 'serve',
                   },
                 },
@@ -210,15 +226,11 @@ export function createMealMachine(services: MealServices) {
                   OPEN_RECIPES: 'recipes',
                   SUBMIT: [
                     {
-                      guard: and([
-                        'hasMeal',
-                        not(stateIn({ editing: { media: 'resizing' } })),
-                        'needsNutritionConfirmation',
-                      ]),
+                      guard: and(['hasMeal', 'mediaReady', 'needsNutritionConfirmation']),
                       target: 'confirmNutrition',
                     },
                     {
-                      guard: and(['hasMeal', not(stateIn({ editing: { media: 'resizing' } }))]),
+                      guard: and(['hasMeal', 'mediaReady']),
                       target: '#meal.submitting',
                       actions: 'prepareSubmission',
                     },
@@ -232,7 +244,7 @@ export function createMealMachine(services: MealServices) {
                 on: {
                   BACK: 'serve',
                   CONFIRM_SUBMIT: {
-                    guard: and(['hasMeal', not(stateIn({ editing: { media: 'resizing' } }))]),
+                    guard: and(['hasMeal', 'mediaReady']),
                     target: '#meal.submitting',
                     actions: 'prepareSubmission',
                   },
@@ -269,21 +281,39 @@ export function createMealMachine(services: MealServices) {
                 })),
               },
               USE_SAMPLE: {
-                target: '.idle',
-                actions: assign(({ context }) => ({
-                  photo: undefined,
+                target: '.loadingSample',
+                reenter: true,
+                actions: assign({
                   file: undefined,
-                  sample: true,
                   candidates: [],
                   error: '',
-                  recipeId: context.recipeChosen ? context.recipeId : '',
-                  dishId: context.recipeChosen ? context.dishId : undefined,
-                  ...(!context.recipeChosen ? selectForRecord(context, '') : {}),
-                })),
+                }),
               },
             },
             states: {
               idle: {},
+              loadingSample: {
+                invoke: {
+                  src: 'loadSample',
+                  onDone: {
+                    target: 'idle',
+                    actions: [
+                      assign(({ context, event }) => ({
+                        photo: event.output,
+                        sample: true,
+                        ...(!context.recipeChosen ? selectForRecord(context, '') : {}),
+                      })),
+                      raise({ type: 'SAMPLE_LOADED' }),
+                    ],
+                  },
+                  onError: {
+                    target: 'idle',
+                    actions: assign({
+                      error: 'サンプル写真を読み込めませんでした。もう一度お試しください。',
+                    }),
+                  },
+                },
+              },
               resizing: {
                 invoke: {
                   src: 'resize',
