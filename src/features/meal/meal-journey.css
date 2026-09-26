@@ -252,19 +252,19 @@
   font-size: 16px;
 }
 .meal-selected-recipe {
-  display: flex;
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   min-width: 0;
-  padding: 10px;
-  border: 1px solid var(--game-line);
+  padding: 14px;
+  border: 2px solid var(--game-action);
   border-radius: var(--game-radius-card);
-  background: var(--game-surface);
-  box-shadow: var(--game-paper-rim);
+  background: color-mix(in srgb, var(--game-action) 6%, var(--game-surface));
 }
 .meal-selected-recipe-art {
-  flex: 0 0 46px;
-  height: 46px;
+  width: 52px;
+  height: 52px;
   overflow: hidden;
   border-radius: var(--game-radius-card);
 }
@@ -276,31 +276,25 @@
 }
 .meal-selected-recipe > output {
   display: -webkit-box;
-  flex: 1;
   min-width: 0;
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 800;
   line-height: 1.6;
   overflow-wrap: anywhere;
 }
 .meal-selected-recipe > button {
   display: inline-flex;
+  grid-column: 1 / -1;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  flex-shrink: 0;
-  min-height: 44px;
-  padding: 8px;
-  border: 1px solid var(--game-line-strong);
-  border-radius: var(--game-radius-control);
-  background: var(--game-surface);
-  color: var(--game-ink);
-  font-size: 11px;
-  cursor: pointer;
-  box-shadow: none;
+  gap: 8px;
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 16px;
+  font-size: 15px;
 }
 .meal-recipe-browser {
   width: 100%;
@@ -453,11 +447,13 @@
 }
 @media (max-width: 600px) and (max-height: 640px) {
   .meal-selected-recipe {
-    padding: 6px 8px;
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 10px;
+    padding: 10px;
   }
   .meal-selected-recipe-art {
-    flex-basis: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
   }
 }
 .meal-title-details {

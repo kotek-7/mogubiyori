@@ -509,10 +509,11 @@ export function MealJourney({
                 </output>
                 <button
                   type="button"
+                  className="primary-button"
                   disabled={submitting}
                   onClick={() => transitionScene(() => send({ type: 'OPEN_RECIPES' }))}
                 >
-                  <Search size={15} aria-hidden="true" />
+                  <Search size={20} aria-hidden="true" />
                   料理を選ぶ
                 </button>
               </div>
