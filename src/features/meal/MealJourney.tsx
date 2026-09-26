@@ -513,7 +513,10 @@ export function MealJourney({
               </div>
             </div>
             <details className="meal-record-disclosure">
-              <summary>食事の内容を確認</summary>
+              <summary>
+                <span>食事の内容を確認</span>
+                <span className="meal-record-count">{mealRecord.items.length}品</span>
+              </summary>
               <MealRecordFields
                 value={mealRecord}
                 disabled={submitting}

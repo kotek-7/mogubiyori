@@ -19,54 +19,110 @@
   min-width: 0;
   min-height: 44px;
   padding: 8px 10px;
-  border: 1px solid #d6d6bb;
-  border-radius: 10px;
-  background: #fffefa;
-  color: #344b38;
+  border: 1px solid var(--game-line-strong);
+  border-radius: var(--game-radius-card);
+  background: var(--game-surface);
+  color: var(--game-ink);
   font: inherit;
 }
 .meal-record-item {
   display: grid;
   gap: 12px;
   margin: 0;
-  padding: 12px;
+  padding: 16px;
   min-width: 0;
-  border: 1px solid #dedec7;
-  border-radius: 14px;
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-control);
+  background: var(--game-surface);
 }
 .meal-record-item legend {
-  padding: 0 6px;
+  padding: 3px 10px;
+  border-radius: var(--game-radius-card);
+  background: var(--game-neutral-soft);
   font-size: 13px;
   font-weight: 700;
+}
+.meal-record-item-kind {
+  margin: -4px 0 0;
+  color: var(--game-muted);
+  font-size: 12px;
+}
+.meal-record-item-basics {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 112px;
+  gap: 12px;
+}
+.meal-record-group-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 650;
+}
+.meal-record-group-heading > span:last-child {
+  color: var(--game-muted);
+  font-size: 11px;
+  font-weight: 400;
 }
 .meal-record-groups {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 12px;
+  gap: 8px;
 }
 .meal-record-groups label {
   display: flex;
   align-items: center;
   gap: 7px;
-  min-height: 40px;
+  min-height: 44px;
+  padding: 7px 10px;
+  border: 1px solid var(--game-line);
+  border-radius: var(--game-radius-card);
+  background: var(--game-surface);
   cursor: pointer;
+}
+.meal-record-groups label:has(input:checked) {
+  border-color: var(--game-ink);
+  background: var(--game-neutral-soft);
 }
 .meal-record-groups input {
   width: 18px;
   height: 18px;
   flex: none;
-  accent-color: #476c45;
+  accent-color: var(--game-ink);
 }
 .meal-record-help {
   margin: 0;
-  color: #59634d;
+  color: var(--game-muted);
   font-size: 12px;
   line-height: 1.7;
   font-weight: 400;
 }
-.meal-record-add {
-  justify-self: start;
+.meal-record-add-row {
+  display: grid;
+  gap: 10px;
+}
+.meal-record-add,
+.meal-record-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   min-height: 44px;
+}
+.meal-record-add {
+  width: 100%;
+  padding: 10px;
+  border: 1px dashed var(--game-line-strong);
+  border-radius: var(--game-radius-control);
+  background: var(--game-surface);
+  color: var(--game-ink);
+}
+.meal-record-remove {
+  justify-self: end;
+  font-size: 12px;
 }
 .meal-record-disclosure {
   margin-top: 12px;
@@ -75,6 +131,25 @@
   padding: 10px 0;
   cursor: pointer;
   font-weight: 700;
+}
+.meal-record-count {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 2px 8px;
+  border-radius: var(--game-radius-card);
+  background: var(--game-neutral-soft);
+  font-size: 12px;
+}
+.meal-record-disclosure[open] > summary {
+  margin-bottom: 12px;
+}
+@media (max-width: 400px) {
+  .meal-record-item {
+    padding: 12px;
+  }
+  .meal-record-item-basics {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 .meal-share-note {
   font-size: 13px;
