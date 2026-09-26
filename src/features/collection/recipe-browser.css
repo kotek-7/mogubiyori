@@ -288,12 +288,73 @@
 .food-shelf-dishes {
   margin-top: 14px;
 }
-.food-shelf-dishes > p,
-.food-dish-results > p {
-  margin: 0 0 8px;
+.food-shelf-dishes,
+.food-dish-results {
+  padding: 14px;
+  border: 1px dashed var(--game-line);
+  border-radius: var(--game-radius-card);
+  background: color-mix(in srgb, var(--game-line) 12%, var(--game-surface));
+}
+.food-choice-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+  color: var(--game-muted);
+}
+.food-choice-heading > svg {
+  flex-shrink: 0;
+}
+.food-choice-heading h3 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+}
+.food-choice-heading.is-card-choice {
+  color: var(--game-action-dark);
+}
+.food-choice-fallback {
+  display: inline-block;
+  color: var(--game-muted);
+  font-size: 11px;
+  font-weight: 400;
+}
+.food-choice-heading > .food-choice-fallback {
+  margin-left: auto;
+}
+.food-dish-results > .food-choice-fallback {
+  margin-bottom: 10px;
+}
+.recipe-browser .recipe-card-description > .recipe-card-unlock {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  padding: 4px 7px;
+  border: 1px solid #dbb85a;
+  border-radius: 6px;
+  background: #fff0bf;
+  color: #745010;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+.recipe-browser .recipe-card-description > .recipe-card-unlock.is-collected {
+  border-color: var(--game-line);
+  background: var(--game-surface);
+  color: var(--game-muted);
+  font-weight: 600;
+}
+.recipe-card-unlock > svg {
+  flex-shrink: 0;
+}
+.food-dish-results legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   color: var(--game-muted);
   font-size: 12px;
-  line-height: 1.7;
 }
 .food-dish-list {
   display: grid;
@@ -301,6 +362,9 @@
   gap: 8px;
 }
 .food-dish-list > button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   min-width: 0;
   min-height: 44px;
   padding: 9px 10px;
@@ -315,6 +379,14 @@
   overflow-wrap: anywhere;
   cursor: pointer;
 }
+.food-dish-list > button > span {
+  flex: 1;
+  min-width: 0;
+}
+.food-dish-list > button > svg {
+  flex-shrink: 0;
+  color: var(--game-muted);
+}
 .food-dish-list > button:hover,
 .food-dish-list > button[aria-pressed='true'],
 .recipe-browser .recipe-collection-card[aria-pressed='true'] {
@@ -328,12 +400,10 @@
 .food-dish-results {
   min-width: 0;
   margin: 0;
-  padding: 0;
-  border: 0;
   scroll-margin-top: 20px;
 }
 .food-dish-results legend,
-.food-recipe-results h3 {
+.food-recipe-results > h3 {
   margin: 0 0 10px;
   padding: 0;
   font-size: 14px;

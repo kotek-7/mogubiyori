@@ -288,6 +288,8 @@ test('generic dishes can be selected manually when recognition fails', async ({
   await toTable(page)
   await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
   await expect(page.locator('.recipe-collection-card').first()).toBeVisible()
+  await expect(page.locator('.recipe-card-unlock').first()).toHaveText('記録で獲得')
+  await expect(page.locator('.food-choice-fallback').first()).toHaveText('合うレシピがないとき')
   for (const name of ['パスタ', 'カレー', 'チャーハン', 'ハンバーグ']) {
     await expect(page.getByRole('button', { name: `${name}として記録`, exact: true })).toBeVisible()
   }
@@ -295,7 +297,8 @@ test('generic dishes can be selected manually when recognition fails', async ({
     .getByRole('group', { name: '料理のカテゴリ' })
     .getByRole('button', { name: 'おかず', exact: true })
     .click()
-  const choices = page.getByRole('group', { name: '料理の種類で選ぶ' })
+  const choices = page.getByRole('group', { name: '料理名で選ぶ' })
+  await expect(choices.locator('.food-choice-fallback')).toHaveText('合うレシピがないとき')
   await expect(choices.getByRole('button', { name: /として記録$/ })).toHaveCount(12)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   await page.screenshot({ path: testInfo.outputPath('generic-dish-picker-mobile.png') })
@@ -322,7 +325,7 @@ test('category shelves expose every dish and share search without changing the s
   await page.locator('.play-feed').click()
   await sampleToTable(page)
   await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
-  const choices = page.getByRole('group', { name: '料理の種類で選ぶ' })
+  const choices = page.getByRole('group', { name: '料理名で選ぶ' })
   const search = page.getByRole('searchbox', { name: '名前・材料で検索' })
   const categories = page.getByRole('group', { name: '料理のカテゴリ' })
   const categoryNames = [
@@ -343,7 +346,7 @@ test('category shelves expose every dish and share search without changing the s
       'aria-pressed',
       'true',
     )
-    const pagination = page.getByRole('navigation', { name: '料理の種類のページ' })
+    const pagination = page.getByRole('navigation', { name: '料理名のページ' })
     const next = pagination.getByRole('button', { name: '次のページ' })
     if (await pagination.count()) {
       await expect(pagination.getByRole('button', { name: '前のページ' })).toBeDisabled()
@@ -374,7 +377,7 @@ test('category shelves expose every dish and share search without changing the s
     'aria-pressed',
     'true',
   )
-  await expect(page.getByRole('navigation', { name: '料理の種類のページ' })).toHaveCount(0)
+  await expect(page.getByRole('navigation', { name: '料理名のページ' })).toHaveCount(0)
 
   await categories.getByRole('button', { name: 'おかず', exact: true }).click()
   await search.fill('どりあ')
@@ -395,7 +398,7 @@ test('category shelves expose every dish and share search without changing the s
   await expect(selectedMealRecipe(page)).toHaveText('グラタン')
   await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
   // Reopening lands on the selected dish's category and page.
-  await expect(page.getByRole('navigation', { name: '料理の種類のページ' })).toContainText('2 / 2')
+  await expect(page.getByRole('navigation', { name: '料理名のページ' })).toContainText('2 / 2')
   await expect(categories.getByRole('button', { name: 'おかず', exact: true })).toHaveAttribute(
     'aria-pressed',
     'true',
@@ -439,7 +442,7 @@ test('new dish photo candidates are selectable and cannot overwrite a manual dis
   await api.waitFor(2)
   await toTable(page)
   await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
-  const choices = page.getByRole('group', { name: '料理の種類で選ぶ' })
+  const choices = page.getByRole('group', { name: '料理名で選ぶ' })
   await page.getByRole('searchbox', { name: '名前・材料で検索' }).fill('ぎょうざ')
   await choices.getByRole('button', { name: '餃子として記録', exact: true }).click()
   await api.reply(1, ['generic-curry'])
@@ -623,11 +626,20 @@ test('failed, unknown and empty recognition responses still allow manually recor
       '手動で選べます。',
     )
     await expect(selectedMealRecipe(page)).toHaveText('今日のごはん')
-    await selectMealRecipe(page, 'curry')
+    const before = await storedGame(page)
+    await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
+    await page.getByRole('searchbox', { name: '名前・材料で検索' }).fill('カレー')
+    const curry = page.getByRole('button', { name: 'カレーを選ぶ', exact: true })
+    await expect(curry.locator('.recipe-card-unlock')).toHaveText(
+      index === 0 ? '記録で獲得' : '獲得済み',
+    )
+    await curry.click()
+    expect(await storedGame(page)).toEqual(before)
     await giveMeal(page)
     const saved = await storedGame(page)
     expect(saved.meals).toHaveLength(index + 1)
     expect(saved.meals[0].recipeId).toBe('curry')
+    expect(saved.meals[0].cardBonus).toBe(index === 0 ? 70 : 0)
     expect(saved.cards).toEqual(['curry'])
     await returnToPlaza(page)
   }
@@ -712,7 +724,7 @@ test('pasta variations share one dish family while their recipe cards stay disti
   await page.locator('.play-feed').click()
   await sampleToTable(page)
   await page.getByRole('button', { name: '料理を選ぶ', exact: true }).click()
-  const choices = page.getByRole('group', { name: '料理の種類で選ぶ' })
+  const choices = page.getByRole('group', { name: '料理名で選ぶ' })
   for (const name of ['ペペロンチーノ', 'カルボナーラ']) {
     await page.getByRole('searchbox', { name: '名前・材料で検索' }).fill(name)
     await expect(choices.getByRole('button', { name: /として記録$/ })).toHaveCount(1)

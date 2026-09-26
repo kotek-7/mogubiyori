@@ -1,5 +1,15 @@
 import { useId, useMemo, useRef, useState } from 'react'
-import { BookOpen, ChevronLeft, ChevronRight, Clock3, Search, Sparkles } from 'lucide-react'
+import {
+  BookOpen,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  ClipboardPen,
+  Clock3,
+  Search,
+  Sparkles,
+  Utensils,
+} from 'lucide-react'
 import type { GameState } from '../../app/game/browserGame'
 import { recipes } from '../../../shared/content/recipes'
 import type { Recipe } from '../../../shared/content/recipes'
@@ -131,7 +141,9 @@ export function RecipeBrowser({
             aria-pressed={selectedId === dish.id}
             onClick={() => onRecipe(dish.id)}
           >
-            {dish.name}
+            <Utensils size={16} aria-hidden="true" />
+            <span>{dish.name}</span>
+            <ChevronRight size={14} aria-hidden="true" />
           </button>
         ))}
       </div>
@@ -140,7 +152,11 @@ export function RecipeBrowser({
 
   return (
     <div className="recipe-browser" ref={browser}>
-      <div className="recipe-browser-controls" role="search" aria-label="レシピを探す">
+      <div
+        className="recipe-browser-controls"
+        role="search"
+        aria-label={includeDishes ? 'つくった料理を探す' : 'レシピを探す'}
+      >
         <label className="recipe-browser-search" htmlFor={`${id}-search`}>
           <span>名前・材料で検索</span>
           <span className="recipe-browser-search-field">
@@ -237,8 +253,9 @@ export function RecipeBrowser({
       </div>
       <div className="recipe-browser-summary">
         <p role="status" aria-atomic="true">
-          レシピ <strong>{matchingRecipes.length}</strong> 品
-          {includeDishes && <span> · 料理の種類 {matchingDishes.length}種類</span>}
+          {includeDishes ? '料理カード' : 'レシピ'} <strong>{matchingRecipes.length}</strong>
+          {includeDishes ? '枚' : '品'}
+          {includeDishes && <span> · 料理名 {matchingDishes.length}件</span>}
         </p>
         {filtered && (
           <button type="button" className="recipe-browser-reset" onClick={resetFilters}>
@@ -279,10 +296,19 @@ export function RecipeBrowser({
                     すべて見る <ChevronRight size={15} aria-hidden="true" />
                   </button>
                 </div>
-                {shelfRecipes.length > 0 && renderRecipes(shelfRecipes.slice(0, 2))}
+                {shelfRecipes.length > 0 && (
+                  <>
+                    {includeDishes && <RecipeChoiceHeading />}
+                    {renderRecipes(shelfRecipes.slice(0, 2))}
+                  </>
+                )}
                 {shelfDishes.length > 0 && (
                   <div className="food-shelf-dishes">
-                    <p>料理の名前で選ぶ</p>
+                    <div className="food-choice-heading">
+                      <ClipboardPen size={18} aria-hidden="true" />
+                      <h3>料理名で選ぶ</h3>
+                      <span className="food-choice-fallback">合うレシピがないとき</span>
+                    </div>
                     {renderDishes(shelfDishes.slice(0, 4))}
                   </div>
                 )}
@@ -295,34 +321,13 @@ export function RecipeBrowser({
           {category !== 'all' && (
             <h2 className="food-results-heading">{foodCategories[category]}</h2>
           )}
-          {matchingDishes.length > 0 && (
-            <fieldset className="food-dish-results" ref={dishResults}>
-              <legend>料理の種類で選ぶ</legend>
-              <p>具材や味付けが違っても、この名前で記録できます。</p>
-              {renderDishes(
-                matchingDishes.slice(
-                  (currentDishPage - 1) * dishPageSize,
-                  currentDishPage * dishPageSize,
-                ),
-              )}
-              <Pagination
-                page={currentDishPage}
-                count={dishPageCount}
-                label="料理の種類のページ"
-                onPage={(next) => {
-                  setDishPage(next)
-                  dishResults.current?.scrollIntoView({ block: 'start', behavior: 'instant' })
-                }}
-              />
-            </fieldset>
-          )}
           {matchingRecipes.length > 0 && (
             <section
               className="food-recipe-results"
               ref={recipeResults}
-              aria-label="レシピから選ぶ"
+              aria-label={includeDishes ? '料理カードから選ぶ' : 'レシピから選ぶ'}
             >
-              {includeDishes && <h3>レシピから選ぶ</h3>}
+              {includeDishes && <RecipeChoiceHeading />}
               {renderRecipes(
                 matchingRecipes.slice((currentPage - 1) * pageSize, currentPage * pageSize),
               )}
@@ -337,6 +342,29 @@ export function RecipeBrowser({
               />
             </section>
           )}
+          {matchingDishes.length > 0 && (
+            <fieldset className="food-dish-results" ref={dishResults}>
+              <legend>
+                <ClipboardPen size={18} aria-hidden="true" /> 料理名で選ぶ
+              </legend>
+              <span className="food-choice-fallback">合うレシピがないとき</span>
+              {renderDishes(
+                matchingDishes.slice(
+                  (currentDishPage - 1) * dishPageSize,
+                  currentDishPage * dishPageSize,
+                ),
+              )}
+              <Pagination
+                page={currentDishPage}
+                count={dishPageCount}
+                label="料理名のページ"
+                onPage={(next) => {
+                  setDishPage(next)
+                  dishResults.current?.scrollIntoView({ block: 'start', behavior: 'instant' })
+                }}
+              />
+            </fieldset>
+          )}
         </div>
       )}
       {state.subscriptionPlan !== 'premium' && (
@@ -344,6 +372,15 @@ export function RecipeBrowser({
           reason={`無料プランでは定番の${FREE_RECIPE_IDS.length}品が見られます。有料プランなら全${recipes.length}品のレシピを楽しめます。`}
         />
       )}
+    </div>
+  )
+}
+
+function RecipeChoiceHeading() {
+  return (
+    <div className="food-choice-heading is-card-choice">
+      <BookOpen size={18} aria-hidden="true" />
+      <h3>料理カードから選ぶ</h3>
     </div>
   )
 }
@@ -389,12 +426,21 @@ function RecipeCard({
           </span>
           <span>{difficultyNames[recipe.difficulty - 1]}</span>
         </span>
-        {!open && (
+        {mode === 'select' ? (
+          <span className={`recipe-card-unlock${open ? ' is-collected' : ''}`}>
+            {open ? (
+              <Check size={14} aria-hidden="true" />
+            ) : (
+              <Sparkles size={14} aria-hidden="true" />
+            )}
+            {open ? '獲得済み' : '記録で獲得'}
+          </span>
+        ) : !open ? (
           <span className="recipe-card-undiscovered">
             <BookOpen size={12} />
-            未獲得 · {mode === 'select' ? 'この料理を選ぶ' : 'レシピを見る'}
+            未獲得 · レシピを見る
           </span>
-        )}
+        ) : null}
       </span>
       <ChevronRight className="recipe-card-arrow" size={15} />
     </button>
