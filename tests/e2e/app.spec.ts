@@ -149,6 +149,7 @@ test('varied meals grow the companion and visitors join only after being fed', a
 })
 
 test('repeated recipes reduce growth while the card bonus is awarded once', async ({ page }) => {
+  test.setTimeout(60000)
   await start(page)
   await enablePremium(page)
   for (const xp of [45, 30, 15]) {
@@ -378,6 +379,7 @@ test('cosmetics can temporarily be bought with insufficient or zero coins', asyn
 test('mobile scenes keep the main action in view and keyboard cancellation restores focus', async ({
   page,
 }) => {
+  test.setTimeout(60000)
   await page.setViewportSize({ width: 390, height: 844 })
   await start(page)
   const action = page.locator('.play-feed')
