@@ -64,7 +64,7 @@ export function createApp(overrides: Partial<Dependencies> = {}) {
   return app
     .post('/api/recognize-food', async (context) => {
       try {
-        return context.json({ candidates: await recognizeFood(context.req.raw, context.env.AI) })
+        return context.json(await recognizeFood(context.req.raw, context.env.AI))
       } catch (error) {
         if (error instanceof RecognitionError)
           return new Response(JSON.stringify({ error: error.message }), {

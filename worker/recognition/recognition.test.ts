@@ -47,25 +47,36 @@ describe('food recognition API', () => {
     )
     expect(response.status).toBe(200)
     expect(response.headers.get('cache-control')).toBe('no-store')
-    expect(await response.json()).toEqual({ candidates: ['curry', 'onigiri'] })
+    expect(await response.json()).toEqual({ candidates: ['curry', 'onigiri'], items: [] })
     expect(env.AI.run).toHaveBeenCalledTimes(1)
     const [model, input] = env.AI.run.mock.calls[0]
     expect(model).toBe(FOOD_MODEL)
     expect(input).toMatchObject({
       stream: false,
       temperature: 0,
-      max_completion_tokens: 256,
+      max_completion_tokens: 2048,
       chat_template_kwargs: { enable_thinking: false },
       response_format: {
         type: 'json_schema',
         json_schema: {
-          name: 'food_candidates',
+          name: 'food_recognition',
           strict: true,
           schema: {
-            required: ['candidates'],
+            required: ['candidates', 'items'],
             additionalProperties: false,
             properties: {
               candidates: { maxItems: 3, items: { enum: mealChoices.map((choice) => choice.id) } },
+              items: {
+                maxItems: 12,
+                items: {
+                  required: ['name', 'choiceId', 'groups', 'portion'],
+                  additionalProperties: false,
+                  properties: {
+                    choiceId: { enum: [...mealChoices.map((choice) => choice.id), null] },
+                    portion: { enum: ['small', 'regular', 'large', 'unknown'] },
+                  },
+                },
+              },
             },
           },
         },
@@ -94,15 +105,108 @@ describe('food recognition API', () => {
     expect(env.ASSETS.fetch).not.toHaveBeenCalled()
   })
 
+  it('returns the main dish and side dishes with visible groups and portion estimates', async () => {
+    const response = await worker.fetch(
+      request(),
+      environment(
+        completion({
+          candidates: ['generic-curry'],
+          items: [
+            {
+              name: 'カレー',
+              choiceId: 'generic-curry',
+              groups: ['staple', 'vegetable'],
+              portion: 'large',
+            },
+            { name: 'サラダ', choiceId: null, groups: ['vegetable'], portion: 'small' },
+            { name: 'おにぎり', choiceId: 'onigiri', groups: ['staple'], portion: 'regular' },
+          ],
+        }),
+      ),
+    )
+    expect(response.status).toBe(200)
+    expect(await response.json()).toEqual({
+      candidates: ['generic-curry'],
+      items: [
+        {
+          name: 'カレー',
+          dishId: 'generic-curry',
+          groups: ['staple', 'vegetable'],
+          portion: 'large',
+          groupsConfirmed: false,
+        },
+        { name: 'サラダ', groups: ['vegetable'], portion: 'small', groupsConfirmed: false },
+        {
+          name: 'おにぎり',
+          recipeId: 'onigiri',
+          groups: ['staple'],
+          portion: 'regular',
+          groupsConfirmed: false,
+        },
+      ],
+    })
+  })
+
+  it('keeps uncatalogued foods and uncertainty without inventing ingredients or a recipe', async () => {
+    const response = await worker.fetch(
+      request(),
+      environment(
+        completion({
+          candidates: [],
+          items: [
+            {
+              name: ' スープ ',
+              choiceId: 'invented-recipe',
+              groups: ['salt', 'vegetable', 'vegetable'],
+              portion: 'enormous',
+            },
+          ],
+        }),
+      ),
+    )
+    expect(response.status).toBe(200)
+    expect(await response.json()).toEqual({
+      candidates: [],
+      items: [
+        { name: 'スープ', groups: ['vegetable'], portion: 'unknown', groupsConfirmed: false },
+      ],
+    })
+  })
+
+  it('accepts a photo without any recognizable food as two empty arrays', async () => {
+    const response = await worker.fetch(
+      request(),
+      environment(completion({ candidates: [], items: [] })),
+    )
+    expect(response.status).toBe(200)
+    expect(await response.json()).toEqual({ candidates: [], items: [] })
+  })
+
   it.each(genericDishes)(
-    'accepts the broad $name classification without inventing a recipe',
+    'accepts the $name classification and item without inventing a recipe',
     async (dish) => {
       const response = await worker.fetch(
         request(),
-        environment(completion({ candidates: [dish.id, 'not-a-dish'] })),
+        environment(
+          completion({
+            candidates: [dish.id, 'not-a-dish'],
+            items: [{ name: dish.name, choiceId: dish.id, groups: [], portion: 'unknown' }],
+          }),
+        ),
       )
       expect(response.status).toBe(200)
-      expect(await response.json()).toEqual({ candidates: [dish.id] })
+      expect(await response.json()).toEqual({
+        candidates: [dish.id],
+        items: [
+          {
+            name: dish.name,
+            dishId: dish.id,
+            groups: [],
+            portion: 'unknown',
+            groupsConfirmed: false,
+          },
+        ],
+      })
     },
   )
 
@@ -122,7 +226,10 @@ describe('food recognition API', () => {
     )
     const response = await worker.fetch(request(), env)
     expect(response.status).toBe(200)
-    expect(await response.json()).toEqual({ candidates: ['r-oyako-don', 'curry', 'onigiri'] })
+    expect(await response.json()).toEqual({
+      candidates: ['r-oyako-don', 'curry', 'onigiri'],
+      items: [],
+    })
   })
 
   it.each([{ candidates: [] }, { candidates: ['not-a-recipe'] }])(
@@ -130,7 +237,7 @@ describe('food recognition API', () => {
     async ({ candidates }) => {
       const response = await worker.fetch(request(), environment(completion({ candidates })))
       expect(response.status).toBe(200)
-      expect(await response.json()).toEqual({ candidates: [] })
+      expect(await response.json()).toEqual({ candidates: [], items: [] })
     },
   )
 
@@ -144,6 +251,21 @@ describe('food recognition API', () => {
     completion({ candidates: 'curry' }),
     completion({ candidates: ['curry', 12] }),
     completion({ candidates: ['curry'], reward: 999 }),
+    completion({ candidates: [], items: 'salad' }),
+    completion({
+      candidates: [],
+      items: [{ name: '', choiceId: null, groups: [], portion: 'unknown' }],
+    }),
+    completion({
+      candidates: [],
+      items: [{ name: 'サラダ', choiceId: null, groups: 'vegetable', portion: 'small' }],
+    }),
+    completion({
+      candidates: [],
+      items: [
+        { name: 'サラダ', choiceId: null, groups: [], portion: 'small', groupsConfirmed: true },
+      ],
+    }),
   ])('rejects malformed model output without exposing it', async (output) => {
     const response = await worker.fetch(request(), environment(output))
     expect(response.status).toBe(502)

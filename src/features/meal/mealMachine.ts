@@ -5,7 +5,8 @@ import type { FeedInput, SpeciesId } from '../../../shared/game/types'
 import type { FeedReceipt } from '../../../shared/game/receipt'
 import { createOperationId } from '../../lib/operationId'
 import { suggestMealItem } from '../../../shared/meals/analysis'
-import type { MealRecord, MealRecordInput } from '../../../shared/meals/types'
+import type { FoodRecognitionResult } from '../../../shared/meals/recognition'
+import type { MealItem, MealRecord, MealRecordInput } from '../../../shared/meals/types'
 
 export type MealMachineInput = { targetId: SpeciesId; recipeId?: string; sharedMeal?: MealRecord }
 
@@ -20,6 +21,10 @@ type MealContext = {
   sample: boolean
   file?: File
   candidates: string[]
+  recognizedItemCount: number
+  primaryEdits: { name: boolean; groups: boolean; portion: boolean }
+  sideItemsEdited: boolean
+  automaticSideItems: MealItem[]
   recipeChosen: boolean
   titleEdited: boolean
   error: string
@@ -50,7 +55,7 @@ type MealEvent =
 export type MealServices = {
   resizePhoto: (file: File) => Promise<string>
   loadSamplePhoto: (signal: AbortSignal) => Promise<string>
-  recognizeFood: (photo: string, signal: AbortSignal) => Promise<string[]>
+  recognizeFood: (photo: string, signal: AbortSignal) => Promise<FoodRecognitionResult>
   submit: (input: FeedInput, operationId: string) => Promise<FeedReceipt>
   createOperationId?: () => string
 }
@@ -108,6 +113,71 @@ function selectForRecord(context: MealContext, id: string) {
       items: [
         { ...suggestMealItem(id), portion: context.mealRecord.items[0]?.portion ?? 'unknown' },
         ...context.mealRecord.items.slice(1),
+      ],
+    },
+  }
+}
+
+function resetPhotoSuggestions(context: MealContext) {
+  const current = context.mealRecord.items[0]
+  const primary = suggestMealItem(context.recipeChosen ? (context.dishId ?? context.recipeId) : '')
+  return {
+    candidates: [],
+    recognizedItemCount: 0,
+    automaticSideItems: [],
+    ...selection(context.recipeChosen ? (context.dishId ?? context.recipeId) : ''),
+    mealRecord: {
+      ...context.mealRecord,
+      items: [
+        {
+          ...primary,
+          ...(context.primaryEdits.name ? { name: current.name } : {}),
+          ...(context.primaryEdits.groups
+            ? { groups: current.groups, groupsConfirmed: current.groupsConfirmed }
+            : {}),
+          ...(context.primaryEdits.portion ? { portion: current.portion } : {}),
+        },
+        ...context.mealRecord.items
+          .slice(1)
+          .filter((item) => !context.automaticSideItems.includes(item)),
+      ],
+    },
+  }
+}
+
+function applyPhotoSuggestions(context: MealContext, result: FoodRecognitionResult) {
+  const current = context.mealRecord.items[0]
+  const detected = result.items[0]
+  const id = detected?.recipeId ?? detected?.dishId ?? result.candidates[0]
+  const canChoose = !context.recipeChosen && !context.titleEdited && !context.primaryEdits.name
+  const suggestion = detected ?? (id ? suggestMealItem(id) : undefined)
+  const chosen = selection(id ?? '')
+  const keepGroups =
+    context.primaryEdits.groups || context.recipeChosen || (!canChoose && !detected)
+  const primary = suggestion
+    ? {
+        ...(canChoose
+          ? { ...suggestion, recipeId: chosen.recipeId || undefined, dishId: chosen.dishId }
+          : current),
+        groups: keepGroups ? current.groups : suggestion.groups,
+        groupsConfirmed: keepGroups ? current.groupsConfirmed : suggestion.groupsConfirmed,
+        // A candidates-only response has no estimate of the amount.
+        portion: !detected || context.primaryEdits.portion ? current.portion : detected.portion,
+      }
+    : current
+  const automaticSideItems = context.sideItemsEdited
+    ? context.automaticSideItems
+    : result.items.slice(1)
+  return {
+    candidates: result.candidates,
+    recognizedItemCount: result.items.length,
+    ...(canChoose && suggestion ? chosen : {}),
+    automaticSideItems,
+    mealRecord: {
+      ...context.mealRecord,
+      items: [
+        primary,
+        ...(context.sideItemsEdited ? context.mealRecord.items.slice(1) : automaticSideItems),
       ],
     },
   }
@@ -174,6 +244,10 @@ export function createMealMachine(services: MealServices) {
         : { slot: 'unknown', source: 'home', items: [suggestMealItem(input.recipeId)] },
       sample: Boolean(input.sharedMeal),
       candidates: [],
+      recognizedItemCount: 0,
+      primaryEdits: { name: false, groups: false, portion: false },
+      sideItemsEdited: false,
+      automaticSideItems: [],
       recipeChosen: Boolean(input.recipeId),
       titleEdited: false,
       error: '',
@@ -192,10 +266,28 @@ export function createMealMachine(services: MealServices) {
           RECORD_CHANGED: {
             actions: assign(({ context, event }) => ({
               mealRecord: event.value,
-              recipeChosen:
-                context.recipeChosen ||
-                JSON.stringify(context.mealRecord.items[0]) !==
-                  JSON.stringify(event.value.items[0]),
+              primaryEdits: {
+                name:
+                  context.primaryEdits.name ||
+                  context.mealRecord.items[0].name !== event.value.items[0].name,
+                groups:
+                  context.primaryEdits.groups ||
+                  JSON.stringify(context.mealRecord.items[0].groups) !==
+                    JSON.stringify(event.value.items[0].groups) ||
+                  context.mealRecord.items[0].groupsConfirmed !==
+                    event.value.items[0].groupsConfirmed,
+                portion:
+                  context.primaryEdits.portion ||
+                  context.mealRecord.items[0].portion !== event.value.items[0].portion,
+              },
+              sideItemsEdited:
+                context.sideItemsEdited ||
+                JSON.stringify(context.mealRecord.items.slice(1)) !==
+                  JSON.stringify(event.value.items.slice(1)),
+              // Unchanged rows keep their identity; an edited side dish becomes manual.
+              automaticSideItems: context.automaticSideItems.filter((item) =>
+                event.value.items.includes(item),
+              ),
             })),
           },
           TARGET_CHANGED: {
@@ -272,12 +364,9 @@ export function createMealMachine(services: MealServices) {
                 target: '.resizing',
                 reenter: true,
                 actions: assign(({ context, event }) => ({
+                  ...resetPhotoSuggestions(context),
                   file: event.file,
-                  candidates: [],
                   error: '',
-                  recipeId: context.recipeChosen ? context.recipeId : '',
-                  dishId: context.recipeChosen ? context.dishId : undefined,
-                  ...(!context.recipeChosen ? selectForRecord(context, '') : {}),
                 })),
               },
               USE_SAMPLE: {
@@ -286,6 +375,7 @@ export function createMealMachine(services: MealServices) {
                 actions: assign({
                   file: undefined,
                   candidates: [],
+                  recognizedItemCount: 0,
                   error: '',
                 }),
               },
@@ -299,9 +389,9 @@ export function createMealMachine(services: MealServices) {
                     target: 'idle',
                     actions: [
                       assign(({ context, event }) => ({
+                        ...resetPhotoSuggestions(context),
                         photo: event.output,
                         sample: true,
-                        ...(!context.recipeChosen ? selectForRecord(context, '') : {}),
                       })),
                       raise({ type: 'SAMPLE_LOADED' }),
                     ],
@@ -344,12 +434,9 @@ export function createMealMachine(services: MealServices) {
                   input: ({ context }) => context.photo!,
                   onDone: {
                     target: 'recognized',
-                    actions: assign(({ context, event }) => ({
-                      candidates: event.output,
-                      ...(event.output[0] && !context.recipeChosen && !context.titleEdited
-                        ? selectForRecord(context, event.output[0])
-                        : {}),
-                    })),
+                    actions: assign(({ context, event }) =>
+                      applyPhotoSuggestions(context, event.output),
+                    ),
                   },
                   onError: 'failed',
                 },

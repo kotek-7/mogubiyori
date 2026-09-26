@@ -4,6 +4,8 @@ import { Buffer } from 'node:buffer'
 import AxeBuilder from '@axe-core/playwright'
 import { recipes } from '../../src/app/game/browserGame'
 import { genericDishes } from '../../shared/content/dishes'
+import { foodGroupLabels } from '../../shared/meals/types'
+import type { FoodGroup, MealItem } from '../../shared/meals/types'
 import {
   confirmUnclassifiedMeal,
   enablePremium,
@@ -31,12 +33,15 @@ async function mockRecognition(page: Page) {
       await expect.poll(() => requests.length).toBe(count)
       return requests[count - 1]
     },
-    async reply(index: number, candidates: string[], status = 200) {
+    async reply(index: number, candidates: string[], status = 200, items?: MealItem[]) {
       const route = requests[index]
       const response = route.request().response()
       await route.fulfill({
         status,
-        json: status === 200 ? { candidates } : { error: 'unavailable' },
+        json:
+          status === 200
+            ? { candidates, ...(items === undefined ? {} : { items }) }
+            : { error: 'unavailable' },
       })
       await (await response)?.finished()
       await waitForSceneMotion(page)
@@ -55,10 +60,183 @@ async function giveMeal(page: Page, unclassified = false) {
   await expect(journey(page, 'eating')).toBeVisible()
 }
 
+async function expectMealItems(page: Page, items: MealItem[]) {
+  await expect(page.locator('.meal-record-item')).toHaveCount(items.length)
+  for (const [index, item] of items.entries()) {
+    const fields = page.getByRole('group', { name: `料理 ${index + 1}`, exact: true })
+    await expect(
+      fields.getByRole('textbox', { name: `料理 ${index + 1} の名前`, exact: true }),
+    ).toHaveValue(item.name)
+    await expect(fields.getByRole('combobox', { name: '量', exact: true })).toHaveValue(
+      item.portion,
+    )
+    for (const [group, label] of Object.entries(foodGroupLabels)) {
+      const input = fields.getByRole('checkbox', { name: label, exact: true })
+      if (item.groups.includes(group as FoodGroup)) await expect(input).toBeChecked()
+      else await expect(input).not.toBeChecked()
+    }
+  }
+}
+
+async function uploadDifferentPhoto(page: Page) {
+  const image = await page.evaluate(() => {
+    const canvas = document.createElement('canvas')
+    canvas.width = 100
+    canvas.height = 60
+    const context = canvas.getContext('2d')!
+    context.fillStyle = '#405d27'
+    context.fillRect(0, 0, canvas.width, canvas.height)
+    return canvas.toDataURL('image/png').split(',')[1]
+  })
+  await page
+    .getByLabel('料理の写真', { exact: true })
+    .and(page.locator('input[type="file"]'))
+    .setInputFiles({
+      name: 'replacement.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from(image, 'base64'),
+    })
+}
+
 test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
   await start(page)
+})
+
+test('photo recognition automatically fills and saves every dish, food group and portion', async ({
+  page,
+}, testInfo) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  const api = await mockRecognition(page)
+  const before = await storedGame(page)
+  const detected: MealItem[] = [
+    {
+      name: 'カレー',
+      recipeId: 'curry',
+      groups: ['staple', 'protein', 'vegetable'],
+      portion: 'large',
+      groupsConfirmed: false,
+    },
+    { name: 'サラダ', groups: ['vegetable'], portion: 'small', groupsConfirmed: false },
+    {
+      name: 'いちごヨーグルト',
+      groups: ['fruit', 'dairy'],
+      portion: 'regular',
+      groupsConfirmed: false,
+    },
+  ]
+  await page.locator('.play-feed').click()
+  await uploadPhoto(page)
+  await api.waitFor(1)
+  await toTable(page)
+  await api.reply(0, ['curry'], 200, detected)
+  await expect(journey(page).locator('.meal-recognition-status')).toContainText(
+    '写真から3品の料理・食品グループ・量を推定しました。',
+  )
+  const disclosure = page.locator('summary').filter({ hasText: '食事の内容を確認' })
+  await expect(disclosure.locator('..')).not.toHaveAttribute('open', '')
+  await disclosure.click()
+  await expectMealItems(page, detected)
+  expect(await storedGame(page)).toEqual(before)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  await page.screenshot({ path: testInfo.outputPath('recognized-meal-items-mobile.png') })
+  await page.getByRole('group', { name: '料理 1', exact: true }).screenshot({
+    path: testInfo.outputPath('recognized-meal-item-fields-mobile.png'),
+  })
+  // Reviewing requires no per-item confirmation and makes no edits to the inferred data.
+  await disclosure.click()
+  await giveMeal(page)
+  const saved = await storedGame(page)
+  expect(saved.mealRecords).toHaveLength(1)
+  expect(saved.mealRecords![0].items).toEqual(detected)
+  expect(saved.meals[0]).toMatchObject({ title: 'カレー', recipeId: 'curry' })
+  await returnToPlaza(page)
+  await page.reload()
+  expect((await storedGame(page)).mealRecords).toEqual(saved.mealRecords)
+})
+
+test('a manually changed portion survives a late recognition while names, groups and sides fill in', async ({
+  page,
+}) => {
+  const api = await mockRecognition(page)
+  const before = await storedGame(page)
+  const detected: MealItem[] = [
+    {
+      name: 'カレー',
+      recipeId: 'curry',
+      groups: ['staple', 'protein', 'vegetable'],
+      portion: 'large',
+      groupsConfirmed: false,
+    },
+    { name: 'サラダ', groups: ['vegetable'], portion: 'regular', groupsConfirmed: false },
+  ]
+  await page.locator('.play-feed').click()
+  await uploadPhoto(page)
+  await api.waitFor(1)
+  await toTable(page)
+  await page.locator('summary').filter({ hasText: '食事の内容を確認' }).click()
+  const primary = page.getByRole('group', { name: '料理 1', exact: true })
+  await primary.getByRole('combobox', { name: '量', exact: true }).selectOption('small')
+  await api.reply(0, ['curry'], 200, detected)
+  const expected: MealItem[] = [{ ...detected[0], portion: 'small' }, detected[1]]
+  await expectMealItems(page, expected)
+  await expect(selectedMealRecipe(page)).toHaveText('カレー')
+  expect(await storedGame(page)).toEqual(before)
+  await giveMeal(page)
+  expect((await storedGame(page)).mealRecords![0].items).toEqual(expected)
+})
+
+test('replacing a photo clears its automatic side dishes before saving the new photo details', async ({
+  page,
+}) => {
+  const api = await mockRecognition(page)
+  const before = await storedGame(page)
+  const original: MealItem[] = [
+    {
+      name: 'カレー',
+      recipeId: 'curry',
+      groups: ['staple', 'vegetable'],
+      portion: 'large',
+      groupsConfirmed: false,
+    },
+    { name: 'サラダ', groups: ['vegetable'], portion: 'small', groupsConfirmed: false },
+  ]
+  const replacement: MealItem[] = [
+    {
+      name: 'おかかのおにぎり',
+      recipeId: 'onigiri',
+      groups: ['staple'],
+      portion: 'regular',
+      groupsConfirmed: false,
+    },
+    { name: '冷ややっこ', groups: ['protein'], portion: 'small', groupsConfirmed: false },
+  ]
+  await page.locator('.play-feed').click()
+  await uploadPhoto(page)
+  const firstPhoto = (await api.waitFor(1)).request().postDataJSON().photo
+  await api.reply(0, ['curry'], 200, original)
+  await toTable(page)
+  await page.locator('summary').filter({ hasText: '食事の内容を確認' }).click()
+  await expectMealItems(page, original)
+  await page.getByRole('button', { name: '写真にもどる', exact: true }).click()
+  await uploadDifferentPhoto(page)
+  const secondPhoto = (await api.waitFor(2)).request().postDataJSON().photo
+  expect(secondPhoto).not.toBe(firstPhoto)
+  await toTable(page)
+  await page.locator('summary').filter({ hasText: '食事の内容を確認' }).click()
+  await expect(page.locator('.meal-record-item')).toHaveCount(1)
+  await expect(page.getByRole('textbox', { name: '料理 1 の名前', exact: true })).not.toHaveValue(
+    'カレー',
+  )
+  await expect(page.getByRole('combobox', { name: '量', exact: true })).toHaveValue('unknown')
+  await api.reply(1, ['onigiri'], 200, replacement)
+  await expectMealItems(page, replacement)
+  expect(await storedGame(page)).toEqual(before)
+  await giveMeal(page)
+  const saved = await storedGame(page)
+  expect(saved.mealRecords![0].items).toEqual(replacement)
+  expect(saved.meals[0]).toMatchObject({ recipeId: 'onigiri', photo: secondPhoto })
 })
 
 test('loading follows the photo to the table and a generic suggestion persists without a recipe card', async ({

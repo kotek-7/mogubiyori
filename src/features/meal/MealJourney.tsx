@@ -115,6 +115,7 @@ export function MealJourney({
     title,
     mealRecord,
     candidates,
+    recognizedItemCount,
     error,
     targetId: target,
   } = snapshot.context
@@ -130,7 +131,7 @@ export function MealJourney({
   const recognition = snapshot.matches({ editing: { media: 'recognizing' } })
     ? 'recognizing'
     : snapshot.matches({ editing: { media: 'recognized' } })
-      ? candidates.length
+      ? candidates.length || recognizedItemCount
         ? 'matched'
         : 'unknown'
       : snapshot.matches({ editing: { media: 'failed' } })
@@ -162,7 +163,9 @@ export function MealJourney({
         ? '先に食卓へ進めます。'
         : 'このままごはんをあげられます。'
       : recognition === 'matched'
-        ? '料理の候補が見つかりました。'
+        ? recognizedItemCount
+          ? `写真から${recognizedItemCount}品の料理・食品グループ・量を推定しました。食事の内容で確認・修正できます。`
+          : '料理の候補が見つかりました。'
         : recognition === 'unknown'
           ? '料理がわかりませんでした。手動で選べます。'
           : recognition === 'failed'
@@ -501,7 +504,9 @@ export function MealJourney({
                 <span className="meal-selected-recipe-art" aria-hidden="true">
                   <RecipeArt recipe={recipe} />
                 </span>
-                <output aria-label="つくった料理">{recipe?.name ?? '今日のごはん'}</output>
+                <output aria-label="つくった料理">
+                  {recipe?.name ?? mealRecord.items[0]?.name ?? '今日のごはん'}
+                </output>
                 <button
                   type="button"
                   disabled={submitting}

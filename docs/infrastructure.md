@@ -116,7 +116,7 @@ Google側の対象はExternal、公開ステータスはTesting。登録スコ�
 | `POST /api/game/commands`    | 操作の検証、サーバーでのルール計算、DBでの確定 |
 | `POST /api/photos`           | `X-Operation-Id`付き画像アップロード           |
 | `POST /api/photos/read-urls` | 自分の写真IDに対する期限付きURL                |
-| `POST /api/recognize-food`   | 写真から採用済みレシピの候補を取得             |
+| `POST /api/recognize-food`   | 写真から料理候補と各品の名前・食品群・量を取得 |
 
 ゲームと保存写真のAPIはBearer tokenを要求する。認識APIは現在、同一originの検査とサイズ・形式の制限を持ち、local体験からも利用できる。APIの応答は`no-store`とする。
 

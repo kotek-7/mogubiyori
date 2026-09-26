@@ -7,7 +7,8 @@ import { chooseStarter, feed, initialGame } from '../../app/game/browserGame'
 import { createFeedReceipt } from '../../../shared/game/receipt'
 import type { FeedReceipt } from '../../../shared/game/receipt'
 import { suggestMealItem } from '../../../shared/meals/analysis'
-import type { MealRecordInput } from '../../../shared/meals/types'
+import type { MealItem, MealRecordInput } from '../../../shared/meals/types'
+import type { FoodRecognitionResult } from '../../../shared/meals/recognition'
 
 const before = chooseStarter(initialGame('2026-09-25'), 'komugi')
 const receipt = createFeedReceipt(before, feed(before, { title: '今日のごはん', sample: 'rice' }))!
@@ -32,7 +33,7 @@ function start(overrides: Partial<MealServices> = {}, input: Partial<MealMachine
   const services: MealServices = {
     resizePhoto: async (file) => `photo:${file.name}`,
     loadSamplePhoto: async () => 'data:image/jpeg;base64,c2FtcGxl',
-    recognizeFood: async () => [],
+    recognizeFood: async () => recognized(),
     submit: vi.fn(async () => receipt),
     createOperationId: () => `operation-${++sequence}`,
     ...overrides,
@@ -44,12 +45,28 @@ function start(overrides: Partial<MealServices> = {}, input: Partial<MealMachine
   return { actor, services }
 }
 
+function recognized(candidates: string[] = [], items: MealItem[] = []): FoodRecognitionResult {
+  return { candidates, items }
+}
+
 const photo = (name = 'meal.jpg') => new File(['photo'], name, { type: 'image/jpeg' })
+
+const plate = (): MealItem[] => [
+  {
+    name: '焼き魚',
+    dishId: 'generic-grilled-fish',
+    groups: ['protein'],
+    portion: 'regular',
+    groupsConfirmed: false,
+  },
+  { name: 'ごはん', groups: ['staple'], portion: 'large', groupsConfirmed: false },
+  { name: 'サラダ', groups: ['vegetable'], portion: 'small', groupsConfirmed: false },
+]
 
 describe('meal draft workflow', () => {
   it('waits for a sample photo and submits that image without recognition', async () => {
     const sample = pending<string>()
-    const recognizeFood = vi.fn(async () => [])
+    const recognizeFood = vi.fn(async () => recognized())
     const { actor, services } = start({ loadSamplePhoto: () => sample.promise, recognizeFood })
     actor.send({ type: 'USE_SAMPLE' })
     actor.send({ type: 'NEXT' })
@@ -133,8 +150,187 @@ describe('meal draft workflow', () => {
     },
   )
 
+  it('records the whole photographed meal and portions only when feeding is submitted', async () => {
+    const items = plate()
+    const { actor, services } = start({
+      recognizeFood: async () => recognized(['generic-grilled-fish'], items),
+    })
+    actor.send({ type: 'PHOTO_SELECTED', file: photo() })
+    await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
+    expect(actor.getSnapshot().context.mealRecord).toEqual({
+      slot: 'unknown',
+      source: 'home',
+      items,
+    })
+    expect(actor.getSnapshot().context.recognizedItemCount).toBe(3)
+    expect(services.submit).not.toHaveBeenCalled()
+    actor.send({ type: 'NEXT' })
+    actor.send({ type: 'SUBMIT' })
+    await waitFor(actor, (state) => state.matches('committed'))
+    expect(services.submit).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({
+        title: '焼き魚',
+        dishId: 'generic-grilled-fish',
+        mealRecord: { slot: 'unknown', source: 'home', items },
+      }),
+      'operation-1',
+    )
+  })
+
+  it('keeps a manual portion and meal time while filling the other details and sides', async () => {
+    const response = pending<FoodRecognitionResult>()
+    const { actor } = start({ recognizeFood: () => response.promise })
+    actor.send({ type: 'PHOTO_SELECTED', file: photo() })
+    await waitFor(actor, (state) => state.matches({ editing: { media: 'recognizing' } }))
+    const record = actor.getSnapshot().context.mealRecord
+    actor.send({
+      type: 'RECORD_CHANGED',
+      value: { ...record, slot: 'lunch', items: [{ ...record.items[0], portion: 'small' }] },
+    })
+    response.resolve(recognized(['generic-grilled-fish'], plate()))
+    await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
+    const [primary, ...sides] = plate()
+    expect(actor.getSnapshot().context.mealRecord).toEqual({
+      slot: 'lunch',
+      source: 'home',
+      items: [{ ...primary, portion: 'small' }, ...sides],
+    })
+  })
+
+  it('keeps confirmed food groups while recognizing the name, amount and side dishes', async () => {
+    const response = pending<FoodRecognitionResult>()
+    const { actor } = start({ recognizeFood: () => response.promise })
+    actor.send({ type: 'PHOTO_SELECTED', file: photo() })
+    await waitFor(actor, (state) => state.matches({ editing: { media: 'recognizing' } }))
+    const record = actor.getSnapshot().context.mealRecord
+    actor.send({
+      type: 'RECORD_CHANGED',
+      value: {
+        ...record,
+        items: [{ ...record.items[0], groups: ['protein', 'vegetable'], groupsConfirmed: true }],
+      },
+    })
+    response.resolve(recognized(['generic-grilled-fish'], plate()))
+    await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
+    expect(actor.getSnapshot().context.mealRecord.items[0]).toEqual({
+      ...plate()[0],
+      groups: ['protein', 'vegetable'],
+      groupsConfirmed: true,
+    })
+    expect(actor.getSnapshot().context.mealRecord.items).toHaveLength(3)
+  })
+
+  it.each(['title', 'name', 'recipe'] as const)(
+    'fills the unedited amount even when the %s was chosen manually',
+    async (field) => {
+      const response = pending<FoodRecognitionResult>()
+      const { actor } = start({ recognizeFood: () => response.promise })
+      actor.send({ type: 'PHOTO_SELECTED', file: photo() })
+      await waitFor(actor, (state) => state.matches({ editing: { media: 'recognizing' } }))
+      if (field === 'title') actor.send({ type: 'TITLE_CHANGED', title: '今日の定食' })
+      else if (field === 'recipe')
+        actor.send({ type: 'RECIPE_CHANGED', recipeId: 'generic-grilled-fish' })
+      else {
+        const record = actor.getSnapshot().context.mealRecord
+        actor.send({
+          type: 'RECORD_CHANGED',
+          value: { ...record, items: [{ ...record.items[0], name: '手でつけた料理名' }] },
+        })
+      }
+      const before = actor.getSnapshot().context
+      response.resolve(recognized(['generic-grilled-fish'], plate()))
+      await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
+      const after = actor.getSnapshot().context
+      expect(after.title).toBe(before.title)
+      expect(after.mealRecord.items[0]).toMatchObject({
+        name: before.mealRecord.items[0].name,
+        groups: ['protein'],
+        portion: 'regular',
+      })
+      expect(after.dishId).toBe(before.dishId)
+      expect(after.mealRecord.items).toHaveLength(3)
+    },
+  )
+
+  it.each(['photo', 'sample'] as const)(
+    'removes old automatic details but keeps edited amounts and side dishes on a new %s',
+    async (replacement) => {
+      const { actor } = start({
+        recognizeFood: async (image) =>
+          image.includes('first') ? recognized(['generic-grilled-fish'], plate()) : recognized(),
+      })
+      actor.send({ type: 'PHOTO_SELECTED', file: photo('first.jpg') })
+      await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
+      const record = actor.getSnapshot().context.mealRecord
+      const manualSide = { ...record.items[2], name: '自分で直した副菜' }
+      actor.send({
+        type: 'RECORD_CHANGED',
+        value: {
+          ...record,
+          items: [{ ...record.items[0], portion: 'small' }, record.items[1], manualSide],
+        },
+      })
+      if (replacement === 'sample') {
+        actor.send({ type: 'USE_SAMPLE' })
+        await waitFor(actor, (state) => state.matches({ editing: { media: 'idle' } }))
+      } else {
+        actor.send({ type: 'PHOTO_SELECTED', file: photo('second.jpg') })
+        await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
+      }
+      expect(actor.getSnapshot().context.mealRecord.items).toEqual([
+        { ...suggestMealItem(), portion: 'small' },
+        manualSide,
+      ])
+      expect(actor.getSnapshot().context.recognizedItemCount).toBe(0)
+      expect(actor.getSnapshot().context.dishId).toBeUndefined()
+    },
+  )
+
+  it('preserves manually added sides instead of duplicating them with AI suggestions', async () => {
+    const response = pending<FoodRecognitionResult>()
+    const { actor } = start({ recognizeFood: () => response.promise })
+    actor.send({ type: 'PHOTO_SELECTED', file: photo() })
+    await waitFor(actor, (state) => state.matches({ editing: { media: 'recognizing' } }))
+    const record = actor.getSnapshot().context.mealRecord
+    const side: MealItem = {
+      name: '手で入力したごはん',
+      groups: ['staple'],
+      groupsConfirmed: true,
+      portion: 'small',
+    }
+    actor.send({ type: 'RECORD_CHANGED', value: { ...record, items: [...record.items, side] } })
+    response.resolve(recognized(['generic-grilled-fish'], plate()))
+    await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
+    expect(actor.getSnapshot().context.mealRecord.items).toEqual([plate()[0], side])
+  })
+
+  it('can record a recognized dish outside the recipe catalog without inventing a card', async () => {
+    const items: MealItem[] = [
+      {
+        name: '豆と野菜の煮込み',
+        groups: ['protein', 'vegetable'],
+        portion: 'unknown',
+        groupsConfirmed: false,
+      },
+    ]
+    const { actor, services } = start({ recognizeFood: async () => recognized([], items) })
+    actor.send({ type: 'PHOTO_SELECTED', file: photo() })
+    await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
+    actor.send({ type: 'NEXT' })
+    actor.send({ type: 'SUBMIT' })
+    await waitFor(actor, (state) => state.matches('committed'))
+    expect(services.submit).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: '豆と野菜の煮込み',
+        recipeId: undefined,
+        mealRecord: { slot: 'unknown', source: 'home', items },
+      }),
+      'operation-1',
+    )
+  })
+
   it('submits a recognized generic dish without assigning a recipe card', async () => {
-    const { actor, services } = start({ recognizeFood: async () => ['generic-pasta'] })
+    const { actor, services } = start({ recognizeFood: async () => recognized(['generic-pasta']) })
     actor.send({ type: 'PHOTO_SELECTED', file: photo() })
     await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
     expect(actor.getSnapshot().context).toMatchObject({ recipeId: '', dishId: 'generic-pasta' })
@@ -158,14 +354,14 @@ describe('meal draft workflow', () => {
   })
 
   it('keeps a manually selected dish when recognition finishes late and clears it when a recipe is selected', async () => {
-    const recognition = pending<string[]>()
+    const recognition = pending<FoodRecognitionResult>()
     const { actor } = start({ recognizeFood: () => recognition.promise })
     actor.send({ type: 'PHOTO_SELECTED', file: photo() })
     await waitFor(actor, (state) => state.matches({ editing: { media: 'recognizing' } }))
     actor.send({ type: 'NEXT' })
     actor.send({ type: 'OPEN_RECIPES' })
     actor.send({ type: 'RECIPE_SELECTED', recipeId: 'generic-hamburg' })
-    recognition.resolve(['curry'])
+    recognition.resolve(recognized(['curry']))
     await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
     expect(actor.getSnapshot().context).toMatchObject({ recipeId: '', dishId: 'generic-hamburg' })
     actor.send({ type: 'RECIPE_CHANGED', recipeId: 'curry' })
@@ -174,7 +370,7 @@ describe('meal draft workflow', () => {
 
   it('clears an automatic generic classification when its photo is replaced', async () => {
     const { actor } = start({
-      recognizeFood: async (image) => (image.includes('first') ? ['generic-pasta'] : []),
+      recognizeFood: async (image) => recognized(image.includes('first') ? ['generic-pasta'] : []),
     })
     actor.send({ type: 'PHOTO_SELECTED', file: photo('first.jpg') })
     await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
@@ -326,7 +522,7 @@ describe('meal draft workflow', () => {
   it.each([{ candidates: [] }, { candidates: ['curry'] }])(
     'keeps recognition active during the warning and never auto-submits its late result %j',
     async ({ candidates }) => {
-      const recognition = pending<string[]>()
+      const recognition = pending<FoodRecognitionResult>()
       let signal!: AbortSignal
       const { actor, services } = start({
         recognizeFood: async (_photo, nextSignal) => {
@@ -344,7 +540,7 @@ describe('meal draft workflow', () => {
           .matches({ editing: { navigation: 'confirmNutrition', media: 'recognizing' } }),
       ).toBe(true)
       expect(signal.aborted).toBe(false)
-      recognition.resolve(candidates)
+      recognition.resolve(recognized(candidates))
       await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
       expect(
         actor
@@ -359,7 +555,7 @@ describe('meal draft workflow', () => {
   it.each(['title', 'recipe'] as const)(
     'keeps recognition running across screens and protects a manual %s edit',
     async (edited) => {
-      const recognition = pending<string[]>()
+      const recognition = pending<FoodRecognitionResult>()
       let signal!: AbortSignal
       const { actor } = start({
         recognizeFood: async (_photo, nextSignal) => {
@@ -375,7 +571,7 @@ describe('meal draft workflow', () => {
       expect(signal.aborted).toBe(false)
       if (edited === 'title') actor.send({ type: 'TITLE_CHANGED', title: '自分の料理' })
       else actor.send({ type: 'RECIPE_CHANGED', recipeId: 'onigiri' })
-      recognition.resolve(['curry'])
+      recognition.resolve(recognized(['curry']))
       await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
       expect(actor.getSnapshot().context).toMatchObject({
         photo: 'photo:meal.jpg',
@@ -388,7 +584,7 @@ describe('meal draft workflow', () => {
   )
 
   it('preserves the draft while selecting a recipe and keeps recognition independent', async () => {
-    const recognition = pending<string[]>()
+    const recognition = pending<FoodRecognitionResult>()
     const { actor, services } = start({ recognizeFood: () => recognition.promise })
     actor.send({ type: 'PHOTO_SELECTED', file: photo() })
     await waitFor(actor, (state) => state.matches({ editing: { media: 'recognizing' } }))
@@ -401,7 +597,7 @@ describe('meal draft workflow', () => {
     actor.send({ type: 'SUBMIT' })
     expect(services.submit).not.toHaveBeenCalled()
     actor.send({ type: 'RECIPE_SELECTED', recipeId: 'onigiri' })
-    recognition.resolve(['curry'])
+    recognition.resolve(recognized(['curry']))
     await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
     expect(actor.getSnapshot().matches({ editing: { navigation: 'serve' } })).toBe(true)
     expect(actor.getSnapshot().context).toMatchObject({
@@ -417,8 +613,8 @@ describe('meal draft workflow', () => {
   })
 
   it('aborts replaced recognition and ignores its late answer', async () => {
-    const oldRecognition = pending<string[]>()
-    const latestRecognition = pending<string[]>()
+    const oldRecognition = pending<FoodRecognitionResult>()
+    const latestRecognition = pending<FoodRecognitionResult>()
     const signals: AbortSignal[] = []
     const { actor } = start({
       recognizeFood: async (image, signal) => {
@@ -437,8 +633,8 @@ describe('meal draft workflow', () => {
     )
     expect(signals[0].aborted).toBe(true)
     expect(signals[1].aborted).toBe(false)
-    oldRecognition.resolve(['curry'])
-    latestRecognition.resolve(['onigiri'])
+    oldRecognition.resolve(recognized(['curry']))
+    latestRecognition.resolve(recognized(['onigiri']))
     await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
     expect(actor.getSnapshot().context.recipeId).toBe('onigiri')
     expect(actor.getSnapshot().context.candidates).toEqual(['onigiri'])
@@ -447,7 +643,7 @@ describe('meal draft workflow', () => {
   it('ignores an obsolete photo resize even when it cannot be interrupted', async () => {
     const oldResize = pending<string>()
     const nextResize = pending<string>()
-    const recognizeFood = vi.fn(async () => ['onigiri'])
+    const recognizeFood = vi.fn(async () => recognized(['onigiri']))
     const { actor } = start({
       resizePhoto: (file) => (file.name === 'first.jpg' ? oldResize.promise : nextResize.promise),
       recognizeFood,
@@ -463,7 +659,7 @@ describe('meal draft workflow', () => {
   })
 
   it('switches to a sample without losing an explicit recipe or accepting an old photo result', async () => {
-    const recognition = pending<string[]>()
+    const recognition = pending<FoodRecognitionResult>()
     let signal!: AbortSignal
     const { actor } = start(
       {
@@ -481,7 +677,7 @@ describe('meal draft workflow', () => {
       state.matches({ editing: { navigation: 'serve', media: 'idle' } }),
     )
     expect(signal.aborted).toBe(true)
-    recognition.resolve(['curry'])
+    recognition.resolve(recognized(['curry']))
     await recognition.promise
     expect(actor.getSnapshot().matches({ editing: { navigation: 'serve', media: 'idle' } })).toBe(
       true,
@@ -495,7 +691,7 @@ describe('meal draft workflow', () => {
   })
 
   it('cancels a draft and its recognition without committing', async () => {
-    const recognition = pending<string[]>()
+    const recognition = pending<FoodRecognitionResult>()
     let signal!: AbortSignal
     const { actor, services } = start({
       recognizeFood: async (_photo, nextSignal) => {
@@ -508,7 +704,7 @@ describe('meal draft workflow', () => {
     actor.send({ type: 'CANCEL' })
     expect(signal.aborted).toBe(true)
     actor.send({ type: 'SUBMIT' })
-    recognition.resolve(['curry'])
+    recognition.resolve(recognized(['curry']))
     await recognition.promise
     expect(actor.getSnapshot().matches('cancelled')).toBe(true)
     expect(actor.getSnapshot().context.receipt).toBeUndefined()
@@ -581,7 +777,7 @@ describe('meal draft workflow', () => {
   })
 
   it('retains side dishes and manual groups after late recognition and an edited retry', async () => {
-    const recognition = pending<string[]>()
+    const recognition = pending<FoodRecognitionResult>()
     const submit = vi
       .fn()
       .mockRejectedValueOnce(new Error('保存できませんでした'))
@@ -604,7 +800,7 @@ describe('meal draft workflow', () => {
       ],
     }
     actor.send({ type: 'RECORD_CHANGED', value })
-    recognition.resolve(['curry'])
+    recognition.resolve(recognized(['curry']))
     await waitFor(actor, (state) => state.matches({ editing: { media: 'recognized' } }))
     expect(actor.getSnapshot().context.mealRecord).toEqual(value)
     actor.send({ type: 'SUBMIT' })
