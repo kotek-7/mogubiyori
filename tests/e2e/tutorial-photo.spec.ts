@@ -5,6 +5,78 @@ import AxeBuilder from '@axe-core/playwright'
 import { chooseStarter, journey, storedGame } from './helpers'
 
 const samplePath = '/art/tutorial/sample-curry.jpg'
+const sampleCapture = (page: Page) =>
+  page.getByRole('dialog', { name: 'サンプル写真の撮影体験', exact: true })
+
+type CaptureReport = {
+  phases: string[]
+  largeWidth: number
+  placingWidth: number
+  flashOpacity: number
+  placingShadeOpacity: number
+  feedBlocked: boolean
+  startedAt: number
+  duration: number
+}
+
+type ObservedWindow = Window & { tutorialCaptureReport: CaptureReport }
+
+async function observeSampleCapture(page: Page) {
+  await page.evaluate(() => {
+    const report: CaptureReport = {
+      phases: [],
+      largeWidth: 0,
+      placingWidth: Number.MAX_VALUE,
+      flashOpacity: 0,
+      placingShadeOpacity: 0,
+      feedBlocked: true,
+      startedAt: 0,
+      duration: 0,
+    }
+    ;(window as ObservedWindow).tutorialCaptureReport = report
+    function observe() {
+      const dialog = document.querySelector<HTMLDialogElement>('.sample-photo-capture')
+      if (!dialog) {
+        if (report.startedAt && !report.duration)
+          report.duration = performance.now() - report.startedAt
+        return
+      }
+      const phase = dialog.dataset.phase!
+      if (report.phases.at(-1) !== phase) report.phases.push(phase)
+      if (phase === 'loading') return
+      report.startedAt ||= performance.now()
+      const width = dialog.querySelector('.sample-capture-photo')!.getBoundingClientRect().width
+      if (phase === 'capture') report.largeWidth = Math.max(report.largeWidth, width)
+      else report.placingWidth = Math.min(report.placingWidth, width)
+      report.flashOpacity = Math.max(
+        report.flashOpacity,
+        Number(getComputedStyle(dialog.querySelector('.sample-capture-flash')!).opacity),
+      )
+      if (phase === 'placing')
+        report.placingShadeOpacity = Math.max(
+          report.placingShadeOpacity,
+          Number(getComputedStyle(dialog.querySelector('.sample-capture-backdrop')!).opacity),
+        )
+      const feed = document.querySelector<HTMLButtonElement>(
+        '.tutorial-first-photo .tutorial-step-action',
+      )
+      report.feedBlocked &&= Boolean(feed?.disabled && dialog.matches(':modal'))
+    }
+    const observer = new MutationObserver(observe)
+    observer.observe(document.body, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ['data-phase'],
+    })
+    function frame() {
+      observe()
+      if (report.duration) observer.disconnect()
+      else requestAnimationFrame(frame)
+    }
+    requestAnimationFrame(frame)
+  })
+}
 
 type CameraWindow = Window & { tutorialCameraTracks: MediaStreamTrack[] }
 
@@ -305,6 +377,106 @@ test('the supplied sample photo is usable without opening the device library', a
   expect(chooserCount).toBe(0)
   expect(await storedGame(page)).toEqual(before)
 })
+
+test('the tutorial sample briefly flashes large and lands on the plate before feeding', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  const screen = journey(page, 'welcome')
+  const before = await storedGame(page)
+  await observeSampleCapture(page)
+  await screen.getByRole('button', { name: 'サンプル写真を使う', exact: true }).click()
+  await expect(screen.getByRole('button', { name: 'この写真でごはんをあげる' })).toBeEnabled()
+  await expect(sampleCapture(page)).toHaveCount(0)
+  const report = await page.evaluate(() => (window as ObservedWindow).tutorialCaptureReport)
+  expect(report.phases).toEqual(['loading', 'capture', 'placing'])
+  expect(report.largeWidth).toBeGreaterThan(250)
+  expect(report.largeWidth).toBeLessThanOrEqual(390)
+  expect(report.placingWidth).toBeLessThan(report.largeWidth * 0.85)
+  expect(report.flashOpacity).toBeGreaterThan(0)
+  expect(report.flashOpacity).toBeLessThanOrEqual(0.5)
+  expect(report.placingShadeOpacity).toBe(0)
+  expect(report.duration).toBeLessThan(1400)
+  expect(report.feedBlocked).toBe(true)
+  await expect(screen.locator('.tutorial-first-photo-plate img')).toHaveAttribute('src', samplePath)
+  await expect(screen.locator('.tutorial-meal-world')).toHaveCount(0)
+  expect(await page.evaluate(() => (window as CameraWindow).tutorialCameraTracks.length)).toBe(0)
+  expect(await storedGame(page)).toEqual(before)
+  await screen.getByRole('button', { name: 'この写真でごはんをあげる' }).click()
+  await expect(screen.locator('.tutorial-meal-world')).toHaveClass(/is-eating/)
+  await expect(screen.locator('.tutorial-photo img')).toHaveAttribute('src', samplePath)
+})
+
+test('reduced motion shows a still tutorial sample without flashing or feeding automatically', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  const screen = journey(page, 'welcome')
+  const before = await storedGame(page)
+  const frozenAt = new Date('2026-09-24T03:00:00Z')
+  await page.clock.install({ time: frozenAt })
+  await page.clock.pauseAt(frozenAt)
+  await screen.getByRole('button', { name: 'サンプル写真を使う', exact: true }).click()
+  const dialog = sampleCapture(page)
+  await expect(dialog).toHaveAttribute('data-phase', 'capture')
+  await expect(dialog).toHaveAttribute('data-reduced-motion', 'true')
+  await expect(dialog.locator('.sample-capture-flash')).toHaveCSS('display', 'none')
+  expect(await dialog.evaluate((element) => element.getAnimations({ subtree: true }).length)).toBe(
+    0,
+  )
+  await expect(
+    screen.getByRole('button', { name: 'この写真でごはんをあげる', includeHidden: true }),
+  ).toBeDisabled()
+  await page.clock.fastForward(300)
+  await expect(dialog).toHaveCount(0)
+  await expect(screen.locator('.tutorial-first-photo-plate img')).toHaveAttribute('src', samplePath)
+  await expect(screen.getByRole('button', { name: 'この写真でごはんをあげる' })).toBeEnabled()
+  await expect(screen.locator('.tutorial-meal-world')).toHaveCount(0)
+  expect(await storedGame(page)).toEqual(before)
+})
+
+for (const hasPhoto of [false, true]) {
+  test(`cancelling the tutorial sample restores ${hasPhoto ? 'the selected photo' : 'the empty photo entry'}`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    const screen = journey(page, 'welcome')
+    const lesson = screen.locator('.tutorial-first-photo')
+    const before = await storedGame(page)
+    let previousPhoto: string | null = null
+    if (hasPhoto) {
+      await screen
+        .getByLabel('撮影済みの料理写真', { exact: true })
+        .setInputFiles(await mealPhoto(page))
+      const preview = screen.getByRole('img', { name: '選んだ料理の写真', exact: true })
+      await expect(preview).toBeVisible()
+      previousPhoto = await preview.getAttribute('src')
+    }
+    const frozenAt = new Date('2026-09-24T03:00:00Z')
+    await page.clock.install({ time: frozenAt })
+    await page.clock.pauseAt(frozenAt)
+    await screen.getByRole('button', { name: 'サンプル写真を使う', exact: true }).click()
+    const dialog = sampleCapture(page)
+    await expect(dialog).toHaveAttribute('data-phase', 'capture')
+    if (hasPhoto) await dialog.getByRole('button', { name: '体験をやめる', exact: true }).click()
+    else await page.keyboard.press('Escape')
+    await expect(dialog).toHaveCount(0)
+    await page.clock.fastForward(5000)
+    await expect(screen).toBeVisible()
+    await expect(lesson).toHaveAttribute('data-phase', hasPhoto ? 'photo' : 'cooking')
+    if (hasPhoto)
+      await expect(
+        screen.getByRole('img', { name: '選んだ料理の写真', exact: true }),
+      ).toHaveAttribute('src', previousPhoto!)
+    else await expect(screen.getByRole('button', { name: '今日の料理を一枚' })).toBeEnabled()
+    await expect(
+      screen.getByRole('img', { name: 'サンプルのカレー写真', exact: true }),
+    ).toHaveCount(0)
+    await expect(screen.locator('.tutorial-meal-world')).toHaveCount(0)
+    expect(await storedGame(page)).toEqual(before)
+  })
+}
 
 test('choosing the sample while a photo loads prevents a late decode from replacing it', async ({
   page,
