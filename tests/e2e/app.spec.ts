@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test'
-import { recipes } from '../../src/app/game/browserGame'
 import {
   advanceXp,
   chooseStarter,
@@ -178,11 +177,11 @@ test('an undiscovered recipe guides cooking and becomes a collected card afterwa
 }) => {
   await start(page)
   await navigate(page, 'ずかん')
-  const curry = page
-    .locator('.recipe-collection-card')
-    .nth(recipes.findIndex((recipe) => recipe.id === 'curry'))
+  await page.getByRole('searchbox', { name: '名前・材料で検索' }).fill('カレー')
+  const curry = page.getByRole('button', { name: 'カレーのレシピを見る（未獲得）', exact: true })
   await expect(curry).toHaveClass(/is-unknown/)
   await curry.click()
+  await expect(page.getByRole('dialog')).toHaveAccessibleName('カレー')
   await expect(page.getByRole('dialog')).toContainText('材料')
   await expect(page.getByRole('dialog')).toContainText('つくりかた')
   await page.getByRole('button', { name: 'この料理を記録する' }).click()
